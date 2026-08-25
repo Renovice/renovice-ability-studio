@@ -1,0 +1,233 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://renovice.local/schema/ability_edit.schema.json",
+  "title": "RENOVICE Ability Edit Project",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "project_version",
+    "id",
+    "status",
+    "authoring_mode",
+    "mode_selection",
+    "target",
+    "effect",
+    "stats",
+    "deployment"
+  ],
+  "properties": {
+    "project_version": { "const": 1 },
+    "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*$" },
+    "status": {
+      "enum": ["DRAFT", "NEEDS_BINDING", "READY_TO_BUILD", "BUILT", "DEPLOYED", "LIVE_ACCEPTED", "REJECTED"]
+    },
+    "authoring_mode": {
+      "enum": ["QUICK_NATIVE_PATCH", "MANAGED_ADDON", "MANAGED_ADDON_CARD_EXTENSION", "HYBRID_ADDON_CARD", "NATIVE_REPLACEMENT"]
+    },
+    "mode_selection": {
+      "enum": ["MANUAL", "AUTOMATIC_RECOMMENDATION", "MANUAL_OVERRIDE"]
+    },
+    "mode_reason": { "type": ["string", "null"] },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["warframe", "ability", "ability_identifier", "module_path", "module_body_key", "installed_build"],
+      "properties": {
+        "warframe": { "type": "string", "minLength": 1 },
+        "ability": { "type": "string", "minLength": 1 },
+        "ability_identifier": { "type": ["string", "null"] },
+        "ability_localize_tag": { "type": ["string", "null"] },
+        "module_path": { "type": ["string", "null"] },
+        "module_body_key": {
+          "type": ["string", "null"],
+          "pattern": "^[0-9a-fA-F]{16}$"
+        },
+        "installed_build": { "type": ["string", "null"] },
+        "expected_source_sha256": {
+          "type": ["string", "null"],
+          "pattern": "^[0-9a-fA-F]{64}$"
+        }
+      }
+    },
+    "effect": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["summary", "owner", "hook", "authority", "lifetime", "cleanup"],
+      "properties": {
+        "summary": { "type": "string", "minLength": 1 },
+        "owner": { "enum": ["ADDON", "NATIVE_MODULE"] },
+        "hook": { "type": ["string", "null"] },
+        "hook_evidence_id": { "type": ["string", "null"] },
+        "authority": { "enum": ["UNKNOWN", "LOCAL", "HOST", "OWNER", "REPLICA_SAFE"] },
+        "lifetime": { "type": "string", "minLength": 1 },
+        "cleanup": { "type": "string", "minLength": 1 },
+        "stacking": { "type": ["string", "null"] }
+      }
+    },
+    "stats": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/stat" }
+    },
+    "description": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "localization_key": { "type": ["string", "null"] },
+        "text": { "type": ["string", "null"] }
+      }
+    },
+    "addon_generation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "template",
+        "hook_binding",
+        "handler_slot",
+        "ability_localize_tag",
+        "trace_prefix",
+        "damage_argument",
+        "fraction_stat_id",
+        "cap_stat_id"
+      ],
+      "properties": {
+        "template": { "const": "LINKED_DAMAGE_TO_CASTER_OVERGUARD" },
+        "hook_binding": { "type": "string", "minLength": 1 },
+        "handler_slot": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]*$" },
+        "ability_localize_tag": { "type": "string", "pattern": "^/Lotus/" },
+        "trace_prefix": { "type": "string", "minLength": 1 },
+        "damage_argument": { "const": "actualDamage" },
+        "fraction_stat_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*$" },
+        "cap_stat_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*$" }
+      }
+    },
+    "deployment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["requires_addon", "requires_card_extension", "requires_native_module", "requires_description_override"],
+      "properties": {
+        "requires_addon": { "type": "boolean" },
+        "requires_card_extension": { "type": "boolean" },
+        "requires_native_module": { "type": "boolean" },
+        "requires_description_override": { "type": "boolean" },
+        "live_manifest": { "type": ["string", "null"] }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "authoring_mode": { "const": "MANAGED_ADDON" } } },
+      "then": {
+        "properties": {
+          "effect": { "properties": { "owner": { "const": "ADDON" } } },
+          "deployment": {
+            "properties": {
+              "requires_addon": { "const": true },
+              "requires_card_extension": { "const": false },
+              "requires_native_module": { "const": false }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "authoring_mode": { "const": "MANAGED_ADDON_CARD_EXTENSION" } } },
+      "then": {
+        "properties": {
+          "effect": { "properties": { "owner": { "const": "ADDON" } } },
+          "deployment": {
+            "properties": {
+              "requires_addon": { "const": true },
+              "requires_card_extension": { "const": true },
+              "requires_native_module": { "const": false }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "authoring_mode": { "const": "HYBRID_ADDON_CARD" } } },
+      "then": {
+        "properties": {
+          "effect": { "properties": { "owner": { "const": "ADDON" } } },
+          "deployment": {
+            "properties": {
+              "requires_addon": { "const": true },
+              "requires_card_extension": { "const": false },
+              "requires_native_module": { "const": true }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "authoring_mode": {
+            "enum": ["QUICK_NATIVE_PATCH", "NATIVE_REPLACEMENT"]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "effect": { "properties": { "owner": { "const": "NATIVE_MODULE" } } },
+          "deployment": {
+            "properties": {
+              "requires_addon": { "const": false },
+              "requires_card_extension": { "const": false },
+              "requires_native_module": { "const": true }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "stat": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label", "kind", "base", "modifier", "gameplay", "card"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*$" },
+        "label": { "type": "string", "minLength": 1 },
+        "kind": { "enum": ["FRACTION", "SECONDS", "METERS", "MULTIPLIER", "COUNT", "RAW"] },
+        "base": { "type": "number" },
+        "minimum": { "type": ["number", "null"] },
+        "maximum": { "type": ["number", "null"] },
+        "modifier": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["family", "binding", "evidence_id"],
+          "properties": {
+            "family": { "enum": ["NONE", "STRENGTH", "DURATION", "RANGE", "EFFICIENCY", "CUSTOM", "UNKNOWN"] },
+            "binding": { "type": ["string", "null"] },
+            "evidence_id": { "type": ["string", "null"] }
+          }
+        },
+        "gameplay": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["consumer", "expression"],
+          "properties": {
+            "consumer": { "type": "string", "minLength": 1 },
+            "expression": { "type": "string", "minLength": 1 }
+          }
+        },
+        "card": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["enabled", "ability", "unit", "order"],
+          "properties": {
+            "enabled": { "type": "boolean" },
+            "ability": { "type": "string", "minLength": 1 },
+            "unit": { "type": ["string", "null"] },
+            "icon": { "type": ["string", "null"] },
+            "order": { "type": "integer", "minimum": 0 },
+            "base_expression": { "type": ["string", "null"] },
+            "modded_expression": { "type": ["string", "null"] }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "project_version": 1,
+  "id": "gyre.movement_speed.example",
+  "status": "NEEDS_BINDING",
+  "authoring_mode": "MANAGED_ADDON_CARD_EXTENSION",
+  "mode_selection": "MANUAL",
+  "mode_reason": "Keep gameplay additive and attach its stat to the selected ability card without replacing stock bytecode.",
+  "target": {
+    "warframe": "Gyre",
+    "ability": "UNRESOLVED_SELECT_IN_EDITOR",
+    "ability_identifier": null,
+    "module_path": null,
+    "module_body_key": null,
+    "installed_build": null,
+    "expected_source_sha256": null
+  },
+  "effect": {
+    "summary": "Grant Gyre 25 percent movement speed while the selected ability effect is active.",
+    "owner": "ADDON",
+    "hook": null,
+    "hook_evidence_id": null,
+    "authority": "UNKNOWN",
+    "lifetime": "Selected ability active duration; requires explicit binding.",
+    "cleanup": "Remove exactly this generation's movement modifier on expiry, death, unload, and F9 cleanup.",
+    "stacking": "UNRESOLVED_REPLACE_OR_REFRESH"
+  },
+  "stats": [
+    {
+      "id": "movement_speed_bonus",
+      "label": "Movement Speed",
+      "kind": "FRACTION",
+      "base": 0.25,
+      "minimum": 0.0,
+      "maximum": null,
+      "modifier": {
+        "family": "NONE",
+        "binding": null,
+        "evidence_id": null
+      },
+      "gameplay": {
+        "consumer": "UNRESOLVED_MOVEMENT_MODIFIER_API",
+        "expression": "movementSpeedBonus"
+      },
+      "card": {
+        "enabled": true,
+        "ability": "UNRESOLVED_SELECT_IN_EDITOR",
+        "unit": "/Lotus/Language/Game/UNIT_PERCENT",
+        "icon": null,
+        "order": 100,
+        "base_expression": "movementSpeedBonus * 100",
+        "modded_expression": "movementSpeedBonus * 100"
+      }
+    }
+  ],
+  "description": {
+    "enabled": false,
+    "localization_key": null,
+    "text": null
+  },
+  "deployment": {
+    "requires_addon": true,
+    "requires_card_extension": true,
+    "requires_native_module": false,
+    "requires_description_override": false,
+    "live_manifest": null
+  }
+}

@@ -1,0 +1,10 @@
+/build/
+/STAGING/
+*.user
+*.log
+*.tmp
+*.obj
+*.o
+*.exe
+*.dll
+*.pdb
