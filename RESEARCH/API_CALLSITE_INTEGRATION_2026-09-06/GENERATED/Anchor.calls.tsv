@@ -1,0 +1,55 @@
+schema_version	prototype	block	instruction	source_occurrence	effect_order	kind	name	name_hash	callee_web	receiver_web	receiver_type	receiver_type_confidence	receiver_type_evidence	descriptor_join	argument_webs	explicit_argument_count	open_arguments	result_webs	result_count	open_results	descriptor	contract_confidence	contract_status	evidence	parameters	returns	contract_match	readable_offset	readable_length	readable_line	readable_column	fidelity_offset	fidelity_length	fidelity_line	fidelity_column
+2	3	0	3	0	0	method	GetNumberVariable		6	1				NONE	4;5	2	false	8	1	false							UNREGISTERED	3908	31	160	26	3414	31	158	16
+2	3	0	7	0	1	method	GetNumberVariable		11	1				NONE	9;10	2	false	13	1	false							UNREGISTERED	3986	31	162	27	3482	31	160	17
+2	3	2	22	0	6	global_function	assert		20	-1				NONE	19	1	false		0	false							UNREGISTERED	4544	12	176	17	4020	12	174	17
+2	3	3	27	0	7	global_function	print		22	-1				NONE	23	1	false		0	false							UNREGISTERED	4645	42	179	21	4121	42	177	21
+2	3	12	50	0	11	global_function	tostring		32	-1				NONE	31	1	false	33	1	false							UNREGISTERED	6332	12	218	37	5636	12	216	33
+2	3	12	52	0	12	global_function	string.find		30	-1				NONE	33;34	2	false	35	1	false							UNREGISTERED	6382	28	219	38	5681	24	217	33
+2	4	3	17	0	0	global_function	table.remove		14	-1				NONE	15;16	2	false		0	false							UNREGISTERED	7798	24	268	17	6980	19	266	17
+2	5	0	3	0	0	global_function	IsNull		6	-1				STATIC_NAME	5	1	false	7	1	false	lua:global_function:_GLOBAL:IsNull	STOCK_BYTECODE	CONFIRMED	WF-STOCK-BARD-BOXLOOP	value:any	boolean	MATCH	8162	22	281	22	7327	22	279	22
+2	5	4	15	0	3	method	GetDrawScale		13	12				NONE		0	false	15	1	false							UNREGISTERED	8508	28	291	27	7673	28	289	27
+2	5	4	20	0	4	method	GetDrawScale		19	18				NONE		0	false	21	1	false							UNREGISTERED	8701	28	295	27	7866	28	293	27
+2	5	4	25	0	5	global_function	tonumber		24	-1				NONE	23	1	false	25	1	false							UNREGISTERED	8876	24	299	27	8041	24	297	27
+2	5	4	30	0	6	global_function	tonumber		28	-1				NONE	27	1	false	29	1	false							UNREGISTERED	9031	24	303	27	8196	24	301	27
+2	5	4	34	0	7	method	GetViewportBehaviour		32	31				NONE		0	false	34	1	false							UNREGISTERED	9159	36	306	27	8324	36	304	27
+2	5	6	45	0	10	method	IsHud		39	38				NONE		0	false	41	1	false							UNREGISTERED	9576	21	316	27	8741	21	314	27
+2	5	8	50	0	11	method	IsLoggedIn		43	42				NONE		0	false	45	1	false							UNREGISTERED	9778	26	320	31	8943	26	318	31
+2	5	9	55	0	12	method	GetPlayerProfile		48	46				NONE	47	1	false	50	1	false							UNREGISTERED	9927	33	323	35	9092	33	321	35
+2	5	9	57	0	13	method	Settings		51	50				NONE		0	false	53	1	false							UNREGISTERED	9995	24	324	35	9160	24	322	35
+2	5	9	62	0	14	method	GetNumberVariable		57	54				NONE	55;56	2	false	59	1	false							UNREGISTERED	10101	43	326	35	9266	43	324	35
+2	5	9	68	0	15	method	GetNumberVariable		64	61				NONE	62;63	2	false	66	1	false							UNREGISTERED	10280	43	329	35	9445	43	327	35
+2	5	9	71	0	16	method	GetHudHorizontalPadding		68	53				NONE		0	false	70	1	false							UNREGISTERED	10412	39	331	35	9577	39	329	35
+2	5	9	76	0	17	global_function	math.floor		73	-1				NONE	72	1	false	74	1	false							UNREGISTERED	10655	24	335	35	9820	24	333	35
+2	5	9	78	0	18	method	GetHudVerticalPadding		75	53				NONE		0	false	77	1	false							UNREGISTERED	10714	37	336	35	9879	37	334	35
+2	5	9	83	0	19	global_function	math.floor		80	-1				NONE	79	1	false	81	1	false							UNREGISTERED	10955	24	340	35	10120	24	338	35
+2	5	16	103	0	22	method	GetViewportBehaviour		94	93				NONE		0	false	96	1	false							UNREGISTERED	11942	36	365	27	11107	36	363	27
+2	5	17	110	0	23	method	Name__aaf02f83	0xaaf02f83	101	98				NONE	99;100	2	false	103;104	2	false							UNREGISTERED	12823	55	386	46	11988	55	384	46
+2	5	23	121	0	24	method	GetViewportBehaviour		106	105				NONE		0	false	108	1	false							UNREGISTERED	12423	37	376	36	11588	37	374	36
+2	5	25	127	0	25	method	GetViewportAnchorPoint		111	110				NONE		0	false	113	1	false							UNREGISTERED	13048	39	391	28	12213	39	389	28
+2	5	26	138	0	26	global_function	IsNull		121	-1				STATIC_NAME	120	1	false	122	1	false	lua:global_function:_GLOBAL:IsNull	STOCK_BYTECODE	CONFIRMED	WF-STOCK-BARD-BOXLOOP	value:any	boolean	MATCH	13575	26	402	32	12740	26	400	32
+2	5	28	146	0	27	method	GetDrawScale		127	126				NONE		0	false	129	1	false							UNREGISTERED	13983	29	409	40	13148	29	407	40
+2	5	55	227	0	28	global_function	Round		174	-1				NONE	175	1	false	176	1	false							UNREGISTERED	20460	26	518	36	19625	26	516	36
+2	5	55	234	0	30	method	SetNumberVariable		181	177				NONE	178;179;180	3	false		0	false							UNREGISTERED	20729	63	523	24	19894	63	521	24
+2	5	56	241	0	31	method	GetDrawScale		187	186				NONE		0	false	189	1	false							UNREGISTERED	21133	29	529	40	20298	29	527	40
+2	5	83	322	0	32	global_function	Round		234	-1				NONE	235	1	false	236	1	false							UNREGISTERED	27580	26	638	36	26745	26	636	36
+2	5	83	329	0	34	method	SetNumberVariable		241	237				NONE	238;239;240	3	false		0	false							UNREGISTERED	27849	63	643	24	27014	63	641	24
+2	5	85	333	0	35	global_function	callback		244	-1				NONE		0	false		0	false							UNREGISTERED	28121	14	648	21	27286	14	646	21
+2	10	0	3	0	0	global_function	IsNull		7	-1				STATIC_NAME	6	1	false	8	1	false	lua:global_function:_GLOBAL:IsNull	STOCK_BYTECODE	CONFIRMED	WF-STOCK-BARD-BOXLOOP	value:any	boolean	MATCH	32436	24	799	27	31234	24	797	27
+2	10	2	9	0	2	method	GetDrawScale		11	10				NONE		0	false	13	1	false							UNREGISTERED	32624	29	803	32	31422	29	801	32
+2	10	2	14	0	3	method	GetDrawScale		17	16				NONE		0	false	19	1	false							UNREGISTERED	32841	29	807	32	31639	29	805	32
+2	10	8	27	0	4	method	GetViewportBehaviour		27	26				NONE		0	false	29	1	false							UNREGISTERED	33502	37	823	32	32300	37	821	32
+2	10	9	34	0	5	method	Name__aaf02f83	0xaaf02f83	34	31				NONE	32;33	2	false	36;37	2	false							UNREGISTERED	34489	57	844	50	33287	57	842	50
+2	10	15	45	0	6	method	GetViewportBehaviour		39	38				NONE		0	false	41	1	false							UNREGISTERED	34040	37	834	40	32838	37	832	40
+2	10	17	51	0	7	method	GetViewportAnchorPoint		44	43				NONE		0	false	46	1	false							UNREGISTERED	34739	39	849	32	33537	39	847	32
+2	10	19	64	0	8	global_function	IsNull		55	-1				STATIC_NAME	54	1	false	56	1	false	lua:global_function:_GLOBAL:IsNull	STOCK_BYTECODE	CONFIRMED	WF-STOCK-BARD-BOXLOOP	value:any	boolean	MATCH	35437	26	862	40	34235	26	860	40
+2	10	21	72	0	9	method	GetDrawScale		61	60				NONE		0	false	63	1	false							UNREGISTERED	35885	29	869	48	34683	29	867	48
+2	10	48	157	0	10	global_function	Round		112	-1				NONE	113	1	false	114	1	false							UNREGISTERED	43619	28	982	45	42417	28	980	45
+2	10	49	165	0	12	method	GetDrawScale		119	118				NONE		0	false	121	1	false							UNREGISTERED	44089	30	989	49	42887	30	987	49
+2	10	76	250	0	13	global_function	Round		170	-1				NONE	171	1	false	172	1	false							UNREGISTERED	51868	28	1102	45	50666	28	1100	45
+2	11	0	24	0	10	method	GetMovieWidth		15	0				NONE		0	false	17	1	false							UNREGISTERED	2009	21	91	18	1743	21	89	14
+2	11	0	27	0	12	method	GetMovieHeight		18	0				NONE		0	false	20	1	false							UNREGISTERED	2088	22	93	19	1808	22	91	14
+2	11	0	38	0	18	global_function	require		24	-1				NONE	25	1	false	26	1	false							UNREGISTERED	2344	32	101	16	2022	32	99	14
+2	11	0	40	0	19	method	GetViewportBehaviour		27	0				NONE		0	false	29	1	false							UNREGISTERED	2401	28	102	25	2068	28	100	14
+2	11	1	44	0	20	method	IsHud		31	0				NONE		0	false	33	1	false							UNREGISTERED	2487	13	104	17	2144	13	102	18
+2	11	4	71	0	42	global_function	Engine.IsMobile		44	-1				NONE		0	false	45	1	false							UNREGISTERED	32164	8	792	22	30972	8	790	14
+2	12	0	4	0	0	global_function	module		0	-1				NONE	1;2	2	false		0	false							UNREGISTERED	372	19	17	1	213	19	15	1

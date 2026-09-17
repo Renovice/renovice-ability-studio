@@ -1,5 +1,11 @@
 # Addon gameplay and ability-card bridge plan
 
+> Historical design record. V49 supersedes the `_T`/target-module dispatch
+> portions with universal target-addon `afterDamage`, `afterAbilityCard`, and
+> instruction-addressed `nativeCalls` hooks. See
+> `RESEARCH/V49_LOW_LEVEL_NATIVE_CALLS_ABILITY_STUDIO_2026-09-07.md` for the
+> current implementation and remaining live gates.
+
 ## Goal
 
 Allow one editor project to add gameplay behavior and native ability-card rows

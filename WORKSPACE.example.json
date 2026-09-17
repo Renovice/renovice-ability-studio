@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "workspace_name": "RENOVICE workspace",
+  "repos": {
+    "ability_editor": "repos/apps/ability-editor",
+    "metadata_editor": "repos/apps/metadata-editor",
+    "bootstrapper_runtime": "repos/runtime/bootstrapper-runtime",
+    "de_luau_toolchain": "repos/toolchains/de-luau-toolchain",
+    "semantic_sdk": "repos/toolchains/semantic-sdk"
+  },
+  "shared": {
+    "de_luau_corpus": "shared/corpus/de-luau-stock",
+    "metadata_snapshots": "shared/metadata/snapshots",
+    "knowledge_base": "shared/knowledge-base",
+    "semantic_sdk": "shared/semantic-sdk"
+  },
+  "work": {
+    "builds": "work/builds",
+    "staging": "work/staging",
+    "logs": "work/logs",
+    "diagnostics": "work/diagnostics",
+    "temp": "work/temp"
+  }
+}

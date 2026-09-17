@@ -1,0 +1,116 @@
+# Survival target addon and Ability Studio correction — 2026-09-09
+
+## Outcome
+
+Survival timer creation now generates an exact body-keyed addon instead of a
+full module replacement. The stock `SurvivalMission.lua_B` remains the mission
+owner, including the keypad/start path. The Studio still opens a normal Windows
+save dialog and exports one clean `.lua_B` to the selected folder after all
+strict gates pass.
+
+The historical replacement project and source were retained as negative
+evidence. Its project status is `REJECTED`; the Studio's Survival replacement
+generator also fails closed so the broken path cannot be regenerated silently.
+
+## Hypotheses and results
+
+| Hypothesis | Individual evidence | Result |
+|---|---|---|
+| The keypad failure means the stock Survival module cannot support edited timers. | The failure occurred with a 215,923-byte full-module recompile replacing a 136,417-byte stock module. The three requested values have specific owners inside the stock closure graph. | **FALSE** |
+| Passing compiler and semantic gates proves mission-start parity. | The rejected replacement passed recompile, DE roundtrip, semantic plan, and stock-baseline API checks, then failed when the keypad tried to start the mission. | **FALSE** |
+| The old pickup reward-progress insertion changed elapsed reward time. | The insertion wrote `frame_76[116]`, root R32. Closure reconstruction identifies R32 as remaining life support. Root R42 is elapsed reward time and is prototype 64 capture 19 in the one-based addon view. | **FALSE** |
+| A target addon can retain stock startup while changing the requested values. | V60 validates exact body/prototype ownership and exposes referenced configuration tables plus supported scalar copyback. The addon changes only captures 19, 22, and 70 reached by stock prototype 64. | **TRUE offline; live mission test pending** |
+| Ability Studio now reproduces the audited deployment. | Current Studio build `3164AE8FD423` generated a 2,884-byte artifact with SHA-256 `ADEF761299CD0B466F84C42E2626B3AA61FC187504C63119BB13E6336071B1B7`, exactly matching the deployed V60 addon. | **TRUE** |
+
+## Exact ownership contract
+
+- Module: `Lotus.Scripts.Modes.SurvivalMission`
+- Corpus file: `Lotus_Scripts_Modes_SurvivalMission.lua_B`
+- Body key: `1e3647332a578b78`
+- Stock bytes: 136,417
+- Stock SHA-256:
+  `EEB5078B27CEF0C81D4366A5651083CA828B393C1A965DD01C3402708461CA18`
+- Stock root prototype: 76
+- Stock update prototype: 64
+- One-based capture 19: elapsed reward clock, root R42
+- One-based capture 22: pickup configuration table, root R8
+- One-based capture 23: remaining life support, root R32; observed but not
+  edited directly by the addon
+- One-based capture 70: reward configuration table, root R9
+
+The configured values are:
+
+- reward interval: 150 seconds, written once to the stock reward table's
+  `interval` field;
+- pickup life support: 7 seconds, written once to the stock pickup table's
+  `pickupTimeAdded` field;
+- pickup reward progress: 5 seconds per positive change in the stock
+  `_T.PickupCollection` batch, added to elapsed reward capture 19 before stock
+  processing resets the counter.
+
+The addon owns no keypad callback, mission-start state, independent clock,
+per-frame poller, watchdog, replacement module, or Survival-specific native C++
+branch. Cleanup restores the two table fields only while the current generation
+still owns them. The runtime accepts scalar copyback only for same-type finite
+numbers and booleans; it rejects GC identity replacement.
+
+## Studio contract
+
+Selecting **Survival** under Mission Timers and clicking **Build + Save Timer
+.lua_B** now:
+
+1. requires the exact stock corpus file and body key;
+2. creates `mission.survival.timers.addon` with authoring mode
+   `MANAGED_LUA_CALL_ADDON`;
+3. locks hook `renovice.target.lua_call`, prototype 64, and captures 19/22/70;
+4. generates the standalone target addon deterministically;
+5. runs recompile/reparse, full DE roundtrip, semantic plan, and strict API
+   checks;
+6. validates the passing manifest, artifact size, and SHA-256;
+7. exports to the Windows path chosen by the user and preserves an overwritten
+   destination under the editor rollback directory.
+
+The shared project schema now models this authoring mode and generator shape.
+Managed and C++ self-tests reject changed captures, changed target bodies,
+invalid ranges, and attempts to use the retired Survival full-replacement path.
+
+## Artifacts and verification
+
+- Current project:
+  `work/ability-projects/mission.survival.timers.addon/ability_edit.json`
+- Rejected historical project:
+  `work/ability-projects/mission.survival.timers.replacement/ability_edit.json`
+- Passing Studio generation:
+  `work/staging/ability-editor/mission_survival_timers_addon/3164AE8FD423`
+- Generated source: 4,162 bytes, SHA-256
+  `477703B3C72B8526167E949085D722DC8FC3695FFC4A56C9FD2E638651BE3053`
+- Generated bytecode: 2,884 bytes, SHA-256
+  `ADEF761299CD0B466F84C42E2626B3AA61FC187504C63119BB13E6336071B1B7`
+- DE roundtrip: 6/6 prototypes, full body identical
+- Semantic plan: 6/6 prototypes, zero failures
+- Strict API check: zero violations and zero unknown calls
+- Ability Studio C++ test: PASS
+- Ability Studio managed test suite: 95 PASS, 0 FAIL
+- WPF publish: PASS
+
+The addon is newly authored and therefore has no original-game-byte identity
+claim. Its generated DE container reaches an exact compiler fixed point. The
+stock module retains original-byte identity because it is not replaced.
+
+## Live gate
+
+The deployed DLL changed from V59 to V60, so the first test requires a full game
+restart. F9 can refresh addon generations after V60 is loaded, but cannot swap
+the DLL inside the running process.
+
+The remaining live checks are:
+
+1. start a Survival mission at the keypad;
+2. confirm normal mission-start UI/state transition;
+3. confirm one pickup applies the stock 7 seconds of life support and the new 5
+   seconds of elapsed reward progress;
+4. confirm the reward rotation occurs at 150 seconds;
+5. confirm the existing SCRIPTS menu and Mallet addon still behave normally.
+
+Until those observations pass, runtime behavior remains pending even though the
+build, deployment, and Studio reproduction are verified.

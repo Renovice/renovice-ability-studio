@@ -24,5 +24,11 @@ if errorlevel 1 exit /b 1
 ctest --test-dir "%BUILD_DIR%" --output-on-failure -C Release
 if errorlevel 1 exit /b 1
 
-echo RENOVICE Ability Editor build and self-tests PASS
+dotnet run --project "%EDITOR_ROOT%\editor\Dev\AbilityEditor.Dev.csproj" -c Release
+if errorlevel 1 exit /b 1
+
+dotnet publish "%EDITOR_ROOT%\editor\App\AbilityEditor.App.csproj" -c Release -o "%BUILD_DIR%\studio"
+if errorlevel 1 exit /b 1
+
+echo RENOVICE Ability Studio C++ core, GUI, and self-tests PASS
 exit /b 0

@@ -1,0 +1,573 @@
+prototype	web	canonical	readable	confidence	evidence	semantic_type	type_confidence	type_evidence
+0	2	v0_2	isPvpEnabledValue	STRUCTURAL	field read IsPvpEnabled			
+0	3	v0_3	isPvpEnabled	STRUCTURAL	call result of IsPvpEnabled			
+0	17	v0_17	isFightingGameValue	STRUCTURAL	field read IsFightingGame			
+0	18	v0_18	isFightingGame	STRUCTURAL	call result of IsFightingGame			
+1	0	p1_0	avatar	CORPUS_CATALOG	semantic-sdk:lua:method:Avatar:InventoryControl; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; receiver of InventoryControl	Avatar	CORPUS_CATALOG	semantic-sdk:lua:method:Avatar:InventoryControl; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; receiver of InventoryControl
+1	3	v1_3	engineUpgradedValue	STRUCTURAL	call result of Engine.UpgradedValue			
+1	6	v1_6	value	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+1	8	v1_8	isNull	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+1	11	v1_11	inventoryControl	API_CONTRACT	semantic-sdk:lua:method:InventoryControl:ModifyValue; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-LIVE-MALLET-EXACT-PIPELINE-2026-08-25;WF-STOCK-BARD-BOXLOOP; receiver of ModifyValue	InventoryControl	API_CONTRACT	semantic-sdk:lua:method:InventoryControl:ModifyValue; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-LIVE-MALLET-EXACT-PIPELINE-2026-08-25;WF-STOCK-BARD-BOXLOOP; receiver of ModifyValue
+1	14	v1_14	powerSuit	CORPUS_CATALOG	semantic-sdk:lua:method:InventoryControl:GetActivePowerSuit; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetActivePowerSuit	PowerSuit	CORPUS_CATALOG	semantic-sdk:lua:method:InventoryControl:GetActivePowerSuit; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetActivePowerSuit
+1	15	v1_15	value2	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+1	17	v1_17	isNull2	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+1	18	v1_18	value3	API_CONTRACT	semantic-sdk:lua:method:InventoryControl:ModifyValue; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-LIVE-MALLET-EXACT-PIPELINE-2026-08-25;WF-STOCK-BARD-BOXLOOP; argument 0 of ModifyValue	UpgradedValue	API_CONTRACT	semantic-sdk:lua:method:InventoryControl:ModifyValue; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-LIVE-MALLET-EXACT-PIPELINE-2026-08-25;WF-STOCK-BARD-BOXLOOP; argument type 0 of ModifyValue
+1	19	v1_19	selector	API_CONTRACT	semantic-sdk:lua:method:InventoryControl:ModifyValue; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-LIVE-MALLET-EXACT-PIPELINE-2026-08-25;WF-STOCK-BARD-BOXLOOP; argument 1 of ModifyValue	number	API_CONTRACT	semantic-sdk:lua:method:InventoryControl:ModifyValue; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-LIVE-MALLET-EXACT-PIPELINE-2026-08-25;WF-STOCK-BARD-BOXLOOP; argument type 1 of ModifyValue
+1	22	v1_22	suit_type	API_CONTRACT	semantic-sdk:lua:method:InventoryControl:ModifyValue; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-LIVE-MALLET-EXACT-PIPELINE-2026-08-25;WF-STOCK-BARD-BOXLOOP; argument 2 of ModifyValue	Type	API_CONTRACT	semantic-sdk:lua:method:InventoryControl:ModifyValue; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-LIVE-MALLET-EXACT-PIPELINE-2026-08-25;WF-STOCK-BARD-BOXLOOP; argument type 2 of ModifyValue
+1	23	v1_23	suit	API_CONTRACT	semantic-sdk:lua:method:InventoryControl:ModifyValue; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-LIVE-MALLET-EXACT-PIPELINE-2026-08-25;WF-STOCK-BARD-BOXLOOP; argument 3 of ModifyValue	PowerSuit	API_CONTRACT	semantic-sdk:lua:method:InventoryControl:ModifyValue; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-LIVE-MALLET-EXACT-PIPELINE-2026-08-25;WF-STOCK-BARD-BOXLOOP; argument type 3 of ModifyValue
+1	30	v1_30	resourceType	CORPUS_CATALOG	semantic-sdk:lua:method:EngineObject:GetType; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetType	ResourceType	CORPUS_CATALOG	semantic-sdk:lua:method:EngineObject:GetType; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetType
+1	34	v1_34	numberOrUpgradedValue	CORPUS_CATALOG	semantic-sdk:lua:method:PowerSuit:GetUpgradeModifiedValue; confidence=OBSERVED_VARIABLE_OR_OPEN; status=CATALOG_ONLY; evidence=; result of GetUpgradeModifiedValue	numberOrUpgradedValue	CORPUS_CATALOG	semantic-sdk:lua:method:PowerSuit:GetUpgradeModifiedValue; confidence=OBSERVED_VARIABLE_OR_OPEN; status=CATALOG_ONLY; evidence=; result of GetUpgradeModifiedValue
+1	39	v1_39	resourceType2	CORPUS_CATALOG	semantic-sdk:lua:method:EngineObject:GetType; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetType	ResourceType	CORPUS_CATALOG	semantic-sdk:lua:method:EngineObject:GetType; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetType
+1	43	v1_43	numberOrUpgradedValue2	CORPUS_CATALOG	semantic-sdk:lua:method:PowerSuit:GetUpgradeModifiedValue; confidence=OBSERVED_VARIABLE_OR_OPEN; status=CATALOG_ONLY; evidence=; result of GetUpgradeModifiedValue	numberOrUpgradedValue	CORPUS_CATALOG	semantic-sdk:lua:method:PowerSuit:GetUpgradeModifiedValue; confidence=OBSERVED_VARIABLE_OR_OPEN; status=CATALOG_ONLY; evidence=; result of GetUpgradeModifiedValue
+3	1	v3_1	avatar	CORPUS_CATALOG	semantic-sdk:lua:method:Avatar:InventoryControl; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; receiver of InventoryControl	Avatar	CORPUS_CATALOG	semantic-sdk:lua:method:Avatar:InventoryControl; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; receiver of InventoryControl
+3	2	v3_2	value	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+3	4	v3_4	isNull	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+3	7	v3_7	inventoryControl	CORPUS_CATALOG	semantic-sdk:lua:method:Avatar:InventoryControl; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of InventoryControl	InventoryControl	CORPUS_CATALOG	semantic-sdk:lua:method:Avatar:InventoryControl; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of InventoryControl
+3	10	v3_10	powerSuit	CORPUS_CATALOG	semantic-sdk:lua:method:InventoryControl:GetActivePowerSuit; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetActivePowerSuit	PowerSuit	CORPUS_CATALOG	semantic-sdk:lua:method:InventoryControl:GetActivePowerSuit; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetActivePowerSuit
+3	11	v3_11	value2	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+3	13	v3_13	isNull2	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+3	20	v3_20	numAbilities	CORPUS_CATALOG	semantic-sdk:lua:method:PowerSuit:GetNumAbilities; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; result of GetNumAbilities	number	CORPUS_CATALOG	semantic-sdk:lua:method:PowerSuit:GetNumAbilities; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; result of GetNumAbilities
+3	24	v3_24	abilityAugmentLevel	CORPUS_CATALOG	semantic-sdk:lua:method:PowerSuit:GetAbilityAugmentLevel; confidence=OBSERVED_VARIABLE_OR_OPEN; status=CATALOG_ONLY; evidence=; result of GetAbilityAugmentLevel	number	CORPUS_CATALOG	semantic-sdk:lua:method:PowerSuit:GetAbilityAugmentLevel; confidence=OBSERVED_VARIABLE_OR_OPEN; status=CATALOG_ONLY; evidence=; result of GetAbilityAugmentLevel
+3	29	v3_29	resourceTypeOrNumber	CORPUS_CATALOG	semantic-sdk:lua:method:PowerSuit:GetAbilityAugmentType; confidence=OBSERVED_VARIABLE_OR_OPEN; status=CATALOG_ONLY; evidence=; result of GetAbilityAugmentType	ResourceTypeOrNumber	CORPUS_CATALOG	semantic-sdk:lua:method:PowerSuit:GetAbilityAugmentType; confidence=OBSERVED_VARIABLE_OR_OPEN; status=CATALOG_ONLY; evidence=; result of GetAbilityAugmentType
+3	43	v3_43	mathFloor	STRUCTURAL	call result of math.floor			
+4	9	v4_9	upgradedValue	CORPUS_CATALOG	semantic-sdk:lua:method:UpgradedValue:GetModifiedValue; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; receiver of GetModifiedValue	UpgradedValue	CORPUS_CATALOG	semantic-sdk:lua:method:UpgradedValue:GetModifiedValue; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; receiver of GetModifiedValue
+4	12	v4_12	modifiedValue	CORPUS_CATALOG	semantic-sdk:lua:method:UpgradedValue:GetModifiedValue; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetModifiedValue	number	CORPUS_CATALOG	semantic-sdk:lua:method:UpgradedValue:GetModifiedValue; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetModifiedValue
+4	13	v4_13	value	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+4	15	v4_15	isNull	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+4	16	v4_16	value2	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+4	18	v4_18	isNull2	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+4	19	v4_19	avatar	CORPUS_CATALOG	semantic-sdk:lua:method:Avatar:InventoryControl; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; receiver of InventoryControl	Avatar	CORPUS_CATALOG	semantic-sdk:lua:method:Avatar:InventoryControl; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; receiver of InventoryControl
+4	22	v4_22	inventoryControl	CORPUS_CATALOG	semantic-sdk:lua:method:Avatar:InventoryControl; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of InventoryControl	InventoryControl	CORPUS_CATALOG	semantic-sdk:lua:method:Avatar:InventoryControl; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of InventoryControl
+4	25	v4_25	powerSuit	CORPUS_CATALOG	semantic-sdk:lua:method:InventoryControl:GetActivePowerSuit; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetActivePowerSuit	PowerSuit	CORPUS_CATALOG	semantic-sdk:lua:method:InventoryControl:GetActivePowerSuit; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetActivePowerSuit
+4	26	v4_26	value3	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+4	28	v4_28	isNull3	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+4	36	v4_36	abilityAugmentLevel	CORPUS_CATALOG	semantic-sdk:lua:method:PowerSuit:GetAbilityAugmentLevel; confidence=OBSERVED_VARIABLE_OR_OPEN; status=CATALOG_ONLY; evidence=; result of GetAbilityAugmentLevel	number	CORPUS_CATALOG	semantic-sdk:lua:method:PowerSuit:GetAbilityAugmentLevel; confidence=OBSERVED_VARIABLE_OR_OPEN; status=CATALOG_ONLY; evidence=; result of GetAbilityAugmentLevel
+4	40	v4_40	resourceTypeOrNumber	CORPUS_CATALOG	semantic-sdk:lua:method:PowerSuit:GetAbilityAugmentType; confidence=OBSERVED_VARIABLE_OR_OPEN; status=CATALOG_ONLY; evidence=; result of GetAbilityAugmentType	ResourceTypeOrNumber	CORPUS_CATALOG	semantic-sdk:lua:method:PowerSuit:GetAbilityAugmentType; confidence=OBSERVED_VARIABLE_OR_OPEN; status=CATALOG_ONLY; evidence=; result of GetAbilityAugmentType
+4	51	v4_51	tableValue	STRUCTURAL	verified NEWTABLE value			
+4	67	v4_67	sharedState	STRUCTURAL	exact engine global _T			
+5	2	v5_2	tableValue	STRUCTURAL	verified NEWTABLE value			
+5	11	v5_11	formatNumberValue	STRUCTURAL	field read FormatNumber			
+5	16	v5_16	formatNumber	STRUCTURAL	call result of FormatNumber			
+5	19	v5_19	cjsonEncode	STRUCTURAL	call result of cjson.encode			
+5	20	v5_20	cjsonEncode2	STRUCTURAL	call result of cjson.encode			
+5	21	v5_21	cjsonEncode3	STRUCTURAL	call result of cjson.encode			
+5	22	v5_22	cjsonEncode4	STRUCTURAL	call result of cjson.encode			
+5	23	v5_23	cjsonEncode5	STRUCTURAL	call result of cjson.encode			
+6	0	p6_0	avatar	API_CONTRACT	semantic-sdk:lua:method:Avatar:DamageControl; confidence=LIVE_CONFIRMED; status=CONFIRMED; evidence=WF-LIVE-MALLET-2026-08-23;WF-STOCK-BARD-BOXLOOP; receiver of DamageControl	Avatar	API_CONTRACT	semantic-sdk:lua:method:Avatar:DamageControl; confidence=LIVE_CONFIRMED; status=CONFIRMED; evidence=WF-LIVE-MALLET-2026-08-23;WF-STOCK-BARD-BOXLOOP; receiver of DamageControl
+6	3	v6_3	damageControl	API_CONTRACT	semantic-sdk:lua:method:Avatar:DamageControl; confidence=LIVE_CONFIRMED; status=CONFIRMED; evidence=WF-LIVE-MALLET-2026-08-23;WF-STOCK-BARD-BOXLOOP; result of DamageControl	DamageControl	API_CONTRACT	semantic-sdk:lua:method:Avatar:DamageControl; confidence=LIVE_CONFIRMED; status=CONFIRMED; evidence=WF-LIVE-MALLET-2026-08-23;WF-STOCK-BARD-BOXLOOP; result of DamageControl
+6	4	v6_4	ownerReference	STRUCTURAL	exact engine global mOwner	AbilityOwner	CORPUS_CATALOG	semantic-sdk:lua:method:AbilityOwner:IsEvaluating; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; receiver of IsEvaluating
+6	7	v6_7	isEvaluating	CORPUS_CATALOG	semantic-sdk:lua:method:AbilityOwner:IsEvaluating; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; result of IsEvaluating	boolean	CORPUS_CATALOG	semantic-sdk:lua:method:AbilityOwner:IsEvaluating; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; result of IsEvaluating
+6	10	v6_10	isKilled	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:IsKilled; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; result of IsKilled	boolean	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:IsKilled; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; result of IsKilled
+6	13	v6_13	isPreDeath	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:IsPreDeath; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; result of IsPreDeath	boolean	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:IsPreDeath; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; result of IsPreDeath
+6	17	v6_17	ipairs1	STRUCTURAL	call result of ipairs			
+6	18	v6_18	ipairs2	STRUCTURAL	call result of ipairs			
+6	19	v6_19	ipairs3	STRUCTURAL	call result of ipairs			
+6	23	v6_23	isPlayingAnimation	STRUCTURAL	call result of IsPlayingAnimation			
+7	1	p7_1	avatarOrEntity	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:IsKilled; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; receiver of IsKilled	AvatarOrEntity	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:IsKilled; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; receiver of IsKilled
+7	4	v7_4	symbol	STRUCTURAL	call result of Symbol			
+7	10	v7_10	isKilled	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:IsKilled; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; result of IsKilled	boolean	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:IsKilled; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; result of IsKilled
+7	14	v7_14	isPreDeath	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:IsPreDeath; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; result of IsPreDeath	boolean	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:IsPreDeath; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; result of IsPreDeath
+8	1	p8_1	agentOrEntity	CORPUS_CATALOG	semantic-sdk:lua:method:AgentOrEntity:GetAgent; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; receiver of GetAgent	AgentOrEntity	CORPUS_CATALOG	semantic-sdk:lua:method:AgentOrEntity:GetAgent; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; receiver of GetAgent
+8	4	v8_4	agent	CORPUS_CATALOG	semantic-sdk:lua:method:AgentOrEntity:GetAgent; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetAgent	Agent	CORPUS_CATALOG	semantic-sdk:lua:method:AgentOrEntity:GetAgent; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetAgent
+8	7	v8_7	entity	CORPUS_CATALOG	semantic-sdk:lua:method:AgentOrAbility:GetTarget; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetTarget	Entity	CORPUS_CATALOG	semantic-sdk:lua:method:AgentOrAbility:GetTarget; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetTarget
+8	8	v8_8	visibleValue	STRUCTURAL	field read visible			
+8	9	v8_9	value	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+8	11	v8_11	isNull	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+8	12	v8_12	avatarOrEntity	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:IsPreDeath; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; receiver of IsPreDeath	AvatarOrEntity	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:IsPreDeath; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; receiver of IsPreDeath
+8	15	v8_15	isPreDeath	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:IsPreDeath; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; result of IsPreDeath	boolean	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:IsPreDeath; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; result of IsPreDeath
+8	16	v8_16	distanceToTargetValue	STRUCTURAL	field read distanceToTarget			
+8	18	v8_18	distanceToTargetValue2	STRUCTURAL	field read distanceToTarget			
+8	20	v8_20	avatarValue	STRUCTURAL	field read avatar			
+9	3	v9_3	isFightingGameValue	STRUCTURAL	field read IsFightingGame			
+9	4	v9_4	isFightingGame	STRUCTURAL	call result of IsFightingGame			
+9	5	v9_5	ownerReference	STRUCTURAL	exact engine global mOwner			
+10	3	v10_3	entity	CORPUS_CATALOG	semantic-sdk:lua:method:DamageOrEffect:GetInstigator; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetInstigator	Entity	CORPUS_CATALOG	semantic-sdk:lua:method:DamageOrEffect:GetInstigator; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetInstigator
+10	4	v10_4	value	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+10	6	v10_6	isNull	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+10	9	v10_9	isKilled	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:IsKilled; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; result of IsKilled	boolean	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:IsKilled; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; result of IsKilled
+10	12	v10_12	replicaLocallyAuthoritative	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:ReplicaLocallyAuthoritative; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; result of ReplicaLocallyAuthoritative	boolean	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:ReplicaLocallyAuthoritative; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; result of ReplicaLocallyAuthoritative
+10	13	v10_13	region	STRUCTURAL	exact engine global gRegion	Region	EXACT_EXPORT	exact engine global gRegion
+10	16	v10_16	isMaster	CORPUS_CATALOG	semantic-sdk:lua:method:RegionOrEngineObject:IsMaster; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; result of IsMaster	boolean	CORPUS_CATALOG	semantic-sdk:lua:method:RegionOrEngineObject:IsMaster; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; result of IsMaster
+10	19	v10_19	isHumanPlayer	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:IsHumanPlayer; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of IsHumanPlayer	boolean	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:IsHumanPlayer; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of IsHumanPlayer
+10	22	v10_22	inventoryControl	CORPUS_CATALOG	semantic-sdk:lua:method:Avatar:InventoryControl; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of InventoryControl	InventoryControl	CORPUS_CATALOG	semantic-sdk:lua:method:Avatar:InventoryControl; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of InventoryControl
+10	25	v10_25	powerSuit	CORPUS_CATALOG	semantic-sdk:lua:method:InventoryControl:GetActivePowerSuit; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetActivePowerSuit	PowerSuit	CORPUS_CATALOG	semantic-sdk:lua:method:InventoryControl:GetActivePowerSuit; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetActivePowerSuit
+10	26	v10_26	value2	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+10	28	v10_28	isNull2	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+10	32	v10_32	ability	CORPUS_CATALOG	semantic-sdk:lua:method:PowerSuit:GetAbilityByIndex; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetAbilityByIndex	Ability	CORPUS_CATALOG	semantic-sdk:lua:method:PowerSuit:GetAbilityByIndex; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetAbilityByIndex
+10	34	v10_34	getAbilityStatsValue	STRUCTURAL	field read GetAbilityStats			
+10	37	v10_37	abilityStats	STRUCTURAL	call result of GetAbilityStats	RadialDamageData	API_CONTRACT	semantic-sdk:lua:field:RadialDamageData:radius; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; owner of field radius
+10	38	v10_38	value3	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+10	40	v10_40	isNull3	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+10	41	v10_41	projectileValue	STRUCTURAL	field read projectile			
+10	42	v10_42	secondProjectileValue	STRUCTURAL	field read secondProjectile			
+10	45	v10_45	lotus_GameSecondaryScriptArgs	STRUCTURAL	call result of Lotus_Game.SecondaryScriptArgs	SecondaryScriptArgs	CORPUS_CATALOG	semantic-sdk:lua:method:SecondaryScriptArgs:PushVector3Arg; confidence=OBSERVED_VARIABLE_OR_OPEN; status=CATALOG_ONLY; evidence=; receiver of PushVector3Arg
+10	48	v10_48	vector3	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:GetPosition; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetPosition	Vector3	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:GetPosition; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetPosition
+10	49	v10_49	vector32	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:GetPosition; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetPosition	Vector3	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:GetPosition; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetPosition
+10	50	v10_50	vector33	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:GetPosition; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetPosition	Vector3	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:GetPosition; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetPosition
+10	56	v10_56	rotation	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:GetRotation; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetRotation	Rotation	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:GetRotation; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetRotation
+10	57	v10_57	rotation2	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:GetRotation; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetRotation	Rotation	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:GetRotation; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetRotation
+10	58	v10_58	angleToDirection	STRUCTURAL	call result of AngleToDirection			
+10	59	v10_59	angleToDirection2	STRUCTURAL	call result of AngleToDirection			
+10	60	v10_60	angleToDirection3	STRUCTURAL	call result of AngleToDirection			
+10	63	v10_63	damageMultValue	STRUCTURAL	field read damageMult			
+10	66	v10_66	radiusValue	STRUCTURAL	field read radius	number	API_CONTRACT	semantic-sdk:lua:field:RadialDamageData:radius; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; field read radius
+10	69	v10_69	durationValue	STRUCTURAL	field read duration			
+10	75	v10_75	symbol	STRUCTURAL	call result of Symbol			
+11	9	v11_9				number	API_CONTRACT	semantic-sdk:lua:field:RadialDamageData:radius; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; value of field write radius
+11	13	v11_13	abilityAugmentLevel	CORPUS_CATALOG	semantic-sdk:lua:method:PowerSuit:GetAbilityAugmentLevel; confidence=OBSERVED_VARIABLE_OR_OPEN; status=CATALOG_ONLY; evidence=; result of GetAbilityAugmentLevel	number	CORPUS_CATALOG	semantic-sdk:lua:method:PowerSuit:GetAbilityAugmentLevel; confidence=OBSERVED_VARIABLE_OR_OPEN; status=CATALOG_ONLY; evidence=; result of GetAbilityAugmentLevel
+11	16	v11_16	resourceTypeOrNumber	CORPUS_CATALOG	semantic-sdk:lua:method:PowerSuit:GetAbilityAugmentType; confidence=OBSERVED_VARIABLE_OR_OPEN; status=CATALOG_ONLY; evidence=; result of GetAbilityAugmentType	ResourceTypeOrNumber	CORPUS_CATALOG	semantic-sdk:lua:method:PowerSuit:GetAbilityAugmentType; confidence=OBSERVED_VARIABLE_OR_OPEN; status=CATALOG_ONLY; evidence=; result of GetAbilityAugmentType
+11	28	v11_28	inventoryControl	CORPUS_CATALOG	semantic-sdk:lua:method:Avatar:InventoryControl; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of InventoryControl	InventoryControl	CORPUS_CATALOG	semantic-sdk:lua:method:Avatar:InventoryControl; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of InventoryControl
+11	40	v11_40	replicaLocallyAuthoritative	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:ReplicaLocallyAuthoritative; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; result of ReplicaLocallyAuthoritative	boolean	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:ReplicaLocallyAuthoritative; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; result of ReplicaLocallyAuthoritative
+11	50	v11_50	symbol	STRUCTURAL	call result of Symbol			
+11	51	v11_51	zeroVector	STRUCTURAL	exact engine global ZERO_VECTOR			
+11	52	v11_52	zeroRotation	STRUCTURAL	exact engine global ZERO_ROTATION			
+11	58	v11_58	isFalling	STRUCTURAL	call result of IsFalling			
+11	60	v11_60	playAnimAndSuspendUntilEventValue	STRUCTURAL	field read PlayAnimAndSuspendUntilEvent			
+11	69	v11_69	playUpperBodyAnimAndSuspendUntilEventValue	STRUCTURAL	field read PlayUpperBodyAnimAndSuspendUntilEvent			
+11	82	v11_82	replicaLocallyAuthoritative2	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:ReplicaLocallyAuthoritative; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; result of ReplicaLocallyAuthoritative	boolean	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:ReplicaLocallyAuthoritative; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; result of ReplicaLocallyAuthoritative
+11	88	v11_88	inventoryControl2	CORPUS_CATALOG	semantic-sdk:lua:method:Avatar:InventoryControl; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of InventoryControl	InventoryControl	CORPUS_CATALOG	semantic-sdk:lua:method:Avatar:InventoryControl; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of InventoryControl
+11	91	v11_91	vector3	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrWeapon:GetAimEndPoint; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetAimEndPoint	Vector3	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrWeapon:GetAimEndPoint; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetAimEndPoint
+11	94	v11_94	symbol2	STRUCTURAL	call result of Symbol			
+11	95	v11_95	symbol3	STRUCTURAL	call result of Symbol			
+11	96	v11_96	symbol4	STRUCTURAL	call result of Symbol			
+11	97	v11_97	symbol5	STRUCTURAL	call result of Symbol			
+11	98	v11_98	symbol6	STRUCTURAL	call result of Symbol			
+11	99	v11_99	symbol7	STRUCTURAL	call result of Symbol			
+11	100	v11_100	symbol8	STRUCTURAL	call result of Symbol			
+11	103	v11_103	vector32	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:GetBonePosition; confidence=OBSERVED_VARIABLE_OR_OPEN; status=CATALOG_ONLY; evidence=; result of GetBonePosition	Vector3	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:GetBonePosition; confidence=OBSERVED_VARIABLE_OR_OPEN; status=CATALOG_ONLY; evidence=; result of GetBonePosition
+11	107	v11_107	lookTo	STRUCTURAL	call result of LookTo			
+11	113	v11_113	cameraView	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrCamera:GetCameraView; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetCameraView	CameraView	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrCamera:GetCameraView; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetCameraView
+11	114	v11_114	cameraView2	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrCamera:GetCameraView; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetCameraView	CameraView	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrCamera:GetCameraView; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetCameraView
+11	115	v11_115	cameraView3	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrCamera:GetCameraView; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetCameraView	CameraView	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrCamera:GetCameraView; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetCameraView
+11	116	v11_116	cameraView4	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrCamera:GetCameraView; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetCameraView	CameraView	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrCamera:GetCameraView; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetCameraView
+11	117	v11_117	angleToDirection	STRUCTURAL	call result of AngleToDirection			
+11	118	v11_118	angleToDirection2	STRUCTURAL	call result of AngleToDirection			
+11	119	v11_119	angleToDirection3	STRUCTURAL	call result of AngleToDirection			
+11	120	v11_120	angleToDirection4	STRUCTURAL	call result of AngleToDirection			
+11	121	v11_121	angleToDirection5	STRUCTURAL	call result of AngleToDirection			
+11	122	v11_122	dot	STRUCTURAL	call result of Dot			
+11	125	v11_125	cameraView5	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrCamera:GetCameraView; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetCameraView	CameraView	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrCamera:GetCameraView; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetCameraView
+11	127	v11_127	isFightingGameValue	STRUCTURAL	field read IsFightingGame			
+11	128	v11_128	isFightingGame	STRUCTURAL	call result of IsFightingGame			
+11	130	v11_130	region	STRUCTURAL	exact engine global gRegion	Region	EXACT_EXPORT	exact engine global gRegion
+11	137	v11_137	entity	CORPUS_CATALOG	semantic-sdk:lua:method:RegionOrManager:CreateEntity; confidence=OBSERVED_VARIABLE_OR_OPEN; status=CATALOG_ONLY; evidence=; result of CreateEntity	Entity	CORPUS_CATALOG	semantic-sdk:lua:method:RegionOrManager:CreateEntity; confidence=OBSERVED_VARIABLE_OR_OPEN; status=CATALOG_ONLY; evidence=; result of CreateEntity
+11	138	v11_138	value	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+11	140	v11_140	isNull	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+11	152	v11_152	symbol9	STRUCTURAL	call result of Symbol			
+11	153	v11_153	symbol10	STRUCTURAL	call result of Symbol			
+11	154	v11_154	symbol11	STRUCTURAL	call result of Symbol			
+11	155	v11_155	symbol12	STRUCTURAL	call result of Symbol			
+11	158	v11_158	resourceType	CORPUS_CATALOG	semantic-sdk:lua:method:EngineObject:GetResType; confidence=OBSERVED_VARIABLE_OR_OPEN; status=CATALOG_ONLY; evidence=; result of GetResType	ResourceType	CORPUS_CATALOG	semantic-sdk:lua:method:EngineObject:GetResType; confidence=OBSERVED_VARIABLE_OR_OPEN; status=CATALOG_ONLY; evidence=; result of GetResType
+11	159	v11_159	value2	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+11	161	v11_161	isNull2	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+11	169	v11_169	boundsMax	STRUCTURAL	call result of GetBoundsMax			
+11	172	v11_172	boundsMin	STRUCTURAL	call result of GetBoundsMin			
+11	176	v11_176	length	STRUCTURAL	call result of Length			
+11	184	v11_184	customization	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrItem:GetCustomization; confidence=OBSERVED_VARIABLE_OR_OPEN; status=CATALOG_ONLY; evidence=; result of GetCustomization	Customization	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrItem:GetCustomization; confidence=OBSERVED_VARIABLE_OR_OPEN; status=CATALOG_ONLY; evidence=; result of GetCustomization
+11	191	v11_191	getAbilityStatsValue	STRUCTURAL	field read GetAbilityStats			
+11	193	v11_193	ownerReference	STRUCTURAL	exact engine global mOwner			
+11	194	v11_194	abilityStats	STRUCTURAL	call result of GetAbilityStats	RadialDamageData	API_CONTRACT	semantic-sdk:lua:field:RadialDamageData:radius; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; owner of field write radius
+11	195	v11_195	value3	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+11	197	v11_197	isNull3	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+11	198	v11_198	value4	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+11	200	v11_200	isNull4	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+11	201	v11_201	value5	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+11	203	v11_203	isNull5	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+11	204	v11_204	engineObject	CORPUS_CATALOG	semantic-sdk:lua:method:EngineObject:Destroy; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; receiver of Destroy	EngineObject	CORPUS_CATALOG	semantic-sdk:lua:method:EngineObject:Destroy; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; receiver of Destroy
+11	207	v11_207	projectileValue	STRUCTURAL	field read projectile			
+11	208	v11_208	engineObject2	CORPUS_CATALOG	semantic-sdk:lua:method:EngineObject:Destroy; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; receiver of Destroy	EngineObject	CORPUS_CATALOG	semantic-sdk:lua:method:EngineObject:Destroy; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; receiver of Destroy
+11	212	v11_212	setAbilityStatsValue	STRUCTURAL	field read SetAbilityStats			
+11	214	v11_214	ownerReference2	STRUCTURAL	exact engine global mOwner			
+11	223	v11_223	isFightingGameValue2	STRUCTURAL	field read IsFightingGame			
+11	224	v11_224	isFightingGame2	STRUCTURAL	call result of IsFightingGame			
+11	227	v11_227	value6	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+11	229	v11_229	isNull6	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+11	233	v11_233	isPlayingAnimation	STRUCTURAL	call result of IsPlayingAnimation			
+12	0	p12_0	powerSuit	CORPUS_CATALOG	semantic-sdk:lua:method:PowerSuit:GetAbilityByIndex; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; receiver of GetAbilityByIndex	PowerSuit	CORPUS_CATALOG	semantic-sdk:lua:method:PowerSuit:GetAbilityByIndex; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; receiver of GetAbilityByIndex
+12	6	v12_6	replicaLocallyAuthoritative	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:ReplicaLocallyAuthoritative; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; result of ReplicaLocallyAuthoritative	boolean	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:ReplicaLocallyAuthoritative; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; result of ReplicaLocallyAuthoritative
+12	17	v12_17	ability	CORPUS_CATALOG	semantic-sdk:lua:method:PowerSuit:GetAbilityByIndex; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetAbilityByIndex	Ability	CORPUS_CATALOG	semantic-sdk:lua:method:PowerSuit:GetAbilityByIndex; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetAbilityByIndex
+12	18	v12_18	value	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+12	20	v12_20	isNull	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+12	21	v12_21	ownerReference	STRUCTURAL	exact engine global mOwner			
+12	24	v12_24	isActive	CORPUS_CATALOG	semantic-sdk:lua:method:AbilityOrEngineObject:IsActive; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; result of IsActive	boolean	CORPUS_CATALOG	semantic-sdk:lua:method:AbilityOrEngineObject:IsActive; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; result of IsActive
+12	27	v12_27	isAbilityOverride	STRUCTURAL	call result of IsAbilityOverride			
+12	30	v12_30	inventoryControl	CORPUS_CATALOG	semantic-sdk:lua:method:Avatar:InventoryControl; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of InventoryControl	InventoryControl	CORPUS_CATALOG	semantic-sdk:lua:method:Avatar:InventoryControl; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of InventoryControl
+14	1	p14_1	engineObject	CORPUS_CATALOG	semantic-sdk:lua:method:EngineObject:IsA; confidence=OBSERVED_VARIABLE_OR_OPEN; status=CATALOG_ONLY; evidence=; receiver of IsA	EngineObject	CORPUS_CATALOG	semantic-sdk:lua:method:EngineObject:IsA; confidence=OBSERVED_VARIABLE_OR_OPEN; status=CATALOG_ONLY; evidence=; receiver of IsA
+14	5	v14_5	isA	CORPUS_CATALOG	semantic-sdk:lua:method:EngineObject:IsA; confidence=OBSERVED_VARIABLE_OR_OPEN; status=CATALOG_ONLY; evidence=; result of IsA	boolean	CORPUS_CATALOG	semantic-sdk:lua:method:EngineObject:IsA; confidence=OBSERVED_VARIABLE_OR_OPEN; status=CATALOG_ONLY; evidence=; result of IsA
+14	7	v14_7	isValidMoverValue	STRUCTURAL	field read IsValidMover			
+14	9	v14_9	isValidMover	STRUCTURAL	call result of IsValidMover			
+15	0	p15_0	avatar	CORPUS_CATALOG	semantic-sdk:lua:method:Avatar:ActivateSecondaryScriptEx; confidence=OBSERVED_VARIABLE_OR_OPEN; status=CATALOG_ONLY; evidence=; receiver of ActivateSecondaryScriptEx	Avatar	CORPUS_CATALOG	semantic-sdk:lua:method:Avatar:ActivateSecondaryScriptEx; confidence=OBSERVED_VARIABLE_OR_OPEN; status=CATALOG_ONLY; evidence=; receiver of ActivateSecondaryScriptEx
+15	6	v15_6	ownerReference	STRUCTURAL	exact engine global mOwner	EngineObject	CORPUS_CATALOG	semantic-sdk:lua:method:EngineObject:GetType; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; receiver of GetType
+15	9	v15_9	resourceType	CORPUS_CATALOG	semantic-sdk:lua:method:EngineObject:GetType; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetType	ResourceType	CORPUS_CATALOG	semantic-sdk:lua:method:EngineObject:GetType; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetType
+15	16	v15_16	zeroVector	STRUCTURAL	exact engine global ZERO_VECTOR			
+15	18	v15_18	lookTo	STRUCTURAL	call result of LookTo			
+15	21	v15_21	avatarOwner	STRUCTURAL	call result of GetAvatarOwner			
+15	24	v15_24	isFightingGameValue	STRUCTURAL	field read IsFightingGame			
+15	25	v15_25	isFightingGame	STRUCTURAL	call result of IsFightingGame			
+15	31	v15_31	vector	STRUCTURAL	call result of Vector			
+15	37	v15_37	vector2	STRUCTURAL	call result of Vector			
+15	38	v15_38	region	STRUCTURAL	exact engine global gRegion	Region	EXACT_EXPORT	exact engine global gRegion
+15	45	v15_45	entity	CORPUS_CATALOG	semantic-sdk:lua:method:RegionOrManager:CreateEntity; confidence=OBSERVED_VARIABLE_OR_OPEN; status=CATALOG_ONLY; evidence=; result of CreateEntity	Entity	CORPUS_CATALOG	semantic-sdk:lua:method:RegionOrManager:CreateEntity; confidence=OBSERVED_VARIABLE_OR_OPEN; status=CATALOG_ONLY; evidence=; result of CreateEntity
+15	46	v15_46	value	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+15	48	v15_48	isNull	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+15	49	v15_49	ownerReference2	STRUCTURAL	exact engine global mOwner			
+15	53	v15_53	region2	STRUCTURAL	exact engine global gRegion	Region	EXACT_EXPORT	exact engine global gRegion
+15	61	v15_61	attachToMoverValue	STRUCTURAL	field read AttachToMover			
+15	67	v15_67	vector3	STRUCTURAL	call result of Vector			
+15	71	v15_71	originalFaction	STRUCTURAL	call result of GetOriginalFaction			
+15	72	v15_72	originalFaction2	STRUCTURAL	call result of GetOriginalFaction			
+15	73	v15_73	originalFaction3	STRUCTURAL	call result of GetOriginalFaction			
+15	74	v15_74	originalFaction4	STRUCTURAL	call result of GetOriginalFaction			
+15	75	v15_75	originalFaction5	STRUCTURAL	call result of GetOriginalFaction			
+15	80	v15_80	motionControl	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:MotionControl; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; result of MotionControl	MotionControl	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:MotionControl; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; result of MotionControl
+15	100	v15_100	lotus_GameSecondaryScriptArgs	STRUCTURAL	call result of Lotus_Game.SecondaryScriptArgs	SecondaryScriptArgs	CORPUS_CATALOG	semantic-sdk:lua:method:SecondaryScriptArgs:PushObjectArg; confidence=OBSERVED_VARIABLE_OR_OPEN; status=CATALOG_ONLY; evidence=; receiver of PushObjectArg
+15	113	v15_113	ownerReference3	STRUCTURAL	exact engine global mOwner			
+15	116	v15_116	symbol	STRUCTURAL	call result of Symbol			
+16	0	p16_0	engineObject	API_CONTRACT	semantic-sdk:lua:method:EngineObject:GetCreator; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-R5-CALLSHAPE-CORPUS;WF-R5-DIFFERENTIAL-V3; receiver of GetCreator	EngineObject	API_CONTRACT	semantic-sdk:lua:method:EngineObject:GetCreator; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-R5-CALLSHAPE-CORPUS;WF-R5-DIFFERENTIAL-V3; receiver of GetCreator
+16	3	v16_3	unknown_object_ref	API_CONTRACT	semantic-sdk:lua:method:EngineObject:GetCreator; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-R5-CALLSHAPE-CORPUS;WF-R5-DIFFERENTIAL-V3; result of GetCreator	unknown_object_ref	API_CONTRACT	semantic-sdk:lua:method:EngineObject:GetCreator; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-R5-CALLSHAPE-CORPUS;WF-R5-DIFFERENTIAL-V3; result of GetCreator
+16	6	v16_6	avatarOwner	STRUCTURAL	call result of GetAvatarOwner			
+16	9	v16_9	vector3	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:GetPosition; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetPosition	Vector3	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:GetPosition; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetPosition
+16	10	v16_10	avatar	API_CONTRACT	semantic-sdk:lua:method:Avatar:DamageControl; confidence=LIVE_CONFIRMED; status=CONFIRMED; evidence=WF-LIVE-MALLET-2026-08-23;WF-STOCK-BARD-BOXLOOP; receiver of DamageControl			
+16	12	v16_12	getAbilityStatsValue	STRUCTURAL	field read GetAbilityStats			
+16	14	v16_14	ownerReference	STRUCTURAL	exact engine global mOwner			
+16	15	v16_15	abilityStats	STRUCTURAL	call result of GetAbilityStats	RadialDamageData	API_CONTRACT	semantic-sdk:lua:field:RadialDamageData:radius; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; owner of field radius
+16	16	v16_16	value	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+16	18	v16_18	isNull	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+16	19	v16_19	augmentOneValue	STRUCTURAL	field read augmentOne			
+16	20	v16_20	value2	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+16	22	v16_22	isNull2	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+16	23	v16_23	secondSequencerValue	STRUCTURAL	field read secondSequencer			
+16	26	v16_26	distanceToEntity	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:DistanceToEntity; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; result of DistanceToEntity	number	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:DistanceToEntity; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; result of DistanceToEntity
+16	29	v16_29	value3	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+16	31	v16_31	isNull3	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+16	32	v16_32	sequencerValue	STRUCTURAL	field read sequencer			
+16	35	v16_35	distanceToEntity2	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:DistanceToEntity; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; result of DistanceToEntity	number	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:DistanceToEntity; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; result of DistanceToEntity
+16	37	v16_37	sequencerValue2	STRUCTURAL	field read sequencer			
+16	39	v16_39	setAbilityStatsValue	STRUCTURAL	field read SetAbilityStats			
+16	41	v16_41	ownerReference2	STRUCTURAL	exact engine global mOwner			
+16	48	v16_48	zeroVector	STRUCTURAL	exact engine global ZERO_VECTOR			
+16	49	v16_49	zeroRotation	STRUCTURAL	exact engine global ZERO_ROTATION			
+16	55	v16_55	zeroVector2	STRUCTURAL	exact engine global ZERO_VECTOR			
+16	56	v16_56	zeroRotation2	STRUCTURAL	exact engine global ZERO_ROTATION			
+16	60	v16_60	attach	STRUCTURAL	call result of Attach			
+16	64	v16_64	layertrackers	STRUCTURAL	call result of Layertrackers			
+16	65	v16_65	region	STRUCTURAL	exact engine global gRegion	Region	EXACT_EXPORT	exact engine global gRegion
+16	68	v16_68	isMaster	CORPUS_CATALOG	semantic-sdk:lua:method:RegionOrEngineObject:IsMaster; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; result of IsMaster	boolean	CORPUS_CATALOG	semantic-sdk:lua:method:RegionOrEngineObject:IsMaster; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; result of IsMaster
+16	71	v16_71	isHumanPlayer	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:IsHumanPlayer; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of IsHumanPlayer	boolean	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:IsHumanPlayer; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of IsHumanPlayer
+16	73	v16_73	isPvpEnabledValue	STRUCTURAL	field read IsPvpEnabled			
+16	74	v16_74	isPvpEnabled	STRUCTURAL	call result of IsPvpEnabled			
+16	77	v16_77	zeroVector3	STRUCTURAL	exact engine global ZERO_VECTOR			
+16	78	v16_78	zeroRotation3	STRUCTURAL	exact engine global ZERO_ROTATION			
+16	82	v16_82	attach2	STRUCTURAL	call result of Attach			
+16	86	v16_86	zeroVector4	STRUCTURAL	exact engine global ZERO_VECTOR			
+16	87	v16_87	zeroRotation4	STRUCTURAL	exact engine global ZERO_ROTATION			
+16	91	v16_91	attach3	STRUCTURAL	call result of Attach			
+16	92	v16_92	value4	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+16	94	v16_94	isNull4	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+16	100	v16_100	isPvpEnabledValue2	STRUCTURAL	field read IsPvpEnabled			
+16	101	v16_101	isPvpEnabled2	STRUCTURAL	call result of IsPvpEnabled			
+16	103	v16_103	isFightingGameValue	STRUCTURAL	field read IsFightingGame			
+16	104	v16_104	isFightingGame	STRUCTURAL	call result of IsFightingGame			
+16	107	v16_107	zeroVector5	STRUCTURAL	exact engine global ZERO_VECTOR			
+16	108	v16_108	zeroRotation5	STRUCTURAL	exact engine global ZERO_ROTATION			
+16	112	v16_112	attach4	STRUCTURAL	call result of Attach	DamageDataOrEffect	CORPUS_CATALOG	semantic-sdk:lua:method:DamageDataOrEffect:SetRadius; confidence=OBSERVED_VARIABLE_OR_OPEN; status=CATALOG_ONLY; evidence=; receiver of SetRadius
+16	113	v16_113	value5	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull	number	API_CONTRACT	semantic-sdk:lua:field:RadialDamageData:radius; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; field read radius
+16	115	v16_115	isNull5	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+16	119	v16_119	radiusValue	STRUCTURAL	field read radius	number	API_CONTRACT	semantic-sdk:lua:field:RadialDamageData:radius; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; field read radius
+16	124	v16_124	zeroVector6	STRUCTURAL	exact engine global ZERO_VECTOR			
+16	125	v16_125	zeroRotation6	STRUCTURAL	exact engine global ZERO_ROTATION			
+16	131	v16_131	isHumanPlayer2	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:IsHumanPlayer; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of IsHumanPlayer	boolean	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:IsHumanPlayer; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of IsHumanPlayer
+16	132	v16_132	region2	STRUCTURAL	exact engine global gRegion	Region	EXACT_EXPORT	exact engine global gRegion
+16	135	v16_135	playerAvatar	STRUCTURAL	call result of GetPlayerAvatar			
+16	136	v16_136	playerAvatar2	STRUCTURAL	call result of GetPlayerAvatar			
+16	137	v16_137	playerAvatar3	STRUCTURAL	call result of GetPlayerAvatar			
+16	138	v16_138	playerAvatar4	STRUCTURAL	call result of GetPlayerAvatar			
+16	139	v16_139	playerAvatar5	STRUCTURAL	call result of GetPlayerAvatar			
+16	140	v16_140	playerAvatar6	STRUCTURAL	call result of GetPlayerAvatar			
+16	141	v16_141	playerAvatar7	STRUCTURAL	call result of GetPlayerAvatar			
+16	142	v16_142	playerAvatar8	STRUCTURAL	call result of GetPlayerAvatar			
+16	143	v16_143	playerAvatar9	STRUCTURAL	call result of GetPlayerAvatar			
+16	144	v16_144	playerAvatar10	STRUCTURAL	call result of GetPlayerAvatar			
+16	145	v16_145	playerAvatar11	STRUCTURAL	call result of GetPlayerAvatar			
+16	146	v16_146	playerAvatar12	STRUCTURAL	call result of GetPlayerAvatar			
+16	147	v16_147	playerAvatar13	STRUCTURAL	call result of GetPlayerAvatar			
+16	148	v16_148	playerAvatar14	STRUCTURAL	call result of GetPlayerAvatar			
+16	149	v16_149	playerAvatar15	STRUCTURAL	call result of GetPlayerAvatar			
+16	150	v16_150	playerAvatar16	STRUCTURAL	call result of GetPlayerAvatar			
+16	151	v16_151	playerAvatar17	STRUCTURAL	call result of GetPlayerAvatar			
+16	152	v16_152	playerAvatar18	STRUCTURAL	call result of GetPlayerAvatar			
+16	153	v16_153	playerAvatar19	STRUCTURAL	call result of GetPlayerAvatar			
+16	154	v16_154	playerAvatar20	STRUCTURAL	call result of GetPlayerAvatar			
+16	155	v16_155	playerAvatar21	STRUCTURAL	call result of GetPlayerAvatar			
+16	156	v16_156	playerAvatar22	STRUCTURAL	call result of GetPlayerAvatar			
+16	157	v16_157	playerAvatar23	STRUCTURAL	call result of GetPlayerAvatar			
+16	158	v16_158	playerAvatar24	STRUCTURAL	call result of GetPlayerAvatar			
+16	159	v16_159	playerAvatar25	STRUCTURAL	call result of GetPlayerAvatar			
+16	160	v16_160	playerAvatar26	STRUCTURAL	call result of GetPlayerAvatar			
+16	161	v16_161	playerAvatar27	STRUCTURAL	call result of GetPlayerAvatar			
+16	162	v16_162	playerAvatar28	STRUCTURAL	call result of GetPlayerAvatar			
+16	163	v16_163	playerAvatar29	STRUCTURAL	call result of GetPlayerAvatar			
+16	164	v16_164	playerAvatar30	STRUCTURAL	call result of GetPlayerAvatar			
+16	165	v16_165	playerAvatar31	STRUCTURAL	call result of GetPlayerAvatar			
+16	166	v16_166	playerAvatar32	STRUCTURAL	call result of GetPlayerAvatar			
+16	167	v16_167	playerAvatar33	STRUCTURAL	call result of GetPlayerAvatar			
+16	170	v16_170	isAvatarFriendly	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:IsAvatarFriendly; confidence=OBSERVED_VARIABLE_OR_OPEN; status=CATALOG_ONLY; evidence=; result of IsAvatarFriendly	boolean	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:IsAvatarFriendly; confidence=OBSERVED_VARIABLE_OR_OPEN; status=CATALOG_ONLY; evidence=; result of IsAvatarFriendly
+16	173	v16_173	zeroVector7	STRUCTURAL	exact engine global ZERO_VECTOR			
+16	174	v16_174	zeroRotation7	STRUCTURAL	exact engine global ZERO_ROTATION			
+16	181	v16_181	steps	STRUCTURAL	call result of GetSteps			
+16	182	v16_182	tableValue	STRUCTURAL	verified NEWTABLE value			
+16	223	v16_223	instanceId	CORPUS_CATALOG	semantic-sdk:lua:method:EngineObject:GetInstance; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetInstance	InstanceId	CORPUS_CATALOG	semantic-sdk:lua:method:EngineObject:GetInstance; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetInstance
+16	231	v16_231	value6	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+16	233	v16_233	isNull6	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+16	236	v16_236	damageControl	API_CONTRACT	semantic-sdk:lua:method:Avatar:DamageControl; confidence=LIVE_CONFIRMED; status=CONFIRMED; evidence=WF-LIVE-MALLET-2026-08-23;WF-STOCK-BARD-BOXLOOP; result of DamageControl	DamageControl	API_CONTRACT	semantic-sdk:lua:method:Avatar:DamageControl; confidence=LIVE_CONFIRMED; status=CONFIRMED; evidence=WF-LIVE-MALLET-2026-08-23;WF-STOCK-BARD-BOXLOOP; result of DamageControl
+16	238	v16_238	isFightingGameValue2	STRUCTURAL	field read IsFightingGame			
+16	239	v16_239	isFightingGame2	STRUCTURAL	call result of IsFightingGame			
+16	243	v16_243	value7	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+16	245	v16_245	isNull7	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+16	246	v16_246	sharedState	STRUCTURAL	exact engine global _T			
+16	247	v16_247	tableValue2	STRUCTURAL	verified NEWTABLE value			
+16	249	v16_249				RadialDamageData	API_CONTRACT	semantic-sdk:lua:field:RadialDamageData:radius; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; owner of field write radius
+16	250	v16_250				number	API_CONTRACT	semantic-sdk:lua:field:RadialDamageData:radius; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; value of field write radius
+16	251	v16_251	ownerReference3	STRUCTURAL	exact engine global mOwner	EngineObject	CORPUS_CATALOG	semantic-sdk:lua:method:EngineObject:GetType; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; receiver of GetType
+16	254	v16_254	resourceType	CORPUS_CATALOG	semantic-sdk:lua:method:EngineObject:GetType; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetType	ResourceType	CORPUS_CATALOG	semantic-sdk:lua:method:EngineObject:GetType; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetType
+16	257	v16_257	currentStep	STRUCTURAL	call result of GetCurrentStep			
+16	260	v16_260	tableValue3	STRUCTURAL	verified NEWTABLE value			
+16	266	v16_266	symbol	STRUCTURAL	call result of Symbol			
+16	269	v16_269	getUniqueAbilityIdValue	STRUCTURAL	field read GetUniqueAbilityId			
+16	270	v16_270	uniqueAbilityId	STRUCTURAL	call result of GetUniqueAbilityId			
+16	272	v16_272	value8	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+16	274	v16_274	isNull8	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+16	277	v16_277	isKilled	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:IsKilled; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; result of IsKilled	boolean	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:IsKilled; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; result of IsKilled
+16	278	v16_278	value9	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+16	280	v16_280	isNull9	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+16	281	v16_281	value10	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+16	283	v16_283	isNull10	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+16	284	v16_284	sequencerValue3	STRUCTURAL	field read sequencer			
+16	285	v16_285	secondSequencerValue2	STRUCTURAL	field read secondSequencer			
+16	292	v16_292	value11	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+16	294	v16_294	isNull11	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+16	297	v16_297	isKilled2	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:IsKilled; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; result of IsKilled	boolean	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:IsKilled; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; result of IsKilled
+16	298	v16_298	value12	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+16	300	v16_300	isNull12	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+16	301	v16_301	value13	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+16	303	v16_303	isNull13	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+16	304	v16_304	sequencerValue4	STRUCTURAL	field read sequencer			
+16	305	v16_305	secondSequencerValue3	STRUCTURAL	field read secondSequencer			
+16	308	v16_308	vector32	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:GetPosition; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetPosition	Vector3	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:GetPosition; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetPosition
+16	310	v16_310	value14	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+16	312	v16_312	isNull14	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+16	334	v16_334	currentStep2	STRUCTURAL	call result of GetCurrentStep			
+16	335	v16_335				number	API_CONTRACT	semantic-sdk:lua:field:RadialDamageData:radius; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; value of field write radius
+16	338	v16_338	pairs1	STRUCTURAL	call result of pairs			
+16	339	v16_339	pairs2	STRUCTURAL	call result of pairs			
+16	340	v16_340	pairs3	STRUCTURAL	call result of pairs			
+16	341	v16_341	posValue	STRUCTURAL	field read pos			
+16	344	v16_344	posValue2	STRUCTURAL	field read pos			
+16	345	v16_345	distance	STRUCTURAL	call result of Distance			
+16	346	v16_346	radiusValue2	STRUCTURAL	field read radius	number	API_CONTRACT	semantic-sdk:lua:field:RadialDamageData:radius; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; field read radius
+16	350	v16_350				RadialDamageData	API_CONTRACT	semantic-sdk:lua:field:RadialDamageData:radius; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; owner of field radius
+16	352	v16_352	sharedState2	STRUCTURAL	exact engine global _T			
+16	353	v16_353	tableValue4	STRUCTURAL	verified NEWTABLE value			
+16	357	v16_357				RadialDamageData	API_CONTRACT	semantic-sdk:lua:field:RadialDamageData:radius; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; owner of field write radius
+16	360	v16_360	boxValue	STRUCTURAL	field read box			
+16	362	v16_362				RadialDamageData	API_CONTRACT	semantic-sdk:lua:field:RadialDamageData:radius; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; owner of field write radius
+16	363	v16_363	value15	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+16	365	v16_365	isNull15	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+16	369	v16_369	value16	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+16	371	v16_371	isNull16	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+16	377	v16_377	range	STRUCTURAL	call result of Range			
+16	378	v16_378	range2	STRUCTURAL	call result of Range			
+16	379	v16_379	range3	STRUCTURAL	call result of Range			
+16	380	v16_380	range4	STRUCTURAL	call result of Range			
+16	381	v16_381	range5	STRUCTURAL	call result of Range			
+16	382	v16_382	range6	STRUCTURAL	call result of Range			
+16	383	v16_383	range7	STRUCTURAL	call result of Range			
+16	384	v16_384	range8	STRUCTURAL	call result of Range			
+16	385	v16_385	range9	STRUCTURAL	call result of Range			
+16	386	v16_386	range10	STRUCTURAL	call result of Range			
+16	387	v16_387	range11	STRUCTURAL	call result of Range			
+16	388	v16_388	range12	STRUCTURAL	call result of Range			
+16	391	v16_391	value17	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+16	393	v16_393	isNull17	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+16	395	v16_395	value18	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+16	397	v16_397	isNull18	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+16	400	v16_400	musicValue	STRUCTURAL	field read music			
+16	417	v16_417	mathRandom	STRUCTURAL	call result of math.random			
+16	423	v16_423	random	STRUCTURAL	call result of Random			
+16	429	v16_429	random2	STRUCTURAL	call result of Random			
+16	434	v16_434	random3	STRUCTURAL	call result of Random			
+16	440	v16_440	time	STRUCTURAL	call result of Time			
+16	441	v16_441	time2	STRUCTURAL	call result of Time			
+16	442	v16_442	time3	STRUCTURAL	call result of Time			
+16	443	v16_443	time4	STRUCTURAL	call result of Time			
+16	444	v16_444	frac	STRUCTURAL	call result of Frac			
+16	450	v16_450	clamp	STRUCTURAL	call result of Clamp			
+16	451	v16_451	value19	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+16	453	v16_453	isNull19	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+16	461	v16_461	mathMin	STRUCTURAL	call result of math.min			
+16	476	v16_476	fRand	STRUCTURAL	call result of FRand			
+16	478	v16_478	fRand2	STRUCTURAL	call result of FRand			
+16	479	v16_479	fRand3	STRUCTURAL	call result of FRand			
+16	480	v16_480	fRand4	STRUCTURAL	call result of FRand			
+16	481	v16_481	fRand5	STRUCTURAL	call result of FRand			
+16	482	v16_482	fRand6	STRUCTURAL	call result of FRand			
+16	483	v16_483	fRand7	STRUCTURAL	call result of FRand			
+16	484	v16_484	fRand8	STRUCTURAL	call result of FRand			
+16	485	v16_485	fRand9	STRUCTURAL	call result of FRand			
+16	486	v16_486	fRand10	STRUCTURAL	call result of FRand			
+16	487	v16_487	fRand11	STRUCTURAL	call result of FRand			
+16	488	v16_488	fRand12	STRUCTURAL	call result of FRand			
+16	493	v16_493	damageBuffer	STRUCTURAL	call result of GetDamageBuffer			
+16	496	v16_496	baseAmount	STRUCTURAL	call result of GetBaseAmount	UpgradedValue	CORPUS_CATALOG	semantic-sdk:lua:method:UpgradedValue:GetModifiedValue; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; receiver of GetModifiedValue
+16	499	v16_499	modifiedValue	CORPUS_CATALOG	semantic-sdk:lua:method:UpgradedValue:GetModifiedValue; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetModifiedValue	number	CORPUS_CATALOG	semantic-sdk:lua:method:UpgradedValue:GetModifiedValue; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetModifiedValue
+16	500	v16_500	upgradedValueOrStat	CORPUS_CATALOG	semantic-sdk:lua:method:UpgradedValueOrStat:GetBaseValue; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; receiver of GetBaseValue	UpgradedValueOrStat	CORPUS_CATALOG	semantic-sdk:lua:method:UpgradedValueOrStat:GetBaseValue; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; receiver of GetBaseValue
+16	503	v16_503	baseValue	CORPUS_CATALOG	semantic-sdk:lua:method:UpgradedValueOrStat:GetBaseValue; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetBaseValue	number	CORPUS_CATALOG	semantic-sdk:lua:method:UpgradedValueOrStat:GetBaseValue; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetBaseValue
+16	510	v16_510	isFightingGameValue3	STRUCTURAL	field read IsFightingGame			
+16	511	v16_511	isFightingGame3	STRUCTURAL	call result of IsFightingGame			
+16	521	v16_521	mathFloor	STRUCTURAL	call result of math.floor			
+16	523	v16_523	mathMax	STRUCTURAL	call result of math.max			
+16	526	v16_526	radialDamageData	API_CONTRACT	semantic-sdk:lua:method:RadialDamageData:SetSource; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; receiver of SetSource	RadialDamageData	API_CONTRACT	semantic-sdk:lua:method:RadialDamageData:SetSource; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; receiver of SetSource
+16	527	v16_527	source	API_CONTRACT	semantic-sdk:lua:method:RadialDamageData:SetSource; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of SetSource	AvatarOrEntity	API_CONTRACT	semantic-sdk:lua:method:RadialDamageData:SetSource; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument type 0 of SetSource
+16	530	v16_530	origin	API_CONTRACT	semantic-sdk:lua:method:RadialDamageData:SetOrigin; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of SetOrigin	Vector3	API_CONTRACT	semantic-sdk:lua:method:RadialDamageData:SetOrigin; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument type 0 of SetOrigin
+16	535	v16_535	engineName__47432c06	STRUCTURAL	call result of Engine.Name__47432c06			
+16	538	v16_538	engineUpgradedValue	STRUCTURAL	call result of Engine.UpgradedValue			
+16	539	v16_539	upgradedValue	API_CONTRACT	semantic-sdk:lua:method:UpgradedValue:AddModifiers; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; receiver of AddModifiers	UpgradedValue	API_CONTRACT	semantic-sdk:lua:method:UpgradedValue:AddModifiers; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; receiver of AddModifiers
+16	542	v16_542	engineUpgradedValue2	STRUCTURAL	call result of Engine.UpgradedValue			
+16	543	v16_543	modifiers	API_CONTRACT	semantic-sdk:lua:method:UpgradedValue:AddModifiers; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of AddModifiers	table	API_CONTRACT	semantic-sdk:lua:method:UpgradedValue:AddModifiers; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument type 0 of AddModifiers
+16	546	v16_546	amount	API_CONTRACT	semantic-sdk:lua:method:RadialDamageData:SetBaseAmount; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of SetBaseAmount	number|UpgradedValue	API_CONTRACT	semantic-sdk:lua:method:RadialDamageData:SetBaseAmount; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument type 0 of SetBaseAmount
+16	549	v16_549				number	API_CONTRACT	semantic-sdk:lua:field:RadialDamageData:horizontalImpulse; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; value of field write horizontalImpulse
+16	550	v16_550				number	API_CONTRACT	semantic-sdk:lua:field:RadialDamageData:verticalImpulse; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; value of field write verticalImpulse
+16	551	v16_551	damage_type	API_CONTRACT	semantic-sdk:lua:method:RadialDamageData:SetDamagePct; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of SetDamagePct	number	API_CONTRACT	semantic-sdk:lua:method:RadialDamageData:SetDamagePct; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument type 0 of SetDamagePct
+16	552	v16_552	fraction	API_CONTRACT	semantic-sdk:lua:method:RadialDamageData:SetDamagePct; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 1 of SetDamagePct	number	API_CONTRACT	semantic-sdk:lua:method:RadialDamageData:SetDamagePct; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument type 1 of SetDamagePct
+16	555	v16_555	source_object	API_CONTRACT	semantic-sdk:lua:method:RadialDamageData:SetSourceObject; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of SetSourceObject	Entity	API_CONTRACT	semantic-sdk:lua:method:RadialDamageData:SetSourceObject; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument type 0 of SetSourceObject
+16	558	v16_558				boolean	API_CONTRACT	semantic-sdk:lua:field:RadialDamageData:checkForCover; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; value of field write checkForCover
+16	559	v16_559				boolean	API_CONTRACT	semantic-sdk:lua:field:RadialDamageData:staticCoverOnly; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; value of field write staticCoverOnly
+16	560	v16_560				number	API_CONTRACT	semantic-sdk:lua:field:RadialDamageData:fallOff; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; value of field write fallOff
+16	561	v16_561	region3	STRUCTURAL	exact engine global gRegion	Region	API_CONTRACT	semantic-sdk:lua:method:Region:RadialDamage; confidence=LIVE_CONFIRMED; status=CONFIRMED; evidence=WF-LIVE-MALLET-2026-08-23;WF-STOCK-BARD-BOXLOOP; receiver of RadialDamage
+16	562	v16_562	packet	API_CONTRACT	semantic-sdk:lua:method:Region:RadialDamage; confidence=LIVE_CONFIRMED; status=CONFIRMED; evidence=WF-LIVE-MALLET-2026-08-23;WF-STOCK-BARD-BOXLOOP; argument 0 of RadialDamage	RadialDamageData	API_CONTRACT	semantic-sdk:lua:method:Region:RadialDamage; confidence=LIVE_CONFIRMED; status=CONFIRMED; evidence=WF-LIVE-MALLET-2026-08-23;WF-STOCK-BARD-BOXLOOP; argument type 0 of RadialDamage
+16	571	v16_571	mathMin2	STRUCTURAL	call result of math.min			
+16	572	v16_572	lerp	STRUCTURAL	call result of Lerp			
+16	574	v16_574	mathFloor2	STRUCTURAL	call result of math.floor			
+16	577	v16_577	lotus_GameSecondaryScriptArgs	STRUCTURAL	call result of Lotus_Game.SecondaryScriptArgs	SecondaryScriptArgs	CORPUS_CATALOG	semantic-sdk:lua:method:SecondaryScriptArgs:PushFloatArg; confidence=OBSERVED_VARIABLE_OR_OPEN; status=CATALOG_ONLY; evidence=; receiver of PushFloatArg
+16	586	v16_586	value20	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+16	588	v16_588	isNull20	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+16	590	v16_590	value21	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+16	592	v16_592	isNull21	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+16	595	v16_595	musicValue2	STRUCTURAL	field read music			
+16	602	v16_602	musicValue3	STRUCTURAL	field read music			
+16	605	v16_605	val	STRUCTURAL	call result of GetVal			
+16	608	v16_608	piperValue	STRUCTURAL	field read piper			
+16	611	v16_611	val2	STRUCTURAL	call result of GetVal			
+16	615	v16_615	piperValue2	STRUCTURAL	field read piper			
+16	618	v16_618	val3	STRUCTURAL	call result of GetVal			
+16	622	v16_622	jamValue	STRUCTURAL	field read jam			
+16	625	v16_625	val4	STRUCTURAL	call result of GetVal			
+16	632	v16_632	deltaTime	STRUCTURAL	call result of DeltaTime			
+16	634	v16_634	deltaTime2	STRUCTURAL	call result of DeltaTime			
+16	640	v16_640	value22	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+16	642	v16_642	isNull22	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+16	644	v16_644	value23	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+16	646	v16_646	isNull23	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+16	649	v16_649	boxValue2	STRUCTURAL	field read box			
+16	654	v16_654	next2	STRUCTURAL	call result of next			
+16	655	v16_655	sharedState3	STRUCTURAL	exact engine global _T			
+16	657	v16_657	region4	STRUCTURAL	exact engine global gRegion	Region	EXACT_EXPORT	exact engine global gRegion
+16	660	v16_660	zeroRotation8	STRUCTURAL	exact engine global ZERO_ROTATION			
+16	664	v16_664	value24	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+16	666	v16_666	isNull24	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+16	669	v16_669	value25	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+16	671	v16_671	isNull25	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+17	0	p17_0	avatarOrItem	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrItem:GetCustomization; confidence=OBSERVED_VARIABLE_OR_OPEN; status=CATALOG_ONLY; evidence=; receiver of GetCustomization	AvatarOrItem	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrItem:GetCustomization; confidence=OBSERVED_VARIABLE_OR_OPEN; status=CATALOG_ONLY; evidence=; receiver of GetCustomization
+17	5	v17_5	value	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+17	7	v17_7	isNull	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+17	8	v17_8	ownerReference	STRUCTURAL	exact engine global mOwner	EngineObject	CORPUS_CATALOG	semantic-sdk:lua:method:EngineObject:GetType; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; receiver of GetType
+17	11	v17_11	resourceType	CORPUS_CATALOG	semantic-sdk:lua:method:EngineObject:GetType; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetType	ResourceType	CORPUS_CATALOG	semantic-sdk:lua:method:EngineObject:GetType; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetType
+17	20	v17_20	region	STRUCTURAL	exact engine global gRegion	Region	EXACT_EXPORT	exact engine global gRegion
+17	22	v17_22	avatarOrEntity	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:GetPosition; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; receiver of GetPosition	AvatarOrEntity	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:GetPosition; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; receiver of GetPosition
+17	25	v17_25	vector3	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:GetPosition; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetPosition	Vector3	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:GetPosition; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetPosition
+17	26	v17_26	zeroRotation	STRUCTURAL	exact engine global ZERO_ROTATION			
+17	30	v17_30	entity	CORPUS_CATALOG	semantic-sdk:lua:method:RegionOrManager:CreateEntity; confidence=OBSERVED_VARIABLE_OR_OPEN; status=CATALOG_ONLY; evidence=; result of CreateEntity	Entity	CORPUS_CATALOG	semantic-sdk:lua:method:RegionOrManager:CreateEntity; confidence=OBSERVED_VARIABLE_OR_OPEN; status=CATALOG_ONLY; evidence=; result of CreateEntity
+17	31	v17_31	value2	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+17	33	v17_33	isNull2	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+17	36	v17_36	symbol	STRUCTURAL	call result of Symbol			
+17	37	v17_37	symbol2	STRUCTURAL	call result of Symbol			
+17	38	v17_38	symbol3	STRUCTURAL	call result of Symbol			
+17	39	v17_39	symbol4	STRUCTURAL	call result of Symbol			
+17	40	v17_40	symbol5	STRUCTURAL	call result of Symbol			
+17	41	v17_41	symbol6	STRUCTURAL	call result of Symbol			
+17	42	v17_42	symbol7	STRUCTURAL	call result of Symbol			
+17	43	v17_43	symbol8	STRUCTURAL	call result of Symbol			
+17	48	v17_48	customization	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrItem:GetCustomization; confidence=OBSERVED_VARIABLE_OR_OPEN; status=CATALOG_ONLY; evidence=; result of GetCustomization	Customization	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrItem:GetCustomization; confidence=OBSERVED_VARIABLE_OR_OPEN; status=CATALOG_ONLY; evidence=; result of GetCustomization
+17	52	v17_52	song	STRUCTURAL	call result of GetSong			
+17	59	v17_59	hasNotePack	STRUCTURAL	call result of HasNotePack			
+17	65	v17_65	notePack	STRUCTURAL	call result of GetNotePack			
+17	66	v17_66	notePack2	STRUCTURAL	call result of GetNotePack			
+17	67	v17_67	notePack3	STRUCTURAL	call result of GetNotePack			
+17	68	v17_68	resource	STRUCTURAL	call result of Resource			
+17	69	v17_69	resource2	STRUCTURAL	call result of Resource			
+17	70	v17_70	resource3	STRUCTURAL	call result of Resource			
+17	71	v17_71	resource4	STRUCTURAL	call result of Resource			
+17	74	v17_74	mHasFingerPrintValue	STRUCTURAL	field read mHasFingerPrint			
+17	75	v17_75	mFingerPrintValue	STRUCTURAL	field read mFingerPrint			
+17	87	v17_87	syncSequencerValue	STRUCTURAL	field read SyncSequencer			
+17	91	v17_91	symbol9	STRUCTURAL	call result of Symbol			
+18	0	p18_0	sourceAbility	STRUCTURAL	receiver role implied by GetAvatarOwner			
+18	5	v18_5	avatarOwner	STRUCTURAL	call result of GetAvatarOwner	EngineObject	CORPUS_CATALOG	semantic-sdk:lua:method:EngineObject:GetInstance; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; receiver of GetInstance
+18	8	v18_8	instanceId	CORPUS_CATALOG	semantic-sdk:lua:method:EngineObject:GetInstance; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetInstance	InstanceId	CORPUS_CATALOG	semantic-sdk:lua:method:EngineObject:GetInstance; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of GetInstance
+18	9	v18_9	value	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+18	11	v18_11	isNull	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+18	13	v18_13	value2	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+18	15	v18_15	isNull2	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+18	18	v18_18	value3	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+18	20	v18_20	isNull3	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+18	23	v18_23	boxValue	STRUCTURAL	field read box			
+19	0	p19_0	engineObject	API_CONTRACT	semantic-sdk:lua:method:EngineObject:GetCreator; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-R5-CALLSHAPE-CORPUS;WF-R5-DIFFERENTIAL-V3; receiver of GetCreator	EngineObject	API_CONTRACT	semantic-sdk:lua:method:EngineObject:GetCreator; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-R5-CALLSHAPE-CORPUS;WF-R5-DIFFERENTIAL-V3; receiver of GetCreator
+19	2	v19_2	region	STRUCTURAL	exact engine global gRegion	Region	EXACT_EXPORT	exact engine global gRegion
+19	5	v19_5	isMaster	CORPUS_CATALOG	semantic-sdk:lua:method:RegionOrEngineObject:IsMaster; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; result of IsMaster	boolean	CORPUS_CATALOG	semantic-sdk:lua:method:RegionOrEngineObject:IsMaster; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; result of IsMaster
+19	6	v19_6	value	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+19	8	v19_8	isNull	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+19	11	v19_11	isKilled	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:IsKilled; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; result of IsKilled	boolean	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:IsKilled; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; result of IsKilled
+19	14	v19_14	unknown_object_ref	API_CONTRACT	semantic-sdk:lua:method:EngineObject:GetCreator; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-R5-CALLSHAPE-CORPUS;WF-R5-DIFFERENTIAL-V3; result of GetCreator	unknown_object_ref	API_CONTRACT	semantic-sdk:lua:method:EngineObject:GetCreator; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-R5-CALLSHAPE-CORPUS;WF-R5-DIFFERENTIAL-V3; result of GetCreator
+19	17	v19_17	inventoryControl	CORPUS_CATALOG	semantic-sdk:lua:method:Avatar:InventoryControl; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of InventoryControl	InventoryControl	CORPUS_CATALOG	semantic-sdk:lua:method:Avatar:InventoryControl; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of InventoryControl
+20	0	p20_0	engineObject	API_CONTRACT	semantic-sdk:lua:method:EngineObject:GetCreator; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-R5-CALLSHAPE-CORPUS;WF-R5-DIFFERENTIAL-V3; receiver of GetCreator	EngineObject	API_CONTRACT	semantic-sdk:lua:method:EngineObject:GetCreator; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-R5-CALLSHAPE-CORPUS;WF-R5-DIFFERENTIAL-V3; receiver of GetCreator
+20	2	v20_2	region	STRUCTURAL	exact engine global gRegion	Region	EXACT_EXPORT	exact engine global gRegion
+20	5	v20_5	isMaster	CORPUS_CATALOG	semantic-sdk:lua:method:RegionOrEngineObject:IsMaster; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; result of IsMaster	boolean	CORPUS_CATALOG	semantic-sdk:lua:method:RegionOrEngineObject:IsMaster; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; result of IsMaster
+20	6	v20_6	value	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+20	8	v20_8	isNull	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+20	11	v20_11	isKilled	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:IsKilled; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; result of IsKilled	boolean	CORPUS_CATALOG	semantic-sdk:lua:method:AvatarOrEntity:IsKilled; confidence=OBSERVED_STABLE_SHAPE; status=CATALOG_ONLY; evidence=; result of IsKilled
+20	14	v20_14	unknown_object_ref	API_CONTRACT	semantic-sdk:lua:method:EngineObject:GetCreator; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-R5-CALLSHAPE-CORPUS;WF-R5-DIFFERENTIAL-V3; result of GetCreator	unknown_object_ref	API_CONTRACT	semantic-sdk:lua:method:EngineObject:GetCreator; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-R5-CALLSHAPE-CORPUS;WF-R5-DIFFERENTIAL-V3; result of GetCreator
+20	17	v20_17	inventoryControl	CORPUS_CATALOG	semantic-sdk:lua:method:Avatar:InventoryControl; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of InventoryControl	InventoryControl	CORPUS_CATALOG	semantic-sdk:lua:method:Avatar:InventoryControl; confidence=OBSERVED_STABLE_ARGS; status=CATALOG_ONLY; evidence=; result of InventoryControl
+21	2	v21_2	require2	STRUCTURAL	call result of require			
+21	5	v21_5	require3	STRUCTURAL	call result of require			
+21	8	v21_8	require4	STRUCTURAL	call result of require			
+21	11	v21_11	require5	STRUCTURAL	call result of require			
+21	18	v21_18	symbol	STRUCTURAL	call result of Symbol			
+21	21	v21_21	symbol2	STRUCTURAL	call result of Symbol			
+21	22	v21_22	tableValue	STRUCTURAL	verified NEWTABLE value			
+21	25	v21_25	symbol3	STRUCTURAL	call result of Symbol			
+21	28	v21_28	symbol4	STRUCTURAL	call result of Symbol			
+21	31	v21_31	symbol5	STRUCTURAL	call result of Symbol			
+21	34	v21_34	symbol6	STRUCTURAL	call result of Symbol			
+21	35	v21_35	symbol7	STRUCTURAL	call result of Symbol			
+21	36	v21_36	symbol8	STRUCTURAL	call result of Symbol			
+21	37	v21_37	symbol9	STRUCTURAL	call result of Symbol			
+21	38	v21_38	symbol10	STRUCTURAL	call result of Symbol			
+21	39	v21_39	symbol11	STRUCTURAL	call result of Symbol			
+21	42	v21_42	symbol12	STRUCTURAL	call result of Symbol			
+21	45	v21_45	symbol13	STRUCTURAL	call result of Symbol			
+21	50	v21_50	getAbilityUpgradeLevelInfoFunction	EXACT_EXPORT	global store GetAbilityUpgradeLevelInfo			
+21	51	v21_51	getAugmentDescriptionInfoFunction	EXACT_EXPORT	global store GetAugmentDescriptionInfo			
+21	52	v21_52	evalBusyLoopFunction	EXACT_EXPORT	global store EvalBusyLoop			
+21	53	v21_53	evaluateAbilityFunction	EXACT_EXPORT	global store EvaluateAbility			
+21	54	v21_54	npcEvaluateAbilityFunction	EXACT_EXPORT	global store NpcEvaluateAbility			
+21	55	v21_55	initializeAbilityFunction	EXACT_EXPORT	global store InitializeAbility			
+21	57	v21_57	activateAbilityFunction	EXACT_EXPORT	global store ActivateAbility			
+21	58	v21_58	deactivateAbilityFunction	EXACT_EXPORT	global store DeactivateAbility			
+21	59	v21_59	projectileStoppedFunction	EXACT_EXPORT	global store ProjectileStopped			
+21	60	v21_60	projectileContactFunction	EXACT_EXPORT	global store ProjectileContact			
+21	61	v21_61	spawnBoxFunction	EXACT_EXPORT	global store SpawnBox			
+21	63	v21_63	boxLoopFunction	EXACT_EXPORT	global store BoxLoop			
+21	64	v21_64	spawnSequencerFunction	EXACT_EXPORT	global store SpawnSequencer			
+21	65	v21_65	setThreatLevelFunction	EXACT_EXPORT	global store SetThreatLevel			
+21	66	v21_66	giveFightingUpgradesFunction	EXACT_EXPORT	global store GiveFightingUpgrades			
+21	67	v21_67	removeFightingUpgradesFunction	EXACT_EXPORT	global store RemoveFightingUpgrades			

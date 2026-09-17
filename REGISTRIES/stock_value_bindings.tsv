@@ -1,0 +1,4 @@
+module_body_key	variable	label	family	status	evidence
+08faf07b504d058f	v21_12	Mallet damage multiplier	STRENGTH	STATIC_VERIFIED	Exact source flows through Engine.UpgradedValue then ModifyValue selector 10
+08faf07b504d058f	v21_13	Mallet radius	RANGE	STATIC_VERIFIED	Exact source flows to GetUpgradeModifiedValue selector 9
+08faf07b504d058f	v21_14	Mallet duration	DURATION	STATIC_VERIFIED	Exact source flows to GetUpgradeModifiedValue selector 3

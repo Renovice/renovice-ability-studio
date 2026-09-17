@@ -6,6 +6,8 @@
 |---|---|
 | Is this only an existing numeric/formula change? | Quick native patch. |
 | Is there a proven additive event with reliable cleanup? | Managed addon. |
+| Does one exact stock Lua prototype expose the owned capture directly? | Exact Lua-call target addon. |
+| Does one exact native callsite expose the stock-owned value or override result? | Exact native-call target addon. |
 | Does addon gameplay also need a native ability-card row? | Managed addon plus same-VM ability-card attachment; use the minimal native projection only as the current compatibility fallback. |
 | Must existing callbacks/control flow/authority change? | Native source replacement. |
 | Is there no proven hook or API contract? | `NEEDS_BINDING`; do not deploy. |
@@ -78,11 +80,12 @@ corrected binder therefore borrows the exact loaded target closure's `env` and
 loads the addon closure into that environment; it never substitutes VM-wide
 `_G` merely because `global_state` matches.
 
-For the current POC, BardMusic contains two reusable minimal dispatch points:
-`RENOVICE_AFTER_MALLET_DAMAGE` and `RENOVICE_AUGMENT_ABILITY_CARD`. The single
-addon owns the conversion formula, Overguard mutation, cap, labels, values, and
-native rows. This proves addon ownership and repeatable generation, but it is a
-compatibility hybrid because the target module still contains generic hooks.
+V49 retires the BardMusic `_T` dispatch fields. The single target addon owns the
+conversion formula, Overguard mutation, Strength-scaled cap, labels, values,
+native rows, and threat argument. The universal host exposes
+`afterDamage(sourceAbility, reportedDamage)`, `afterAbilityCard(rows, query)`,
+and `nativeCalls[method].before/after`; the target stock bytecode remains
+unchanged.
 
 The target architecture is a loader-mediated ability-card attachment:
 
@@ -90,31 +93,51 @@ The target architecture is a loader-mediated ability-card attachment:
 2. it declares card rows linked to the addon's canonical stat definitions;
 3. when the target module naturally loads, the bootstrapper stages the addon in
    that module's exact owning VM;
-4. the binder decorates the target `GetAbilityUpgradeLevelInfo` call, lets the
-   stock producer finish, then appends ordinary native row tables to the
-   published `_T.AbilityUpgradeLevelInfo` array;
-5. addon-generation cleanup removes only its own decorator/rows and restores
-   the previous callable when it still owns the attachment;
-6. the attachment runs only when the card query runs—never through per-frame
-   polling.
+4. the host observes the exact synchronous ability-card query, lets the stock
+   producer finish, then passes its row array to `afterAbilityCard`;
+5. declared native methods are resolved once from the SWIG catalog and invoked
+   only for the addon's exact target body, VM, prototype, and instruction;
+6. addon-generation cleanup removes only that generation's rooted callbacks
+   and native declarations;
+7. callbacks run only at their stock event/callsite boundaries, with no
+   per-frame polling.
 
 Therefore:
 
 - addon behavior alone may remain addon-only;
-- “addon behavior + show on native card” should generate an addon plus card
-  extension descriptor while leaving the stock `.lua_B` unchanged;
-- until that same-VM bridge is implemented and live-proven, the current minimal
-  target-module dispatch-hook projection is a compatibility fallback, not a
-  hard architectural requirement;
+- “addon behavior + show on native card” generates one target addon while
+  leaving the stock `.lua_B` unchanged;
+- an exact low-level numeric change may be represented by an evidence-bound
+  `native_argument_rewrites` entry and emitted as `hooks.nativeCalls`;
 - the editor treats every produced artifact as one project, deployment,
   rollback, and acceptance unit;
-- if the native module also needs an event dispatcher, the generated patch is
-  explicit and reusable rather than hidden polling.
+- if neither a host callback nor an exact native callsite exists, the project
+  remains `NEEDS_BINDING` or explicitly becomes a replacement.
 
 Immediate F9 propagation of a changed target addon into every already-loaded
 foreign VM is not yet claimed. The current target-addon generation is replaced
 transactionally at the next matching natural module load; a restart is the
 deterministic POC test boundary.
+
+Mission-timer presets follow the same owner rule. Survival and Interception
+generate exact target addons. Mobile Defense, Excavation, and all three Control
+Area variants generate hash-pinned exact replacements because live evidence
+falsified their earlier runtime or fallback-only edits. Mobile Defense changes
+only the two stock `DefenseStage` duration `LOADN` operands. Excavation changes three `LOADN`
+operands. Plains changes its root pacing owner and `SetObjTimer` argument. Deimos
+changes its root pacing owner and the persisted result before the stock halfway
+calculation. Venus/Nokko changes its timer argument and both linked threshold
+results. These edits preserve the stock lifecycle and introduce no callback. A changed addon or replacement
+is accepted only after a fresh load of the relevant mission; F9 does not replay
+a stock initializer that has already completed.
+
+Control Area is not treated as one universal 90-second script. Plains/Narmer and
+Deimos have separate root pacing owners and separate persisted-duration
+consumers. Venus/Nokko reads `defendTime` from mission-resource data; the editor
+labels that stock value as dynamic and does not pretend it is a normal addon
+global. Each preset may edit only its hash-pinned timer/pacing instructions, and
+the stock code remains responsible for pause, progress, completion, migration,
+enemy pacing, and cleanup.
 
 ## Rule 6: deterministic generation boundaries
 
@@ -137,7 +160,7 @@ Every nontrivial API call/hook records:
 - evidence ID/confidence;
 - accepted live fixture, if one exists.
 
-The 150 selected APIs and 100 high-confidence tier are authoring assistance,
+The 225 selected APIs and 175 high-confidence tier are authoring assistance,
 not a claim that all methods are interchangeable on every object.
 
 ## Rule 8: transactional live deployment

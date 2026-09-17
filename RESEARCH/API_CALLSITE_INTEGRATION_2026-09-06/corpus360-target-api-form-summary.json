@@ -1,0 +1,138 @@
+{
+  "schema_version": 1,
+  "format": "RENOVICE_TARGET_API_FORM_EVIDENCE_V1",
+  "corpus_audit": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\work\\research\\semantic-view-corpus-360\\api-receiver-exact-shapes-certified-v1-20260906\\corpus360-coverage-audit.json",
+  "corpus_audit_sha256": "E7F02F1B091FBCB7784D64609343B340D22546EA8B79D6F0986ED1D0AE2BA9DE",
+  "evidence_tsv": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\repos\\apps\\ability-editor\\RESEARCH\\API_CALLSITE_INTEGRATION_2026-09-06\\corpus360-target-api-form-evidence.tsv",
+  "evidence_tsv_sha256": "1197459D93EE1A30EBBAD6DDA20BC3F3C64715DD5D39D0153B51F2404B43AD36",
+  "scripts": 360,
+  "target_rows": 189,
+  "reviewed_contract_rows": 186,
+  "observed_mismatch_rows": 132,
+  "selected_open_argument_rows": 54,
+  "damagecontrol_resolution_rows": 3,
+  "hypotheses": [
+    {
+      "hypothesis": "The three pinned name-ambiguous DamageControl calls have an independently refined Avatar receiver.",
+      "result": "TRUE",
+      "evidence_rows": 3,
+      "limitation": "This establishes the receiver and selects the existing confirmed zero-argument Avatar contract at those three instructions only."
+    },
+    {
+      "hypothesis": "Every observed mismatch or selected open-width call is sufficient evidence for a new deep API overload.",
+      "result": "FALSE",
+      "evidence_rows": 186,
+      "limitation": "The rows preserve exact stock call shape and receiver evidence; unique-name joins, receiver conflicts, and open arguments do not prove parameter meaning, return type, or side effects."
+    }
+  ],
+  "subject_counts": [
+    {
+      "value": "SetPosition",
+      "count": 84
+    },
+    {
+      "value": "Execute",
+      "count": 68
+    },
+    {
+      "value": "GetCustomization",
+      "count": 10
+    },
+    {
+      "value": "ApplyCustomization",
+      "count": 9
+    },
+    {
+      "value": "PlaySound",
+      "count": 6
+    },
+    {
+      "value": "GetUpgradeModifiedValue",
+      "count": 5
+    },
+    {
+      "value": "RemoveUpgrade",
+      "count": 4
+    },
+    {
+      "value": "DamageControlResolution",
+      "count": 3
+    }
+  ],
+  "shape_class_counts": [
+    {
+      "value": "OUTSIDE_OBSERVED_EXACT_SET",
+      "count": 132
+    },
+    {
+      "value": "OPEN_ARGUMENTS",
+      "count": 54
+    },
+    {
+      "value": "PREVIOUSLY_NAME_AMBIGUOUS",
+      "count": 3
+    }
+  ],
+  "descriptor_join_counts": [
+    {
+      "value": "UNIQUE_METHOD_NAME",
+      "count": 176
+    },
+    {
+      "value": "RECEIVER_TYPE",
+      "count": 7
+    },
+    {
+      "value": "RECEIVER_TYPE_CONFLICT",
+      "count": 6
+    }
+  ],
+  "contract_match_counts": [
+    {
+      "value": "OBSERVED_MISMATCH",
+      "count": 132
+    },
+    {
+      "value": "OPEN_ARGUMENTS",
+      "count": 54
+    },
+    {
+      "value": "MATCH",
+      "count": 3
+    }
+  ],
+  "receiver_type_counts": [
+    {
+      "value": "AvatarOrEntity",
+      "count": 97
+    },
+    {
+      "value": "UIMovie",
+      "count": 68
+    },
+    {
+      "value": "AvatarOrItem",
+      "count": 10
+    },
+    {
+      "value": "InventoryControl",
+      "count": 4
+    },
+    {
+      "value": "Avatar",
+      "count": 3
+    },
+    {
+      "value": "PowerSuitOrAvatar",
+      "count": 3
+    },
+    {
+      "value": "",
+      "count": 2
+    },
+    {
+      "value": "Customization",
+      "count": 2
+    }
+  ]
+}

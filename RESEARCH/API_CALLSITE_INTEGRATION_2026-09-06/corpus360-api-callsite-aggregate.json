@@ -1,0 +1,118 @@
+{
+  "schema_version": 2,
+  "format": "RENOVICE_API_CALLSITE_CORPUS360_AGGREGATE_V2",
+  "corpus_audit": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\work\\research\\semantic-view-corpus-360\\api-receiver-exact-shapes-certified-v1-20260906\\corpus360-coverage-audit.json",
+  "corpus_audit_sha256": "E7F02F1B091FBCB7784D64609343B340D22546EA8B79D6F0986ED1D0AE2BA9DE",
+  "call_map_manifest_sha256": "5D3F89767CA8E08D9FF419AD613A913CEA2A54410F322E16CD001819408436F8",
+  "scripts": 360,
+  "scripts_with_calls": 359,
+  "scripts_without_calls": 1,
+  "callsites": 143691,
+  "call_expressions": 143745,
+  "registered_callsites": 26068,
+  "confirmed_callsites": 20066,
+  "unresolved_callsites": 108,
+  "unregistered_callsites": 117623,
+  "ambiguous_callsites": 0,
+  "observed_contract_mismatches": 132,
+  "receiver_typed_joins": 1236,
+  "unique_method_name_candidates": 7801,
+  "receiver_type_conflicts": 434,
+  "confirmed_contract_violations": 0,
+  "unique_descriptors": 112,
+  "unique_static_names": 6741,
+  "kind_counts": [
+    {
+      "value": "method",
+      "count": 69128
+    },
+    {
+      "value": "global_function",
+      "count": 63586
+    },
+    {
+      "value": "dynamic_function",
+      "count": 10977
+    }
+  ],
+  "descriptor_join_counts": [
+    {
+      "value": "NONE",
+      "count": 117623
+    },
+    {
+      "value": "STATIC_NAME",
+      "count": 16597
+    },
+    {
+      "value": "UNIQUE_METHOD_NAME",
+      "count": 7801
+    },
+    {
+      "value": "RECEIVER_TYPE",
+      "count": 1236
+    },
+    {
+      "value": "RECEIVER_TYPE_CONFLICT",
+      "count": 434
+    }
+  ],
+  "contract_match_counts": [
+    {
+      "value": "UNREGISTERED",
+      "count": 117623
+    },
+    {
+      "value": "MATCH",
+      "count": 25154
+    },
+    {
+      "value": "OPEN_ARGUMENTS",
+      "count": 749
+    },
+    {
+      "value": "OBSERVED_MISMATCH",
+      "count": 132
+    },
+    {
+      "value": "UNSPECIFIED",
+      "count": 33
+    }
+  ],
+  "contract_status_counts": [
+    {
+      "value": "CONFIRMED",
+      "count": 20066
+    },
+    {
+      "value": "CATALOG_ONLY",
+      "count": 5894
+    },
+    {
+      "value": "UNRESOLVED",
+      "count": 108
+    }
+  ],
+  "contract_confidence_counts": [
+    {
+      "value": "STOCK_BYTECODE",
+      "count": 16759
+    },
+    {
+      "value": "OBSERVED_VARIABLE_OR_OPEN",
+      "count": 3419
+    },
+    {
+      "value": "LIVE_CONFIRMED",
+      "count": 3415
+    },
+    {
+      "value": "OBSERVED_STABLE_ARGS",
+      "count": 1943
+    },
+    {
+      "value": "OBSERVED_STABLE_SHAPE",
+      "count": 532
+    }
+  ]
+}

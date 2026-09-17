@@ -2,9 +2,9 @@
   "project_version": 1,
   "id": "octavia.mallet.overguard",
   "status": "READY_TO_BUILD",
-  "authoring_mode": "HYBRID_ADDON_CARD",
+  "authoring_mode": "MANAGED_ADDON_CARD_EXTENSION",
   "mode_selection": "AUTOMATIC_RECOMMENDATION",
-  "mode_reason": "Use the proven explicit target-module damage dispatcher while the addon owns gameplay and native card rows.",
+  "mode_reason": "Use the universal exact-target addon host for reported damage, card rows, and instruction-addressed native calls.",
   "target": {
     "warframe": "Octavia",
     "ability": "Mallet",
@@ -12,17 +12,17 @@
     "ability_localize_tag": "/Lotus/Language/Suits/BardMusicAbilityName",
     "module_path": "Lotus/Powersuits/Bard/Abilities/BardMusic.lua",
     "module_body_key": "08faf07b504d058f",
-    "installed_build": "private-live-2026-08-25",
+    "installed_build": "private-live-2026-09-07",
     "expected_source_sha256": null
   },
   "effect": {
     "summary": "Convert a linked percentage of the ability's actual damage result into caster Overguard.",
     "owner": "ADDON",
     "hook": "renovice.mallet.damage_dispatch",
-    "hook_evidence_id": "WF-LIVE-MALLET-EXACT-PIPELINE-2026-08-25",
+    "hook_evidence_id": "WF-LIVE-MALLET-EXACT-PIPELINE-2026-08-25;WF-V49-LOW-LEVEL-NATIVE-CALLS",
     "authority": "OWNER",
-    "lifetime": "Current target-addon generation and current DE shared-table generation.",
-    "cleanup": "Restore the previous handler only while this generation still owns the handler slot.",
+    "lifetime": "Current target-addon generation in the exact target DE VM and prototype graph.",
+    "cleanup": "The host removes this generation's rooted callbacks and native-call declarations transactionally.",
     "stacking": "ADD_OVERGUARD_UNTIL_LINKED_CAP"
   },
   "stats": [
@@ -40,7 +40,7 @@
       },
       "gameplay": {
         "consumer": "GRANT_CASTER_OVERGUARD_FROM_EVENT_DAMAGE",
-        "expression": "$event.actualDamage * $stat.damage_to_overguard"
+        "expression": "$event.reportedDamage * $stat.damage_to_overguard"
       },
       "card": {
         "enabled": true,
@@ -60,9 +60,9 @@
       "minimum": 0.0,
       "maximum": null,
       "modifier": {
-        "family": "NONE",
-        "binding": null,
-        "evidence_id": null
+        "family": "STRENGTH",
+        "binding": "mallet.strength.channel_10",
+        "evidence_id": "WF-STOCK-PAGEMASTERLIFE-OVERGUARD-CAP-OP10"
       },
       "gameplay": {
         "consumer": "GRANT_CASTER_OVERGUARD_FROM_EVENT_DAMAGE",
@@ -82,12 +82,21 @@
   "addon_generation": {
     "template": "LINKED_DAMAGE_TO_CASTER_OVERGUARD",
     "hook_binding": "renovice.mallet.damage_dispatch",
-    "handler_slot": "RENOVICE_AFTER_MALLET_DAMAGE",
     "ability_localize_tag": "/Lotus/Language/Suits/BardMusicAbilityName",
-    "trace_prefix": "mallet.addon",
-    "damage_argument": "actualDamage",
+    "damage_argument": "reportedDamage",
     "fraction_stat_id": "damage_to_overguard",
-    "cap_stat_id": "overguard_cap"
+    "cap_stat_id": "overguard_cap",
+    "native_argument_rewrites": [
+      {
+        "method": "PushFloatArg",
+        "prototype": 16,
+        "instruction": 596,
+        "argument": 2,
+        "expected": 1,
+        "replacement": 5,
+        "evidence_id": "WF-V49-MALLET-PUSHFLOATARG-P16-I596"
+      }
+    ]
   },
   "description": {
     "enabled": false,
@@ -96,8 +105,8 @@
   },
   "deployment": {
     "requires_addon": true,
-    "requires_card_extension": false,
-    "requires_native_module": true,
+    "requires_card_extension": true,
+    "requires_native_module": false,
     "requires_description_override": false,
     "live_manifest": null
   }

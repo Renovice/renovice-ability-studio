@@ -2,3 +2,10 @@
 *.bat text eol=crlf
 *.cmd text eol=crlf
 *.ps1 text eol=crlf
+
+# Generated compiler/decompiler evidence contains source-significant register
+# columns and padding. Preserve it without reporting authored-source whitespace
+# defects.
+RESEARCH/**/*.luau text eol=lf -whitespace
+RESEARCH/**/*.txt text eol=lf -whitespace
+RESEARCH/**/*.tsv text eol=lf -whitespace

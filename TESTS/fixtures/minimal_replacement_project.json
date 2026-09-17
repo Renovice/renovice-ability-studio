@@ -1,0 +1,41 @@
+{
+  "project_version": 1,
+  "id": "test.minimal.replacement",
+  "status": "READY_TO_BUILD",
+  "authoring_mode": "NATIVE_REPLACEMENT",
+  "mode_selection": "MANUAL",
+  "mode_reason": "Compiler and package-pipeline fixture only.",
+  "target": {
+    "warframe": "Test Frame",
+    "ability": "Test Ability",
+    "ability_identifier": "TEST_ABILITY",
+    "ability_localize_tag": null,
+    "module_path": "Lotus/Test/MinimalReplacement.lua",
+    "module_body_key": "0123456789abcdef",
+    "installed_build": "offline-fixture",
+    "expected_source_sha256": null
+  },
+  "effect": {
+    "summary": "Exercise the native replacement staging gates.",
+    "owner": "NATIVE_MODULE",
+    "hook": null,
+    "hook_evidence_id": null,
+    "authority": "UNKNOWN",
+    "lifetime": "Fixture execution only.",
+    "cleanup": "No persistent state.",
+    "stacking": null
+  },
+  "stats": [],
+  "description": {
+    "enabled": false,
+    "localization_key": null,
+    "text": null
+  },
+  "deployment": {
+    "requires_addon": false,
+    "requires_card_extension": false,
+    "requires_native_module": true,
+    "requires_description_override": false,
+    "live_manifest": null
+  }
+}

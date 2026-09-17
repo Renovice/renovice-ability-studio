@@ -1,0 +1,13 @@
+parent_proto	instruction	op	destination_register	operand_namespace	operand_index	target_proto	target_params	target_upvalues	target_maxstack	capture_count	captures	status
+11	47	DUPCLOSURE	4	const	23	0	4	0	4	0		PASS
+11	49	DUPCLOSURE	4	const	25	1	2	0	2	0		PASS
+11	51	DUPCLOSURE	4	const	27	2	3	0	3	0		PASS
+11	54	DUPCLOSURE	4	const	29	3	4	0	14	0		PASS
+11	56	DUPCLOSURE	4	const	30	4	3	0	10	0		PASS
+11	58	NEWCLOSURE	4	child	5	5	5	2	24	2	0=VAL:R2;1=VAL:R3	PASS
+11	62	DUPCLOSURE	4	const	31	6	2	0	8	0		PASS
+11	64	DUPCLOSURE	4	const	33	7	2	0	8	0		PASS
+11	66	DUPCLOSURE	4	const	35	8	4	0	9	0		PASS
+11	68	DUPCLOSURE	4	const	37	9	4	0	9	0		PASS
+11	73	NEWCLOSURE	4	child	10	10	6	1	25	1	0=VAL:R3	PASS
+12	17	DUPCLOSURE	0	const	11	11	2	0	6	0		PASS

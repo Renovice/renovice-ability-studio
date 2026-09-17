@@ -1,0 +1,52 @@
+{
+  "project_version": 1,
+  "id": "mission.control_area_deimos.timers.addon",
+  "status": "READY_TO_BUILD",
+  "authoring_mode": "MANAGED_MISSION_ADDON",
+  "mode_selection": "AUTOMATIC_RECOMMENDATION",
+  "mode_reason": "Exact target addon changes the verified stock timer owner while retaining the native mission module and lifecycle.",
+  "target": {
+    "warframe": "Mission",
+    "ability": "Control Area (Deimos) Timers",
+    "ability_identifier": "CONTROL_AREA_DEIMOS_TIMER_PATCH",
+    "ability_localize_tag": null,
+    "module_path": "Lotus.Scripts.InfestedMicroplanet.Encounters.DynamicAreaDefense",
+    "module_body_key": "d9541341dfd466a3",
+    "installed_build": "packages-bin-data-2026-07-01",
+    "expected_source_sha256": null
+  },
+  "effect": {
+    "summary": "Set the Control Area duration to 45 seconds through its exact stock owner.",
+    "owner": "ADDON",
+    "hook": "renovice.target.lua_call",
+    "hook_evidence_id": "WF-CONTROL-AREA-DEIMOS-DURATION-OWNERS-2026-09-09",
+    "authority": "OWNER",
+    "lifetime": "Exact body-keyed target-module generation.",
+    "cleanup": "Restore owned mutable state when possible; referenced encounter captures are recreated on the next natural module load.",
+    "stacking": "One authoritative duration edit; linked pacing state is changed only when stock code stores it separately."
+  },
+  "stats": [],
+  "addon_generation": {
+    "template": "MISSION_CONTROL_AREA_DEIMOS_TIMER_TARGET",
+    "hook_binding": "renovice.target.lua_call",
+    "state_prototype": 7,
+    "state_duration_upvalue": 12,
+    "mission_prototype": 9,
+    "pacing_threshold_upvalue": 14,
+    "stock_duration_seconds": 90,
+    "stock_pacing_threshold_seconds": 60,
+    "duration_seconds": 45
+  },
+  "description": {
+    "enabled": false,
+    "localization_key": null,
+    "text": null
+  },
+  "deployment": {
+    "requires_addon": true,
+    "requires_card_extension": false,
+    "requires_native_module": false,
+    "requires_description_override": false,
+    "live_manifest": null
+  }
+}

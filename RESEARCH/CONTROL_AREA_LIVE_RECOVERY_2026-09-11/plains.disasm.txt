@@ -1,0 +1,1382 @@
+== proto[0] sizecode-bytes=24 nconsts=1 maxstack=5 nparams=1 nups=1 vararg=0 ==
+    k[0] tag=2
+  [  0] @0000 op=0x12 A=4 B=15 C=0 Bx=15 
+  [  1] @0004 op=0x22 A=3 B=4 C=0 Bx=4 
+  [  2] @0008 op=0x13 A=4 B=0 C=0 Bx=0 
+  [  3] @000c op=0x1a A=2 B=3 C=4 Bx=1027 
+  [  4] @0010 op=0x06 A=1 B=0 C=2 Bx=512 
+  [  5] @0014 op=0x29 A=1 B=2 C=0 Bx=2 
+== proto[1] sizecode-bytes=504 nconsts=20 maxstack=9 nparams=0 nups=9 vararg=0 ==
+    k[0] tag=1 hash=0x97f81cc1
+    k[1] tag=4 import=0x40000000
+    k[2] tag=1 hash=0x57475f7c
+    k[3] tag=2
+    k[4] tag=1 hash=0xdfdda3c3
+    k[5] tag=4 import=0x40400000
+    k[6] tag=1 hash=0xbcae8456
+    k[7] tag=1 hash=0x9caf50ce
+    k[8] tag=4 import=0x40700000
+    k[9] tag=1 hash=0x333758f7
+    k[10] tag=4 import=0x40900000
+    k[11] tag=3 strpool_idx=1
+    k[12] tag=1 hash=0x0f38e182
+    k[13] tag=1 hash=0x3c36850b
+    k[14] tag=4 import=0x80c03400
+    k[15] tag=1 hash=0x3b4b94b0
+    k[16] tag=4 import=0x40f00000
+    k[17] tag=1 hash=0xe09b215e
+    k[18] tag=1 hash=0x408dcc77
+    k[19] tag=4 import=0x80c04800
+  [  0] @0000 op=0x13 A=0 B=0 C=0 Bx=0 
+  [  1] @0004 op=0x12 A=1 B=0 C=0 Bx=0 
+  [  2] @0008 op=0x33 A=0 B=81 C=0 Bx=81 aux=0x00000001 [8B]
+  [  3] @0010 op=0x46 A=0 B=1 C=0 Bx=1 aux=0x40000000 [8B]
+  [  4] @0018 op=0x18 A=0 B=22 C=0 Bx=22 
+  [  5] @001c op=0x13 A=0 B=1 C=0 Bx=1 
+  [  6] @0020 op=0x3d A=0 B=0 C=124 Bx=31744 aux=0x00000002 [8B]
+  [  7] @0028 op=0x13 A=1 B=2 C=0 Bx=2 
+  [  8] @002c op=0x12 A=2 B=0 C=0 Bx=0 
+  [  9] @0030 op=0x13 A=3 B=3 C=0 Bx=3 
+  [ 10] @0034 op=0x04 A=4 B=1 C=0 Bx=1 
+  [ 11] @0038 op=0x04 A=5 B=0 C=0 Bx=0 
+  [ 12] @003c op=0x04 A=6 B=0 C=0 Bx=0 
+  [ 13] @0040 op=0x13 A=7 B=2 C=0 Bx=2 
+  [ 14] @0044 op=0x04 A=8 B=1 C=0 Bx=1 
+  [ 15] @0048 op=0x54 A=0 B=9 C=1 Bx=265 
+  [ 16] @004c op=0x13 A=2 B=4 C=0 Bx=4 
+  [ 17] @0050 op=0x13 A=3 B=5 C=0 Bx=5 
+  [ 18] @0054 op=0x07 A=1 B=2 C=3 Bx=770 
+  [ 19] @0058 op=0x12 A=4 B=15 C=0 Bx=15 
+  [ 20] @005c op=0x22 A=3 B=4 C=1 Bx=260 
+  [ 21] @0060 op=0x13 A=4 B=4 C=0 Bx=4 
+  [ 22] @0064 op=0x1a A=2 B=3 C=4 Bx=1027 
+  [ 23] @0068 op=0x06 A=0 B=3 C=2 Bx=515 
+  [ 24] @006c op=0x53 A=0 B=0 C=0 Bx=0 
+  [ 25] @0070 op=0x29 A=0 B=1 C=0 Bx=1 
+  [ 26] @0074 op=0x0d A=0 B=0 C=0 Bx=0 
+  [ 27] @0078 op=0x46 A=1 B=5 C=0 Bx=5 aux=0x40400000 [8B]
+  [ 28] @0080 op=0x18 A=1 B=12 C=0 Bx=12 
+  [ 29] @0084 op=0x13 A=1 B=6 C=0 Bx=6 
+  [ 30] @0088 op=0x13 A=3 B=7 C=0 Bx=7 
+  [ 31] @008c op=0x12 A=4 B=0 C=0 Bx=0 
+  [ 32] @0090 op=0x13 A=5 B=3 C=0 Bx=3 
+  [ 33] @0094 op=0x12 A=6 B=2 C=0 Bx=2 
+  [ 34] @0098 op=0x12 A=7 B=2 C=0 Bx=2 
+  [ 35] @009c op=0x13 A=8 B=2 C=0 Bx=2 
+  [ 36] @00a0 op=0x2d A=1 B=1 C=86 Bx=22017 aux=0x00000006 [8B]
+  [ 37] @00a8 op=0x54 A=1 B=8 C=2 Bx=520 
+  [ 38] @00ac op=0x14 A=0 B=1 C=0 Bx=1 
+  [ 39] @00b0 op=0x40 A=0 B=11 C=0 Bx=11 
+  [ 40] @00b4 op=0x13 A=1 B=6 C=0 Bx=6 
+  [ 41] @00b8 op=0x13 A=3 B=7 C=0 Bx=7 
+  [ 42] @00bc op=0x12 A=4 B=0 C=0 Bx=0 
+  [ 43] @00c0 op=0x13 A=5 B=3 C=0 Bx=3 
+  [ 44] @00c4 op=0x12 A=6 B=2 C=0 Bx=2 
+  [ 45] @00c8 op=0x12 A=7 B=2 C=0 Bx=2 
+  [ 46] @00cc op=0x13 A=8 B=2 C=0 Bx=2 
+  [ 47] @00d0 op=0x2d A=1 B=1 C=86 Bx=22017 aux=0x00000006 [8B]
+  [ 48] @00d8 op=0x54 A=1 B=8 C=2 Bx=520 
+  [ 49] @00dc op=0x14 A=0 B=1 C=0 Bx=1 
+  [ 50] @00e0 op=0x19 A=133 B=0 C=3 Bx=768 
+  [ 51] @00e4 op=0x14 A=2 B=0 C=0 Bx=0 
+  [ 52] @00e8 op=0x46 A=1 B=8 C=0 Bx=8 aux=0x40700000 [8B]
+  [ 53] @00f0 op=0x54 A=1 B=2 C=2 Bx=514 
+  [ 54] @00f4 op=0x18 A=1 B=5 C=0 Bx=5 
+  [ 55] @00f8 op=0x46 A=1 B=10 C=0 Bx=10 aux=0x40900000 [8B]
+  [ 56] @0100 op=0x4e A=2 B=11 C=0 Bx=11 
+  [ 57] @0104 op=0x54 A=1 B=2 C=1 Bx=258 
+  [ 58] @0108 op=0x29 A=0 B=1 C=0 Bx=1 
+  [ 59] @010c op=0x13 A=3 B=4 C=0 Bx=4 
+  [ 60] @0110 op=0x13 A=4 B=5 C=0 Bx=5 
+  [ 61] @0114 op=0x07 A=2 B=3 C=4 Bx=1027 
+  [ 62] @0118 op=0x12 A=5 B=15 C=0 Bx=15 
+  [ 63] @011c op=0x22 A=4 B=5 C=2 Bx=517 
+  [ 64] @0120 op=0x13 A=5 B=4 C=0 Bx=4 
+  [ 65] @0124 op=0x1a A=3 B=4 C=5 Bx=1284 
+  [ 66] @0128 op=0x06 A=1 B=3 C=3 Bx=771 
+  [ 67] @012c op=0x53 A=1 B=0 C=0 Bx=0 
+  [ 68] @0130 op=0x13 A=2 B=8 C=0 Bx=8 
+  [ 69] @0134 op=0x26 A=52 B=2 C=4 Bx=1026 aux=0x00000000 [8B]
+  [ 70] @013c op=0x14 A=3 B=0 C=0 Bx=0 
+  [ 71] @0140 op=0x46 A=1 B=14 C=0 Bx=14 aux=0x80c03400 [8B]
+  [ 72] @0148 op=0x54 A=1 B=3 C=1 Bx=259 
+  [ 73] @014c op=0x29 A=0 B=1 C=0 Bx=1 
+  [ 74] @0150 op=0x46 A=0 B=1 C=0 Bx=1 aux=0x40000000 [8B]
+  [ 75] @0158 op=0x4b A=0 B=5 C=0 Bx=5 
+  [ 76] @015c op=0x13 A=1 B=8 C=0 Bx=8 
+  [ 77] @0160 op=0x4d A=0 B=1 C=0 Bx=1 
+  [ 78] @0164 op=0x12 A=1 B=1 C=0 Bx=1 
+  [ 79] @0168 op=0x1c A=0 B=8 C=0 Bx=8 aux=0x00000001 [8B]
+  [ 80] @0170 op=0x13 A=1 B=0 C=0 Bx=0 
+  [ 81] @0174 op=0x46 A=2 B=16 C=0 Bx=16 aux=0x40f00000 [8B]
+  [ 82] @017c op=0x54 A=2 B=1 C=2 Bx=513 
+  [ 83] @0180 op=0x07 A=0 B=1 C=2 Bx=513 
+  [ 84] @0184 op=0x53 A=0 B=0 C=0 Bx=0 
+  [ 85] @0188 op=0x29 A=0 B=1 C=0 Bx=1 
+  [ 86] @018c op=0x13 A=3 B=8 C=0 Bx=8 
+  [ 87] @0190 op=0x4d A=2 B=3 C=0 Bx=3 
+  [ 88] @0194 op=0x12 A=0 B=1 C=0 Bx=1 
+  [ 89] @0198 op=0x12 A=1 B=255 C=255 Bx=65535 
+  [ 90] @019c op=0x47 A=0 B=21 C=0 Bx=21 
+  [ 91] @01a0 op=0x13 A=5 B=8 C=0 Bx=8 
+  [ 92] @01a4 op=0x01 A=4 B=5 C=2 Bx=517 
+  [ 93] @01a8 op=0x19 A=133 B=4 C=2 Bx=516 
+  [ 94] @01ac op=0x46 A=3 B=8 C=0 Bx=8 aux=0x40700000 [8B]
+  [ 95] @01b4 op=0x54 A=3 B=2 C=2 Bx=514 
+  [ 96] @01b8 op=0x4b A=3 B=8 C=0 Bx=8 
+  [ 97] @01bc op=0x13 A=4 B=8 C=0 Bx=8 
+  [ 98] @01c0 op=0x01 A=3 B=4 C=2 Bx=516 
+  [ 99] @01c4 op=0x2d A=3 B=3 C=94 Bx=24067 aux=0x00000011 [8B]
+  [100] @01cc op=0x54 A=3 B=2 C=2 Bx=514 
+  [101] @01d0 op=0x12 A=4 B=3 C=0 Bx=3 
+  [102] @01d4 op=0x27 A=3 B=6 C=0 Bx=6 aux=0x00000004 [8B]
+  [103] @01dc op=0x46 A=3 B=19 C=0 Bx=19 aux=0x80c04800 [8B]
+  [104] @01e4 op=0x13 A=4 B=8 C=0 Bx=8 
+  [105] @01e8 op=0x14 A=5 B=2 C=0 Bx=2 
+  [106] @01ec op=0x54 A=3 B=3 C=1 Bx=259 
+  [107] @01f0 op=0x0a A=0 B=235 C=255 Bx=65515 
+  [108] @01f4 op=0x29 A=0 B=1 C=0 Bx=1 
+== proto[2] sizecode-bytes=88 nconsts=8 maxstack=7 nparams=0 nups=3 vararg=0 ==
+    k[0] tag=3 strpool_idx=2
+    k[1] tag=2
+    k[2] tag=3 strpool_idx=3
+    k[3] tag=2
+    k[4] tag=3 strpool_idx=4
+    k[5] tag=3 strpool_idx=5
+    k[6] tag=1 hash=0x3c7e8cd0
+    k[7] tag=3 strpool_idx=6
+  [  0] @0000 op=0x4e A=0 B=0 C=0 Bx=0 
+  [  1] @0004 op=0x13 A=1 B=0 C=0 Bx=0 
+  [  2] @0008 op=0x20 A=1 B=3 C=0 Bx=3 aux=0x80000001 [8B]
+  [  3] @0010 op=0x4e A=0 B=2 C=0 Bx=2 
+  [  4] @0014 op=0x40 A=0 B=6 C=0 Bx=6 
+  [  5] @0018 op=0x13 A=1 B=0 C=0 Bx=0 
+  [  6] @001c op=0x20 A=1 B=3 C=0 Bx=3 aux=0x80000003 [8B]
+  [  7] @0024 op=0x4e A=0 B=4 C=0 Bx=4 
+  [  8] @0028 op=0x40 A=0 B=1 C=0 Bx=1 
+  [  9] @002c op=0x4e A=0 B=5 C=0 Bx=5 
+  [ 10] @0030 op=0x13 A=1 B=1 C=0 Bx=1 
+  [ 11] @0034 op=0x3d A=1 B=1 C=208 Bx=53249 aux=0x00000006 [8B]
+  [ 12] @003c op=0x4e A=2 B=7 C=0 Bx=7 
+  [ 13] @0040 op=0x13 A=3 B=2 C=0 Bx=2 
+  [ 14] @0044 op=0x12 A=4 B=100 C=0 Bx=100 
+  [ 15] @0048 op=0x0d A=5 B=0 C=0 Bx=0 
+  [ 16] @004c op=0x04 A=6 B=1 C=0 Bx=1 
+  [ 17] @0050 op=0x54 A=1 B=6 C=1 Bx=262 
+  [ 18] @0054 op=0x29 A=0 B=1 C=0 Bx=1 
+== proto[3] sizecode-bytes=192 nconsts=13 maxstack=5 nparams=0 nups=6 vararg=0 ==
+    k[0] tag=1 hash=0x1838811a
+    k[1] tag=1 hash=0xee05c693
+    k[2] tag=4 import=0x80000400
+    k[3] tag=1 hash=0xdea62922
+    k[4] tag=1 hash=0x7a3b1179
+    k[5] tag=4 import=0x40400000
+    k[6] tag=3 strpool_idx=7
+    k[7] tag=1 hash=0xa7a2560b
+    k[8] tag=3 strpool_idx=8
+    k[9] tag=3 strpool_idx=9
+    k[10] tag=2
+    k[11] tag=8
+    k[12] tag=1 hash=0xb8827f71
+  [  0] @0000 op=0x12 A=1 B=0 C=0 Bx=0 
+  [  1] @0004 op=0x13 A=3 B=0 C=0 Bx=0 
+  [  2] @0008 op=0x13 A=4 B=1 C=0 Bx=1 
+  [  3] @000c op=0x07 A=2 B=3 C=4 Bx=1027 
+  [  4] @0010 op=0x26 A=18 B=1 C=3 Bx=769 aux=0x00000002 [8B]
+  [  5] @0018 op=0x46 A=0 B=2 C=0 Bx=2 aux=0x80000400 [8B]
+  [  6] @0020 op=0x54 A=0 B=3 C=2 Bx=515 
+  [  7] @0024 op=0x53 A=0 B=0 C=0 Bx=0 
+  [  8] @0028 op=0x13 A=0 B=2 C=0 Bx=2 
+  [  9] @002c op=0x13 A=2 B=3 C=0 Bx=3 
+  [ 10] @0030 op=0x13 A=3 B=0 C=0 Bx=0 
+  [ 11] @0034 op=0x2d A=0 B=0 C=34 Bx=8704 aux=0x00000003 [8B]
+  [ 12] @003c op=0x54 A=0 B=4 C=1 Bx=260 
+  [ 13] @0040 op=0x13 A=0 B=0 C=0 Bx=0 
+  [ 14] @0044 op=0x12 A=1 B=50 C=0 Bx=50 
+  [ 15] @0048 op=0x1c A=1 B=15 C=0 Bx=15 aux=0x00000000 [8B]
+  [ 16] @0050 op=0x13 A=0 B=4 C=0 Bx=4 
+  [ 17] @0054 op=0x18 A=0 B=12 C=0 Bx=12 
+  [ 18] @0058 op=0x46 A=0 B=5 C=0 Bx=5 aux=0x40400000 [8B]
+  [ 19] @0060 op=0x04 A=1 B=1 C=0 Bx=1 
+  [ 20] @0064 op=0x15 A=1 B=0 C=254 Bx=65024 aux=0x00000006 [8B]
+  [ 21] @006c op=0x13 A=0 B=5 C=0 Bx=5 
+  [ 22] @0070 op=0x3d A=0 B=0 C=11 Bx=2816 aux=0x00000007 [8B]
+  [ 23] @0078 op=0x4e A=1 B=8 C=0 Bx=8 
+  [ 24] @007c op=0x4f A=2 B=11 C=0 Bx=11 
+  [ 25] @0080 op=0x54 A=0 B=3 C=1 Bx=259 
+  [ 26] @0084 op=0x29 A=0 B=1 C=0 Bx=1 
+  [ 27] @0088 op=0x04 A=0 B=0 C=0 Bx=0 
+  [ 28] @008c op=0x53 A=0 B=4 C=0 Bx=4 
+  [ 29] @0090 op=0x46 A=0 B=5 C=0 Bx=5 aux=0x40400000 [8B]
+  [ 30] @0098 op=0x04 A=1 B=0 C=0 Bx=0 
+  [ 31] @009c op=0x15 A=1 B=0 C=254 Bx=65024 aux=0x00000006 [8B]
+  [ 32] @00a4 op=0x13 A=0 B=5 C=0 Bx=5 
+  [ 33] @00a8 op=0x3d A=0 B=0 C=113 Bx=28928 aux=0x0000000c [8B]
+  [ 34] @00b0 op=0x4e A=1 B=8 C=0 Bx=8 
+  [ 35] @00b4 op=0x4f A=2 B=11 C=0 Bx=11 
+  [ 36] @00b8 op=0x54 A=0 B=3 C=1 Bx=259 
+  [ 37] @00bc op=0x29 A=0 B=1 C=0 Bx=1 
+== proto[4] sizecode-bytes=88 nconsts=1 maxstack=5 nparams=0 nups=4 vararg=0 ==
+    k[0] tag=1 hash=0xbb009cae
+  [  0] @0000 op=0x13 A=0 B=0 C=0 Bx=0 
+  [  1] @0004 op=0x2d A=0 B=0 C=174 Bx=44544 aux=0x00000000 [8B]
+  [  2] @000c op=0x54 A=0 B=2 C=2 Bx=514 
+  [  3] @0010 op=0x12 A=1 B=3 C=0 Bx=3 
+  [  4] @0014 op=0x53 A=1 B=1 C=0 Bx=1 
+  [  5] @0018 op=0x13 A=2 B=2 C=0 Bx=2 
+  [  6] @001c op=0x4d A=1 B=2 C=0 Bx=2 
+  [  7] @0020 op=0x33 A=0 B=4 C=0 Bx=4 aux=0x00000001 [8B]
+  [  8] @0028 op=0x12 A=1 B=0 C=0 Bx=0 
+  [  9] @002c op=0x53 A=1 B=1 C=0 Bx=1 
+  [ 10] @0030 op=0x29 A=0 B=1 C=0 Bx=1 
+  [ 11] @0034 op=0x13 A=2 B=3 C=0 Bx=3 
+  [ 12] @0038 op=0x13 A=4 B=2 C=0 Bx=2 
+  [ 13] @003c op=0x4d A=3 B=4 C=0 Bx=4 
+  [ 14] @0040 op=0x01 A=1 B=2 C=3 Bx=770 
+  [ 15] @0044 op=0x33 A=0 B=3 C=0 Bx=3 aux=0x00000001 [8B]
+  [ 16] @004c op=0x12 A=1 B=1 C=0 Bx=1 
+  [ 17] @0050 op=0x53 A=1 B=1 C=0 Bx=1 
+  [ 18] @0054 op=0x29 A=0 B=1 C=0 Bx=1 
+== proto[5] sizecode-bytes=56 nconsts=5 maxstack=5 nparams=0 nups=3 vararg=0 ==
+    k[0] tag=1 hash=0xda4c74b0
+    k[1] tag=1 hash=0x1838811a
+    k[2] tag=1 hash=0x9606b65f
+    k[3] tag=4 import=0x80100800
+    k[4] tag=1 hash=0xdea62922
+  [  0] @0000 op=0x13 A=0 B=0 C=0 Bx=0 
+  [  1] @0004 op=0x13 A=2 B=1 C=0 Bx=1 
+  [  2] @0008 op=0x13 A=4 B=2 C=0 Bx=2 
+  [  3] @000c op=0x3d A=4 B=4 C=176 Bx=45060 aux=0x00000000 [8B]
+  [  4] @0014 op=0x54 A=4 B=1 C=2 Bx=513 
+  [  5] @0018 op=0x19 A=7 B=4 C=2 Bx=516 
+  [  6] @001c op=0x46 A=3 B=3 C=0 Bx=3 aux=0x80100800 [8B]
+  [  7] @0024 op=0x54 A=3 B=2 C=2 Bx=514 
+  [  8] @0028 op=0x2d A=0 B=0 C=34 Bx=8704 aux=0x00000004 [8B]
+  [  9] @0030 op=0x54 A=0 B=4 C=1 Bx=260 
+  [ 10] @0034 op=0x29 A=0 B=1 C=0 Bx=1 
+== proto[6] sizecode-bytes=292 nconsts=22 maxstack=21 nparams=0 nups=2 vararg=0 ==
+    k[0] tag=1 hash=0x333758f7
+    k[1] tag=4 import=0x40000000
+    k[2] tag=3 strpool_idx=10
+    k[3] tag=1 hash=0xbb009cae
+    k[4] tag=1 hash=0x07f5f5ca
+    k[5] tag=1 hash=0x699484c5
+    k[6] tag=4 import=0x40500000
+    k[7] tag=1 hash=0xcf1b1ad7
+    k[8] tag=1 hash=0x9caf50ce
+    k[9] tag=4 import=0x40800000
+    k[10] tag=1 hash=0x28ef49e6
+    k[11] tag=1 hash=0x34df30ff
+    k[12] tag=3 strpool_idx=11
+    k[13] tag=3 strpool_idx=12
+    k[14] tag=3 strpool_idx=13
+    k[15] tag=3 strpool_idx=14
+    k[16] tag=3 strpool_idx=15
+    k[17] tag=3 strpool_idx=16
+    k[18] tag=1 hash=0x74b75c53
+    k[19] tag=1 hash=0x535de4af
+    k[20] tag=3 strpool_idx=17
+    k[21] tag=1 hash=0x2f47b4f9
+  [  0] @0000 op=0x46 A=0 B=1 C=0 Bx=1 aux=0x40000000 [8B]
+  [  1] @0008 op=0x4e A=2 B=2 C=0 Bx=2 
+  [  2] @000c op=0x13 A=3 B=0 C=0 Bx=0 
+  [  3] @0010 op=0x2d A=3 B=3 C=174 Bx=44547 aux=0x00000003 [8B]
+  [  4] @0018 op=0x54 A=3 B=2 C=2 Bx=514 
+  [  5] @001c op=0x28 A=1 B=2 C=3 Bx=770 
+  [  6] @0020 op=0x54 A=0 B=2 C=1 Bx=258 
+  [  7] @0024 op=0x13 A=0 B=0 C=0 Bx=0 
+  [  8] @0028 op=0x2d A=0 B=0 C=202 Bx=51712 aux=0x00000004 [8B]
+  [  9] @0030 op=0x54 A=0 B=2 C=2 Bx=514 
+  [ 10] @0034 op=0x46 A=1 B=6 C=0 Bx=6 aux=0x40500000 [8B]
+  [ 11] @003c op=0x14 A=2 B=0 C=0 Bx=0 
+  [ 12] @0040 op=0x54 A=1 B=2 C=4 Bx=1026 
+  [ 13] @0044 op=0x1b A=1 B=52 C=0 Bx=52 
+  [ 14] @0048 op=0x2d A=6 B=5 C=215 Bx=55045 aux=0x00000007 [8B]
+  [ 15] @0050 op=0x54 A=6 B=2 C=2 Bx=514 
+  [ 16] @0054 op=0x19 A=133 B=6 C=3 Bx=774 
+  [ 17] @0058 op=0x14 A=8 B=6 C=0 Bx=6 
+  [ 18] @005c op=0x46 A=7 B=9 C=0 Bx=9 aux=0x40800000 [8B]
+  [ 19] @0064 op=0x54 A=7 B=2 C=2 Bx=514 
+  [ 20] @0068 op=0x4b A=7 B=43 C=0 Bx=43 
+  [ 21] @006c op=0x2d A=7 B=6 C=230 Bx=58886 aux=0x0000000a [8B]
+  [ 22] @0074 op=0x54 A=7 B=2 C=2 Bx=514 
+  [ 23] @0078 op=0x46 A=8 B=1 C=0 Bx=1 aux=0x40000000 [8B]
+  [ 24] @0080 op=0x2d A=19 B=6 C=255 Bx=65286 aux=0x0000000b [8B]
+  [ 25] @0088 op=0x54 A=19 B=2 C=2 Bx=514 
+  [ 26] @008c op=0x14 A=10 B=19 C=0 Bx=19 
+  [ 27] @0090 op=0x4e A=11 B=12 C=0 Bx=12 
+  [ 28] @0094 op=0x3d A=12 B=7 C=153 Bx=39175 aux=0x0000000d [8B]
+  [ 29] @009c op=0x4e A=13 B=14 C=0 Bx=14 
+  [ 30] @00a0 op=0x3d A=14 B=7 C=152 Bx=38919 aux=0x0000000f [8B]
+  [ 31] @00a8 op=0x4e A=15 B=14 C=0 Bx=14 
+  [ 32] @00ac op=0x3d A=16 B=7 C=155 Bx=39687 aux=0x00000010 [8B]
+  [ 33] @00b4 op=0x4e A=17 B=17 C=0 Bx=17 
+  [ 34] @00b8 op=0x13 A=20 B=0 C=0 Bx=0 
+  [ 35] @00bc op=0x2d A=18 B=6 C=83 Bx=21254 aux=0x00000012 [8B]
+  [ 36] @00c4 op=0x54 A=18 B=3 C=2 Bx=515 
+  [ 37] @00c8 op=0x28 A=9 B=10 C=18 Bx=4618 
+  [ 38] @00cc op=0x54 A=8 B=2 C=1 Bx=258 
+  [ 39] @00d0 op=0x2d A=8 B=6 C=175 Bx=44806 aux=0x00000013 [8B]
+  [ 40] @00d8 op=0x54 A=8 B=2 C=2 Bx=514 
+  [ 41] @00dc op=0x4b A=8 B=14 C=0 Bx=14 
+  [ 42] @00e0 op=0x46 A=8 B=1 C=0 Bx=1 aux=0x40000000 [8B]
+  [ 43] @00e8 op=0x2d A=12 B=6 C=255 Bx=65286 aux=0x0000000b [8B]
+  [ 44] @00f0 op=0x54 A=12 B=2 C=2 Bx=514 
+  [ 45] @00f4 op=0x14 A=10 B=12 C=0 Bx=12 
+  [ 46] @00f8 op=0x4e A=11 B=20 C=0 Bx=20 
+  [ 47] @00fc op=0x28 A=9 B=10 C=11 Bx=2826 
+  [ 48] @0100 op=0x54 A=8 B=2 C=1 Bx=258 
+  [ 49] @0104 op=0x13 A=8 B=1 C=0 Bx=1 
+  [ 50] @0108 op=0x14 A=10 B=6 C=0 Bx=6 
+  [ 51] @010c op=0x2d A=8 B=8 C=249 Bx=63752 aux=0x00000015 [8B]
+  [ 52] @0114 op=0x54 A=8 B=3 C=1 Bx=259 
+  [ 53] @0118 op=0x1e A=1 B=203 C=255 Bx=65483 aux=0x80000002 [8B]
+  [ 54] @0120 op=0x29 A=0 B=1 C=0 Bx=1 
+== proto[7] sizecode-bytes=52 nconsts=2 maxstack=3 nparams=0 nups=1 vararg=0 ==
+    k[0] tag=1 hash=0xe09b215e
+    k[1] tag=1 hash=0x8ca2e5e3
+  [  0] @0000 op=0x13 A=0 B=0 C=0 Bx=0 
+  [  1] @0004 op=0x2d A=0 B=0 C=94 Bx=24064 aux=0x00000000 [8B]
+  [  2] @000c op=0x54 A=0 B=2 C=2 Bx=514 
+  [  3] @0010 op=0x12 A=1 B=4 C=0 Bx=4 
+  [  4] @0014 op=0x1c A=0 B=6 C=0 Bx=6 aux=0x00000001 [8B]
+  [  5] @001c op=0x13 A=0 B=0 C=0 Bx=0 
+  [  6] @0020 op=0x12 A=2 B=4 C=0 Bx=4 
+  [  7] @0024 op=0x2d A=0 B=0 C=227 Bx=58112 aux=0x00000001 [8B]
+  [  8] @002c op=0x54 A=0 B=3 C=1 Bx=259 
+  [  9] @0030 op=0x29 A=0 B=1 C=0 Bx=1 
+== proto[8] sizecode-bytes=880 nconsts=49 maxstack=13 nparams=0 nups=20 vararg=0 ==
+    k[0] tag=2
+    k[1] tag=1 hash=0xe44ee5f9
+    k[2] tag=1 hash=0x8385b06f
+    k[3] tag=4 import=0x40200000
+    k[4] tag=3 strpool_idx=18
+    k[5] tag=2
+    k[6] tag=1 hash=0xb2b9f7ce
+    k[7] tag=3 strpool_idx=19
+    k[8] tag=2
+    k[9] tag=1 hash=0xf6d2cba4
+    k[10] tag=3 strpool_idx=8
+    k[11] tag=3 strpool_idx=9
+    k[12] tag=2
+    k[13] tag=8
+    k[14] tag=1 hash=0x981f6409
+    k[15] tag=1 hash=0x61e59f0e
+    k[16] tag=4 import=0x40f00000
+    k[17] tag=2
+    k[18] tag=3 strpool_idx=20
+    k[19] tag=1 hash=0xacbc3100
+    k[20] tag=1 hash=0x7a3b1179
+    k[21] tag=3 strpool_idx=21
+    k[22] tag=4 import=0x81405400
+    k[23] tag=3 strpool_idx=22
+    k[24] tag=3 strpool_idx=23
+    k[25] tag=1 hash=0x227e42c5
+    k[26] tag=1 hash=0x2a59835c
+    k[27] tag=3 strpool_idx=24
+    k[28] tag=2
+    k[29] tag=3 strpool_idx=25
+    k[30] tag=2
+    k[31] tag=3 strpool_idx=26
+    k[32] tag=3 strpool_idx=27
+    k[33] tag=1 hash=0x800c0049
+    k[34] tag=1 hash=0xcef41b83
+    k[35] tag=3 strpool_idx=28
+    k[36] tag=1 hash=0x3c7e8cd0
+    k[37] tag=3 strpool_idx=6
+    k[38] tag=3 strpool_idx=29
+    k[39] tag=2
+    k[40] tag=1 hash=0x9caf50ce
+    k[41] tag=4 import=0x42800000
+    k[42] tag=1 hash=0x84b2563e
+    k[43] tag=3 strpool_idx=30
+    k[44] tag=3 strpool_idx=31
+    k[45] tag=1 hash=0xbc02d8cc
+    k[46] tag=3 strpool_idx=32
+    k[47] tag=4 import=0x8140b800
+    k[48] tag=1 hash=0xb5036e85
+  [  0] @0000 op=0x13 A=0 B=0 C=0 Bx=0 
+  [  1] @0004 op=0x20 A=0 B=12 C=0 Bx=12 aux=0x80000000 [8B]
+  [  2] @000c op=0x13 A=0 B=1 C=0 Bx=1 
+  [  3] @0010 op=0x3d A=0 B=0 C=249 Bx=63744 aux=0x00000001 [8B]
+  [  4] @0018 op=0x13 A=1 B=2 C=0 Bx=2 
+  [  5] @001c op=0x46 A=2 B=3 C=0 Bx=3 aux=0x40200000 [8B]
+  [  6] @0024 op=0x4e A=3 B=4 C=0 Bx=4 
+  [  7] @0028 op=0x54 A=2 B=2 C=2 Bx=514 
+  [  8] @002c op=0x04 A=3 B=1 C=0 Bx=1 
+  [  9] @0030 op=0x54 A=0 B=4 C=1 Bx=260 
+  [ 10] @0034 op=0x29 A=0 B=1 C=0 Bx=1 
+  [ 11] @0038 op=0x13 A=0 B=0 C=0 Bx=0 
+  [ 12] @003c op=0x20 A=0 B=8 C=0 Bx=8 aux=0x80000005 [8B]
+  [ 13] @0044 op=0x13 A=0 B=3 C=0 Bx=3 
+  [ 14] @0048 op=0x3d A=0 B=0 C=206 Bx=52736 aux=0x00000006 [8B]
+  [ 15] @0050 op=0x4e A=1 B=7 C=0 Bx=7 
+  [ 16] @0054 op=0x12 A=2 B=2 C=0 Bx=2 
+  [ 17] @0058 op=0x54 A=0 B=3 C=1 Bx=259 
+  [ 18] @005c op=0x29 A=0 B=1 C=0 Bx=1 
+  [ 19] @0060 op=0x13 A=0 B=0 C=0 Bx=0 
+  [ 20] @0064 op=0x20 A=0 B=124 C=0 Bx=124 aux=0x80000008 [8B]
+  [ 21] @006c op=0x13 A=0 B=3 C=0 Bx=3 
+  [ 22] @0070 op=0x3d A=0 B=0 C=164 Bx=41984 aux=0x00000009 [8B]
+  [ 23] @0078 op=0x4e A=1 B=10 C=0 Bx=10 
+  [ 24] @007c op=0x4f A=2 B=13 C=0 Bx=13 
+  [ 25] @0080 op=0x54 A=0 B=3 C=1 Bx=259 
+  [ 26] @0084 op=0x13 A=0 B=4 C=0 Bx=4 
+  [ 27] @0088 op=0x13 A=2 B=5 C=0 Bx=5 
+  [ 28] @008c op=0x13 A=3 B=6 C=0 Bx=6 
+  [ 29] @0090 op=0x2d A=0 B=0 C=9 Bx=2304 aux=0x0000000e [8B]
+  [ 30] @0098 op=0x54 A=0 B=4 C=2 Bx=516 
+  [ 31] @009c op=0x46 A=1 B=16 C=0 Bx=16 aux=0x40f00000 [8B]
+  [ 32] @00a4 op=0x18 A=1 B=14 C=0 Bx=14 
+  [ 33] @00a8 op=0x13 A=2 B=6 C=0 Bx=6 
+  [ 34] @00ac op=0x3e A=1 B=2 C=17 Bx=4354 
+  [ 35] @00b0 op=0x1c A=1 B=20 C=0 Bx=20 aux=0x00000000 [8B]
+  [ 36] @00b8 op=0x13 A=1 B=1 C=0 Bx=1 
+  [ 37] @00bc op=0x3d A=1 B=1 C=249 Bx=63745 aux=0x00000001 [8B]
+  [ 38] @00c4 op=0x13 A=2 B=2 C=0 Bx=2 
+  [ 39] @00c8 op=0x46 A=3 B=3 C=0 Bx=3 aux=0x40200000 [8B]
+  [ 40] @00d0 op=0x4e A=4 B=18 C=0 Bx=18 
+  [ 41] @00d4 op=0x54 A=3 B=2 C=0 Bx=2 
+  [ 42] @00d8 op=0x54 A=1 B=0 C=1 Bx=256 
+  [ 43] @00dc op=0x40 A=0 B=9 C=0 Bx=9 
+  [ 44] @00e0 op=0x13 A=1 B=1 C=0 Bx=1 
+  [ 45] @00e4 op=0x3d A=1 B=1 C=249 Bx=63745 aux=0x00000001 [8B]
+  [ 46] @00ec op=0x13 A=2 B=2 C=0 Bx=2 
+  [ 47] @00f0 op=0x46 A=3 B=3 C=0 Bx=3 aux=0x40200000 [8B]
+  [ 48] @00f8 op=0x4e A=4 B=18 C=0 Bx=18 
+  [ 49] @00fc op=0x54 A=3 B=2 C=0 Bx=2 
+  [ 50] @0100 op=0x54 A=1 B=0 C=1 Bx=256 
+  [ 51] @0104 op=0x13 A=1 B=8 C=0 Bx=8 
+  [ 52] @0108 op=0x12 A=3 B=1 C=0 Bx=1 
+  [ 53] @010c op=0x13 A=4 B=9 C=0 Bx=9 
+  [ 54] @0110 op=0x04 A=5 B=1 C=0 Bx=1 
+  [ 55] @0114 op=0x2d A=1 B=1 C=0 Bx=1 aux=0x00000013 [8B]
+  [ 56] @011c op=0x54 A=1 B=5 C=2 Bx=517 
+  [ 57] @0120 op=0x53 A=1 B=7 C=0 Bx=7 
+  [ 58] @0124 op=0x13 A=1 B=8 C=0 Bx=8 
+  [ 59] @0128 op=0x12 A=3 B=1 C=0 Bx=1 
+  [ 60] @012c op=0x13 A=4 B=11 C=0 Bx=11 
+  [ 61] @0130 op=0x04 A=5 B=1 C=0 Bx=1 
+  [ 62] @0134 op=0x2d A=1 B=1 C=0 Bx=1 aux=0x00000013 [8B]
+  [ 63] @013c op=0x54 A=1 B=5 C=2 Bx=517 
+  [ 64] @0140 op=0x53 A=1 B=10 C=0 Bx=10 
+  [ 65] @0144 op=0x46 A=1 B=22 C=0 Bx=22 aux=0x81405400 [8B]
+  [ 66] @014c op=0x4e A=2 B=23 C=0 Bx=23 
+  [ 67] @0150 op=0x13 A=3 B=13 C=0 Bx=13 
+  [ 68] @0154 op=0x3d A=3 B=3 C=122 Bx=31235 aux=0x00000018 [8B]
+  [ 69] @015c op=0x12 A=4 B=0 C=0 Bx=0 
+  [ 70] @0160 op=0x12 A=5 B=5 C=0 Bx=5 
+  [ 71] @0164 op=0x54 A=1 B=5 C=2 Bx=517 
+  [ 72] @0168 op=0x53 A=1 B=12 C=0 Bx=12 
+  [ 73] @016c op=0x13 A=1 B=3 C=0 Bx=3 
+  [ 74] @0170 op=0x3d A=1 B=1 C=197 Bx=50433 aux=0x00000019 [8B]
+  [ 75] @0178 op=0x54 A=1 B=1 C=2 Bx=513 
+  [ 76] @017c op=0x13 A=2 B=3 C=0 Bx=3 
+  [ 77] @0180 op=0x3d A=2 B=2 C=92 Bx=23554 aux=0x0000001a [8B]
+  [ 78] @0188 op=0x54 A=2 B=1 C=3 Bx=769 
+  [ 79] @018c op=0x13 A=4 B=12 C=0 Bx=12 
+  [ 80] @0190 op=0x3d A=4 B=4 C=101 Bx=25860 aux=0x0000001b [8B]
+  [ 81] @0198 op=0x38 A=5 B=1 C=28 Bx=7169 
+  [ 82] @019c op=0x04 A=6 B=0 C=0 Bx=0 
+  [ 83] @01a0 op=0x54 A=4 B=3 C=1 Bx=259 
+  [ 84] @01a4 op=0x13 A=4 B=12 C=0 Bx=12 
+  [ 85] @01a8 op=0x3d A=4 B=4 C=15 Bx=3844 aux=0x0000001d [8B]
+  [ 86] @01b0 op=0x38 A=5 B=2 C=30 Bx=7682 
+  [ 87] @01b4 op=0x3e A=6 B=3 C=12 Bx=3075 
+  [ 88] @01b8 op=0x04 A=7 B=1 C=0 Bx=1 
+  [ 89] @01bc op=0x54 A=4 B=4 C=1 Bx=260 
+  [ 90] @01c0 op=0x13 A=4 B=14 C=0 Bx=14 
+  [ 91] @01c4 op=0x4e A=6 B=31 C=0 Bx=31 
+  [ 92] @01c8 op=0x46 A=7 B=3 C=0 Bx=3 aux=0x40200000 [8B]
+  [ 93] @01d0 op=0x4e A=8 B=32 C=0 Bx=32 
+  [ 94] @01d4 op=0x54 A=7 B=2 C=2 Bx=514 
+  [ 95] @01d8 op=0x04 A=8 B=1 C=0 Bx=1 
+  [ 96] @01dc op=0x2d A=4 B=4 C=73 Bx=18692 aux=0x00000021 [8B]
+  [ 97] @01e4 op=0x54 A=4 B=5 C=1 Bx=261 
+  [ 98] @01e8 op=0x13 A=4 B=3 C=0 Bx=3 
+  [ 99] @01ec op=0x3d A=4 B=4 C=131 Bx=33540 aux=0x00000022 [8B]
+  [100] @01f4 op=0x14 A=5 B=0 C=0 Bx=0 
+  [101] @01f8 op=0x04 A=6 B=0 C=0 Bx=0 
+  [102] @01fc op=0x04 A=7 B=1 C=0 Bx=1 
+  [103] @0200 op=0x04 A=8 B=0 C=0 Bx=0 
+  [104] @0204 op=0x0d A=9 B=0 C=0 Bx=0 
+  [105] @0208 op=0x0d A=10 B=0 C=0 Bx=0 
+  [106] @020c op=0x0d A=11 B=0 C=0 Bx=0 
+  [107] @0210 op=0x4e A=12 B=35 C=0 Bx=35 
+  [108] @0214 op=0x54 A=4 B=9 C=1 Bx=265 
+  [109] @0218 op=0x13 A=4 B=3 C=0 Bx=3 
+  [110] @021c op=0x3d A=4 B=4 C=208 Bx=53252 aux=0x00000024 [8B]
+  [111] @0224 op=0x4e A=5 B=37 C=0 Bx=37 
+  [112] @0228 op=0x12 A=6 B=100 C=0 Bx=100 
+  [113] @022c op=0x12 A=7 B=100 C=0 Bx=100 
+  [114] @0230 op=0x0d A=8 B=0 C=0 Bx=0 
+  [115] @0234 op=0x04 A=9 B=1 C=0 Bx=1 
+  [116] @0238 op=0x54 A=4 B=6 C=1 Bx=262 
+  [117] @023c op=0x13 A=4 B=3 C=0 Bx=3 
+  [118] @0240 op=0x3d A=4 B=4 C=206 Bx=52740 aux=0x00000006 [8B]
+  [119] @0248 op=0x4e A=5 B=38 C=0 Bx=38 
+  [120] @024c op=0x12 A=6 B=5 C=0 Bx=5 
+  [121] @0250 op=0x54 A=4 B=3 C=1 Bx=259 
+  [122] @0254 op=0x29 A=0 B=1 C=0 Bx=1 
+  [123] @0258 op=0x13 A=0 B=0 C=0 Bx=0 
+  [124] @025c op=0x20 A=0 B=67 C=0 Bx=67 aux=0x80000027 [8B]
+  [125] @0264 op=0x13 A=1 B=10 C=0 Bx=10 
+  [126] @0268 op=0x19 A=133 B=1 C=2 Bx=513 
+  [127] @026c op=0x46 A=0 B=41 C=0 Bx=41 aux=0x42800000 [8B]
+  [128] @0274 op=0x54 A=0 B=2 C=2 Bx=514 
+  [129] @0278 op=0x4b A=0 B=5 C=0 Bx=5 
+  [130] @027c op=0x13 A=0 B=8 C=0 Bx=8 
+  [131] @0280 op=0x13 A=2 B=10 C=0 Bx=10 
+  [132] @0284 op=0x2d A=0 B=0 C=62 Bx=15872 aux=0x0000002a [8B]
+  [133] @028c op=0x54 A=0 B=3 C=1 Bx=259 
+  [134] @0290 op=0x13 A=1 B=7 C=0 Bx=7 
+  [135] @0294 op=0x19 A=133 B=1 C=2 Bx=513 
+  [136] @0298 op=0x46 A=0 B=41 C=0 Bx=41 aux=0x42800000 [8B]
+  [137] @02a0 op=0x54 A=0 B=2 C=2 Bx=514 
+  [138] @02a4 op=0x4b A=0 B=5 C=0 Bx=5 
+  [139] @02a8 op=0x13 A=0 B=8 C=0 Bx=8 
+  [140] @02ac op=0x13 A=2 B=7 C=0 Bx=7 
+  [141] @02b0 op=0x2d A=0 B=0 C=62 Bx=15872 aux=0x0000002a [8B]
+  [142] @02b8 op=0x54 A=0 B=3 C=1 Bx=259 
+  [143] @02bc op=0x13 A=0 B=8 C=0 Bx=8 
+  [144] @02c0 op=0x12 A=2 B=10 C=0 Bx=10 
+  [145] @02c4 op=0x13 A=3 B=15 C=0 Bx=15 
+  [146] @02c8 op=0x04 A=4 B=1 C=0 Bx=1 
+  [147] @02cc op=0x2d A=0 B=0 C=0 Bx=0 aux=0x00000013 [8B]
+  [148] @02d4 op=0x54 A=0 B=5 C=1 Bx=261 
+  [149] @02d8 op=0x13 A=0 B=8 C=0 Bx=8 
+  [150] @02dc op=0x12 A=2 B=30 C=0 Bx=30 
+  [151] @02e0 op=0x13 A=3 B=16 C=0 Bx=16 
+  [152] @02e4 op=0x2d A=0 B=0 C=0 Bx=0 aux=0x00000013 [8B]
+  [153] @02ec op=0x54 A=0 B=4 C=1 Bx=260 
+  [154] @02f0 op=0x13 A=0 B=1 C=0 Bx=1 
+  [155] @02f4 op=0x3d A=0 B=0 C=249 Bx=63744 aux=0x00000001 [8B]
+  [156] @02fc op=0x13 A=1 B=2 C=0 Bx=2 
+  [157] @0300 op=0x46 A=2 B=3 C=0 Bx=3 aux=0x40200000 [8B]
+  [158] @0308 op=0x4e A=3 B=43 C=0 Bx=43 
+  [159] @030c op=0x54 A=2 B=2 C=0 Bx=2 
+  [160] @0310 op=0x54 A=0 B=0 C=1 Bx=256 
+  [161] @0314 op=0x13 A=0 B=3 C=0 Bx=3 
+  [162] @0318 op=0x3d A=0 B=0 C=206 Bx=52736 aux=0x00000006 [8B]
+  [163] @0320 op=0x4e A=1 B=44 C=0 Bx=44 
+  [164] @0324 op=0x12 A=2 B=2 C=0 Bx=2 
+  [165] @0328 op=0x54 A=0 B=3 C=1 Bx=259 
+  [166] @032c op=0x13 A=0 B=3 C=0 Bx=3 
+  [167] @0330 op=0x3d A=0 B=0 C=204 Bx=52224 aux=0x0000002d [8B]
+  [168] @0338 op=0x54 A=0 B=1 C=1 Bx=257 
+  [169] @033c op=0x04 A=0 B=0 C=0 Bx=0 
+  [170] @0340 op=0x53 A=0 B=17 C=0 Bx=17 
+  [171] @0344 op=0x46 A=0 B=47 C=0 Bx=47 aux=0x8140b800 [8B]
+  [172] @034c op=0x13 A=1 B=12 C=0 Bx=12 
+  [173] @0350 op=0x54 A=0 B=2 C=1 Bx=258 
+  [174] @0354 op=0x13 A=0 B=18 C=0 Bx=18 
+  [175] @0358 op=0x3d A=0 B=0 C=133 Bx=34048 aux=0x00000030 [8B]
+  [176] @0360 op=0x13 A=1 B=14 C=0 Bx=14 
+  [177] @0364 op=0x13 A=2 B=19 C=0 Bx=19 
+  [178] @0368 op=0x54 A=0 B=3 C=1 Bx=259 
+  [179] @036c op=0x29 A=0 B=1 C=0 Bx=1 
+== proto[9] sizecode-bytes=96 nconsts=5 maxstack=5 nparams=1 nups=4 vararg=0 ==
+    k[0] tag=1 hash=0xdea62922
+    k[1] tag=1 hash=0x333758f7
+    k[2] tag=4 import=0x40100000
+    k[3] tag=3 strpool_idx=33
+    k[4] tag=3 strpool_idx=34
+  [  0] @0000 op=0x13 A=1 B=0 C=0 Bx=0 
+  [  1] @0004 op=0x37 A=1 B=17 C=0 Bx=17 aux=0x00000000 [8B]
+  [  2] @000c op=0x53 A=0 B=0 C=0 Bx=0 
+  [  3] @0010 op=0x13 A=1 B=1 C=0 Bx=1 
+  [  4] @0014 op=0x13 A=3 B=2 C=0 Bx=2 
+  [  5] @0018 op=0x14 A=4 B=0 C=0 Bx=0 
+  [  6] @001c op=0x2d A=1 B=1 C=34 Bx=8705 aux=0x00000000 [8B]
+  [  7] @0024 op=0x54 A=1 B=4 C=1 Bx=260 
+  [  8] @0028 op=0x13 A=1 B=3 C=0 Bx=3 
+  [  9] @002c op=0x54 A=1 B=1 C=1 Bx=257 
+  [ 10] @0030 op=0x46 A=1 B=2 C=0 Bx=2 aux=0x40100000 [8B]
+  [ 11] @0038 op=0x4e A=3 B=3 C=0 Bx=3 
+  [ 12] @003c op=0x13 A=4 B=0 C=0 Bx=0 
+  [ 13] @0040 op=0x28 A=2 B=3 C=4 Bx=1027 
+  [ 14] @0044 op=0x54 A=1 B=2 C=1 Bx=258 
+  [ 15] @0048 op=0x29 A=0 B=1 C=0 Bx=1 
+  [ 16] @004c op=0x46 A=1 B=2 C=0 Bx=2 aux=0x40100000 [8B]
+  [ 17] @0054 op=0x4e A=2 B=4 C=0 Bx=4 
+  [ 18] @0058 op=0x54 A=1 B=2 C=1 Bx=258 
+  [ 19] @005c op=0x29 A=0 B=1 C=0 Bx=1 
+== proto[10] sizecode-bytes=640 nconsts=44 maxstack=8 nparams=1 nups=19 vararg=0 ==
+    k[0] tag=1 hash=0x27816687
+    k[1] tag=4 import=0x40000000
+    k[2] tag=1 hash=0x82555728
+    k[3] tag=1 hash=0xfdd28a7c
+    k[4] tag=4 import=0x40300000
+    k[5] tag=1 hash=0x80e68a42
+    k[6] tag=1 hash=0xa65c92cd
+    k[7] tag=1 hash=0xa76d4ecc
+    k[8] tag=1 hash=0x6e6628ee
+    k[9] tag=4 import=0x40800000
+    k[10] tag=1 hash=0x28ef49e6
+    k[11] tag=1 hash=0x1e3c770b
+    k[12] tag=1 hash=0x13820ee6
+    k[13] tag=1 hash=0x0b41bc7d
+    k[14] tag=1 hash=0xf12532c8
+    k[15] tag=1 hash=0xfa586917
+    k[16] tag=3 strpool_idx=35
+    k[17] tag=1 hash=0xf3e0f198
+    k[18] tag=1 hash=0xee3a3333
+    k[19] tag=1 hash=0x97f81cc1
+    k[20] tag=4 import=0x41300000
+    k[21] tag=1 hash=0x642fb085
+    k[22] tag=1 hash=0x1b1fa9ca
+    k[23] tag=1 hash=0x07c24999
+    k[24] tag=4 import=0x41700000
+    k[25] tag=1 hash=0x4562b2ec
+    k[26] tag=1 hash=0xfd84f1d5
+    k[27] tag=1 hash=0x41d25c0f
+    k[28] tag=4 import=0x41b00000
+    k[29] tag=1 hash=0x1b86d98c
+    k[30] tag=3 strpool_idx=36
+    k[31] tag=1 hash=0x8385b06f
+    k[32] tag=4 import=0x41f00000
+    k[33] tag=3 strpool_idx=37
+    k[34] tag=1 hash=0xb2f41e3d
+    k[35] tag=3 strpool_idx=38
+    k[36] tag=3 strpool_idx=39
+    k[37] tag=1 hash=0x4914f224
+    k[38] tag=1 hash=0x981f6409
+    k[39] tag=1 hash=0x68bb2263
+    k[40] tag=2
+    k[41] tag=1 hash=0x27934b63
+    k[42] tag=1 hash=0xe09b215e
+    k[43] tag=1 hash=0x8ca2e5e3
+  [  0] @0000 op=0x46 A=1 B=1 C=0 Bx=1 aux=0x40000000 [8B]
+  [  1] @0008 op=0x53 A=1 B=0 C=0 Bx=0 
+  [  2] @000c op=0x2d A=1 B=0 C=40 Bx=10240 aux=0x00000002 [8B]
+  [  3] @0014 op=0x54 A=1 B=2 C=2 Bx=514 
+  [  4] @0018 op=0x53 A=1 B=1 C=0 Bx=1 
+  [  5] @001c op=0x46 A=1 B=4 C=0 Bx=4 aux=0x40300000 [8B]
+  [  6] @0024 op=0x2d A=1 B=1 C=66 Bx=16897 aux=0x00000005 [8B]
+  [  7] @002c op=0x54 A=1 B=2 C=2 Bx=514 
+  [  8] @0030 op=0x2d A=1 B=1 C=205 Bx=52481 aux=0x00000006 [8B]
+  [  9] @0038 op=0x54 A=1 B=2 C=2 Bx=514 
+  [ 10] @003c op=0x53 A=1 B=2 C=0 Bx=2 
+  [ 11] @0040 op=0x13 A=1 B=2 C=0 Bx=2 
+  [ 12] @0044 op=0x2d A=1 B=1 C=204 Bx=52225 aux=0x00000007 [8B]
+  [ 13] @004c op=0x54 A=1 B=2 C=2 Bx=514 
+  [ 14] @0050 op=0x4b A=1 B=5 C=0 Bx=5 
+  [ 15] @0054 op=0x46 A=1 B=9 C=0 Bx=9 aux=0x40800000 [8B]
+  [ 16] @005c op=0x12 A=2 B=0 C=0 Bx=0 
+  [ 17] @0060 op=0x54 A=1 B=2 C=1 Bx=258 
+  [ 18] @0064 op=0x25 A=0 B=246 C=255 Bx=65526 
+  [ 19] @0068 op=0x53 A=0 B=3 C=0 Bx=3 
+  [ 20] @006c op=0x2d A=1 B=0 C=230 Bx=58880 aux=0x0000000a [8B]
+  [ 21] @0074 op=0x54 A=1 B=2 C=2 Bx=514 
+  [ 22] @0078 op=0x53 A=1 B=4 C=0 Bx=4 
+  [ 23] @007c op=0x2d A=1 B=0 C=11 Bx=2816 aux=0x0000000b [8B]
+  [ 24] @0084 op=0x54 A=1 B=2 C=2 Bx=514 
+  [ 25] @0088 op=0x53 A=1 B=5 C=0 Bx=5 
+  [ 26] @008c op=0x2d A=1 B=0 C=230 Bx=58880 aux=0x0000000c [8B]
+  [ 27] @0094 op=0x54 A=1 B=2 C=2 Bx=514 
+  [ 28] @0098 op=0x53 A=1 B=6 C=0 Bx=6 
+  [ 29] @009c op=0x2d A=1 B=0 C=125 Bx=32000 aux=0x0000000d [8B]
+  [ 30] @00a4 op=0x54 A=1 B=2 C=2 Bx=514 
+  [ 31] @00a8 op=0x2d A=2 B=1 C=200 Bx=51201 aux=0x0000000e [8B]
+  [ 32] @00b0 op=0x54 A=2 B=2 C=2 Bx=514 
+  [ 33] @00b4 op=0x53 A=2 B=7 C=0 Bx=7 
+  [ 34] @00b8 op=0x13 A=2 B=2 C=0 Bx=2 
+  [ 35] @00bc op=0x04 A=4 B=0 C=0 Bx=0 
+  [ 36] @00c0 op=0x2d A=2 B=2 C=23 Bx=5890 aux=0x0000000f [8B]
+  [ 37] @00c8 op=0x54 A=2 B=3 C=1 Bx=259 
+  [ 38] @00cc op=0x46 A=2 B=4 C=0 Bx=4 aux=0x40300000 [8B]
+  [ 39] @00d4 op=0x4e A=4 B=16 C=0 Bx=16 
+  [ 40] @00d8 op=0x2d A=2 B=2 C=152 Bx=38914 aux=0x00000011 [8B]
+  [ 41] @00e0 op=0x54 A=2 B=3 C=1 Bx=259 
+  [ 42] @00e4 op=0x46 A=2 B=4 C=0 Bx=4 aux=0x40300000 [8B]
+  [ 43] @00ec op=0x2d A=2 B=2 C=51 Bx=13058 aux=0x00000012 [8B]
+  [ 44] @00f4 op=0x54 A=2 B=2 C=2 Bx=514 
+  [ 45] @00f8 op=0x53 A=2 B=8 C=0 Bx=8 
+  [ 46] @00fc op=0x46 A=2 B=20 C=0 Bx=20 aux=0x41300000 [8B]
+  [ 47] @0104 op=0x4b A=2 B=7 C=0 Bx=7 
+  [ 48] @0108 op=0x13 A=2 B=10 C=0 Bx=10 
+  [ 49] @010c op=0x3d A=2 B=2 C=133 Bx=34050 aux=0x00000015 [8B]
+  [ 50] @0114 op=0x13 A=3 B=2 C=0 Bx=2 
+  [ 51] @0118 op=0x14 A=4 B=0 C=0 Bx=0 
+  [ 52] @011c op=0x54 A=2 B=3 C=2 Bx=515 
+  [ 53] @0120 op=0x53 A=2 B=9 C=0 Bx=9 
+  [ 54] @0124 op=0x13 A=2 B=12 C=0 Bx=12 
+  [ 55] @0128 op=0x3d A=2 B=2 C=202 Bx=51714 aux=0x00000016 [8B]
+  [ 56] @0130 op=0x54 A=2 B=1 C=2 Bx=513 
+  [ 57] @0134 op=0x53 A=2 B=11 C=0 Bx=11 
+  [ 58] @0138 op=0x46 A=2 B=4 C=0 Bx=4 aux=0x40300000 [8B]
+  [ 59] @0140 op=0x13 A=4 B=14 C=0 Bx=14 
+  [ 60] @0144 op=0x13 A=5 B=4 C=0 Bx=4 
+  [ 61] @0148 op=0x46 A=6 B=24 C=0 Bx=24 aux=0x41700000 [8B]
+  [ 62] @0150 op=0x14 A=7 B=0 C=0 Bx=0 
+  [ 63] @0154 op=0x2d A=2 B=2 C=236 Bx=60418 aux=0x00000019 [8B]
+  [ 64] @015c op=0x54 A=2 B=6 C=2 Bx=518 
+  [ 65] @0160 op=0x53 A=2 B=13 C=0 Bx=13 
+  [ 66] @0164 op=0x13 A=2 B=13 C=0 Bx=13 
+  [ 67] @0168 op=0x13 A=4 B=6 C=0 Bx=6 
+  [ 68] @016c op=0x2d A=2 B=2 C=213 Bx=54530 aux=0x0000001a [8B]
+  [ 69] @0174 op=0x54 A=2 B=3 C=1 Bx=259 
+  [ 70] @0178 op=0x13 A=2 B=13 C=0 Bx=13 
+  [ 71] @017c op=0x46 A=4 B=28 C=0 Bx=28 aux=0x41b00000 [8B]
+  [ 72] @0184 op=0x13 A=5 B=6 C=0 Bx=6 
+  [ 73] @0188 op=0x12 A=6 B=136 C=19 Bx=5000 
+  [ 74] @018c op=0x54 A=4 B=3 C=0 Bx=3 
+  [ 75] @0190 op=0x2d A=2 B=2 C=140 Bx=35842 aux=0x0000001d [8B]
+  [ 76] @0198 op=0x54 A=2 B=0 C=1 Bx=256 
+  [ 77] @019c op=0x4e A=4 B=30 C=0 Bx=30 
+  [ 78] @01a0 op=0x46 A=5 B=32 C=0 Bx=32 aux=0x41f00000 [8B]
+  [ 79] @01a8 op=0x4e A=6 B=33 C=0 Bx=33 
+  [ 80] @01ac op=0x54 A=5 B=2 C=0 Bx=2 
+  [ 81] @01b0 op=0x2d A=2 B=0 C=61 Bx=15616 aux=0x00000022 [8B]
+  [ 82] @01b8 op=0x54 A=2 B=0 C=1 Bx=256 
+  [ 83] @01bc op=0x4e A=4 B=35 C=0 Bx=35 
+  [ 84] @01c0 op=0x46 A=5 B=32 C=0 Bx=32 aux=0x41f00000 [8B]
+  [ 85] @01c8 op=0x4e A=6 B=36 C=0 Bx=36 
+  [ 86] @01cc op=0x54 A=5 B=2 C=0 Bx=2 
+  [ 87] @01d0 op=0x2d A=2 B=0 C=36 Bx=9216 aux=0x00000025 [8B]
+  [ 88] @01d8 op=0x54 A=2 B=0 C=1 Bx=256 
+  [ 89] @01dc op=0x13 A=2 B=0 C=0 Bx=0 
+  [ 90] @01e0 op=0x13 A=4 B=16 C=0 Bx=16 
+  [ 91] @01e4 op=0x12 A=5 B=100 C=0 Bx=100 
+  [ 92] @01e8 op=0x2d A=2 B=2 C=9 Bx=2306 aux=0x00000026 [8B]
+  [ 93] @01f0 op=0x54 A=2 B=4 C=2 Bx=516 
+  [ 94] @01f4 op=0x53 A=2 B=15 C=0 Bx=15 
+  [ 95] @01f8 op=0x13 A=2 B=3 C=0 Bx=3 
+  [ 96] @01fc op=0x2d A=2 B=2 C=99 Bx=25346 aux=0x00000027 [8B]
+  [ 97] @0204 op=0x54 A=2 B=2 C=2 Bx=514 
+  [ 98] @0208 op=0x20 A=2 B=10 C=0 Bx=10 aux=0x80000028 [8B]
+  [ 99] @0210 op=0x13 A=2 B=3 C=0 Bx=3 
+  [100] @0214 op=0x12 A=4 B=1 C=0 Bx=1 
+  [101] @0218 op=0x2d A=2 B=2 C=99 Bx=25346 aux=0x00000029 [8B]
+  [102] @0220 op=0x54 A=2 B=3 C=1 Bx=259 
+  [103] @0224 op=0x13 A=2 B=17 C=0 Bx=17 
+  [104] @0228 op=0x12 A=3 B=1 C=0 Bx=1 
+  [105] @022c op=0x54 A=2 B=2 C=1 Bx=258 
+  [106] @0230 op=0x40 A=0 B=8 C=0 Bx=8 
+  [107] @0234 op=0x13 A=2 B=17 C=0 Bx=17 
+  [108] @0238 op=0x13 A=3 B=0 C=0 Bx=0 
+  [109] @023c op=0x13 A=5 B=18 C=0 Bx=18 
+  [110] @0240 op=0x12 A=6 B=1 C=0 Bx=1 
+  [111] @0244 op=0x2d A=3 B=3 C=9 Bx=2307 aux=0x00000026 [8B]
+  [112] @024c op=0x54 A=3 B=4 C=0 Bx=4 
+  [113] @0250 op=0x54 A=2 B=0 C=1 Bx=256 
+  [114] @0254 op=0x2d A=2 B=0 C=94 Bx=24064 aux=0x0000002a [8B]
+  [115] @025c op=0x54 A=2 B=2 C=2 Bx=514 
+  [116] @0260 op=0x12 A=3 B=1 C=0 Bx=1 
+  [117] @0264 op=0x27 A=2 B=5 C=0 Bx=5 aux=0x00000003 [8B]
+  [118] @026c op=0x12 A=4 B=2 C=0 Bx=2 
+  [119] @0270 op=0x2d A=2 B=0 C=227 Bx=58112 aux=0x0000002b [8B]
+  [120] @0278 op=0x54 A=2 B=3 C=1 Bx=259 
+  [121] @027c op=0x29 A=0 B=1 C=0 Bx=1 
+== proto[11] sizecode-bytes=1172 nconsts=49 maxstack=9 nparams=1 nups=23 vararg=0 ==
+    k[0] tag=1 hash=0xe09b215e
+    k[1] tag=1 hash=0x3b4b94b0
+    k[2] tag=4 import=0x40100000
+    k[3] tag=2
+    k[4] tag=1 hash=0x6b682b69
+    k[5] tag=2
+    k[6] tag=1 hash=0x48b3218f
+    k[7] tag=2
+    k[8] tag=1 hash=0x5fff7c4b
+    k[9] tag=2
+    k[10] tag=1 hash=0xbb009cae
+    k[11] tag=1 hash=0x97f81cc1
+    k[12] tag=4 import=0x40b00000
+    k[13] tag=1 hash=0x456e431a
+    k[14] tag=3 strpool_idx=2
+    k[15] tag=3 strpool_idx=3
+    k[16] tag=3 strpool_idx=4
+    k[17] tag=3 strpool_idx=5
+    k[18] tag=1 hash=0x3c7e8cd0
+    k[19] tag=3 strpool_idx=6
+    k[20] tag=3 strpool_idx=40
+    k[21] tag=1 hash=0xda4c74b0
+    k[22] tag=1 hash=0x8ca2e5e3
+    k[23] tag=1 hash=0x7c50f03f
+    k[24] tag=4 import=0x41700000
+    k[25] tag=2
+    k[26] tag=1 hash=0xadfed127
+    k[27] tag=1 hash=0xe7ba02ee
+    k[28] tag=1 hash=0x6e6628ee
+    k[29] tag=4 import=0x41c00000
+    k[30] tag=1 hash=0x9caf50ce
+    k[31] tag=4 import=0x41e00000
+    k[32] tag=1 hash=0x0ffc7aab
+    k[33] tag=1 hash=0x929b9032
+    k[34] tag=1 hash=0xfa586917
+    k[35] tag=1 hash=0x5185660b
+    k[36] tag=1 hash=0xb7639fbd
+    k[37] tag=1 hash=0xbc02d8cc
+    k[38] tag=1 hash=0xd781f032
+    k[39] tag=1 hash=0x7a3b1179
+    k[40] tag=3 strpool_idx=32
+    k[41] tag=4 import=0x8270a000
+    k[42] tag=1 hash=0xa835d47c
+    k[43] tag=1 hash=0x8385b06f
+    k[44] tag=4 import=0x42b00000
+    k[45] tag=3 strpool_idx=37
+    k[46] tag=1 hash=0x8707bcec
+    k[47] tag=3 strpool_idx=39
+    k[48] tag=1 hash=0x9e4ee8e6
+  [  0] @0000 op=0x13 A=1 B=0 C=0 Bx=0 
+  [  1] @0004 op=0x14 A=2 B=0 C=0 Bx=0 
+  [  2] @0008 op=0x54 A=1 B=2 C=1 Bx=258 
+  [  3] @000c op=0x12 A=1 B=0 C=0 Bx=0 
+  [  4] @0010 op=0x2d A=2 B=0 C=94 Bx=24064 aux=0x00000000 [8B]
+  [  5] @0018 op=0x54 A=2 B=2 C=2 Bx=514 
+  [  6] @001c op=0x12 A=3 B=4 C=0 Bx=4 
+  [  7] @0020 op=0x1c A=2 B=219 C=0 Bx=219 aux=0x00000003 [8B]
+  [  8] @0028 op=0x46 A=2 B=2 C=0 Bx=2 aux=0x40100000 [8B]
+  [  9] @0030 op=0x54 A=2 B=1 C=2 Bx=513 
+  [ 10] @0034 op=0x14 A=1 B=2 C=0 Bx=2 
+  [ 11] @0038 op=0x13 A=2 B=1 C=0 Bx=1 
+  [ 12] @003c op=0x20 A=2 B=17 C=0 Bx=17 aux=0x80000003 [8B]
+  [ 13] @0044 op=0x13 A=2 B=2 C=0 Bx=2 
+  [ 14] @0048 op=0x2d A=2 B=2 C=94 Bx=24066 aux=0x00000000 [8B]
+  [ 15] @0050 op=0x54 A=2 B=2 C=2 Bx=514 
+  [ 16] @0054 op=0x12 A=3 B=2 C=0 Bx=2 
+  [ 17] @0058 op=0x23 A=3 B=6 C=0 Bx=6 aux=0x00000002 [8B]
+  [ 18] @0060 op=0x13 A=2 B=2 C=0 Bx=2 
+  [ 19] @0064 op=0x2d A=2 B=2 C=105 Bx=26882 aux=0x00000004 [8B]
+  [ 20] @006c op=0x54 A=2 B=2 C=2 Bx=514 
+  [ 21] @0070 op=0x4b A=2 B=177 C=0 Bx=177 
+  [ 22] @0074 op=0x13 A=2 B=3 C=0 Bx=3 
+  [ 23] @0078 op=0x12 A=3 B=2 C=0 Bx=2 
+  [ 24] @007c op=0x54 A=2 B=2 C=1 Bx=258 
+  [ 25] @0080 op=0x40 A=0 B=173 C=0 Bx=173 
+  [ 26] @0084 op=0x13 A=2 B=1 C=0 Bx=1 
+  [ 27] @0088 op=0x20 A=2 B=30 C=0 Bx=30 aux=0x80000005 [8B]
+  [ 28] @0090 op=0x13 A=2 B=2 C=0 Bx=2 
+  [ 29] @0094 op=0x2d A=2 B=2 C=143 Bx=36610 aux=0x00000006 [8B]
+  [ 30] @009c op=0x54 A=2 B=2 C=2 Bx=514 
+  [ 31] @00a0 op=0x20 A=2 B=5 C=0 Bx=5 aux=0x80000007 [8B]
+  [ 32] @00a8 op=0x13 A=2 B=3 C=0 Bx=3 
+  [ 33] @00ac op=0x12 A=3 B=3 C=0 Bx=3 
+  [ 34] @00b0 op=0x54 A=2 B=2 C=1 Bx=258 
+  [ 35] @00b4 op=0x40 A=0 B=160 C=0 Bx=160 
+  [ 36] @00b8 op=0x13 A=2 B=2 C=0 Bx=2 
+  [ 37] @00bc op=0x2d A=2 B=2 C=143 Bx=36610 aux=0x00000006 [8B]
+  [ 38] @00c4 op=0x54 A=2 B=2 C=2 Bx=514 
+  [ 39] @00c8 op=0x12 A=3 B=5 C=0 Bx=5 
+  [ 40] @00cc op=0x33 A=2 B=154 C=0 Bx=154 aux=0x00000003 [8B]
+  [ 41] @00d4 op=0x13 A=2 B=4 C=0 Bx=4 
+  [ 42] @00d8 op=0x4b A=2 B=151 C=0 Bx=151 
+  [ 43] @00dc op=0x13 A=2 B=5 C=0 Bx=5 
+  [ 44] @00e0 op=0x3d A=2 B=2 C=75 Bx=19202 aux=0x00000008 [8B]
+  [ 45] @00e8 op=0x13 A=3 B=2 C=0 Bx=2 
+  [ 46] @00ec op=0x13 A=4 B=6 C=0 Bx=6 
+  [ 47] @00f0 op=0x13 A=5 B=2 C=0 Bx=2 
+  [ 48] @00f4 op=0x54 A=2 B=4 C=1 Bx=260 
+  [ 49] @00f8 op=0x04 A=2 B=1 C=0 Bx=1 
+  [ 50] @00fc op=0x53 A=2 B=4 C=0 Bx=4 
+  [ 51] @0100 op=0x40 A=0 B=141 C=0 Bx=141 
+  [ 52] @0104 op=0x13 A=2 B=1 C=0 Bx=1 
+  [ 53] @0108 op=0x20 A=2 B=107 C=0 Bx=107 aux=0x80000009 [8B]
+  [ 54] @0110 op=0x13 A=2 B=2 C=0 Bx=2 
+  [ 55] @0114 op=0x2d A=2 B=2 C=174 Bx=44546 aux=0x0000000a [8B]
+  [ 56] @011c op=0x54 A=2 B=2 C=2 Bx=514 
+  [ 57] @0120 op=0x12 A=3 B=3 C=0 Bx=3 
+  [ 58] @0124 op=0x53 A=3 B=7 C=0 Bx=7 
+  [ 59] @0128 op=0x13 A=4 B=8 C=0 Bx=8 
+  [ 60] @012c op=0x4d A=3 B=4 C=0 Bx=4 
+  [ 61] @0130 op=0x33 A=2 B=4 C=0 Bx=4 aux=0x00000003 [8B]
+  [ 62] @0138 op=0x12 A=3 B=0 C=0 Bx=0 
+  [ 63] @013c op=0x53 A=3 B=7 C=0 Bx=7 
+  [ 64] @0140 op=0x40 A=0 B=8 C=0 Bx=8 
+  [ 65] @0144 op=0x13 A=4 B=9 C=0 Bx=9 
+  [ 66] @0148 op=0x13 A=6 B=8 C=0 Bx=8 
+  [ 67] @014c op=0x4d A=5 B=6 C=0 Bx=6 
+  [ 68] @0150 op=0x01 A=3 B=4 C=5 Bx=1284 
+  [ 69] @0154 op=0x33 A=2 B=3 C=0 Bx=3 aux=0x00000003 [8B]
+  [ 70] @015c op=0x12 A=3 B=1 C=0 Bx=1 
+  [ 71] @0160 op=0x53 A=3 B=7 C=0 Bx=7 
+  [ 72] @0164 op=0x46 A=2 B=12 C=0 Bx=12 aux=0x40b00000 [8B]
+  [ 73] @016c op=0x4b A=2 B=5 C=0 Bx=5 
+  [ 74] @0170 op=0x13 A=2 B=10 C=0 Bx=10 
+  [ 75] @0174 op=0x14 A=4 B=1 C=0 Bx=1 
+  [ 76] @0178 op=0x2d A=2 B=2 C=26 Bx=6658 aux=0x0000000d [8B]
+  [ 77] @0180 op=0x54 A=2 B=3 C=1 Bx=259 
+  [ 78] @0184 op=0x13 A=2 B=11 C=0 Bx=11 
+  [ 79] @0188 op=0x54 A=2 B=1 C=1 Bx=257 
+  [ 80] @018c op=0x4e A=2 B=14 C=0 Bx=14 
+  [ 81] @0190 op=0x13 A=3 B=7 C=0 Bx=7 
+  [ 82] @0194 op=0x20 A=3 B=3 C=0 Bx=3 aux=0x80000003 [8B]
+  [ 83] @019c op=0x4e A=2 B=15 C=0 Bx=15 
+  [ 84] @01a0 op=0x40 A=0 B=6 C=0 Bx=6 
+  [ 85] @01a4 op=0x13 A=3 B=7 C=0 Bx=7 
+  [ 86] @01a8 op=0x20 A=3 B=3 C=0 Bx=3 aux=0x80000009 [8B]
+  [ 87] @01b0 op=0x4e A=2 B=16 C=0 Bx=16 
+  [ 88] @01b4 op=0x40 A=0 B=1 C=0 Bx=1 
+  [ 89] @01b8 op=0x4e A=2 B=17 C=0 Bx=17 
+  [ 90] @01bc op=0x13 A=3 B=12 C=0 Bx=12 
+  [ 91] @01c0 op=0x3d A=3 B=3 C=208 Bx=53251 aux=0x00000012 [8B]
+  [ 92] @01c8 op=0x4e A=4 B=19 C=0 Bx=19 
+  [ 93] @01cc op=0x13 A=5 B=13 C=0 Bx=13 
+  [ 94] @01d0 op=0x12 A=6 B=100 C=0 Bx=100 
+  [ 95] @01d4 op=0x0d A=7 B=0 C=0 Bx=0 
+  [ 96] @01d8 op=0x04 A=8 B=1 C=0 Bx=1 
+  [ 97] @01dc op=0x54 A=3 B=6 C=1 Bx=262 
+  [ 98] @01e0 op=0x13 A=2 B=14 C=0 Bx=14 
+  [ 99] @01e4 op=0x12 A=3 B=0 C=0 Bx=0 
+  [100] @01e8 op=0x1c A=3 B=5 C=0 Bx=5 aux=0x00000002 [8B]
+  [101] @01f0 op=0x13 A=3 B=14 C=0 Bx=14 
+  [102] @01f4 op=0x07 A=2 B=3 C=1 Bx=259 
+  [103] @01f8 op=0x53 A=2 B=14 C=0 Bx=14 
+  [104] @01fc op=0x40 A=0 B=7 C=0 Bx=7 
+  [105] @0200 op=0x13 A=2 B=15 C=0 Bx=15 
+  [106] @0204 op=0x3d A=2 B=2 C=254 Bx=65026 aux=0x00000014 [8B]
+  [107] @020c op=0x4e A=3 B=14 C=0 Bx=14 
+  [108] @0210 op=0x54 A=2 B=2 C=1 Bx=258 
+  [109] @0214 op=0x12 A=2 B=0 C=0 Bx=0 
+  [110] @0218 op=0x53 A=2 B=16 C=0 Bx=16 
+  [111] @021c op=0x13 A=2 B=12 C=0 Bx=12 
+  [112] @0220 op=0x3d A=2 B=2 C=176 Bx=45058 aux=0x00000015 [8B]
+  [113] @0228 op=0x54 A=2 B=1 C=2 Bx=513 
+  [114] @022c op=0x12 A=3 B=0 C=0 Bx=0 
+  [115] @0230 op=0x33 A=2 B=5 C=0 Bx=5 aux=0x00000003 [8B]
+  [116] @0238 op=0x13 A=2 B=3 C=0 Bx=3 
+  [117] @023c op=0x12 A=3 B=4 C=0 Bx=4 
+  [118] @0240 op=0x54 A=2 B=2 C=1 Bx=258 
+  [119] @0244 op=0x40 A=0 B=8 C=0 Bx=8 
+  [120] @0248 op=0x13 A=2 B=13 C=0 Bx=13 
+  [121] @024c op=0x12 A=3 B=0 C=0 Bx=0 
+  [122] @0250 op=0x33 A=2 B=5 C=0 Bx=5 aux=0x00000003 [8B]
+  [123] @0258 op=0x12 A=4 B=5 C=0 Bx=5 
+  [124] @025c op=0x2d A=2 B=0 C=227 Bx=58112 aux=0x00000016 [8B]
+  [125] @0264 op=0x54 A=2 B=3 C=1 Bx=259 
+  [126] @0268 op=0x13 A=2 B=13 C=0 Bx=13 
+  [127] @026c op=0x46 A=3 B=24 C=0 Bx=24 aux=0x41700000 [8B]
+  [128] @0274 op=0x33 A=2 B=13 C=0 Bx=13 aux=0x00000003 [8B]
+  [129] @027c op=0x13 A=2 B=4 C=0 Bx=4 
+  [130] @0280 op=0x4b A=2 B=45 C=0 Bx=45 
+  [131] @0284 op=0x13 A=2 B=5 C=0 Bx=5 
+  [132] @0288 op=0x3d A=2 B=2 C=75 Bx=19202 aux=0x00000008 [8B]
+  [133] @0290 op=0x13 A=3 B=2 C=0 Bx=2 
+  [134] @0294 op=0x13 A=4 B=6 C=0 Bx=6 
+  [135] @0298 op=0x13 A=5 B=2 C=0 Bx=2 
+  [136] @029c op=0x54 A=2 B=4 C=1 Bx=260 
+  [137] @02a0 op=0x04 A=2 B=1 C=0 Bx=1 
+  [138] @02a4 op=0x53 A=2 B=4 C=0 Bx=4 
+  [139] @02a8 op=0x40 A=0 B=35 C=0 Bx=35 
+  [140] @02ac op=0x04 A=2 B=0 C=0 Bx=0 
+  [141] @02b0 op=0x53 A=2 B=4 C=0 Bx=4 
+  [142] @02b4 op=0x40 A=0 B=32 C=0 Bx=32 
+  [143] @02b8 op=0x13 A=2 B=1 C=0 Bx=1 
+  [144] @02bc op=0x20 A=2 B=30 C=0 Bx=30 aux=0x80000019 [8B]
+  [145] @02c4 op=0x13 A=2 B=2 C=0 Bx=2 
+  [146] @02c8 op=0x2d A=2 B=2 C=143 Bx=36610 aux=0x00000006 [8B]
+  [147] @02d0 op=0x54 A=2 B=2 C=2 Bx=514 
+  [148] @02d4 op=0x20 A=2 B=6 C=0 Bx=6 aux=0x80000007 [8B]
+  [149] @02dc op=0x12 A=4 B=4 C=0 Bx=4 
+  [150] @02e0 op=0x2d A=2 B=0 C=227 Bx=58112 aux=0x00000016 [8B]
+  [151] @02e8 op=0x54 A=2 B=3 C=1 Bx=259 
+  [152] @02ec op=0x40 A=0 B=18 C=0 Bx=18 
+  [153] @02f0 op=0x13 A=2 B=2 C=0 Bx=2 
+  [154] @02f4 op=0x2d A=2 B=2 C=143 Bx=36610 aux=0x00000006 [8B]
+  [155] @02fc op=0x54 A=2 B=2 C=2 Bx=514 
+  [156] @0300 op=0x12 A=3 B=5 C=0 Bx=5 
+  [157] @0304 op=0x33 A=2 B=12 C=0 Bx=12 aux=0x00000003 [8B]
+  [158] @030c op=0x13 A=2 B=4 C=0 Bx=4 
+  [159] @0310 op=0x4b A=2 B=9 C=0 Bx=9 
+  [160] @0314 op=0x13 A=2 B=5 C=0 Bx=5 
+  [161] @0318 op=0x3d A=2 B=2 C=75 Bx=19202 aux=0x00000008 [8B]
+  [162] @0320 op=0x13 A=3 B=2 C=0 Bx=2 
+  [163] @0324 op=0x13 A=4 B=6 C=0 Bx=6 
+  [164] @0328 op=0x13 A=5 B=2 C=0 Bx=2 
+  [165] @032c op=0x54 A=2 B=4 C=1 Bx=260 
+  [166] @0330 op=0x04 A=2 B=1 C=0 Bx=1 
+  [167] @0334 op=0x53 A=2 B=4 C=0 Bx=4 
+  [168] @0338 op=0x13 A=2 B=17 C=0 Bx=17 
+  [169] @033c op=0x14 A=4 B=1 C=0 Bx=1 
+  [170] @0340 op=0x2d A=2 B=2 C=26 Bx=6658 aux=0x0000000d [8B]
+  [171] @0348 op=0x54 A=2 B=3 C=1 Bx=259 
+  [172] @034c op=0x2d A=2 B=0 C=39 Bx=9984 aux=0x0000001a [8B]
+  [173] @0354 op=0x54 A=2 B=2 C=2 Bx=514 
+  [174] @0358 op=0x18 A=2 B=8 C=0 Bx=8 
+  [175] @035c op=0x13 A=2 B=5 C=0 Bx=5 
+  [176] @0360 op=0x3d A=2 B=2 C=238 Bx=60930 aux=0x0000001b [8B]
+  [177] @0368 op=0x54 A=2 B=1 C=1 Bx=257 
+  [178] @036c op=0x12 A=4 B=5 C=0 Bx=5 
+  [179] @0370 op=0x2d A=2 B=0 C=227 Bx=58112 aux=0x00000016 [8B]
+  [180] @0378 op=0x54 A=2 B=3 C=1 Bx=259 
+  [181] @037c op=0x46 A=2 B=29 C=0 Bx=29 aux=0x41c00000 [8B]
+  [182] @0384 op=0x12 A=3 B=0 C=0 Bx=0 
+  [183] @0388 op=0x54 A=2 B=2 C=1 Bx=258 
+  [184] @038c op=0x25 A=0 B=32 C=255 Bx=65312 
+  [185] @0390 op=0x13 A=3 B=18 C=0 Bx=18 
+  [186] @0394 op=0x19 A=133 B=3 C=2 Bx=515 
+  [187] @0398 op=0x46 A=2 B=31 C=0 Bx=31 aux=0x41e00000 [8B]
+  [188] @03a0 op=0x54 A=2 B=2 C=2 Bx=514 
+  [189] @03a4 op=0x4b A=2 B=4 C=0 Bx=4 
+  [190] @03a8 op=0x13 A=2 B=18 C=0 Bx=18 
+  [191] @03ac op=0x2d A=2 B=2 C=171 Bx=43778 aux=0x00000020 [8B]
+  [192] @03b4 op=0x54 A=2 B=2 C=1 Bx=258 
+  [193] @03b8 op=0x13 A=2 B=5 C=0 Bx=5 
+  [194] @03bc op=0x3d A=2 B=2 C=50 Bx=12802 aux=0x00000021 [8B]
+  [195] @03c4 op=0x13 A=3 B=2 C=0 Bx=2 
+  [196] @03c8 op=0x54 A=2 B=2 C=1 Bx=258 
+  [197] @03cc op=0x13 A=2 B=19 C=0 Bx=19 
+  [198] @03d0 op=0x04 A=4 B=1 C=0 Bx=1 
+  [199] @03d4 op=0x2d A=2 B=2 C=23 Bx=5890 aux=0x00000022 [8B]
+  [200] @03dc op=0x54 A=2 B=3 C=1 Bx=259 
+  [201] @03e0 op=0x13 A=2 B=12 C=0 Bx=12 
+  [202] @03e4 op=0x3d A=2 B=2 C=11 Bx=2818 aux=0x00000023 [8B]
+  [203] @03ec op=0x54 A=2 B=1 C=1 Bx=257 
+  [204] @03f0 op=0x13 A=2 B=12 C=0 Bx=12 
+  [205] @03f4 op=0x3d A=2 B=2 C=189 Bx=48386 aux=0x00000024 [8B]
+  [206] @03fc op=0x54 A=2 B=1 C=1 Bx=257 
+  [207] @0400 op=0x13 A=2 B=12 C=0 Bx=12 
+  [208] @0404 op=0x3d A=2 B=2 C=204 Bx=52226 aux=0x00000025 [8B]
+  [209] @040c op=0x54 A=2 B=1 C=1 Bx=257 
+  [210] @0410 op=0x13 A=2 B=12 C=0 Bx=12 
+  [211] @0414 op=0x3d A=2 B=2 C=50 Bx=12802 aux=0x00000026 [8B]
+  [212] @041c op=0x54 A=2 B=1 C=1 Bx=257 
+  [213] @0420 op=0x46 A=2 B=41 C=0 Bx=41 aux=0x8270a000 [8B]
+  [214] @0428 op=0x13 A=3 B=15 C=0 Bx=15 
+  [215] @042c op=0x54 A=2 B=2 C=1 Bx=258 
+  [216] @0430 op=0x13 A=2 B=20 C=0 Bx=20 
+  [217] @0434 op=0x13 A=4 B=21 C=0 Bx=21 
+  [218] @0438 op=0x2d A=2 B=2 C=124 Bx=31746 aux=0x0000002a [8B]
+  [219] @0440 op=0x54 A=2 B=3 C=1 Bx=259 
+  [220] @0444 op=0x13 A=2 B=20 C=0 Bx=20 
+  [221] @0448 op=0x13 A=4 B=22 C=0 Bx=22 
+  [222] @044c op=0x2d A=2 B=2 C=124 Bx=31746 aux=0x0000002a [8B]
+  [223] @0454 op=0x54 A=2 B=3 C=1 Bx=259 
+  [224] @0458 op=0x46 A=4 B=44 C=0 Bx=44 aux=0x42b00000 [8B]
+  [225] @0460 op=0x4e A=5 B=45 C=0 Bx=45 
+  [226] @0464 op=0x54 A=4 B=2 C=0 Bx=2 
+  [227] @0468 op=0x2d A=2 B=0 C=236 Bx=60416 aux=0x0000002e [8B]
+  [228] @0470 op=0x54 A=2 B=0 C=1 Bx=256 
+  [229] @0474 op=0x46 A=4 B=44 C=0 Bx=44 aux=0x42b00000 [8B]
+  [230] @047c op=0x4e A=5 B=47 C=0 Bx=47 
+  [231] @0480 op=0x54 A=4 B=2 C=0 Bx=2 
+  [232] @0484 op=0x2d A=2 B=0 C=230 Bx=58880 aux=0x00000030 [8B]
+  [233] @048c op=0x54 A=2 B=0 C=1 Bx=256 
+  [234] @0490 op=0x29 A=0 B=1 C=0 Bx=1 
+== proto[12] sizecode-bytes=28 nconsts=3 maxstack=2 nparams=0 nups=1 vararg=0 ==
+    k[0] tag=1 hash=0xfdd28a7c
+    k[1] tag=4 import=0x40000000
+    k[2] tag=1 hash=0xee3a3333
+  [  0] @0000 op=0x46 A=0 B=1 C=0 Bx=1 aux=0x40000000 [8B]
+  [  1] @0008 op=0x2d A=0 B=0 C=51 Bx=13056 aux=0x00000002 [8B]
+  [  2] @0010 op=0x54 A=0 B=2 C=2 Bx=514 
+  [  3] @0014 op=0x53 A=0 B=0 C=0 Bx=0 
+  [  4] @0018 op=0x29 A=0 B=1 C=0 Bx=1 
+== proto[13] sizecode-bytes=144 nconsts=14 maxstack=10 nparams=1 nups=5 vararg=0 ==
+    k[0] tag=2
+    k[1] tag=2
+    k[2] tag=2
+    k[3] tag=1 hash=0x1838811a
+    k[4] tag=1 hash=0xddf9b2ba
+    k[5] tag=4 import=0x80301000
+    k[6] tag=2
+    k[7] tag=3 strpool_idx=40
+    k[8] tag=3 strpool_idx=41
+    k[9] tag=3 strpool_idx=42
+    k[10] tag=3 strpool_idx=43
+    k[11] tag=3 strpool_idx=44
+    k[12] tag=5
+    k[13] tag=3 strpool_idx=45
+  [  0] @0000 op=0x13 A=1 B=0 C=0 Bx=0 
+  [  1] @0004 op=0x20 A=1 B=33 C=0 Bx=33 aux=0x80000000 [8B]
+  [  2] @000c op=0x13 A=3 B=1 C=0 Bx=1 
+  [  3] @0010 op=0x38 A=2 B=3 C=1 Bx=259 
+  [  4] @0014 op=0x0c A=19 B=2 C=4 Bx=1026 aux=0x00000002 [8B]
+  [  5] @001c op=0x4e A=3 B=2 C=0 Bx=2 
+  [  6] @0020 op=0x46 A=1 B=5 C=0 Bx=5 aux=0x80301000 [8B]
+  [  7] @0028 op=0x54 A=1 B=3 C=2 Bx=515 
+  [  8] @002c op=0x53 A=1 B=1 C=0 Bx=1 
+  [  9] @0030 op=0x13 A=2 B=2 C=0 Bx=2 
+  [ 10] @0034 op=0x38 A=1 B=2 C=6 Bx=1538 
+  [ 11] @0038 op=0x53 A=1 B=2 C=0 Bx=2 
+  [ 12] @003c op=0x12 A=1 B=3 C=0 Bx=3 
+  [ 13] @0040 op=0x53 A=1 B=3 C=0 Bx=3 
+  [ 14] @0044 op=0x13 A=2 B=2 C=0 Bx=2 
+  [ 15] @0048 op=0x09 A=1 B=2 C=1 Bx=258 
+  [ 16] @004c op=0x13 A=2 B=4 C=0 Bx=4 
+  [ 17] @0050 op=0x3d A=2 B=2 C=254 Bx=65026 aux=0x00000007 [8B]
+  [ 18] @0058 op=0x4e A=4 B=8 C=0 Bx=8 
+  [ 19] @005c op=0x13 A=7 B=4 C=0 Bx=4 
+  [ 20] @0060 op=0x3d A=7 B=7 C=16 Bx=4103 aux=0x00000009 [8B]
+  [ 21] @0068 op=0x4e A=8 B=10 C=0 Bx=10 
+  [ 22] @006c op=0x4f A=9 B=12 C=0 Bx=12 
+  [ 23] @0070 op=0x15 A=1 B=9 C=111 Bx=28425 aux=0x0000000b [8B]
+  [ 24] @0078 op=0x54 A=7 B=3 C=2 Bx=515 
+  [ 25] @007c op=0x14 A=5 B=7 C=0 Bx=7 
+  [ 26] @0080 op=0x4e A=6 B=13 C=0 Bx=13 
+  [ 27] @0084 op=0x28 A=3 B=4 C=6 Bx=1540 
+  [ 28] @0088 op=0x54 A=2 B=2 C=1 Bx=258 
+  [ 29] @008c op=0x29 A=0 B=1 C=0 Bx=1 
+== proto[14] sizecode-bytes=116 nconsts=8 maxstack=5 nparams=1 nups=5 vararg=0 ==
+    k[0] tag=1 hash=0x1911bf30
+    k[1] tag=4 import=0x40000000
+    k[2] tag=1 hash=0xcf1b1ad7
+    k[3] tag=3 strpool_idx=46
+    k[4] tag=1 hash=0x9c88d3f0
+    k[5] tag=2
+    k[6] tag=1 hash=0xbb009cae
+    k[7] tag=1 hash=0x5fff7c4b
+  [  0] @0000 op=0x46 A=1 B=1 C=0 Bx=1 aux=0x40000000 [8B]
+  [  1] @0008 op=0x2d A=2 B=0 C=215 Bx=55040 aux=0x00000002 [8B]
+  [  2] @0010 op=0x54 A=2 B=2 C=2 Bx=514 
+  [  3] @0014 op=0x4e A=3 B=3 C=0 Bx=3 
+  [  4] @0018 op=0x54 A=1 B=3 C=1 Bx=259 
+  [  5] @001c op=0x13 A=3 B=0 C=0 Bx=0 
+  [  6] @0020 op=0x2d A=1 B=0 C=240 Bx=61440 aux=0x00000004 [8B]
+  [  7] @0028 op=0x54 A=1 B=3 C=1 Bx=259 
+  [  8] @002c op=0x13 A=1 B=1 C=0 Bx=1 
+  [  9] @0030 op=0x20 A=1 B=15 C=0 Bx=15 aux=0x80000005 [8B]
+  [ 10] @0038 op=0x13 A=1 B=2 C=0 Bx=2 
+  [ 11] @003c op=0x2d A=1 B=1 C=174 Bx=44545 aux=0x00000006 [8B]
+  [ 12] @0044 op=0x54 A=1 B=2 C=2 Bx=514 
+  [ 13] @0048 op=0x12 A=2 B=5 C=0 Bx=5 
+  [ 14] @004c op=0x33 A=1 B=8 C=0 Bx=8 aux=0x00000002 [8B]
+  [ 15] @0054 op=0x13 A=1 B=3 C=0 Bx=3 
+  [ 16] @0058 op=0x3d A=1 B=1 C=75 Bx=19201 aux=0x00000007 [8B]
+  [ 17] @0060 op=0x13 A=2 B=2 C=0 Bx=2 
+  [ 18] @0064 op=0x13 A=3 B=4 C=0 Bx=4 
+  [ 19] @0068 op=0x13 A=4 B=2 C=0 Bx=2 
+  [ 20] @006c op=0x54 A=1 B=4 C=1 Bx=260 
+  [ 21] @0070 op=0x29 A=0 B=1 C=0 Bx=1 
+== proto[15] sizecode-bytes=28 nconsts=1 maxstack=3 nparams=0 nups=2 vararg=0 ==
+    k[0] tag=1 hash=0x6f4433ac
+  [  0] @0000 op=0x13 A=0 B=0 C=0 Bx=0 
+  [  1] @0004 op=0x3d A=0 B=0 C=172 Bx=44032 aux=0x00000000 [8B]
+  [  2] @000c op=0x13 A=1 B=1 C=0 Bx=1 
+  [  3] @0010 op=0x04 A=2 B=1 C=0 Bx=1 
+  [  4] @0014 op=0x54 A=0 B=3 C=1 Bx=259 
+  [  5] @0018 op=0x29 A=0 B=1 C=0 Bx=1 
+== proto[16] sizecode-bytes=28 nconsts=1 maxstack=3 nparams=0 nups=2 vararg=0 ==
+    k[0] tag=1 hash=0x6f4433ac
+  [  0] @0000 op=0x13 A=0 B=0 C=0 Bx=0 
+  [  1] @0004 op=0x3d A=0 B=0 C=172 Bx=44032 aux=0x00000000 [8B]
+  [  2] @000c op=0x13 A=1 B=1 C=0 Bx=1 
+  [  3] @0010 op=0x04 A=2 B=0 C=0 Bx=0 
+  [  4] @0014 op=0x54 A=0 B=3 C=1 Bx=259 
+  [  5] @0018 op=0x29 A=0 B=1 C=0 Bx=1 
+== proto[17] sizecode-bytes=892 nconsts=23 maxstack=50 nparams=0 nups=0 vararg=1 ==
+    k[0] tag=1 hash=0x610e2426
+    k[1] tag=4 import=0x40000000
+    k[2] tag=3 strpool_idx=47
+    k[3] tag=3 strpool_idx=48
+    k[4] tag=3 strpool_idx=49
+    k[5] tag=3 strpool_idx=50
+    k[6] tag=3 strpool_idx=51
+    k[7] tag=1 hash=0x03bddcf8
+    k[8] tag=4 import=0x40700000
+    k[9] tag=3 strpool_idx=52
+    k[10] tag=3 strpool_idx=53
+    k[11] tag=1 hash=0x8385b06f
+    k[12] tag=4 import=0x40b00000
+    k[13] tag=3 strpool_idx=54
+    k[14] tag=3 strpool_idx=55
+    k[15] tag=3 strpool_idx=56
+    k[16] tag=3 strpool_idx=57
+    k[17] tag=3 strpool_idx=20
+    k[18] tag=3 strpool_idx=35
+    k[19] tag=3 strpool_idx=46
+    k[20] tag=3 strpool_idx=26
+    k[21] tag=3 strpool_idx=36
+    k[22] tag=3 strpool_idx=38
+  [  0] @0000 op=0x11 A=0 B=0 C=0 Bx=0 
+  [  1] @0004 op=0x46 A=0 B=1 C=0 Bx=1 aux=0x40000000 [8B]
+  [  2] @000c op=0x4e A=1 B=2 C=0 Bx=2 
+  [  3] @0010 op=0x54 A=0 B=2 C=2 Bx=514 
+  [  4] @0014 op=0x46 A=1 B=1 C=0 Bx=1 aux=0x40000000 [8B]
+  [  5] @001c op=0x4e A=2 B=3 C=0 Bx=3 
+  [  6] @0020 op=0x54 A=1 B=2 C=2 Bx=514 
+  [  7] @0024 op=0x46 A=2 B=1 C=0 Bx=1 aux=0x40000000 [8B]
+  [  8] @002c op=0x4e A=3 B=4 C=0 Bx=4 
+  [  9] @0030 op=0x54 A=2 B=2 C=2 Bx=514 
+  [ 10] @0034 op=0x46 A=3 B=1 C=0 Bx=1 aux=0x40000000 [8B]
+  [ 11] @003c op=0x4e A=4 B=5 C=0 Bx=5 
+  [ 12] @0040 op=0x54 A=3 B=2 C=2 Bx=514 
+  [ 13] @0044 op=0x46 A=4 B=1 C=0 Bx=1 aux=0x40000000 [8B]
+  [ 14] @004c op=0x4e A=5 B=6 C=0 Bx=6 
+  [ 15] @0050 op=0x54 A=4 B=2 C=2 Bx=514 
+  [ 16] @0054 op=0x46 A=5 B=8 C=0 Bx=8 aux=0x40700000 [8B]
+  [ 17] @005c op=0x4e A=6 B=9 C=0 Bx=9 
+  [ 18] @0060 op=0x54 A=5 B=2 C=2 Bx=514 
+  [ 19] @0064 op=0x46 A=6 B=8 C=0 Bx=8 aux=0x40700000 [8B]
+  [ 20] @006c op=0x4e A=7 B=10 C=0 Bx=10 
+  [ 21] @0070 op=0x54 A=6 B=2 C=2 Bx=514 
+  [ 22] @0074 op=0x46 A=7 B=12 C=0 Bx=12 aux=0x40b00000 [8B]
+  [ 23] @007c op=0x4e A=8 B=13 C=0 Bx=13 
+  [ 24] @0080 op=0x54 A=7 B=2 C=2 Bx=514 
+  [ 25] @0084 op=0x46 A=8 B=12 C=0 Bx=12 aux=0x40b00000 [8B]
+  [ 26] @008c op=0x4e A=9 B=14 C=0 Bx=14 
+  [ 27] @0090 op=0x54 A=8 B=2 C=2 Bx=514 
+  [ 28] @0094 op=0x46 A=9 B=12 C=0 Bx=12 aux=0x40b00000 [8B]
+  [ 29] @009c op=0x4e A=10 B=15 C=0 Bx=15 
+  [ 30] @00a0 op=0x54 A=9 B=2 C=2 Bx=514 
+  [ 31] @00a4 op=0x46 A=10 B=1 C=0 Bx=1 aux=0x40000000 [8B]
+  [ 32] @00ac op=0x4e A=11 B=16 C=0 Bx=16 
+  [ 33] @00b0 op=0x54 A=10 B=2 C=2 Bx=514 
+  [ 34] @00b4 op=0x0d A=11 B=0 C=0 Bx=0 
+  [ 35] @00b8 op=0x0d A=12 B=0 C=0 Bx=0 
+  [ 36] @00bc op=0x0d A=13 B=0 C=0 Bx=0 
+  [ 37] @00c0 op=0x0d A=14 B=0 C=0 Bx=0 
+  [ 38] @00c4 op=0x12 A=15 B=0 C=0 Bx=0 
+  [ 39] @00c8 op=0x12 A=16 B=0 C=0 Bx=0 
+  [ 40] @00cc op=0x0d A=17 B=0 C=0 Bx=0 
+  [ 41] @00d0 op=0x0d A=18 B=0 C=0 Bx=0 
+  [ 42] @00d4 op=0x12 A=19 B=0 C=0 Bx=0 
+  [ 43] @00d8 op=0x0d A=20 B=0 C=0 Bx=0 
+  [ 44] @00dc op=0x12 A=21 B=90 C=0 Bx=90 
+  [ 45] @00e0 op=0x2c A=22 B=0 C=0 Bx=0 aux=0x00000004 [8B]
+  [ 46] @00e8 op=0x12 A=23 B=6 C=0 Bx=6 
+  [ 47] @00ec op=0x12 A=24 B=7 C=0 Bx=7 
+  [ 48] @00f0 op=0x12 A=25 B=8 C=0 Bx=8 
+  [ 49] @00f4 op=0x12 A=26 B=9 C=0 Bx=9 
+  [ 50] @00f8 op=0x3f A=22 B=23 C=5 Bx=1303 aux=0x00000001 [8B]
+  [ 51] @0100 op=0x0d A=23 B=0 C=0 Bx=0 
+  [ 52] @0104 op=0x0d A=24 B=0 C=0 Bx=0 
+  [ 53] @0108 op=0x04 A=25 B=0 C=0 Bx=0 
+  [ 54] @010c op=0x0d A=26 B=0 C=0 Bx=0 
+  [ 55] @0110 op=0x0d A=27 B=0 C=0 Bx=0 
+  [ 56] @0114 op=0x04 A=28 B=1 C=0 Bx=1 
+  [ 57] @0118 op=0x12 A=29 B=20 C=0 Bx=20 
+  [ 58] @011c op=0x12 A=30 B=100 C=0 Bx=100 
+  [ 59] @0120 op=0x12 A=31 B=0 C=0 Bx=0 
+  [ 60] @0124 op=0x2c A=32 B=0 C=0 Bx=0 aux=0x00000000 [8B]
+  [ 61] @012c op=0x14 A=33 B=21 C=0 Bx=21 
+  [ 62] @0130 op=0x2c A=34 B=0 C=0 Bx=0 aux=0x00000000 [8B]
+  [ 63] @0138 op=0x12 A=35 B=0 C=0 Bx=0 
+  [ 64] @013c op=0x12 A=36 B=0 C=0 Bx=0 
+  [ 65] @0140 op=0x0d A=37 B=0 C=0 Bx=0 
+  [ 66] @0144 op=0x0d A=38 B=0 C=0 Bx=0 
+  [ 67] @0148 op=0x16 A=39 B=0 C=0 Bx=0 
+  [ 68] @014c op=0x35 A=1 B=21 C=0 Bx=21 
+  [ 69] @0150 op=0x16 A=40 B=1 C=0 Bx=1 
+  [ 70] @0154 op=0x35 A=1 B=29 C=0 Bx=29 
+  [ 71] @0158 op=0x35 A=0 B=2 C=0 Bx=2 
+  [ 72] @015c op=0x35 A=1 B=13 C=0 Bx=13 
+  [ 73] @0160 op=0x35 A=1 B=15 C=0 Bx=15 
+  [ 74] @0164 op=0x35 A=1 B=21 C=0 Bx=21 
+  [ 75] @0168 op=0x35 A=0 B=33 C=0 Bx=33 
+  [ 76] @016c op=0x35 A=1 B=12 C=0 Bx=12 
+  [ 77] @0170 op=0x35 A=1 B=14 C=0 Bx=14 
+  [ 78] @0174 op=0x35 A=0 B=32 C=0 Bx=32 
+  [ 79] @0178 op=0x16 A=41 B=2 C=0 Bx=2 
+  [ 80] @017c op=0x35 A=1 B=31 C=0 Bx=31 
+  [ 81] @0180 op=0x35 A=0 B=10 C=0 Bx=10 
+  [ 82] @0184 op=0x35 A=1 B=30 C=0 Bx=30 
+  [ 83] @0188 op=0x16 A=42 B=3 C=0 Bx=3 
+  [ 84] @018c op=0x35 A=1 B=30 C=0 Bx=30 
+  [ 85] @0190 op=0x35 A=1 B=31 C=0 Bx=31 
+  [ 86] @0194 op=0x35 A=1 B=11 C=0 Bx=11 
+  [ 87] @0198 op=0x35 A=0 B=8 C=0 Bx=8 
+  [ 88] @019c op=0x35 A=1 B=28 C=0 Bx=28 
+  [ 89] @01a0 op=0x35 A=0 B=10 C=0 Bx=10 
+  [ 90] @01a4 op=0x16 A=43 B=4 C=0 Bx=4 
+  [ 91] @01a8 op=0x35 A=1 B=17 C=0 Bx=17 
+  [ 92] @01ac op=0x35 A=1 B=31 C=0 Bx=31 
+  [ 93] @01b0 op=0x35 A=1 B=34 C=0 Bx=34 
+  [ 94] @01b4 op=0x35 A=0 B=22 C=0 Bx=22 
+  [ 95] @01b8 op=0x16 A=44 B=5 C=0 Bx=5 
+  [ 96] @01bc op=0x35 A=1 B=11 C=0 Bx=11 
+  [ 97] @01c0 op=0x35 A=0 B=9 C=0 Bx=9 
+  [ 98] @01c4 op=0x35 A=0 B=10 C=0 Bx=10 
+  [ 99] @01c8 op=0x16 A=45 B=6 C=0 Bx=6 
+  [100] @01cc op=0x35 A=1 B=17 C=0 Bx=17 
+  [101] @01d0 op=0x35 A=1 B=11 C=0 Bx=11 
+  [102] @01d4 op=0x16 A=46 B=7 C=0 Bx=7 
+  [103] @01d8 op=0x35 A=1 B=13 C=0 Bx=13 
+  [104] @01dc op=0x16 A=47 B=8 C=0 Bx=8 
+  [105] @01e0 op=0x35 A=1 B=19 C=0 Bx=19 
+  [106] @01e4 op=0x35 A=0 B=3 C=0 Bx=3 
+  [107] @01e8 op=0x35 A=1 B=18 C=0 Bx=18 
+  [108] @01ec op=0x35 A=0 B=10 C=0 Bx=10 
+  [109] @01f0 op=0x35 A=1 B=11 C=0 Bx=11 
+  [110] @01f4 op=0x35 A=0 B=9 C=0 Bx=9 
+  [111] @01f8 op=0x35 A=1 B=21 C=0 Bx=21 
+  [112] @01fc op=0x35 A=1 B=38 C=0 Bx=38 
+  [113] @0200 op=0x35 A=1 B=27 C=0 Bx=27 
+  [114] @0204 op=0x35 A=0 B=42 C=0 Bx=42 
+  [115] @0208 op=0x35 A=1 B=37 C=0 Bx=37 
+  [116] @020c op=0x35 A=0 B=44 C=0 Bx=44 
+  [117] @0210 op=0x35 A=1 B=23 C=0 Bx=23 
+  [118] @0214 op=0x35 A=0 B=0 C=0 Bx=0 
+  [119] @0218 op=0x35 A=1 B=17 C=0 Bx=17 
+  [120] @021c op=0x35 A=0 B=45 C=0 Bx=45 
+  [121] @0220 op=0x35 A=0 B=46 C=0 Bx=46 
+  [122] @0224 op=0x35 A=1 B=25 C=0 Bx=25 
+  [123] @0228 op=0x35 A=0 B=1 C=0 Bx=1 
+  [124] @022c op=0x35 A=1 B=15 C=0 Bx=15 
+  [125] @0230 op=0x16 A=20 B=9 C=0 Bx=9 
+  [126] @0234 op=0x35 A=1 B=19 C=0 Bx=19 
+  [127] @0238 op=0x35 A=1 B=11 C=0 Bx=11 
+  [128] @023c op=0x35 A=0 B=7 C=0 Bx=7 
+  [129] @0240 op=0x35 A=0 B=47 C=0 Bx=47 
+  [130] @0244 op=0x16 A=48 B=10 C=0 Bx=10 
+  [131] @0248 op=0x35 A=1 B=11 C=0 Bx=11 
+  [132] @024c op=0x35 A=1 B=17 C=0 Bx=17 
+  [133] @0250 op=0x35 A=1 B=12 C=0 Bx=12 
+  [134] @0254 op=0x35 A=1 B=13 C=0 Bx=13 
+  [135] @0258 op=0x35 A=1 B=14 C=0 Bx=14 
+  [136] @025c op=0x35 A=1 B=15 C=0 Bx=15 
+  [137] @0260 op=0x35 A=1 B=16 C=0 Bx=16 
+  [138] @0264 op=0x35 A=1 B=18 C=0 Bx=18 
+  [139] @0268 op=0x35 A=1 B=34 C=0 Bx=34 
+  [140] @026c op=0x35 A=1 B=26 C=0 Bx=26 
+  [141] @0270 op=0x35 A=0 B=1 C=0 Bx=1 
+  [142] @0274 op=0x35 A=1 B=27 C=0 Bx=27 
+  [143] @0278 op=0x35 A=0 B=4 C=0 Bx=4 
+  [144] @027c op=0x35 A=1 B=24 C=0 Bx=24 
+  [145] @0280 op=0x35 A=0 B=5 C=0 Bx=5 
+  [146] @0284 op=0x35 A=1 B=30 C=0 Bx=30 
+  [147] @0288 op=0x35 A=0 B=8 C=0 Bx=8 
+  [148] @028c op=0x35 A=1 B=20 C=0 Bx=20 
+  [149] @0290 op=0x35 A=0 B=7 C=0 Bx=7 
+  [150] @0294 op=0x16 A=49 B=11 C=0 Bx=11 
+  [151] @0298 op=0x35 A=0 B=48 C=0 Bx=48 
+  [152] @029c op=0x35 A=1 B=19 C=0 Bx=19 
+  [153] @02a0 op=0x35 A=1 B=17 C=0 Bx=17 
+  [154] @02a4 op=0x35 A=1 B=20 C=0 Bx=20 
+  [155] @02a8 op=0x35 A=1 B=25 C=0 Bx=25 
+  [156] @02ac op=0x35 A=0 B=1 C=0 Bx=1 
+  [157] @02b0 op=0x35 A=0 B=6 C=0 Bx=6 
+  [158] @02b4 op=0x35 A=1 B=31 C=0 Bx=31 
+  [159] @02b8 op=0x35 A=1 B=34 C=0 Bx=34 
+  [160] @02bc op=0x35 A=0 B=22 C=0 Bx=22 
+  [161] @02c0 op=0x35 A=1 B=26 C=0 Bx=26 
+  [162] @02c4 op=0x35 A=0 B=40 C=0 Bx=40 
+  [163] @02c8 op=0x35 A=0 B=10 C=0 Bx=10 
+  [164] @02cc op=0x35 A=1 B=30 C=0 Bx=30 
+  [165] @02d0 op=0x35 A=1 B=36 C=0 Bx=36 
+  [166] @02d4 op=0x35 A=1 B=23 C=0 Bx=23 
+  [167] @02d8 op=0x35 A=1 B=35 C=0 Bx=35 
+  [168] @02dc op=0x35 A=1 B=27 C=0 Bx=27 
+  [169] @02e0 op=0x35 A=1 B=24 C=0 Bx=24 
+  [170] @02e4 op=0x35 A=1 B=12 C=0 Bx=12 
+  [171] @02e8 op=0x35 A=1 B=11 C=0 Bx=11 
+  [172] @02ec op=0x35 A=0 B=9 C=0 Bx=9 
+  [173] @02f0 op=0x35 A=0 B=8 C=0 Bx=8 
+  [174] @02f4 op=0x02 A=49 B=0 C=202 Bx=51712 aux=0x00000011 [8B]
+  [175] @02fc op=0x16 A=49 B=12 C=0 Bx=12 
+  [176] @0300 op=0x35 A=1 B=34 C=0 Bx=34 
+  [177] @0304 op=0x02 A=49 B=0 C=75 Bx=19200 aux=0x00000012 [8B]
+  [178] @030c op=0x16 A=49 B=13 C=0 Bx=13 
+  [179] @0310 op=0x35 A=1 B=19 C=0 Bx=19 
+  [180] @0314 op=0x35 A=1 B=30 C=0 Bx=30 
+  [181] @0318 op=0x35 A=1 B=35 C=0 Bx=35 
+  [182] @031c op=0x35 A=1 B=36 C=0 Bx=36 
+  [183] @0320 op=0x35 A=1 B=23 C=0 Bx=23 
+  [184] @0324 op=0x02 A=49 B=0 C=155 Bx=39680 aux=0x00000013 [8B]
+  [185] @032c op=0x16 A=49 B=14 C=0 Bx=14 
+  [186] @0330 op=0x35 A=1 B=13 C=0 Bx=13 
+  [187] @0334 op=0x35 A=1 B=19 C=0 Bx=19 
+  [188] @0338 op=0x35 A=1 B=17 C=0 Bx=17 
+  [189] @033c op=0x35 A=0 B=1 C=0 Bx=1 
+  [190] @0340 op=0x35 A=0 B=6 C=0 Bx=6 
+  [191] @0344 op=0x02 A=49 B=0 C=22 Bx=5632 aux=0x00000014 [8B]
+  [192] @034c op=0x16 A=49 B=15 C=0 Bx=15 
+  [193] @0350 op=0x35 A=0 B=1 C=0 Bx=1 
+  [194] @0354 op=0x35 A=1 B=13 C=0 Bx=13 
+  [195] @0358 op=0x02 A=49 B=0 C=9 Bx=2304 aux=0x00000015 [8B]
+  [196] @0360 op=0x16 A=49 B=16 C=0 Bx=16 
+  [197] @0364 op=0x35 A=0 B=1 C=0 Bx=1 
+  [198] @0368 op=0x35 A=1 B=13 C=0 Bx=13 
+  [199] @036c op=0x02 A=49 B=0 C=148 Bx=37888 aux=0x00000016 [8B]
+  [200] @0374 op=0x39 A=11 B=0 C=0 Bx=0 
+  [201] @0378 op=0x29 A=0 B=1 C=0 Bx=1 

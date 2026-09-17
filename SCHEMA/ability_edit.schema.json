@@ -19,10 +19,10 @@
     "project_version": { "const": 1 },
     "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*$" },
     "status": {
-      "enum": ["DRAFT", "NEEDS_BINDING", "READY_TO_BUILD", "BUILT", "DEPLOYED", "LIVE_ACCEPTED", "REJECTED"]
+      "enum": ["DRAFT", "NEEDS_BINDING", "READY_TO_BUILD", "BUILT", "EXPORTED", "DEPLOYED", "LIVE_ACCEPTED", "REJECTED"]
     },
     "authoring_mode": {
-      "enum": ["QUICK_NATIVE_PATCH", "MANAGED_ADDON", "MANAGED_ADDON_CARD_EXTENSION", "HYBRID_ADDON_CARD", "NATIVE_REPLACEMENT"]
+      "enum": ["QUICK_NATIVE_PATCH", "MANAGED_ADDON", "MANAGED_ADDON_CARD_EXTENSION", "MANAGED_LUA_CALL_ADDON", "MANAGED_MISSION_ADDON", "MANAGED_MISSION_EXACT_REPLACEMENT", "HYBRID_ADDON_CARD", "NATIVE_REPLACEMENT"]
     },
     "mode_selection": {
       "enum": ["MANUAL", "AUTOMATIC_RECOMMENDATION", "MANUAL_OVERRIDE"]
@@ -78,28 +78,19 @@
       }
     },
     "addon_generation": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "template",
-        "hook_binding",
-        "handler_slot",
-        "ability_localize_tag",
-        "trace_prefix",
-        "damage_argument",
-        "fraction_stat_id",
-        "cap_stat_id"
-      ],
-      "properties": {
-        "template": { "const": "LINKED_DAMAGE_TO_CASTER_OVERGUARD" },
-        "hook_binding": { "type": "string", "minLength": 1 },
-        "handler_slot": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]*$" },
-        "ability_localize_tag": { "type": "string", "pattern": "^/Lotus/" },
-        "trace_prefix": { "type": "string", "minLength": 1 },
-        "damage_argument": { "const": "actualDamage" },
-        "fraction_stat_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*$" },
-        "cap_stat_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*$" }
-      }
+      "oneOf": [
+        { "$ref": "#/$defs/linked_damage_to_overguard_generation" },
+        { "$ref": "#/$defs/survival_timer_lua_call_generation" },
+        { "$ref": "#/$defs/interception_timer_target_generation" }
+      ]
+    },
+    "replacement_generation": {
+      "oneOf": [
+        { "$ref": "#/$defs/excavation_timer_exact_replacement_generation" },
+        { "$ref": "#/$defs/control_area_plains_timer_exact_replacement_generation" },
+        { "$ref": "#/$defs/control_area_deimos_timer_exact_replacement_generation" },
+        { "$ref": "#/$defs/control_area_nokko_timer_exact_replacement_generation" }
+      ]
     },
     "deployment": {
       "type": "object",
@@ -146,6 +137,84 @@
       }
     },
     {
+      "if": { "properties": { "authoring_mode": { "const": "MANAGED_LUA_CALL_ADDON" } } },
+      "then": {
+        "properties": {
+          "effect": {
+            "properties": {
+              "owner": { "const": "ADDON" },
+              "hook": { "const": "renovice.target.lua_call" }
+            }
+          },
+          "addon_generation": { "$ref": "#/$defs/survival_timer_lua_call_generation" },
+          "deployment": {
+            "properties": {
+              "requires_addon": { "const": true },
+              "requires_card_extension": { "const": false },
+              "requires_native_module": { "const": false }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "authoring_mode": { "const": "MANAGED_MISSION_ADDON" } } },
+      "then": {
+        "properties": {
+          "effect": {
+            "properties": {
+              "owner": { "const": "ADDON" },
+              "hook": { "enum": ["renovice.target.lua_call", "renovice.target.native_call"] }
+            }
+          },
+          "addon_generation": {
+            "oneOf": [
+              { "$ref": "#/$defs/survival_timer_lua_call_generation" },
+              { "$ref": "#/$defs/interception_timer_target_generation" },
+              { "$ref": "#/$defs/control_area_nokko_timer_target_generation" }
+            ]
+          },
+          "deployment": {
+            "properties": {
+              "requires_addon": { "const": true },
+              "requires_card_extension": { "const": false },
+              "requires_native_module": { "const": false }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "authoring_mode": { "const": "MANAGED_MISSION_EXACT_REPLACEMENT" } } },
+      "then": {
+        "required": ["replacement_generation"],
+        "properties": {
+          "effect": {
+            "properties": {
+              "owner": { "const": "NATIVE_MODULE" },
+              "hook": { "type": "null" }
+            }
+          },
+          "replacement_generation": {
+            "oneOf": [
+              { "$ref": "#/$defs/excavation_timer_exact_replacement_generation" },
+              { "$ref": "#/$defs/mobile_defense_timer_exact_replacement_generation" },
+              { "$ref": "#/$defs/control_area_plains_timer_exact_replacement_generation" },
+              { "$ref": "#/$defs/control_area_deimos_timer_exact_replacement_generation" },
+              { "$ref": "#/$defs/control_area_nokko_timer_exact_replacement_generation" }
+            ]
+          },
+          "deployment": {
+            "properties": {
+              "requires_addon": { "const": false },
+              "requires_card_extension": { "const": false },
+              "requires_native_module": { "const": true }
+            }
+          }
+        }
+      }
+    },
+    {
       "if": { "properties": { "authoring_mode": { "const": "HYBRID_ADDON_CARD" } } },
       "then": {
         "properties": {
@@ -183,6 +252,185 @@
     }
   ],
   "$defs": {
+    "linked_damage_to_overguard_generation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "template",
+        "hook_binding",
+        "ability_localize_tag",
+        "damage_argument",
+        "fraction_stat_id",
+        "cap_stat_id",
+        "native_argument_rewrites"
+      ],
+      "properties": {
+        "template": { "const": "LINKED_DAMAGE_TO_CASTER_OVERGUARD" },
+        "hook_binding": { "type": "string", "minLength": 1 },
+        "ability_localize_tag": { "type": "string", "pattern": "^/Lotus/" },
+        "damage_argument": { "const": "reportedDamage" },
+        "fraction_stat_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*$" },
+        "cap_stat_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*$" },
+        "native_argument_rewrites": {
+          "type": "array",
+          "maxItems": 32,
+          "items": { "$ref": "#/$defs/native_argument_rewrite" }
+        }
+      }
+    },
+    "survival_timer_lua_call_generation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "template",
+        "hook_binding",
+        "prototype",
+        "elapsed_reward_upvalue",
+        "pickup_config_upvalue",
+        "reward_config_upvalue",
+        "reward_interval_seconds",
+        "life_support_per_pickup_seconds",
+        "reward_progress_per_pickup_seconds"
+      ],
+      "properties": {
+        "template": { "const": "MISSION_SURVIVAL_TIMERS_LUA_CALL" },
+        "hook_binding": { "const": "renovice.target.lua_call" },
+        "prototype": { "const": 64 },
+        "elapsed_reward_upvalue": { "const": 19 },
+        "pickup_config_upvalue": { "const": 22 },
+        "reward_config_upvalue": { "const": 70 },
+        "reward_interval_seconds": { "type": "number", "minimum": 1, "maximum": 86400 },
+        "life_support_per_pickup_seconds": { "type": "number", "minimum": 0, "maximum": 86400 },
+        "reward_progress_per_pickup_seconds": { "type": "number", "minimum": 0, "maximum": 86400 }
+      }
+    },
+    "interception_timer_target_generation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["template", "hook_binding", "prototype", "stock_score_rate", "scoring_speed_multiplier"],
+      "properties": {
+        "template": { "const": "MISSION_INTERCEPTION_SCORING_TARGET" },
+        "hook_binding": { "const": "renovice.target.lua_call" },
+        "prototype": { "const": 35 },
+        "stock_score_rate": { "const": 1 },
+        "scoring_speed_multiplier": { "type": "number", "minimum": 0.01, "maximum": 100 }
+      }
+    },
+    "excavation_timer_exact_replacement_generation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["template", "stock_corpus_file", "stock_sha256", "stock_standard_seconds", "stock_old_world_salvage_seconds", "stock_elite_alert_seconds", "standard_prototype", "standard_instruction", "standard_loadn_occurrence", "old_world_salvage_prototype", "old_world_salvage_instruction", "old_world_salvage_loadn_occurrence", "elite_alert_prototype", "elite_alert_instruction", "elite_alert_loadn_occurrence", "standard_dig_seconds", "old_world_salvage_dig_seconds", "elite_alert_dig_seconds"],
+      "properties": {
+        "template": { "const": "MISSION_EXCAVATION_TIMERS_EXACT_REPLACEMENT" },
+        "stock_corpus_file": { "const": "Lotus_Scripts_Modes_ExcavationMission.lua_B" },
+        "stock_sha256": { "const": "A2326FD92DDC2075E03CAB08300744BFA15ED8BDEC7C13FA98DD5071EEEC20C2" },
+        "stock_standard_seconds": { "const": 100 },
+        "stock_old_world_salvage_seconds": { "const": 60 },
+        "stock_elite_alert_seconds": { "const": 140 },
+        "standard_prototype": { "const": 49 },
+        "standard_instruction": { "const": 76 },
+        "standard_loadn_occurrence": { "const": 33 },
+        "old_world_salvage_prototype": { "const": 32 },
+        "old_world_salvage_instruction": { "const": 81 },
+        "old_world_salvage_loadn_occurrence": { "const": 5 },
+        "elite_alert_prototype": { "const": 32 },
+        "elite_alert_instruction": { "const": 102 },
+        "elite_alert_loadn_occurrence": { "const": 6 },
+        "standard_dig_seconds": { "type": "integer", "minimum": 1, "maximum": 32767 },
+        "old_world_salvage_dig_seconds": { "type": "integer", "minimum": 1, "maximum": 32767 },
+        "elite_alert_dig_seconds": { "type": "integer", "minimum": 1, "maximum": 32767 }
+      }
+    },
+    "mobile_defense_timer_exact_replacement_generation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["template", "stock_corpus_file", "stock_sha256", "stock_minimum_total_seconds", "stock_maximum_total_seconds", "minimum_prototype", "minimum_instruction", "minimum_loadn_occurrence", "maximum_prototype", "maximum_instruction", "maximum_loadn_occurrence", "minimum_total_seconds", "maximum_total_seconds"],
+      "properties": {
+        "template": { "const": "MISSION_MOBILE_DEFENSE_TIMERS_EXACT_REPLACEMENT" },
+        "stock_corpus_file": { "const": "Lotus_Scripts_MobileDefense.lua_B" },
+        "stock_sha256": { "const": "E9CBBEF4B6BECA2AC61EC741F3F9A22BA45DF06878708C429176843222B47541" },
+        "stock_minimum_total_seconds": { "const": 180 },
+        "stock_maximum_total_seconds": { "const": 240 },
+        "minimum_prototype": { "const": 22 },
+        "minimum_instruction": { "const": 120 },
+        "minimum_loadn_occurrence": { "const": 9 },
+        "maximum_prototype": { "const": 22 },
+        "maximum_instruction": { "const": 121 },
+        "maximum_loadn_occurrence": { "const": 10 },
+        "minimum_total_seconds": { "type": "integer", "minimum": 1, "maximum": 32767 },
+        "maximum_total_seconds": { "type": "integer", "minimum": 1, "maximum": 32767 }
+      }
+    },
+    "control_area_plains_timer_exact_replacement_generation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["template", "stock_corpus_file", "stock_sha256", "stock_duration_seconds", "duration_prototype", "duration_instruction", "duration_loadn_occurrence", "timer_argument_prototype", "timer_argument_instruction", "timer_argument_move_occurrence", "duration_seconds"],
+      "properties": {
+        "template": { "const": "MISSION_CONTROL_AREA_PLAINS_TIMER_EXACT_REPLACEMENT" },
+        "stock_corpus_file": { "const": "Lotus_Scripts_Eidolon_Encounters_DynamicDefend.lua_B" },
+        "stock_sha256": { "const": "ECC204753DB9BDED69F6A764C919DF5DD2240B5EE907E35C046E99C624D23386" },
+        "stock_duration_seconds": { "const": 90 },
+        "duration_prototype": { "const": 17 },
+        "duration_instruction": { "const": 44 },
+        "duration_loadn_occurrence": { "const": 3 },
+        "timer_argument_prototype": { "const": 8 },
+        "timer_argument_instruction": { "const": 100 },
+        "timer_argument_move_occurrence": { "const": 0 },
+        "duration_seconds": { "type": "integer", "minimum": 1, "maximum": 32767 }
+      }
+    },
+    "control_area_deimos_timer_exact_replacement_generation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["template", "stock_corpus_file", "stock_sha256", "stock_duration_seconds", "duration_prototype", "duration_instruction", "duration_loadn_occurrence", "persistent_result_prototype", "persistent_result_instruction", "persistent_result_getupval_occurrence", "duration_seconds"],
+      "properties": {
+        "template": { "const": "MISSION_CONTROL_AREA_DEIMOS_TIMER_EXACT_REPLACEMENT" },
+        "stock_corpus_file": { "const": "Lotus_Scripts_InfestedMicroplanet_Encounters_DynamicAreaDefense.lua_B" },
+        "stock_sha256": { "const": "ECBED12E85416CE5FBB25995D9252F4AD29042F1AE7DAA3C2E4C8A2F25AEDF49" },
+        "stock_duration_seconds": { "const": 90 },
+        "duration_prototype": { "const": 15 },
+        "duration_instruction": { "const": 56 },
+        "duration_loadn_occurrence": { "const": 1 },
+        "persistent_result_prototype": { "const": 7 },
+        "persistent_result_instruction": { "const": 63 },
+        "persistent_result_getupval_occurrence": { "const": 15 },
+        "duration_seconds": { "type": "integer", "minimum": 1, "maximum": 32767 }
+      }
+    },
+    "control_area_nokko_timer_exact_replacement_generation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["template", "stock_corpus_file", "stock_sha256", "timer_argument_prototype", "timer_argument_instruction", "timer_argument_move_occurrence", "halfway_result_prototype", "halfway_result_instruction", "halfway_sub_occurrence", "two_thirds_result_prototype", "two_thirds_result_instruction", "two_thirds_sub_occurrence", "duration_seconds"],
+      "properties": {
+        "template": { "const": "MISSION_CONTROL_AREA_NOKKO_TIMER_EXACT_REPLACEMENT" },
+        "stock_corpus_file": { "const": "Lotus_Scripts_Venus_NokkoColony_Encounters_AreaDefense.lua_B" },
+        "stock_sha256": { "const": "E5048C7A1F9AE04DA38BA5AAE18D749A946172A61E67F6D56853BC719246C3F5" },
+        "timer_argument_prototype": { "const": 5 },
+        "timer_argument_instruction": { "const": 118 },
+        "timer_argument_move_occurrence": { "const": 0 },
+        "halfway_result_prototype": { "const": 6 },
+        "halfway_result_instruction": { "const": 107 },
+        "halfway_sub_occurrence": { "const": 0 },
+        "two_thirds_result_prototype": { "const": 6 },
+        "two_thirds_result_instruction": { "const": 112 },
+        "two_thirds_sub_occurrence": { "const": 1 },
+        "duration_seconds": { "type": "integer", "minimum": 6, "maximum": 32766, "multipleOf": 6 }
+      }
+    },
+    "native_argument_rewrite": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["method", "prototype", "instruction", "argument", "expected", "replacement", "evidence_id"],
+      "properties": {
+        "method": { "type": "string", "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,63}$" },
+        "prototype": { "type": "integer", "minimum": 0 },
+        "instruction": { "type": "integer", "minimum": 0 },
+        "argument": { "type": "integer", "minimum": 1 },
+        "expected": { "type": "number" },
+        "replacement": { "type": "number" },
+        "evidence_id": { "type": "string", "minLength": 1 }
+      }
+    },
     "stat": {
       "type": "object",
       "additionalProperties": false,

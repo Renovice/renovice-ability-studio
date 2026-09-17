@@ -7,7 +7,7 @@ must support a command-line build so generation and tests are reproducible
 without clicking through windows.
 
 ```text
-RENOVICE Ability Editor GUI
+RENOVICE Ability Studio WPF GUI (thin frontend)
   Ability Browser
   Quick Stats
   Effects / Addons
@@ -15,6 +15,13 @@ RENOVICE Ability Editor GUI
   Ability Card
   Description
   Build / Deploy / Live Log
+             |
+             v
+AbilityEditor.Core (managed, headless presentation/provenance layer)
+  Six-file semantic proof loader
+  Prototype/value-web/callsite source anchors
+  Three-way source rebase + conflict report
+  Immutable project baseline binding
              |
              v
 ability_editor_core (C++)
@@ -37,6 +44,42 @@ ability_editor_core (C++)
 The GUI never writes live files directly. It asks the core to create a staged
 candidate, show the diff, run gates, preserve rollback, deploy atomically, and
 report the exact hashes.
+
+The managed core owns source-presentation evidence already consumed by WPF and
+also exposes it through the `editor/Dev` command line. Its structural rebase is
+therefore headless and deterministic even though it is implemented beside the
+semantic proof verifier. The C++ CLI remains authoritative for stock rendering,
+project/build validation, compilation, staging, deployment, and rollback.
+
+The implemented catalog boundary is similarly strict:
+
+```text
+Pinned Packages metadata JSON
+  PlayerPowerSuit *BaseSuit only
+    -> ordered AbilityTypes
+      -> ability metadata asset
+        -> Script.Script + Script.Function + UniquePowerIdentifier
+          -> exact shared/corpus bytecode
+            -> deployed nonstandard FNV body key
+
+Installed Cache.Windows/H.Misc_en
+  -> reused Metadata Editor TOC/Oodle/Languages decoder
+    -> LocalizeTag to current English display name
+```
+
+The metadata graph, stock body, and localization provenance remain separate in
+the catalog. A friendly name never substitutes for an asset identity or body
+key. Source is rendered lazily through `derecomp semantic-ir-render-module` and
+activated atomically only after that command succeeds with a non-empty output.
+
+The WPF frontend intentionally mirrors the Metadata Editor's dark, searchable,
+form-plus-preview workflow. It owns presentation and atomic authoring-file
+saves only. Project validation, addon generation, replacement compilation,
+semantic gates, package manifests, and future deployment transactions remain
+owned by the C++ CLI/core so GUI and automation cannot disagree. The current
+single-artifact transaction verifies `STAGED_PASS` and hashes, snapshots the
+previous target, atomically replaces it, and provides guarded rollback. Future
+multi-artifact packages must extend that same transaction boundary.
 
 ## Editor screens
 
@@ -75,12 +118,20 @@ a known function; it must not perform blind text or byte replacement.
 
 ### Native Lua
 
-- readable reconstructed source;
+- readable reconstructed source from the verified Semantic IR renderer;
+- an adjacent canonical fidelity twin plus per-value-web name/evidence TSV;
 - syntax highlighting, search, function/prototype navigation;
 - typed completion from `api/warframe`;
 - inline confidence/evidence for native calls;
 - original/generated diff;
+- captured-base/fresh-generated/user-edited comparison, per-hunk structural
+  conflicts, and a separately reviewable merged preview;
 - compile, reparse, plan, round-trip, and API diagnostics.
+
+`render-source` activates those three coordinated artifacts through one
+recoverable transaction. The readable file is shown/edited; the fidelity twin
+remains the exact diagnostic reference. Existing targets are restored if any
+of the three activation renames fails.
 
 ### Ability Card
 
@@ -135,23 +186,52 @@ one project / one stat definition
 This is how a user-friendly editor can say “add 25% movement speed and show it
 on Gyre's card” while keeping Gyre's stock script bytecode unchanged.
 
-The first implemented proof uses the same package model with a compatibility
-hybrid: a minimal target replacement exposes evidence-backed gameplay/card
-dispatch points, while one target-scoped addon owns all feature behavior and UI
-data. The bootstrapper recognizes
-`<16-hex-body-key>.<name>.target.addon.lua_B` and activates a separate lifecycle
-instance after each natural load of that exact module in that exact DE VM. This
-removes the failed cross-VM `_T` assumption and is the deterministic template
-the editor can generate today.
+The current V49 proof uses one target-scoped addon for feature behavior, card
+rows, and low-level native changes. The bootstrapper recognizes
+`<16-hex-body-key>.<name>.target.addon.lua_B`, loads it in the exact target DE VM
+and prototype graph, and exposes high-level `afterDamage`/`afterAbilityCard`
+callbacks plus instruction-addressed `nativeCalls[method].before/after`
+callbacks. A native callback receives the exact zero-based prototype and
+instruction plus one-based mutable argument or result tables. The receiver is
+argument 1. This removes the old cross-VM `_T` handler and target-module shim.
 
-Target-scoped same-VM delivery is implemented and offline-proven, but the
-strict stock-bytecode post-card-query interception remains an implementation
-target, not a live claim. Do not assume descriptor `+0x58` is a module
-environment. If the strict bridge cannot safely bind a particular installed
-module, the editor may
-offer the proven compatibility fallback: a minimal native module projection
-that adds the row. That fallback must be labeled clearly rather than presented
-as an unavoidable property of addons.
+The editor stores simple low-level numeric changes as
+`native_argument_rewrites`, including method, prototype, instruction, argument,
+expected value, replacement value, and evidence ID. It generates the V49 hook
+shape only after validating those identities. Broader logic remains editable
+as native Lua. The runtime rejects missing or ambiguous native implementations,
+reserved hook conflicts, malformed callbacks, and partial detour sets. If a
+particular installed build lacks a proven reusable native callsite, the editor
+keeps the project at `NEEDS_BINDING` or uses an explicitly selected replacement.
+
+V61 supports body-keyed `hooks.luaCalls[prototype].before/after` when a
+closure map proves that one stock Lua prototype owns the required capture. The
+`MANAGED_LUA_CALL_ADDON` and `MANAGED_MISSION_ADDON` project modes lock the
+prototype and one-based capture indices; the runtime rejects missing or
+ambiguous prototype matches before commit. Referenced table fields retain their
+native ownership, while scalar copyback is limited to same-type finite numbers
+and booleans. `before` runs on each exact entry/resume. `after` requires status
+zero, valid active CallInfo bounds, and proof that the exact target closure has
+left the active frame chain. Yielded, broken, errored, invalid-frame, and
+status-zero still-active returns skip it so the stock coroutine can resume
+unchanged.
+
+The Mission Timers workspace uses this same generic runtime contract for
+Survival prototype 64 and Interception prototype 35. Mobile Defense uses no
+runtime callback: its exact replacement changes only the stock `DefenseStage`
+minimum and maximum `LOADN` operands at proto22/i120 and i121. Excavation also
+uses no runtime callback: its exact replacement changes the three hash-pinned `LOADN` assignments at proto49/i76
+and proto32/i81+i102. Control Area has three body-keyed implementations:
+Plains uses an exact replacement whose only edit is root proto17/i44
+`LOADN 90`; Deimos uses an exact replacement whose only edit is root proto15/i56
+`LOADN 90`. Their stock initializers still copy or derive every linked pacing
+value. Venus/Nokko changes resource-backed global `defendTime` once at exported
+`DefendStart` prototype 9, before its first stock action invokes prototype 6 to
+read it. Each edit changes the verified owner once. Exact replacements preserve
+the complete stock bodies except their enumerated duration operands, while the
+addons retain the original mission/keypad modules. Source-recompiled timer
+replacements are rejected; the general Replacement workspace remains available
+for edits that actually require stock control-flow replacement.
 
 The exact hypotheses, candidate interception points, and add/change/remove
 acceptance sequence are in [the card-extension bridge plan](CARD_EXTENSION_BRIDGE_PLAN.md).

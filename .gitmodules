@@ -1,0 +1,3 @@
+[submodule "external/WarframeMetaDataEditor"]
+	path = external/WarframeMetaDataEditor
+	url = https://github.com/Renovice/WarframeMetaDataEditor.git

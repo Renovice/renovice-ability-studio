@@ -1,0 +1,233 @@
+prototype	web	canonical	readable	confidence	evidence	semantic_type	type_confidence	type_evidence
+3	8	v3_8	numberVariable	STRUCTURAL	call result of GetNumberVariable			
+3	13	v3_13	numberVariable2	STRUCTURAL	call result of GetNumberVariable			
+3	24	v3_24	aNCHOR_V_TOPValue	STRUCTURAL	field read ANCHOR_V_TOP			
+3	25	v3_25	aNCHOR_V_CENTREValue	STRUCTURAL	field read ANCHOR_V_CENTRE			
+3	26	v3_26	aNCHOR_V_BOTTOMValue	STRUCTURAL	field read ANCHOR_V_BOTTOM			
+3	27	v3_27	aNCHOR_H_LEFTValue	STRUCTURAL	field read ANCHOR_H_LEFT			
+3	28	v3_28	aNCHOR_H_RIGHTValue	STRUCTURAL	field read ANCHOR_H_RIGHT			
+3	29	v3_29	aNCHOR_H_CENTREValue	STRUCTURAL	field read ANCHOR_H_CENTRE			
+3	33	v3_33	tostring2	STRUCTURAL	call result of tostring			
+3	35	v3_35	stringFind	STRUCTURAL	call result of string.find			
+3	36	v3_36	listValue	STRUCTURAL	field read list			
+3	37	v3_37	listValue2	STRUCTURAL	field read list			
+4	3	v4_3	listValue	STRUCTURAL	field read list			
+4	8	v4_8	listValue2	STRUCTURAL	field read list			
+4	10	v4_10	movieValue	STRUCTURAL	field read movie			
+4	11	v4_11	listValue3	STRUCTURAL	field read list			
+4	13	v4_13	clipValue	STRUCTURAL	field read clip			
+4	15	v4_15	listValue4	STRUCTURAL	field read list			
+5	5	v5_5	value	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+5	7	v5_7	isNull	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+5	8	v5_8	tableValue	STRUCTURAL	verified NEWTABLE value			
+5	11	v5_11	stageWidthValue	STRUCTURAL	field read stageWidth			
+5	12	v5_12	movieValue	STRUCTURAL	field read movie			
+5	15	v5_15	drawScale	STRUCTURAL	call result of GetDrawScale			
+5	17	v5_17	stageHeightValue	STRUCTURAL	field read stageHeight			
+5	18	v5_18	movieValue2	STRUCTURAL	field read movie			
+5	21	v5_21	drawScale2	STRUCTURAL	call result of GetDrawScale			
+5	25	v5_25	tonumber2	STRUCTURAL	call result of tonumber			
+5	29	v5_29	tonumber3	STRUCTURAL	call result of tonumber			
+5	31	v5_31	movieValue3	STRUCTURAL	field read movie			
+5	34	v5_34	viewportBehaviour	STRUCTURAL	call result of GetViewportBehaviour			
+5	38	v5_38	movieValue4	STRUCTURAL	field read movie			
+5	41	v5_41	isHud	STRUCTURAL	call result of IsHud			
+5	45	v5_45	isLoggedIn	STRUCTURAL	call result of IsLoggedIn			
+5	50	v5_50	playerProfile	STRUCTURAL	call result of GetPlayerProfile			
+5	53	v5_53	settings	STRUCTURAL	call result of Settings			
+5	54	v5_54	movieValue5	STRUCTURAL	field read movie			
+5	59	v5_59	numberVariable	STRUCTURAL	call result of GetNumberVariable			
+5	61	v5_61	movieValue6	STRUCTURAL	field read movie			
+5	66	v5_66	numberVariable2	STRUCTURAL	call result of GetNumberVariable			
+5	70	v5_70	hudHorizontalPadding	STRUCTURAL	call result of GetHudHorizontalPadding			
+5	74	v5_74	mathFloor	STRUCTURAL	call result of math.floor			
+5	77	v5_77	hudVerticalPadding	STRUCTURAL	call result of GetHudVerticalPadding			
+5	81	v5_81	mathFloor2	STRUCTURAL	call result of math.floor			
+5	93	v5_93	movieValue7	STRUCTURAL	field read movie			
+5	96	v5_96	viewportBehaviour2	STRUCTURAL	call result of GetViewportBehaviour			
+5	98	v5_98	movieValue8	STRUCTURAL	field read movie			
+5	105	v5_105	movieValue9	STRUCTURAL	field read movie			
+5	108	v5_108	viewportBehaviour3	STRUCTURAL	call result of GetViewportBehaviour			
+5	110	v5_110	movieValue10	STRUCTURAL	field read movie			
+5	113	v5_113	viewportAnchorPoint	STRUCTURAL	call result of GetViewportAnchorPoint			
+5	115	v5_115	listValue	STRUCTURAL	field read list			
+5	118	v5_118	listValue2	STRUCTURAL	field read list			
+5	120	v5_120	value2	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+5	122	v5_122	isNull2	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+5	123	v5_123	originalXValue	STRUCTURAL	field read originalX			
+5	124	v5_124	alignHorizontalValue	STRUCTURAL	field read alignHorizontal			
+5	126	v5_126	movieValue11	STRUCTURAL	field read movie			
+5	129	v5_129	drawScale3	STRUCTURAL	call result of GetDrawScale			
+5	135	v5_135	alignHorizontalValue2	STRUCTURAL	field read alignHorizontal			
+5	136	v5_136	aNCHOR_H_RIGHTValue	STRUCTURAL	field read ANCHOR_H_RIGHT			
+5	138	v5_138	horizontalPaddingValue	STRUCTURAL	field read HorizontalPadding			
+5	139	v5_139	alignHorizontalValue3	STRUCTURAL	field read alignHorizontal			
+5	140	v5_140	aNCHOR_H_LEFTValue	STRUCTURAL	field read ANCHOR_H_LEFT			
+5	141	v5_141	horizontalPaddingValue2	STRUCTURAL	field read HorizontalPadding			
+5	142	v5_142	alignHorizontalValue4	STRUCTURAL	field read alignHorizontal			
+5	143	v5_143	aNCHOR_H_CENTREValue	STRUCTURAL	field read ANCHOR_H_CENTRE			
+5	148	v5_148	alignHorizontalValue5	STRUCTURAL	field read alignHorizontal			
+5	149	v5_149	aNCHOR_H_RIGHTValue2	STRUCTURAL	field read ANCHOR_H_RIGHT			
+5	152	v5_152	horizontalPaddingValue3	STRUCTURAL	field read HorizontalPadding			
+5	153	v5_153	alignHorizontalValue6	STRUCTURAL	field read alignHorizontal			
+5	154	v5_154	aNCHOR_H_LEFTValue2	STRUCTURAL	field read ANCHOR_H_LEFT			
+5	157	v5_157	horizontalPaddingValue4	STRUCTURAL	field read HorizontalPadding			
+5	158	v5_158	alignHorizontalValue7	STRUCTURAL	field read alignHorizontal			
+5	159	v5_159	aNCHOR_H_CENTREValue2	STRUCTURAL	field read ANCHOR_H_CENTRE			
+5	163	v5_163	alignHorizontalValue8	STRUCTURAL	field read alignHorizontal			
+5	164	v5_164	aNCHOR_H_RIGHTValue3	STRUCTURAL	field read ANCHOR_H_RIGHT			
+5	165	v5_165	horizontalPaddingValue5	STRUCTURAL	field read HorizontalPadding			
+5	166	v5_166	alignHorizontalValue9	STRUCTURAL	field read alignHorizontal			
+5	167	v5_167	aNCHOR_H_LEFTValue3	STRUCTURAL	field read ANCHOR_H_LEFT			
+5	169	v5_169	horizontalPaddingValue6	STRUCTURAL	field read HorizontalPadding			
+5	170	v5_170	alignHorizontalValue10	STRUCTURAL	field read alignHorizontal			
+5	171	v5_171	aNCHOR_H_CENTREValue3	STRUCTURAL	field read ANCHOR_H_CENTRE			
+5	174	v5_174	roundValue	STRUCTURAL	field read Round			
+5	176	v5_176	round	STRUCTURAL	call result of Round			
+5	177	v5_177	movieValue12	STRUCTURAL	field read movie			
+5	178	v5_178	clipValue	STRUCTURAL	field read clip			
+5	180	v5_180	newXValue	STRUCTURAL	field read NewX			
+5	183	v5_183	originalYValue	STRUCTURAL	field read originalY			
+5	184	v5_184	alignVerticalValue	STRUCTURAL	field read alignVertical			
+5	186	v5_186	movieValue13	STRUCTURAL	field read movie			
+5	189	v5_189	drawScale4	STRUCTURAL	call result of GetDrawScale			
+5	195	v5_195	alignVerticalValue2	STRUCTURAL	field read alignVertical			
+5	196	v5_196	aNCHOR_V_TOPValue	STRUCTURAL	field read ANCHOR_V_TOP			
+5	197	v5_197	verticalPaddingValue	STRUCTURAL	field read VerticalPadding			
+5	198	v5_198	alignVerticalValue3	STRUCTURAL	field read alignVertical			
+5	199	v5_199	aNCHOR_V_BOTTOMValue	STRUCTURAL	field read ANCHOR_V_BOTTOM			
+5	201	v5_201	verticalPaddingValue2	STRUCTURAL	field read VerticalPadding			
+5	202	v5_202	alignVerticalValue4	STRUCTURAL	field read alignVertical			
+5	203	v5_203	aNCHOR_V_CENTREValue	STRUCTURAL	field read ANCHOR_V_CENTRE			
+5	208	v5_208	alignVerticalValue5	STRUCTURAL	field read alignVertical			
+5	209	v5_209	aNCHOR_V_TOPValue2	STRUCTURAL	field read ANCHOR_V_TOP			
+5	212	v5_212	verticalPaddingValue3	STRUCTURAL	field read VerticalPadding			
+5	213	v5_213	alignVerticalValue6	STRUCTURAL	field read alignVertical			
+5	214	v5_214	aNCHOR_V_BOTTOMValue2	STRUCTURAL	field read ANCHOR_V_BOTTOM			
+5	217	v5_217	verticalPaddingValue4	STRUCTURAL	field read VerticalPadding			
+5	218	v5_218	alignVerticalValue7	STRUCTURAL	field read alignVertical			
+5	219	v5_219	aNCHOR_V_CENTREValue2	STRUCTURAL	field read ANCHOR_V_CENTRE			
+5	223	v5_223	alignVerticalValue8	STRUCTURAL	field read alignVertical			
+5	224	v5_224	aNCHOR_V_TOPValue3	STRUCTURAL	field read ANCHOR_V_TOP			
+5	226	v5_226	verticalPaddingValue5	STRUCTURAL	field read VerticalPadding			
+5	227	v5_227	alignVerticalValue9	STRUCTURAL	field read alignVertical			
+5	228	v5_228	aNCHOR_V_BOTTOMValue3	STRUCTURAL	field read ANCHOR_V_BOTTOM			
+5	229	v5_229	verticalPaddingValue6	STRUCTURAL	field read VerticalPadding			
+5	230	v5_230	alignVerticalValue10	STRUCTURAL	field read alignVertical			
+5	231	v5_231	aNCHOR_V_CENTREValue3	STRUCTURAL	field read ANCHOR_V_CENTRE			
+5	234	v5_234	roundValue2	STRUCTURAL	field read Round			
+5	236	v5_236	round2	STRUCTURAL	call result of Round			
+5	237	v5_237	movieValue14	STRUCTURAL	field read movie			
+5	238	v5_238	clipValue2	STRUCTURAL	field read clip			
+5	240	v5_240	newYValue	STRUCTURAL	field read NewY			
+5	243	v5_243	callbackValue	STRUCTURAL	field read callback			
+5	244	v5_244	callbackValue2	STRUCTURAL	field read callback			
+6	3	v6_3	listValue	STRUCTURAL	field read list			
+6	6	v6_6	listValue2	STRUCTURAL	field read list			
+6	8	v6_8	clipValue	STRUCTURAL	field read clip			
+6	10	v6_10	listValue3	STRUCTURAL	field read list			
+6	12	v6_12	newXValue	STRUCTURAL	field read NewX			
+6	13	v6_13	listValue4	STRUCTURAL	field read list			
+6	15	v6_15	newYValue	STRUCTURAL	field read NewY			
+7	3	v7_3	listValue	STRUCTURAL	field read list			
+7	6	v7_6	listValue2	STRUCTURAL	field read list			
+7	8	v7_8	clipValue	STRUCTURAL	field read clip			
+7	10	v7_10	listValue3	STRUCTURAL	field read list			
+7	12	v7_12	originalXValue	STRUCTURAL	field read originalX			
+7	13	v7_13	listValue4	STRUCTURAL	field read list			
+7	15	v7_15	originalYValue	STRUCTURAL	field read originalY			
+8	5	v8_5	listValue	STRUCTURAL	field read list			
+8	8	v8_8	listValue2	STRUCTURAL	field read list			
+8	10	v8_10	clipValue	STRUCTURAL	field read clip			
+9	5	v9_5	listValue	STRUCTURAL	field read list			
+9	8	v9_8	listValue2	STRUCTURAL	field read list			
+9	10	v9_10	clipValue	STRUCTURAL	field read clip			
+10	6	v10_6	value	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+10	8	v10_8	isNull	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+10	9	v10_9	stageWidthValue	STRUCTURAL	field read stageWidth			
+10	10	v10_10	movieValue	STRUCTURAL	field read movie			
+10	13	v10_13	drawScale	STRUCTURAL	call result of GetDrawScale			
+10	15	v10_15	stageHeightValue	STRUCTURAL	field read stageHeight			
+10	16	v10_16	movieValue2	STRUCTURAL	field read movie			
+10	19	v10_19	drawScale2	STRUCTURAL	call result of GetDrawScale			
+10	24	v10_24	viewportWValue	STRUCTURAL	field read viewportW			
+10	25	v10_25	viewportHValue	STRUCTURAL	field read viewportH			
+10	26	v10_26	movieValue3	STRUCTURAL	field read movie			
+10	29	v10_29	viewportBehaviour	STRUCTURAL	call result of GetViewportBehaviour			
+10	31	v10_31	movieValue4	STRUCTURAL	field read movie			
+10	38	v10_38	movieValue5	STRUCTURAL	field read movie			
+10	41	v10_41	viewportBehaviour2	STRUCTURAL	call result of GetViewportBehaviour			
+10	43	v10_43	movieValue6	STRUCTURAL	field read movie			
+10	46	v10_46	viewportAnchorPoint	STRUCTURAL	call result of GetViewportAnchorPoint			
+10	48	v10_48	listValue	STRUCTURAL	field read list			
+10	51	v10_51	listValue2	STRUCTURAL	field read list			
+10	53	v10_53	clipValue	STRUCTURAL	field read clip			
+10	54	v10_54	value2	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; argument 0 of IsNull			
+10	56	v10_56	isNull2	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull	boolean	API_CONTRACT	semantic-sdk:lua:global_function:_GLOBAL:IsNull; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; result of IsNull
+10	58	v10_58	alignHorizontalValue	STRUCTURAL	field read alignHorizontal			
+10	60	v10_60	movieValue7	STRUCTURAL	field read movie			
+10	63	v10_63	drawScale3	STRUCTURAL	call result of GetDrawScale			
+10	69	v10_69	alignHorizontalValue2	STRUCTURAL	field read alignHorizontal			
+10	70	v10_70	aNCHOR_H_RIGHTValue	STRUCTURAL	field read ANCHOR_H_RIGHT			
+10	71	v10_71	horizontalPaddingValue	STRUCTURAL	field read HorizontalPadding			
+10	73	v10_73	alignHorizontalValue3	STRUCTURAL	field read alignHorizontal			
+10	74	v10_74	aNCHOR_H_LEFTValue	STRUCTURAL	field read ANCHOR_H_LEFT			
+10	75	v10_75	horizontalPaddingValue2	STRUCTURAL	field read HorizontalPadding			
+10	76	v10_76	alignHorizontalValue4	STRUCTURAL	field read alignHorizontal			
+10	77	v10_77	aNCHOR_H_CENTREValue	STRUCTURAL	field read ANCHOR_H_CENTRE			
+10	82	v10_82	alignHorizontalValue5	STRUCTURAL	field read alignHorizontal			
+10	83	v10_83	aNCHOR_H_RIGHTValue2	STRUCTURAL	field read ANCHOR_H_RIGHT			
+10	86	v10_86	horizontalPaddingValue3	STRUCTURAL	field read HorizontalPadding			
+10	87	v10_87	alignHorizontalValue6	STRUCTURAL	field read alignHorizontal			
+10	88	v10_88	aNCHOR_H_LEFTValue2	STRUCTURAL	field read ANCHOR_H_LEFT			
+10	91	v10_91	horizontalPaddingValue4	STRUCTURAL	field read HorizontalPadding			
+10	93	v10_93	alignHorizontalValue7	STRUCTURAL	field read alignHorizontal			
+10	94	v10_94	aNCHOR_H_CENTREValue2	STRUCTURAL	field read ANCHOR_H_CENTRE			
+10	98	v10_98	alignHorizontalValue8	STRUCTURAL	field read alignHorizontal			
+10	99	v10_99	aNCHOR_H_RIGHTValue3	STRUCTURAL	field read ANCHOR_H_RIGHT			
+10	100	v10_100	horizontalPaddingValue5	STRUCTURAL	field read HorizontalPadding			
+10	102	v10_102	alignHorizontalValue9	STRUCTURAL	field read alignHorizontal			
+10	103	v10_103	aNCHOR_H_LEFTValue3	STRUCTURAL	field read ANCHOR_H_LEFT			
+10	105	v10_105	horizontalPaddingValue6	STRUCTURAL	field read HorizontalPadding			
+10	107	v10_107	alignHorizontalValue10	STRUCTURAL	field read alignHorizontal			
+10	108	v10_108	aNCHOR_H_CENTREValue3	STRUCTURAL	field read ANCHOR_H_CENTRE			
+10	112	v10_112	roundValue	STRUCTURAL	field read Round			
+10	114	v10_114	round	STRUCTURAL	call result of Round			
+10	116	v10_116	alignVerticalValue	STRUCTURAL	field read alignVertical			
+10	118	v10_118	movieValue8	STRUCTURAL	field read movie			
+10	121	v10_121	drawScale4	STRUCTURAL	call result of GetDrawScale			
+10	127	v10_127	alignVerticalValue2	STRUCTURAL	field read alignVertical			
+10	128	v10_128	aNCHOR_V_TOPValue	STRUCTURAL	field read ANCHOR_V_TOP			
+10	129	v10_129	verticalPaddingValue	STRUCTURAL	field read VerticalPadding			
+10	130	v10_130	alignVerticalValue3	STRUCTURAL	field read alignVertical			
+10	131	v10_131	aNCHOR_V_BOTTOMValue	STRUCTURAL	field read ANCHOR_V_BOTTOM			
+10	132	v10_132	verticalPaddingValue2	STRUCTURAL	field read VerticalPadding			
+10	134	v10_134	alignVerticalValue4	STRUCTURAL	field read alignVertical			
+10	135	v10_135	aNCHOR_V_CENTREValue	STRUCTURAL	field read ANCHOR_V_CENTRE			
+10	140	v10_140	alignVerticalValue5	STRUCTURAL	field read alignVertical			
+10	141	v10_141	aNCHOR_V_TOPValue2	STRUCTURAL	field read ANCHOR_V_TOP			
+10	144	v10_144	verticalPaddingValue3	STRUCTURAL	field read VerticalPadding			
+10	146	v10_146	alignVerticalValue6	STRUCTURAL	field read alignVertical			
+10	147	v10_147	aNCHOR_V_BOTTOMValue2	STRUCTURAL	field read ANCHOR_V_BOTTOM			
+10	149	v10_149	verticalPaddingValue4	STRUCTURAL	field read VerticalPadding			
+10	151	v10_151	alignVerticalValue7	STRUCTURAL	field read alignVertical			
+10	152	v10_152	aNCHOR_V_CENTREValue2	STRUCTURAL	field read ANCHOR_V_CENTRE			
+10	156	v10_156	alignVerticalValue8	STRUCTURAL	field read alignVertical			
+10	157	v10_157	aNCHOR_V_TOPValue3	STRUCTURAL	field read ANCHOR_V_TOP			
+10	159	v10_159	verticalPaddingValue5	STRUCTURAL	field read VerticalPadding			
+10	161	v10_161	alignVerticalValue9	STRUCTURAL	field read alignVertical			
+10	162	v10_162	aNCHOR_V_BOTTOMValue3	STRUCTURAL	field read ANCHOR_V_BOTTOM			
+10	163	v10_163	verticalPaddingValue6	STRUCTURAL	field read VerticalPadding			
+10	165	v10_165	alignVerticalValue10	STRUCTURAL	field read alignVertical			
+10	166	v10_166	aNCHOR_V_CENTREValue3	STRUCTURAL	field read ANCHOR_V_CENTRE			
+10	170	v10_170	roundValue2	STRUCTURAL	field read Round			
+10	172	v10_172	round2	STRUCTURAL	call result of Round			
+11	2	v11_2	tableValue	STRUCTURAL	verified NEWTABLE value			
+11	17	v11_17	movieWidth	STRUCTURAL	call result of GetMovieWidth			
+11	20	v11_20	movieHeight	STRUCTURAL	call result of GetMovieHeight			
+11	21	v11_21	tableValue2	STRUCTURAL	verified NEWTABLE value			
+11	26	v11_26	require2	STRUCTURAL	call result of require			
+11	29	v11_29	viewportBehaviour	STRUCTURAL	call result of GetViewportBehaviour			
+11	33	v11_33	isHud	STRUCTURAL	call result of IsHud			
+11	45	v11_45	engineIsMobile	STRUCTURAL	call result of Engine.IsMobile			
+12	9	v12_9	createFunction	EXACT_EXPORT	global store Create			

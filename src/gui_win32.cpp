@@ -25,7 +25,7 @@ namespace
         id_body_key,
         id_installed_build,
         id_hook,
-        id_handler_slot,
+        id_native_method,
         id_rate_id,
         id_rate_label,
         id_base_percent,
@@ -34,7 +34,7 @@ namespace
         id_cap_id,
         id_cap_label,
         id_cap_value,
-        id_trace_prefix,
+        id_native_instruction,
         id_staging_root,
         id_build = 1101,
         id_open_folder,
@@ -188,7 +188,7 @@ namespace
         form.module_body_key = edit_text(state, id_body_key);
         form.installed_build = edit_text(state, id_installed_build);
         form.hook_binding = edit_text(state, id_hook);
-        form.handler_slot = edit_text(state, id_handler_slot);
+        form.native_method = edit_text(state, id_native_method);
         form.rate_id = edit_text(state, id_rate_id);
         form.rate_label = edit_text(state, id_rate_label);
         form.base_percent = edit_number(state, id_base_percent, "Base percent");
@@ -197,7 +197,7 @@ namespace
         form.cap_id = edit_text(state, id_cap_id);
         form.cap_label = edit_text(state, id_cap_label);
         form.cap_value = edit_number(state, id_cap_value, "Overguard cap");
-        form.trace_prefix = edit_text(state, id_trace_prefix);
+        form.native_instruction = static_cast<int>(edit_number(state, id_native_instruction, "Native instruction"));
         return form;
     }
 
@@ -261,7 +261,7 @@ namespace
         add_label(state, window, L"Project ID", left_label, y, 145);
         add_edit(state, window, id_project, L"octavia.mallet.overguard", left_edit, y - 3, edit_width);
         add_label(state, window, L"Installed build", right_label, y, 145);
-        add_edit(state, window, id_installed_build, L"private-live-2026-08-25", right_edit, y - 3, edit_width);
+        add_edit(state, window, id_installed_build, L"private-live-2026-09-07", right_edit, y - 3, edit_width);
         y += row;
 
         add_label(state, window, L"Warframe", left_label, y, 145);
@@ -298,8 +298,8 @@ namespace
 
         add_label(state, window, L"Proven hook", left_label, y, 145);
         add_edit(state, window, id_hook, L"renovice.mallet.damage_dispatch", left_edit, y - 3, edit_width);
-        add_label(state, window, L"Handler slot", right_label, y, 145);
-        add_edit(state, window, id_handler_slot, L"RENOVICE_AFTER_MALLET_DAMAGE", right_edit, y - 3, edit_width);
+        add_label(state, window, L"Native method", right_label, y, 145);
+        add_edit(state, window, id_native_method, L"PushFloatArg", right_edit, y - 3, edit_width);
         y += row + 10;
 
         add_label(state, window, L"Rate stat ID", left_label, y, 145);
@@ -316,8 +316,8 @@ namespace
 
         add_label(state, window, L"Modifier binding", left_label, y, 145);
         add_edit(state, window, id_modifier_binding, L"mallet.strength.channel_10", left_edit, y - 3, edit_width);
-        add_label(state, window, L"Trace prefix", right_label, y, 145);
-        add_edit(state, window, id_trace_prefix, L"mallet.addon", right_edit, y - 3, edit_width);
+        add_label(state, window, L"Native instruction", right_label, y, 145);
+        add_edit(state, window, id_native_instruction, L"596", right_edit, y - 3, edit_width);
         y += row + 10;
 
         add_label(state, window, L"Cap stat ID", left_label, y, 145);

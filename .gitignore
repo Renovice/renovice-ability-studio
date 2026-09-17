@@ -1,5 +1,8 @@
 /build/
 /STAGING/
+**/bin/
+**/obj/
+/work/
 *.user
 *.log
 *.tmp

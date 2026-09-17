@@ -1,0 +1,53 @@
+{
+  "project_version": 1,
+  "id": "mission.excavation.timers.addon",
+  "status": "EXPORTED",
+  "authoring_mode": "MANAGED_MISSION_ADDON",
+  "mode_selection": "AUTOMATIC_RECOMMENDATION",
+  "mode_reason": "Exact target addon changes the verified stock timer owner while retaining the native mission module and lifecycle.",
+  "target": {
+    "warframe": "Mission",
+    "ability": "Excavation Timers",
+    "ability_identifier": "EXCAVATION_TIMER_PATCH",
+    "ability_localize_tag": null,
+    "module_path": "Lotus.Scripts.Modes.ExcavationMission",
+    "module_body_key": "303f809a05c1fbaa",
+    "installed_build": "packages-bin-data-2026-07-01",
+    "expected_source_sha256": null
+  },
+  "effect": {
+    "summary": "Standard excavator duration=50 seconds; Old World Salvage duration=50 seconds; Elite Alert duration=50 seconds",
+    "owner": "ADDON",
+    "hook": "renovice.target.lua_call",
+    "hook_evidence_id": "WF-EXCAVATION-PROTO43-DURATION-CONSUMER-2026-09-11",
+    "authority": "OWNER",
+    "lifetime": "Maps the exact shared duration before each excavator copies the selected 100, 60, or 140 second value.",
+    "cleanup": "The edited referenced scalar belongs to the running mission generation and is recreated from stock on the next natural module load.",
+    "stacking": "One pre-consumer capture edit; the separate developer Fast Dig value of 20 is preserved and no yielded after-hook remains pending."
+  },
+  "stats": [],
+  "addon_generation": {
+    "template": "MISSION_EXCAVATION_TIMERS_TARGET",
+    "hook_binding": "renovice.target.lua_call",
+    "prototype": 43,
+    "duration_upvalue": 4,
+    "stock_standard_seconds": 100,
+    "stock_old_world_salvage_seconds": 60,
+    "stock_elite_alert_seconds": 140,
+    "standard_dig_seconds": 50,
+    "old_world_salvage_dig_seconds": 50,
+    "elite_alert_dig_seconds": 50
+  },
+  "description": {
+    "enabled": true,
+    "localization_key": null,
+    "text": "Exact body-keyed Excavation addon for the verified stock timing owner."
+  },
+  "deployment": {
+    "requires_addon": true,
+    "requires_card_extension": false,
+    "requires_native_module": false,
+    "requires_description_override": false,
+    "live_manifest": null
+  }
+}

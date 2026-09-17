@@ -17,6 +17,8 @@ FetchContent_MakeAvailable(nlohmann_json)
 
 add_library(renovice_ability_editor_core STATIC
     src/core.cpp
+    src/catalog.cpp
+    src/semantic_view.cpp
 )
 target_include_directories(renovice_ability_editor_core PUBLIC include)
 target_link_libraries(renovice_ability_editor_core PUBLIC nlohmann_json::nlohmann_json bcrypt)
