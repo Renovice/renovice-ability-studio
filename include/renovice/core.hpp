@@ -119,13 +119,34 @@ namespace renovice
         std::string cap_id = "overguard_cap";
         std::string cap_label = "Overguard Cap";
         double cap_value = 15000.0;
+        // The runtime reports a native call at the logical index of the NAMECALL that
+        // names the method (bootstrapper V66+, native_callsite_instruction_from_saved_pc),
+        // not at the CALL after it. U43 BardMusic (body 08faf07b504d058f): NAMECALL
+        // :PushFloatArg is p16/i595 and its CALL is i596.
         std::string native_method = "PushFloatArg";
         int native_prototype = 16;
-        int native_instruction = 596;
+        int native_instruction = 595;
         int native_argument = 2;
         double native_expected_value = 1.0;
         double native_replacement_value = 5.0;
-        std::string native_evidence = "WF-V49-MALLET-PUSHFLOATARG-P16-I596";
+        std::string native_evidence = "WF-U43-BARDMUSIC-P16-NAMECALL-595-PUSHFLOATARG";
+        // Exact stock module that every native callsite is verified against.
+        std::string stock_module_path = "shared/corpus/de-luau-stock/Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B";
+        std::string stock_module_sha256 = "c0cf04fc388092533c3084e459ba4ae9050571934c82e3473385823f8e2a6390";
+        std::string stock_module_profile = "U43";
+    };
+
+    // One native callsite checked against a derecomp `ir`/`ir-u44` listing of the
+    // target's stock module. status: OK, OFF_BY_ONE (the site is the CALL right after
+    // the method's NAMECALL) or MISMATCH (anything else).
+    struct NativeCallsiteCheck
+    {
+        std::string method;
+        int prototype = -1;
+        int instruction = -1;
+        std::string status;
+        int expected_instruction = -1;
+        std::string detail;
     };
 
     [[nodiscard]] fs::path locate_editor_root(const fs::path& executable_path);
@@ -179,6 +200,9 @@ namespace renovice
         const fs::path& call_map,
         const fs::path& closure_map,
         const fs::path& output_path);
+    [[nodiscard]] std::vector<NativeCallsiteCheck> check_native_callsites_against_ir(
+        const std::string& ir_listing,
+        const Json& native_argument_rewrites);
     [[nodiscard]] bool run_self_tests(const fs::path& editor_root, std::string& report);
     [[nodiscard]] std::string diagnostics_text(const std::vector<Diagnostic>& diagnostics);
     [[nodiscard]] std::string severity_name(Severity severity);

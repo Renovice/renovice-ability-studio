@@ -46,6 +46,17 @@
         "expected_source_sha256": {
           "type": ["string", "null"],
           "pattern": "^[0-9a-fA-F]{64}$"
+        },
+        "stock_module": {
+          "description": "Exact stock module that instruction-addressed native callsites are verified against. Required when addon_generation.native_argument_rewrites is non-empty. Every rewrite instruction must be the logical index of the NAMECALL that names its method (bootstrapper V66+), never the CALL after it.",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path", "sha256", "bytecode_profile"],
+          "properties": {
+            "path": { "type": "string", "pattern": "\\.lua_B$" },
+            "sha256": { "type": "string", "pattern": "^[0-9a-fA-F]{64}$" },
+            "bytecode_profile": { "enum": ["U43", "U44"] }
+          }
         }
       }
     },
@@ -424,7 +435,11 @@
       "properties": {
         "method": { "type": "string", "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,63}$" },
         "prototype": { "type": "integer", "minimum": 0 },
-        "instruction": { "type": "integer", "minimum": 0 },
+        "instruction": {
+          "description": "Logical index of the NAMECALL that names method in target.stock_module (the runtime reports native calls there; the CALL is instruction + 1).",
+          "type": "integer",
+          "minimum": 0
+        },
         "argument": { "type": "integer", "minimum": 1 },
         "expected": { "type": "number" },
         "replacement": { "type": "number" },

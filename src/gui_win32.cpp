@@ -317,7 +317,7 @@ namespace
         add_label(state, window, L"Modifier binding", left_label, y, 145);
         add_edit(state, window, id_modifier_binding, L"mallet.strength.channel_10", left_edit, y - 3, edit_width);
         add_label(state, window, L"Native instruction", right_label, y, 145);
-        add_edit(state, window, id_native_instruction, L"596", right_edit, y - 3, edit_width);
+        add_edit(state, window, id_native_instruction, L"595", right_edit, y - 3, edit_width);
         y += row + 10;
 
         add_label(state, window, L"Cap stat ID", left_label, y, 145);

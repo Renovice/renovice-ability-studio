@@ -1,0 +1,73 @@
+# Live cross-check of runtime-reported native callsites (read-only, streamed with rg)
+# captured 2026-09-29T22:22:47Z; runtime line: ADDON_TRACE event=native.call.* ... prototype=P instruction=I
+
+== renovice_source.log.3 size=67108554 mtime=2026-09-29 20:22:32
+     78 8fba3a28f8fef624 SetSource before prototype=13 instruction=66
+    305 8fba3a28f8fef624 DamageDD after prototype=13 instruction=102
+    305 8fba3a28f8fef624 DamageDD before prototype=13 instruction=102
+     61 8fba3a28f8fef624 SetBaseAmount after prototype=7 instruction=42
+     71 8fba3a28f8fef624 SetBaseAmount before prototype=7 instruction=42
+     71 8fba3a28f8fef624 SetSource after prototype=7 instruction=53
+     71 8fba3a28f8fef624 SetSource before prototype=7 instruction=53
+    128 8fba3a28f8fef624 DamageDD after prototype=7 instruction=65
+    128 8fba3a28f8fef624 DamageDD before prototype=7 instruction=65
+-- ENGINE_DAMAGE source callsites (SourcePrototype/SourceInstruction, same mapper):
+   1528 SourcePrototype":16,"SourceInstruction":575
+   1220 SourcePrototype":13,"SourceInstruction":102
+    512 SourcePrototype":7,"SourceInstruction":65
+    152 SourcePrototype":11,"SourceInstruction":629
+    152 SourcePrototype":11,"SourceInstruction":500
+    152 SourcePrototype":11,"SourceInstruction":163
+-- PushFloatArg transform events: 0
+
+== renovice_source.log.2 size=67107763 mtime=2026-09-29 20:48:38
+      3 64d11e6973afa4b1 BuildMissionForLocation after prototype=21 instruction=324
+      3 64d11e6973afa4b1 BuildMissionForLocation before prototype=21 instruction=324
+     45 8fba3a28f8fef624 SetSource after prototype=13 instruction=66
+     45 8fba3a28f8fef624 SetSource before prototype=13 instruction=66
+     95 8fba3a28f8fef624 DamageDD after prototype=13 instruction=102
+     95 8fba3a28f8fef624 DamageDD before prototype=13 instruction=102
+    113 8fba3a28f8fef624 SetBaseAmount after prototype=7 instruction=42
+    126 8fba3a28f8fef624 SetBaseAmount before prototype=7 instruction=42
+    126 8fba3a28f8fef624 SetSource after prototype=7 instruction=53
+    126 8fba3a28f8fef624 SetSource before prototype=7 instruction=53
+    134 8fba3a28f8fef624 DamageDD after prototype=7 instruction=65
+    138 8fba3a28f8fef624 DamageDD before prototype=7 instruction=65
+-- ENGINE_DAMAGE source callsites (SourcePrototype/SourceInstruction, same mapper):
+  15564 SourcePrototype":4,"SourceInstruction":123
+     20 SourcePrototype":0,"SourceInstruction":95
+-- PushFloatArg transform events: 0
+
+== renovice_source.log.1 size=67108493 mtime=2026-09-29 21:43:03
+     96 8fba3a28f8fef624 SetSource after prototype=13 instruction=66
+    232 8fba3a28f8fef624 SetSource before prototype=13 instruction=66
+    931 8fba3a28f8fef624 DamageDD after prototype=13 instruction=102
+    931 8fba3a28f8fef624 DamageDD before prototype=13 instruction=102
+    113 8fba3a28f8fef624 SetBaseAmount after prototype=7 instruction=42
+    144 8fba3a28f8fef624 SetBaseAmount before prototype=7 instruction=42
+    144 8fba3a28f8fef624 SetSource after prototype=7 instruction=53
+    144 8fba3a28f8fef624 SetSource before prototype=7 instruction=53
+    262 8fba3a28f8fef624 DamageDD after prototype=7 instruction=65
+    331 8fba3a28f8fef624 DamageDD before prototype=7 instruction=65
+-- ENGINE_DAMAGE source callsites (SourcePrototype/SourceInstruction, same mapper):
+   3724 SourcePrototype":13,"SourceInstruction":102
+   1255 SourcePrototype":7,"SourceInstruction":65
+    452 SourcePrototype":17,"SourceInstruction":905
+     68 SourcePrototype":17,"SourceInstruction":769
+     12 SourcePrototype":9,"SourceInstruction":60
+      4 SourcePrototype":11,"SourceInstruction":164
+-- PushFloatArg transform events: 0
+
+== renovice_source.log size=42097404 mtime=2026-09-29 23:38:02
+      1 64d11e6973afa4b1 BuildMissionForLocation after prototype=21 instruction=324
+      1 64d11e6973afa4b1 BuildMissionForLocation before prototype=21 instruction=324
+      1 64d11e6973afa4b1 BuildMissionForLocation after prototype=25 instruction=9
+      1 64d11e6973afa4b1 BuildMissionForLocation before prototype=25 instruction=9
+-- ENGINE_DAMAGE source callsites (SourcePrototype/SourceInstruction, same mapper):
+    240 SourcePrototype":16,"SourceInstruction":576
+-- PushFloatArg transform events: 0
+
+== example lines
+RENOVICE ADDON_TRACE build=V79 pid=23260 tick_ms=47531859 seq=20 attempt=0 thread=31328 key=0x8fba3a28f8fef624 state=00000210411900B0 vm=0000020F09689F90 event=native.call.before ci=0000021040691F30 top=0000021016F72E30 method=SetBaseAmount phase=before prototype=7 instruction=42 values=arguments argc=2 arg0_tag=9=0x210416d0b80 
+RENOVICE ADDON_TRACE build=V79 pid=11584 tick_ms=54601765 seq=31 attempt=0 thread=29916 key=0x64d11e6973afa4b1 state=000002253DBB1D30 vm=00000224411EC2D0 event=native.call.before ci=000002257956D420 top=0000022573521740 method=BuildMissionForLocation phase=before prototype=25 instruction=9 values=arguments argc=2 arg0_tag=9=0x22
+RENOVICE ADDON_TRACE build=V79 pid=11584 tick_ms=54482203 seq=24 attempt=0 thread=29916 key=0x64d11e6973afa4b1 state=000002241F610400 vm=00000224411EC2D0 event=native.call.before ci=000002256E076F50 top=00000225662409B0 method=BuildMissionForLocation phase=before prototype=21 instruction=324 values=arguments argc=2 arg0_tag=9=0x

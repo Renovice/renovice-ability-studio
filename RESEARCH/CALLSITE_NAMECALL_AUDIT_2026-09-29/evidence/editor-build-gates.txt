@@ -1,0 +1,42 @@
+== editor-example-build
+status STAGED_PASS
+gates [('native-callsite-namecall', True), ('recompile', True), ('de-roundtrip', True), ('plan-verify', True), ('focused-api-check', True)]
+artifact {'path': 'artifacts/08faf07b504d058f.octavia_mallet_overguard.target.addon.lua_B', 'sha256': 'BDCFAB8EE12B20F875354DED2EDC722074B0E31BAEC7BC1962668B55D88F1F3A', 'size': 2086}
+source {'path': 'source/08faf07b504d058f.octavia_mallet_overguard.target.addon.luau', 'sha256': '9D7A7B0E41C5654EA70D808D01505788E7DE7B29A128D75AB802F5D2622D11EF'}
+diagnostics []
+===== native-callsite-namecall =====
+OK PushFloatArg p16/i595: NAMECALL :PushFloatArg at 595, CALL at 596
+===== recompile =====
+== editor-example-build-2
+status STAGED_PASS
+gates [('native-callsite-namecall', True), ('recompile', True), ('de-roundtrip', True), ('plan-verify', True), ('focused-api-check', True)]
+artifact {'path': 'artifacts/08faf07b504d058f.octavia_mallet_overguard.target.addon.lua_B', 'sha256': 'BDCFAB8EE12B20F875354DED2EDC722074B0E31BAEC7BC1962668B55D88F1F3A', 'size': 2086}
+source {'path': 'source/08faf07b504d058f.octavia_mallet_overguard.target.addon.luau', 'sha256': '9D7A7B0E41C5654EA70D808D01505788E7DE7B29A128D75AB802F5D2622D11EF'}
+diagnostics []
+===== native-callsite-namecall =====
+OK PushFloatArg p16/i595: NAMECALL :PushFloatArg at 595, CALL at 596
+===== recompile =====
+== editor-negative-build
+status STAGED_FAILED
+gates [('native-callsite-namecall', False), ('recompile', True), ('de-roundtrip', True), ('plan-verify', True), ('focused-api-check', True)]
+artifact {'path': 'artifacts/08faf07b504d058f.octavia_mallet_overguard.target.addon.lua_B', 'sha256': 'B27785FCC2AFCD0B50BA66656B9666AA8D8E303EDDC821B1AD65D69FD1671267', 'size': 2086}
+source {'path': 'source/08faf07b504d058f.octavia_mallet_overguard.target.addon.luau', 'sha256': '5A946FB48FE259373BB874881C140F4E6512CEC8E6AE666582EBEDDA21A4D1A1'}
+diagnostics ['NATIVE_CALLSITE_NOT_NAMECALL: PushFloatArg p16/i596: instruction 596 is the CALL; the runtime reports NAMECALL :PushFloatArg at 595', 'EXTERNAL_GATE: native-callsite-namecall failed; inspect BUILD_GATES.log']
+===== native-callsite-namecall =====
+OFF_BY_ONE PushFloatArg p16/i596: instruction 596 is the CALL; the runtime reports NAMECALL :PushFloatArg at 595
+===== recompile =====
+
+== generated hook (editor-example-build)
+local function transformFloatArgument(prototype, instruction, stockValue)
+    if prototype == 16 and instruction == 595 and stockValue == 1 then
+        return 5
+    end
+    return stockValue
+end
+    hooks = {
+        matchesAbility = matchesAbility,
+        afterAbilityCard = augmentAbilityCard,
+        afterDamage = afterDamage,
+        transformFloatArgument = transformFloatArgument,
+    },
+}

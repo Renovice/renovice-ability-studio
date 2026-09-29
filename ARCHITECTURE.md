@@ -198,7 +198,13 @@ argument 1. This removes the old cross-VM `_T` handler and target-module shim.
 The editor stores simple low-level numeric changes as
 `native_argument_rewrites`, including method, prototype, instruction, argument,
 expected value, replacement value, and evidence ID. It generates the V49 hook
-shape only after validating those identities. Broader logic remains editable
+shape only after validating those identities. Since bootstrapper V66 the
+reported `instruction` is the NAMECALL that names the method (the CALL is
+`instruction + 1`); the `native-callsite-namecall` build gate verifies every
+site against `target.stock_module` with `derecomp ir`/`ir-u44`, and
+`PushFloatArg` rewrites are emitted as `transformFloatArgument` because the
+runtime rejects `nativeCalls.PushFloatArg`
+(`RESEARCH/CALLSITE_NAMECALL_AUDIT_2026-09-29`). Broader logic remains editable
 as native Lua. The runtime rejects missing or ambiguous native implementations,
 reserved hook conflicts, malformed callbacks, and partial detour sets. If a
 particular installed build lacks a proven reusable native callsite, the editor

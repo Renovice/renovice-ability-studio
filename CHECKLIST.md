@@ -148,7 +148,10 @@ correct units, query Avatar for modded mode, and publish the native row array.
       cleanup contracts.
 - [ ] Managed-addon templates with idempotent activate/cleanup.
 - [x] Reusable exact-callsite native argument-rewrite generator through V49
-      `hooks.nativeCalls[method].before`.
+      `hooks.nativeCalls[method].before` (`PushFloatArg` through
+      `hooks.transformFloatArgument`).
+- [x] Generic `native-callsite-namecall` build gate: every generated callsite
+      filter names `NAMECALL :method` in `target.stock_module` (2026-09-29).
 - [x] Target-scoped `.target.addon.lua_B` manifest convention and natural-load
       same-VM delivery bridge.
 - [x] Observe the exact synchronous ability-card query, preserve the stock row

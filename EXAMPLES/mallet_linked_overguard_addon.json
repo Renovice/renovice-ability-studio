@@ -13,7 +13,12 @@
     "module_path": "Lotus/Powersuits/Bard/Abilities/BardMusic.lua",
     "module_body_key": "08faf07b504d058f",
     "installed_build": "private-live-2026-09-07",
-    "expected_source_sha256": null
+    "expected_source_sha256": null,
+    "stock_module": {
+      "path": "shared/corpus/de-luau-stock/Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B",
+      "sha256": "c0cf04fc388092533c3084e459ba4ae9050571934c82e3473385823f8e2a6390",
+      "bytecode_profile": "U43"
+    }
   },
   "effect": {
     "summary": "Convert a linked percentage of the ability's actual damage result into caster Overguard.",
@@ -90,11 +95,11 @@
       {
         "method": "PushFloatArg",
         "prototype": 16,
-        "instruction": 596,
+        "instruction": 595,
         "argument": 2,
         "expected": 1,
         "replacement": 5,
-        "evidence_id": "WF-V49-MALLET-PUSHFLOATARG-P16-I596"
+        "evidence_id": "WF-U43-BARDMUSIC-P16-NAMECALL-595-PUSHFLOATARG"
       }
     ]
   },
