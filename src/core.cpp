@@ -16,6 +16,7 @@
 #include <sstream>
 #include <stdexcept>
 #include <string_view>
+#include <tuple>
 #include <unordered_map>
 
 #include <windows.h>
@@ -3589,6 +3590,157 @@ namespace renovice
                     && contains_text(nokko_build.gate_log, "semantic-ir-verify"),
                 "Venus/Nokko build changes only the SetObjTimer argument and two linked threshold result instructions");
             fs::remove_all(nokko_build_fixture);
+
+            // Universal mission tunable registry for client 44.0.2 (2026.09.28.13.06) and the group-by-body-key generator.
+            {
+                const Json registry = load_mission_registry(editor_root);
+                const MissionPaths mission_roots = mission_paths(registry, editor_root);
+                const Json verification = verify_mission_registry(editor_root);
+                check(verification.at("status") == "PASS" && verification.at("fail") == 0
+                        && verification.at("pass") == registry.at("tunables").size(),
+                    "every mission registry row verifies against its 44.0.2 stock evidence (SHA-256 + exact preimage)");
+                check(registry.at("build") == "2026.09.28.13.06", "mission registry build label is 44.0.2 (2026.09.28.13.06)");
+                const fs::path mission_fixture = fs::temp_directory_path()
+                    / ("renovice_mission_registry_selftest_" + std::to_string(GetCurrentProcessId()));
+                fs::remove_all(mission_fixture);
+                const auto settings = [&](const Json& values) {
+                    return Json{{"format", "RENOVICE_MISSION_SETTINGS_V1"}, {"build", registry.at("build")}, {"values", values}};
+                };
+                const auto site_of = [&](const std::string& id, const std::size_t index) -> const Json& {
+                    return mission_tunable(registry, id).at("owner").at("sites").at(index);
+                };
+                const auto changed_bytes = [](const std::string& left, const std::string& right) {
+                    std::size_t changed = left.size() == right.size() ? 0 : std::string::npos;
+                    for (std::size_t n = 0; changed != std::string::npos && n < left.size(); ++n) changed += left[n] != right[n] ? 1 : 0;
+                    return changed;
+                };
+
+                const MissionSetResult merged = build_mission_settings(
+                    settings({{"excavation.dig_duration", 50}, {"excavation.dig_duration_elite_alert", 70}}), editor_root, mission_fixture, true);
+                bool merged_ok = merged.success && merged.artifacts.size() == 1 && merged.artifacts.front().body_key == "f7444e3c621ff018"
+                    && merged.artifacts.front().tunables.size() == 2 && merged.server_config_diff.empty();
+                if (merged_ok)
+                {
+                    const auto stock = read_text(mission_roots.corpus / "Lotus_Scripts_Modes_ExcavationMission.lua_B");
+                    const auto built = read_text(merged.artifacts.front().artifact);
+                    const auto standard = site_of("excavation.dig_duration", 0).at("offset").get<std::size_t>();
+                    const auto elite = site_of("excavation.dig_duration_elite_alert", 0).at("offset").get<std::size_t>();
+                    merged_ok = changed_bytes(stock, built) == 2 && static_cast<unsigned char>(built[standard + 2]) == 50
+                        && static_cast<unsigned char>(built[elite + 2]) == 70;
+                }
+                check(merged_ok, "two literal tunables in one module merge into exactly one exact-replacement artifact with only their operands changed");
+
+                const MissionSetResult cascade = build_mission_settings(
+                    settings({{"void_cascade.pillar_duration", 45}, {"void_cascade.alert_reward_interval", 5}}), editor_root, mission_fixture, true);
+                check(cascade.success && cascade.artifacts.size() == 1 && cascade.artifacts.front().body_key == "32c344afa33be174"
+                        && changed_bytes(read_text(mission_roots.corpus / "Lotus_Scripts_Modes_ZarimanSurvivalMission.lua_B"),
+                               read_text(cascade.artifacts.front().artifact)) == 3,
+                    "carried-over and newly anchored literal rows of one body merge into one replacement (three operands)");
+
+                const std::array<std::pair<const char*, std::size_t>, 6> conquest{{
+                    {"archimedea.eta_survival_minutes", 46570}, {"archimedea.eta_defense_waves", 46582},
+                    {"archimedea.eda_survival_minutes", 46726}, {"archimedea.eda_mirror_defense_waves", 46738},
+                    {"archimedea.eda_alchemy", 46750}, {"archimedea.eda_disruption", 46762}}};
+                bool conquest_ok = true;
+                for (const auto& [id, previous_offset] : conquest)
+                {
+                    const std::string key = id;
+                    const Json& row = mission_tunable(registry, key);
+                    conquest_ok = conquest_ok && row.at("owner").at("body_key") == "076a7b443af7fdb8"
+                        && row.at("owner").at("stock_sha256") == "73107506E80FF7853AE0C4E77D56682707492328BE9EEC80067C5EDB86529453"
+                        && row.at("owner").at("sites").at(0).at("prototype") == 43
+                        && row.at("owner").at("sites").at(0).at("offset").get<std::size_t>() == previous_offset + 61;
+                }
+                check(conquest_ok, "ConquestLib EDA/ETA rows are re-registered on body 076a7b443af7fdb8, prototype 43, offsets +61");
+                const MissionSetResult conquest_build = build_mission_settings(
+                    settings({{"archimedea.eta_survival_minutes", 5}, {"archimedea.eda_disruption", 4}}), editor_root, mission_fixture, true);
+                check(conquest_build.success && conquest_build.artifacts.size() == 1
+                        && static_cast<unsigned char>(read_text(conquest_build.artifacts.front().artifact)[46631 + 2]) == 5
+                        && static_cast<unsigned char>(read_text(conquest_build.artifacts.front().artifact)[46823 + 2]) == 4,
+                    "re-registered ConquestLib builds one replacement from the 44.0.2 stock body");
+
+                const MissionSetResult mixed = build_mission_settings(settings({
+                    {"netracell.enemy_power_fill", 2}, {"shrine.offering_generation_time", 15},
+                    {"mobiledefense.total_time.minimum", 90}, {"survival.reward_interval", 150},
+                    {"server.credit_boost_multiplier", 2}}), editor_root, mission_fixture, true);
+                bool mixed_ok = mixed.success && mixed.artifacts.size() == 3 && fs::exists(mixed.server_config_diff);
+                if (mixed_ok)
+                {
+                    std::set<std::string> backends;
+                    for (const auto& item : mixed.artifacts) backends.insert(item.backend);
+                    const auto metadata_text = read_text(std::find_if(mixed.artifacts.begin(), mixed.artifacts.end(),
+                        [](const MissionArtifact& item) { return item.backend == "METADATA_PATCH"; })->artifact);
+                    const Json diff = Json::parse(read_text(mixed.server_config_diff));
+                    mixed_ok = backends == std::set<std::string>{"EXACT_LITERAL", "TARGET_ADDON", "METADATA_PATCH"}
+                        && contains_text(metadata_text, "    q|Scripts.0.Script._enemyPowerFill|2\n")
+                        && contains_text(metadata_text, "    q|Scripts.0.Script._offeringGenerationTime|15\n")
+                        && diff.at("applied") == false && diff.at("config_patch").at("worldState").at("creditBoostMultiplier") == 2;
+                }
+                check(mixed_ok, "mixed settings produce one replacement, one target addon, one metadata file and one unapplied server diff");
+
+                const MissionSetResult wrong_build = build_mission_settings(
+                    Json{{"build", "2026.09.24.13.29"}, {"values", {{"excavation.dig_duration", 50}}}}, editor_root, mission_fixture, true);
+                check(!wrong_build.success && !wrong_build.diagnostics.empty()
+                        && contains_text(wrong_build.diagnostics.front().message, "Unsupported mission build profile"),
+                    "mission settings for an unknown build fail closed");
+                check(!build_mission_settings(settings({{"excavation.not_a_tunable", 5}}), editor_root, mission_fixture, true).success,
+                    "unknown tunable ids fail closed");
+                check(!build_mission_settings(settings({{"excavation.dig_duration", 0}}), editor_root, mission_fixture, true).success
+                        && !build_mission_settings(settings({{"void_cascade.pillar_duration", 22.5}}), editor_root, mission_fixture, true).success,
+                    "out-of-range and non-whole-number literal operands fail closed");
+
+                const MissionNaming group_naming{"missions-selftest", "missions", "missions", "RENOVICE_Missions.txt", false};
+                Json hash_mismatch = registry;
+                hash_mismatch["modules"]["f7444e3c621ff018"]["sha256"] = std::string(64, '0');
+                const MissionSetResult rejected_hash = build_mission_set(hash_mismatch, Json{{"excavation.dig_duration", 50}},
+                    group_naming, editor_root, mission_fixture, true, nullptr);
+                check(!rejected_hash.success && contains_text(rejected_hash.diagnostics.front().message, "stock"),
+                    "a stock SHA-256 mismatch disables the row and fails the build closed");
+                Json preimage_mismatch = registry;
+                for (auto& row : preimage_mismatch["tunables"])
+                    if (row.at("tunable_id") == "excavation.dig_duration") row["owner"]["sites"][0]["expected"][2] = 99;
+                const MissionSetResult rejected_preimage = build_mission_set(preimage_mismatch, Json{{"excavation.dig_duration", 50}},
+                    group_naming, editor_root, mission_fixture, true, nullptr);
+                check(!rejected_preimage.success && contains_text(rejected_preimage.diagnostics.front().message, "preimage"),
+                    "an exact preimage mismatch fails closed");
+                Json competing = registry;
+                competing["modules"]["f7444e3c621ff018"]["addon"] = registry.at("modules").at("f10a043e7f825db2").at("addon");
+                competing["modules"]["f7444e3c621ff018"]["addon"]["values"] = {{"reward_interval_seconds", "excavation.selftest_addon"}};
+                Json fake = mission_tunable(registry, "survival.reward_interval");
+                fake["tunable_id"] = "excavation.selftest_addon";
+                fake["owner"]["body_key"] = "f7444e3c621ff018";
+                fake["owner"]["stock_sha256"] = registry.at("modules").at("f7444e3c621ff018").at("sha256");
+                fake["owner"]["file"] = registry.at("modules").at("f7444e3c621ff018").at("file");
+                competing["tunables"].push_back(fake);
+                const MissionSetResult rejected_competing = build_mission_set(competing,
+                    Json{{"excavation.dig_duration", 50}, {"excavation.selftest_addon", 150}}, group_naming, editor_root, mission_fixture, true, nullptr);
+                check(!rejected_competing.success && contains_text(rejected_competing.diagnostics.front().message, "one body key may own only one artifact"),
+                    "an exact replacement and a target addon for one body key are rejected as competing files");
+                Json overlapping = registry;
+                Json duplicate = mission_tunable(registry, "excavation.dig_duration");
+                duplicate["tunable_id"] = "excavation.selftest_duplicate";
+                overlapping["tunables"].push_back(duplicate);
+                bool overlap_rejected = false;
+                try { verify_mission_registry_structure(overlapping); }
+                catch (const std::exception& e) { overlap_rejected = contains_text(e.what(), "competing owners"); }
+                check(overlap_rejected, "two registry rows claiming one exact site are rejected");
+
+                Json preset_project = make_linked_overguard_project(LinkedAddonForm{});
+                preset_project["id"] = "mission.descendia_excavation.selftest";
+                preset_project["authoring_mode"] = "MANAGED_MISSION_EXACT_REPLACEMENT";
+                preset_project["target"]["module_body_key"] = registry.at("missions").at("descendia_excavation").at("body_key");
+                preset_project["target"]["module_path"] = registry.at("missions").at("descendia_excavation").at("module_path");
+                preset_project["mission_profile"] = {{"build", registry.at("build")}, {"id", "descendia_excavation"}, {"values", {{"dig_duration", 15}}}};
+                const BuildResult preset_build = build_staged_exact_mission_replacement(preset_project, editor_root, mission_fixture, true);
+                check(preset_build.success && preset_build.generated_bytecode.filename().string()
+                        == "415a57536412719f (mission_descendia_excavation_timers_exact-replacement).lua_B"
+                        && fs::exists(preset_build.manifest) && preset_build.manifest.filename() == "BUILD_MANIFEST.json",
+                    "an existing preset builds through the registry path with its established artifact name and manifest");
+                Json stale_preset = preset_project;
+                stale_preset["mission_profile"]["build"] = "2026.09.24.13.29";
+                check(has_errors(validate_project(stale_preset, editor_root)), "a preset for the superseded build label fails closed");
+                fs::remove_all(mission_fixture);
+            }
 
             check(load_project(editor_root / "SCHEMA" / "ability_edit.schema.json").is_object(), "schema parses");
             check(load_project(editor_root / "EXAMPLES" / "gyre_movement_speed_addon.json").is_object(), "existing example parses");

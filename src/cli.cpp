@@ -33,6 +33,8 @@ namespace
             << "  build PROJECT.json --staging PATH [--no-gates] [--editor-root PATH]\n"
             << "  validate-replacement PROJECT.json --source FILE.luau [--editor-root PATH]\n"
             << "  build-replacement PROJECT.json --source FILE.luau --staging PATH [--baseline STOCK.luau] [--no-gates] [--editor-root PATH]\n"
+            << "  verify-missions [--editor-root PATH]\n"
+            << "  build-missions MISSION_SETTINGS.json --staging PATH [--editor-root PATH]\n"
             << "  deploy BUILD_MANIFEST.json --game-root PATH\n"
             << "  rollback DEPLOYMENT_MANIFEST.json\n"
             << "  build-catalog --metadata PATH --corpus PATH --output catalog.json [--names Names.en.json]\n"
@@ -217,6 +219,51 @@ int main(int argc, char** argv)
                 std::cout << "Generation: " << result.generation_directory.string() << '\n';
                 std::cout << "Source: " << result.generated_source.string() << '\n';
                 std::cout << "Bytecode: " << result.generated_bytecode.string() << '\n';
+                std::cout << "Manifest: " << result.manifest.string() << '\n';
+            }
+            return result.success ? 0 : 1;
+        }
+
+        if (command == "verify-missions")
+        {
+            const renovice::Json report = renovice::verify_mission_registry(editor_root);
+            std::cout << report.dump(2) << '\n';
+            return report.at("status") == "PASS" ? 0 : 1;
+        }
+
+        if (command == "build-missions")
+        {
+            if (arguments.size() < 2)
+            {
+                usage();
+                return 2;
+            }
+            const std::optional<std::string> staging = option_value(arguments, "--staging");
+            if (!staging)
+            {
+                throw std::runtime_error("build-missions requires --staging PATH");
+            }
+            const renovice::MissionSetResult result = renovice::build_mission_settings(
+                renovice::load_project(arguments[1]),
+                editor_root,
+                std::filesystem::absolute(*staging),
+                true);
+            std::cout << renovice::diagnostics_text(result.diagnostics);
+            if (!result.directory.empty())
+            {
+                std::cout << "Generation: " << result.directory.string() << '\n';
+            }
+            for (const renovice::MissionArtifact& artifact : result.artifacts)
+            {
+                std::cout << "Artifact: " << artifact.backend << ' ' << artifact.body_key << ' '
+                          << artifact.sha256 << ' ' << artifact.artifact.string() << '\n';
+            }
+            if (!result.server_config_diff.empty())
+            {
+                std::cout << "Server config diff (not applied): " << result.server_config_diff.string() << '\n';
+            }
+            if (!result.manifest.empty())
+            {
                 std::cout << "Manifest: " << result.manifest.string() << '\n';
             }
             return result.success ? 0 : 1;

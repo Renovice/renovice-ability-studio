@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstdint>
 #include <filesystem>
 #include <optional>
 #include <string>
@@ -39,6 +40,30 @@ namespace renovice
         fs::path generated_source;
         fs::path generated_bytecode;
         fs::path manifest;
+        std::vector<Diagnostic> diagnostics;
+        std::string gate_log;
+    };
+
+    struct MissionArtifact
+    {
+        std::string backend;
+        std::string body_key;
+        std::vector<std::string> tunables;
+        fs::path source;
+        fs::path artifact;
+        fs::path manifest;
+        std::string sha256;
+        std::uintmax_t size = 0;
+        std::string intended_live_relative_path;
+    };
+
+    struct MissionSetResult
+    {
+        bool success = false;
+        fs::path directory;
+        fs::path manifest;
+        fs::path server_config_diff;
+        std::vector<MissionArtifact> artifacts;
         std::vector<Diagnostic> diagnostics;
         std::string gate_log;
     };
@@ -145,6 +170,16 @@ namespace renovice
         bool run_external_gates = true);
     [[nodiscard]] BuildResult build_staged_exact_mission_replacement(
         const Json& project,
+        const fs::path& editor_root,
+        const fs::path& staging_root,
+        bool run_external_gates = true);
+    // Universal mission tunable registry (REGISTRIES/mission_build_u44.json, schema 2).
+    // Verifies every registered row against the stock evidence it names; never writes files.
+    [[nodiscard]] Json verify_mission_registry(const fs::path& editor_root);
+    // Builds a mission_settings.json ({"build", "values": {tunable_id: number}}) into at most one artifact per
+    // module body key, one metadata patch file and one server-config diff (written, never applied).
+    [[nodiscard]] MissionSetResult build_mission_settings(
+        const Json& settings,
         const fs::path& editor_root,
         const fs::path& staging_root,
         bool run_external_gates = true);

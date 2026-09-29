@@ -718,18 +718,31 @@ try
         missionProject.SetMode(missionProject.Mode);
         Check(mode == missionProject.AuthoringMode, id + " preserves its artifact lane when the GUI saves it");
     }
-    var metadataEvidence = Path.Combine(workspace.EditorRoot, "RESEARCH", "CARD_VALUE_LABELS_2026-09-27", "artifacts", "current-mission-metadata.json");
-    if (File.Exists(metadataEvidence))
+    // Universal mission registry: build label, lanes and every metadata row are data-driven and exact.
+    Check(MissionBuildProfile.Build(workspace.EditorRoot) == "2026.09.28.13.06", "mission build label is read from the 44.0.2 registry");
+    Check(currentMissions.All(p => p.Lane is "EXACT_LITERAL" or "TARGET_ADDON" or "METADATA_PATCH"), "every mission preset carries a verified registry lane");
+    Check(archimedea.ModuleBodyKey == "076a7b443af7fdb8", "EDA / ETA preset targets the re-registered 44.0.2 ConquestLib body");
+    using (var missionRegistry = MissionBuildProfile.Read(workspace.EditorRoot))
     {
-        using var metadataDocument = System.Text.Json.JsonDocument.Parse(File.ReadAllText(metadataEvidence));
-        using var missionProfile = MissionBuildProfile.Read(workspace.EditorRoot);
-        foreach (var id in new[] { "netracells", "descendia_shrine" })
+        var registryRoot = missionRegistry.RootElement;
+        var snapshotPath = Path.Combine(MissionBuildProfile.CorpusRoot(workspace), registryRoot.GetProperty("metadata_snapshot").GetProperty("file").GetString()!);
+        using var snapshot = System.Text.Json.JsonDocument.Parse(File.ReadAllText(snapshotPath));
+        var metadataRows = registryRoot.GetProperty("tunables").EnumerateArray()
+            .Where(row => row.GetProperty("backend").GetString() == "METADATA_PATCH").ToList();
+        Check(metadataRows.Count > 0 && metadataRows.All(row =>
         {
-            var binding = missionProfile.RootElement.GetProperty("missions").GetProperty(id).GetProperty("metadata");
-            var owner = binding.GetProperty("owner").GetString()!;
-            var fields = MetadataPatchEditor.Core.Extract.QueryableText(metadataDocument.RootElement.GetProperty(owner).GetProperty("text").GetString()!);
-            var field = fields.Single(f => f.Path == binding.GetProperty("field").GetString());
-            Check(double.Parse(field.Value, System.Globalization.CultureInfo.InvariantCulture) == binding.GetProperty("stock").GetDouble(), id + " exact nested metadata query resolves to the decoded stock value");
+            var owner = row.GetProperty("owner");
+            var text = snapshot.RootElement.GetProperty("types").GetProperty(owner.GetProperty("type").GetString()!).GetProperty("text").GetString()!;
+            var field = MetadataPatchEditor.Core.Extract.QueryableText(text).Single(f => f.Path == owner.GetProperty("field").GetString());
+            return double.Parse(field.Value, System.Globalization.CultureInfo.InvariantCulture) == row.GetProperty("stock").GetDouble();
+        }), "every registered metadata row resolves by exact nested query to its decoded 44.0.2 stock value");
+        foreach (var (id, preset) in registryRoot.GetProperty("missions").EnumerateObject().Select(p => (p.Name, p.Value)))
+        {
+            var lane = preset.GetProperty("lane").GetString();
+            Check(preset.GetProperty("parameters").EnumerateObject().All(parameter =>
+                registryRoot.GetProperty("tunables").EnumerateArray().Single(row =>
+                    row.GetProperty("tunable_id").GetString() == parameter.Value.GetProperty("tunable_id").GetString())
+                    .GetProperty("backend").GetString() == lane), id + " preset parameters map to registry rows of one lane");
         }
     }
     var linkedSourcePath = Path.Combine(workspace.WorkspaceRoot, "work", "rendered-source", "ability-editor", "dc33836ea5685c89.luau");

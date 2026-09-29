@@ -1,576 +1,3805 @@
 {
-  "schema": 1,
-  "build": "2026.09.24.13.29",
-  "corpus": "shared/corpus/de-luau-u44-authoring",
+  "schema": 2,
+  "format": "RENOVICE_MISSION_TUNABLE_REGISTRY_V2",
+  "build": "2026.09.28.13.06",
+  "build_label": "Hotfix 44.0.2",
+  "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+  "corpus": "shared/corpus/de-luau-u44.0.2-authoring",
+  "metadata_snapshot": {
+    "file": "METADATA_SNAPSHOT.json",
+    "sha256": "3BDFB1B0EF06B7B05F6B7D7940853DB335426BFECC077FEAE760E8901AE71A3D"
+  },
+  "server_root": "../OpenWF Server 23.09.2026/SpaceNinjaServer",
+  "name_hash_seed": "768e5ed0",
+  "phase1_source": "work/research/universal-mission-editor-2026-09-29/mission_tunables.json",
+  "applies_values": {
+    "restart": "game restart (metadata patch)",
+    "next_mission": "next module load / new mission (F9 refreshes replacement bodies for captured contexts)",
+    "F9": "next dispatch after an F9 generation commit",
+    "immediate": "server config reload; nothing is applied by the generator"
+  },
+  "modules": {
+    "026200d9d8fd40a3": {
+      "file": "Lotus_Types_Scripts_Tau_CoH_CoHInterception.lua_B",
+      "sha256": "D3EEE8D0F393AF6E9EAD211E3FD602D4863A3F87017C85B869A87A133E70F702",
+      "size": 12738,
+      "module_path": "/Lotus/Types/Scripts/Tau/CoH/CoHInterception.lua"
+    },
+    "076a7b443af7fdb8": {
+      "file": "Lotus_Scripts_Libs_ConquestLib.lua_B",
+      "sha256": "73107506E80FF7853AE0C4E77D56682707492328BE9EEC80067C5EDB86529453",
+      "size": 59798,
+      "module_path": "Lotus.Scripts.Libs.ConquestLib"
+    },
+    "0c498e078835f9fe": {
+      "file": "Lotus_Scripts_Modes_EntratiVoidVaults.lua_B",
+      "sha256": "036522B0202AB810737F23C765E45050CB02F87B10F9C293932B3BE8DA24F85F",
+      "size": 61951,
+      "module_path": "/Lotus/Scripts/Modes/EntratiVoidVaults.lua"
+    },
+    "1a1354d153712f9d": {
+      "file": "Lotus_Scripts_WaveDefend.lua_B",
+      "sha256": "0FB53A2C0946ACC3476DF7E16C5A3AAEEA1B6384A2D4EFA2D7360F4C155DBF10",
+      "size": 96329,
+      "module_path": "/Lotus/Scripts/WaveDefend.lua"
+    },
+    "1ef96aede7fe612e": {
+      "file": "Lotus_Types_Gameplay_DevilTower_LiteGameModes_CoHShrineDefenseLite.lua_B",
+      "sha256": "4BEA96C94D8A22A6578139C47919E05D4A191D97A6A88CF371ED150BB11ED946",
+      "size": 59367,
+      "module_path": "/Lotus/Types/Gameplay/DevilTower/LiteGameModes/CoHShrineDefenseLite.lua"
+    },
+    "32c344afa33be174": {
+      "file": "Lotus_Scripts_Modes_ZarimanSurvivalMission.lua_B",
+      "sha256": "15CE88BF63C0A721BC978997AD7E7FBA39EA4FADEE00DA8CE5D66E2DF6319D50",
+      "size": 98758,
+      "module_path": "Lotus.Scripts.Modes.ZarimanSurvivalMission"
+    },
+    "415a57536412719f": {
+      "file": "Lotus_Types_Gameplay_DevilTower_LiteGameModes_CoHExcavationLite.lua_B",
+      "sha256": "C641B897157618608088A5CFBD1D5688ACE5C12822F8ADAADF95089C6491D0E8",
+      "size": 31357,
+      "module_path": "Lotus.Types.Gameplay.DevilTower.LiteGameModes.CoHExcavationLite"
+    },
+    "8a0b0819de60df01": {
+      "file": "Lotus_Scripts_InfestedMicroplanet_Encounters_DynamicAreaDefense.lua_B",
+      "sha256": "322D5E174AC81D86DFDFF92FCED2CDE6A2748D9929698409381C13DE936153F2",
+      "size": 11486,
+      "module_path": "Lotus.Scripts.InfestedMicroplanet.Encounters.DynamicAreaDefense"
+    },
+    "97ddf9f92301da45": {
+      "file": "Lotus_Scripts_Modes_WF99PvPvEMission.lua_B",
+      "sha256": "E9020E9A558445B366C0F9D214BEC615204118D2F438FCA3D3839AD9B0B63B00",
+      "size": 233141,
+      "module_path": "/Lotus/Scripts/Modes/WF99PvPvEMission.lua"
+    },
+    "a807aae359ffc1eb": {
+      "file": "Lotus_Scripts_MobileDefense.lua_B",
+      "sha256": "4DCFA0B5633B93BC3AF57F04AB5DE4F1CC492FCFD2AE4DE61B9B473E5F1B2DA1",
+      "size": 32520,
+      "module_path": "Lotus.Scripts.MobileDefense"
+    },
+    "b3a5a18d68d61e16": {
+      "file": "Lotus_Scripts_Eidolon_Encounters_DynamicDefend.lua_B",
+      "sha256": "F2A27591489413891650D0948414CDE30DC7B7CA7EC0922CA3003B55773C150E",
+      "size": 9693,
+      "module_path": "Lotus.Scripts.Eidolon.Encounters.DynamicDefend"
+    },
+    "c9605470a8c47d8d": {
+      "file": "Lotus_Scripts_Modes_TerritoryMission.lua_B",
+      "sha256": "3A8ACF02213053621AD8CF3CC77809A35F27BADDF91D10FCBF94475D0A7D225B",
+      "size": 80700,
+      "module_path": "Lotus.Scripts.Modes.TerritoryMission",
+      "addon": {
+        "template": "MISSION_INTERCEPTION_SCORING_TARGET",
+        "authoring_mode": "MANAGED_MISSION_ADDON",
+        "ability_identifier": "INTERCEPTION_SCORING_PATCH",
+        "hook_binding": "renovice.target.lua_call",
+        "hook_evidence_id": "WF-TERRITORY-PROTO35-SCORE-RATE-2026-09-09",
+        "generation": {
+          "prototype": 35,
+          "stock_score_rate": 1
+        },
+        "current_prototype": 35,
+        "source_rewrites": [],
+        "values": {
+          "scoring_speed_multiplier": "interception.score_rate"
+        },
+        "legacy_body_key": "a51e98a1833bd8c1"
+      }
+    },
+    "d21d8867b9549b2a": {
+      "file": "Lotus_Types_Gameplay_DevilTower_LiteGameModes_CoHDestroyTargets.lua_B",
+      "sha256": "937062CA4270AF333FC920F54F85AEF68747337BDA974425FC81DAFBEF3706B4",
+      "size": 7134,
+      "module_path": "/Lotus/Types/Gameplay/DevilTower/LiteGameModes/CoHDestroyTargets.lua"
+    },
+    "e4bb611e00823d46": {
+      "file": "Lotus_Scripts_Venus_NokkoColony_Encounters_AreaDefense.lua_B",
+      "sha256": "2C7BB67B50C245A0D9B10E680B18B54503ABDBF546EEEB2B85A3D98DE80AA4C6",
+      "size": 15692,
+      "module_path": "Lotus.Scripts.Venus.NokkoColony.Encounters.AreaDefense"
+    },
+    "f10a043e7f825db2": {
+      "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
+      "sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D",
+      "size": 137662,
+      "module_path": "Lotus.Scripts.Modes.SurvivalMission",
+      "addon": {
+        "template": "MISSION_SURVIVAL_TIMERS_LUA_CALL",
+        "authoring_mode": "MANAGED_LUA_CALL_ADDON",
+        "ability_identifier": "SURVIVAL_TIMER_PATCH",
+        "hook_binding": "renovice.target.lua_call",
+        "hook_evidence_id": "WF-SURVIVAL-PROTO64-CAPTURES-2026-09-09",
+        "generation": {
+          "prototype": 64,
+          "elapsed_reward_upvalue": 19,
+          "pickup_config_upvalue": 22,
+          "reward_config_upvalue": 70
+        },
+        "current_prototype": 67,
+        "source_rewrites": [
+          [
+            "prototype == 64",
+            "prototype == 67"
+          ],
+          [
+            "[64] =",
+            "[67] ="
+          ],
+          [
+            "proto64",
+            "proto67"
+          ],
+          [
+            "prototype 64",
+            "prototype 67"
+          ]
+        ],
+        "values": {
+          "reward_interval_seconds": "survival.reward_interval",
+          "life_support_per_pickup_seconds": "survival.pickup_time_added",
+          "reward_progress_per_pickup_seconds": "survival.pickup_reward_progress"
+        },
+        "legacy_body_key": "1e3647332a578b78"
+      }
+    },
+    "f7444e3c621ff018": {
+      "file": "Lotus_Scripts_Modes_ExcavationMission.lua_B",
+      "sha256": "DF9FB3206E468652DC7A101E26118ADF2E039F35B69E228C26BB6BBD3A6F4701",
+      "size": 77843,
+      "module_path": "Lotus.Scripts.Modes.ExcavationMission"
+    },
+    "fc711ff621a75552": {
+      "file": "Lotus_Scripts_Modes_ZarimanCorruptionMission.lua_B",
+      "sha256": "738AA59C66F935235C812CBA1AE6ECD361FDF700D5723C0928B88A2E11D89261",
+      "size": 112244,
+      "module_path": "/Lotus/Scripts/Modes/ZarimanCorruptionMission.lua"
+    }
+  },
+  "tunables": [
+    {
+      "tunable_id": "archimedea.eda_alchemy",
+      "phase1_tunable_id": "archimedea.eda_alchemy",
+      "label": "waveOverrides[38] -> maxWaveNum",
+      "mission_type": "Deep/Temporal Archimedea",
+      "variant": "Deep Archimedea",
+      "shared_with": "unchanged vs 44.0.0",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "backend": "EXACT_LITERAL",
+      "owner": {
+        "body_key": "076a7b443af7fdb8",
+        "stock_sha256": "73107506E80FF7853AE0C4E77D56682707492328BE9EEC80067C5EDB86529453",
+        "file": "Lotus_Scripts_Libs_ConquestLib.lua_B",
+        "module_path": "Lotus.Scripts.Libs.ConquestLib",
+        "sites": [
+          {
+            "kind": "instruction",
+            "prototype": 43,
+            "instruction": 1044,
+            "offset": 46811,
+            "expected": [
+              8,
+              9,
+              2,
+              0
+            ],
+            "register": 9,
+            "numerator": 1,
+            "denominator": 1,
+            "owner": "LAB_CONFIGURATION.waveOverrides[38]"
+          }
+        ]
+      },
+      "unit": "mixtures",
+      "stock": 2,
+      "limits": {
+        "minimum": 1,
+        "maximum": 2,
+        "integer": true
+      },
+      "applies": "next_mission",
+      "confidence": "CONFIRMED_STATIC",
+      "provenance": "reregistered:archimedea:44.0.2",
+      "backend_note": "Owner is the ConquestLib root-prototype literal that fills waveOverrides; applies to newly generated EDA/ETA mission chains."
+    },
+    {
+      "tunable_id": "archimedea.eda_disruption",
+      "phase1_tunable_id": "archimedea.eda_disruption",
+      "label": "waveOverrides[33] -> maxWaveNum",
+      "mission_type": "Deep/Temporal Archimedea",
+      "variant": "Deep Archimedea",
+      "shared_with": "unchanged vs 44.0.0",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "backend": "EXACT_LITERAL",
+      "owner": {
+        "body_key": "076a7b443af7fdb8",
+        "stock_sha256": "73107506E80FF7853AE0C4E77D56682707492328BE9EEC80067C5EDB86529453",
+        "file": "Lotus_Scripts_Libs_ConquestLib.lua_B",
+        "module_path": "Lotus.Scripts.Libs.ConquestLib",
+        "sites": [
+          {
+            "kind": "instruction",
+            "prototype": 43,
+            "instruction": 1047,
+            "offset": 46823,
+            "expected": [
+              8,
+              9,
+              8,
+              0
+            ],
+            "register": 9,
+            "numerator": 1,
+            "denominator": 1,
+            "owner": "LAB_CONFIGURATION.waveOverrides[33]"
+          }
+        ]
+      },
+      "unit": "conduits",
+      "stock": 8,
+      "limits": {
+        "minimum": 1,
+        "maximum": 8,
+        "integer": true
+      },
+      "applies": "next_mission",
+      "confidence": "CONFIRMED_STATIC",
+      "provenance": "reregistered:archimedea:44.0.2",
+      "backend_note": "Owner is the ConquestLib root-prototype literal that fills waveOverrides; applies to newly generated EDA/ETA mission chains."
+    },
+    {
+      "tunable_id": "archimedea.eda_mirror_defense_waves",
+      "phase1_tunable_id": "archimedea.eda_mirror_defense_waves",
+      "label": "waveOverrides[8] -> maxWaveNum",
+      "mission_type": "Deep/Temporal Archimedea",
+      "variant": "Deep Archimedea (Mirror Defense)",
+      "shared_with": "unchanged vs 44.0.0",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "backend": "EXACT_LITERAL",
+      "owner": {
+        "body_key": "076a7b443af7fdb8",
+        "stock_sha256": "73107506E80FF7853AE0C4E77D56682707492328BE9EEC80067C5EDB86529453",
+        "file": "Lotus_Scripts_Libs_ConquestLib.lua_B",
+        "module_path": "Lotus.Scripts.Libs.ConquestLib",
+        "sites": [
+          {
+            "kind": "instruction",
+            "prototype": 43,
+            "instruction": 1041,
+            "offset": 46799,
+            "expected": [
+              8,
+              9,
+              4,
+              0
+            ],
+            "register": 9,
+            "numerator": 1,
+            "denominator": 1,
+            "owner": "LAB_CONFIGURATION.waveOverrides[8]"
+          }
+        ]
+      },
+      "unit": "defenses",
+      "stock": 4,
+      "limits": {
+        "minimum": 1,
+        "maximum": 4,
+        "integer": true
+      },
+      "applies": "next_mission",
+      "confidence": "CONFIRMED_STATIC",
+      "provenance": "reregistered:archimedea:44.0.2",
+      "backend_note": "Owner is the ConquestLib root-prototype literal that fills waveOverrides; applies to newly generated EDA/ETA mission chains."
+    },
+    {
+      "tunable_id": "archimedea.eda_survival_minutes",
+      "phase1_tunable_id": "archimedea.eda_survival_minutes",
+      "label": "waveOverrides[2] -> maxWaveNum",
+      "mission_type": "Deep/Temporal Archimedea",
+      "variant": "Deep Archimedea (LAB_CONFIGURATION)",
+      "shared_with": "unchanged vs 44.0.0",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "backend": "EXACT_LITERAL",
+      "owner": {
+        "body_key": "076a7b443af7fdb8",
+        "stock_sha256": "73107506E80FF7853AE0C4E77D56682707492328BE9EEC80067C5EDB86529453",
+        "file": "Lotus_Scripts_Libs_ConquestLib.lua_B",
+        "module_path": "Lotus.Scripts.Libs.ConquestLib",
+        "sites": [
+          {
+            "kind": "instruction",
+            "prototype": 43,
+            "instruction": 1038,
+            "offset": 46787,
+            "expected": [
+              8,
+              9,
+              10,
+              0
+            ],
+            "register": 9,
+            "numerator": 1,
+            "denominator": 1,
+            "owner": "LAB_CONFIGURATION.waveOverrides[2]"
+          }
+        ]
+      },
+      "unit": "minutes",
+      "stock": 10,
+      "limits": {
+        "minimum": 1,
+        "maximum": 60,
+        "integer": true
+      },
+      "applies": "next_mission",
+      "confidence": "CONFIRMED_STATIC",
+      "provenance": "reregistered:archimedea:44.0.2",
+      "backend_note": "Owner is the ConquestLib root-prototype literal that fills waveOverrides; applies to newly generated EDA/ETA mission chains."
+    },
+    {
+      "tunable_id": "archimedea.eta_defense_waves",
+      "phase1_tunable_id": "archimedea.eta_defense_waves",
+      "label": "waveOverrides[8] -> maxWaveNum",
+      "mission_type": "Deep/Temporal Archimedea",
+      "variant": "Temporal Archimedea",
+      "shared_with": "unchanged vs 44.0.0",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "backend": "EXACT_LITERAL",
+      "owner": {
+        "body_key": "076a7b443af7fdb8",
+        "stock_sha256": "73107506E80FF7853AE0C4E77D56682707492328BE9EEC80067C5EDB86529453",
+        "file": "Lotus_Scripts_Libs_ConquestLib.lua_B",
+        "module_path": "Lotus.Scripts.Libs.ConquestLib",
+        "sites": [
+          {
+            "kind": "instruction",
+            "prototype": 43,
+            "instruction": 1013,
+            "offset": 46643,
+            "expected": [
+              8,
+              9,
+              6,
+              0
+            ],
+            "register": 9,
+            "numerator": 1,
+            "denominator": 1,
+            "owner": "HEX_CONFIGURATION.waveOverrides[8]"
+          }
+        ]
+      },
+      "unit": "waves",
+      "stock": 6,
+      "limits": {
+        "minimum": 1,
+        "maximum": 6,
+        "integer": true
+      },
+      "applies": "next_mission",
+      "confidence": "CONFIRMED_STATIC",
+      "provenance": "reregistered:archimedea:44.0.2",
+      "backend_note": "Owner is the ConquestLib root-prototype literal that fills waveOverrides; applies to newly generated EDA/ETA mission chains."
+    },
+    {
+      "tunable_id": "archimedea.eta_survival_minutes",
+      "phase1_tunable_id": "archimedea.eta_survival_minutes",
+      "label": "waveOverrides[2] copied to MissionInfo.maxWaveNum",
+      "mission_type": "Deep/Temporal Archimedea",
+      "variant": "Temporal Archimedea (HEX_CONFIGURATION)",
+      "shared_with": "unchanged vs 44.0.0 (same line)",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "backend": "EXACT_LITERAL",
+      "owner": {
+        "body_key": "076a7b443af7fdb8",
+        "stock_sha256": "73107506E80FF7853AE0C4E77D56682707492328BE9EEC80067C5EDB86529453",
+        "file": "Lotus_Scripts_Libs_ConquestLib.lua_B",
+        "module_path": "Lotus.Scripts.Libs.ConquestLib",
+        "sites": [
+          {
+            "kind": "instruction",
+            "prototype": 43,
+            "instruction": 1010,
+            "offset": 46631,
+            "expected": [
+              8,
+              9,
+              10,
+              0
+            ],
+            "register": 9,
+            "numerator": 1,
+            "denominator": 1,
+            "owner": "HEX_CONFIGURATION.waveOverrides[2]"
+          }
+        ]
+      },
+      "unit": "minutes",
+      "stock": 10,
+      "limits": {
+        "minimum": 1,
+        "maximum": 60,
+        "integer": true
+      },
+      "applies": "next_mission",
+      "confidence": "CONFIRMED_STATIC",
+      "provenance": "reregistered:archimedea:44.0.2",
+      "backend_note": "Owner is the ConquestLib root-prototype literal that fills waveOverrides; applies to newly generated EDA/ETA mission chains."
+    },
+    {
+      "tunable_id": "coh_destroy_targets.num_targets",
+      "phase1_tunable_id": "coh_destroy_targets.num_targets",
+      "label": "Base target spawn count; spawn = min(numTargets + required/2, 20) x targetSpawnMultiplier",
+      "mission_type": "Descendia: Destroy Targets",
+      "variant": "Descendia",
+      "shared_with": "",
+      "owner_kind": "METADATA_PARAM",
+      "backend": "METADATA_PATCH",
+      "owner": {
+        "type": "/Lotus/Types/Gameplay/DevilTower/LiteGameModes/CoHDestroyTargetsTrigger",
+        "field": "Scripts.0.Script._numTargets",
+        "stock_text": "10",
+        "preimage": "_numTargets=10",
+        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "consumer": {
+          "body_key": "d21d8867b9549b2a",
+          "stock_sha256": "937062CA4270AF333FC920F54F85AEF68747337BDA974425FC81DAFBEF3706B4",
+          "file": "Lotus_Types_Gameplay_DevilTower_LiteGameModes_CoHDestroyTargets.lua_B",
+          "module_path": "/Lotus/Types/Gameplay/DevilTower/LiteGameModes/CoHDestroyTargets.lua",
+          "function": "BreakTargetsChallengeStart",
+          "global": "numTargets",
+          "name_hash": "1502d78c"
+        }
+      },
+      "unit": "targets",
+      "stock": 10,
+      "limits": {
+        "minimum": 1,
+        "maximum": 32767,
+        "integer": true,
+        "basis": "numeric guard only; gameplay-safe range not established offline"
+      },
+      "applies": "restart",
+      "confidence": "CONFIRMED_STATIC",
+      "provenance": "auto:metadata-snapshot"
+    },
+    {
+      "tunable_id": "coh_excavation.dig_duration",
+      "phase1_tunable_id": "coh_excavation.dig_duration",
+      "label": "Dig time per excavator",
+      "mission_type": "Descendia: Excavation",
+      "variant": "Descendia/Circuit of Hell",
+      "shared_with": "separate from ExcavationMission",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "backend": "EXACT_LITERAL",
+      "owner": {
+        "body_key": "415a57536412719f",
+        "stock_sha256": "C641B897157618608088A5CFBD1D5688ACE5C12822F8ADAADF95089C6491D0E8",
+        "file": "Lotus_Types_Gameplay_DevilTower_LiteGameModes_CoHExcavationLite.lua_B",
+        "module_path": "Lotus.Types.Gameplay.DevilTower.LiteGameModes.CoHExcavationLite",
+        "sites": [
+          {
+            "kind": "number_constant",
+            "prototype": 23,
+            "offset": 22618,
+            "expected": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              128,
+              70,
+              64
+            ],
+            "constant": 90,
+            "numerator": 1,
+            "denominator": 1,
+            "owner": "migration, battery limit, remaining time, partial progress"
+          },
+          {
+            "kind": "instruction",
+            "prototype": 23,
+            "offset": 21000,
+            "expected": [
+              8,
+              34,
+              45,
+              0
+            ],
+            "instruction": 736,
+            "register": 34,
+            "numerator": 1,
+            "denominator": 1,
+            "owner": "completion threshold"
+          }
+        ]
+      },
+      "unit": "s",
+      "stock": 45,
+      "limits": {
+        "minimum": 1,
+        "maximum": 32767,
+        "integer": true
+      },
+      "applies": "next_mission",
+      "confidence": "CONFIRMED_STATIC",
+      "provenance": "carried_over:descendia_excavation"
+    },
+    {
+      "tunable_id": "cohinterception.beacon_chase_time",
+      "phase1_tunable_id": "cohinterception.beacon_chase_time",
+      "label": "Time a beacon must be held/chased before it completes",
+      "mission_type": "Descendia: Mobile Interception",
+      "variant": "all",
+      "shared_with": "",
+      "owner_kind": "METADATA_PARAM",
+      "backend": "METADATA_PATCH",
+      "owner": {
+        "type": "/Lotus/Types/Gameplay/DevilTower/LiteGameModes/MobileInterception/MobileInterceptionScriptTrigger",
+        "field": "Scripts.0.Script._beaconChaseTargetTime",
+        "stock_text": "25",
+        "preimage": "_beaconChaseTargetTime=25",
+        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "consumer": {
+          "body_key": "026200d9d8fd40a3",
+          "stock_sha256": "D3EEE8D0F393AF6E9EAD211E3FD602D4863A3F87017C85B869A87A133E70F702",
+          "file": "Lotus_Types_Scripts_Tau_CoH_CoHInterception.lua_B",
+          "module_path": "/Lotus/Types/Scripts/Tau/CoH/CoHInterception.lua",
+          "function": "Start",
+          "global": "beaconChaseTargetTime",
+          "name_hash": "0ddabb69"
+        }
+      },
+      "unit": "s",
+      "stock": 25,
+      "limits": {
+        "minimum": 0,
+        "maximum": 32767,
+        "integer": false,
+        "basis": "numeric guard only; gameplay-safe range not established offline"
+      },
+      "applies": "restart",
+      "confidence": "CONFIRMED_STATIC",
+      "provenance": "auto:metadata-snapshot"
+    },
+    {
+      "tunable_id": "cohinterception.is_descent",
+      "phase1_tunable_id": "cohinterception.is_descent",
+      "label": "Filter beacons to the current zone (CoHUtilityLib.FilterEntitiesToZone)",
+      "mission_type": "Descendia: Mobile Interception",
+      "variant": "Descendia",
+      "shared_with": "",
+      "owner_kind": "METADATA_PARAM",
+      "backend": "METADATA_PATCH",
+      "owner": {
+        "type": "/Lotus/Types/Gameplay/DevilTower/LiteGameModes/MobileInterception/MobileInterceptionScriptTrigger",
+        "field": "Scripts.0.Script._isDescent",
+        "stock_text": "1",
+        "preimage": "_isDescent=1",
+        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "consumer": {
+          "body_key": "026200d9d8fd40a3",
+          "stock_sha256": "D3EEE8D0F393AF6E9EAD211E3FD602D4863A3F87017C85B869A87A133E70F702",
+          "file": "Lotus_Types_Scripts_Tau_CoH_CoHInterception.lua_B",
+          "module_path": "/Lotus/Types/Scripts/Tau/CoH/CoHInterception.lua",
+          "function": "Start",
+          "global": "isDescent",
+          "name_hash": "c7826bcb"
+        }
+      },
+      "unit": "bool",
+      "stock": 1,
+      "limits": {
+        "minimum": 0,
+        "maximum": 1,
+        "integer": true,
+        "basis": "numeric guard only; gameplay-safe range not established offline"
+      },
+      "applies": "restart",
+      "confidence": "CONFIRMED_STATIC",
+      "provenance": "auto:metadata-snapshot"
+    },
+    {
+      "tunable_id": "control_area_deimos.duration",
+      "phase1_tunable_id": "control_area_deimos.duration",
+      "label": "Control-area defend duration",
+      "mission_type": "Free Roam bounty (Control Area)",
+      "variant": "Cambion Drift",
+      "shared_with": "",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "backend": "EXACT_LITERAL",
+      "owner": {
+        "body_key": "8a0b0819de60df01",
+        "stock_sha256": "322D5E174AC81D86DFDFF92FCED2CDE6A2748D9929698409381C13DE936153F2",
+        "file": "Lotus_Scripts_InfestedMicroplanet_Encounters_DynamicAreaDefense.lua_B",
+        "module_path": "Lotus.Scripts.InfestedMicroplanet.Encounters.DynamicAreaDefense",
+        "sites": [
+          {
+            "kind": "instruction",
+            "prototype": 15,
+            "offset": 10398,
+            "expected": [
+              8,
+              23,
+              90,
+              0
+            ],
+            "instruction": 56,
+            "register": 23,
+            "numerator": 1,
+            "denominator": 1
+          },
+          {
+            "kind": "instruction",
+            "prototype": 7,
+            "offset": 3318,
+            "expected": [
+              18,
+              4,
+              11,
+              0
+            ],
+            "instruction": 63,
+            "register": 1,
+            "numerator": 1,
+            "denominator": 1
+          }
+        ]
+      },
+      "unit": "s",
+      "stock": 90,
+      "limits": {
+        "minimum": 1,
+        "maximum": 32767,
+        "integer": true
+      },
+      "applies": "next_mission",
+      "confidence": "CONFIRMED_STATIC",
+      "provenance": "carried_over:control_area_deimos"
+    },
+    {
+      "tunable_id": "control_area_nokko.duration",
+      "phase1_tunable_id": "control_area_nokko.duration",
+      "label": "Control-area defend duration",
+      "mission_type": "Free Roam bounty (Control Area)",
+      "variant": "Venus / Nokko colony",
+      "shared_with": "",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "backend": "EXACT_LITERAL",
+      "owner": {
+        "body_key": "e4bb611e00823d46",
+        "stock_sha256": "2C7BB67B50C245A0D9B10E680B18B54503ABDBF546EEEB2B85A3D98DE80AA4C6",
+        "file": "Lotus_Scripts_Venus_NokkoColony_Encounters_AreaDefense.lua_B",
+        "module_path": "Lotus.Scripts.Venus.NokkoColony.Encounters.AreaDefense",
+        "sites": [
+          {
+            "kind": "instruction",
+            "prototype": 6,
+            "offset": 5509,
+            "expected": [
+              82,
+              3,
+              4,
+              5
+            ],
+            "instruction": 112,
+            "register": 3,
+            "numerator": 2,
+            "denominator": 3
+          },
+          {
+            "kind": "instruction",
+            "prototype": 6,
+            "offset": 5481,
+            "expected": [
+              82,
+              3,
+              2,
+              4
+            ],
+            "instruction": 107,
+            "register": 3,
+            "numerator": 1,
+            "denominator": 2
+          },
+          {
+            "kind": "instruction",
+            "prototype": 5,
+            "offset": 3974,
+            "expected": [
+              12,
+              6,
+              1,
+              0
+            ],
+            "instruction": 118,
+            "register": 6,
+            "numerator": 1,
+            "denominator": 1
+          }
+        ]
+      },
+      "unit": "s",
+      "stock": null,
+      "limits": {
+        "minimum": 1,
+        "maximum": 32767,
+        "integer": true
+      },
+      "applies": "next_mission",
+      "confidence": "CONFIRMED_STATIC",
+      "provenance": "carried_over:control_area_nokko"
+    },
+    {
+      "tunable_id": "control_area_plains.duration",
+      "phase1_tunable_id": "control_area_plains.duration",
+      "label": "Control-area defend duration",
+      "mission_type": "Free Roam bounty (Control Area)",
+      "variant": "Plains of Eidolon + Narmer",
+      "shared_with": "",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "backend": "EXACT_LITERAL",
+      "owner": {
+        "body_key": "b3a5a18d68d61e16",
+        "stock_sha256": "F2A27591489413891650D0948414CDE30DC7B7CA7EC0922CA3003B55773C150E",
+        "file": "Lotus_Scripts_Eidolon_Encounters_DynamicDefend.lua_B",
+        "module_path": "Lotus.Scripts.Eidolon.Encounters.DynamicDefend",
+        "sites": [
+          {
+            "kind": "instruction",
+            "prototype": 17,
+            "offset": 8701,
+            "expected": [
+              8,
+              21,
+              90,
+              0
+            ],
+            "instruction": 44,
+            "register": 21,
+            "numerator": 1,
+            "denominator": 1
+          },
+          {
+            "kind": "instruction",
+            "prototype": 8,
+            "offset": 4061,
+            "expected": [
+              12,
+              5,
+              0,
+              0
+            ],
+            "instruction": 100,
+            "register": 5,
+            "numerator": 1,
+            "denominator": 1
+          }
+        ]
+      },
+      "unit": "s",
+      "stock": 90,
+      "limits": {
+        "minimum": 1,
+        "maximum": 32767,
+        "integer": true
+      },
+      "applies": "next_mission",
+      "confidence": "CONFIRMED_STATIC",
+      "provenance": "carried_over:control_area_plains"
+    },
+    {
+      "tunable_id": "defense.marker_threshold",
+      "phase1_tunable_id": "defense.marker_threshold",
+      "label": "Show remaining-enemy markers when enemies left < threshold",
+      "mission_type": "Defense",
+      "variant": "all",
+      "shared_with": "",
+      "owner_kind": "METADATA_PARAM",
+      "backend": "METADATA_PATCH",
+      "owner": {
+        "type": "/Lotus/Types/Gameplay/DevilTower/LiteGameModes/HellDefenseTrigger",
+        "field": "Scripts.0.Script._markerThreshold",
+        "stock_text": "5",
+        "preimage": "_markerThreshold=5",
+        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "consumer": {
+          "body_key": "1a1354d153712f9d",
+          "stock_sha256": "0FB53A2C0946ACC3476DF7E16C5A3AAEEA1B6384A2D4EFA2D7360F4C155DBF10",
+          "file": "Lotus_Scripts_WaveDefend.lua_B",
+          "module_path": "/Lotus/Scripts/WaveDefend.lua",
+          "function": "HellWaveDefense",
+          "global": "markerThreshold",
+          "name_hash": "b234c782"
+        }
+      },
+      "unit": "enemies",
+      "stock": 5,
+      "limits": {
+        "minimum": 1,
+        "maximum": 32767,
+        "integer": true,
+        "basis": "numeric guard only; gameplay-safe range not established offline"
+      },
+      "applies": "restart",
+      "confidence": "CONFIRMED_STATIC",
+      "provenance": "auto:metadata-snapshot"
+    },
+    {
+      "tunable_id": "excavation.dig_duration",
+      "phase1_tunable_id": "excavation.dig_duration",
+      "label": "Excavator dig time per extractor",
+      "mission_type": "Excavation",
+      "variant": "standard",
+      "shared_with": "Old World/Elite/FastDig overwrite the same slot",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "backend": "EXACT_LITERAL",
+      "owner": {
+        "body_key": "f7444e3c621ff018",
+        "stock_sha256": "DF9FB3206E468652DC7A101E26118ADF2E039F35B69E228C26BB6BBD3A6F4701",
+        "file": "Lotus_Scripts_Modes_ExcavationMission.lua_B",
+        "module_path": "Lotus.Scripts.Modes.ExcavationMission",
+        "sites": [
+          {
+            "kind": "instruction",
+            "prototype": 49,
+            "offset": 71847,
+            "expected": [
+              8,
+              27,
+              100,
+              0
+            ],
+            "instruction": 76,
+            "register": 27,
+            "numerator": 1,
+            "denominator": 1
+          }
+        ]
+      },
+      "unit": "s",
+      "stock": 100,
+      "limits": {
+        "minimum": 1,
+        "maximum": 32767,
+        "integer": true
+      },
+      "applies": "next_mission",
+      "confidence": "CONFIRMED_STATIC",
+      "provenance": "carried_over:excavation"
+    },
+    {
+      "tunable_id": "excavation.dig_duration_elite_alert",
+      "phase1_tunable_id": "excavation.dig_duration_elite_alert",
+      "label": "Dig time override for elite alert",
+      "mission_type": "Excavation",
+      "variant": "Elite alert (periodicMissionTag ELITE_ALERT or _ALT)",
+      "shared_with": "writes same slot as excavation.dig_duration",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "backend": "EXACT_LITERAL",
+      "owner": {
+        "body_key": "f7444e3c621ff018",
+        "stock_sha256": "DF9FB3206E468652DC7A101E26118ADF2E039F35B69E228C26BB6BBD3A6F4701",
+        "file": "Lotus_Scripts_Modes_ExcavationMission.lua_B",
+        "module_path": "Lotus.Scripts.Modes.ExcavationMission",
+        "sites": [
+          {
+            "kind": "instruction",
+            "prototype": 32,
+            "offset": 29560,
+            "expected": [
+              8,
+              1,
+              140,
+              0
+            ],
+            "instruction": 102,
+            "register": 1,
+            "numerator": 1,
+            "denominator": 1
+          }
+        ]
+      },
+      "unit": "s",
+      "stock": 140,
+      "limits": {
+        "minimum": 1,
+        "maximum": 32767,
+        "integer": true
+      },
+      "applies": "next_mission",
+      "confidence": "CONFIRMED_STATIC",
+      "provenance": "carried_over:excavation"
+    },
+    {
+      "tunable_id": "excavation.dig_duration_old_world_salvage",
+      "phase1_tunable_id": "excavation.dig_duration_old_world_salvage",
+      "label": "Dig time override for Old World Salvage",
+      "mission_type": "Excavation",
+      "variant": "Old World Salvage (goalTag OldWorldSalvage + location match)",
+      "shared_with": "writes same slot as excavation.dig_duration",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "backend": "EXACT_LITERAL",
+      "owner": {
+        "body_key": "f7444e3c621ff018",
+        "stock_sha256": "DF9FB3206E468652DC7A101E26118ADF2E039F35B69E228C26BB6BBD3A6F4701",
+        "file": "Lotus_Scripts_Modes_ExcavationMission.lua_B",
+        "module_path": "Lotus.Scripts.Modes.ExcavationMission",
+        "sites": [
+          {
+            "kind": "instruction",
+            "prototype": 32,
+            "offset": 29436,
+            "expected": [
+              8,
+              1,
+              60,
+              0
+            ],
+            "instruction": 81,
+            "register": 1,
+            "numerator": 1,
+            "denominator": 1
+          }
+        ]
+      },
+      "unit": "s",
+      "stock": 60,
+      "limits": {
+        "minimum": 1,
+        "maximum": 32767,
+        "integer": true
+      },
+      "applies": "next_mission",
+      "confidence": "CONFIRMED_STATIC",
+      "provenance": "carried_over:excavation"
+    },
+    {
+      "tunable_id": "faceoff.cd_burn",
+      "phase1_tunable_id": "faceoff.cd_burn",
+      "label": "_isCdBurnOn script parameter",
+      "mission_type": "Faceoff",
+      "variant": "all",
+      "shared_with": "",
+      "owner_kind": "METADATA_PARAM",
+      "backend": "METADATA_PATCH",
+      "owner": {
+        "type": "/Lotus/Types/Gameplay/1999Wf/PvPvE/WF99PvPvEMissionScriptTrigger",
+        "field": "Scripts.0.Script._isCdBurnOn",
+        "stock_text": "1",
+        "preimage": "_isCdBurnOn=1",
+        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "consumer": {
+          "body_key": "97ddf9f92301da45",
+          "stock_sha256": "E9020E9A558445B366C0F9D214BEC615204118D2F438FCA3D3839AD9B0B63B00",
+          "file": "Lotus_Scripts_Modes_WF99PvPvEMission.lua_B",
+          "module_path": "/Lotus/Scripts/Modes/WF99PvPvEMission.lua",
+          "function": "Mission",
+          "global": "isCdBurnOn",
+          "name_hash": "2840ea87"
+        }
+      },
+      "unit": "bool",
+      "stock": 1,
+      "limits": {
+        "minimum": 0,
+        "maximum": 1,
+        "integer": true,
+        "basis": "numeric guard only; gameplay-safe range not established offline"
+      },
+      "applies": "restart",
+      "confidence": "CONFIRMED_STATIC",
+      "provenance": "auto:metadata-snapshot"
+    },
+    {
+      "tunable_id": "interception.score_rate",
+      "phase1_tunable_id": "interception.score_rate",
+      "label": "Score per owned tower per second: player += owned*scoreRatePerSecond*dt; enemy the same (or frame_48[107] in quest)",
+      "mission_type": "Interception",
+      "variant": "all",
+      "shared_with": "",
+      "owner_kind": "METADATA_PARAM",
+      "backend": "TARGET_ADDON",
+      "owner": {
+        "body_key": "c9605470a8c47d8d",
+        "stock_sha256": "3A8ACF02213053621AD8CF3CC77809A35F27BADDF91D10FCBF94475D0A7D225B",
+        "file": "Lotus_Scripts_Modes_TerritoryMission.lua_B",
+        "module_path": "Lotus.Scripts.Modes.TerritoryMission",
+        "template": "MISSION_INTERCEPTION_SCORING_TARGET",
+        "prototype": 35,
+        "upvalue": null,
+        "field": "scoreRatePerSecond",
+        "generation_field": "scoring_speed_multiplier"
+      },
+      "unit": "x stock rate",
+      "stock": 1,
+      "limits": {
+        "minimum": 0.01,
+        "maximum": 100,
+        "integer": false
+      },
+      "applies": "F9",
+      "confidence": "PARTIAL",
+      "provenance": "carried_over:interception",
+      "backend_note": "Carried-over preset owner: global scoreRatePerSecond set once at prototype 35 entry; Phase 1 classifies the owner as PARTIAL (possible metadata origin)."
+    },
+    {
+      "tunable_id": "mobiledefense.total_time.maximum",
+      "phase1_tunable_id": "mobiledefense.total_time",
+      "label": "Total defend time across all consoles = Lerp(180,240,mission.difficulty)",
+      "mission_type": "Mobile Defense",
+      "variant": "regular",
+      "shared_with": "Base for all MD variants",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "backend": "EXACT_LITERAL",
+      "owner": {
+        "body_key": "a807aae359ffc1eb",
+        "stock_sha256": "4DCFA0B5633B93BC3AF57F04AB5DE4F1CC492FCFD2AE4DE61B9B473E5F1B2DA1",
+        "file": "Lotus_Scripts_MobileDefense.lua_B",
+        "module_path": "Lotus.Scripts.MobileDefense",
+        "sites": [
+          {
+            "kind": "instruction",
+            "prototype": 22,
+            "offset": 21642,
+            "expected": [
+              8,
+              18,
+              240,
+              0
+            ],
+            "instruction": 121,
+            "register": 18,
+            "numerator": 1,
+            "denominator": 1
+          }
+        ]
+      },
+      "unit": "s",
+      "stock": 240,
+      "limits": {
+        "minimum": 1,
+        "maximum": 32767,
+        "integer": true
+      },
+      "applies": "next_mission",
+      "confidence": "CONFIRMED_STATIC",
+      "provenance": "carried_over:mobile_defense"
+    },
+    {
+      "tunable_id": "mobiledefense.total_time.minimum",
+      "phase1_tunable_id": "mobiledefense.total_time",
+      "label": "Total defend time across all consoles = Lerp(180,240,mission.difficulty)",
+      "mission_type": "Mobile Defense",
+      "variant": "regular",
+      "shared_with": "Base for all MD variants",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "backend": "EXACT_LITERAL",
+      "owner": {
+        "body_key": "a807aae359ffc1eb",
+        "stock_sha256": "4DCFA0B5633B93BC3AF57F04AB5DE4F1CC492FCFD2AE4DE61B9B473E5F1B2DA1",
+        "file": "Lotus_Scripts_MobileDefense.lua_B",
+        "module_path": "Lotus.Scripts.MobileDefense",
+        "sites": [
+          {
+            "kind": "instruction",
+            "prototype": 22,
+            "offset": 21638,
+            "expected": [
+              8,
+              17,
+              180,
+              0
+            ],
+            "instruction": 120,
+            "register": 17,
+            "numerator": 1,
+            "denominator": 1
+          }
+        ]
+      },
+      "unit": "s",
+      "stock": 180,
+      "limits": {
+        "minimum": 1,
+        "maximum": 32767,
+        "integer": true
+      },
+      "applies": "next_mission",
+      "confidence": "CONFIRMED_STATIC",
+      "provenance": "carried_over:mobile_defense"
+    },
+    {
+      "tunable_id": "netracell.enemy_power_fill",
+      "phase1_tunable_id": "netracell.enemy_power_fill",
+      "label": "Power added per contributing kill",
+      "mission_type": "Netracell",
+      "variant": "normal",
+      "shared_with": "the quest variant multiplies it (next row)",
+      "owner_kind": "METADATA_PARAM",
+      "backend": "METADATA_PATCH",
+      "owner": {
+        "type": "/Lotus/Types/Gameplay/EntratiLab/VoidVaults/EntratiVoidVaultsScriptTrigger",
+        "field": "Scripts.0.Script._enemyPowerFill",
+        "stock_text": "1",
+        "preimage": "_enemyPowerFill=1",
+        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "consumer": {
+          "body_key": "0c498e078835f9fe",
+          "stock_sha256": "036522B0202AB810737F23C765E45050CB02F87B10F9C293932B3BE8DA24F85F",
+          "file": "Lotus_Scripts_Modes_EntratiVoidVaults.lua_B",
+          "module_path": "/Lotus/Scripts/Modes/EntratiVoidVaults.lua",
+          "function": "Mission",
+          "global": "enemyPowerFill",
+          "name_hash": "9a8fa363"
+        }
+      },
+      "unit": "power",
+      "stock": 1,
+      "limits": {
+        "minimum": 1,
+        "maximum": 100,
+        "integer": false
+      },
+      "applies": "restart",
+      "confidence": "CONFIRMED_STATIC",
+      "provenance": "carried_over:netracells"
+    },
+    {
+      "tunable_id": "netracell.quest_power_multiplier",
+      "phase1_tunable_id": "netracell.quest_power_multiplier",
+      "label": "Quest multiplier on power fill",
+      "mission_type": "Netracell",
+      "variant": "quest",
+      "shared_with": "quest only",
+      "owner_kind": "METADATA_PARAM",
+      "backend": "METADATA_PATCH",
+      "owner": {
+        "type": "/Lotus/Types/Gameplay/EntratiLab/VoidVaults/EntratiVoidVaultsScriptTrigger",
+        "field": "Scripts.0.Script._questPowerMultiplier",
+        "stock_text": "8",
+        "preimage": "_questPowerMultiplier=8",
+        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "consumer": {
+          "body_key": "0c498e078835f9fe",
+          "stock_sha256": "036522B0202AB810737F23C765E45050CB02F87B10F9C293932B3BE8DA24F85F",
+          "file": "Lotus_Scripts_Modes_EntratiVoidVaults.lua_B",
+          "module_path": "/Lotus/Scripts/Modes/EntratiVoidVaults.lua",
+          "function": "Mission",
+          "global": "questPowerMultiplier",
+          "name_hash": "f8ce5d4e"
+        }
+      },
+      "unit": "x",
+      "stock": 8,
+      "limits": {
+        "minimum": 0,
+        "maximum": 32767,
+        "integer": false,
+        "basis": "numeric guard only; gameplay-safe range not established offline"
+      },
+      "applies": "restart",
+      "confidence": "CONFIRMED_STATIC",
+      "provenance": "auto:metadata-snapshot"
+    },
+    {
+      "tunable_id": "server.credit_boost_multiplier",
+      "phase1_tunable_id": "server.credit_boost_multiplier",
+      "label": "worldState.creditBoostMultiplier",
+      "mission_type": "All missions",
+      "variant": "all nodes",
+      "shared_with": "",
+      "owner_kind": "SERVER",
+      "backend": "SERVER_CONFIG",
+      "owner": {
+        "config_key": "worldState.creditBoostMultiplier",
+        "server_root": "../OpenWF Server 23.09.2026/SpaceNinjaServer",
+        "schema_file": "src/services/configService.ts",
+        "schema_sha256": "D6F46F8B9897367C5CC93B42088B6987B2FE669C271E8200C8618E080D1DED5C",
+        "schema_preimage": "creditBoostMultiplier?: number;",
+        "consumer_file": "src/services/missionInventoryUpdateService.ts",
+        "consumer_sha256": "E55DE66F7D728C0EC745F9647F08D52063C67A14C891E300C244521138098093",
+        "consumer_preimage": "if (config.worldState?.creditBoostMultiplier) {"
+      },
+      "unit": "x",
+      "stock": 0,
+      "limits": {
+        "minimum": 0,
+        "maximum": 100,
+        "integer": false
+      },
+      "applies": "immediate",
+      "confidence": "CONFIRMED_STATIC",
+      "provenance": "auto:server-config-key",
+      "backend_note": "Absent/0 = disabled (stock). Written only as a config diff; never applied by the generator."
+    },
+    {
+      "tunable_id": "shrine.offering_generation_time",
+      "phase1_tunable_id": "shrine.offering_generation_time",
+      "label": "Time to generate an offering (HUD timer)",
+      "mission_type": "Descendia: Shrine Defense",
+      "variant": "all",
+      "shared_with": "",
+      "owner_kind": "METADATA_PARAM",
+      "backend": "METADATA_PATCH",
+      "owner": {
+        "type": "/Lotus/Types/Gameplay/DevilTower/LiteGameModes/CoHShrineDefenseTrigger",
+        "field": "Scripts.0.Script._offeringGenerationTime",
+        "stock_text": "30",
+        "preimage": "_offeringGenerationTime=30",
+        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "consumer": {
+          "body_key": "1ef96aede7fe612e",
+          "stock_sha256": "4BEA96C94D8A22A6578139C47919E05D4A191D97A6A88CF371ED150BB11ED946",
+          "file": "Lotus_Types_Gameplay_DevilTower_LiteGameModes_CoHShrineDefenseLite.lua_B",
+          "module_path": "/Lotus/Types/Gameplay/DevilTower/LiteGameModes/CoHShrineDefenseLite.lua",
+          "function": "Mission",
+          "global": "offeringGenerationTime",
+          "name_hash": "0bf412f0"
+        }
+      },
+      "unit": "s",
+      "stock": 30,
+      "limits": {
+        "minimum": 1,
+        "maximum": 32767,
+        "integer": false
+      },
+      "applies": "restart",
+      "confidence": "CONFIRMED_STATIC",
+      "provenance": "carried_over:descendia_shrine"
+    },
+    {
+      "tunable_id": "survival.pickup_reward_progress",
+      "phase1_tunable_id": null,
+      "label": "Carried-over preset behaviour, not a stock owner: advances the elapsed reward clock (upvalue 19) per collected pickup; 0 = stock (disabled).",
+      "mission_type": "Lotus.Scripts.Modes.SurvivalMission",
+      "variant": "",
+      "shared_with": "",
+      "owner_kind": "ADDON_EXTENSION",
+      "backend": "TARGET_ADDON",
+      "owner": {
+        "body_key": "f10a043e7f825db2",
+        "stock_sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D",
+        "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
+        "module_path": "Lotus.Scripts.Modes.SurvivalMission",
+        "template": "MISSION_SURVIVAL_TIMERS_LUA_CALL",
+        "prototype": 67,
+        "upvalue": 19,
+        "field": null,
+        "generation_field": "reward_progress_per_pickup_seconds",
+        "capture_evidence": {
+          "closure_instruction": 717,
+          "capture": "REF:R43",
+          "root_register": 43
+        }
+      },
+      "unit": "s",
+      "stock": 0,
+      "limits": {
+        "minimum": 0,
+        "maximum": 32767,
+        "integer": false
+      },
+      "applies": "F9",
+      "confidence": "CARRIED_OVER",
+      "provenance": "carried_over:survival",
+      "backend_note": "Carried-over preset behaviour, not a stock owner: advances the elapsed reward clock (upvalue 19) per collected pickup; 0 = stock (disabled)."
+    },
+    {
+      "tunable_id": "survival.pickup_time_added",
+      "phase1_tunable_id": "survival.pickup_time_added",
+      "label": "LS added per personal LS pickup (multiplied by the collected count)",
+      "mission_type": "Survival",
+      "variant": "all",
+      "shared_with": "all Survival except the fast branch (4)",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "backend": "TARGET_ADDON",
+      "owner": {
+        "body_key": "f10a043e7f825db2",
+        "stock_sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D",
+        "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
+        "module_path": "Lotus.Scripts.Modes.SurvivalMission",
+        "template": "MISSION_SURVIVAL_TIMERS_LUA_CALL",
+        "prototype": 67,
+        "upvalue": 22,
+        "field": "pickupTimeAdded",
+        "generation_field": "life_support_per_pickup_seconds",
+        "capture_evidence": {
+          "closure_instruction": 717,
+          "capture": "VAL:R8",
+          "root_register": 8,
+          "duptable_instruction": 18,
+          "template_constant": 33,
+          "value_constant": 23,
+          "value": 7
+        }
+      },
+      "unit": "s",
+      "stock": 7,
+      "limits": {
+        "minimum": 0,
+        "maximum": 32767,
+        "integer": false
+      },
+      "applies": "F9",
+      "confidence": "CONFIRMED_STATIC",
+      "provenance": "carried_over:survival",
+      "backend_note": "Pickup config table (root frame_79[15]) captured as upvalue 22 of prototype 67."
+    },
+    {
+      "tunable_id": "survival.reward_interval",
+      "phase1_tunable_id": "survival.reward_interval",
+      "label": "Seconds per reward rotation",
+      "mission_type": "Survival",
+      "variant": "normal",
+      "shared_with": "all non-alert Survival variants (normal, Steel Path, Kuva, Void Eclipse)",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "backend": "TARGET_ADDON",
+      "owner": {
+        "body_key": "f10a043e7f825db2",
+        "stock_sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D",
+        "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
+        "module_path": "Lotus.Scripts.Modes.SurvivalMission",
+        "template": "MISSION_SURVIVAL_TIMERS_LUA_CALL",
+        "prototype": 67,
+        "upvalue": 70,
+        "field": "interval",
+        "generation_field": "reward_interval_seconds",
+        "capture_evidence": {
+          "closure_instruction": 717,
+          "capture": "VAL:R9",
+          "root_register": 9,
+          "duptable_instruction": 19,
+          "template_constant": 39,
+          "value_constant": 34,
+          "value": 300
+        }
+      },
+      "unit": "s",
+      "stock": 300,
+      "limits": {
+        "minimum": 1,
+        "maximum": 32767,
+        "integer": false
+      },
+      "applies": "F9",
+      "confidence": "CONFIRMED_STATIC",
+      "provenance": "carried_over:survival",
+      "backend_note": "Reward config table (root frame_79[16]) captured as upvalue 70 of prototype 67."
+    },
+    {
+      "tunable_id": "void_cascade.alert_reward_interval",
+      "phase1_tunable_id": "void_cascade.alert_reward_interval",
+      "label": "Reward interval when alertId is non-empty",
+      "mission_type": "Void Cascade",
+      "variant": "alert",
+      "shared_with": "alert only",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "backend": "EXACT_LITERAL",
+      "owner": {
+        "body_key": "32c344afa33be174",
+        "stock_sha256": "15CE88BF63C0A721BC978997AD7E7FBA39EA4FADEE00DA8CE5D66E2DF6319D50",
+        "file": "Lotus_Scripts_Modes_ZarimanSurvivalMission.lua_B",
+        "module_path": "Lotus.Scripts.Modes.ZarimanSurvivalMission",
+        "sites": [
+          {
+            "kind": "instruction",
+            "prototype": 97,
+            "instruction": 82,
+            "offset": 88722,
+            "expected": [
+              8,
+              6,
+              10,
+              0
+            ],
+            "register": 6,
+            "numerator": 1,
+            "denominator": 1,
+            "owner": "ALERT_REWARD_INTERVAL (LOADN->SETTABLEKS)"
+          }
+        ]
+      },
+      "unit": "pillars (inferred)",
+      "stock": 10,
+      "limits": {
+        "minimum": 1,
+        "maximum": 32767,
+        "integer": true
+      },
+      "applies": "next_mission",
+      "confidence": "CONFIRMED_STATIC",
+      "provenance": "auto:loadn-settableks-anchor",
+      "backend_note": "Exact unique LOADN->SETTABLEKS \"ALERT_REWARD_INTERVAL\" site in prototype 97."
+    },
+    {
+      "tunable_id": "void_cascade.pillar_duration",
+      "phase1_tunable_id": "void_cascade.pillar_duration",
+      "label": "Exolizer/pillar duration",
+      "mission_type": "Void Cascade",
+      "variant": "normal / circle",
+      "shared_with": "separate fields with the same value",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "backend": "EXACT_LITERAL",
+      "owner": {
+        "body_key": "32c344afa33be174",
+        "stock_sha256": "15CE88BF63C0A721BC978997AD7E7FBA39EA4FADEE00DA8CE5D66E2DF6319D50",
+        "file": "Lotus_Scripts_Modes_ZarimanSurvivalMission.lua_B",
+        "module_path": "Lotus.Scripts.Modes.ZarimanSurvivalMission",
+        "sites": [
+          {
+            "kind": "instruction",
+            "prototype": 97,
+            "offset": 88570,
+            "expected": [
+              8,
+              6,
+              90,
+              0
+            ],
+            "instruction": 56,
+            "register": 6,
+            "numerator": 1,
+            "denominator": 1,
+            "owner": "PILLAR_DURATION"
+          },
+          {
+            "kind": "instruction",
+            "prototype": 97,
+            "offset": 89066,
+            "expected": [
+              8,
+              6,
+              90,
+              0
+            ],
+            "instruction": 140,
+            "register": 6,
+            "numerator": 1,
+            "denominator": 1,
+            "owner": "PILLAR_DURATION_CIRCLE"
+          }
+        ]
+      },
+      "unit": "s",
+      "stock": 90,
+      "limits": {
+        "minimum": 1,
+        "maximum": 32767,
+        "integer": true
+      },
+      "applies": "next_mission",
+      "confidence": "CONFIRMED_STATIC",
+      "provenance": "carried_over:void_cascade",
+      "backend_note": "Owner is the literal that initialises the LUA_ROOT_TABLE value; edited in place."
+    },
+    {
+      "tunable_id": "void_flood.is_duviri_flag",
+      "phase1_tunable_id": "void_flood.is_duviri_flag",
+      "label": "Duviri Void Flood switch",
+      "mission_type": "Void Flood",
+      "variant": "all",
+      "shared_with": "selects the Duviri branch throughout the module",
+      "owner_kind": "METADATA_PARAM",
+      "backend": "METADATA_PATCH",
+      "owner": {
+        "type": "/Lotus/Types/Gameplay/VoidEndless/ZarimanCorruptionMissionScriptTrigger",
+        "field": "Scripts.0.Script._isDuviriVoidFlood",
+        "stock_text": "0",
+        "preimage": "_isDuviriVoidFlood=0",
+        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "consumer": {
+          "body_key": "fc711ff621a75552",
+          "stock_sha256": "738AA59C66F935235C812CBA1AE6ECD361FDF700D5723C0928B88A2E11D89261",
+          "file": "Lotus_Scripts_Modes_ZarimanCorruptionMission.lua_B",
+          "module_path": "/Lotus/Scripts/Modes/ZarimanCorruptionMission.lua",
+          "function": "Mission",
+          "global": "isDuviriVoidFlood",
+          "name_hash": "f829e062"
+        }
+      },
+      "unit": "bool",
+      "stock": 0,
+      "limits": {
+        "minimum": 0,
+        "maximum": 1,
+        "integer": true,
+        "basis": "numeric guard only; gameplay-safe range not established offline"
+      },
+      "applies": "restart",
+      "confidence": "CONFIRMED_STATIC",
+      "provenance": "auto:metadata-snapshot"
+    }
+  ],
   "missions": {
     "mobile_defense": {
-      "legacy_body_key": "89329f85c8575b84",
+      "title": "Mobile Defense",
+      "lane": "EXACT_LITERAL",
       "body_key": "a807aae359ffc1eb",
       "file": "Lotus_Scripts_MobileDefense.lua_B",
       "sha256": "4DCFA0B5633B93BC3AF57F04AB5DE4F1CC492FCFD2AE4DE61B9B473E5F1B2DA1",
       "module_path": "Lotus.Scripts.MobileDefense",
-      "patches": [
-        {
-          "prototype": 22,
-          "instruction": 120,
-          "offset": 21638,
-          "expected": [
-            8,
-            17,
-            180,
-            0
-          ],
-          "register": 17,
-          "value": "minimum_total_time",
-          "numerator": 1,
-          "denominator": 1
-        },
-        {
-          "prototype": 22,
-          "instruction": 121,
-          "offset": 21642,
-          "expected": [
-            8,
-            18,
-            240,
-            0
-          ],
-          "register": 18,
-          "value": "maximum_total_time",
-          "numerator": 1,
-          "denominator": 1
-        }
-      ],
       "parameters": {
-        "maximum_total_time": {
+        "minimum_total_time": {
+          "tunable_id": "mobiledefense.total_time.minimum",
           "minimum": 1,
           "maximum": 32767
         },
-        "minimum_total_time": {
+        "maximum_total_time": {
+          "tunable_id": "mobiledefense.total_time.maximum",
           "minimum": 1,
           "maximum": 32767
         }
-      }
+      },
+      "legacy_body_key": "89329f85c8575b84"
     },
     "excavation": {
-      "legacy_body_key": "303f809a05c1fbaa",
+      "title": "Excavation",
+      "lane": "EXACT_LITERAL",
       "body_key": "f7444e3c621ff018",
       "file": "Lotus_Scripts_Modes_ExcavationMission.lua_B",
       "sha256": "DF9FB3206E468652DC7A101E26118ADF2E039F35B69E228C26BB6BBD3A6F4701",
       "module_path": "Lotus.Scripts.Modes.ExcavationMission",
-      "patches": [
-        {
-          "prototype": 49,
-          "instruction": 76,
-          "offset": 71847,
-          "expected": [
-            8,
-            27,
-            100,
-            0
-          ],
-          "register": 27,
-          "value": "standard_dig_time",
-          "numerator": 1,
-          "denominator": 1
-        },
-        {
-          "prototype": 32,
-          "instruction": 81,
-          "offset": 29436,
-          "expected": [
-            8,
-            1,
-            60,
-            0
-          ],
-          "register": 1,
-          "value": "old_world_salvage_dig_time",
-          "numerator": 1,
-          "denominator": 1
-        },
-        {
-          "prototype": 32,
-          "instruction": 102,
-          "offset": 29560,
-          "expected": [
-            8,
-            1,
-            140,
-            0
-          ],
-          "register": 1,
-          "value": "elite_alert_dig_time",
-          "numerator": 1,
-          "denominator": 1
-        }
-      ],
       "parameters": {
-        "elite_alert_dig_time": {
+        "standard_dig_time": {
+          "tunable_id": "excavation.dig_duration",
           "minimum": 1,
           "maximum": 32767
         },
         "old_world_salvage_dig_time": {
+          "tunable_id": "excavation.dig_duration_old_world_salvage",
           "minimum": 1,
           "maximum": 32767
         },
-        "standard_dig_time": {
+        "elite_alert_dig_time": {
+          "tunable_id": "excavation.dig_duration_elite_alert",
           "minimum": 1,
           "maximum": 32767
         }
-      }
+      },
+      "legacy_body_key": "303f809a05c1fbaa"
     },
     "control_area_plains": {
-      "legacy_body_key": "bf3c901cb4058c47",
+      "title": "Control Area (Plains)",
+      "lane": "EXACT_LITERAL",
       "body_key": "b3a5a18d68d61e16",
       "file": "Lotus_Scripts_Eidolon_Encounters_DynamicDefend.lua_B",
       "sha256": "F2A27591489413891650D0948414CDE30DC7B7CA7EC0922CA3003B55773C150E",
       "module_path": "Lotus.Scripts.Eidolon.Encounters.DynamicDefend",
-      "patches": [
-        {
-          "prototype": 17,
-          "instruction": 44,
-          "offset": 8701,
-          "expected": [
-            8,
-            21,
-            90,
-            0
-          ],
-          "register": 21,
-          "value": "control_area_duration",
-          "numerator": 1,
-          "denominator": 1
-        },
-        {
-          "prototype": 8,
-          "instruction": 100,
-          "offset": 4061,
-          "expected": [
-            12,
-            5,
-            0,
-            0
-          ],
-          "register": 5,
-          "value": "control_area_duration",
-          "numerator": 1,
-          "denominator": 1
-        }
-      ],
       "parameters": {
         "control_area_duration": {
+          "tunable_id": "control_area_plains.duration",
           "minimum": 1,
           "maximum": 32767
         }
-      }
+      },
+      "legacy_body_key": "bf3c901cb4058c47"
     },
     "control_area_deimos": {
-      "legacy_body_key": "d9541341dfd466a3",
+      "title": "Control Area (Deimos)",
+      "lane": "EXACT_LITERAL",
       "body_key": "8a0b0819de60df01",
       "file": "Lotus_Scripts_InfestedMicroplanet_Encounters_DynamicAreaDefense.lua_B",
       "sha256": "322D5E174AC81D86DFDFF92FCED2CDE6A2748D9929698409381C13DE936153F2",
       "module_path": "Lotus.Scripts.InfestedMicroplanet.Encounters.DynamicAreaDefense",
-      "patches": [
-        {
-          "prototype": 15,
-          "instruction": 56,
-          "offset": 10398,
-          "expected": [
-            8,
-            23,
-            90,
-            0
-          ],
-          "register": 23,
-          "value": "control_area_duration",
-          "numerator": 1,
-          "denominator": 1
-        },
-        {
-          "prototype": 7,
-          "instruction": 63,
-          "offset": 3318,
-          "expected": [
-            18,
-            4,
-            11,
-            0
-          ],
-          "register": 1,
-          "value": "control_area_duration",
-          "numerator": 1,
-          "denominator": 1
-        }
-      ],
       "parameters": {
         "control_area_duration": {
+          "tunable_id": "control_area_deimos.duration",
           "minimum": 1,
           "maximum": 32767
         }
-      }
+      },
+      "legacy_body_key": "d9541341dfd466a3"
     },
     "control_area_nokko": {
-      "legacy_body_key": "e192d5cc2f37056e",
+      "title": "Control Area (Venus/Nokko)",
+      "lane": "EXACT_LITERAL",
       "body_key": "e4bb611e00823d46",
       "file": "Lotus_Scripts_Venus_NokkoColony_Encounters_AreaDefense.lua_B",
       "sha256": "2C7BB67B50C245A0D9B10E680B18B54503ABDBF546EEEB2B85A3D98DE80AA4C6",
       "module_path": "Lotus.Scripts.Venus.NokkoColony.Encounters.AreaDefense",
-      "patches": [
-        {
-          "prototype": 6,
-          "instruction": 112,
-          "offset": 5509,
-          "expected": [
-            82,
-            3,
-            4,
-            5
-          ],
-          "register": 3,
-          "value": "control_area_duration",
-          "numerator": 2,
-          "denominator": 3
-        },
-        {
-          "prototype": 6,
-          "instruction": 107,
-          "offset": 5481,
-          "expected": [
-            82,
-            3,
-            2,
-            4
-          ],
-          "register": 3,
-          "value": "control_area_duration",
-          "numerator": 1,
-          "denominator": 2
-        },
-        {
-          "prototype": 5,
-          "instruction": 118,
-          "offset": 3974,
-          "expected": [
-            12,
-            6,
-            1,
-            0
-          ],
-          "register": 6,
-          "value": "control_area_duration",
-          "numerator": 1,
-          "denominator": 1
-        }
-      ],
       "parameters": {
         "control_area_duration": {
+          "tunable_id": "control_area_nokko.duration",
           "minimum": 1,
           "maximum": 32767
         }
-      }
-    },
-    "survival": {
-      "legacy_body_key": "1e3647332a578b78",
-      "body_key": "f10a043e7f825db2",
-      "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
-      "sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D",
-      "module_path": "Lotus.Scripts.Modes.SurvivalMission",
-      "patches": [],
-      "parameters": {
-        "reward_interval": {
-          "minimum": 1,
-          "maximum": 32767
-        },
-        "pickup_life_support": {
-          "minimum": 0,
-          "maximum": 32767
-        },
-        "pickup_reward_progress": {
-          "minimum": 0,
-          "maximum": 32767
-        }
-      }
-    },
-    "interception": {
-      "legacy_body_key": "a51e98a1833bd8c1",
-      "body_key": "c9605470a8c47d8d",
-      "file": "Lotus_Scripts_Modes_TerritoryMission.lua_B",
-      "sha256": "3A8ACF02213053621AD8CF3CC77809A35F27BADDF91D10FCBF94475D0A7D225B",
-      "module_path": "Lotus.Scripts.Modes.TerritoryMission",
-      "patches": [],
-      "parameters": {
-        "scoring_speed_multiplier": {
-          "minimum": 0.01,
-          "maximum": 100
-        }
-      }
+      },
+      "legacy_body_key": "e192d5cc2f37056e"
     },
     "void_cascade": {
+      "title": "Void Cascade (Exolizers)",
+      "lane": "EXACT_LITERAL",
       "body_key": "32c344afa33be174",
       "file": "Lotus_Scripts_Modes_ZarimanSurvivalMission.lua_B",
       "sha256": "15CE88BF63C0A721BC978997AD7E7FBA39EA4FADEE00DA8CE5D66E2DF6319D50",
       "module_path": "Lotus.Scripts.Modes.ZarimanSurvivalMission",
-      "patches": [
-        {
-          "prototype": 97,
-          "instruction": 56,
-          "offset": 88570,
-          "expected": [
-            8,
-            6,
-            90,
-            0
-          ],
-          "register": 6,
-          "value": "exolizer_speed_multiplier",
-          "numerator": 90,
-          "denominator": 1,
-          "inverse": true,
-          "owner": "PILLAR_DURATION"
-        },
-        {
-          "prototype": 97,
-          "instruction": 140,
-          "offset": 89066,
-          "expected": [
-            8,
-            6,
-            90,
-            0
-          ],
-          "register": 6,
-          "value": "exolizer_speed_multiplier",
-          "numerator": 90,
-          "denominator": 1,
-          "inverse": true,
-          "owner": "PILLAR_DURATION_CIRCLE"
-        }
-      ],
       "parameters": {
         "exolizer_speed_multiplier": {
+          "tunable_id": "void_cascade.pillar_duration",
+          "transform": {
+            "kind": "inverse",
+            "numerator": 90
+          },
           "minimum": 0.01,
           "maximum": 100
         }
       }
     },
-    "netracells": {
-      "body_key": "0c498e078835f9fe",
-      "file": "Lotus_Scripts_Modes_EntratiVoidVaults.lua_B",
-      "sha256": "036522B0202AB810737F23C765E45050CB02F87B10F9C293932B3BE8DA24F85F",
-      "module_path": "/Lotus/Scripts/Modes/EntratiVoidVaults.lua",
-      "patches": [],
-      "parameters": {
-        "power_per_kill": {
-          "minimum": 1,
-          "maximum": 100
-        }
-      },
-      "metadata": {
-        "owner": "/Lotus/Types/Gameplay/EntratiLab/VoidVaults/EntratiVoidVaultsScriptTrigger",
-        "field": "Scripts.0.Script._enemyPowerFill",
-        "value": "power_per_kill",
-        "stock": 1
-      }
-    },
-    "descendia_shrine": {
-      "body_key": "1ef96aede7fe612e",
-      "file": "Lotus_Types_Gameplay_DevilTower_LiteGameModes_CoHShrineDefenseLite.lua_B",
-      "sha256": "4BEA96C94D8A22A6578139C47919E05D4A191D97A6A88CF371ED150BB11ED946",
-      "module_path": "/Lotus/Types/Gameplay/DevilTower/LiteGameModes/CoHShrineDefenseLite.lua",
-      "patches": [],
-      "parameters": {
-        "offering_generation_time": {
-          "minimum": 1,
-          "maximum": 32767
-        }
-      },
-      "metadata": {
-        "owner": "/Lotus/Types/Gameplay/DevilTower/LiteGameModes/CoHShrineDefenseTrigger",
-        "field": "Scripts.0.Script._offeringGenerationTime",
-        "value": "offering_generation_time",
-        "stock": 30
-      }
-    },
     "descendia_excavation": {
+      "title": "Descendia · Excavation",
+      "lane": "EXACT_LITERAL",
       "body_key": "415a57536412719f",
       "file": "Lotus_Types_Gameplay_DevilTower_LiteGameModes_CoHExcavationLite.lua_B",
       "sha256": "C641B897157618608088A5CFBD1D5688ACE5C12822F8ADAADF95089C6491D0E8",
       "module_path": "/Lotus/Types/Gameplay/DevilTower/LiteGameModes/CoHExcavationLite.lua",
-      "patches": [
-        {
-          "kind": "number_constant",
-          "prototype": 23,
-          "constant": 90,
-          "offset": 22618,
-          "expected": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            128,
-            70,
-            64
-          ],
-          "value": "dig_duration",
-          "numerator": 1,
-          "denominator": 1,
-          "owner": "migration, battery limit, remaining time, partial progress"
-        },
-        {
-          "prototype": 23,
-          "instruction": 736,
-          "offset": 21000,
-          "expected": [
-            8,
-            34,
-            45,
-            0
-          ],
-          "register": 34,
-          "value": "dig_duration",
-          "numerator": 1,
-          "denominator": 1,
-          "owner": "completion threshold"
-        }
-      ],
       "parameters": {
         "dig_duration": {
+          "tunable_id": "coh_excavation.dig_duration",
           "minimum": 1,
           "maximum": 32767
         }
       }
     },
     "archimedea": {
-      "body_key": "a4c803e5a624d43d",
+      "title": "EDA / ETA objectives",
+      "lane": "EXACT_LITERAL",
+      "body_key": "076a7b443af7fdb8",
       "file": "Lotus_Scripts_Libs_ConquestLib.lua_B",
-      "sha256": "F66902986B5E5B8F46ED460C8DAB1FF576A336C7464E7637813C62BF24620FA5",
+      "sha256": "73107506E80FF7853AE0C4E77D56682707492328BE9EEC80067C5EDB86529453",
       "module_path": "Lotus.Scripts.Libs.ConquestLib",
-      "patches": [
-        {
-          "prototype": 43,
-          "instruction": 1010,
-          "offset": 46570,
-          "expected": [
-            8,
-            9,
-            10,
-            0
-          ],
-          "register": 9,
-          "value": "eta_survival_minutes",
-          "numerator": 1,
-          "denominator": 1,
-          "owner": "eta_survival_minutes"
-        },
-        {
-          "prototype": 43,
-          "instruction": 1013,
-          "offset": 46582,
-          "expected": [
-            8,
-            9,
-            6,
-            0
-          ],
-          "register": 9,
-          "value": "eta_defense_waves",
-          "numerator": 1,
-          "denominator": 1,
-          "owner": "eta_defense_waves"
-        },
-        {
-          "prototype": 43,
-          "instruction": 1038,
-          "offset": 46726,
-          "expected": [
-            8,
-            9,
-            10,
-            0
-          ],
-          "register": 9,
-          "value": "eda_survival_minutes",
-          "numerator": 1,
-          "denominator": 1,
-          "owner": "eda_survival_minutes"
-        },
-        {
-          "prototype": 43,
-          "instruction": 1041,
-          "offset": 46738,
-          "expected": [
-            8,
-            9,
-            4,
-            0
-          ],
-          "register": 9,
-          "value": "eda_mirror_defenses",
-          "numerator": 1,
-          "denominator": 1,
-          "owner": "eda_mirror_defenses"
-        },
-        {
-          "prototype": 43,
-          "instruction": 1044,
-          "offset": 46750,
-          "expected": [
-            8,
-            9,
-            2,
-            0
-          ],
-          "register": 9,
-          "value": "eda_alchemy_mixtures",
-          "numerator": 1,
-          "denominator": 1,
-          "owner": "eda_alchemy_mixtures"
-        },
-        {
-          "prototype": 43,
-          "instruction": 1047,
-          "offset": 46762,
-          "expected": [
-            8,
-            9,
-            8,
-            0
-          ],
-          "register": 9,
-          "value": "eda_disruption_conduits",
-          "numerator": 1,
-          "denominator": 1,
-          "owner": "eda_disruption_conduits"
-        }
-      ],
       "parameters": {
         "eta_survival_minutes": {
+          "tunable_id": "archimedea.eta_survival_minutes",
           "minimum": 1,
           "maximum": 60
         },
         "eta_defense_waves": {
+          "tunable_id": "archimedea.eta_defense_waves",
           "minimum": 1,
           "maximum": 6
         },
         "eda_survival_minutes": {
+          "tunable_id": "archimedea.eda_survival_minutes",
           "minimum": 1,
           "maximum": 60
         },
         "eda_mirror_defenses": {
+          "tunable_id": "archimedea.eda_mirror_defense_waves",
           "minimum": 1,
           "maximum": 4
         },
         "eda_alchemy_mixtures": {
+          "tunable_id": "archimedea.eda_alchemy",
           "minimum": 1,
           "maximum": 2
         },
         "eda_disruption_conduits": {
+          "tunable_id": "archimedea.eda_disruption",
           "minimum": 1,
           "maximum": 8
         }
       }
+    },
+    "survival": {
+      "title": "Survival",
+      "lane": "TARGET_ADDON",
+      "body_key": "f10a043e7f825db2",
+      "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
+      "sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D",
+      "module_path": "Lotus.Scripts.Modes.SurvivalMission",
+      "legacy_body_key": "1e3647332a578b78",
+      "parameters": {
+        "reward_interval": {
+          "tunable_id": "survival.reward_interval",
+          "minimum": 1,
+          "maximum": 32767
+        },
+        "pickup_life_support": {
+          "tunable_id": "survival.pickup_time_added",
+          "minimum": 0,
+          "maximum": 32767
+        },
+        "pickup_reward_progress": {
+          "tunable_id": "survival.pickup_reward_progress",
+          "minimum": 0,
+          "maximum": 32767
+        }
+      }
+    },
+    "interception": {
+      "title": "Interception",
+      "lane": "TARGET_ADDON",
+      "body_key": "c9605470a8c47d8d",
+      "file": "Lotus_Scripts_Modes_TerritoryMission.lua_B",
+      "sha256": "3A8ACF02213053621AD8CF3CC77809A35F27BADDF91D10FCBF94475D0A7D225B",
+      "module_path": "Lotus.Scripts.Modes.TerritoryMission",
+      "legacy_body_key": "a51e98a1833bd8c1",
+      "parameters": {
+        "scoring_speed_multiplier": {
+          "tunable_id": "interception.score_rate",
+          "minimum": 0.01,
+          "maximum": 100
+        }
+      }
+    },
+    "netracells": {
+      "title": "netracells",
+      "lane": "METADATA_PATCH",
+      "body_key": "0c498e078835f9fe",
+      "file": "Lotus_Scripts_Modes_EntratiVoidVaults.lua_B",
+      "sha256": "036522B0202AB810737F23C765E45050CB02F87B10F9C293932B3BE8DA24F85F",
+      "module_path": "/Lotus/Scripts/Modes/EntratiVoidVaults.lua",
+      "parameters": {
+        "power_per_kill": {
+          "tunable_id": "netracell.enemy_power_fill",
+          "minimum": 1,
+          "maximum": 100
+        }
+      }
+    },
+    "descendia_shrine": {
+      "title": "descendia_shrine",
+      "lane": "METADATA_PATCH",
+      "body_key": "1ef96aede7fe612e",
+      "file": "Lotus_Types_Gameplay_DevilTower_LiteGameModes_CoHShrineDefenseLite.lua_B",
+      "sha256": "4BEA96C94D8A22A6578139C47919E05D4A191D97A6A88CF371ED150BB11ED946",
+      "module_path": "/Lotus/Types/Gameplay/DevilTower/LiteGameModes/CoHShrineDefenseLite.lua",
+      "parameters": {
+        "offering_generation_time": {
+          "tunable_id": "shrine.offering_generation_time",
+          "minimum": 1,
+          "maximum": 32767
+        }
+      }
     }
-  }
+  },
+  "excluded": [
+    {
+      "tunable_id": "alchemy.crucible_remind_countdown",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "owner trigger type not named in the Phase 1 owner text (refers to sibling rows or both triggers)"
+    },
+    {
+      "tunable_id": "alchemy.eximus_cap",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "alchemy.grenade_damage_params",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "alchemy.mixtures_required",
+      "owner_kind": "MISSIONINFO",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "MissionInfo producer: no generator back end in mission_profiles.inl (only the ConquestLib producer literals are registered, as archimedea.*)."
+    },
+    {
+      "tunable_id": "alchemy.mixtures_required_default",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "2 trigger owner types named (row spans several owners); needs one row per owner type"
+    },
+    {
+      "tunable_id": "alchemy.reward_interval",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "owner trigger type not named in the Phase 1 owner text (refers to sibling rows or both triggers)"
+    },
+    {
+      "tunable_id": "alchemy.round_cooldown",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "UNCONFIRMED",
+      "reason": "Phase 1 confidence UNCONFIRMED; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "alchemy.variant_flags",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "compound row (2 metadata fields); needs one row per field"
+    },
+    {
+      "tunable_id": "arbitration.resurrection_score_cap",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "arbitration.stack_upgrades",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "archimedea.eda_enemy_levels",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "archimedea.eom_wait_timeout",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "archimedea.eta_enemy_levels",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "archimedea.hex_assassination_midpoint",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "archimedea.hex_legacyte_midpoint",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "archimedea.wave_override_copy",
+      "owner_kind": "MISSIONINFO",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "MissionInfo producer: no generator back end in mission_profiles.inl (only the ConquestLib producer literals are registered, as archimedea.*)."
+    },
+    {
+      "tunable_id": "archwing.fomorian_emp_timer",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "module not uniquely resolvable from the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "archwing.fomorian_escape_distance",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "ascension.elevator_animation_time",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "compound row (2 metadata fields); needs one row per field"
+    },
+    {
+      "tunable_id": "ascension.elevator_shield",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "owner trigger type not named in the Phase 1 owner text (refers to sibling rows or both triggers)"
+    },
+    {
+      "tunable_id": "ascension.enemy_pressure",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "ascension.fuel",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "owner trigger type not named in the Phase 1 owner text (refers to sibling rows or both triggers)"
+    },
+    {
+      "tunable_id": "ascension.push_and_pause",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "ascension.unread_params",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "UNCONFIRMED",
+      "reason": "Phase 1 confidence UNCONFIRMED; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "assassinate.tunables",
+      "owner_kind": "NATIVE_OR_UNKNOWN",
+      "confidence": "UNCONFIRMED",
+      "reason": "Owner not established (native or level data); editor must stay read-only."
+    },
+    {
+      "tunable_id": "capture.alarm_phases",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "capture.bleedout_timer",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "capture.lockdown_enemy_counts",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "capture.target_health_player_mult",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "module not uniquely resolvable from the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "capture.xp_reward",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "circuit.enemy_level_formula",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "circuit.stages_per_reward",
+      "owner_kind": "NATIVE_OR_UNKNOWN",
+      "confidence": "UNCONFIRMED",
+      "reason": "Owner not established (native or level data); editor must stay read-only."
+    },
+    {
+      "tunable_id": "coh_destroy_targets.required_by_players",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "coh_excavation.base_health",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "field present in 2 Scripts entries of the owner type; one control would edit several consumers"
+    },
+    {
+      "tunable_id": "coh_excavation.base_shields",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "field present in 2 Scripts entries of the owner type; one control would edit several consumers"
+    },
+    {
+      "tunable_id": "coh_excavation.health_level_power",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "compound row (2 metadata fields); needs one row per field"
+    },
+    {
+      "tunable_id": "coh_excavation.power_cell_seconds",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "coh_excavation.spawn_invulnerability",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "field present in 2 Scripts entries of the owner type; one control would edit several consumers"
+    },
+    {
+      "tunable_id": "coh_hive.tumors_by_players",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "coh_nemesis.alive_cap",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "coh_nemesis.spawn_interval",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "coh_nemesis.spawn_param_10",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "cohinterception.beacon_count",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no metadata field of the owner type is named in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "colonistdoor.colonist_count",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "colonistdoor.door_anim_time",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "colonistdoor.navbridge_thresholds",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "colonistdoor.special_spawn_gate",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "defection.ai_tier_interval",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "defection.level_ramp_times",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "defection.max_sim_ai",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "defection.squads_required",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "module not uniquely resolvable from the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "defense.arbitration_overrides",
+      "owner_kind": "NATIVE_OR_UNKNOWN",
+      "confidence": "UNCONFIRMED",
+      "reason": "Owner not established (native or level data); editor must stay read-only."
+    },
+    {
+      "tunable_id": "defense.boss_wave_interval",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "defense.circle_wave_count",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "defense.duviri_intermission_shield",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "defense.duviri_wave_count",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "defense.elite_alert_spawn_scale",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "defense.elite_alert_wave_sleep",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "defense.endless_rotation_interval",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "defense.enemy_level_ramp",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "defense.enemy_tier_by_wave",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "defense.eximus_chance_curve",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "defense.eximus_duviri",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "defense.eximus_sortie",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "defense.first_boss_tier",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "defense.first_wave_delay",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "defense.fixed_wave_count",
+      "owner_kind": "MISSIONINFO",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "MissionInfo producer: no generator back end in mission_profiles.inl (only the ConquestLib producer literals are registered, as archimedea.*)."
+    },
+    {
+      "tunable_id": "defense.hardmode_player_row",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "defense.hide_session_threshold",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "defense.inter_wave_sleep",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "defense.mover_schedule",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "compound row (4 metadata fields); needs one row per field"
+    },
+    {
+      "tunable_id": "defense.nightmare_wave_count",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "defense.rotation_resource_reward",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no metadata field of the owner type is named in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "defense.simultaneous_enemies_duviri",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "defense.simultaneous_enemies_infested",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "defense.simultaneous_enemies_max",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "defense.simultaneous_enemies_min",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "defense.special_mission_default_waves",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "defense.startup_timeout",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "defense.target_health",
+      "owner_kind": "NATIVE_OR_UNKNOWN",
+      "confidence": "UNCONFIRMED",
+      "reason": "Owner not established (native or level data); editor must stay read-only."
+    },
+    {
+      "tunable_id": "defense.target_level_falloff",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "compound row (3 metadata fields); needs one row per field"
+    },
+    {
+      "tunable_id": "defense.total_spawn_per_wave",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "defense.total_spawn_per_wave_duviri_circle",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "defense.variant_flags",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no metadata field of the owner type is named in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "defense.wave_sleep_override",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "defensereward.countdown",
+      "owner_kind": "NATIVE_OR_UNKNOWN",
+      "confidence": "PARTIAL",
+      "reason": "Owner not established (native or level data); editor must stay read-only."
+    },
+    {
+      "tunable_id": "defensereward.reward_wave_labels",
+      "owner_kind": "SERVER",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "server code, not a config.json key; no config back end"
+    },
+    {
+      "tunable_id": "descendia.total_floor_count_authoritative",
+      "owner_kind": "NATIVE_OR_UNKNOWN",
+      "confidence": "PARTIAL",
+      "reason": "Owner not established (native or level data); editor must stay read-only."
+    },
+    {
+      "tunable_id": "descendia.total_floor_count_metadata",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "field present in 5 Scripts entries of the owner type; one control would edit several consumers"
+    },
+    {
+      "tunable_id": "disruption.boss_health_multiplier",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "disruption.capillary_reward",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "stock value is not a LOADN-representable whole number (float/table/formula values need a constant-exclusivity gate that does not exist yet)"
+    },
+    {
+      "tunable_id": "disruption.conduit_artifact_id",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "disruption.demolyst_health_scale_by_players",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "disruption.demolyst_spawn_radius_range",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "disruption.demolyst_spawn_rate_by_players",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "disruption.demolyst_tier_min",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "disruption.enrage_interval",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "disruption.extraction_timeout",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "disruption.fixed_length",
+      "owner_kind": "MISSIONINFO",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "MissionInfo producer: no generator back end in mission_profiles.inl (only the ConquestLib producer literals are registered, as archimedea.*)."
+    },
+    {
+      "tunable_id": "disruption.initial_spawn_delay",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no LOADN->SETTABLEKS site; value is held in a DUPTABLE template constant (tag-8 fixup) whose exclusivity is not gated yet"
+    },
+    {
+      "tunable_id": "disruption.interval_between_rounds",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "disruption.leader_spawn_curve",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "disruption.max_enemies_by_players",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "stock value is not a LOADN-representable whole number (float/table/formula values need a constant-exclusivity gate that does not exist yet)"
+    },
+    {
+      "tunable_id": "disruption.min_enemies_by_players",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "stock value is not a LOADN-representable whole number (float/table/formula values need a constant-exclusivity gate that does not exist yet)"
+    },
+    {
+      "tunable_id": "disruption.proto79_offset_90",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "UNCONFIRMED",
+      "reason": "Phase 1 confidence UNCONFIRMED; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "disruption.round_count_ternary",
+      "owner_kind": "MISSIONINFO",
+      "confidence": "PARTIAL",
+      "reason": "MissionInfo producer: no generator back end in mission_profiles.inl (only the ConquestLib producer literals are registered, as archimedea.*)."
+    },
+    {
+      "tunable_id": "disruption.round_timeout",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "disruption.tier_up",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "disruption.treasure_goblin",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "entrati_swarm.eximus_by_scale",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "entrati_swarm.hard_mode_scale_index",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "entrati_swarm.octopede_variation",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "negative selector/index value; value domain not established"
+    },
+    {
+      "tunable_id": "entrati_swarm.spawn_config",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "entrati_swarm.stage_count",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "entrati_swarm.tear_spawn_tables",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "entrati_swarm.tears_per_stage",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "entrati_swarm.tears_per_stage_challenge",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "escalation.cache_near_transmission",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "module not uniquely resolvable from the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "escalation.crate_progress_threshold",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "module not uniquely resolvable from the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "escalation.crate_timer",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "escalation.escalation_ai_tables",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "escalation.keys_per_players",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "module not uniquely resolvable from the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "escalation.level_boost",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "escalation.reinforcement_distance",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "escalation.upgrade_tiers",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "excavation.difficulty_spawn_terms",
+      "owner_kind": "MISSIONINFO",
+      "confidence": "PARTIAL",
+      "reason": "MissionInfo producer: no generator back end in mission_profiles.inl (only the ConquestLib producer literals are registered, as archimedea.*)."
+    },
+    {
+      "tunable_id": "excavation.dig_duration_fast_dig_debug",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "excavation.duviri_excavation_count",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "excavation.enemy_ramp_times",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "excavation.excavations_required",
+      "owner_kind": "MISSIONINFO",
+      "confidence": "PARTIAL",
+      "reason": "MissionInfo producer: no generator back end in mission_profiles.inl (only the ConquestLib producer literals are registered, as archimedea.*)."
+    },
+    {
+      "tunable_id": "excavation.power_cell_seconds",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "excavation.proto28_delay",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "excavation.resource_goal_default",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "excavation.resource_goal_formula",
+      "owner_kind": "MISSIONINFO",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "MissionInfo producer: no generator back end in mission_profiles.inl (only the ConquestLib producer literals are registered, as archimedea.*)."
+    },
+    {
+      "tunable_id": "excavation.resource_per_excavator",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "excavation.resource_per_excavator_old_world_salvage",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "excavation.unresolved_predicate_factor",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "UNCONFIRMED",
+      "reason": "Phase 1 confidence UNCONFIRMED; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "exterminate.conquest_complete_rule",
+      "owner_kind": "NATIVE_OR_UNKNOWN",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "Owner not established (native or level data); editor must stay read-only."
+    },
+    {
+      "tunable_id": "exterminate.hex_midpoint_transmission",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "exterminate.kill_count",
+      "owner_kind": "NATIVE_OR_UNKNOWN",
+      "confidence": "PARTIAL",
+      "reason": "Owner not established (native or level data); editor must stay read-only."
+    },
+    {
+      "tunable_id": "extraction.countdown",
+      "owner_kind": "NATIVE_OR_UNKNOWN",
+      "confidence": "UNCONFIRMED",
+      "reason": "Owner not established (native or level data); editor must stay read-only."
+    },
+    {
+      "tunable_id": "faceoff.assassination",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "faceoff.defense_escort",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "faceoff.delivery",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "faceoff.excavation",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "faceoff.exterminate_kill_goal",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "module not uniquely resolvable from the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "faceoff.objectives_to_win",
+      "owner_kind": "NATIVE_OR_UNKNOWN",
+      "confidence": "PARTIAL",
+      "reason": "Owner not established (native or level data); editor must stay read-only."
+    },
+    {
+      "tunable_id": "faceoff.spawn_params",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "fivefates.reward_count",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "fivefates.state_times",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "module not uniquely resolvable from the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "fivefates.state_times_sp",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "gamerules.alert_eximus_timer",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "gamerules.arbitration_drone_cap",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "gamerules.arbitration_drone_cooldown",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "gamerules.arbitration_drone_roll",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "gamerules.asstermination_enable",
+      "owner_kind": "MISSIONINFO",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "MissionInfo producer: no generator back end in mission_profiles.inl (only the ConquestLib producer literals are registered, as archimedea.*)."
+    },
+    {
+      "tunable_id": "gamerules.sp_acolyte_chance",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "module not uniquely resolvable from the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "gamerules.sp_acolyte_chance_inc",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "gamerules.sp_acolyte_cooldown",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "hijack.payload_health",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "hijack.payload_health_steel_path",
+      "owner_kind": "MISSIONINFO",
+      "confidence": "PARTIAL",
+      "reason": "MissionInfo producer: no generator back end in mission_profiles.inl (only the ConquestLib producer literals are registered, as archimedea.*)."
+    },
+    {
+      "tunable_id": "hijack.segment_animation_times",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "hijack.segment_table_0",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "UNCONFIRMED",
+      "reason": "Phase 1 confidence UNCONFIRMED; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "hijack.threshold_table",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "hive.objective_count_cap",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "hive.player_scale",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "hive.tier_caps",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "infested_capture.base_mutations",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "owner trigger type not named in the Phase 1 owner text (refers to sibling rows or both triggers)"
+    },
+    {
+      "tunable_id": "infested_capture.search_rounds_before_boss",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "owner trigger type not named in the Phase 1 owner text (refers to sibling rows or both triggers)"
+    },
+    {
+      "tunable_id": "infested_capture.search_spot_range",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "owner trigger type not named in the Phase 1 owner text (refers to sibling rows or both triggers)"
+    },
+    {
+      "tunable_id": "infested_capture.search_time",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "owner trigger type not named in the Phase 1 owner text (refers to sibling rows or both triggers)"
+    },
+    {
+      "tunable_id": "infested_capture.tentacle_health",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "owner trigger type not named in the Phase 1 owner text (refers to sibling rows or both triggers)"
+    },
+    {
+      "tunable_id": "infested_capture.wander",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "owner trigger type not named in the Phase 1 owner text (refers to sibling rows or both triggers)"
+    },
+    {
+      "tunable_id": "infested_salvage.health_floor",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "infested_salvage.next_drop_range",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "infested_salvage.rate_tables",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "infested_salvage.spawn_caps_by_players",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "infested_salvage.special_mission_gate",
+      "owner_kind": "MISSIONINFO",
+      "confidence": "UNCONFIRMED",
+      "reason": "MissionInfo producer: no generator back end in mission_profiles.inl (only the ConquestLib producer literals are registered, as archimedea.*)."
+    },
+    {
+      "tunable_id": "interception.capture_scale_by_players",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "interception.per_round_level_scale",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "interception.protea_rate_mult",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "interception.quest_enemy_rate",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "interception.round_end_timer",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "interception.rounds_to_complete",
+      "owner_kind": "MISSIONINFO",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "MissionInfo producer: no generator back end in mission_profiles.inl (only the ConquestLib producer literals are registered, as archimedea.*)."
+    },
+    {
+      "tunable_id": "interception.score_goal",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "interception.spawn_profiles",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "junction.tunables",
+      "owner_kind": "NATIVE_OR_UNKNOWN",
+      "confidence": "UNCONFIRMED",
+      "reason": "Owner not established (native or level data); editor must stay read-only."
+    },
+    {
+      "tunable_id": "legacyte_harvest.owner",
+      "owner_kind": "NATIVE_OR_UNKNOWN",
+      "confidence": "UNCONFIRMED",
+      "reason": "Owner not established (native or level data); editor must stay read-only."
+    },
+    {
+      "tunable_id": "loopdefend.crystal_cluster",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "loopdefend.enemy_counts",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "loopdefend.enemy_level_ramp",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "loopdefend.eximus",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "loopdefend.first_phase_delay",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "loopdefend.hide_session_rotations",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "loopdefend.inter_phase_sleep",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "loopdefend.level_and_enrage",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "loopdefend.objective_dot",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "loopdefend.phase_count",
+      "owner_kind": "MISSIONINFO",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "MissionInfo producer: no generator back end in mission_profiles.inl (only the ConquestLib producer literals are registered, as archimedea.*)."
+    },
+    {
+      "tunable_id": "loopdefend.phase_duration",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "loopdefend.phase_duration_jade",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "loopdefend.phase_start_heal",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "loopdefend.rotation_length",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "loopdefend.rotation_misc_item_reward",
+      "owner_kind": "NATIVE_OR_UNKNOWN",
+      "confidence": "UNCONFIRMED",
+      "reason": "Owner not established (native or level data); editor must stay read-only."
+    },
+    {
+      "tunable_id": "meltdown.fail_timer",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "UNCONFIRMED",
+      "reason": "Phase 1 confidence UNCONFIRMED; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "meltdown.heat_decrease",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "owner trigger type not named in the Phase 1 owner text (refers to sibling rows or both triggers)"
+    },
+    {
+      "tunable_id": "meltdown.heat_increase",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "2 trigger owner types named (row spans several owners); needs one row per owner type"
+    },
+    {
+      "tunable_id": "meltdown.scan_rate",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "owner trigger type not named in the Phase 1 owner text (refers to sibling rows or both triggers)"
+    },
+    {
+      "tunable_id": "meltdown.start_delay",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "owner trigger type not named in the Phase 1 owner text (refers to sibling rows or both triggers)"
+    },
+    {
+      "tunable_id": "meltdown.target_range_progression",
+      "owner_kind": "NATIVE_OR_UNKNOWN",
+      "confidence": "UNCONFIRMED",
+      "reason": "Owner not established (native or level data); editor must stay read-only."
+    },
+    {
+      "tunable_id": "meltdown.vent_reveal_countdown_and_threshold",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "UNCONFIRMED",
+      "reason": "Phase 1 confidence UNCONFIRMED; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "meltdown.vent_search_distance",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "owner trigger type not named in the Phase 1 owner text (refers to sibling rows or both triggers)"
+    },
+    {
+      "tunable_id": "meltdown.vents_to_reveal",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "owner trigger type not named in the Phase 1 owner text (refers to sibling rows or both triggers)"
+    },
+    {
+      "tunable_id": "misc.unanalysed_owners",
+      "owner_kind": "NATIVE_OR_UNKNOWN",
+      "confidence": "UNCONFIRMED",
+      "reason": "Owner not established (native or level data); editor must stay read-only."
+    },
+    {
+      "tunable_id": "mobiledefense.ai_tier",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "mobiledefense.archwing_grineer_mult",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "mobiledefense.console_count",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "mobiledefense.console_health",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "mobiledefense.custom_mission_time",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "mobiledefense.enemy_counts",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "mobiledefense.hardmode_enemy_row",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "mobiledefense.maxwavenum_override",
+      "owner_kind": "MISSIONINFO",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "MissionInfo producer: no generator back end in mission_profiles.inl (only the ConquestLib producer literals are registered, as archimedea.*)."
+    },
+    {
+      "tunable_id": "mobiledefense.per_console_time",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "mobiledefense.squad_count_tables",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "multidefend.defend_time",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "multidefend.explosive_timer",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "multidefend.spawn_level",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "multidefend.station_count",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "multidefend.wrinkle_time",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "netracell.enemy_caps",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "netracell.eximus_base_spawn_rate",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "netracell.max_distance_to_power",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "netracell.power_required",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "onslaught.efficiency_and_zones",
+      "owner_kind": "NATIVE_OR_UNKNOWN",
+      "confidence": "UNCONFIRMED",
+      "reason": "Owner not established (native or level data); editor must stay read-only."
+    },
+    {
+      "tunable_id": "onslaught.efficiency_conduits",
+      "owner_kind": "NATIVE_OR_UNKNOWN",
+      "confidence": "UNCONFIRMED",
+      "reason": "Owner not established (native or level data); editor must stay read-only."
+    },
+    {
+      "tunable_id": "orokinmoon.waves_to_trigger_on",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "orphix.fixed_rounds",
+      "owner_kind": "MISSIONINFO",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "MissionInfo producer: no generator back end in mission_profiles.inl (only the ConquestLib producer literals are registered, as archimedea.*)."
+    },
+    {
+      "tunable_id": "orphix.max_rounds_railjack",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no LOADN->SETTABLEKS site; value is held in a DUPTABLE template constant (tag-8 fixup) whose exclusivity is not gated yet"
+    },
+    {
+      "tunable_id": "orphix.orphix_interval",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "orphix.reward_interval",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no LOADN->SETTABLEKS site; value is held in a DUPTABLE template constant (tag-8 fixup) whose exclusivity is not gated yet"
+    },
+    {
+      "tunable_id": "orphix.round_limit_default",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "orphix.score_add_per_round",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no LOADN->SETTABLEKS site; value is held in a DUPTABLE template constant (tag-8 fixup) whose exclusivity is not gated yet"
+    },
+    {
+      "tunable_id": "orphix.sortie_rounds",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "stock value is not a LOADN-representable whole number (float/table/formula values need a constant-exclusivity gate that does not exist yet)"
+    },
+    {
+      "tunable_id": "purge.alert_tiers",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "purge.max_enemy_count",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "module not uniquely resolvable from the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "purge.meter_per_kill",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "purge.spawnlib_params",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "pursuit.phase_timer",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "module not uniquely resolvable from the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "raid.level_bonus_players",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "module not uniquely resolvable from the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "raid.loot_crates",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "railjack.objectives",
+      "owner_kind": "NATIVE_OR_UNKNOWN",
+      "confidence": "UNCONFIRMED",
+      "reason": "Owner not established (native or level data); editor must stay read-only."
+    },
+    {
+      "tunable_id": "recover.weapons_required",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "module not uniquely resolvable from the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "rescue.hostage_health_cap",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "module not uniquely resolvable from the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "rescue.hostage_timer",
+      "owner_kind": "MISSIONINFO",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "MissionInfo producer: no generator back end in mission_profiles.inl (only the ConquestLib producer literals are registered, as archimedea.*)."
+    },
+    {
+      "tunable_id": "rescue.plea_threshold",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "module not uniquely resolvable from the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "rescue.timer_moon_fort_mult",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "module not uniquely resolvable from the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "rescue.timer_override",
+      "owner_kind": "MISSIONINFO",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "MissionInfo producer: no generator back end in mission_profiles.inl (only the ConquestLib producer literals are registered, as archimedea.*)."
+    },
+    {
+      "tunable_id": "rescue.timer_quest_mult",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "module not uniquely resolvable from the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "rescue.tutorial_timer",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "rush.supply_ships",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "rush.timer",
+      "owner_kind": "NATIVE_OR_UNKNOWN",
+      "confidence": "PARTIAL",
+      "reason": "Owner not established (native or level data); editor must stay read-only."
+    },
+    {
+      "tunable_id": "rush.warning_times",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "sabotage.core_prongs",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "module not uniquely resolvable from the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "sentientcapture.swarm",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "module not uniquely resolvable from the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "sentientmd.area_count",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "sentientmd.defend_time",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "sentientmd.max_sim_ai",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "sentientmd.reinforcements",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "server.affinity_resource_moddrop_boosts",
+      "owner_kind": "SERVER",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "compound row (three config keys); needs one row per key"
+    },
+    {
+      "tunable_id": "server.alert_levels_difficulty",
+      "owner_kind": "SERVER",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "server code, not a config.json key; no config back end"
+    },
+    {
+      "tunable_id": "server.alert_max_wave_num",
+      "owner_kind": "SERVER",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "server code, not a config.json key; no config back end"
+    },
+    {
+      "tunable_id": "server.circuit_game_modes",
+      "owner_kind": "SERVER",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "list-valued config key; settings file accepts numeric values only"
+    },
+    {
+      "tunable_id": "server.conquest_missions",
+      "owner_kind": "SERVER",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "server code, not a config.json key; no config back end"
+    },
+    {
+      "tunable_id": "server.descent_floors",
+      "owner_kind": "SERVER",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "server code, not a config.json key; no config back end"
+    },
+    {
+      "tunable_id": "server.drop_tables",
+      "owner_kind": "SERVER",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "server code, not a config.json key; no config back end"
+    },
+    {
+      "tunable_id": "server.fissure_generation",
+      "owner_kind": "SERVER",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "server code, not a config.json key; no config back end"
+    },
+    {
+      "tunable_id": "server.mission_type_reward_multiplier",
+      "owner_kind": "SERVER",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "per-account privateServerTuning (database), not config.json"
+    },
+    {
+      "tunable_id": "server.reward_rotation_sequence",
+      "owner_kind": "SERVER",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "server code, not a config.json key; no config back end"
+    },
+    {
+      "tunable_id": "shrine.enemy_counts_normal",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "shrine.enemy_counts_sp",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "shrine.offering_counts",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no metadata field of the owner type is named in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "shrine.pickup_and_spawn_misc",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no metadata field of the owner type is named in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "shrine.stage_time",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "spy.patrol_tier",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "spy.vault_timer_base",
+      "owner_kind": "METADATA_PARAM",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "spy.vault_timer_quest",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "spy.vault_timer_tutorial",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "spy.vaults_required",
+      "owner_kind": "MISSIONINFO",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "MissionInfo producer: no generator back end in mission_profiles.inl (only the ConquestLib producer literals are registered, as archimedea.*)."
+    },
+    {
+      "tunable_id": "survival.alert_interval",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no LOADN->SETTABLEKS site; value is held in a DUPTABLE template constant (tag-8 fixup) whose exclusivity is not gated yet"
+    },
+    {
+      "tunable_id": "survival.alert_ls_drop_mult",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "stock value is not a LOADN-representable whole number (float/table/formula values need a constant-exclusivity gate that does not exist yet)"
+    },
+    {
+      "tunable_id": "survival.capsule_incoming_time",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "survival.capsule_initial_time",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "survival.capsule_interval",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "survival.capsule_kills_required",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "survival.capsule_max_time",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no LOADN->SETTABLEKS site; value is held in a DUPTABLE template constant (tag-8 fixup) whose exclusivity is not gated yet"
+    },
+    {
+      "tunable_id": "survival.capsule_time_added",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "survival.duviri_drop_mults",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "survival.duviri_fixed_length",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "2 identical LOADN->SETTABLEKS sites in prototype 61; not uniquely anchored"
+    },
+    {
+      "tunable_id": "survival.elite_alert_pickup_mult",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "survival.eximus_chance",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "survival.extraction_time",
+      "owner_kind": "NATIVE_OR_UNKNOWN",
+      "confidence": "UNCONFIRMED",
+      "reason": "Owner not established (native or level data); editor must stay read-only."
+    },
+    {
+      "tunable_id": "survival.fast_mode_capsule_interval",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "survival.fast_mode_fixed_length",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "survival.fast_mode_pickup_time_added",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "survival.fixed_length_enrage_levelup",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "stock value is not a LOADN-representable whole number (float/table/formula values need a constant-exclusivity gate that does not exist yet)"
+    },
+    {
+      "tunable_id": "survival.fixed_length_from_maxwavenum",
+      "owner_kind": "MISSIONINFO",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "MissionInfo producer: no generator back end in mission_profiles.inl (only the ConquestLib producer literals are registered, as archimedea.*)."
+    },
+    {
+      "tunable_id": "survival.kuva_defend",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "survival.kuva_level_enrage",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "survival.level_max_boost",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "survival.level_up_enrage",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "survival.min_intervals_required",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "survival.pickup_drop_low_high_mult",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "survival.player_damage_at_zero_ls",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "survival.target_spawn_interval",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "survival.tier_up_interval",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "survival.wf99_drop_mults",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "void_armageddon.owner",
+      "owner_kind": "NATIVE_OR_UNKNOWN",
+      "confidence": "UNCONFIRMED",
+      "reason": "Owner not established (native or level data); editor must stay read-only."
+    },
+    {
+      "tunable_id": "void_cascade.circle_fixed_length",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "stock value is not a LOADN-representable whole number (float/table/formula values need a constant-exclusivity gate that does not exist yet)"
+    },
+    {
+      "tunable_id": "void_cascade.enemy_caps",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "void_cascade.fixed_length",
+      "owner_kind": "MISSIONINFO",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "MissionInfo producer: no generator back end in mission_profiles.inl (only the ConquestLib producer literals are registered, as archimedea.*)."
+    },
+    {
+      "tunable_id": "void_cascade.max_pillars",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "void_cascade.pillar_timers",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "void_cascade.player_damage",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "void_cascade.reality_meter",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "void_cascade.reward_interval",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "void_flood.armageddon_presence",
+      "owner_kind": "NATIVE_OR_UNKNOWN",
+      "confidence": "UNCONFIRMED",
+      "reason": "Owner not established (native or level data); editor must stay read-only."
+    },
+    {
+      "tunable_id": "void_flood.curse_count",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "void_flood.deposit_and_drain",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "void_flood.duviri_fixed_length",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "void_flood.enemy_caps",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "void_flood.fill_timer",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "void_flood.fixed_length",
+      "owner_kind": "MISSIONINFO",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "MissionInfo producer: no generator back end in mission_profiles.inl (only the ConquestLib producer literals are registered, as archimedea.*)."
+    },
+    {
+      "tunable_id": "void_flood.pickup_amounts",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "void_flood.tank_capacity",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "wf1999def.disruptive_sounds",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "wf1999def.drone_count",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "confidence": "CONFIRMED_STATIC",
+      "reason": "no single field-anchored owner (frame_P[..].field) in the Phase 1 owner text"
+    },
+    {
+      "tunable_id": "wf1999def.drone_spawn_params",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "confidence": "PARTIAL",
+      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
+    },
+    {
+      "tunable_id": "wf1999def.underground_wave",
+      "owner_kind": "NATIVE_OR_UNKNOWN",
+      "confidence": "UNCONFIRMED",
+      "reason": "Owner not established (native or level data); editor must stay read-only."
+    }
+  ]
 }

@@ -531,13 +531,17 @@ public sealed class AbilityProject
         var binding = profile.RootElement.GetProperty("missions").GetProperty(id);
         ModuleBodyKey = binding.GetProperty("body_key").GetString()!;
         ModulePath = binding.GetProperty("module_path").GetString()!;
-        InstalledBuild = MissionBuildProfile.Build;
+        // The accepted build label and artifact lane come from the verified registry, never from code.
+        var build = profile.RootElement.GetProperty("build").GetString()
+            ?? throw new InvalidDataException("The mission registry has no build label.");
+        var lane = binding.GetProperty("lane").GetString();
+        InstalledBuild = build;
         var parameters = new JsonObject();
         foreach (var (key, value) in values) parameters[key] = value;
-        root["mission_profile"] = new JsonObject { ["build"] = MissionBuildProfile.Build, ["id"] = id, ["values"] = parameters };
-        if (binding.TryGetProperty("metadata", out _) || id is "void_cascade" or "descendia_excavation" or "archimedea")
+        root["mission_profile"] = new JsonObject { ["build"] = build, ["id"] = id, ["values"] = parameters };
+        if (lane == "METADATA_PATCH" || (lane == "EXACT_LITERAL" && AuthoringMode != "MANAGED_MISSION_EXACT_REPLACEMENT"))
         {
-            AuthoringMode = binding.TryGetProperty("metadata", out _) ? "MANAGED_MISSION_METADATA_PATCH" : "MANAGED_MISSION_EXACT_REPLACEMENT";
+            AuthoringMode = lane == "METADATA_PATCH" ? "MANAGED_MISSION_METADATA_PATCH" : "MANAGED_MISSION_EXACT_REPLACEMENT";
             root.Remove("addon_generation");
             root["replacement_generation"] = new JsonObject { ["template"] = "PROFILE_MISSION_DURATION" };
             Effect()["owner"] = "NATIVE_MODULE";

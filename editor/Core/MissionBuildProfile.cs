@@ -4,7 +4,22 @@ namespace Renovice.AbilityEditor.Core;
 
 public static class MissionBuildProfile
 {
-    public const string Build = "2026.09.24.13.29";
+    /// <summary>Client build label the registry was verified for (data-driven; builds fail closed on any other label).</summary>
+    public static string Build(string editorRoot)
+    {
+        using var profile = Read(editorRoot);
+        return profile.RootElement.GetProperty("build").GetString()
+            ?? throw new InvalidDataException("The mission registry has no build label.");
+    }
+
+    /// <summary>Artifact lane of one preset: EXACT_LITERAL, TARGET_ADDON or METADATA_PATCH.</summary>
+    public static string Lane(string editorRoot, string presetId)
+    {
+        using var profile = Read(editorRoot);
+        return profile.RootElement.GetProperty("missions").GetProperty(presetId).GetProperty("lane").GetString()
+            ?? throw new InvalidDataException($"Mission preset {presetId} has no artifact lane.");
+    }
+
     public static JsonDocument Read(string editorRoot) => JsonDocument.Parse(
         File.ReadAllText(Path.Combine(editorRoot, "REGISTRIES", "mission_build_u44.json")));
 
@@ -62,6 +77,9 @@ public static class MissionBuildProfile
                 new("eta_survival_minutes", "Required Survival time", 10, 10, 5, "minutes", "Required completion time, including its countdown. Whole minutes; 1–60. Native time-reduction events still apply.", Group: "ETA · Survival"),
                 new("eta_defense_waves", "Waves to complete", 6, 6, 3, "waves", "Defense waves required for extraction. Enemy spawning and special enemies remain stock. Whole numbers; 1–6.", Group: "ETA · Defense"),
             ], "EDA / ETA"));
-        return presets;
+        return presets.Select(preset => preset with
+        {
+            Lane = bindings.GetProperty(preset.Id).GetProperty("lane").GetString()!,
+        }).ToList();
     }
 }

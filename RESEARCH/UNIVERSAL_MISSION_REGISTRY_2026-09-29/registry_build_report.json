@@ -1,0 +1,255 @@
+{
+  "carried_over": [
+    {
+      "preset": "mobile_defense",
+      "body_key": "a807aae359ffc1eb",
+      "identical_sha256": true,
+      "sites": 2
+    },
+    {
+      "preset": "excavation",
+      "body_key": "f7444e3c621ff018",
+      "identical_sha256": true,
+      "sites": 3
+    },
+    {
+      "preset": "control_area_plains",
+      "body_key": "b3a5a18d68d61e16",
+      "identical_sha256": true,
+      "sites": 2
+    },
+    {
+      "preset": "control_area_deimos",
+      "body_key": "8a0b0819de60df01",
+      "identical_sha256": true,
+      "sites": 2
+    },
+    {
+      "preset": "control_area_nokko",
+      "body_key": "e4bb611e00823d46",
+      "identical_sha256": true,
+      "sites": 3
+    },
+    {
+      "preset": "void_cascade",
+      "body_key": "32c344afa33be174",
+      "identical_sha256": true,
+      "sites": 2
+    },
+    {
+      "preset": "descendia_excavation",
+      "body_key": "415a57536412719f",
+      "identical_sha256": true,
+      "sites": 2
+    },
+    {
+      "preset": "survival",
+      "body_key": "f10a043e7f825db2",
+      "identical_sha256": true,
+      "sites": 0
+    },
+    {
+      "preset": "interception",
+      "body_key": "c9605470a8c47d8d",
+      "identical_sha256": true,
+      "sites": 0
+    },
+    {
+      "preset": "netracells",
+      "body_key": "0c498e078835f9fe",
+      "identical_sha256": true,
+      "sites": 0
+    },
+    {
+      "preset": "descendia_shrine",
+      "body_key": "1ef96aede7fe612e",
+      "identical_sha256": true,
+      "sites": 0
+    }
+  ],
+  "reregistered": [
+    {
+      "tunable_id": "archimedea.eta_survival_minutes",
+      "old_offset": 46570,
+      "new_offset": 46631,
+      "delta": 61,
+      "old_instruction": 1010,
+      "new_instruction": 1010,
+      "old_expected": [
+        8,
+        9,
+        10,
+        0
+      ],
+      "new_expected": [
+        8,
+        9,
+        10,
+        0
+      ]
+    },
+    {
+      "tunable_id": "archimedea.eta_defense_waves",
+      "old_offset": 46582,
+      "new_offset": 46643,
+      "delta": 61,
+      "old_instruction": 1013,
+      "new_instruction": 1013,
+      "old_expected": [
+        8,
+        9,
+        6,
+        0
+      ],
+      "new_expected": [
+        8,
+        9,
+        6,
+        0
+      ]
+    },
+    {
+      "tunable_id": "archimedea.eda_survival_minutes",
+      "old_offset": 46726,
+      "new_offset": 46787,
+      "delta": 61,
+      "old_instruction": 1038,
+      "new_instruction": 1038,
+      "old_expected": [
+        8,
+        9,
+        10,
+        0
+      ],
+      "new_expected": [
+        8,
+        9,
+        10,
+        0
+      ]
+    },
+    {
+      "tunable_id": "archimedea.eda_mirror_defense_waves",
+      "old_offset": 46738,
+      "new_offset": 46799,
+      "delta": 61,
+      "old_instruction": 1041,
+      "new_instruction": 1041,
+      "old_expected": [
+        8,
+        9,
+        4,
+        0
+      ],
+      "new_expected": [
+        8,
+        9,
+        4,
+        0
+      ]
+    },
+    {
+      "tunable_id": "archimedea.eda_alchemy",
+      "old_offset": 46750,
+      "new_offset": 46811,
+      "delta": 61,
+      "old_instruction": 1044,
+      "new_instruction": 1044,
+      "old_expected": [
+        8,
+        9,
+        2,
+        0
+      ],
+      "new_expected": [
+        8,
+        9,
+        2,
+        0
+      ]
+    },
+    {
+      "tunable_id": "archimedea.eda_disruption",
+      "old_offset": 46762,
+      "new_offset": 46823,
+      "delta": 61,
+      "old_instruction": 1047,
+      "new_instruction": 1047,
+      "old_expected": [
+        8,
+        9,
+        8,
+        0
+      ],
+      "new_expected": [
+        8,
+        9,
+        8,
+        0
+      ]
+    }
+  ],
+  "build": "2026.09.28.13.06",
+  "rows": 31,
+  "rows_by_owner_kind": {
+    "LUA_ROOT_TABLE": 10,
+    "METADATA_PARAM": 10,
+    "LUA_PROTO_LITERAL": 9,
+    "SERVER": 1,
+    "ADDON_EXTENSION": 1
+  },
+  "excluded": 337,
+  "excluded_by_owner_kind": {
+    "METADATA_PARAM": 55,
+    "MISSIONINFO": 21,
+    "LUA_PROTO_LITERAL": 117,
+    "LUA_ROOT_TABLE": 110,
+    "NATIVE_OR_UNKNOWN": 23,
+    "SERVER": 11
+  },
+  "phase1_rows": 367,
+  "phase1_by_owner_kind": {
+    "LUA_ROOT_TABLE": 120,
+    "MISSIONINFO": 21,
+    "LUA_PROTO_LITERAL": 126,
+    "NATIVE_OR_UNKNOWN": 23,
+    "METADATA_PARAM": 65,
+    "SERVER": 12
+  },
+  "phase1_ids_covered": [
+    "archimedea.eda_alchemy",
+    "archimedea.eda_disruption",
+    "archimedea.eda_mirror_defense_waves",
+    "archimedea.eda_survival_minutes",
+    "archimedea.eta_defense_waves",
+    "archimedea.eta_survival_minutes",
+    "coh_destroy_targets.num_targets",
+    "coh_excavation.dig_duration",
+    "coh_excavation.shared_constant_90",
+    "cohinterception.beacon_chase_time",
+    "cohinterception.is_descent",
+    "control_area_deimos.duration",
+    "control_area_nokko.duration",
+    "control_area_plains.duration",
+    "defense.marker_threshold",
+    "excavation.dig_duration",
+    "excavation.dig_duration_elite_alert",
+    "excavation.dig_duration_old_world_salvage",
+    "faceoff.cd_burn",
+    "interception.score_rate",
+    "mobiledefense.total_time",
+    "netracell.enemy_power_fill",
+    "netracell.quest_power_multiplier",
+    "server.credit_boost_multiplier",
+    "shrine.offering_generation_time",
+    "survival.pickup_time_added",
+    "survival.reward_interval",
+    "void_cascade.alert_reward_interval",
+    "void_cascade.pillar_duration",
+    "void_flood.is_duviri_flag"
+  ],
+  "modules": 17,
+  "corpus_files": 17,
+  "metadata_snapshot_sha256": "3BDFB1B0EF06B7B05F6B7D7940853DB335426BFECC077FEAE760E8901AE71A3D",
+  "registry_sha256": "0DAC8B9C3BAFA1BCB40B41958A3063ADADB1EDB9015A9353AC4213E6F9D6F42F"
+}

@@ -21,7 +21,8 @@ public sealed record MissionTimerPreset(
     string Summary,
     string Mechanic,
     IReadOnlyList<MissionTimerValue> Values,
-    string Section = "Regular missions")
+    string Section = "Regular missions",
+    string Lane = "")
 {
     public static IReadOnlyList<MissionTimerPreset> All { get; } =
     [

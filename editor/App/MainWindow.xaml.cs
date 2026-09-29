@@ -2029,8 +2029,11 @@ public partial class MainWindow : Window
                 values.Add(row.Id, value);
             }
 
-            var metadataPatch = preset.Id is "netracells" or "descendia_shrine";
-            var exactReplacement = preset.Id is "mobile_defense" or "excavation" or "control_area_plains" or "control_area_deimos" or "control_area_nokko" or "void_cascade" or "descendia_excavation" or "archimedea";
+            // Artifact lane comes from the verified mission registry (REGISTRIES/mission_build_u44.json).
+            var metadataPatch = preset.Lane == "METADATA_PATCH";
+            var exactReplacement = preset.Lane == "EXACT_LITERAL";
+            if (!metadataPatch && !exactReplacement && preset.Lane != "TARGET_ADDON")
+                throw new InvalidDataException($"Mission preset {preset.Id} has no verified artifact lane in the current registry.");
             var exportName = metadataPatch ? preset.Id + ".txt" : exactReplacement
                 ? VerifiedArtifactExporter.MissionReplacementFileName(preset.ModuleBodyKey, preset.Id)
                 : VerifiedArtifactExporter.MissionTargetAddonFileName(preset.ModuleBodyKey, preset.Id);
