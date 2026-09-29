@@ -1,0 +1,96 @@
+{
+  "gates": {
+    "input.stock-identity": {
+      "pass": true,
+      "detail": "c713c4d6bf32adb06f7b3ff71d03f00feb53ccd0b651bd2cdf2382106882299f"
+    },
+    "input.installed-addon-identity": {
+      "pass": true,
+      "detail": "0acbfea23262dc6d1f0103e469cca1ff94cf5d4757cb567326d1b344013baae5"
+    },
+    "tool.derecomp-identity": {
+      "pass": true,
+      "detail": "c1672d8d70e44bf7001a68f873f229714f5afdefb0b93c8558b6abb49e187c58"
+    },
+    "stock.p16-single-PushFloatArg-namecall-596": {
+      "pass": true,
+      "detail": "namecalls=[596] next=('CALL', 'R30 nargs=2 nres=0')"
+    },
+    "stock.p16-RadialDamage-namecall-576-matches-live-anchor": {
+      "pass": true,
+      "detail": "namecalls=[576]"
+    },
+    "stock.threat-formula-and-secondary-script": {
+      "pass": true,
+      "detail": "Lerp(5,0,min(1,pool/1500)) -> floor -> PushFloatArg -> ActivateSecondaryScript"
+    },
+    "source.contract-test": {
+      "pass": true,
+      "detail": "PASS contract: p16/i596 threat 0..5 -> 5; p16/i597 and 7 other PushFloatArg/neighbour sites unchanged; damage/card hooks retained; no nativeCalls/luaCalls"
+    },
+    "build.recompile-u44": {
+      "pass": true,
+      "detail": "[derecomp] recompile C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\work\\temp\\ability-editor-mallet-threat-fix\\RESEARCH\\MALLET_THREAT_CALLSITE_FIX_2026-09-29\\mallet-threat.u44.luau -> C:\\Users\\Bartek\\AppData\\Local\\Temp\\claude\\C--Users-Bartek-OneDrive-Dokumenter-Warframe-RE-PROJECT-RENOVICE\\da3f97f0-d2c7-475a-a46d-2f428b02d1ea\\scratchpad\\gates-out\\candidate.lua_B : 3383 bytes, nps=14, re-parses=yes, hashed-globals=0, hashed-fields=0"
+    },
+    "build.deterministic": {
+      "pass": true,
+      "detail": ""
+    },
+    "build.baseline-source-reproduces-installed-bytes": {
+      "pass": true,
+      "detail": "0acbfea23262dc6d1f0103e469cca1ff94cf5d4757cb567326d1b344013baae5"
+    },
+    "build.de-roundtrip": {
+      "pass": true,
+      "detail": "nps=14   consts re-encode exact: 14/14  FULL BODY identical: True"
+    },
+    "gate.const-identity-vs-installed": {
+      "pass": true,
+      "detail": "CONST_IDENTITY protos_stock=14 protos_candidate=14 hash_equal=14 string_equal=14 keyuse_equal=14 verdict=PASS"
+    },
+    "gate.ir-delta-only-597-to-596": {
+      "pass": true,
+      "detail": "differing_lines=2 k[1] 597 => k[1] 596 | [   3] LOADK          R4 <- 597 => [   3] LOADK          R4 <- 596"
+    }
+  },
+  "facts": {
+    "p16_threat_block": [
+      "[578] GETIMPORT R29 <- Lerp",
+      "[579] LOADN R30 <- 5",
+      "[580] LOADN R31 <- 0",
+      "[581] LOADN R33 <- 1",
+      "[582] DIVK R34 <- R16 DIVK 1500",
+      "[583] FASTCALL2 A=19 B=33 C=3",
+      "[584] GETIMPORT R32 <- math.min",
+      "[585] CALL R32 nargs=2 nres=1",
+      "[586] CALL R29 nargs=3 nres=1",
+      "[587] FASTCALL1 A=12 B=29 C=2",
+      "[588] GETIMPORT R28 <- math.floor",
+      "[589] CALL R28 nargs=1 nres=1",
+      "[590] JUMPIFEQ2 R28 JUMPIFEQ2 R21 -> [603]",
+      "[591] MOVE R21 <- R28",
+      "[592] GETIMPORT R29 <- Lotus_Game.SecondaryScriptArgs",
+      "[593] LOADB A=30 B=1 C=0",
+      "[594] CALL R29 nargs=1 nres=1",
+      "[595] MOVE R32 <- R21",
+      "[596] NAMECALL R30 R29 :PushFloatArg",
+      "[597] CALL R30 nargs=2 nres=0",
+      "[598] MOVE R32 <- R14",
+      "[599] MOVE R33 <- R22",
+      "[600] MOVE R34 <- R29",
+      "[601] NAMECALL R30 R1 :ActivateSecondaryScript",
+      "[602] CALL R30 nargs=4 nres=0"
+    ],
+    "byte_delta": {
+      "installed_size": 3383,
+      "candidate_size": 3383,
+      "differing_offsets": [
+        2952
+      ]
+    },
+    "candidate_sha256": "22e0cb4972f81050175b982cbef7c4d09a5a1fb2a1268c38172d45e151bf422a",
+    "candidate_size": 3383,
+    "source_sha256": "6c7d7f92f8f84ebdb006278186ab7c1f7e10f77989aed12c069a8ecf62c19733"
+  },
+  "all_pass": true
+}

@@ -34,3 +34,6 @@ Artifacts/profile-tests/results.json and per-mission logs record outputs. Deep r
 
 ## Superseded Mallet declaration
 2026-09-27 follow-up found installed runtime rejects nativeCalls.PushFloatArg as reserved; the earlier declaration deployed here was incorrect despite passing compilation. It could poison later native-hook installation after starting as Octavia. Corrected using existing transformFloatArgument at p16/i597; see runtime RESEARCH/LOADOUT_NATIVE_HOOK_CONFLICT_2026-09-27/findings.md. Current gameplay switch acceptance pending.
+
+## Superseded callsite index (2026-09-29)
+The runtime reports the NAMECALL index for a native call (44.0.2 BardMusic p16 PushFloatArg = i596), not the CALL (i597). The p16/i597 test above never matched live (0 transform lines, 64+ callback calls). Corrected in RESEARCH/MALLET_THREAT_CALLSITE_FIX_2026-09-29/README.md.
