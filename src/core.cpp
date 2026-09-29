@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <array>
+#include <bit>
 #include <charconv>
 #include <chrono>
 #include <cmath>
@@ -837,6 +838,57 @@ namespace renovice
         };
     }
 
+#include "mission_profiles.inl"
+
+    Json discover_linked_card_stats_file(const fs::path& source, const fs::path& names,
+        const std::string& body, const fs::path& editor_root) {
+        auto result = discover_card_stats_file(source, names, body);
+        auto automatic = discover_automatic_card_links(read_text(source), result);
+        result["controls"] = automatic.at("controls");
+        result["link_rejections"] = automatic.at("rejections");
+        result["link_status"] = result["controls"].empty() ? "NO_VERIFIED_GAMEPLAY_BINDING" : "AUTOMATIC_SHARED_STAT_LINKS";
+        const auto registry = Json::parse(read_text(editor_root / "REGISTRIES/linked_card_stats.json"));
+        if (!registry.at("modules").contains(body)) return result;
+        const auto& binding = registry.at("modules").at(body);
+        if (sha256_file(source) != binding.at("source_sha256").get<std::string>()) {
+            result["controls"] = Json::array();
+            result["link_status"] = "SOURCE_CHANGED_REQUIRES_REVIEW";
+            return result;
+        }
+        std::set<std::size_t> used;
+        // Reviewed per-rank controls take precedence over automatic whole-stat
+        // scales for the same variable; never expose overlapping edits.
+        for (const auto& control : binding.at("controls"))
+            result["controls"].erase(std::remove_if(result["controls"].begin(), result["controls"].end(),
+                [&](const Json& c) { return c.at("variable") == control.at("variable"); }), result["controls"].end());
+        for (const auto& control : binding.at("controls")) {
+            Json inputs = Json::array();
+            std::set<std::string> roles;
+            for (const auto& assignment : control.at("assignments")) {
+                Json match;
+                for (const auto& row : result.at("rows")) {
+                    if (row.at("variable") != control.at("variable") || row.at("label_tag") != control.at("label_tag")) continue;
+                    for (const auto& input : row.at("inputs"))
+                        if (input.at("line") == assignment.at("line")) match = input;
+                }
+                if (match.is_null() || match.at("original") != control.at("original"))
+                    throw std::runtime_error("Linked stat assignment no longer matches native card analysis");
+                if (!used.insert(match.at("offset").get<std::size_t>()).second)
+                    throw std::runtime_error("Linked stat assignments overlap");
+                inputs.push_back(match);
+                roles.insert(assignment.at("role").get<std::string>());
+            }
+            if (!roles.contains("card") || !roles.contains("gameplay"))
+                throw std::runtime_error("Linked stat requires both card and gameplay evidence");
+            auto linked = control;
+            linked["inputs"] = inputs;
+            result["controls"].push_back(linked);
+        }
+        result["link_status"] = "VERIFIED_SOURCE_BINDINGS";
+        result["scope"] = binding.at("scope");
+        return result;
+    }
+
     std::vector<Diagnostic> validate_project(const Json& project, const fs::path& editor_root)
     {
         std::vector<Diagnostic> diagnostics;
@@ -845,6 +897,8 @@ namespace renovice
             add(diagnostics, Severity::error, "PROJECT_ROOT", "Project root must be an object");
             return diagnostics;
         }
+
+        if (project.contains("mission_profile")) return validate_profile_mission(project, editor_root);
 
         const std::string managed_mode = project.value("authoring_mode", "");
         if (managed_mode == "MANAGED_MISSION_EXACT_REPLACEMENT")
@@ -1919,6 +1973,7 @@ namespace renovice
         const fs::path& staging_root,
         const bool run_external_gates)
     {
+        if (project.contains("mission_profile")) return build_profile_mission(project, editor_root, staging_root, run_external_gates);
         BuildResult result;
         result.diagnostics = validate_project(project, editor_root);
         if (has_errors(result.diagnostics))
@@ -2092,6 +2147,7 @@ namespace renovice
         const fs::path& staging_root,
         const bool run_external_gates)
     {
+        if (project.contains("mission_profile")) return build_profile_mission(project, editor_root, staging_root, run_external_gates);
         BuildResult result;
         result.diagnostics = validate_project(project, editor_root);
         if (has_errors(result.diagnostics))

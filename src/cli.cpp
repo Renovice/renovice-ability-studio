@@ -26,6 +26,7 @@ namespace
         std::cout
             << "RENOVICE Ability Editor CLI\n\n"
             << "Commands:\n"
+            << "  card-stats --source FILE.luau --body-key HEX [--names Names.en.json]\n"
             << "  self-test [--editor-root PATH]\n"
             << "  init-mallet PROJECT.json [--editor-root PATH]\n"
             << "  validate PROJECT.json [--editor-root PATH]\n"
@@ -77,6 +78,16 @@ int main(int argc, char** argv)
             ? std::filesystem::absolute(*option_value(arguments, "--editor-root"))
             : renovice::locate_editor_root(executable_path());
         const std::string& command = arguments.front();
+
+        if (command == "card-stats")
+        {
+            const auto source = option_value(arguments, "--source");
+            const auto body = option_value(arguments, "--body-key");
+            if (!source || !body) throw std::runtime_error("card-stats requires --source and --body-key");
+            std::cout << renovice::discover_linked_card_stats_file(*source,
+                option_value(arguments, "--names").value_or(""), *body, editor_root).dump(2) << '\n';
+            return 0;
+        }
 
         if (command == "self-test")
         {

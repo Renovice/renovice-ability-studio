@@ -19,6 +19,8 @@ add_library(renovice_ability_editor_core STATIC
     src/core.cpp
     src/catalog.cpp
     src/semantic_view.cpp
+    src/card_stats.cpp
+    src/card_links.cpp
 )
 target_include_directories(renovice_ability_editor_core PUBLIC include)
 target_link_libraries(renovice_ability_editor_core PUBLIC nlohmann_json::nlohmann_json bcrypt)
@@ -48,6 +50,9 @@ set_target_properties(
 )
 
 enable_testing()
+add_executable(card_stats_tests TESTS/card_stats_tests.cpp)
+target_link_libraries(card_stats_tests PRIVATE renovice_ability_editor_core)
+add_test(NAME card_stats_tests COMMAND card_stats_tests)
 add_test(
     NAME linked_stat_self_test
     COMMAND renovice_ability_editor_cli self-test --editor-root "${CMAKE_SOURCE_DIR}"

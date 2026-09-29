@@ -1,0 +1,55 @@
+{
+  "project_version": 1,
+  "id": "mission.interception.timers.addon",
+  "status": "EXPORTED",
+  "authoring_mode": "MANAGED_MISSION_ADDON",
+  "mode_selection": "AUTOMATIC_RECOMMENDATION",
+  "mode_reason": "Exact target addon changes the verified stock timer owner while retaining the native mission module and lifecycle.",
+  "target": {
+    "warframe": "Mission",
+    "ability": "Interception Timers",
+    "ability_identifier": "INTERCEPTION_SCORING_PATCH",
+    "ability_localize_tag": null,
+    "module_path": "Lotus.Scripts.Modes.TerritoryMission",
+    "module_body_key": "c9605470a8c47d8d",
+    "installed_build": "2026.09.24.13.29",
+    "expected_source_sha256": null
+  },
+  "effect": {
+    "summary": "Tower scoring speed=2 multiplier",
+    "owner": "ADDON",
+    "hook": "renovice.target.lua_call",
+    "hook_evidence_id": "WF-TERRITORY-PROTO35-SCORE-RATE-2026-09-09",
+    "authority": "OWNER",
+    "lifetime": "Changes the stock scoreRatePerSecond scalar once when the exact Territory mission closure starts; native mission and quest multipliers run afterward.",
+    "cleanup": "Cleanup restores the stock global only while the current generation still owns its expected value.",
+    "stacking": "One prototype-entry scalar edit; no score polling or repeated setters."
+  },
+  "stats": [],
+  "addon_generation": {
+    "template": "MISSION_INTERCEPTION_SCORING_TARGET",
+    "hook_binding": "renovice.target.lua_call",
+    "prototype": 35,
+    "stock_score_rate": 1,
+    "scoring_speed_multiplier": 2
+  },
+  "description": {
+    "enabled": true,
+    "localization_key": null,
+    "text": "Exact body-keyed Interception addon for the verified stock timing owner."
+  },
+  "deployment": {
+    "requires_addon": true,
+    "requires_card_extension": false,
+    "requires_native_module": false,
+    "requires_description_override": false,
+    "live_manifest": null
+  },
+  "mission_profile": {
+    "build": "2026.09.24.13.29",
+    "id": "interception",
+    "values": {
+      "scoring_speed_multiplier": 2
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "old_sha256": "945881d62f376d735e38cd5d537e8f823cd7c39c83d6ad89853020e768123073",
+  "new_sha256": "78fe0410ba34b056af74ff215ed28a50e2b7925821d94cba8b90c80987d3d30f",
+  "size": 13676,
+  "deltas": [
+    {
+      "offset": "0x232f",
+      "before": 3,
+      "after": 10
+    },
+    {
+      "offset": "0x2c4e",
+      "before": 8,
+      "after": 36
+    },
+    {
+      "offset": "0x2f1d",
+      "before": 3,
+      "after": 10
+    }
+  ],
+  "user_observation": "Card shows new value, gameplay damage stays normal",
+  "conclusion": "INCONCLUSIVE: only intended coefficients differ; need callback trace",
+  "trace_limit": 1024
+}

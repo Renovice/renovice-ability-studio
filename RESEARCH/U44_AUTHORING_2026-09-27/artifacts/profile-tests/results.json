@@ -1,0 +1,62 @@
+[
+  {
+    "mission": "mobile_defense",
+    "build": "PASS",
+    "negativeCases": 3
+  },
+  {
+    "mission": "excavation",
+    "build": "PASS",
+    "negativeCases": 3
+  },
+  {
+    "mission": "control_area_plains",
+    "build": "PASS",
+    "negativeCases": 3
+  },
+  {
+    "mission": "control_area_deimos",
+    "build": "PASS",
+    "negativeCases": 3
+  },
+  {
+    "mission": "control_area_nokko",
+    "build": "PASS",
+    "negativeCases": 3
+  },
+  {
+    "mission": "survival",
+    "build": "PASS",
+    "negativeCases": 3
+  },
+  {
+    "mission": "interception",
+    "build": "PASS",
+    "negativeCases": 3
+  },
+  {
+    "mission": "void_cascade",
+    "build": "PASS",
+    "negativeCases": 3
+  },
+  {
+    "mission": "netracells",
+    "build": "PASS",
+    "negativeCases": 3
+  },
+  {
+    "mission": "descendia_shrine",
+    "build": "PASS",
+    "negativeCases": 3
+  },
+  {
+    "mission": "descendia_excavation",
+    "build": "PASS",
+    "negativeCases": 3
+  },
+  {
+    "mission": "archimedea",
+    "build": "PASS",
+    "negativeCases": 3
+  }
+]

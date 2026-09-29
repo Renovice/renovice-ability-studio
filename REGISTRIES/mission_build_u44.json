@@ -1,0 +1,576 @@
+{
+  "schema": 1,
+  "build": "2026.09.24.13.29",
+  "corpus": "shared/corpus/de-luau-u44-authoring",
+  "missions": {
+    "mobile_defense": {
+      "legacy_body_key": "89329f85c8575b84",
+      "body_key": "a807aae359ffc1eb",
+      "file": "Lotus_Scripts_MobileDefense.lua_B",
+      "sha256": "4DCFA0B5633B93BC3AF57F04AB5DE4F1CC492FCFD2AE4DE61B9B473E5F1B2DA1",
+      "module_path": "Lotus.Scripts.MobileDefense",
+      "patches": [
+        {
+          "prototype": 22,
+          "instruction": 120,
+          "offset": 21638,
+          "expected": [
+            8,
+            17,
+            180,
+            0
+          ],
+          "register": 17,
+          "value": "minimum_total_time",
+          "numerator": 1,
+          "denominator": 1
+        },
+        {
+          "prototype": 22,
+          "instruction": 121,
+          "offset": 21642,
+          "expected": [
+            8,
+            18,
+            240,
+            0
+          ],
+          "register": 18,
+          "value": "maximum_total_time",
+          "numerator": 1,
+          "denominator": 1
+        }
+      ],
+      "parameters": {
+        "maximum_total_time": {
+          "minimum": 1,
+          "maximum": 32767
+        },
+        "minimum_total_time": {
+          "minimum": 1,
+          "maximum": 32767
+        }
+      }
+    },
+    "excavation": {
+      "legacy_body_key": "303f809a05c1fbaa",
+      "body_key": "f7444e3c621ff018",
+      "file": "Lotus_Scripts_Modes_ExcavationMission.lua_B",
+      "sha256": "DF9FB3206E468652DC7A101E26118ADF2E039F35B69E228C26BB6BBD3A6F4701",
+      "module_path": "Lotus.Scripts.Modes.ExcavationMission",
+      "patches": [
+        {
+          "prototype": 49,
+          "instruction": 76,
+          "offset": 71847,
+          "expected": [
+            8,
+            27,
+            100,
+            0
+          ],
+          "register": 27,
+          "value": "standard_dig_time",
+          "numerator": 1,
+          "denominator": 1
+        },
+        {
+          "prototype": 32,
+          "instruction": 81,
+          "offset": 29436,
+          "expected": [
+            8,
+            1,
+            60,
+            0
+          ],
+          "register": 1,
+          "value": "old_world_salvage_dig_time",
+          "numerator": 1,
+          "denominator": 1
+        },
+        {
+          "prototype": 32,
+          "instruction": 102,
+          "offset": 29560,
+          "expected": [
+            8,
+            1,
+            140,
+            0
+          ],
+          "register": 1,
+          "value": "elite_alert_dig_time",
+          "numerator": 1,
+          "denominator": 1
+        }
+      ],
+      "parameters": {
+        "elite_alert_dig_time": {
+          "minimum": 1,
+          "maximum": 32767
+        },
+        "old_world_salvage_dig_time": {
+          "minimum": 1,
+          "maximum": 32767
+        },
+        "standard_dig_time": {
+          "minimum": 1,
+          "maximum": 32767
+        }
+      }
+    },
+    "control_area_plains": {
+      "legacy_body_key": "bf3c901cb4058c47",
+      "body_key": "b3a5a18d68d61e16",
+      "file": "Lotus_Scripts_Eidolon_Encounters_DynamicDefend.lua_B",
+      "sha256": "F2A27591489413891650D0948414CDE30DC7B7CA7EC0922CA3003B55773C150E",
+      "module_path": "Lotus.Scripts.Eidolon.Encounters.DynamicDefend",
+      "patches": [
+        {
+          "prototype": 17,
+          "instruction": 44,
+          "offset": 8701,
+          "expected": [
+            8,
+            21,
+            90,
+            0
+          ],
+          "register": 21,
+          "value": "control_area_duration",
+          "numerator": 1,
+          "denominator": 1
+        },
+        {
+          "prototype": 8,
+          "instruction": 100,
+          "offset": 4061,
+          "expected": [
+            12,
+            5,
+            0,
+            0
+          ],
+          "register": 5,
+          "value": "control_area_duration",
+          "numerator": 1,
+          "denominator": 1
+        }
+      ],
+      "parameters": {
+        "control_area_duration": {
+          "minimum": 1,
+          "maximum": 32767
+        }
+      }
+    },
+    "control_area_deimos": {
+      "legacy_body_key": "d9541341dfd466a3",
+      "body_key": "8a0b0819de60df01",
+      "file": "Lotus_Scripts_InfestedMicroplanet_Encounters_DynamicAreaDefense.lua_B",
+      "sha256": "322D5E174AC81D86DFDFF92FCED2CDE6A2748D9929698409381C13DE936153F2",
+      "module_path": "Lotus.Scripts.InfestedMicroplanet.Encounters.DynamicAreaDefense",
+      "patches": [
+        {
+          "prototype": 15,
+          "instruction": 56,
+          "offset": 10398,
+          "expected": [
+            8,
+            23,
+            90,
+            0
+          ],
+          "register": 23,
+          "value": "control_area_duration",
+          "numerator": 1,
+          "denominator": 1
+        },
+        {
+          "prototype": 7,
+          "instruction": 63,
+          "offset": 3318,
+          "expected": [
+            18,
+            4,
+            11,
+            0
+          ],
+          "register": 1,
+          "value": "control_area_duration",
+          "numerator": 1,
+          "denominator": 1
+        }
+      ],
+      "parameters": {
+        "control_area_duration": {
+          "minimum": 1,
+          "maximum": 32767
+        }
+      }
+    },
+    "control_area_nokko": {
+      "legacy_body_key": "e192d5cc2f37056e",
+      "body_key": "e4bb611e00823d46",
+      "file": "Lotus_Scripts_Venus_NokkoColony_Encounters_AreaDefense.lua_B",
+      "sha256": "2C7BB67B50C245A0D9B10E680B18B54503ABDBF546EEEB2B85A3D98DE80AA4C6",
+      "module_path": "Lotus.Scripts.Venus.NokkoColony.Encounters.AreaDefense",
+      "patches": [
+        {
+          "prototype": 6,
+          "instruction": 112,
+          "offset": 5509,
+          "expected": [
+            82,
+            3,
+            4,
+            5
+          ],
+          "register": 3,
+          "value": "control_area_duration",
+          "numerator": 2,
+          "denominator": 3
+        },
+        {
+          "prototype": 6,
+          "instruction": 107,
+          "offset": 5481,
+          "expected": [
+            82,
+            3,
+            2,
+            4
+          ],
+          "register": 3,
+          "value": "control_area_duration",
+          "numerator": 1,
+          "denominator": 2
+        },
+        {
+          "prototype": 5,
+          "instruction": 118,
+          "offset": 3974,
+          "expected": [
+            12,
+            6,
+            1,
+            0
+          ],
+          "register": 6,
+          "value": "control_area_duration",
+          "numerator": 1,
+          "denominator": 1
+        }
+      ],
+      "parameters": {
+        "control_area_duration": {
+          "minimum": 1,
+          "maximum": 32767
+        }
+      }
+    },
+    "survival": {
+      "legacy_body_key": "1e3647332a578b78",
+      "body_key": "f10a043e7f825db2",
+      "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
+      "sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D",
+      "module_path": "Lotus.Scripts.Modes.SurvivalMission",
+      "patches": [],
+      "parameters": {
+        "reward_interval": {
+          "minimum": 1,
+          "maximum": 32767
+        },
+        "pickup_life_support": {
+          "minimum": 0,
+          "maximum": 32767
+        },
+        "pickup_reward_progress": {
+          "minimum": 0,
+          "maximum": 32767
+        }
+      }
+    },
+    "interception": {
+      "legacy_body_key": "a51e98a1833bd8c1",
+      "body_key": "c9605470a8c47d8d",
+      "file": "Lotus_Scripts_Modes_TerritoryMission.lua_B",
+      "sha256": "3A8ACF02213053621AD8CF3CC77809A35F27BADDF91D10FCBF94475D0A7D225B",
+      "module_path": "Lotus.Scripts.Modes.TerritoryMission",
+      "patches": [],
+      "parameters": {
+        "scoring_speed_multiplier": {
+          "minimum": 0.01,
+          "maximum": 100
+        }
+      }
+    },
+    "void_cascade": {
+      "body_key": "32c344afa33be174",
+      "file": "Lotus_Scripts_Modes_ZarimanSurvivalMission.lua_B",
+      "sha256": "15CE88BF63C0A721BC978997AD7E7FBA39EA4FADEE00DA8CE5D66E2DF6319D50",
+      "module_path": "Lotus.Scripts.Modes.ZarimanSurvivalMission",
+      "patches": [
+        {
+          "prototype": 97,
+          "instruction": 56,
+          "offset": 88570,
+          "expected": [
+            8,
+            6,
+            90,
+            0
+          ],
+          "register": 6,
+          "value": "exolizer_speed_multiplier",
+          "numerator": 90,
+          "denominator": 1,
+          "inverse": true,
+          "owner": "PILLAR_DURATION"
+        },
+        {
+          "prototype": 97,
+          "instruction": 140,
+          "offset": 89066,
+          "expected": [
+            8,
+            6,
+            90,
+            0
+          ],
+          "register": 6,
+          "value": "exolizer_speed_multiplier",
+          "numerator": 90,
+          "denominator": 1,
+          "inverse": true,
+          "owner": "PILLAR_DURATION_CIRCLE"
+        }
+      ],
+      "parameters": {
+        "exolizer_speed_multiplier": {
+          "minimum": 0.01,
+          "maximum": 100
+        }
+      }
+    },
+    "netracells": {
+      "body_key": "0c498e078835f9fe",
+      "file": "Lotus_Scripts_Modes_EntratiVoidVaults.lua_B",
+      "sha256": "036522B0202AB810737F23C765E45050CB02F87B10F9C293932B3BE8DA24F85F",
+      "module_path": "/Lotus/Scripts/Modes/EntratiVoidVaults.lua",
+      "patches": [],
+      "parameters": {
+        "power_per_kill": {
+          "minimum": 1,
+          "maximum": 100
+        }
+      },
+      "metadata": {
+        "owner": "/Lotus/Types/Gameplay/EntratiLab/VoidVaults/EntratiVoidVaultsScriptTrigger",
+        "field": "Scripts.0.Script._enemyPowerFill",
+        "value": "power_per_kill",
+        "stock": 1
+      }
+    },
+    "descendia_shrine": {
+      "body_key": "1ef96aede7fe612e",
+      "file": "Lotus_Types_Gameplay_DevilTower_LiteGameModes_CoHShrineDefenseLite.lua_B",
+      "sha256": "4BEA96C94D8A22A6578139C47919E05D4A191D97A6A88CF371ED150BB11ED946",
+      "module_path": "/Lotus/Types/Gameplay/DevilTower/LiteGameModes/CoHShrineDefenseLite.lua",
+      "patches": [],
+      "parameters": {
+        "offering_generation_time": {
+          "minimum": 1,
+          "maximum": 32767
+        }
+      },
+      "metadata": {
+        "owner": "/Lotus/Types/Gameplay/DevilTower/LiteGameModes/CoHShrineDefenseTrigger",
+        "field": "Scripts.0.Script._offeringGenerationTime",
+        "value": "offering_generation_time",
+        "stock": 30
+      }
+    },
+    "descendia_excavation": {
+      "body_key": "415a57536412719f",
+      "file": "Lotus_Types_Gameplay_DevilTower_LiteGameModes_CoHExcavationLite.lua_B",
+      "sha256": "C641B897157618608088A5CFBD1D5688ACE5C12822F8ADAADF95089C6491D0E8",
+      "module_path": "/Lotus/Types/Gameplay/DevilTower/LiteGameModes/CoHExcavationLite.lua",
+      "patches": [
+        {
+          "kind": "number_constant",
+          "prototype": 23,
+          "constant": 90,
+          "offset": 22618,
+          "expected": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            128,
+            70,
+            64
+          ],
+          "value": "dig_duration",
+          "numerator": 1,
+          "denominator": 1,
+          "owner": "migration, battery limit, remaining time, partial progress"
+        },
+        {
+          "prototype": 23,
+          "instruction": 736,
+          "offset": 21000,
+          "expected": [
+            8,
+            34,
+            45,
+            0
+          ],
+          "register": 34,
+          "value": "dig_duration",
+          "numerator": 1,
+          "denominator": 1,
+          "owner": "completion threshold"
+        }
+      ],
+      "parameters": {
+        "dig_duration": {
+          "minimum": 1,
+          "maximum": 32767
+        }
+      }
+    },
+    "archimedea": {
+      "body_key": "a4c803e5a624d43d",
+      "file": "Lotus_Scripts_Libs_ConquestLib.lua_B",
+      "sha256": "F66902986B5E5B8F46ED460C8DAB1FF576A336C7464E7637813C62BF24620FA5",
+      "module_path": "Lotus.Scripts.Libs.ConquestLib",
+      "patches": [
+        {
+          "prototype": 43,
+          "instruction": 1010,
+          "offset": 46570,
+          "expected": [
+            8,
+            9,
+            10,
+            0
+          ],
+          "register": 9,
+          "value": "eta_survival_minutes",
+          "numerator": 1,
+          "denominator": 1,
+          "owner": "eta_survival_minutes"
+        },
+        {
+          "prototype": 43,
+          "instruction": 1013,
+          "offset": 46582,
+          "expected": [
+            8,
+            9,
+            6,
+            0
+          ],
+          "register": 9,
+          "value": "eta_defense_waves",
+          "numerator": 1,
+          "denominator": 1,
+          "owner": "eta_defense_waves"
+        },
+        {
+          "prototype": 43,
+          "instruction": 1038,
+          "offset": 46726,
+          "expected": [
+            8,
+            9,
+            10,
+            0
+          ],
+          "register": 9,
+          "value": "eda_survival_minutes",
+          "numerator": 1,
+          "denominator": 1,
+          "owner": "eda_survival_minutes"
+        },
+        {
+          "prototype": 43,
+          "instruction": 1041,
+          "offset": 46738,
+          "expected": [
+            8,
+            9,
+            4,
+            0
+          ],
+          "register": 9,
+          "value": "eda_mirror_defenses",
+          "numerator": 1,
+          "denominator": 1,
+          "owner": "eda_mirror_defenses"
+        },
+        {
+          "prototype": 43,
+          "instruction": 1044,
+          "offset": 46750,
+          "expected": [
+            8,
+            9,
+            2,
+            0
+          ],
+          "register": 9,
+          "value": "eda_alchemy_mixtures",
+          "numerator": 1,
+          "denominator": 1,
+          "owner": "eda_alchemy_mixtures"
+        },
+        {
+          "prototype": 43,
+          "instruction": 1047,
+          "offset": 46762,
+          "expected": [
+            8,
+            9,
+            8,
+            0
+          ],
+          "register": 9,
+          "value": "eda_disruption_conduits",
+          "numerator": 1,
+          "denominator": 1,
+          "owner": "eda_disruption_conduits"
+        }
+      ],
+      "parameters": {
+        "eta_survival_minutes": {
+          "minimum": 1,
+          "maximum": 60
+        },
+        "eta_defense_waves": {
+          "minimum": 1,
+          "maximum": 6
+        },
+        "eda_survival_minutes": {
+          "minimum": 1,
+          "maximum": 60
+        },
+        "eda_mirror_defenses": {
+          "minimum": 1,
+          "maximum": 4
+        },
+        "eda_alchemy_mixtures": {
+          "minimum": 1,
+          "maximum": 2
+        },
+        "eda_disruption_conduits": {
+          "minimum": 1,
+          "maximum": 8
+        }
+      }
+    }
+  }
+}

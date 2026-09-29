@@ -1,0 +1,26 @@
+{
+  "edits": {
+    "c28v6 = 10 * c28v2": "c28v6 = 50 * c28v2",
+    "c31v14 = c31v8 * 10": "c31v14 = c31v8 * 50",
+    "bonusPerStack = 10 }": "bonusPerStack = 50 }",
+    "c32v16 = 10": "c32v16 = 50"
+  },
+  "byte_differences": [
+    {
+      "offset": "0x232f",
+      "old": 10,
+      "new": 50
+    },
+    {
+      "offset": "0x2c4e",
+      "old": 36,
+      "new": 73
+    },
+    {
+      "offset": "0x2f1d",
+      "old": 10,
+      "new": 50
+    }
+  ],
+  "sha256": "dcedc4a2d11cd2d7f03361432eb02c64fd01f3dc6517b627e940ac8ad4228e31"
+}

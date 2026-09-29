@@ -1,0 +1,55 @@
+{
+  "binding": {
+    "body_key": "a807aae359ffc1eb",
+    "file": "Lotus_Scripts_MobileDefense.lua_B",
+    "legacy_body_key": "89329f85c8575b84",
+    "module_path": "Lotus.Scripts.MobileDefense",
+    "parameters": {
+      "maximum_total_time": {
+        "maximum": 32767,
+        "minimum": 1
+      },
+      "minimum_total_time": {
+        "maximum": 32767,
+        "minimum": 1
+      }
+    },
+    "patches": [
+      {
+        "denominator": 1,
+        "expected": [
+          8,
+          17,
+          180,
+          0
+        ],
+        "instruction": 120,
+        "numerator": 1,
+        "offset": 21638,
+        "prototype": 22,
+        "register": 17,
+        "value": "minimum_total_time"
+      },
+      {
+        "denominator": 1,
+        "expected": [
+          8,
+          18,
+          240,
+          0
+        ],
+        "instruction": 121,
+        "numerator": 1,
+        "offset": 21642,
+        "prototype": 22,
+        "register": 18,
+        "value": "maximum_total_time"
+      }
+    ],
+    "sha256": "4DCFA0B5633B93BC3AF57F04AB5DE4F1CC492FCFD2AE4DE61B9B473E5F1B2DA1"
+  },
+  "values": {
+    "maximum_total_time": 80,
+    "minimum_total_time": 60
+  }
+}

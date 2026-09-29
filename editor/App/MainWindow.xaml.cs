@@ -72,6 +72,7 @@ public partial class MainWindow : Window
     public sealed class MissionTimerRow : INotifyPropertyChanged
     {
         public string Id { get; init; } = string.Empty;
+        public string Group { get; init; } = string.Empty;
         public string Label { get; init; } = string.Empty;
         public string StockValue { get; init; } = string.Empty;
         public string RecommendedValue { get; init; } = string.Empty;
@@ -97,25 +98,27 @@ public partial class MainWindow : Window
 
     public sealed class StockNumericRow
     {
-        public int Offset { get; init; }
-        public int Length { get; init; }
-        public int Line { get; init; }
-        public string Variable { get; init; } = string.Empty;
-        public string Label { get; init; } = string.Empty;
-        public string Evidence { get; init; } = string.Empty;
-        public double OriginalValue { get; init; }
+        public required LinkedCardControl Control { get; init; }
+        public string Label => Control.Label;
+        public string Unit => Control.Unit;
+        public string Evidence => Control.Evidence;
+        public string Explanation => Editable ? Control.Operation == "scale"
+            ? "1× keeps stock values. Scales all base ranks and variants together, including PvP. Native mod scaling is retained."
+            : "Updates gameplay and the ability card together. Native mod scaling is retained." : Control.Evidence;
+        public bool Editable => Control.Inputs.Count > 0;
+        public string OriginalDisplay => Control.StockCaption;
         public string Value { get; set; } = string.Empty;
-
-        public StockNumericValue ToValue()
+        public IReadOnlyList<StockNumericValue> ToValues()
         {
             if (!double.TryParse(Value, NumberStyles.Float, CultureInfo.InvariantCulture, out var parsed))
-                throw new InvalidDataException($"{Label} at line {Line}: value must be a number.");
-            return new StockNumericValue(Offset, Length, Line, Variable, Label, Evidence, OriginalValue, parsed);
+                throw new InvalidDataException($"{Label}: value must be a number.");
+            return Control.Edits(parsed);
         }
     }
 
     private readonly ObservableCollection<StatRow> statRows = [];
     private readonly ObservableCollection<MissionTimerRow> missionTimerRows = [];
+    private IReadOnlyList<MissionTimerPreset> missionPresets = MissionTimerPreset.All;
     private readonly ObservableCollection<StockNumericRow> stockNumericRows = [];
     private readonly ObservableCollection<SemanticNameEntry> semanticNameRows = [];
     private readonly ObservableCollection<ClosureOwnershipEntry> closureRows = [];
@@ -129,7 +132,6 @@ public partial class MainWindow : Window
     private ICollectionView? semanticNameView;
     private AbilityCatalog? abilityCatalog;
     private ModifierBindingRegistry? modifierRegistry;
-    private StockValueBindingRegistry? stockValueRegistry;
     private HelminthRegistry? helminthRegistry;
     private WarframeCatalogEntry? selectedCatalogWarframe;
     private AbilityCatalogEntry? selectedCatalogAbility;
@@ -162,7 +164,7 @@ public partial class MainWindow : Window
         StatUnitColumn.ItemsSource = new[] { "None", "Percent", "Seconds", "Meters", "Multiplier" };
         StatsGrid.ItemsSource = statRows;
         MissionValuesList.ItemsSource = missionTimerRows;
-        StockValuesGrid.ItemsSource = stockNumericRows;
+        StockValuesList.ItemsSource = stockNumericRows;
         SemanticRowsGrid.ItemsSource = semanticNameRows;
         ClosureRowsGrid.ItemsSource = closureRows;
         ExportRowsGrid.ItemsSource = exportRows;
@@ -181,15 +183,16 @@ public partial class MainWindow : Window
         semanticNameView.Filter = SemanticEntryMatches;
         SemanticPrototypeBox.ItemsSource = new[] { "All prototypes" };
         SemanticPrototypeBox.SelectedIndex = 0;
-        MissionPresetBox.ItemsSource = MissionTimerPreset.All;
         MissionPresetBox.DisplayMemberPath = nameof(MissionTimerPreset.DisplayName);
-        MissionPresetBox.SelectedIndex = 0;
+        MissionSectionBox.ItemsSource = new[] { "Regular missions", "EDA / ETA" };
+        MissionSectionBox.SelectedIndex = 0;
         statRows.CollectionChanged += (_, _) => UpdateStatPreview();
         try
         {
             workspace = WorkspaceLocator.Locate();
+            missionPresets = MissionBuildProfile.Presets(workspace.EditorRoot);
+            RefreshMissionSection();
             modifierRegistry = ModifierBindingRegistry.Load(workspace.ModifierRegistryPath);
-            stockValueRegistry = StockValueBindingRegistry.Load(workspace.StockValueRegistryPath);
             helminthRegistry = HelminthRegistry.Load(workspace.HelminthRegistryPath);
             Directory.CreateDirectory(workspace.ProjectsRoot);
             Directory.CreateDirectory(workspace.StagingRoot);
@@ -1877,27 +1880,39 @@ public partial class MainWindow : Window
         if (IsInitialized) UpdateStatPreview();
     }
 
-    private void DiscoverStockValues(string moduleBodyKey, string source)
+    private int cardDiscoveryGeneration;
+    private string? cardDiscoverySource;
+    private string? cardDiscoveryBody;
+    private async void DiscoverStockValues(string moduleBodyKey, string source)
     {
+        var generation = ++cardDiscoveryGeneration;
+        cardDiscoverySource = null;
+        cardDiscoveryBody = null;
         stockNumericRows.Clear();
-        if (stockValueRegistry is null || string.IsNullOrWhiteSpace(moduleBodyKey) || string.IsNullOrWhiteSpace(source)) return;
-        foreach (var value in StockNumericEditor.Discover(moduleBodyKey, source, stockValueRegistry))
+        if (workspace is null || string.IsNullOrWhiteSpace(moduleBodyKey) || string.IsNullOrWhiteSpace(source)) return;
+        StockValuesSummary.Text = "Reading native card labels and base-value links…";
+        try
         {
-            stockNumericRows.Add(new StockNumericRow
+            var entries = await CardStatDiscovery.DiscoverLinkedAsync(workspace, moduleBodyKey, source);
+            if (generation != cardDiscoveryGeneration || SourceEditor.Text != source) return;
+            foreach (var entry in entries)
             {
-                Offset = value.Offset,
-                Length = value.Length,
-                Line = value.Line,
-                Variable = value.Variable,
-                Label = value.Label,
-                Evidence = value.Evidence,
-                OriginalValue = value.OriginalValue,
-                Value = value.Value.ToString("0.################", CultureInfo.InvariantCulture),
-            });
+                stockNumericRows.Add(new StockNumericRow
+                {
+                    Control = entry,
+                    Value = entry.Inputs.Count > 0 ? entry.InitialValue.ToString("0.################", CultureInfo.InvariantCulture) : "—",
+                });
+            }
+            cardDiscoverySource = source;
+            cardDiscoveryBody = moduleBodyKey;
+            var editable = stockNumericRows.Count(row => row.Editable);
+            StockValuesSummary.Text = $"{editable} verified card + gameplay controls; {stockNumericRows.Count - editable} read-only labels. Exact catalog source only; this does not migrate the ability catalog to a newer game build.";
         }
-        StockValuesSummary.Text = stockNumericRows.Count == 0
-            ? "No repeated numeric assignment ladders were found in this exact rendered module."
-            : $"{stockNumericRows.Count} exact numeric assignments found. Unresolved labels remain visible but are never presented as verified gameplay meanings.";
+        catch (Exception exception)
+        {
+            if (generation != cardDiscoveryGeneration) return;
+            StockValuesSummary.Text = "Card stat discovery failed: " + exception.Message;
+        }
     }
 
     private void DiscoverStockValues_Click(object sender, RoutedEventArgs e)
@@ -1905,7 +1920,7 @@ public partial class MainWindow : Window
         try
         {
             DiscoverStockValues(BodyKeyBox.Text.Trim(), SourceEditor.Text);
-            FooterStatus.Text = "Stock numeric discovery complete — inspect the evidence column before editing.";
+            FooterStatus.Text = "Native card stat discovery requested.";
         }
         catch (Exception exception)
         {
@@ -1922,16 +1937,16 @@ public partial class MainWindow : Window
         }
         try
         {
-            StockValuesGrid.CommitEdit(DataGridEditingUnit.Cell, true);
-            StockValuesGrid.CommitEdit(DataGridEditingUnit.Row, true);
-            var edits = stockNumericRows.Select(row => row.ToValue()).ToList();
+            if (cardDiscoverySource != SourceEditor.Text || cardDiscoveryBody != selectedCatalogAbility.BodyKey)
+                throw new InvalidDataException("Select and discover values for this exact ability source again before creating a replacement.");
+            var edits = stockNumericRows.Where(row => row.Editable).SelectMany(row => row.ToValues()).ToList();
             if (!edits.Any(value => value.Value != value.OriginalValue))
                 throw new InvalidDataException("No stock numeric value has been changed.");
             var patched = StockNumericEditor.Apply(SourceEditor.Text, edits);
             ApplyCatalogTarget(EditorMode.Replacement);
             SourceEditor.Text = patched;
             replacementSourcePath = null;
-            project!.EffectSummary = "Exact stock numeric assignment edit generated from the body-key-gated source-value editor.";
+            project!.EffectSummary = "Linked card and gameplay rank inputs edited together from exact verified source bindings.";
             EffectSummaryBox.Text = project.EffectSummary;
             var path = SaveProject(forceNewLocation: true);
             DiscoverStockValues(project.ModuleBodyKey, SourceEditor.Text);
@@ -1941,6 +1956,15 @@ public partial class MainWindow : Window
         {
             ShowFailure("Stock replacement failed", exception);
         }
+    }
+
+    private void MissionSection_SelectionChanged(object sender, SelectionChangedEventArgs e) => RefreshMissionSection();
+
+    private void RefreshMissionSection()
+    {
+        if (MissionPresetBox is null || MissionSectionBox.SelectedItem is not string section) return;
+        MissionPresetBox.ItemsSource = missionPresets.Where(p => p.Section == section).ToList();
+        MissionPresetBox.SelectedIndex = 0;
     }
 
     private void MissionPreset_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -1953,6 +1977,7 @@ public partial class MainWindow : Window
             missionTimerRows.Add(new MissionTimerRow
             {
                 Id = value.Id,
+                Group = value.Group,
                 Label = value.Label,
                 StockValue = resetValue,
                 Value = value.Value.ToString("0.################", CultureInfo.InvariantCulture),
@@ -1967,6 +1992,10 @@ public partial class MainWindow : Window
         ResetMissionValuesButton.Content = preset.Values.All(value => value.StockValue.HasValue)
             ? "Reset to Stock"
             : "Reset Initial Values";
+        var view = CollectionViewSource.GetDefaultView(missionTimerRows);
+        view.GroupDescriptions.Clear();
+        if (preset.Values.Any(v => !string.IsNullOrEmpty(v.Group)))
+            view.GroupDescriptions.Add(new PropertyGroupDescription(nameof(MissionTimerRow.Group)));
         MissionTimerSummary.Text = preset.DisplayName + " · " + preset.Summary;
         MissionMechanicText.Text = preset.Mechanic;
         MissionBindingText.Text = $"{preset.ModulePath}  ·  exact body {preset.ModuleBodyKey}  ·  {preset.CorpusFile}";
@@ -2000,24 +2029,26 @@ public partial class MainWindow : Window
                 values.Add(row.Id, value);
             }
 
-            var exactReplacement = preset.Id is "mobile_defense" or "excavation" or "control_area_plains" or "control_area_deimos" or "control_area_nokko";
-            var exportName = exactReplacement
+            var metadataPatch = preset.Id is "netracells" or "descendia_shrine";
+            var exactReplacement = preset.Id is "mobile_defense" or "excavation" or "control_area_plains" or "control_area_deimos" or "control_area_nokko" or "void_cascade" or "descendia_excavation" or "archimedea";
+            var exportName = metadataPatch ? preset.Id + ".txt" : exactReplacement
                 ? VerifiedArtifactExporter.MissionReplacementFileName(preset.ModuleBodyKey, preset.Id)
                 : VerifiedArtifactExporter.MissionTargetAddonFileName(preset.ModuleBodyKey, preset.Id);
             var suggestedCustomScripts = Path.GetFullPath(Path.Combine(
-                workspace.WorkspaceRoot, "..", "Warframe", "OpenWF", "CustomScripts"));
+                workspace.WorkspaceRoot, "..", "Warframe 23.09.2026", "OpenWF", "CustomScripts"));
             var suggestedInject = Path.Combine(suggestedCustomScripts, "Inject");
+            var suggestedMetadata = Path.Combine(Path.GetDirectoryName(suggestedCustomScripts)!, "Metadata Patches");
             var saveDialog = new SaveFileDialog
             {
-                Title = exactReplacement
+                Title = metadataPatch ? $"Save {preset.DisplayName} metadata patch" : exactReplacement
                     ? $"Save verified {preset.DisplayName} exact timer replacement"
                     : $"Save verified {preset.DisplayName} timer addon",
-                Filter = "DE Lua bytecode|*.lua_B",
-                DefaultExt = ".lua_B",
+                Filter = metadataPatch ? "Metadata patch|*.txt" : "DE Lua bytecode|*.lua_B",
+                DefaultExt = metadataPatch ? ".txt" : ".lua_B",
                 AddExtension = true,
                 OverwritePrompt = true,
                 FileName = exportName,
-                InitialDirectory = exactReplacement && Directory.Exists(suggestedCustomScripts)
+                InitialDirectory = metadataPatch && Directory.Exists(suggestedMetadata) ? suggestedMetadata : exactReplacement && Directory.Exists(suggestedCustomScripts)
                     ? suggestedCustomScripts
                     : Directory.Exists(suggestedInject)
                     ? suggestedInject
@@ -2027,10 +2058,10 @@ public partial class MainWindow : Window
             };
             if (saveDialog.ShowDialog(this) != true) return;
 
-            var bytecode = Path.Combine(workspace.CorpusRoot, preset.CorpusFile);
+            var bytecode = Path.Combine(MissionBuildProfile.CorpusRoot(workspace), preset.CorpusFile);
             if (!File.Exists(bytecode)) throw new FileNotFoundException("Exact stock mission bytecode is missing.", bytecode);
 
-            SetBusy(true, exactReplacement
+            SetBusy(true, metadataPatch ? $"Building {preset.DisplayName} metadata patch…" : exactReplacement
                 ? $"Building exact {preset.DisplayName} timer replacement…"
                 : $"Building exact {preset.DisplayName} timer target addon…");
             CreateNew(exactReplacement ? EditorMode.Replacement : EditorMode.Addon);
@@ -2041,15 +2072,15 @@ public partial class MainWindow : Window
             project.ModulePath = preset.ModulePath;
             project.ModuleBodyKey = preset.ModuleBodyKey;
             project.InstalledBuild = abilityCatalog?.MetadataSnapshot ?? "exact-corpus-build";
-            project.ProjectId = exactReplacement
+            project.ProjectId = metadataPatch ? $"mission.{preset.Id}.metadata" : exactReplacement
                 ? $"mission.{preset.Id}.timers.exact-replacement"
                 : $"mission.{preset.Id}.timers.addon";
             project.ModeSelection = "AUTOMATIC_RECOMMENDATION";
-            project.ModeReason = exactReplacement
+            project.ModeReason = metadataPatch ? "Native metadata parameter controls gameplay and its native progress display." : exactReplacement
                 ? "Exact stock-body replacement changes only the verified duration operands."
                 : "Exact target addon changes the verified stock timer owner while retaining the native mission module and lifecycle.";
             project.EffectSummary = string.Join("; ", missionTimerRows.Select(row => $"{row.Label}={row.Value} {row.Unit}"));
-            project.DescriptionText = exactReplacement
+            project.DescriptionText = metadataPatch ? $"Verified native {preset.DisplayName} metadata parameter edit." : exactReplacement
                 ? $"Exact body-keyed {preset.DisplayName} replacement for the verified stock timing assignments."
                 : $"Exact body-keyed {preset.DisplayName} addon for the verified stock timing owner.";
             project.ReplaceStats([]);
@@ -2084,9 +2115,17 @@ public partial class MainWindow : Window
                 case "control_area_nokko":
                     project.ConfigureControlAreaNokkoTimerReplacement(values["control_area_duration"]);
                     break;
+                case "void_cascade":
+                case "archimedea":
+                case "descendia_excavation":
+                case "descendia_shrine":
+                case "netracells":
+                    break;
                 default:
                     throw new InvalidDataException($"No verified mission edit binding exists for mission preset {preset.Id}.");
             }
+
+            project.ConfigureMissionBuildProfile(preset.Id, values, workspace.EditorRoot);
 
             ProjectIdBox.Text = project.ProjectId;
             WarframeBox.Text = project.Warframe;
@@ -2109,7 +2148,7 @@ public partial class MainWindow : Window
                 + Environment.NewLine + build.Output;
             BottomTabs.SelectedIndex = 1;
             if (!build.Success)
-                throw new InvalidDataException($"{preset.DisplayName} {(exactReplacement ? "exact replacement" : "target-addon")} build failed. Inspect Diagnostics; no .lua_B was exported.");
+                throw new InvalidDataException($"{preset.DisplayName} {(exactReplacement ? "exact replacement" : "target-addon")} build failed. Inspect Diagnostics; no artifact was exported.");
             LoadBuildArtifacts(build.Output);
             if (string.IsNullOrWhiteSpace(lastBuildManifest))
                 throw new InvalidDataException("The successful build did not report a build manifest.");
@@ -2127,7 +2166,7 @@ public partial class MainWindow : Window
                 DiagnosticsBox.Text += Environment.NewLine
                     + $"Previous destination preserved: {exported.RollbackPath} sha256={exported.RollbackSha256}";
             BuildIdentity.Text = projectPath;
-            FooterStatus.Text = exactReplacement
+            FooterStatus.Text = metadataPatch ? $"EXPORT PASS — metadata patch saved to {exported.DestinationPath}" : exactReplacement
                 ? $"EXPORT PASS — verified {preset.DisplayName} exact replacement saved to {exported.DestinationPath}"
                 : $"EXPORT PASS — verified {preset.DisplayName} target addon saved to {exported.DestinationPath}";
         }

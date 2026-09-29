@@ -3,18 +3,28 @@
 This folder defines the project-wide ability-authoring tool. Mallet is a
 reference fixture, not a special-case architecture.
 
+Generated output must target the universal runtime contract. A normal authored
+addon declares its target, hooks, capabilities, lifecycle, canonical gameplay
+values, and optional native card rows without requiring a provider-specific C++
+branch, copied stock base script, shim, enabler, or manual bootstrapper edit.
+If the runtime lacks a required primitive, report `NEEDS_BINDING` and define the
+missing generic engine contract; do not hide the gap in generated support code.
+
 ## Non-negotiable rules
 
 1. Model one logical edit as one project, even when runtime constraints require
    multiple artifacts.
 2. Store every gameplay/display value once in a canonical stat definition.
    Generate gameplay expressions and native card rows from that definition.
-3. An addon may own ability-card rows without replacing stock bytecode once the
-   loader-mediated same-VM card attachment is implemented and live-proven. The
-   old global/cross-VM experiment is disproven; it is not evidence that a
-   correctly targeted native loader bridge is impossible. Until that bridge is
-   accepted, use the minimal native `GetAbilityUpgradeLevelInfo` projection as
-   an explicitly labeled compatibility fallback.
+3. The loader-mediated same-VM RunScript result adapter is implemented.
+   Production target addons declare `matchesAbility` and `afterAbilityCard`,
+   append ordinary rows to the exact stock array in the UI VM, return that
+   array, and pass readback verification. Mallet is live-proven on this path;
+   Ice Wave uses the same mechanism with its latest rendering status kept in
+   the runtime handoff. Preserve the stock array, row references, native
+   metatables, and `Modded` flag. A native `GetAbilityUpgradeLevelInfo`
+   replacement is an explicitly justified compatibility path, not the default
+   architecture.
 4. Prefer an existing computed stock value. Otherwise use only a modifier
    binding recorded in `REGISTRIES/modifier_bindings.tsv` with sufficient
    evidence. Never treat raw selector numbers as universal enums.

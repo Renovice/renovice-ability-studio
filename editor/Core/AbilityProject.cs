@@ -163,6 +163,15 @@ public sealed class AbilityProject
     {
         var deployment = EnsureObject("deployment");
         var effect = Effect();
+        if (AuthoringMode == "MANAGED_MISSION_METADATA_PATCH" && mode == EditorMode.Addon)
+        {
+            effect["owner"] = "NATIVE_MODULE";
+            effect["hook"] = null;
+            deployment["requires_addon"] = false;
+            deployment["requires_card_extension"] = false;
+            deployment["requires_native_module"] = false;
+            return;
+        }
         if (mode == EditorMode.Addon)
         {
             root.Remove("replacement_generation");
@@ -514,6 +523,27 @@ public sealed class AbilityProject
         ValidateMissionSeconds(value, label);
         if (value != Math.Truncate(value) || value > 32767)
             throw new InvalidDataException($"{label} must be a whole number between 1 and 32767 seconds for the exact LOADN replacement.");
+    }
+
+    public void ConfigureMissionBuildProfile(string id, IReadOnlyDictionary<string, double> values, string editorRoot)
+    {
+        using var profile = MissionBuildProfile.Read(editorRoot);
+        var binding = profile.RootElement.GetProperty("missions").GetProperty(id);
+        ModuleBodyKey = binding.GetProperty("body_key").GetString()!;
+        ModulePath = binding.GetProperty("module_path").GetString()!;
+        InstalledBuild = MissionBuildProfile.Build;
+        var parameters = new JsonObject();
+        foreach (var (key, value) in values) parameters[key] = value;
+        root["mission_profile"] = new JsonObject { ["build"] = MissionBuildProfile.Build, ["id"] = id, ["values"] = parameters };
+        if (binding.TryGetProperty("metadata", out _) || id is "void_cascade" or "descendia_excavation" or "archimedea")
+        {
+            AuthoringMode = binding.TryGetProperty("metadata", out _) ? "MANAGED_MISSION_METADATA_PATCH" : "MANAGED_MISSION_EXACT_REPLACEMENT";
+            root.Remove("addon_generation");
+            root["replacement_generation"] = new JsonObject { ["template"] = "PROFILE_MISSION_DURATION" };
+            Effect()["owner"] = "NATIVE_MODULE";
+            Effect()["hook"] = null;
+            Effect()["authority"] = "OWNER";
+        }
     }
 
     public IReadOnlyList<string> ValidateForSave()

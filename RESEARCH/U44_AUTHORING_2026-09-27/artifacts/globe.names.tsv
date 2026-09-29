@@ -1,0 +1,49 @@
+prototype	web	canonical	readable	confidence	evidence	semantic_type	type_confidence	type_evidence
+6	33	v6_33	tableValue	STRUCTURAL	verified NEWTABLE value			
+7	2	v7_2	tableValue	STRUCTURAL	verified NEWTABLE value			
+9	12	v9_12	yValue	STRUCTURAL	field read y			
+12	110	v12_110	yValue	STRUCTURAL	field read y			
+16	0	p16_0				Entity	API_CONTRACT	semantic-sdk:lua:field:RadialDamageData:ignoreEntity; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; value of field write ignoreEntity
+16	42	v16_42				RadialDamageData	API_CONTRACT	semantic-sdk:lua:field:RadialDamageData:radius; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; owner of field write radius
+16	55	v16_55				number	API_CONTRACT	semantic-sdk:lua:field:RadialDamageData:radius; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; value of field write radius
+16	71	v16_71				boolean	API_CONTRACT	semantic-sdk:lua:field:RadialDamageData:checkForCover; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; value of field write checkForCover
+16	72	v16_72				boolean	API_CONTRACT	semantic-sdk:lua:field:RadialDamageData:staticCoverOnly; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; value of field write staticCoverOnly
+16	73	v16_73				number	API_CONTRACT	semantic-sdk:lua:field:RadialDamageData:fallOff; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; value of field write fallOff
+17	89	v17_89	maxHealthValue	STRUCTURAL	field read maxHealth			
+17	90	v17_90	shieldRangeValue	STRUCTURAL	field read shieldRange	number	API_CONTRACT	semantic-sdk:lua:field:RadialDamageData:radius; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; value of field write radius
+17	91	v17_91	shatterDamageValue	STRUCTURAL	field read shatterDamage			
+17	92	v17_92	invulnDurationValue	STRUCTURAL	field read invulnDuration			
+17	322	v17_322	tableValue	STRUCTURAL	verified NEWTABLE value			
+17	328	v17_328	tableValue2	STRUCTURAL	verified NEWTABLE value			
+17	337	v17_337	shieldValue	STRUCTURAL	field read shield			
+17	360	v17_360	reinforceHealthValue	STRUCTURAL	field read reinforceHealth			
+17	408	v17_408	shieldValue2	STRUCTURAL	field read shield			
+17	418	v17_418				RadialDamageData	API_CONTRACT	semantic-sdk:lua:field:RadialDamageData:radius; confidence=STOCK_BYTECODE; status=CONFIRMED; evidence=WF-STOCK-BARD-BOXLOOP; owner of field write radius
+17	481	v17_481	tableValue3	STRUCTURAL	verified NEWTABLE value			
+17	482	v17_482	tableValue4	STRUCTURAL	verified NEWTABLE value			
+17	554	v17_554	augmentAddedHealthValue	STRUCTURAL	field read augmentAddedHealth			
+17	555	v17_555	augmentAddedHealthValue2	STRUCTURAL	field read augmentAddedHealth			
+17	677	v17_677	tableValue5	STRUCTURAL	verified NEWTABLE value			
+17	683	v17_683	enemyValue	STRUCTURAL	field read enemy			
+17	699	v17_699	timerValue	STRUCTURAL	field read timer			
+17	701	v17_701	timerValue2	STRUCTURAL	field read timer			
+17	705	v17_705	timerValue3	STRUCTURAL	field read timer			
+17	921	v17_921	isReplacedValue	STRUCTURAL	field read isReplaced			
+17	973	v17_973	isReplacedValue2	STRUCTURAL	field read isReplaced			
+18	52	v18_52	shieldValue	STRUCTURAL	field read shield			
+18	58	v18_58	shieldValue2	STRUCTURAL	field read shield			
+18	62	v18_62	maxHealthValue	STRUCTURAL	field read maxHealth			
+18	78	v18_78	maxHealthValue2	STRUCTURAL	field read maxHealth			
+18	79	v18_79	absorbedDamageValue	STRUCTURAL	field read absorbedDamage			
+18	80	v18_80	absorbedDamageValue2	STRUCTURAL	field read absorbedDamage			
+18	86	v18_86	augmentAddedHealthValue	STRUCTURAL	field read augmentAddedHealth			
+19	36	v19_36	getAbilityUpgradeLevelInfoFunction	EXACT_EXPORT	global store GetAbilityUpgradeLevelInfo			
+19	37	v19_37	getAugmentDescriptionInfoFunction	EXACT_EXPORT	global store GetAugmentDescriptionInfo			
+19	38	v19_38	npcEvaluateAbilityFunction	EXACT_EXPORT	global store NpcEvaluateAbility			
+19	39	v19_39	evaluateAbilityFunction	EXACT_EXPORT	global store EvaluateAbility			
+19	40	v19_40	initializeAbilityFunction	EXACT_EXPORT	global store InitializeAbility			
+19	42	v19_42	activateAbilityFunction	EXACT_EXPORT	global store ActivateAbility			
+19	43	v19_43	crewShipInfoFunction	EXACT_EXPORT	global store CrewShipInfo			
+19	44	v19_44	crewShipActivateFunction	EXACT_EXPORT	global store CrewShipActivate			
+19	47	v19_47	deployFunction	EXACT_EXPORT	global store Deploy			
+19	48	v19_48	onKillOrAssistFunction	EXACT_EXPORT	global store OnKillOrAssist			

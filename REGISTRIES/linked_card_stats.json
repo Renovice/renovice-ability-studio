@@ -1,0 +1,211 @@
+{
+  "schema": 1,
+  "modules": {
+    "dc33836ea5685c89": {
+      "source_sha256": "40EB6A40560A05CC39C06EEFFE28E84F006EA8949A4477C9EE956F2332901A7B",
+      "scope": "Catalog snapshot; exact source only. Not a U44 catalog migration.",
+      "controls": [
+        {
+          "id": "v18_7.rank1",
+          "label": "Damage \u00b7 Ability rank 1",
+          "unit": "damage",
+          "variable": "v18_7",
+          "label_tag": "/Lotus/Language/Labels/WEAPON_DAMAGE_AMOUNT",
+          "original": 15000,
+          "minimum": 0,
+          "maximum": 100000000,
+          "assignments": [
+            {
+              "line": 186,
+              "role": "shared_setup"
+            },
+            {
+              "line": 327,
+              "role": "card"
+            },
+            {
+              "line": 1644,
+              "role": "gameplay"
+            }
+          ],
+          "evidence": "Exact rank branches in shared setup, GetAbilityUpgradeLevelInfo and ActivateAbility. Damage feeds DoHorseSpawn; duration feeds the horse lifetime countdown. Native Strength/Duration modifiers retained."
+        },
+        {
+          "id": "v18_7.rank2",
+          "label": "Damage \u00b7 Ability rank 2",
+          "unit": "damage",
+          "variable": "v18_7",
+          "label_tag": "/Lotus/Language/Labels/WEAPON_DAMAGE_AMOUNT",
+          "original": 20000,
+          "minimum": 0,
+          "maximum": 100000000,
+          "assignments": [
+            {
+              "line": 180,
+              "role": "shared_setup"
+            },
+            {
+              "line": 322,
+              "role": "card"
+            },
+            {
+              "line": 1655,
+              "role": "gameplay"
+            }
+          ],
+          "evidence": "Exact rank branches in shared setup, GetAbilityUpgradeLevelInfo and ActivateAbility. Damage feeds DoHorseSpawn; duration feeds the horse lifetime countdown. Native Strength/Duration modifiers retained."
+        },
+        {
+          "id": "v18_7.rank3",
+          "label": "Damage \u00b7 Ability rank 3",
+          "unit": "damage",
+          "variable": "v18_7",
+          "label_tag": "/Lotus/Language/Labels/WEAPON_DAMAGE_AMOUNT",
+          "original": 25000,
+          "minimum": 0,
+          "maximum": 100000000,
+          "assignments": [
+            {
+              "line": 174,
+              "role": "shared_setup"
+            },
+            {
+              "line": 317,
+              "role": "card"
+            },
+            {
+              "line": 1666,
+              "role": "gameplay"
+            }
+          ],
+          "evidence": "Exact rank branches in shared setup, GetAbilityUpgradeLevelInfo and ActivateAbility. Damage feeds DoHorseSpawn; duration feeds the horse lifetime countdown. Native Strength/Duration modifiers retained."
+        },
+        {
+          "id": "v18_7.rank4",
+          "label": "Damage \u00b7 Ability rank 4",
+          "unit": "damage",
+          "variable": "v18_7",
+          "label_tag": "/Lotus/Language/Labels/WEAPON_DAMAGE_AMOUNT",
+          "original": 30000,
+          "minimum": 0,
+          "maximum": 100000000,
+          "assignments": [
+            {
+              "line": 169,
+              "role": "shared_setup"
+            },
+            {
+              "line": 313,
+              "role": "card"
+            },
+            {
+              "line": 1671,
+              "role": "gameplay"
+            }
+          ],
+          "evidence": "Exact rank branches in shared setup, GetAbilityUpgradeLevelInfo and ActivateAbility. Damage feeds DoHorseSpawn; duration feeds the horse lifetime countdown. Native Strength/Duration modifiers retained."
+        },
+        {
+          "id": "v18_6.rank1",
+          "label": "Duration \u00b7 Ability rank 1",
+          "unit": "seconds",
+          "variable": "v18_6",
+          "label_tag": "/Lotus/Language/Labels/AVATAR_ABILITY_DURATION",
+          "original": 2,
+          "minimum": 0,
+          "maximum": 100000000,
+          "assignments": [
+            {
+              "line": 185,
+              "role": "shared_setup"
+            },
+            {
+              "line": 326,
+              "role": "card"
+            },
+            {
+              "line": 1643,
+              "role": "gameplay"
+            }
+          ],
+          "evidence": "Exact rank branches in shared setup, GetAbilityUpgradeLevelInfo and ActivateAbility. Damage feeds DoHorseSpawn; duration feeds the horse lifetime countdown. Native Strength/Duration modifiers retained."
+        },
+        {
+          "id": "v18_6.rank2",
+          "label": "Duration \u00b7 Ability rank 2",
+          "unit": "seconds",
+          "variable": "v18_6",
+          "label_tag": "/Lotus/Language/Labels/AVATAR_ABILITY_DURATION",
+          "original": 2,
+          "minimum": 0,
+          "maximum": 100000000,
+          "assignments": [
+            {
+              "line": 179,
+              "role": "shared_setup"
+            },
+            {
+              "line": 321,
+              "role": "card"
+            },
+            {
+              "line": 1654,
+              "role": "gameplay"
+            }
+          ],
+          "evidence": "Exact rank branches in shared setup, GetAbilityUpgradeLevelInfo and ActivateAbility. Damage feeds DoHorseSpawn; duration feeds the horse lifetime countdown. Native Strength/Duration modifiers retained."
+        },
+        {
+          "id": "v18_6.rank3",
+          "label": "Duration \u00b7 Ability rank 3",
+          "unit": "seconds",
+          "variable": "v18_6",
+          "label_tag": "/Lotus/Language/Labels/AVATAR_ABILITY_DURATION",
+          "original": 3,
+          "minimum": 0,
+          "maximum": 100000000,
+          "assignments": [
+            {
+              "line": 173,
+              "role": "shared_setup"
+            },
+            {
+              "line": 316,
+              "role": "card"
+            },
+            {
+              "line": 1665,
+              "role": "gameplay"
+            }
+          ],
+          "evidence": "Exact rank branches in shared setup, GetAbilityUpgradeLevelInfo and ActivateAbility. Damage feeds DoHorseSpawn; duration feeds the horse lifetime countdown. Native Strength/Duration modifiers retained."
+        },
+        {
+          "id": "v18_6.rank4",
+          "label": "Duration \u00b7 Ability rank 4",
+          "unit": "seconds",
+          "variable": "v18_6",
+          "label_tag": "/Lotus/Language/Labels/AVATAR_ABILITY_DURATION",
+          "original": 3,
+          "minimum": 0,
+          "maximum": 100000000,
+          "assignments": [
+            {
+              "line": 168,
+              "role": "shared_setup"
+            },
+            {
+              "line": 312,
+              "role": "card"
+            },
+            {
+              "line": 1670,
+              "role": "gameplay"
+            }
+          ],
+          "evidence": "Exact rank branches in shared setup, GetAbilityUpgradeLevelInfo and ActivateAbility. Damage feeds DoHorseSpawn; duration feeds the horse lifetime countdown. Native Strength/Duration modifiers retained."
+        }
+      ]
+    }
+  }
+}

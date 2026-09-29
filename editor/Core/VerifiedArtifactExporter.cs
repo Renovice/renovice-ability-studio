@@ -45,13 +45,13 @@ public static class VerifiedArtifactExporter
         var manifestPath = Path.GetFullPath(buildManifestPath);
         if (!File.Exists(manifestPath))
             throw new FileNotFoundException("The staged build manifest is missing.", manifestPath);
-        if (!string.Equals(Path.GetExtension(destinationPath), ".lua_B", StringComparison.OrdinalIgnoreCase))
-            throw new InvalidDataException("Verified exports must use the .lua_B extension.");
-
         using var document = JsonDocument.Parse(File.ReadAllText(manifestPath));
         var root = document.RootElement;
         RequireString(root, "format", "RENOVICE_ABILITY_EDITOR_BUILD_V1");
         RequireString(root, "status", "STAGED_PASS");
+        var extension = root.TryGetProperty("package_type", out var package) && package.GetString() == "METADATA_PATCH" ? ".txt" : ".lua_B";
+        if (!string.Equals(Path.GetExtension(destinationPath), extension, StringComparison.OrdinalIgnoreCase))
+            throw new InvalidDataException($"This verified artifact must use the {extension} extension.");
         if (root.GetProperty("live_write_performed").GetBoolean())
             throw new InvalidDataException("The staged manifest unexpectedly records a live write.");
 
@@ -76,7 +76,7 @@ public static class VerifiedArtifactExporter
         if (!artifactPath.StartsWith(generationPrefix, StringComparison.OrdinalIgnoreCase))
             throw new InvalidDataException("The staged artifact path escapes its generation directory.");
         if (!File.Exists(artifactPath))
-            throw new FileNotFoundException("The staged .lua_B artifact is missing.", artifactPath);
+            throw new FileNotFoundException("The staged artifact is missing.", artifactPath);
 
         var expectedSize = artifact.GetProperty("size").GetInt64();
         var expectedSha256 = artifact.GetProperty("sha256").GetString()

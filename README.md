@@ -430,3 +430,35 @@ CLI examples:
 See
 [`RESEARCH/LINKED_STAT_EDITOR_IMPLEMENTATION_2026-08-25.md`](RESEARCH/LINKED_STAT_EDITOR_IMPLEMENTATION_2026-08-25.md)
 for the exact gate results, hashes, hypotheses, and current limitations.
+
+## Mission timers and progression (2026-09-27)
+
+The published Studio **Mission Timers** picker has twelve presets for build `2026.09.24.13.29`. Regular missions retain their previous presets, including:
+
+| Preset | Control | Stock / faster example | Output |
+|---|---|---|---|
+| Netracells | Power per qualifying kill | 1 / 2 | Native metadata `.txt` |
+| Descendia · Shrine offerings | Offering generation time | 30 / 15 seconds | Native metadata `.txt` |
+| Descendia · Excavation | Powered excavator completion time | 45 / 15 seconds | Exact Lua replacement `.lua_B` |
+
+Use **Build + Save Mission Edit** to choose a Windows destination. Metadata patches default to `OpenWF/Metadata Patches`; Lua replacements use `OpenWF/CustomScripts`. Existing destination files get rollback copies. These presets change gameplay progression, not server reward quantities. Netracell's parameter also affects the quest variant, which keeps its additional ×8 factor. Descendia's overall failure deadlines are unchanged.
+
+Builds require exact current stock hashes. Excavation changes its completion threshold and the shared constant feeding migration, battery limits, remaining-time display and partial progress together. Whole-second durations are required. Offline validation passed; these new presets are not yet live-game confirmed.
+
+### EDA / ETA section
+
+Choose **Mission Timers → Section: EDA / ETA**. Six event subsections control EDA Survival time, Mirror Defense target defenses, Alchemy mixtures and Disruption conduits, plus ETA Survival time and Defense waves. Both normal and Elite versions share these settings. Stock defaults are unchanged; Faster Examples halves them. Survival values are whole minutes (10 stock); the other values are completion counts, not per-phase duration or reward quantities.
+
+All six choices export as one ConquestLib replacement through **Build + Save Mission Edit**. Re-export that file to change either mode; separate files would compete for the same module. Restart after installation and generate a fresh mission chain. Regular Survival pickup settings remain shared, while its reward-rotation interval does not control Archimedea completion. Extermination, Assassination and Legacyte Harvest are unchanged by this preset. [Exact ownership, offline checks and live-test boundary](RESEARCH/ARCHIMEDEA_TIMERS_2026-09-27/findings.md).
+
+## Linked ability stats (2026-09-27)
+
+Select an ability, open **Stock Values**, and use **Discover**. Large cards show a label, stock value, editable value and unit. An editable control updates all verified gameplay and native-card assignments together; native mod scaling remains in place. **Create Replacement**, then Validate and Build through the existing source/compiler gates.
+
+The generic C++ analyser now traces native card values through shared roots, helper returns, modifier wrappers and ability-stat storage to supported gameplay operations. A card label or stat-storage read alone does **not** authorize an editable control. Automatically linked values appear as **Base scale**, initially **1×**. Setting 2× scales every literal assignment of that base together, including defaults, ranks and PvP/variant branches; it is not a max-rank-only edit. Stock base values and the operation evidence are shown on the control. Unsupported/ambiguous traces remain read-only. Equal numbers or labels are never enough to merge variables.
+
+`REGISTRIES/linked_card_stats.json` retains reviewed per-rank groups with exact source SHA-256 and body identity. These take precedence over automatic scales for the same root; changed registered sources require review. Dagath Rakhali's Cavalry Damage and Duration retain their eight reviewed rank controls.
+
+The 23 cached-source audit additionally found four automatic controls: Lavos Vial Rush Damage/Second and Explosion Radius, Dagath Grave Spirit Time Invulnerable, and Garuda Dread Mirror Explosion Radius. All three automatically edited modules passed compilation, all-prototype plan verification and exact compiled-container roundtrip. This is bounded source-analysis coverage, not full-catalog or live-game certification. The older ability catalog remains separate from the current mission profile; automatic discovery does not migrate its build identities.
+
+[Evidence, reproduction and remaining coverage](RESEARCH/CARD_VALUE_LABELS_2026-09-27/findings.md).

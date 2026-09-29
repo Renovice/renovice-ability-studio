@@ -8,7 +8,8 @@ public sealed record MissionTimerValue(
     double RecommendedValue,
     string Unit,
     string Explanation,
-    string? StockDescription = null);
+    string? StockDescription = null,
+    string Group = "");
 
 public sealed record MissionTimerPreset(
     string Id,
@@ -19,7 +20,8 @@ public sealed record MissionTimerPreset(
     string AbilityIdentifier,
     string Summary,
     string Mechanic,
-    IReadOnlyList<MissionTimerValue> Values)
+    IReadOnlyList<MissionTimerValue> Values,
+    string Section = "Regular missions")
 {
     public static IReadOnlyList<MissionTimerPreset> All { get; } =
     [

@@ -264,6 +264,20 @@ try
               && File.ReadAllText(secondExport.RollbackPath) == "previous-user-file"
               && File.ReadAllBytes(destination).SequenceEqual(artifactBytes),
             "verified artifact exporter preserves an overwritten destination outside CustomScripts");
+        var luaManifest = File.ReadAllText(manifestPath);
+        Check(Throws<InvalidDataException>(() => VerifiedArtifactExporter.Export(manifestPath,
+            Path.Combine(exportTestRoot, "wrong.txt"), Path.Combine(exportTestRoot, "rollbacks"))),
+            "Lua manifests cannot be exported as metadata patches");
+        var metadataManifest = JsonNode.Parse(luaManifest)!.AsObject();
+        metadataManifest["package_type"] = "METADATA_PATCH";
+        File.WriteAllText(manifestPath, metadataManifest.ToJsonString());
+        var metadataExport = VerifiedArtifactExporter.Export(manifestPath,
+            Path.Combine(exportTestRoot, "mission.txt"), Path.Combine(exportTestRoot, "rollbacks"));
+        Check(File.ReadAllBytes(metadataExport.DestinationPath).SequenceEqual(artifactBytes), "metadata exports retain artifact integrity checks");
+        Check(Throws<InvalidDataException>(() => VerifiedArtifactExporter.Export(manifestPath,
+            Path.Combine(exportTestRoot, "wrong.lua_B"), Path.Combine(exportTestRoot, "rollbacks"))),
+            "metadata manifests cannot masquerade as Lua bytecode");
+        File.WriteAllText(manifestPath, luaManifest);
         var failedManifest = File.ReadAllText(manifestPath).Replace(
             "\"pass\":true", "\"pass\":false", StringComparison.Ordinal);
         File.WriteAllText(manifestPath, failedManifest);
@@ -664,6 +678,93 @@ try
     var changedSource = StockNumericEditor.Apply(stockSample, changedNumeric);
     Check(changedSource.EndsWith("v21_12 = 3.5\n", StringComparison.Ordinal), "stock numeric edit changes only the selected token span");
 
+    const string cardSource = "-- é\nlocal v9_1\nv9_1 = 100\n";
+    var tokenIndex = cardSource.IndexOf("100", StringComparison.Ordinal);
+    var cardInput = new { offset = Encoding.UTF8.GetByteCount(cardSource.AsSpan(0, tokenIndex)),
+        length = 3, line = 3, variable = "v9_1", original = 100 };
+    var cardJson = System.Text.Json.JsonSerializer.Serialize(new {
+        format = "RENOVICE_CARD_STATS_V1", body_key = "card-test", rows = new[] {
+            new { label = "Health", label_tag = "/HEALTH", evidence = "direct", expression = "v9_1", inputs = new object[] { cardInput } },
+            new { label = "Capacity", label_tag = "/CAPACITY", evidence = "direct", expression = "v9_1", inputs = new object[] { cardInput } },
+            new { label = "Damage", label_tag = "/DAMAGE", evidence = "computed", expression = "Compute()", inputs = Array.Empty<object>() }
+        }
+    });
+    var cardEntries = CardStatDiscovery.Parse(cardJson, "card-test", cardSource);
+    Check(cardEntries.Count == 2 && cardEntries[0].Label == "Health / Capacity", "card discovery merges shared inputs without duplicating edits");
+    Check(cardEntries[0].Input!.Offset == tokenIndex && cardEntries[1].Input is null, "card discovery preserves UTF8 source offsets and calculated read-only rows");
+    Check(StockNumericEditor.Apply(cardSource, [cardEntries[0].Input! with { Value = 200 }])
+        == cardSource.Replace("100", "200", StringComparison.Ordinal), "named card edit changes only its exact base token");
+    Check(Throws<InvalidDataException>(() => CardStatDiscovery.Parse(cardJson, "other", cardSource)), "card discovery rejects mismatched body identity");
+    Check(Throws<InvalidDataException>(() => CardStatDiscovery.Parse(cardJson, "card-test", cardSource.Replace("100", "999", StringComparison.Ordinal))), "card discovery rejects stale source values");
+
+    var currentMissions = MissionBuildProfile.Presets(workspace.EditorRoot);
+    Check(currentMissions.Count == 12, "current build exposes all twelve mission presets");
+    var archimedea = currentMissions.Single(p => p.Id == "archimedea");
+    Check(archimedea.Section == "EDA / ETA" && archimedea.Values.Select(v => v.Group).Distinct().Count() == 6,
+        "Archimedea has a separate section with six named event subsections");
+    Check(currentMissions.Where(p => p.Id != "archimedea").All(p => p.Section == "Regular missions"),
+        "existing mission controls retain their section");
+    Check(archimedea.Values.Where(v => v.Id.EndsWith("survival_minutes", StringComparison.Ordinal)).All(v => v.StockValue == 10),
+        "Deep and Temporal Survival completion stays distinct from reward rotations");
+    Check(currentMissions.All(p => File.Exists(Path.Combine(MissionBuildProfile.CorpusRoot(workspace), p.CorpusFile))), "current mission profiles resolve their stock corpus");
+    Check(currentMissions.Single(p => p.Id == "void_cascade").Values.Single().RecommendedValue == 2, "Void Cascade offers two-times completion speed");
+    Check(MissionTimerPreset.All.All(old => currentMissions.Single(p => p.Id == old.Id).ModuleBodyKey != old.ModuleBodyKey), "all seven prior mission presets use current body identities");
+    foreach (var id in new[] { "netracells", "descendia_shrine", "descendia_excavation", "archimedea" })
+    {
+        var preset = currentMissions.Single(p => p.Id == id);
+        var missionProject = AbilityProject.CreateFromTemplate(Path.Combine(workspace.EditorRoot, "EXAMPLES", "mallet_linked_overguard_addon.json"), EditorMode.Addon);
+        missionProject.ConfigureMissionBuildProfile(id, preset.Values.ToDictionary(v => v.Id, v => v.RecommendedValue), workspace.EditorRoot);
+        var mode = missionProject.AuthoringMode;
+        missionProject.SetMode(missionProject.Mode);
+        Check(mode == missionProject.AuthoringMode, id + " preserves its artifact lane when the GUI saves it");
+    }
+    var metadataEvidence = Path.Combine(workspace.EditorRoot, "RESEARCH", "CARD_VALUE_LABELS_2026-09-27", "artifacts", "current-mission-metadata.json");
+    if (File.Exists(metadataEvidence))
+    {
+        using var metadataDocument = System.Text.Json.JsonDocument.Parse(File.ReadAllText(metadataEvidence));
+        using var missionProfile = MissionBuildProfile.Read(workspace.EditorRoot);
+        foreach (var id in new[] { "netracells", "descendia_shrine" })
+        {
+            var binding = missionProfile.RootElement.GetProperty("missions").GetProperty(id).GetProperty("metadata");
+            var owner = binding.GetProperty("owner").GetString()!;
+            var fields = MetadataPatchEditor.Core.Extract.QueryableText(metadataDocument.RootElement.GetProperty(owner).GetProperty("text").GetString()!);
+            var field = fields.Single(f => f.Path == binding.GetProperty("field").GetString());
+            Check(double.Parse(field.Value, System.Globalization.CultureInfo.InvariantCulture) == binding.GetProperty("stock").GetDouble(), id + " exact nested metadata query resolves to the decoded stock value");
+        }
+    }
+    var linkedSourcePath = Path.Combine(workspace.WorkspaceRoot, "work", "rendered-source", "ability-editor", "dc33836ea5685c89.luau");
+    if (File.Exists(linkedSourcePath))
+    {
+        var source = File.ReadAllText(linkedSourcePath);
+        var controls = CardStatDiscovery.DiscoverLinkedAsync(workspace, "dc33836ea5685c89", source).GetAwaiter().GetResult();
+        Check(controls.Count(c => c.Inputs.Count > 0) == 8, "reviewed ability has eight linked rank controls");
+        var damage = controls.Single(c => c.Label == "Damage · Ability rank 4");
+        var edited = StockNumericEditor.Apply(source, damage.Edits(40000));
+        var lines = edited.Split('\n');
+        Check(new[] { 169, 313, 1671 }.All(line => lines[line - 1].Trim() == "v18_7 = 40000"), "one damage control changes shared, card and activation max-rank inputs together");
+        Check(new[] { 174, 317, 1666 }.All(line => lines[line - 1].Trim() == "v18_7 = 25000"), "linked max-rank edit preserves adjacent ability ranks");
+        Check(Throws<InvalidDataException>(() => damage.Edits(double.NaN)), "linked controls reject non-finite values");
+        var stale = CardStatDiscovery.DiscoverLinkedAsync(workspace, "dc33836ea5685c89", source + "\n-- changed\n").GetAwaiter().GetResult();
+        Check(stale.All(c => c.Inputs.Count == 0), "changed source cannot reuse stale gameplay bindings");
+        var unknown = CardStatDiscovery.DiscoverLinkedAsync(workspace, "unknown", source).GetAwaiter().GetResult();
+        Check(unknown.All(c => c.Inputs.Count == 0), "unresolved Cavalry operation stays read-only without reviewed binding");
+    }
+    foreach (var body in new[] { "2e32a50ec477c59e", "72e258069c32ff89", "b5da5e61b7843e20" })
+    {
+        var path = Path.Combine(workspace.WorkspaceRoot, "work", "rendered-source", "ability-editor", body + ".luau");
+        if (!File.Exists(path)) continue;
+        var source = File.ReadAllText(path);
+        var controls = CardStatDiscovery.DiscoverLinkedAsync(workspace, body, source).GetAwaiter().GetResult();
+        var scales = controls.Where(c => c.Operation == "scale" && c.Inputs.Count > 0).ToList();
+        Check(scales.Count > 0, body + " automatically links native card and gameplay without a registry entry");
+        Check(scales.All(c => c.InitialValue == 1 && c.Edits(1).All(e => e.Value == e.OriginalValue)), body + " base scale starts unchanged");
+        Check(scales.All(c => c.Edits(2).All(e => e.Value == e.OriginalValue * 2)), body + " scale preserves relative rank and variant values");
+        Check(scales.All(c => Throws<InvalidDataException>(() => c.Edits(double.PositiveInfinity))), body + " rejects nonfinite scale");
+        var edits = scales.SelectMany(c => c.Edits(2)).ToList();
+        Check(edits.Select(e => e.Offset).Distinct().Count() == edits.Count, body + " linked controls do not duplicate source edits");
+        var changed = StockNumericEditor.Apply(source, edits);
+        Check(changed != source, body + " linked scale creates an actual source edit");
+    }
     var survival = MissionTimerPreset.All.Single(preset => preset.Id == "survival");
     const string survivalSample = "frame_76[15] = { lowSpawnThreshold = 0.05, pickupTimeAdded = 7, alertlsDropMult = 0.9 }\n"
         + "frame_76[16] = { interval = 300, alertInterval = 600 }\n"

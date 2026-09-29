@@ -12,6 +12,11 @@ namespace renovice
     namespace fs = std::filesystem;
     using Json = nlohmann::json;
 
+    [[nodiscard]] Json discover_card_stats(const std::string& source, const Json& names, const std::string& body_key);
+    [[nodiscard]] Json discover_card_stats_file(const fs::path& source, const fs::path& names, const std::string& body_key);
+    [[nodiscard]] Json discover_linked_card_stats_file(const fs::path& source, const fs::path& names, const std::string& body_key, const fs::path& editor_root);
+    [[nodiscard]] Json discover_automatic_card_links(const std::string& source, const Json& card_report);
+
     enum class Severity
     {
         info,
