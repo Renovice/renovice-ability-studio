@@ -746,10 +746,14 @@ try
         foreach (var (id, preset) in registryRoot.GetProperty("missions").EnumerateObject().Select(p => (p.Name, p.Value)))
         {
             var lane = preset.GetProperty("lane").GetString();
+            // A root-table row routed to the addon lane keeps its exact literal form (literal_owner) for EXACT_LITERAL presets.
             Check(preset.GetProperty("parameters").EnumerateObject().All(parameter =>
-                registryRoot.GetProperty("tunables").EnumerateArray().Single(row =>
-                    row.GetProperty("tunable_id").GetString() == parameter.Value.GetProperty("tunable_id").GetString())
-                    .GetProperty("backend").GetString() == lane), id + " preset parameters map to registry rows of one lane");
+            {
+                var row = registryRoot.GetProperty("tunables").EnumerateArray().Single(candidate =>
+                    candidate.GetProperty("tunable_id").GetString() == parameter.Value.GetProperty("tunable_id").GetString());
+                return row.GetProperty("backend").GetString() == lane
+                    || (lane == "EXACT_LITERAL" && row.TryGetProperty("literal_owner", out _));
+            }), id + " preset parameters map to registry rows of one lane");
         }
     }
     var linkedSourcePath = Path.Combine(workspace.WorkspaceRoot, "work", "rendered-source", "ability-editor", "dc33836ea5685c89.luau");

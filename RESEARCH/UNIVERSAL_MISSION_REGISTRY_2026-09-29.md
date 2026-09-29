@@ -446,3 +446,170 @@ Two targets per mechanism:
 | Metadata split | `infested_capture.search_time.wf1999` | 100 → 50 | 1999 Legacyte Harvest search duration |
 
 Check the current EE.log for new script errors after each test.
+
+## Phase 2e — root-table fields on the target-addon lane (2026-09-29)
+
+**Build.** Client `2026.09.28.13.06` (Hotfix 44.0.2) only. **Scope.** Offline only; nothing was written to a game folder,
+deployed, or applied to the server. Registry SHA-256 `EEFF2087…25B0AFA` (`REGISTRIES/mission_build_u44.json`).
+
+### Problem
+
+Phase 2d excluded root-table fields whose value constant is shared (1,118 of 1,953 template fields in the census; for
+example Survival `interval` = 300 shares its constant with `killPlayerTime` = 300). Byte patching cannot separate them.
+The Survival preset never needed a byte patch: its target addon writes the live table field once
+(`luaCalls[67].before`, prototype + upvalue + field name), checks the stock value first and restores it in cleanup.
+
+### Hypotheses and results
+
+| # | Hypothesis | Result |
+|---|---|---|
+| H11 | A root config table field can be owned by the target-addon lane per field name, independent of constant sharing. | **TRUE (offline).** Gate `ROOT_TABLE_UPVALUE_V1` (`tools/addon_owner.py`) proves the owner on the 44.0.2 bytes. Survival `interval` (table `root:i19:R9`, hooks include the live-proven `67:70`) and `killPlayerTime` (table `root:i70:R14`) are different tables; each build writes only its own field. |
+| H12 | Most Phase 2d `LUA_ROOT_TABLE` rows pass the addon gate. | **PARTIALLY TRUE.** 217 of 321 literal root-table rows pass and are routed to the addon lane; they keep their exact literal form as `literal_owner`. 104 stay literal-only, each with the exact `addon_gate` reason (see below). |
+| H13 | A module needing both root-table and literal edits can be built as one artifact without a new runtime mechanism. | **TRUE for rows that have both forms.** Option (b) chosen: one merged exact replacement using the literal form of each root-table row. Option (a) (`nativeCalls[method].before` argument transforms) was rejected: mission literals are mostly `LOADN` operands of stores and arithmetic, not native call arguments, and `PushFloatArg` is reserved by the adapter. |
+| H14 | Lantern and Purgatory values can be registered on 44.0.2. | **TRUE.** Both decompiled sources were already in `decomp/`; every value was re-derived from the stock bytes (19 Lantern rows, 24 Purgatory rows). |
+
+### Gate `ROOT_TABLE_UPVALUE_V1` (all conditions on the pinned stock bytes)
+
+1. The module root builds the table exactly once, outside any loop: `DUPTABLE` of a template whose field entry is the
+   stock number, `NEWTABLE` + one `SETTABLEKS field` from `LOADN`/`LOADK`, or `NEWTABLE` + `SETLIST` for an array element.
+   The root never writes the field again and never reads it (a root read happens at module load, before any hook).
+2. The table leaves the root only by closure capture (`CAPTURE VAL/REF`), or by one store into a root container table
+   (nested path, for example Purgatory `difficulty[2].ghostLevel`, Lantern `numEnemies[3]`). A `REF` capture also
+   requires that the root never reassigns the register.
+3. Every capturing prototype is created exactly once, by the root, and **all** of them are hooked (`before`), so no code
+   that can reach the table runs before the write. No capturer or nested re-capture replaces the upvalue (`SETUPVAL`).
+4. At least one capturer (or nested re-capture) reads the field (or, for a container path, the container key).
+
+The registry stores each table once per module (`modules[body].root_tables[table_id]`: construction, containers,
+hooks with upvalue index and path). Each row lists its `fields` with the stock initialiser offset and bytes;
+`verify-missions` re-checks that those bytes encode the registered stock value and that the table record is complete.
+
+### Generator
+
+- **Generic root-table addon** (`root_table_addon_source`, template `ROOT_TABLE_FIELD`): one addon per body key. Each
+  table is bound when a hooked capturer is first called: stock values asserted once, requested fields written once,
+  cleanup restores each field that still holds the written value. A table whose stock drifted is left unchanged (the
+  callback error is logged, stock execution continues). No polling, no per-frame writes, no C++ mission branch.
+- **Lane per body key:** all requested rows addon-capable → one addon; otherwise all rows have an exact literal form →
+  **one merged exact replacement** (root-table rows use `literal_owner`); otherwise fail closed with
+  `Body key … would need both an exact replacement (literal-only: …) and a target addon (addon-only: …)`.
+- **Presets keep their lane and bytes:** `void_cascade.pillar_duration` serves the EXACT_LITERAL preset through
+  `literal_owner`; the Survival/Interception presets still use their established templates. The Survival template is
+  also used for settings that contain only template-only rows (`survival.pickup_reward_progress`); combining that
+  row with generic root-table rows fails closed with its exact reason.
+
+### Rows (client 44.0.2)
+
+Registry: **594 rows** (490 + 104 new). Excluded Phase 1 rows 169 (was 183); Phase 1 denominator 387 (367 + 20 rows
+added to `mission_tunables.json` by `tools/add_phase1_rows.py`: Lantern 11, Purgatory 8, `void_flood.fractures_per_round`).
+Phase 1 accounting: 195 registered fully, 23 partially (24 excluded parts), 169 excluded.
+
+| Owner kind | Rows | Backend |
+|---|---:|---|
+| `LUA_ROOT_TABLE` | 391 | 287 TARGET_ADDON (217 with `literal_owner`, 68 addon-only, 2 Survival template rows) + 104 EXACT_LITERAL |
+| `LUA_PROTO_LITERAL` | 138 | EXACT_LITERAL |
+| `METADATA_PARAM` | 63 | 62 METADATA_PATCH + 1 TARGET_ADDON (Interception template) |
+| `SERVER` | 1 | SERVER_CONFIG |
+| `ADDON_EXTENSION` | 1 | TARGET_ADDON (Survival template only) |
+
+By backend: TARGET_ADDON 289, EXACT_LITERAL 242, METADATA_PATCH 62, SERVER_CONFIG 1. Root tables: 83 in 23 modules,
+269 hooked prototypes in total (1 to 24 per table).
+
+New rows (104): 68 addon-only root-table fields (shared constants or non-unique literal owners), 20 new literal rows
+that also passed the addon gate, 16 new literal-only rows.
+
+**Priority modes (total rows; before Phase 2e in brackets)**
+
+| Mode | Rows | Addon | Literal | Notes |
+|---|---:|---:|---:|---|
+| Survival | 30 (13) | 28 | 2 | reward/alert interval, capsule initial/max/added/interval/incoming, pickup LS, drop multipliers (low/high threshold+mult, alert, Duviri ×2, 1999 ×2), level/enrage (incl. Kuva, alert/sortie boosts), `killPlayerTime`, `playerDamagePercent` |
+| Orphix Venom | 7 (3) | 6 | 1 | reward interval 3, Orphix interval 50, `condrixCap`, `eventInterval`, `scoreAddPerRound`, railjack max rounds |
+| Void Flood | 11 (4) | 7 | 3 (+1 metadata) | fractures per round: normal 3 (root local, literal), Duviri 5 (2 assignment sites, literal), Shadowgrapher `maxFractureActive` 3 (addon); curses normal/Steel Path, `playerCapacity`, `timeToFillMin/Max`, `curveScaleV` |
+| Void Cascade | 6 (6) | 6 | 0 | all dual (addon + `literal_owner`); preset unchanged |
+| Lantern | 19 (0) | 14 | 5 | min score 300 (2 sites), extraction 180 (2 sites), boss 900, min/max lamp radius 7/32 (all sites) literal; tier-up 90, max tier 5, `numEnemies` ×4, radius per kill ×4, lamp decay b/v/m/p addon (all dual) |
+| Purgatory | 24 (0) | 15 | 9 | initial time 60, +5 s per pickup, drop chance 0.1, initial pickups 5, enemy cap 10, spawn batch Range(2,4), spawn interval Range(3,5) literal; difficulty warrior/ghost/damage ×3 (nested, addon-only), kill thresholds 25..150 (dual) |
+
+Other families gaining rows: Mirror Defense 57 (50), Faceoff 38 (19), Five Fates 14 (7). All other modes keep
+their row counts; their root-table rows that pass the gate are now routed to the addon lane.
+
+**Root-table rows that stay literal-only (104, reason stored per row in `addon_gate`)**
+
+| Reason | Rows |
+|---|---:|
+| no capturer reads the element/field directly (array passed to a helper; consumer not proven) | 57 |
+| root local or call argument, not a table field (incl. ConquestLib `waveOverrides`, `Range(...)` arguments, Void Flood fractures per round) | 30 |
+| captured table replaced by `SETUPVAL` (Disruption variant tables) | 11 |
+| library table leaves the module other than by capture (ConquestLib enemy levels) | 6 |
+
+Still excluded: Disruption shared-constant variant tables (same `SETUPVAL` reason, appended to the exclusion),
+ConquestLib enemy levels (library), Sentient capture swarm (table built in prototype 15, not the root), Survival
+`alertPlayerDamagePercent`, `playerDamageCurve`, `playerDamageMult` (no proven consumer read).
+
+Lantern lamp radius note: every 7 and every 32 in the module is owned (clamps, expiry checks, HUD normalisation). The
+light-intensity lerps divide by 25 (= 32 − 7) and 9; those divisors are not owned and stay stock (visual only).
+
+### Gate results (offline)
+
+| Gate | Denominator | Result |
+|---|---|---|
+| `verify-missions` (structure + every row vs 44.0.2 stock evidence) | 594 rows | 594 PASS / 0 FAIL: TARGET_ADDON 289, EXACT_LITERAL 242, METADATA_PATCH 62, SERVER_CONFIG 1 |
+| Phase 2e gate cases (`tools/test_phase2e_gates.py`) | 7 cases | 7 PASS |
+| Phase 2d gate cases + template census | 7 cases, 1953 fields | 7 PASS; census unchanged (766 / 1187) |
+| C++ build (`-Werror`) | core + GUI + CLI + tests | 0 warnings, 0 errors |
+| CTest | 2 tests | 2/2 PASS |
+| C++ self-test | 121 checks | 121 PASS |
+| Managed Dev tests | 162 checks | 162 PASS |
+| WPF App / Dev build (`--no-incremental`) | 2 projects | 0 warnings, 0 errors |
+| Preset builds | 12 presets, 36 rejections | 12 PASS, all byte-identical to the previous run |
+| Phase 2b sample rebuilt (folder untouched) | 5 artifacts | 4 identical; Survival addon changed by design (generic generator: writes `interval` only) |
+| Phase 2d sample rebuilt (folder untouched) | 9 artifacts | 8 identical; Void Flood `timeToFillMax` now builds as an addon instead of a replacement |
+
+New self-test checks (items 1–3):
+- shared-constant fields are independent addon controls (`interval` 150 leaves `killPlayerTime` unchanged, and the reverse);
+- the addon gate evidence rejects a drifted initialiser, a table without hooks, missing gate evidence and an unread field;
+- **one root-table row + one literal row in one module → one merged replacement** (`lowDropMultiplier` 2.25 and
+  `elite_alert_pickup_mult` 1: only the two f64 constants change);
+- an addon-only row plus a literal-only row of one module fail closed and name both rows;
+- root-table rows of one body build one generic addon (Void Cascade `PILLAR_DURATION`, `PILLAR_DURATION_CIRCLE`, `ALERT_REWARD_INTERVAL`);
+- the Duviri fracture count builds as one replacement with exactly its two sites changed;
+- Shadowgrapher `maxFractureActive` plus a curse count build as one addon;
+- a nested table (Purgatory difficulty 2) is reached through its container path.
+
+Reproduce: `tools/add_phase1_rows.py` (idempotent), `tools/register_registry.py`, `renovice_ability_editor_cli verify-missions`,
+`tools/test_phase2e_gates.py`, `ctest`, `dotnet run --project editor/Dev`, `tools/test_presets_and_sample.py`.
+
+### Phase 2e sample output
+
+Location: `work/research/universal-mission-editor-2026-09-29/phase2e-sample/` (research folder). `SHA256SUMS.json`
+(SHA-256 `2AFE7737…26228103`) lists every file. The build is deterministic (a trial build produced the same artifact hashes).
+
+| Artifact body | Tunable | Lane | SHA-256 |
+|---|---|---|---|
+| `f10a043e7f825db2` (Survival) | `survival.reward_interval` 300 → 150 (`killPlayerTime` untouched) | addon | `CEF8808F993059F44C3E55CDE72038C5271260A7BFB803FB8B47C6132CE9DA6A` |
+| `fc711ff621a75552` (Void Flood) | `void_flood.fractures_per_round.normal` 3 → 4 | replacement | `E979F5E7906F0D88E49C42B4191ECA6AFDC1237FDDD91D52CBF427DB3FA9F6D2` |
+| `caec63d8e739b693` (Lantern) | `lantern.tier_up_interval` 90 → 60 | addon | `228754AF891C5A9A75DA250EF171A0689323E6E439CDFD28EC054D6B7334358C` |
+| `6fa60841c9e0f207` (Purgatory) | `purgatory.difficulty1.warrior_level` 10 → 15 | addon (nested path `[1]`) | `043176ECDEECF9A876108D87BEB72EB4A7BD7CAA3A799ECD849FAD4E0EEA8472` |
+
+### Limitations
+
+- **Offline evidence only.** No live claim. The generic addon relies on the proven `luaCalls[P].before` contract and
+  on at least one hooked capturer being entered by a Lua `CALL` before the field is first read. A capturer invoked only
+  natively (engine callback) is not hooked by the runtime; the gate cannot prove call order statically.
+- A mixed body still fails closed when a requested root-table row has no literal form (shared constant) and another
+  requested row is literal-only (for example `survival.alert_interval` + `survival.elite_alert_pickup_mult`). Removing
+  that needs either an addon mechanism for function literals or a constant-split replacement primitive.
+- Variant code that overwrites a field before the first hook (for example Survival fast mode `pickupTimeAdded = 4`)
+  makes the stock check fail for that table; the addon then leaves it unchanged by design.
+- Limits of new addon rows are numeric guards only (`[0 or min(1, stock), max(1000, 100 × stock)]`).
+- Hot prototypes are hooked (up to 24 per table for Void Cascade); the callback returns immediately after binding.
+
+### Suggested live checks (need explicit user authorization to deploy)
+
+| Mechanism | Tunable | Change | Observe |
+|---|---|---|---|
+| Generic addon, shared constant | `survival.reward_interval` | 300 → 150 | reward every 2.5 min; zero-LS kill timer still 300 s |
+| Generic addon, nested path | `purgatory.difficulty1.warrior_level` | 10 → 15 | Purgatory difficulty 1 warrior level |
+| Merged replacement (root-table + literal) | `survival.pickup_drop_low_high_mult.lowDropMultiplier` + `survival.elite_alert_pickup_mult` | 1.5 → 2.25, 0.75 → 1 | LS drops at low life support; Arbitration pickup value |
+| Literal | `void_flood.fractures_per_round.normal` | 3 → 4 | fractures per round (normal Void Flood) |
+
+Check the current EE.log for new script errors after each test.

@@ -203,12 +203,20 @@
     },
     "failures": []
   },
+  "phase2e": {
+    "converted_to_addon": 217,
+    "addon_gate_fail": 104,
+    "addon_rows_new": 68,
+    "template_rows_with_fields": 2,
+    "literal_rows_new": 36,
+    "gate_failures": []
+  },
   "phase1_accounting": {
-    "denominator": 367,
-    "registered_fully": 152,
-    "registered_partially": 32,
-    "excluded": 183,
-    "excluded_parts": 34
+    "denominator": 387,
+    "registered_fully": 195,
+    "registered_partially": 23,
+    "excluded": 169,
+    "excluded_parts": 24
   },
   "rows_by_mode": {
     "Alchemy (Entrati lab)": {
@@ -298,11 +306,11 @@
       "LUA_PROTO_LITERAL": 4
     },
     "Faceoff": {
-      "LUA_ROOT_TABLE": 18,
+      "LUA_ROOT_TABLE": 37,
       "METADATA_PARAM": 1
     },
     "Five Fates (Cetus invasion)": {
-      "LUA_ROOT_TABLE": 7
+      "LUA_ROOT_TABLE": 14
     },
     "Free Roam bounty (Control Area)": {
       "LUA_PROTO_LITERAL": 3
@@ -317,6 +325,10 @@
       "LUA_PROTO_LITERAL": 4,
       "METADATA_PARAM": 1
     },
+    "Lantern": {
+      "LUA_PROTO_LITERAL": 5,
+      "LUA_ROOT_TABLE": 14
+    },
     "Legacyte Harvest (1999)": {
       "METADATA_PARAM": 7
     },
@@ -327,7 +339,7 @@
       "METADATA_PARAM": 7
     },
     "Mirror Defense": {
-      "LUA_ROOT_TABLE": 42,
+      "LUA_ROOT_TABLE": 49,
       "LUA_PROTO_LITERAL": 8
     },
     "Mobile Defense": {
@@ -342,8 +354,12 @@
       "LUA_PROTO_LITERAL": 3
     },
     "Orphix Venom": {
-      "LUA_ROOT_TABLE": 2,
+      "LUA_ROOT_TABLE": 6,
       "LUA_PROTO_LITERAL": 1
+    },
+    "Purgatory": {
+      "LUA_ROOT_TABLE": 21,
+      "LUA_PROTO_LITERAL": 3
     },
     "Purge": {
       "LUA_ROOT_TABLE": 3,
@@ -370,7 +386,7 @@
       "LUA_PROTO_LITERAL": 1
     },
     "Survival": {
-      "LUA_ROOT_TABLE": 11,
+      "LUA_ROOT_TABLE": 28,
       "LUA_PROTO_LITERAL": 2
     },
     "Temporal Archimedea": {
@@ -383,40 +399,40 @@
       "LUA_ROOT_TABLE": 6
     },
     "Void Flood": {
-      "LUA_PROTO_LITERAL": 1,
-      "LUA_ROOT_TABLE": 2,
+      "LUA_ROOT_TABLE": 8,
+      "LUA_PROTO_LITERAL": 2,
       "METADATA_PARAM": 1
     }
   },
   "rows_by_backend": {
     "METADATA_PATCH": 62,
-    "EXACT_LITERAL": 423,
-    "TARGET_ADDON": 4,
+    "EXACT_LITERAL": 242,
+    "TARGET_ADDON": 289,
     "SERVER_CONFIG": 1
   },
   "build": "2026.09.28.13.06",
-  "rows": 490,
+  "rows": 594,
   "rows_by_owner_kind": {
     "METADATA_PARAM": 63,
-    "LUA_PROTO_LITERAL": 129,
-    "LUA_ROOT_TABLE": 296,
+    "LUA_PROTO_LITERAL": 138,
+    "LUA_ROOT_TABLE": 391,
     "SERVER": 1,
     "ADDON_EXTENSION": 1
   },
-  "excluded": 183,
+  "excluded": 169,
   "excluded_by_owner_kind": {
     "METADATA_PARAM": 30,
     "MISSIONINFO": 20,
-    "LUA_ROOT_TABLE": 52,
+    "LUA_ROOT_TABLE": 38,
     "LUA_PROTO_LITERAL": 47,
     "NATIVE_OR_UNKNOWN": 23,
     "SERVER": 11
   },
-  "phase1_rows": 367,
+  "phase1_rows": 387,
   "phase1_by_owner_kind": {
-    "LUA_ROOT_TABLE": 120,
+    "LUA_ROOT_TABLE": 132,
     "MISSIONINFO": 21,
-    "LUA_PROTO_LITERAL": 126,
+    "LUA_PROTO_LITERAL": 134,
     "NATIVE_OR_UNKNOWN": 23,
     "METADATA_PARAM": 65,
     "SERVER": 12
@@ -513,6 +529,7 @@
     "faceoff.cd_burn",
     "faceoff.defense_escort",
     "faceoff.delivery",
+    "faceoff.excavation",
     "faceoff.exterminate_kill_goal",
     "faceoff.spawn_params",
     "fivefates.reward_count",
@@ -535,6 +552,16 @@
     "interception.protea_rate_mult",
     "interception.quest_enemy_rate",
     "interception.score_rate",
+    "lantern.boss_spawn_time",
+    "lantern.extraction_limit",
+    "lantern.lamp_decay",
+    "lantern.lamp_max_radius",
+    "lantern.lamp_min_radius",
+    "lantern.max_tier",
+    "lantern.min_score",
+    "lantern.num_enemies",
+    "lantern.radius_per_kill",
+    "lantern.tier_up_interval",
     "loopdefend.crystal_cluster",
     "loopdefend.enemy_counts",
     "loopdefend.enemy_level_ramp",
@@ -568,7 +595,18 @@
     "netracell.quest_power_multiplier",
     "orphix.max_rounds_railjack",
     "orphix.orphix_interval",
+    "orphix.reward_interval",
+    "orphix.score_add_per_round",
     "orphix.sortie_rounds",
+    "purgatory.difficulty",
+    "purgatory.enemy_cap",
+    "purgatory.initial_pickups",
+    "purgatory.initial_time",
+    "purgatory.pickup_drop_chance",
+    "purgatory.pickup_time_bonus",
+    "purgatory.reward_kill_threshold",
+    "purgatory.spawn_batch",
+    "purgatory.spawn_interval",
     "purge.alert_tiers",
     "purge.max_enemy_count",
     "purge.spawnlib_params",
@@ -591,24 +629,36 @@
     "shrine.pickup_and_spawn_misc",
     "shrine.stage_time",
     "spy.vault_timer_quest",
+    "survival.alert_interval",
     "survival.alert_ls_drop_mult",
+    "survival.capsule_incoming_time",
+    "survival.capsule_initial_time",
+    "survival.capsule_interval",
+    "survival.capsule_max_time",
+    "survival.capsule_time_added",
+    "survival.duviri_drop_mults",
     "survival.duviri_fixed_length",
     "survival.elite_alert_pickup_mult",
+    "survival.kuva_level_enrage",
+    "survival.level_max_boost",
     "survival.level_up_enrage",
     "survival.pickup_drop_low_high_mult",
     "survival.pickup_time_added",
+    "survival.player_damage_at_zero_ls",
     "survival.reward_interval",
     "survival.wf99_drop_mults",
     "void_cascade.alert_reward_interval",
     "void_cascade.circle_fixed_length",
     "void_cascade.pillar_duration",
+    "void_flood.curse_count",
     "void_flood.duviri_fixed_length",
     "void_flood.fill_timer",
+    "void_flood.fractures_per_round",
     "void_flood.is_duviri_flag",
     "wf1999def.drone_count"
   ],
-  "modules": 46,
-  "corpus_files": 46,
+  "modules": 48,
+  "corpus_files": 48,
   "metadata_snapshot_sha256": "49F042A0A8A4D5F84B4B37C02FA0EDED3B931B29EA78F2216E9B709096066BF9",
-  "registry_sha256": "BAAFA6FCCA6C748793109EF77FA0ED31C0CB561346D5DA43D682012530A792AA"
+  "registry_sha256": "EEFF208746008CB21742CEB2470C8B136EA775A2EC3B1EBFE3DDB954125B0AFA"
 }

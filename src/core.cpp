@@ -3631,12 +3631,20 @@ namespace renovice
                 }
                 check(merged_ok, "two literal tunables in one module merge into exactly one exact-replacement artifact with only their operands changed");
 
+                // Phase 2e: root-table rows of one body (carried-over preset row + Phase 2d row) are routed to ONE generic
+                // target addon that writes each field; the preset keeps its literal form (literal_owner).
                 const MissionSetResult cascade = build_mission_settings(
                     settings({{"void_cascade.pillar_duration", 45}, {"void_cascade.alert_reward_interval", 5}}), editor_root, mission_fixture, true);
-                check(cascade.success && cascade.artifacts.size() == 1 && cascade.artifacts.front().body_key == "32c344afa33be174"
-                        && changed_bytes(read_text(mission_roots.corpus / "Lotus_Scripts_Modes_ZarimanSurvivalMission.lua_B"),
-                               read_text(cascade.artifacts.front().artifact)) == 3,
-                    "carried-over and newly anchored literal rows of one body merge into one replacement (three operands)");
+                bool cascade_ok = cascade.success && cascade.artifacts.size() == 1 && cascade.artifacts.front().body_key == "32c344afa33be174"
+                    && cascade.artifacts.front().backend == "TARGET_ADDON"
+                    && mission_tunable(registry, "void_cascade.pillar_duration").contains("literal_owner");
+                if (cascade_ok)
+                {
+                    const auto source = read_text(cascade.artifacts.front().source);
+                    cascade_ok = contains_text(source, "owner[\"PILLAR_DURATION\"] = 45") && contains_text(source, "owner[\"PILLAR_DURATION_CIRCLE\"] = 45")
+                        && contains_text(source, "owner[\"ALERT_REWARD_INTERVAL\"] = 5");
+                }
+                check(cascade_ok, "root-table rows of one body build one generic target addon that writes every owned field");
 
                 const std::array<std::pair<const char*, std::size_t>, 6> conquest{{
                     {"archimedea.eta_survival_minutes", 46570}, {"archimedea.eta_defense_waves", 46582},
@@ -3690,7 +3698,7 @@ namespace renovice
                         && !build_mission_settings(settings({{"void_cascade.pillar_duration", 22.5}}), editor_root, mission_fixture, true).success,
                     "out-of-range and non-whole-number literal operands fail closed");
 
-                const MissionNaming group_naming{"missions-selftest", "missions", "missions", "RENOVICE_Missions.txt", false};
+                const MissionNaming group_naming{"missions-selftest", "missions", "missions", "RENOVICE_Missions.txt", false, ""};
                 Json hash_mismatch = registry;
                 hash_mismatch["modules"]["f7444e3c621ff018"]["sha256"] = std::string(64, '0');
                 const MissionSetResult rejected_hash = build_mission_set(hash_mismatch, Json{{"excavation.dig_duration", 50}},
@@ -3708,6 +3716,8 @@ namespace renovice
                 competing["modules"]["f7444e3c621ff018"]["addon"] = registry.at("modules").at("f10a043e7f825db2").at("addon");
                 competing["modules"]["f7444e3c621ff018"]["addon"]["values"] = {{"reward_interval_seconds", "excavation.selftest_addon"}};
                 Json fake = mission_tunable(registry, "survival.reward_interval");
+                fake["owner"].erase("fields");  // template-only addon row: no generic or literal form on this body
+                fake["owner"].erase("gate");
                 fake["tunable_id"] = "excavation.selftest_addon";
                 fake["owner"]["body_key"] = "f7444e3c621ff018";
                 fake["owner"]["stock_sha256"] = registry.at("modules").at("f7444e3c621ff018").at("sha256");
@@ -3754,30 +3764,46 @@ namespace renovice
                         "one drifted site of a multi-site tunable fails the whole row closed (no partial coverage)");
                 }
 
-                // Phase 2d: a root config table template field (single-use template gate) takes an exact f64 value.
+                // Phase 2e item 2: one root-table row + one literal row in the same module -> ONE merged exact replacement.
+                // lowDropMultiplier is a root-table field (addon lane) that keeps its single-use template f64 as literal_owner;
+                // elite_alert_pickup_mult is a function literal (proto 67 constant) with no addon form.
                 {
                     const std::string field = "survival.pickup_drop_low_high_mult.lowDropMultiplier";
+                    const std::string literal_id = "survival.elite_alert_pickup_mult";
                     const Json& field_row = mission_tunable(registry, field);
-                    const Json& site = field_row.at("owner").at("sites").at(0);
-                    const MissionSetResult table = build_mission_settings(settings({{field, 2.25}}), editor_root, mission_fixture, true);
-                    bool table_ok = site.at("kind") == "number_constant" && site.at("gate").at("template_uses").size() == 1
-                        && table.success && table.artifacts.size() == 1;
+                    const Json& site = field_row.at("literal_owner").at("sites").at(0);
+                    const Json& literal_site = mission_tunable(registry, literal_id).at("owner").at("sites").at(0);
+                    const MissionSetResult table = build_mission_settings(settings({{field, 2.25}, {literal_id, 1}}), editor_root, mission_fixture, true);
+                    bool table_ok = field_row.at("backend") == "TARGET_ADDON" && site.at("kind") == "number_constant"
+                        && site.at("gate").at("template_uses").size() == 1 && table.success && table.artifacts.size() == 1
+                        && table.artifacts.front().backend == "EXACT_LITERAL" && table.artifacts.front().tunables.size() == 2;
                     if (table_ok)
                     {
                         const auto stock = read_text(mission_roots.corpus / field_row.at("owner").at("file").get<std::string>());
                         const auto built = read_text(table.artifacts.front().artifact);
-                        std::uint64_t bits = 0;
+                        const auto f64_at = [&](const std::size_t offset) {
+                            std::uint64_t bits = 0;
+                            for (std::size_t n = 0; n < 8; ++n) bits |= static_cast<std::uint64_t>(static_cast<unsigned char>(built[offset + n])) << (8 * n);
+                            return std::bit_cast<double>(bits);
+                        };
                         const auto offset = site.at("offset").get<std::size_t>();
-                        for (std::size_t n = 0; n < 8; ++n) bits |= static_cast<std::uint64_t>(static_cast<unsigned char>(built[offset + n])) << (8 * n);
+                        const auto literal_offset = literal_site.at("offset").get<std::size_t>();
                         std::size_t outside = 0;
-                        for (std::size_t n = 0; n < stock.size(); ++n) outside += (stock[n] != built[n] && (n < offset || n >= offset + 8)) ? 1 : 0;
-                        table_ok = std::bit_cast<double>(bits) == 2.25 && outside == 0 && stock.size() == built.size();
+                        for (std::size_t n = 0; n < stock.size(); ++n)
+                            outside += (stock[n] != built[n] && (n < offset || n >= offset + 8) && (n < literal_offset || n >= literal_offset + 8)) ? 1 : 0;
+                        table_ok = f64_at(offset) == 2.25 && f64_at(literal_offset) == 1 && outside == 0 && stock.size() == built.size();
                     }
-                    check(table_ok, "a single-use table-template field builds with only its 8-byte f64 constant changed (2.25)");
+                    check(table_ok, "a root-table row and a literal row of one module build one merged replacement (only the two f64 constants change)");
+                    const MissionSetResult conflict = build_mission_settings(settings({{"survival.alert_interval", 900}, {literal_id, 1}}),
+                                                                             editor_root, mission_fixture, true);
+                    check(!conflict.success && conflict.artifacts.empty()
+                            && contains_text(conflict.diagnostics.front().message, "addon-only: survival.alert_interval")
+                            && contains_text(conflict.diagnostics.front().message, "literal-only: survival.elite_alert_pickup_mult"),
+                        "an addon-only root-table row (shared constant) and a literal-only row of one module fail closed and name both rows");
                     const auto rejects = [&](const std::function<void(Json&)>& mutate, const std::string& reason) {
                         Json tampered = registry;
                         for (auto& row : tampered["tunables"])
-                            if (row.at("tunable_id") == field) mutate(row["owner"]["sites"][0]);
+                            if (row.at("tunable_id") == field) mutate(row["literal_owner"]["sites"][0]);
                         const MissionSetResult result = build_mission_set(tampered, Json{{field, 2.25}}, group_naming, editor_root,
                                                                           mission_fixture, true, nullptr);
                         return !result.success && contains_text(result.diagnostics.front().message, reason);
@@ -3787,6 +3813,78 @@ namespace renovice
                             && rejects([](Json& s) { s["gate"]["loop_free"] = false; }, "inside a loop")
                             && rejects([](Json& s) { s.erase("gate"); }, "no constant-exclusivity gate"),
                         "the single-use template gate rejects a second construction site, a shared value, a loop and missing evidence");
+                }
+
+                // Phase 2e item 1: fields that share one bytecode constant are independent addon controls. Survival interval
+                // (300) and killPlayerTime (300) share their stock value; each build writes only its own field.
+                {
+                    const Json interval = mission_tunable(registry, "survival.reward_interval");
+                    const Json kill = mission_tunable(registry, "survival.player_damage_at_zero_ls.killPlayerTime");
+                    const auto source_of = [&](const Json& values) {
+                        const MissionSetResult built = build_mission_settings(settings(values), editor_root, mission_fixture, true);
+                        return built.success && built.artifacts.size() == 1 && built.artifacts.front().backend == "TARGET_ADDON"
+                            ? read_text(built.artifacts.front().source) : std::string();
+                    };
+                    const auto interval_source = source_of(Json{{"survival.reward_interval", 150}});
+                    const auto kill_source = source_of(Json{{"survival.player_damage_at_zero_ls.killPlayerTime", 200}});
+                    check(interval.at("stock") == 300 && kill.at("stock") == 300 && kill.at("backend") == "TARGET_ADDON"
+                            && contains_text(interval_source, "owner[\"interval\"] = 150") && !contains_text(interval_source, "killPlayerTime")
+                            && !contains_text(interval_source, "alertInterval") && contains_text(interval_source, "[67] = { before = before67 }")
+                            && contains_text(kill_source, "owner[\"killPlayerTime\"] = 200") && !contains_text(kill_source, "\"interval\""),
+                        "shared-constant root-table fields build as independent addon controls (interval 150 leaves killPlayerTime unchanged)");
+                    const auto rejects_addon = [&](const std::function<void(Json&)>& mutate, const std::string& reason) {
+                        Json tampered = registry;
+                        mutate(tampered);
+                        const MissionSetResult result = build_mission_set(tampered, Json{{"survival.alert_interval", 900}}, group_naming,
+                                                                          editor_root, mission_fixture, true, nullptr);
+                        return !result.success && contains_text(result.diagnostics.front().message, reason);
+                    };
+                    const auto alert_field = [](Json& r) -> Json& {
+                        for (auto& row : r["tunables"]) if (row.at("tunable_id") == "survival.alert_interval") return row["owner"]["fields"][0];
+                        throw std::runtime_error("selftest row missing");
+                    };
+                    const auto alert_table = mission_tunable(registry, std::string("survival.alert_interval")).at("owner").at("fields").at(0).at("table_id").get<std::string>();
+                    check(rejects_addon([&](Json& r) { alert_field(r)["expected"][7] = 0; }, "initialiser preimage changed")
+                            && rejects_addon([&](Json& r) { r["modules"]["f10a043e7f825db2"]["root_tables"][alert_table]["hooks"] = Json::array(); }, "no hooked capturer")
+                            && rejects_addon([&](Json& r) { r["modules"]["f10a043e7f825db2"]["root_tables"][alert_table].erase("gate"); }, "no gate evidence")
+                            && rejects_addon([&](Json& r) { alert_field(r)["field_reads"] = 0; }, "no consumer read"),
+                        "the root-table addon gate rejects a drifted initialiser, a table without hooks, missing gate evidence and an unread field");
+                }
+
+                // Phase 2e item 3: Void Flood fracture counts use their own lanes (root local and Duviri assignment: exact
+                // literals; Shadowgrapher maxFractureActive and curses: root-table addon fields).
+                {
+                    const Json duviri = mission_tunable(registry, "void_flood.fractures_per_round.duviri");
+                    const MissionSetResult duviri_build = build_mission_settings(settings({{"void_flood.fractures_per_round.duviri", 6}}),
+                                                                                 editor_root, mission_fixture, true);
+                    bool duviri_ok = duviri.at("backend") == "EXACT_LITERAL" && duviri.at("owner").at("sites").size() == 2
+                        && mission_tunable(registry, "void_flood.fractures_per_round.normal").at("backend") == "EXACT_LITERAL"
+                        && duviri_build.success && duviri_build.artifacts.size() == 1;
+                    if (duviri_ok)
+                    {
+                        const auto stock = read_text(mission_roots.corpus / duviri.at("owner").at("file").get<std::string>());
+                        const auto built = read_text(duviri_build.artifacts.front().artifact);
+                        duviri_ok = changed_bytes(stock, built) == 2;
+                        for (const auto& site : duviri.at("owner").at("sites"))
+                            duviri_ok = duviri_ok && static_cast<unsigned char>(built[site.at("offset").get<std::size_t>() + 2]) == 6;
+                    }
+                    check(duviri_ok, "the Duviri fracture count (two assignment sites) builds as one exact replacement");
+                    const MissionSetResult flood_addon = build_mission_settings(settings({{"void_flood.fractures_per_round.shadowgrapher", 4},
+                        {"void_flood.curse_count.curseCountNormal", 3}}), editor_root, mission_fixture, true);
+                    bool flood_ok = flood_addon.success && flood_addon.artifacts.size() == 1 && flood_addon.artifacts.front().backend == "TARGET_ADDON";
+                    if (flood_ok)
+                    {
+                        const auto source = read_text(flood_addon.artifacts.front().source);
+                        flood_ok = contains_text(source, "owner[\"maxFractureActive\"] = 4") && contains_text(source, "owner[\"curseCountNormal\"] = 3")
+                            && !contains_text(source, "curseCountSteelPath");
+                    }
+                    check(flood_ok, "Shadowgrapher fractures per round and a curse count build as one root-table addon");
+                    const MissionSetResult purgatory = build_mission_settings(settings({{"purgatory.difficulty2.ghost_level", 12}}), editor_root,
+                                                                              mission_fixture, true);
+                    check(purgatory.success && purgatory.artifacts.size() == 1
+                            && contains_text(read_text(purgatory.artifacts.front().source), "container = container[2]")
+                            && contains_text(read_text(purgatory.artifacts.front().source), "owner[\"ghostLevel\"] = 12"),
+                        "a nested root table (Purgatory difficulty 2) is reached through its container path");
                 }
 
                 // Phase 2d: a metadata control carried by two Scripts entries (gameplay + HUD) is patched in both.

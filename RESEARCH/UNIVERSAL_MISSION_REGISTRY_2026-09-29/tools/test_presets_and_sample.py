@@ -1,5 +1,6 @@
 """Offline regression for the 44.0.2 mission registry: 12 preset builds through the registry path, 3 rejections per
-preset, and one sample mission_settings.json group build. Writes only to work/staging and the Phase 1 research folder.
+preset, rebuilds of the Phase 2b/2d sample settings (compared with their recorded manifests, folders left untouched) and
+the Phase 2e sample group build. Writes only to work/staging and the Phase 1 research folder.
 No game or server folder is written. Requires the built CLI (work/builds/ability-editor/current)."""
 from pathlib import Path
 import copy, hashlib, json, shutil, subprocess
@@ -51,6 +52,9 @@ def run(*args):
 OUT.mkdir(parents=True, exist_ok=True)
 WORK.mkdir(parents=True, exist_ok=True)
 results = {'build': registry['build'], 'presets': [], 'rejections': 0}
+# Preset artifacts must stay byte-identical to the previously recorded run (presets keep their established lanes).
+previous_presets = {p['preset']: p['sha256'] for p in json.loads((OUT / 'results.json').read_text())['presets']} \
+    if (OUT / 'results.json').exists() else {}
 for pid, preset in registry['missions'].items():
     p = copy.deepcopy(base)
     p['id'] = f'm.{pid}'
@@ -66,6 +70,9 @@ for pid, preset in registry['missions'].items():
     artifact = Path(next(l.split(': ', 1)[1] for l in r.stdout.splitlines() if l.startswith('Bytecode: ')))
     results['presets'].append({'preset': pid, 'lane': lane, 'artifact': artifact.name,
                                'sha256': hashlib.sha256(artifact.read_bytes()).hexdigest().upper()})
+    if pid in previous_presets:
+        assert previous_presets[pid] == results['presets'][-1]['sha256'], (pid, 'preset artifact changed')
+    results['presets'][-1]['identical_to_previous_run'] = pid in previous_presets
     for name, mutate in [('wrong-body', lambda q: q['target'].update(module_body_key='0000000000000000')),
                          ('wrong-build', lambda q: q['mission_profile'].update(build='2026.09.24.13.29')),
                          ('out-of-range', lambda q: q['mission_profile']['values'].update({next(iter(FASTER[pid])): -1}))]:
@@ -77,55 +84,57 @@ for pid, preset in registry['missions'].items():
         results['rejections'] += 1
     print('PASS', pid, lane, artifact.name, flush=True)
 
-# Sample group build: metadata, literal, root-table (addon), server, two literal rows in one module, ConquestLib.
-settings = {'format': 'RENOVICE_MISSION_SETTINGS_V1', 'build': registry['build'], 'values': {
-    'netracell.enemy_power_fill': 2,
-    'shrine.offering_generation_time': 15,
-    'mobiledefense.total_time.minimum': 90,
-    'mobiledefense.total_time.maximum': 120,
-    'survival.reward_interval': 150,
-    'server.credit_boost_multiplier': 2,
-    'excavation.dig_duration': 50,
-    'excavation.dig_duration_elite_alert': 70,
-    'archimedea.eta_survival_minutes': 5,
-}}
-if SAMPLE.exists():
-    shutil.rmtree(SAMPLE)
-SAMPLE.mkdir(parents=True)
-(SAMPLE / 'mission_settings.json').write_text(json.dumps(settings, indent=2) + '\n')
-staging = STAGING / 'sample'
-r = run('build-missions', SAMPLE / 'mission_settings.json', '--staging', staging)
-(WORK / 'sample-build.log').write_text(r.stdout + r.stderr)
-assert r.returncode == 0, (r.stdout, r.stderr)
-generation = Path(next(l.split(': ', 1)[1] for l in r.stdout.splitlines() if l.startswith('Generation: ')))
-shutil.copytree(generation, SAMPLE / 'generation')
-manifest = json.loads((SAMPLE / 'generation/MISSION_SET_MANIFEST.json').read_text())
-assert len({a['body_key'] for a in manifest['artifacts']}) == len(manifest['artifacts'])
-hashes = {str(p.relative_to(SAMPLE)).replace('\\', '/'): hashlib.sha256(p.read_bytes()).hexdigest().upper()
-          for p in sorted(SAMPLE.rglob('*')) if p.is_file()}
-(SAMPLE / 'SHA256SUMS.json').write_text(json.dumps(hashes, indent=2) + '\n')
-results['sample'] = {'artifacts': manifest['artifacts'], 'server_config_diff': manifest['server_config_diff'],
-                     'location': str(SAMPLE.relative_to(ROOT)).replace('\\', '/')}
+# Earlier samples (Phase 2b, Phase 2d) stay untouched as dated evidence. Their settings are rebuilt into staging and
+# every artifact is compared with the recorded manifest: identical, or changed because Phase 2e routes the body's
+# root-table rows through the target-addon lane.
+SAMPLE2E = ROOT / 'work/research/universal-mission-editor-2026-09-29/phase2e-sample'
+PHASE2E_VALUES = {
+    'survival.reward_interval': 150,               # generic root-table addon: writes interval only (killPlayerTime stays 300)
+    'void_flood.fractures_per_round.normal': 4,    # root local frame_83[33] (exact literal)
+    'lantern.tier_up_interval': 60,                # Lantern root spawn config field (addon)
+    'purgatory.difficulty1.warrior_level': 15,     # Purgatory difficulty table 1 (nested root table, addon)
+}
 
-# Phase 2d sample group build (research folder only, hashed).
-settings2d = {'format': 'RENOVICE_MISSION_SETTINGS_V1', 'build': registry['build'], 'values': PHASE2D_VALUES}
-if SAMPLE2D.exists():
-    shutil.rmtree(SAMPLE2D)
-SAMPLE2D.mkdir(parents=True)
-(SAMPLE2D / 'mission_settings.json').write_text(json.dumps(settings2d, indent=2) + '\n')
-r = run('build-missions', SAMPLE2D / 'mission_settings.json', '--staging', STAGING / 'sample2d')
-(WORK / 'sample2d-build.log').write_text(r.stdout + r.stderr)
-assert r.returncode == 0, (r.stdout, r.stderr)
-generation = Path(next(l.split(': ', 1)[1] for l in r.stdout.splitlines() if l.startswith('Generation: ')))
-shutil.copytree(generation, SAMPLE2D / 'generation')
-manifest2d = json.loads((SAMPLE2D / 'generation/MISSION_SET_MANIFEST.json').read_text())
-assert len({a['body_key'] for a in manifest2d['artifacts']}) == len(manifest2d['artifacts'])
-assert sorted(t for a in manifest2d['artifacts'] for t in a['tunables']) == sorted(PHASE2D_VALUES)
-hashes = {str(p.relative_to(SAMPLE2D)).replace('\\', '/'): hashlib.sha256(p.read_bytes()).hexdigest().upper()
-          for p in sorted(SAMPLE2D.rglob('*')) if p.is_file()}
-(SAMPLE2D / 'SHA256SUMS.json').write_text(json.dumps(hashes, indent=2) + '\n')
-results['phase2d_sample'] = {'values': PHASE2D_VALUES, 'artifacts': manifest2d['artifacts'],
-                             'location': str(SAMPLE2D.relative_to(ROOT)).replace('\\', '/')}
+
+def rebuild(folder, name):
+    r = run('build-missions', folder / 'mission_settings.json', '--staging', STAGING / name)
+    (WORK / f'{name}-build.log').write_text(r.stdout + r.stderr)
+    assert r.returncode == 0, (r.stdout, r.stderr)
+    generation = Path(next(l.split(': ', 1)[1] for l in r.stdout.splitlines() if l.startswith('Generation: ')))
+    return generation, json.loads((generation / 'MISSION_SET_MANIFEST.json').read_text())
+
+
+for folder, name in [(SAMPLE, 'sample2b'), (SAMPLE2D, 'sample2d')]:
+    recorded = json.loads((folder / 'generation/MISSION_SET_MANIFEST.json').read_text())
+    _, manifest = rebuild(folder, name)
+    assert len({a['body_key'] for a in manifest['artifacts']}) == len(manifest['artifacts'])
+    before = {a['body_key']: a for a in recorded['artifacts']}
+    compare = []
+    for art in manifest['artifacts']:
+        old = before[art['body_key']]
+        compare.append({'body_key': art['body_key'], 'tunables': art['tunables'], 'backend_before': old['backend'],
+                        'backend_now': art['backend'], 'identical': old['sha256'] == art['sha256'], 'sha256_now': art['sha256']})
+    assert sorted(before) == sorted(a['body_key'] for a in manifest['artifacts'])
+    results[name + '_rebuild'] = compare
+    print('PASS', name, 'rebuilt:', sum(c['identical'] for c in compare), 'identical,',
+          [c['body_key'] + ' ' + c['backend_before'] + '->' + c['backend_now'] for c in compare if not c['identical']])
+
+settings2e = {'format': 'RENOVICE_MISSION_SETTINGS_V1', 'build': registry['build'], 'values': PHASE2E_VALUES}
+if SAMPLE2E.exists():
+    shutil.rmtree(SAMPLE2E)
+SAMPLE2E.mkdir(parents=True)
+(SAMPLE2E / 'mission_settings.json').write_text(json.dumps(settings2e, indent=2) + '\n')
+generation, manifest2e = rebuild(SAMPLE2E, 'sample2e')
+shutil.copytree(generation, SAMPLE2E / 'generation')
+assert len({a['body_key'] for a in manifest2e['artifacts']}) == len(manifest2e['artifacts'])
+assert sorted(t for a in manifest2e['artifacts'] for t in a['tunables']) == sorted(PHASE2E_VALUES)
+survival = (SAMPLE2E / 'generation/source/f10a043e7f825db2.luau').read_text()
+assert 'owner["interval"] = 150' in survival and 'killPlayerTime' not in survival, 'Survival interval must not touch killPlayerTime'
+hashes = {str(p.relative_to(SAMPLE2E)).replace('\\', '/'): hashlib.sha256(p.read_bytes()).hexdigest().upper()
+          for p in sorted(SAMPLE2E.rglob('*')) if p.is_file()}
+(SAMPLE2E / 'SHA256SUMS.json').write_text(json.dumps(hashes, indent=2) + '\n')
+results['phase2e_sample'] = {'values': PHASE2E_VALUES, 'artifacts': manifest2e['artifacts'],
+                             'location': str(SAMPLE2E.relative_to(ROOT)).replace('\\', '/')}
 (OUT / 'results.json').write_text(json.dumps(results, indent=2) + '\n')
-print(f"PASS phase2d sample artifacts={len(manifest2d['artifacts'])}")
-print(f"PASS {len(results['presets'])} preset builds, {results['rejections']} rejections, sample artifacts={len(manifest['artifacts'])}")
+print(f"PASS phase2e sample artifacts={len(manifest2e['artifacts'])}")
+print(f"PASS {len(results['presets'])} preset builds, {results['rejections']} rejections")

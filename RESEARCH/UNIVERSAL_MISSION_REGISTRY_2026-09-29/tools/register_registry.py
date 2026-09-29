@@ -15,6 +15,9 @@ Outputs:
 Admission rule: a row is written only when it is CONFIRMED_STATIC in Phase 1 (or is a carried-over preset row), its
 owner kind has an existing back end in src/mission_profiles.inl, and its exact owner verifies against the 44.0.2 stock
 bytes (SHA-256 + exact preimage). Every other Phase 1 row is written to `excluded` with the exact reason.
+Phase 2e: every LUA_ROOT_TABLE row that passes ROOT_TABLE_UPVALUE_V1 (addon_owner.py) is routed to the target-addon
+lane (its literal form is kept as `literal_owner`); phase2e_specs.py adds addon-only fields (shared constants) and the
+Void Flood / Lantern / Purgatory rows (run add_phase1_rows.py once first).
 Nothing here writes into a game or server folder.
 """
 from pathlib import Path
@@ -23,7 +26,9 @@ import hashlib, json, re, struct, subprocess, sys, tempfile
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from deluau import ROOT, EDITOR, Module, body_key, sha256, SETTABLE, LOADN, RAW_LOADN  # noqa: E402
 from anchors import Analysis  # noqa: E402
+from addon_owner import RootTables, GATE as ADDON_GATE  # noqa: E402
 import phase2d  # noqa: E402
+import phase2e_specs as P2E  # noqa: E402
 import phase2d_lua_specs as P2D_LUA  # noqa: E402
 import phase2d_metadata_specs as P2D_META  # noqa: E402
 
@@ -42,6 +47,9 @@ NAME_SEED = 0x768E5ED0
 phase1 = json.loads((PHASE1 / 'mission_tunables.json').read_text(encoding='utf-8'))
 PACKAGES_SHA = phase1['packages_bin_sha256']
 p1rows = {r['tunable_id']: r for r in phase1['tunables']}
+missing_p1 = [r['tunable_id'] for r in P2E.PHASE1 if r['tunable_id'] not in p1rows]
+if missing_p1:
+    raise SystemExit('Phase 1 study lacks the Phase 2e rows; run tools/add_phase1_rows.py first: ' + ', '.join(missing_p1))
 previous = json.loads(subprocess.run(['git', '-C', str(EDITOR), 'show', PREVIOUS_REVISION + ':REGISTRIES/mission_build_u44.json'],
                                      capture_output=True, text=True, check=True).stdout)
 assert previous['build'] == '2026.09.24.13.29'
@@ -62,7 +70,7 @@ used_files = set()
 
 def module(file):
     if file not in module_objs:
-        module_objs[file] = Analysis((STOCK / file).read_bytes())
+        module_objs[file] = RootTables((STOCK / file).read_bytes())
     return module_objs[file]
 
 
@@ -533,7 +541,8 @@ for pid, tid, pname, maximum in [('netracells', 'netracell.enemy_power_fill', 'p
 report['phase2d'] = {'lua_rows': 0, 'metadata_rows': 0, 'site_kinds': {}, 'gates': {'template_single_use_pass': 0,
                      'constant_exclusive_pass': 0, 'pattern_complete_pass': 0}, 'failures': []}
 phase2d_ids = set()
-for spec in P2D_LUA.TUNABLES:
+for spec in P2D_LUA.TUNABLES + P2E.LUA:
+    stage = 'phase2e' if spec in P2E.LUA else 'phase2d'
     try:
         m = module(spec['module'])
         sites = phase2d.resolve(m, spec['specs'])
@@ -552,12 +561,14 @@ for spec in P2D_LUA.TUNABLES:
         limits['basis'] = 'operand domain guard only; gameplay-safe range not established offline'
         kinds = sorted({a['kind'] for a in spec['specs']})
         row = lua_row(spec['tunable_id'], spec['phase1'], spec['owner_kind'], key, rec, sites, num(spec['stock']), limits,
-                      spec['unit'], APPLIES_LITERAL, 'phase2d:' + '+'.join(kinds),
+                      spec['unit'], APPLIES_LITERAL, stage + ':' + '+'.join(kinds),
                       {'label': spec['label'], 'mission_type': spec['mode'], 'variant': spec.get('variant', ''),
                        'confidence': spec['confidence'], 'evidence': spec['evidence'],
                        'backend_note': f'{len(sites)} exact site(s) patched together: ' + '; '.join(a['owner'] for a in spec['specs'])})
         rows.append(row)
         phase2d_ids.add(spec['phase1'])
+        if stage == 'phase2e':
+            continue
         report['phase2d']['lua_rows'] += 1
         for s_ in sites:
             report['phase2d']['site_kinds'][s_['kind']] = report['phase2d']['site_kinds'].get(s_['kind'], 0) + 1
@@ -575,8 +586,85 @@ for spec in P2D_META.METADATA:
         report['phase2d']['failures'].append({'tunable_id': spec['tunable_id'], 'reason': str(e)})
 if report['phase2d']['failures']:
     raise SystemExit('Phase 2d spec failures: ' + json.dumps(report['phase2d']['failures'], indent=1))
+
+# ---------------------------------------------------------------- Phase 2e: root-table fields on the target-addon lane
+# Every LUA_ROOT_TABLE row whose owner is a numeric field of a table the module root builds is routed through the proven
+# target-addon lane (luaCalls[P].before: check stock once, write once, restore in cleanup). The addon writes the live
+# table field, so constant sharing in the bytecode is irrelevant. A row that also has an exact literal form keeps it as
+# `literal_owner` (used when the same body must be built as one merged replacement). Rows whose table fails the gate stay
+# on the literal lane with the exact reason in `addon_gate`.
+report['phase2e'] = {'converted_to_addon': 0, 'addon_gate_fail': 0, 'addon_rows_new': 0, 'template_rows_with_fields': 0,
+                     'literal_rows_new': sum(1 for r in rows if r['provenance'].startswith('phase2e:')), 'gate_failures': []}
+ADDON_TEMPLATE = 'ROOT_TABLE_FIELD'
+ZERO_OK_UNITS = {'x', 'fraction', 'chance', 'x stock rate'}
+
+
+def addon_field(m, key, ev):
+    """Registers the table record on the module and returns the per-field owner entry."""
+    rec = modules[key]
+    tables = rec.setdefault('root_tables', {})
+    c = ev['construction']
+    table = {'gate': ADDON_GATE, 'prototype': c['prototype'], 'instruction': c['instruction'], 'register': c['register'],
+             'op': c['op'].split('+')[0], 'containers': ev['containers'],
+             'hooks': [{k: h[k] for k in ('prototype', 'upvalue', 'path', 'capture', 'closure_instruction')} for h in ev['hooks']]}
+    if tables.setdefault(ev['table_id'], table) != table:
+        raise ValueError(f'table {ev["table_id"]} evidence differs between fields')
+    off, kind = c['value_offset'], c['value_kind']
+    width = 8 if kind == 'number_constant' else 4
+    entry = {'field': ev['field'], 'table_id': ev['table_id'], 'value_kind': kind, 'value_offset': off,
+             'expected': list(m.raw[off:off + width]), 'construction': c['op'], 'field_reads': ev['field_reads']}
+    if kind == 'number_constant':
+        entry['value_constant'] = c['value_constant']
+    return entry
+
+
+def addon_owner(m, key, rec, fields):
+    return {'body_key': key, 'stock_sha256': rec['sha256'], 'file': rec['file'], 'module_path': rec['module_path'],
+            'template': ADDON_TEMPLATE, 'gate': ADDON_GATE, 'fields': fields}
+
+
+for spec in P2E.ADDON:
+    try:
+        m = module(spec['module'])
+        key, rec = register_module(spec['module'], dotted(spec['module_path']))
+        fields = []
+        for f in spec['fields']:
+            ev = m.owner(f[0], float(f[1]), f[2] if len(f) > 2 else None)
+            fields.append(addon_field(m, key, ev))
+        stock = spec['fields'][0][1]
+        if any(f[1] != stock for f in spec['fields']):
+            raise ValueError('one row must own fields with one stock value')
+        minimum = 0 if spec['unit'] in ZERO_OK_UNITS else min(1, stock)
+        p = p1rows.get(spec['phase1'], {})
+        rows.append({'tunable_id': spec['tunable_id'], 'phase1_tunable_id': spec['phase1'], 'label': spec['label'],
+                     'mission_type': spec['mode'], 'variant': spec['variant'], 'shared_with': p.get('shared_with', ''),
+                     'owner_kind': 'LUA_ROOT_TABLE', 'backend': 'TARGET_ADDON', 'owner': addon_owner(m, key, rec, fields),
+                     'unit': spec['unit'], 'stock': num(stock),
+                     'limits': {'minimum': minimum, 'maximum': max(1000, abs(stock) * 100), 'integer': spec['integer'],
+                                'basis': 'numeric guard only; gameplay-safe range not established offline'},
+                     'applies': 'F9', 'confidence': spec['confidence'], 'provenance': 'phase2e:root-table-addon',
+                     'backend_note': 'Root-table field(s) ' + ', '.join(f'{f["table_id"]}.{f["field"]}' for f in fields) +
+                                     ' written through the target-addon lane (ROOT_TABLE_UPVALUE_V1). No literal form: the '
+                                     'value constant is shared or the owner is not a unique literal.'})
+        report['phase2e']['addon_rows_new'] += 1
+    except (ValueError, KeyError) as e:
+        report['phase2e']['gate_failures'].append({'tunable_id': spec['tunable_id'], 'reason': str(e)})
+if report['phase2e']['gate_failures']:
+    raise SystemExit('Phase 2e addon spec failures: ' + json.dumps(report['phase2e']['gate_failures'], indent=1))
+for key, rec in modules.items():
+    if 'root_tables' in rec:
+        rec['root_tables'] = dict(sorted(rec['root_tables'].items(), key=lambda kv: int(kv[0].split(':')[1][1:])))
+
+resolved = {(a, b) for a, b in P2E.RESOLVES}
+p2d_lua_excluded = [e for e in P2D_LUA.EXCLUDED if (e['phase1'], e.get('part')) not in resolved]
+unmatched = resolved - {(e['phase1'], e.get('part')) for e in P2D_LUA.EXCLUDED}
+if unmatched:
+    raise SystemExit(f'Phase 2e RESOLVES entries match no Phase 2d exclusion: {sorted(unmatched)}')
+for e in p2d_lua_excluded:
+    if e['phase1'] in P2E.ADDON_FAILED:
+        e['reason'] += ' | ' + P2E.ADDON_FAILED[e['phase1']]
 phase2d_excluded = {}
-for e in P2D_LUA.EXCLUDED + P2D_META.EXCLUDED:
+for e in p2d_lua_excluded + P2D_META.EXCLUDED + P2E.EXCLUDED_PARTS:
     phase2d_excluded.setdefault(e['phase1'], []).append(e)
 excluded_parts = []
 
@@ -707,15 +795,55 @@ for r in phase1['tunables']:
     except (ValueError, KeyError) as e:
         exclude(r, str(e))
 
+# Phase 2e conversion runs after every Lua row (Phase 2d specs, carried-over and auto-anchored rows) is registered.
+for row in rows:
+    if row['owner_kind'] != 'LUA_ROOT_TABLE':
+        continue
+    owner = row['owner']
+    if 'fields' in owner:
+        continue  # Phase 2e addon-only row (already a root-table owner)
+    m = module(owner['file'])
+    try:
+        if row['backend'] == 'TARGET_ADDON':
+            # Carried-over Survival template rows: also expressible by the generic generator (same table fields).
+            ev = m.owner(owner['field'], row['stock'], owner['capture_evidence']['duptable_instruction'])
+            owner['fields'] = [addon_field(m, owner['body_key'], ev)]
+            owner['gate'] = ADDON_GATE
+            report['phase2e']['template_rows_with_fields'] += 1
+            continue
+        evs = []
+        for site in owner['sites']:
+            ev = m.site_field(site, row['stock'])
+            if all(e['table_id'] != ev['table_id'] or e['field'] != ev['field'] for e in evs):
+                evs.append(ev)
+        fields = [addon_field(m, owner['body_key'], ev) for ev in evs]
+        row['literal_owner'] = owner
+        row['owner'] = addon_owner(m, owner['body_key'], modules[owner['body_key']], fields)
+        row['backend'] = 'TARGET_ADDON'
+        row['applies'] = 'F9'
+        row['backend_note'] = ('Root-table field(s) ' + ', '.join(f'{f["table_id"]}.{f["field"]}' for f in fields) +
+                               ' written through the target-addon lane (ROOT_TABLE_UPVALUE_V1); exact literal form kept in '
+                               'literal_owner for merged replacements.')
+        report['phase2e']['converted_to_addon'] += 1
+    except (ValueError, KeyError) as e:
+        row['addon_gate'] = 'FAIL: ' + str(e)
+        report['phase2e']['addon_gate_fail'] += 1
+
 # ---------------------------------------------------------------- invariants
 ids = [r['tunable_id'] for r in rows]
 assert len(ids) == len(set(ids)), 'duplicate tunable ids'
 seen = {}
 for r in rows:
-    for s in r['owner'].get('sites', []):
+    for s in r['owner'].get('sites', []) + r.get('literal_owner', {}).get('sites', []):
         k = (r['owner']['body_key'], s['offset'])
         assert k not in seen or seen[k] == r['tunable_id'], f'competing owners at {k}: {seen.get(k)} / {r["tunable_id"]}'
         seen[k] = r['tunable_id']
+addon_fields = {}
+for r in rows:
+    for f in r['owner'].get('fields', []):
+        k = (r['owner']['body_key'], f['table_id'], f['field'])
+        assert k not in addon_fields, f'competing addon owners of {k}: {addon_fields[k]} / {r["tunable_id"]}'
+        addon_fields[k] = r['tunable_id']
 rows.sort(key=lambda r: r['tunable_id'])
 excluded.sort(key=lambda r: r['tunable_id'])
 
@@ -790,4 +918,4 @@ report.update({'build': BUILD, 'rows': len(rows), 'rows_by_owner_kind': owner_co
                'registry_sha256': hashlib.sha256((EDITOR / 'REGISTRIES/mission_build_u44.json').read_bytes()).hexdigest().upper()})
 REPORT.write_text(json.dumps(report, indent=2) + '\n')
 print(json.dumps({k: report[k] for k in ('rows', 'rows_by_owner_kind', 'rows_by_backend', 'excluded', 'excluded_by_owner_kind', 'modules',
-                                         'phase1_accounting', 'phase2d')}, indent=1))
+                                         'phase1_accounting', 'phase2d', 'phase2e')}, indent=1))

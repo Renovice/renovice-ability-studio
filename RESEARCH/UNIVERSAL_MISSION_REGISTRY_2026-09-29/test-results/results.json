@@ -5,114 +5,281 @@
       "preset": "mobile_defense",
       "lane": "EXACT_LITERAL",
       "artifact": "a807aae359ffc1eb (mission_mobile_defense_timers_exact-replacement).lua_B",
-      "sha256": "9DC9D6FB76B9FEDC7BD7F057FCD75D77E98AE5A63CCEFF71803F1DD502DAD368"
+      "sha256": "9DC9D6FB76B9FEDC7BD7F057FCD75D77E98AE5A63CCEFF71803F1DD502DAD368",
+      "identical_to_previous_run": true
     },
     {
       "preset": "excavation",
       "lane": "EXACT_LITERAL",
       "artifact": "f7444e3c621ff018 (mission_excavation_timers_exact-replacement).lua_B",
-      "sha256": "31FEB79C51AFB50FAF3E7E75A3DE9E91CFE80F2C7BF07DD8E3401ADC33C91322"
+      "sha256": "31FEB79C51AFB50FAF3E7E75A3DE9E91CFE80F2C7BF07DD8E3401ADC33C91322",
+      "identical_to_previous_run": true
     },
     {
       "preset": "control_area_plains",
       "lane": "EXACT_LITERAL",
       "artifact": "b3a5a18d68d61e16 (mission_control_area_plains_timers_exact-replacement).lua_B",
-      "sha256": "E2E8BB2F5B67AEC1540245B18AC1786A4AB3EBE485D51FAAFC27ECB6ADD27E57"
+      "sha256": "E2E8BB2F5B67AEC1540245B18AC1786A4AB3EBE485D51FAAFC27ECB6ADD27E57",
+      "identical_to_previous_run": true
     },
     {
       "preset": "control_area_deimos",
       "lane": "EXACT_LITERAL",
       "artifact": "8a0b0819de60df01 (mission_control_area_deimos_timers_exact-replacement).lua_B",
-      "sha256": "F0436757C021BDD7C9121DD57031791D0F8EB9AADA9939727E488C783C1E134B"
+      "sha256": "F0436757C021BDD7C9121DD57031791D0F8EB9AADA9939727E488C783C1E134B",
+      "identical_to_previous_run": true
     },
     {
       "preset": "control_area_nokko",
       "lane": "EXACT_LITERAL",
       "artifact": "e4bb611e00823d46 (mission_control_area_nokko_timers_exact-replacement).lua_B",
-      "sha256": "89E26F2FD1B9377E9BEB37A0A6802FD5B0CB5A76308554A40939A8E9C87CCA53"
+      "sha256": "89E26F2FD1B9377E9BEB37A0A6802FD5B0CB5A76308554A40939A8E9C87CCA53",
+      "identical_to_previous_run": true
     },
     {
       "preset": "void_cascade",
       "lane": "EXACT_LITERAL",
       "artifact": "32c344afa33be174 (mission_void_cascade_timers_exact-replacement).lua_B",
-      "sha256": "FF9D6DE729E6F80F23EA09A2A9DBC9978368EA1FFDC3B4CC410DB145D1F22F00"
+      "sha256": "FF9D6DE729E6F80F23EA09A2A9DBC9978368EA1FFDC3B4CC410DB145D1F22F00",
+      "identical_to_previous_run": true
     },
     {
       "preset": "descendia_excavation",
       "lane": "EXACT_LITERAL",
       "artifact": "415a57536412719f (mission_descendia_excavation_timers_exact-replacement).lua_B",
-      "sha256": "F1A1C90C8A1535902CDD8F6FE7406CDF1718D5BE0B6D54E4A36D115C86455C84"
+      "sha256": "F1A1C90C8A1535902CDD8F6FE7406CDF1718D5BE0B6D54E4A36D115C86455C84",
+      "identical_to_previous_run": true
     },
     {
       "preset": "archimedea",
       "lane": "EXACT_LITERAL",
       "artifact": "076a7b443af7fdb8 (mission_archimedea_timers_exact-replacement).lua_B",
-      "sha256": "17B162C83801C1802DD0FFDB80C371C957D47FFA0A01D0A21A5457BA30986F26"
+      "sha256": "17B162C83801C1802DD0FFDB80C371C957D47FFA0A01D0A21A5457BA30986F26",
+      "identical_to_previous_run": true
     },
     {
       "preset": "survival",
       "lane": "TARGET_ADDON",
       "artifact": "f10a043e7f825db2.mission_survival.target.addon.lua_B",
-      "sha256": "B7590C6990A64C47230504674E94CEC3DB2DF4427D74B5605BF6E8E2BE210FCA"
+      "sha256": "B7590C6990A64C47230504674E94CEC3DB2DF4427D74B5605BF6E8E2BE210FCA",
+      "identical_to_previous_run": true
     },
     {
       "preset": "interception",
       "lane": "TARGET_ADDON",
       "artifact": "c9605470a8c47d8d.mission_interception.target.addon.lua_B",
-      "sha256": "B436B712D294E8A2C0E8082103476CDDA4498AF6E2DED18C25FF964AF08E5DB2"
+      "sha256": "B436B712D294E8A2C0E8082103476CDDA4498AF6E2DED18C25FF964AF08E5DB2",
+      "identical_to_previous_run": true
     },
     {
       "preset": "netracells",
       "lane": "METADATA_PATCH",
       "artifact": "netracells.txt",
-      "sha256": "31F0DE3A8CE27C28D2D4720C21783EEA417ED5D7ED60901CCE7DE4C198175707"
+      "sha256": "31F0DE3A8CE27C28D2D4720C21783EEA417ED5D7ED60901CCE7DE4C198175707",
+      "identical_to_previous_run": true
     },
     {
       "preset": "descendia_shrine",
       "lane": "METADATA_PATCH",
       "artifact": "descendia_shrine.txt",
-      "sha256": "29AE09BA286ECE08A58869C7C241F00E07997AF2A6F724AE3554DAA60D55F298"
+      "sha256": "29AE09BA286ECE08A58869C7C241F00E07997AF2A6F724AE3554DAA60D55F298",
+      "identical_to_previous_run": true
     }
   ],
   "rejections": 36,
-  "sample": {
+  "sample2b_rebuild": [
+    {
+      "body_key": "076a7b443af7fdb8",
+      "tunables": [
+        "archimedea.eta_survival_minutes"
+      ],
+      "backend_before": "EXACT_LITERAL",
+      "backend_now": "EXACT_LITERAL",
+      "identical": true,
+      "sha256_now": "2832158E3B243C4F508AD882ED69A9339FE7F062DF76A709CBE90C58E5522D9D"
+    },
+    {
+      "body_key": "a807aae359ffc1eb",
+      "tunables": [
+        "mobiledefense.total_time.maximum",
+        "mobiledefense.total_time.minimum"
+      ],
+      "backend_before": "EXACT_LITERAL",
+      "backend_now": "EXACT_LITERAL",
+      "identical": true,
+      "sha256_now": "9DC9D6FB76B9FEDC7BD7F057FCD75D77E98AE5A63CCEFF71803F1DD502DAD368"
+    },
+    {
+      "body_key": "f7444e3c621ff018",
+      "tunables": [
+        "excavation.dig_duration",
+        "excavation.dig_duration_elite_alert"
+      ],
+      "backend_before": "EXACT_LITERAL",
+      "backend_now": "EXACT_LITERAL",
+      "identical": true,
+      "sha256_now": "D2A8537B7EA0259D4ECE33F7A5C456F7E7E643CAB4CC0FCF6B0027926128B0BA"
+    },
+    {
+      "body_key": "f10a043e7f825db2",
+      "tunables": [
+        "survival.reward_interval"
+      ],
+      "backend_before": "TARGET_ADDON",
+      "backend_now": "TARGET_ADDON",
+      "identical": false,
+      "sha256_now": "CEF8808F993059F44C3E55CDE72038C5271260A7BFB803FB8B47C6132CE9DA6A"
+    },
+    {
+      "body_key": "metadata",
+      "tunables": [
+        "netracell.enemy_power_fill",
+        "shrine.offering_generation_time"
+      ],
+      "backend_before": "METADATA_PATCH",
+      "backend_now": "METADATA_PATCH",
+      "identical": true,
+      "sha256_now": "F6FDB56BA18466485CF7669A90C048DC676CA8A59A8574D010DF128F1AC571B8"
+    }
+  ],
+  "sample2d_rebuild": [
+    {
+      "body_key": "0c498e078835f9fe",
+      "tunables": [
+        "netracell.power_required.base"
+      ],
+      "backend_before": "EXACT_LITERAL",
+      "backend_now": "EXACT_LITERAL",
+      "identical": true,
+      "sha256_now": "8D0EDA35362FA8F8FE62918F3628799080455EA029257BDE1534ACAD45DCC564"
+    },
+    {
+      "body_key": "1a1354d153712f9d",
+      "tunables": [
+        "defense.inter_wave_sleep"
+      ],
+      "backend_before": "EXACT_LITERAL",
+      "backend_now": "EXACT_LITERAL",
+      "identical": true,
+      "sha256_now": "BFE46442738A5D38B9492B84832720A13486D0D3655056781739DF1F3B488782"
+    },
+    {
+      "body_key": "721710696afea305",
+      "tunables": [
+        "orphix.sortie_rounds"
+      ],
+      "backend_before": "EXACT_LITERAL",
+      "backend_now": "EXACT_LITERAL",
+      "identical": true,
+      "sha256_now": "8F536A417CA00581D3146EB94B77954AF70592E94F441750DDF94D3EF8ED0D18"
+    },
+    {
+      "body_key": "b6d8c45f9424d376",
+      "tunables": [
+        "disruption.boss_health_multiplier",
+        "disruption.default_round_count",
+        "disruption.round_timeout"
+      ],
+      "backend_before": "EXACT_LITERAL",
+      "backend_now": "EXACT_LITERAL",
+      "identical": true,
+      "sha256_now": "BE99A12BCD3927DDA2B037A47BF97E9D5227FC4F7CB3299CA728A1542204AB56"
+    },
+    {
+      "body_key": "f10a043e7f825db2",
+      "tunables": [
+        "survival.elite_alert_pickup_mult"
+      ],
+      "backend_before": "EXACT_LITERAL",
+      "backend_now": "EXACT_LITERAL",
+      "identical": true,
+      "sha256_now": "DE20BA0CDC32404AC3E434BFAE52D7F3FE8BA2BC9B960553B93C6B22299FB9D2"
+    },
+    {
+      "body_key": "f7444e3c621ff018",
+      "tunables": [
+        "excavation.resource_goal_default"
+      ],
+      "backend_before": "EXACT_LITERAL",
+      "backend_now": "EXACT_LITERAL",
+      "identical": true,
+      "sha256_now": "B9F98E43FC02621DDFF0C1B654CA1043A46A6B2E37CED914F0EBD8334AEE8D6A"
+    },
+    {
+      "body_key": "fb346b59e2b7687a",
+      "tunables": [
+        "hijack.payload_health"
+      ],
+      "backend_before": "EXACT_LITERAL",
+      "backend_now": "EXACT_LITERAL",
+      "identical": true,
+      "sha256_now": "6D7C70D43CD1A7F2A3DF4E0BCE7A190CA048A5CFB65B06A07BBC3E9CFF2F2273"
+    },
+    {
+      "body_key": "fc711ff621a75552",
+      "tunables": [
+        "void_flood.fill_timer.timeToFillMax"
+      ],
+      "backend_before": "EXACT_LITERAL",
+      "backend_now": "TARGET_ADDON",
+      "identical": false,
+      "sha256_now": "0DCB62DDF3642BED3173E1A132710032C3F4EF333CF7A80093D43D989B3574AF"
+    },
+    {
+      "body_key": "metadata",
+      "tunables": [
+        "coh_excavation.base_health",
+        "infested_capture.search_time.wf1999",
+        "meltdown.heat_increase.descendia"
+      ],
+      "backend_before": "METADATA_PATCH",
+      "backend_now": "METADATA_PATCH",
+      "identical": true,
+      "sha256_now": "7EE0AD908459601E38EE73ADFE74978F2CA893A8814B14B3BD0B7E85AFD6566F"
+    }
+  ],
+  "phase2e_sample": {
+    "values": {
+      "survival.reward_interval": 150,
+      "void_flood.fractures_per_round.normal": 4,
+      "lantern.tier_up_interval": 60,
+      "purgatory.difficulty1.warrior_level": 15
+    },
     "artifacts": [
       {
         "backend": "EXACT_LITERAL",
-        "body_key": "076a7b443af7fdb8",
-        "intended_live_relative_path": "OpenWF/CustomScripts/076a7b443af7fdb8 (missions_exact-replacement).lua_B",
-        "manifest": "BUILD_MANIFEST.EXACT_LITERAL_076a7b443af7fdb8.json",
-        "path": "artifacts/076a7b443af7fdb8 (missions_exact-replacement).lua_B",
-        "sha256": "2832158E3B243C4F508AD882ED69A9339FE7F062DF76A709CBE90C58E5522D9D",
-        "size": 59798,
+        "body_key": "fc711ff621a75552",
+        "intended_live_relative_path": "OpenWF/CustomScripts/fc711ff621a75552 (missions_exact-replacement).lua_B",
+        "manifest": "BUILD_MANIFEST.EXACT_LITERAL_fc711ff621a75552.json",
+        "path": "artifacts/fc711ff621a75552 (missions_exact-replacement).lua_B",
+        "sha256": "E979F5E7906F0D88E49C42B4191ECA6AFDC1237FDDD91D52CBF427DB3FA9F6D2",
+        "size": 112244,
         "tunables": [
-          "archimedea.eta_survival_minutes"
+          "void_flood.fractures_per_round.normal"
         ]
       },
       {
-        "backend": "EXACT_LITERAL",
-        "body_key": "a807aae359ffc1eb",
-        "intended_live_relative_path": "OpenWF/CustomScripts/a807aae359ffc1eb (missions_exact-replacement).lua_B",
-        "manifest": "BUILD_MANIFEST.EXACT_LITERAL_a807aae359ffc1eb.json",
-        "path": "artifacts/a807aae359ffc1eb (missions_exact-replacement).lua_B",
-        "sha256": "9DC9D6FB76B9FEDC7BD7F057FCD75D77E98AE5A63CCEFF71803F1DD502DAD368",
-        "size": 32520,
+        "backend": "TARGET_ADDON",
+        "body_key": "6fa60841c9e0f207",
+        "intended_live_relative_path": "OpenWF/CustomScripts/Inject/6fa60841c9e0f207.missions.target.addon.lua_B",
+        "manifest": "BUILD_MANIFEST.TARGET_ADDON_6fa60841c9e0f207.json",
+        "path": "artifacts/6fa60841c9e0f207.missions.target.addon.lua_B",
+        "sha256": "043176ECDEECF9A876108D87BEB72EB4A7BD7CAA3A799ECD849FAD4E0EEA8472",
+        "size": 1115,
         "tunables": [
-          "mobiledefense.total_time.maximum",
-          "mobiledefense.total_time.minimum"
+          "purgatory.difficulty1.warrior_level"
         ]
       },
       {
-        "backend": "EXACT_LITERAL",
-        "body_key": "f7444e3c621ff018",
-        "intended_live_relative_path": "OpenWF/CustomScripts/f7444e3c621ff018 (missions_exact-replacement).lua_B",
-        "manifest": "BUILD_MANIFEST.EXACT_LITERAL_f7444e3c621ff018.json",
-        "path": "artifacts/f7444e3c621ff018 (missions_exact-replacement).lua_B",
-        "sha256": "D2A8537B7EA0259D4ECE33F7A5C456F7E7E643CAB4CC0FCF6B0027926128B0BA",
-        "size": 77843,
+        "backend": "TARGET_ADDON",
+        "body_key": "caec63d8e739b693",
+        "intended_live_relative_path": "OpenWF/CustomScripts/Inject/caec63d8e739b693.missions.target.addon.lua_B",
+        "manifest": "BUILD_MANIFEST.TARGET_ADDON_caec63d8e739b693.json",
+        "path": "artifacts/caec63d8e739b693.missions.target.addon.lua_B",
+        "sha256": "228754AF891C5A9A75DA250EF171A0689323E6E439CDFD28EC054D6B7334358C",
+        "size": 1666,
         "tunables": [
-          "excavation.dig_duration",
-          "excavation.dig_duration_elite_alert"
+          "lantern.tier_up_interval"
         ]
       },
       {
@@ -121,163 +288,13 @@
         "intended_live_relative_path": "OpenWF/CustomScripts/Inject/f10a043e7f825db2.missions.target.addon.lua_B",
         "manifest": "BUILD_MANIFEST.TARGET_ADDON_f10a043e7f825db2.json",
         "path": "artifacts/f10a043e7f825db2.missions.target.addon.lua_B",
-        "sha256": "5B2AAE27A4EFADAB03C40D5EC16293B97D0F42CD7A3361F0F3A20D284ECB0202",
-        "size": 2616,
+        "sha256": "CEF8808F993059F44C3E55CDE72038C5271260A7BFB803FB8B47C6132CE9DA6A",
+        "size": 2983,
         "tunables": [
           "survival.reward_interval"
         ]
-      },
-      {
-        "backend": "METADATA_PATCH",
-        "body_key": "metadata",
-        "intended_live_relative_path": "OpenWF/Metadata Patches/RENOVICE_Missions.txt",
-        "manifest": "BUILD_MANIFEST.METADATA_PATCH_metadata.json",
-        "path": "artifacts/RENOVICE_Missions.txt",
-        "sha256": "F6FDB56BA18466485CF7669A90C048DC676CA8A59A8574D010DF128F1AC571B8",
-        "size": 237,
-        "tunables": [
-          "netracell.enemy_power_fill",
-          "shrine.offering_generation_time"
-        ]
       }
     ],
-    "server_config_diff": {
-      "applied": false,
-      "path": "artifacts/server-config-diff.json",
-      "sha256": "2C3063AA4BCD1D1ADD8F5D3E9105F8DB9F32A121B7F13EE425F600151D75B88C"
-    },
-    "location": "work/research/universal-mission-editor-2026-09-29/phase2b-sample"
-  },
-  "phase2d_sample": {
-    "values": {
-      "disruption.default_round_count": 6,
-      "disruption.boss_health_multiplier": 0.5,
-      "disruption.round_timeout": 120,
-      "excavation.resource_goal_default": 300,
-      "void_flood.fill_timer.timeToFillMax": 150,
-      "orphix.sortie_rounds": 8,
-      "hijack.payload_health": 20000,
-      "netracell.power_required.base": 100,
-      "survival.elite_alert_pickup_mult": 1,
-      "defense.inter_wave_sleep": 3,
-      "infested_capture.search_time.wf1999": 50,
-      "meltdown.heat_increase.descendia": 0.0125,
-      "coh_excavation.base_health": 3000
-    },
-    "artifacts": [
-      {
-        "backend": "EXACT_LITERAL",
-        "body_key": "0c498e078835f9fe",
-        "intended_live_relative_path": "OpenWF/CustomScripts/0c498e078835f9fe (missions_exact-replacement).lua_B",
-        "manifest": "BUILD_MANIFEST.EXACT_LITERAL_0c498e078835f9fe.json",
-        "path": "artifacts/0c498e078835f9fe (missions_exact-replacement).lua_B",
-        "sha256": "8D0EDA35362FA8F8FE62918F3628799080455EA029257BDE1534ACAD45DCC564",
-        "size": 61951,
-        "tunables": [
-          "netracell.power_required.base"
-        ]
-      },
-      {
-        "backend": "EXACT_LITERAL",
-        "body_key": "1a1354d153712f9d",
-        "intended_live_relative_path": "OpenWF/CustomScripts/1a1354d153712f9d (missions_exact-replacement).lua_B",
-        "manifest": "BUILD_MANIFEST.EXACT_LITERAL_1a1354d153712f9d.json",
-        "path": "artifacts/1a1354d153712f9d (missions_exact-replacement).lua_B",
-        "sha256": "BFE46442738A5D38B9492B84832720A13486D0D3655056781739DF1F3B488782",
-        "size": 96329,
-        "tunables": [
-          "defense.inter_wave_sleep"
-        ]
-      },
-      {
-        "backend": "EXACT_LITERAL",
-        "body_key": "721710696afea305",
-        "intended_live_relative_path": "OpenWF/CustomScripts/721710696afea305 (missions_exact-replacement).lua_B",
-        "manifest": "BUILD_MANIFEST.EXACT_LITERAL_721710696afea305.json",
-        "path": "artifacts/721710696afea305 (missions_exact-replacement).lua_B",
-        "sha256": "8F536A417CA00581D3146EB94B77954AF70592E94F441750DDF94D3EF8ED0D18",
-        "size": 41200,
-        "tunables": [
-          "orphix.sortie_rounds"
-        ]
-      },
-      {
-        "backend": "EXACT_LITERAL",
-        "body_key": "b6d8c45f9424d376",
-        "intended_live_relative_path": "OpenWF/CustomScripts/b6d8c45f9424d376 (missions_exact-replacement).lua_B",
-        "manifest": "BUILD_MANIFEST.EXACT_LITERAL_b6d8c45f9424d376.json",
-        "path": "artifacts/b6d8c45f9424d376 (missions_exact-replacement).lua_B",
-        "sha256": "BE99A12BCD3927DDA2B037A47BF97E9D5227FC4F7CB3299CA728A1542204AB56",
-        "size": 132739,
-        "tunables": [
-          "disruption.boss_health_multiplier",
-          "disruption.default_round_count",
-          "disruption.round_timeout"
-        ]
-      },
-      {
-        "backend": "EXACT_LITERAL",
-        "body_key": "f10a043e7f825db2",
-        "intended_live_relative_path": "OpenWF/CustomScripts/f10a043e7f825db2 (missions_exact-replacement).lua_B",
-        "manifest": "BUILD_MANIFEST.EXACT_LITERAL_f10a043e7f825db2.json",
-        "path": "artifacts/f10a043e7f825db2 (missions_exact-replacement).lua_B",
-        "sha256": "DE20BA0CDC32404AC3E434BFAE52D7F3FE8BA2BC9B960553B93C6B22299FB9D2",
-        "size": 137662,
-        "tunables": [
-          "survival.elite_alert_pickup_mult"
-        ]
-      },
-      {
-        "backend": "EXACT_LITERAL",
-        "body_key": "f7444e3c621ff018",
-        "intended_live_relative_path": "OpenWF/CustomScripts/f7444e3c621ff018 (missions_exact-replacement).lua_B",
-        "manifest": "BUILD_MANIFEST.EXACT_LITERAL_f7444e3c621ff018.json",
-        "path": "artifacts/f7444e3c621ff018 (missions_exact-replacement).lua_B",
-        "sha256": "B9F98E43FC02621DDFF0C1B654CA1043A46A6B2E37CED914F0EBD8334AEE8D6A",
-        "size": 77843,
-        "tunables": [
-          "excavation.resource_goal_default"
-        ]
-      },
-      {
-        "backend": "EXACT_LITERAL",
-        "body_key": "fb346b59e2b7687a",
-        "intended_live_relative_path": "OpenWF/CustomScripts/fb346b59e2b7687a (missions_exact-replacement).lua_B",
-        "manifest": "BUILD_MANIFEST.EXACT_LITERAL_fb346b59e2b7687a.json",
-        "path": "artifacts/fb346b59e2b7687a (missions_exact-replacement).lua_B",
-        "sha256": "6D7C70D43CD1A7F2A3DF4E0BCE7A190CA048A5CFB65B06A07BBC3E9CFF2F2273",
-        "size": 34335,
-        "tunables": [
-          "hijack.payload_health"
-        ]
-      },
-      {
-        "backend": "EXACT_LITERAL",
-        "body_key": "fc711ff621a75552",
-        "intended_live_relative_path": "OpenWF/CustomScripts/fc711ff621a75552 (missions_exact-replacement).lua_B",
-        "manifest": "BUILD_MANIFEST.EXACT_LITERAL_fc711ff621a75552.json",
-        "path": "artifacts/fc711ff621a75552 (missions_exact-replacement).lua_B",
-        "sha256": "D8F3C4E77D48271C255671AF32AF1A825CA8FF70CD8847B170280ACD5DAF4330",
-        "size": 112244,
-        "tunables": [
-          "void_flood.fill_timer.timeToFillMax"
-        ]
-      },
-      {
-        "backend": "METADATA_PATCH",
-        "body_key": "metadata",
-        "intended_live_relative_path": "OpenWF/Metadata Patches/RENOVICE_Missions.txt",
-        "manifest": "BUILD_MANIFEST.METADATA_PATCH_metadata.json",
-        "path": "artifacts/RENOVICE_Missions.txt",
-        "sha256": "7EE0AD908459601E38EE73ADFE74978F2CA893A8814B14B3BD0B7E85AFD6566F",
-        "size": 391,
-        "tunables": [
-          "coh_excavation.base_health",
-          "infested_capture.search_time.wf1999",
-          "meltdown.heat_increase.descendia"
-        ]
-      }
-    ],
-    "location": "work/research/universal-mission-editor-2026-09-29/phase2d-sample"
+    "location": "work/research/universal-mission-editor-2026-09-29/phase2e-sample"
   }
 }

@@ -5,6 +5,11 @@
 // evidence it was verified against. The generator groups rows by module body key so one body never receives
 // competing files, and reuses the existing gates: stock hash, exact preimage, allowed diff, metadata readback,
 // addon compile/plan-verify/recompile-u44 and DE round-trip. Presets are views over registry rows.
+//
+// Phase 2e: root-table fields are routed through the target-addon lane (generic ROOT_TABLE_FIELD generator, gate
+// ROOT_TABLE_UPVALUE_V1), so fields that share a bytecode constant are independent controls. Per body key: all rows
+// addon-capable -> one addon; otherwise all rows literal-capable (root-table rows keep `literal_owner`) -> one merged
+// exact replacement; otherwise fail closed naming the addon-only and literal-only rows.
 namespace {
 constexpr const char* kMissionRegistryPath = "REGISTRIES/mission_build_u44.json";
 
@@ -59,6 +64,24 @@ double mission_site_operand(const Json& site, const double value) {
 
 constexpr const char* kConstantExclusivityGate = "K_CONSTANT_EXCLUSIVE_V1";
 
+// The exact literal form of a row: the owner of an EXACT_LITERAL row, or the `literal_owner` a root-table row keeps
+// for merged replacements. Null when the row has no literal form.
+const Json* mission_literal_owner(const Json& row) {
+    if (row.at("backend") == "EXACT_LITERAL") return &row.at("owner");
+    return row.contains("literal_owner") ? &row.at("literal_owner") : nullptr;
+}
+
+// Operand domain of one literal site: a native f64 constant holds any finite number (the row limits bound it); a LOADN
+// immediate must be a whole number in 1..32767.
+void check_literal_operand(const Json& site, const double value, const std::string& id) {
+    const double operand = mission_site_operand(site, value);
+    if (site.at("kind") == "number_constant") {
+        if (!std::isfinite(operand)) throw std::runtime_error("Mission value must resolve to a finite constant: " + id);
+    } else if (!std::isfinite(operand) || operand < 1 || operand > 32767 || std::floor(operand) != operand) {
+        throw std::runtime_error("Mission value must resolve to an exact positive whole-number operand: " + id);
+    }
+}
+
 // A number constant is shared by every instruction and table-template entry that names it. Editing one therefore
 // needs the registrar's K_CONSTANT_EXCLUSIVE_V1 proof (computed on the pinned stock bytes): the complete use set of the
 // constant is the declared owner, and a table-template owner is consumed by exactly one DUPTABLE outside any loop whose
@@ -90,6 +113,65 @@ void verify_constant_exclusivity(const Json& site) {
         throw std::runtime_error("table template construction is inside a loop or its initialiser is overwritten");
 }
 
+constexpr const char* kRootTableAddonTemplate = "ROOT_TABLE_FIELD";
+constexpr const char* kRootTableGate = "ROOT_TABLE_UPVALUE_V1";
+
+// A root-table field owned through the target-addon lane (registrar gate ROOT_TABLE_UPVALUE_V1, pinned by the body
+// SHA-256): the module root builds the table once, the table leaves the root only by closure capture, every capturing
+// prototype is hooked (luaCalls[P].before) and one of them reads the field. The addon writes the live table field, so a
+// shared bytecode constant does not matter. This check re-verifies the recorded evidence: the stock initialiser bytes
+// at the recorded offset encode the registered stock value, and the table record names hooks with valid access paths.
+void verify_root_table_fields(const Json& row, const Json& module, const std::string& bytes) {
+    static const std::regex field_name("[A-Za-z_][A-Za-z0-9_]*");
+    const Json& owner = row.at("owner");
+    if (owner.value("gate", std::string()) != kRootTableGate) throw std::runtime_error("root-table addon row has no ROOT_TABLE_UPVALUE_V1 gate");
+    if (!owner.at("fields").is_array() || owner.at("fields").empty()) throw std::runtime_error("root-table addon row owns no field");
+    if (!row.at("stock").is_number()) throw std::runtime_error("root-table addon row has no numeric stock value");
+    const auto key_ok = [&](const Json& key) {
+        return (key.is_string() && std::regex_match(key.get<std::string>(), field_name)) || (key.is_number_integer() && key.get<long long>() >= 1);
+    };
+    for (const auto& field : owner.at("fields")) {
+        const auto table_id = field.at("table_id").get<std::string>();
+        if (!module.contains("root_tables") || !module.at("root_tables").contains(table_id))
+            throw std::runtime_error("module record has no root table " + table_id);
+        const Json& table = module.at("root_tables").at(table_id);
+        if (table.value("gate", std::string()) != kRootTableGate) throw std::runtime_error("root table " + table_id + " has no gate evidence");
+        if (!key_ok(field.at("field"))) throw std::runtime_error("invalid root-table field key in " + table_id);
+        const Json& hooks = table.at("hooks");
+        if (!hooks.is_array() || hooks.empty()) throw std::runtime_error("root table " + table_id + " has no hooked capturer");
+        std::set<int> prototypes;
+        for (const auto& hook : hooks) {
+            if (hook.at("prototype").get<int>() < 0 || hook.at("upvalue").get<int>() < 1 || !prototypes.insert(hook.at("prototype").get<int>()).second)
+                throw std::runtime_error("root table " + table_id + " has an invalid or duplicate hook");
+            for (const auto& key : hook.at("path"))
+                if (!key_ok(key)) throw std::runtime_error("root table " + table_id + " hook path is invalid");
+        }
+        if (field.value("field_reads", 0) < 1) throw std::runtime_error("no consumer read recorded for " + table_id);
+        const auto offset = field.at("value_offset").get<std::size_t>();
+        const auto expected = field.at("expected").get<std::vector<unsigned int>>();
+        const bool constant = field.at("value_kind") == "number_constant";
+        const std::size_t width = constant ? 8 : 4;
+        if (expected.size() != width || offset > bytes.size() || width > bytes.size() - offset)
+            throw std::runtime_error("invalid root-table initialiser extent");
+        for (std::size_t n = 0; n < width; ++n)
+            if (static_cast<unsigned char>(bytes[offset + n]) != expected[n])
+                throw std::runtime_error("root-table initialiser preimage changed at offset " + std::to_string(offset));
+        double stock = 0;
+        if (constant) {
+            if (offset == 0 || static_cast<unsigned char>(bytes[offset - 1]) != 2)
+                throw std::runtime_error("expected native numeric constant tag before offset " + std::to_string(offset));
+            std::uint64_t bits = 0;
+            for (std::size_t n = 0; n < 8; ++n) bits |= static_cast<std::uint64_t>(expected[n]) << (8 * n);
+            stock = std::bit_cast<double>(bits);
+        } else {
+            if (expected[0] != 0x08u) throw std::runtime_error("root-table initialiser is not a LOADN");
+            stock = static_cast<double>(static_cast<std::int16_t>(expected[2] | (expected[3] << 8)));
+        }
+        if (stock != row.at("stock").get<double>())
+            throw std::runtime_error("root-table initialiser at offset " + std::to_string(offset) + " disagrees with the registered stock value");
+    }
+}
+
 // Verifies one row's exact owner against the stock evidence the registry names. Throws the exact reason.
 void verify_mission_row(const Json& registry, const Json& row, const MissionPaths& paths) {
     const auto backend = row.at("backend").get<std::string>();
@@ -105,10 +187,11 @@ void verify_mission_row(const Json& registry, const Json& row, const MissionPath
             throw std::runtime_error("stock SHA-256 mismatch for body " + body);
         return read_text(file);
     };
-    if (backend == "EXACT_LITERAL") {
-        const auto bytes = stock_body(owner);
-        if (owner.at("sites").empty()) throw std::runtime_error("literal row has no exact site");
-        for (const auto& site : owner.at("sites")) {
+    // Exact literal owner (the primary owner of an EXACT_LITERAL row, or the `literal_owner` of a root-table row).
+    const auto verify_literal = [&](const Json& literal) {
+        const auto bytes = stock_body(literal);
+        if (literal.at("sites").empty()) throw std::runtime_error("literal row has no exact site");
+        for (const auto& site : literal.at("sites")) {
             const auto kind = site.at("kind").get<std::string>();
             if (kind != "instruction" && kind != "number_constant") throw std::runtime_error("unknown literal site kind " + kind);
             const bool constant = kind == "number_constant";
@@ -144,16 +227,24 @@ void verify_mission_row(const Json& registry, const Json& row, const MissionPath
                     throw std::runtime_error("stock operand at offset " + std::to_string(offset) + " disagrees with the registered stock value");
             }
         }
+    };
+    if (row.contains("literal_owner")) verify_literal(row.at("literal_owner"));
+    if (backend == "EXACT_LITERAL") {
+        verify_literal(owner);
     } else if (backend == "TARGET_ADDON") {
-        static_cast<void>(stock_body(owner));
+        const auto bytes = stock_body(owner);
         const auto body = owner.at("body_key").get<std::string>();
         const Json& module = mission_module(registry, body);
-        if (!module.contains("addon") || module.at("addon").at("template") != owner.at("template"))
-            throw std::runtime_error("target-addon row has no matching module addon template");
-        const Json& bindings = module.at("addon").at("values");
-        const auto field = owner.at("generation_field").get<std::string>();
-        if (!bindings.contains(field) || bindings.at(field) != row.at("tunable_id"))
-            throw std::runtime_error("addon value binding disagrees with the registry row");
+        if (owner.at("template") != kRootTableAddonTemplate) {
+            if (!module.contains("addon") || module.at("addon").at("template") != owner.at("template"))
+                throw std::runtime_error("target-addon row has no matching module addon template");
+            const Json& bindings = module.at("addon").at("values");
+            const auto field = owner.at("generation_field").get<std::string>();
+            if (!bindings.contains(field) || bindings.at(field) != row.at("tunable_id"))
+                throw std::runtime_error("addon value binding disagrees with the registry row");
+        }
+        if (owner.contains("fields")) verify_root_table_fields(row, module, bytes);
+        else if (owner.at("template") == kRootTableAddonTemplate) throw std::runtime_error("root-table addon row owns no field");
     } else if (backend == "METADATA_PATCH") {
         static const std::regex type_pattern("/Lotus/[A-Za-z0-9_/]+");
         static const std::regex field_pattern("Scripts\\.[0-9]+\\.Script\\._[A-Za-z0-9_]+");
@@ -224,7 +315,7 @@ void verify_mission_row(const Json& registry, const Json& row, const MissionPath
 void verify_mission_registry_structure(const Json& registry) {
     std::set<std::string> ids;
     std::map<std::string, std::vector<std::tuple<std::size_t, std::size_t, std::string>>> extents;
-    std::map<std::string, std::string> metadata_owners;
+    std::map<std::string, std::string> metadata_owners, addon_owners;
     for (const auto& row : registry.at("tunables")) {
         const auto id = row.at("tunable_id").get<std::string>();
         if (!ids.insert(id).second) throw std::runtime_error("duplicate tunable_id " + id);
@@ -236,15 +327,22 @@ void verify_mission_registry_structure(const Json& registry) {
             throw std::runtime_error(id + ": stock value outside its limits");
         static const std::set<std::string> applies{"restart", "next_mission", "F9", "immediate"};
         if (!applies.contains(row.at("applies").get<std::string>())) throw std::runtime_error(id + ": unknown applies value");
-        if (row.at("backend") == "EXACT_LITERAL")
-            for (const auto& site : row.at("owner").at("sites")) {
+        if (const Json* literal = mission_literal_owner(row))
+            for (const auto& site : literal->at("sites")) {
                 const auto offset = site.at("offset").get<std::size_t>();
                 const std::size_t width = site.at("kind") == "number_constant" ? 8 : 4;
-                auto& body = extents[row.at("owner").at("body_key").get<std::string>()];
+                auto& body = extents[literal->at("body_key").get<std::string>()];
                 for (const auto& [start, size, other] : body)
                     if (offset < start + size && start < offset + width)
                         throw std::runtime_error("competing owners " + other + " and " + id + " overlap at offset " + std::to_string(offset));
                 body.emplace_back(offset, width, id);
+            }
+        if (row.at("backend") == "TARGET_ADDON" && row.at("owner").contains("fields"))
+            for (const auto& field : row.at("owner").at("fields")) {
+                const auto key = row.at("owner").at("body_key").get<std::string>() + "|" + field.at("table_id").get<std::string>() + "|" + field.at("field").dump();
+                if (const auto found = addon_owners.find(key); found != addon_owners.end() && found->second != id)
+                    throw std::runtime_error("competing owners " + found->second + " and " + id + " for root-table field " + key);
+                addon_owners.emplace(key, id);
             }
         if (row.at("backend") == "METADATA_PATCH") {
             const Json& owner = row.at("owner");
@@ -263,7 +361,10 @@ void verify_mission_registry_structure(const Json& registry) {
         for (const auto& [name, parameter] : preset.at("parameters").items()) {
             const auto tunable_id = parameter.at("tunable_id").get<std::string>();
             const Json& row = mission_tunable(registry, tunable_id);
-            if (row.at("backend") != lane) throw std::runtime_error("preset " + id + "." + name + " lane disagrees with its tunable backend");
+            // A preset keeps its established lane; a root-table row routed to the addon lane still serves an
+            // EXACT_LITERAL preset through its exact literal form.
+            if (row.at("backend") != lane && !(lane == "EXACT_LITERAL" && row.contains("literal_owner")))
+                throw std::runtime_error("preset " + id + "." + name + " lane disagrees with its tunable backend");
             const Json& reference = row.at("backend") == "METADATA_PATCH" ? row.at("owner").at("consumer") : row.at("owner");
             if (reference.contains("body_key") && reference.at("body_key") != preset.at("body_key"))
                 throw std::runtime_error("preset " + id + "." + name + " targets another body key");
@@ -284,15 +385,7 @@ std::map<std::string, double> validate_mission_values(const Json& registry, cons
         if (limits.value("integer", false) && std::floor(number) != number)
             throw std::runtime_error("Mission value must be a whole number: " + id);
         if (row.at("backend") == "EXACT_LITERAL")
-            for (const auto& site : row.at("owner").at("sites")) {
-                const double operand = mission_site_operand(site, number);
-                if (site.at("kind") == "number_constant") {
-                    // A native f64 constant holds any finite number; the row limits bound the value.
-                    if (!std::isfinite(operand)) throw std::runtime_error("Mission value must resolve to a finite constant: " + id);
-                } else if (!std::isfinite(operand) || operand < 1 || operand > 32767 || std::floor(operand) != operand) {
-                    throw std::runtime_error("Mission value must resolve to an exact positive whole-number operand: " + id);
-                }
-            }
+            for (const auto& site : row.at("owner").at("sites")) check_literal_operand(site, number, id);
         result.emplace(id, number);
     }
     return result;
@@ -361,6 +454,7 @@ struct MissionNaming {
     std::string addon_suffix;
     std::string metadata_file;
     bool single_artifact = false;
+    std::string lane;  // a preset forces its established lane; empty = choose per body key
 };
 
 std::string replace_all(std::string text, const std::string& from, const std::string& to) {
@@ -399,6 +493,107 @@ Json mission_addon_scaffold(const Json& registry, const std::string& body, const
         {"deployment", {{"requires_addon", true}, {"requires_card_extension", false}, {"requires_native_module", false}}}};
 }
 
+// Generic root-table addon (gate ROOT_TABLE_UPVALUE_V1). One addon per body key: every owned table is bound when a
+// hooked capturer is first called (luaCalls[P].before): the stock values are checked once, the new values written once,
+// and cleanup restores each field that still holds the written value. No polling, no per-frame writes; a table whose
+// stock values drifted is left unchanged (the callback error is logged and stock execution continues).
+std::string root_table_addon_source(const Json& registry, const std::string& body, const std::vector<const Json*>& rows,
+                                    const std::map<std::string, double>& values) {
+    const Json& module = mission_module(registry, body);
+    struct Owned { std::string key; std::string stock; std::string value; };
+    std::map<std::string, std::vector<Owned>> tables;
+    for (const Json* row : rows)
+        for (const auto& field : row->at("owner").at("fields")) {
+            const Json& key = field.at("field");
+            tables[field.at("table_id").get<std::string>()].push_back(
+                {key.is_string() ? "[" + lua_quote(key.get<std::string>()) + "]" : "[" + std::to_string(key.get<long long>()) + "]",
+                 format_number(row->at("stock").get<double>()), format_number(values.at(row->at("tunable_id").get<std::string>()))});
+        }
+    struct Bind { int upvalue; std::vector<std::string> steps; std::size_t slot; };
+    std::map<int, std::vector<Bind>> hooks;  // prototype -> tables its captures reach
+    std::ostringstream out;
+    out << "-- Generated by RENOVICE Ability Editor from the mission registry. Do not hand-edit.\n"
+        << "-- Build profile " << registry.at("build").get<std::string>() << "; exact target "
+        << module.at("module_path").get<std::string>() << " / body " << body << "\n"
+        << "-- Root-table fields (gate " << kRootTableGate << "): stock checked once, written once, restored in cleanup.\n\n"
+        << "local active = false\n";
+    std::size_t slot = 0;
+    for (const auto& [table_id, fields] : tables) {
+        ++slot;
+        const Json& table = module.at("root_tables").at(table_id);
+        const std::string t = "table" + std::to_string(slot), own = "owned" + std::to_string(slot), tag = lua_quote(table_id);
+        std::string stock_check, writes;
+        for (const auto& field : fields) {
+            stock_check += (stock_check.empty() ? "" : " and ") + std::string("owner") + field.key + " == " + field.stock;
+            writes += "    owner" + field.key + " = " + field.value + "\n";
+        }
+        out << "\n-- " << table_id << "\n"
+            << "local " << t << " = nil\n"
+            << "local " << own << " = false\n"
+            << "local function bind" << slot << "(owner)\n"
+            << "    if " << t << " ~= nil then\n"
+            << "        assert(owner == " << t << ", " << tag << " .. \" owner changed\")\n"
+            << "        return\n"
+            << "    end\n"
+            << "    assert(type(owner) == \"table\", " << tag << " .. \" is not a table\")\n"
+            << "    " << t << " = owner\n"
+            << "    assert(" << stock_check << ", " << tag << " .. \" stock values drifted; left unchanged\")\n"
+            << writes
+            << "    " << own << " = true\n"
+            << "end\n";
+        for (const auto& hook : table.at("hooks")) {
+            Bind bind{hook.at("upvalue").get<int>(), {}, slot};
+            for (const auto& key : hook.at("path"))
+                bind.steps.push_back(key.is_string() ? "[" + lua_quote(key.get<std::string>()) + "]" : "[" + std::to_string(key.get<long long>()) + "]");
+            hooks[hook.at("prototype").get<int>()].push_back(std::move(bind));
+        }
+    }
+    for (const auto& [prototype, binds] : hooks) {
+        out << "\nlocal function before" << prototype << "(prototype, arguments, upvalues)\n"
+            << "    if not active then return end\n"
+            << "    assert(prototype == " << prototype << ", \"root-table hook received the wrong prototype\")\n"
+            << "    assert(type(upvalues) == \"table\", \"upvalue view is unavailable\")\n";
+        for (const auto& bind : binds) {
+            const std::string base = "upvalues[" + std::to_string(bind.upvalue) + "]";
+            if (bind.steps.empty()) {
+                out << "    bind" << bind.slot << "(" << base << ")\n";
+                continue;
+            }
+            // A nested table is reached through its root container(s); every step must be a table.
+            out << "    do\n"
+                << "        local container = " << base << "\n";
+            for (const auto& step : bind.steps)
+                out << "        assert(type(container) == \"table\", \"root-table container is not a table\")\n"
+                    << "        container = container" << step << "\n";
+            out << "        bind" << bind.slot << "(container)\n"
+                << "    end\n";
+        }
+        out << "end\n";
+    }
+    out << "\nlocal function cleanup()\n"
+        << "    active = false\n";
+    slot = 0;
+    for (const auto& [table_id, fields] : tables) {
+        ++slot;
+        const std::string t = "table" + std::to_string(slot), own = "owned" + std::to_string(slot);
+        out << "    if " << own << " then\n";
+        for (const auto& field : fields)
+            out << "        if " << t << field.key << " == " << field.value << " then " << t << field.key << " = " << field.stock << " end\n";
+        out << "    end\n"
+            << "    " << t << " = nil\n"
+            << "    " << own << " = false\n";
+    }
+    out << "end\n\n"
+        << "return {\n"
+        << "    activate = function() active = true end,\n"
+        << "    cleanup = cleanup,\n"
+        << "    hooks = { luaCalls = {\n";
+    for (const auto& [prototype, binds] : hooks) out << "        [" << prototype << "] = { before = before" << prototype << " },\n";
+    out << "    } },\n"
+        << "}\n";
+    return out.str();
+}
+
 MissionSetResult build_mission_set(const Json& registry, const Json& values_json, const MissionNaming& naming,
                                    const fs::path& editor_root, const fs::path& staging_root, bool run_external_gates,
                                    const Json& project_snapshot) {
@@ -409,7 +604,11 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
         const auto values = validate_mission_values(registry, values_json);
         const MissionPaths paths = mission_paths(registry, editor_root);
 
-        std::map<std::string, std::vector<const Json*>> literal, addon;
+        // Lua rows are grouped per body key and each body gets exactly one artifact. A body whose rows can all be written
+        // by the target addon uses the addon lane (root-table fields are independent controls there). A body that also
+        // has literal-only rows is built as ONE merged exact replacement when every requested row has an exact literal
+        // form; otherwise it fails closed and names the rows that have only one form. A preset keeps its established lane.
+        std::map<std::string, std::vector<const Json*>> lua_rows, literal, addon;
         std::vector<const Json*> metadata, server;
         for (const auto& [id, value] : values) {
             static_cast<void>(value);
@@ -417,8 +616,7 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
             try { verify_mission_row(registry, row, paths); }
             catch (const std::exception& e) { throw std::runtime_error(id + ": " + e.what()); }
             const auto backend = row.at("backend").get<std::string>();
-            if (backend == "EXACT_LITERAL") literal[row.at("owner").at("body_key").get<std::string>()].push_back(&row);
-            else if (backend == "TARGET_ADDON") addon[row.at("owner").at("body_key").get<std::string>()].push_back(&row);
+            if (backend == "EXACT_LITERAL" || backend == "TARGET_ADDON") lua_rows[row.at("owner").at("body_key").get<std::string>()].push_back(&row);
             else if (backend == "METADATA_PATCH") metadata.push_back(&row);
             else server.push_back(&row);
         }
@@ -427,10 +625,26 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
             for (const Json* row : rows) text += (text.empty() ? "" : ", ") + row->at("tunable_id").get<std::string>();
             return text;
         };
-        for (const auto& [body, rows] : literal)
-            if (addon.contains(body))
-                throw std::runtime_error("Body key " + body + " would receive both an exact replacement (" + id_list(rows) +
-                                         ") and a target addon (" + id_list(addon.at(body)) + "); one body key may own only one artifact");
+        for (const auto& [body, rows] : lua_rows) {
+            std::vector<const Json*> addon_only, literal_only;
+            bool all_addon = true, all_literal = true;
+            for (const Json* row : rows) {
+                const bool can_addon = row->at("backend") == "TARGET_ADDON";
+                const bool can_literal = mission_literal_owner(*row) != nullptr;
+                all_addon = all_addon && can_addon;
+                all_literal = all_literal && can_literal;
+                if (can_addon && !can_literal) addon_only.push_back(row);
+                if (can_literal && !can_addon) literal_only.push_back(row);
+            }
+            if (naming.lane == "EXACT_LITERAL" ? all_literal : naming.lane == "TARGET_ADDON" ? all_addon : all_addon || all_literal) {
+                if (naming.lane == "EXACT_LITERAL" || (naming.lane.empty() && !all_addon)) literal[body] = rows;
+                else addon[body] = rows;
+            } else {
+                throw std::runtime_error("Body key " + body + " would need both an exact replacement (literal-only: " + id_list(literal_only) +
+                                         ") and a target addon (addon-only: " + id_list(addon_only) +
+                                         "); one body key may own only one artifact");
+            }
+        }
 
         const auto registry_sha = sha256_file(editor_root / kMissionRegistryPath);
         Json normalized = {{"format", "RENOVICE_MISSION_SETTINGS_V1"}, {"build", registry.at("build")}, {"values", Json::object()}};
@@ -493,7 +707,8 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
             for (const Json* row : rows) {
                 const auto id = row->at("tunable_id").get<std::string>();
                 const double value = values.at(id);
-                for (const auto& site : row->at("owner").at("sites")) {
+                for (const auto& site : mission_literal_owner(*row)->at("sites")) {
+                    check_literal_operand(site, value, id);
                     const auto offset = site.at("offset").get<std::size_t>();
                     const auto expected = site.at("expected").get<std::vector<unsigned int>>();
                     const bool constant = site.at("kind") == "number_constant";
@@ -535,11 +750,34 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
         for (const auto& [body, rows] : addon) {
             const Json& module = mission_module(registry, body);
             const fs::path stock = paths.corpus / module.at("file").get<std::string>();
-            const Json scaffold = mission_addon_scaffold(registry, body, values);
-            auto source_text = generate_target_addon_source(scaffold, editor_root);
-            for (const auto& rewrite : module.at("addon").at("source_rewrites"))
-                source_text = replace_all(source_text, rewrite.at(0).get<std::string>(), rewrite.at(1).get<std::string>());
-            source_text = "-- Build profile " + registry.at("build").get<std::string>() + "; exact target " + body + "\n" + source_text;
+            // Root-table rows use the generic generator: it writes exactly the requested fields, one control per field.
+            // The established template (Survival/Interception presets) is used for a preset build, which stays
+            // byte-identical, and for rows that exist only in that template (for example survival.pickup_reward_progress).
+            bool template_rows = module.contains("addon"), generic_rows = true;
+            for (const Json* row : rows) {
+                bool bound = false;
+                if (template_rows)
+                    for (const auto& [field, id] : module.at("addon").at("values").items()) bound = bound || id == row->at("tunable_id");
+                template_rows = template_rows && bound;
+                generic_rows = generic_rows && row->at("owner").contains("fields");
+            }
+            std::string source_text;
+            if (template_rows && (naming.lane == "TARGET_ADDON" || !generic_rows)) {
+                const Json scaffold = mission_addon_scaffold(registry, body, values);
+                source_text = generate_target_addon_source(scaffold, editor_root);
+                for (const auto& rewrite : module.at("addon").at("source_rewrites"))
+                    source_text = replace_all(source_text, rewrite.at(0).get<std::string>(), rewrite.at(1).get<std::string>());
+                source_text = "-- Build profile " + registry.at("build").get<std::string>() + "; exact target " + body + "\n" + source_text;
+            } else {
+                std::vector<const Json*> template_only;
+                for (const Json* row : rows)
+                    if (!row->at("owner").contains("fields")) template_only.push_back(row);
+                if (!template_only.empty())
+                    throw std::runtime_error("Body key " + body + ": " + id_list(template_only) + " exist only in the established " +
+                                             module.at("addon").at("template").get<std::string>() +
+                                             " template and cannot be combined with other root-table rows (" + id_list(rows) + ")");
+                source_text = root_table_addon_source(registry, body, rows, values);
+            }
             const fs::path source = result.directory / "source" / (body + ".luau");
             const fs::path artifact = result.directory / "artifacts" / (body + "." + naming.addon_suffix + ".target.addon.lua_B");
             write_text(source, source_text);
@@ -661,7 +899,7 @@ MissionSetResult build_mission_settings(const Json& settings, const fs::path& ed
             throw std::runtime_error("Mission settings must be a RENOVICE_MISSION_SETTINGS_V1 object");
         require_mission_build(registry, settings.contains("build") ? settings.at("build") : Json());
         if (!settings.contains("values")) throw std::runtime_error("Mission settings have no values object");
-        return build_mission_set(registry, settings.at("values"), MissionNaming{"missions", "missions", "missions", "RENOVICE_Missions.txt", false},
+        return build_mission_set(registry, settings.at("values"), MissionNaming{"missions", "missions", "missions", "RENOVICE_Missions.txt", false, ""},
                                  editor_root, staging_root, run_external_gates, nullptr);
     } catch (const std::exception& e) {
         MissionSetResult result;
@@ -680,7 +918,8 @@ BuildResult build_profile_mission(const Json& project, const fs::path& editor_ro
         const auto id = project.at("mission_profile").at("id").get<std::string>();
         const Json values = preset_mission_values(registry, preset, project.at("mission_profile").at("values"));
         const auto set = build_mission_set(registry, values,
-                                           MissionNaming{project.at("id").get<std::string>(), "mission_" + id + "_timers", "mission_" + id, id + ".txt", true},
+                                           MissionNaming{project.at("id").get<std::string>(), "mission_" + id + "_timers", "mission_" + id, id + ".txt", true,
+                                                         preset.at("lane").get<std::string>()},
                                            editor_root, staging_root, run_external_gates, project);
         result.diagnostics.insert(result.diagnostics.end(), set.diagnostics.begin(), set.diagnostics.end());
         result.gate_log = set.gate_log;

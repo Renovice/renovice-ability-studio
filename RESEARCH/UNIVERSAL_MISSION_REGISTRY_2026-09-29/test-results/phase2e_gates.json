@@ -1,0 +1,41 @@
+{
+  "gate": "ROOT_TABLE_UPVALUE_V1",
+  "cases": [
+    {
+      "case": "shared stock value 300: interval and killPlayerTime are separate table fields",
+      "result": "PASS",
+      "tables": [
+        "root:i19:R9",
+        "root:i70:R14"
+      ]
+    },
+    {
+      "case": "nested root table (Purgatory difficulty 2) via container path [2]",
+      "result": "PASS"
+    },
+    {
+      "case": "array element (Lantern numEnemies[3]) via container field",
+      "result": "PASS"
+    },
+    {
+      "case": "SETUPVAL replaces the captured table (Disruption)",
+      "result": "PASS (rejected)",
+      "reason": "prototype 73 replaces the captured table (SETUPVAL 42)"
+    },
+    {
+      "case": "root reads the field at module load (Void Cascade REWARD_INTERVAL)",
+      "result": "PASS (rejected)",
+      "reason": "root instruction 237 reads REWARD_INTERVAL at module load, before any hook can run"
+    },
+    {
+      "case": "no capturer reads the field (alertPlayerDamagePercent)",
+      "result": "PASS (rejected)",
+      "reason": "no capturer reads alertPlayerDamagePercent through the captured upvalue"
+    },
+    {
+      "case": "owner not unique without a pinned table (capsule interval 90)",
+      "result": "PASS (rejected)",
+      "reason": "2 root tables hold interval=90; the table owner is not unique ([10, 150])"
+    }
+  ]
+}
