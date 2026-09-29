@@ -1,0 +1,151 @@
+{
+  "build": "2026.09.28.13.06",
+  "presets": [
+    {
+      "preset": "mobile_defense",
+      "lane": "EXACT_LITERAL",
+      "artifact": "a807aae359ffc1eb (mission_mobile_defense_timers_exact-replacement).lua_B",
+      "sha256": "9DC9D6FB76B9FEDC7BD7F057FCD75D77E98AE5A63CCEFF71803F1DD502DAD368"
+    },
+    {
+      "preset": "excavation",
+      "lane": "EXACT_LITERAL",
+      "artifact": "f7444e3c621ff018 (mission_excavation_timers_exact-replacement).lua_B",
+      "sha256": "31FEB79C51AFB50FAF3E7E75A3DE9E91CFE80F2C7BF07DD8E3401ADC33C91322"
+    },
+    {
+      "preset": "control_area_plains",
+      "lane": "EXACT_LITERAL",
+      "artifact": "b3a5a18d68d61e16 (mission_control_area_plains_timers_exact-replacement).lua_B",
+      "sha256": "E2E8BB2F5B67AEC1540245B18AC1786A4AB3EBE485D51FAAFC27ECB6ADD27E57"
+    },
+    {
+      "preset": "control_area_deimos",
+      "lane": "EXACT_LITERAL",
+      "artifact": "8a0b0819de60df01 (mission_control_area_deimos_timers_exact-replacement).lua_B",
+      "sha256": "F0436757C021BDD7C9121DD57031791D0F8EB9AADA9939727E488C783C1E134B"
+    },
+    {
+      "preset": "control_area_nokko",
+      "lane": "EXACT_LITERAL",
+      "artifact": "e4bb611e00823d46 (mission_control_area_nokko_timers_exact-replacement).lua_B",
+      "sha256": "89E26F2FD1B9377E9BEB37A0A6802FD5B0CB5A76308554A40939A8E9C87CCA53"
+    },
+    {
+      "preset": "void_cascade",
+      "lane": "EXACT_LITERAL",
+      "artifact": "32c344afa33be174 (mission_void_cascade_timers_exact-replacement).lua_B",
+      "sha256": "FF9D6DE729E6F80F23EA09A2A9DBC9978368EA1FFDC3B4CC410DB145D1F22F00"
+    },
+    {
+      "preset": "descendia_excavation",
+      "lane": "EXACT_LITERAL",
+      "artifact": "415a57536412719f (mission_descendia_excavation_timers_exact-replacement).lua_B",
+      "sha256": "F1A1C90C8A1535902CDD8F6FE7406CDF1718D5BE0B6D54E4A36D115C86455C84"
+    },
+    {
+      "preset": "archimedea",
+      "lane": "EXACT_LITERAL",
+      "artifact": "076a7b443af7fdb8 (mission_archimedea_timers_exact-replacement).lua_B",
+      "sha256": "17B162C83801C1802DD0FFDB80C371C957D47FFA0A01D0A21A5457BA30986F26"
+    },
+    {
+      "preset": "survival",
+      "lane": "TARGET_ADDON",
+      "artifact": "f10a043e7f825db2.mission_survival.target.addon.lua_B",
+      "sha256": "B7590C6990A64C47230504674E94CEC3DB2DF4427D74B5605BF6E8E2BE210FCA"
+    },
+    {
+      "preset": "interception",
+      "lane": "TARGET_ADDON",
+      "artifact": "c9605470a8c47d8d.mission_interception.target.addon.lua_B",
+      "sha256": "B436B712D294E8A2C0E8082103476CDDA4498AF6E2DED18C25FF964AF08E5DB2"
+    },
+    {
+      "preset": "netracells",
+      "lane": "METADATA_PATCH",
+      "artifact": "netracells.txt",
+      "sha256": "31F0DE3A8CE27C28D2D4720C21783EEA417ED5D7ED60901CCE7DE4C198175707"
+    },
+    {
+      "preset": "descendia_shrine",
+      "lane": "METADATA_PATCH",
+      "artifact": "descendia_shrine.txt",
+      "sha256": "29AE09BA286ECE08A58869C7C241F00E07997AF2A6F724AE3554DAA60D55F298"
+    }
+  ],
+  "rejections": 36,
+  "sample": {
+    "artifacts": [
+      {
+        "backend": "EXACT_LITERAL",
+        "body_key": "076a7b443af7fdb8",
+        "intended_live_relative_path": "OpenWF/CustomScripts/076a7b443af7fdb8 (missions_exact-replacement).lua_B",
+        "manifest": "BUILD_MANIFEST.EXACT_LITERAL_076a7b443af7fdb8.json",
+        "path": "artifacts/076a7b443af7fdb8 (missions_exact-replacement).lua_B",
+        "sha256": "2832158E3B243C4F508AD882ED69A9339FE7F062DF76A709CBE90C58E5522D9D",
+        "size": 59798,
+        "tunables": [
+          "archimedea.eta_survival_minutes"
+        ]
+      },
+      {
+        "backend": "EXACT_LITERAL",
+        "body_key": "a807aae359ffc1eb",
+        "intended_live_relative_path": "OpenWF/CustomScripts/a807aae359ffc1eb (missions_exact-replacement).lua_B",
+        "manifest": "BUILD_MANIFEST.EXACT_LITERAL_a807aae359ffc1eb.json",
+        "path": "artifacts/a807aae359ffc1eb (missions_exact-replacement).lua_B",
+        "sha256": "9DC9D6FB76B9FEDC7BD7F057FCD75D77E98AE5A63CCEFF71803F1DD502DAD368",
+        "size": 32520,
+        "tunables": [
+          "mobiledefense.total_time.maximum",
+          "mobiledefense.total_time.minimum"
+        ]
+      },
+      {
+        "backend": "EXACT_LITERAL",
+        "body_key": "f7444e3c621ff018",
+        "intended_live_relative_path": "OpenWF/CustomScripts/f7444e3c621ff018 (missions_exact-replacement).lua_B",
+        "manifest": "BUILD_MANIFEST.EXACT_LITERAL_f7444e3c621ff018.json",
+        "path": "artifacts/f7444e3c621ff018 (missions_exact-replacement).lua_B",
+        "sha256": "D2A8537B7EA0259D4ECE33F7A5C456F7E7E643CAB4CC0FCF6B0027926128B0BA",
+        "size": 77843,
+        "tunables": [
+          "excavation.dig_duration",
+          "excavation.dig_duration_elite_alert"
+        ]
+      },
+      {
+        "backend": "TARGET_ADDON",
+        "body_key": "f10a043e7f825db2",
+        "intended_live_relative_path": "OpenWF/CustomScripts/Inject/f10a043e7f825db2.missions.target.addon.lua_B",
+        "manifest": "BUILD_MANIFEST.TARGET_ADDON_f10a043e7f825db2.json",
+        "path": "artifacts/f10a043e7f825db2.missions.target.addon.lua_B",
+        "sha256": "5B2AAE27A4EFADAB03C40D5EC16293B97D0F42CD7A3361F0F3A20D284ECB0202",
+        "size": 2616,
+        "tunables": [
+          "survival.reward_interval"
+        ]
+      },
+      {
+        "backend": "METADATA_PATCH",
+        "body_key": "metadata",
+        "intended_live_relative_path": "OpenWF/Metadata Patches/RENOVICE_Missions.txt",
+        "manifest": "BUILD_MANIFEST.METADATA_PATCH_metadata.json",
+        "path": "artifacts/RENOVICE_Missions.txt",
+        "sha256": "F6FDB56BA18466485CF7669A90C048DC676CA8A59A8574D010DF128F1AC571B8",
+        "size": 237,
+        "tunables": [
+          "netracell.enemy_power_fill",
+          "shrine.offering_generation_time"
+        ]
+      }
+    ],
+    "server_config_diff": {
+      "applied": false,
+      "path": "artifacts/server-config-diff.json",
+      "sha256": "2C3063AA4BCD1D1ADD8F5D3E9105F8DB9F32A121B7F13EE425F600151D75B88C"
+    },
+    "location": "work/research/universal-mission-editor-2026-09-29/phase2b-sample"
+  }
+}

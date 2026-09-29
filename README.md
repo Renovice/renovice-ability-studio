@@ -433,7 +433,7 @@ for the exact gate results, hashes, hypotheses, and current limitations.
 
 ## Mission timers and progression (2026-09-27)
 
-The published Studio **Mission Timers** picker has twelve presets for build `2026.09.24.13.29`. Regular missions retain their previous presets, including:
+The published Studio **Mission Timers** picker has twelve presets for the client build named by `REGISTRIES/mission_build_u44.json` (currently `2026.09.28.13.06`, Hotfix 44.0.2; any other build label fails closed). Regular missions retain their previous presets, including:
 
 | Preset | Control | Stock / faster example | Output |
 |---|---|---|---|
@@ -450,6 +450,17 @@ Builds require exact current stock hashes. Excavation changes its completion thr
 Choose **Mission Timers → Section: EDA / ETA**. Six event subsections control EDA Survival time, Mirror Defense target defenses, Alchemy mixtures and Disruption conduits, plus ETA Survival time and Defense waves. Both normal and Elite versions share these settings. Stock defaults are unchanged; Faster Examples halves them. Survival values are whole minutes (10 stock); the other values are completion counts, not per-phase duration or reward quantities.
 
 All six choices export as one ConquestLib replacement through **Build + Save Mission Edit**. Re-export that file to change either mode; separate files would compete for the same module. Restart after installation and generate a fresh mission chain. Regular Survival pickup settings remain shared, while its reward-rotation interval does not control Archimedea completion. Extermination, Assassination and Legacyte Harvest are unchanged by this preset. [Exact ownership, offline checks and live-test boundary](RESEARCH/ARCHIMEDEA_TIMERS_2026-09-27/findings.md).
+
+### Universal mission registry (2026-09-29)
+
+`REGISTRIES/mission_build_u44.json` (schema 2) is a per-build tunable registry. Each row has a stable `tunable_id`, owner kind, exact owner (body key + stock SHA-256 + exact site preimage, capture owner, metadata type/field, or server config key), unit, stock value, limits, shared-with notes and `applies` (`restart` / `next_mission` / `F9` / `immediate`). Rows that did not verify are listed under `excluded` with the reason. The twelve presets are views over these rows and build through the same generator; for unchanged bodies their artifacts are byte-identical to the previous path.
+
+```powershell
+& "..\..\..\work\builds\ability-editor\current\bin\renovice_ability_editor_cli.exe" verify-missions --editor-root "."
+& "..\..\..\work\builds\ability-editor\current\bin\renovice_ability_editor_cli.exe" build-missions ".\mission_settings.json" --staging "..\..\..\work\staging\missions" --editor-root "."
+```
+
+`build-missions` takes `{"format":"RENOVICE_MISSION_SETTINGS_V1","build":"2026.09.28.13.06","values":{"<tunable_id>":number}}` and writes at most one artifact per module body key (merged exact replacement or one target addon; both for one body is rejected), one `RENOVICE_Missions.txt` metadata patch and an unapplied `server-config-diff.json`. It never writes a game or server folder. Offline gates only; in-game verification is pending. [Registry, gates and limitations](RESEARCH/UNIVERSAL_MISSION_REGISTRY_2026-09-29.md).
 
 ## Linked ability stats (2026-09-27)
 
