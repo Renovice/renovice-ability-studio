@@ -478,7 +478,8 @@ Json mission_group_declaration(const Json& registry, const std::string& id) {
 std::vector<std::string> validate_settings_declarations(const Json& package_json) {
     static const std::regex group_id("[a-z0-9_]{1,64}");
     static const std::regex value_id("[A-Za-z0-9_.]{1,128}");
-    static const std::set<std::string> value_fields{"group", "label", "unit", "type", "stock", "min", "max", "scope", "lane", "applies", "options"};
+    // "stock_check" is the optional R1 field (bootstrapper dd5414c): "live" (the default when absent) or "none", addon lane only.
+    static const std::set<std::string> value_fields{"group", "label", "unit", "type", "stock", "min", "max", "scope", "lane", "applies", "options", "stock_check"};
     static const std::set<std::string> types{"int", "float", "enum"}, lanes{"addon", "literal", "metadata"},
         applies{"live_next_read", "next_instance", "next_mission", "restart"};
     std::vector<std::string> problems;
@@ -555,6 +556,13 @@ std::vector<std::string> validate_settings_declarations(const Json& package_json
                 problems.push_back(where + ": lane is not addon, literal or metadata");
             if (value.contains("applies") && (!value.at("applies").is_string() || !applies.contains(value.at("applies").get<std::string>())))
                 problems.push_back(where + ": applies is not a known apply class");
+            if (value.contains("stock_check")) {
+                const Json& check = value.at("stock_check");
+                if (!check.is_string() || (check.get<std::string>() != "live" && check.get<std::string>() != "none"))
+                    problems.push_back(where + ": stock_check is not live or none");
+                else if (!value.contains("lane") || !value.at("lane").is_string() || value.at("lane").get<std::string>() != "addon")
+                    problems.push_back(where + ": stock_check is allowed only on the addon lane");
+            }
             bool numbers = true;
             for (const char* key : {"stock", "min", "max"})
                 if (!value.contains(key) || !value.at(key).is_number() || !std::isfinite(value.at(key).get<double>())) numbers = false;

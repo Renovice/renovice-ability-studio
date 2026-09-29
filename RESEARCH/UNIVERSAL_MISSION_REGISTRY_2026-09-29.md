@@ -1138,3 +1138,28 @@ The live-test values file contains:
 - **`next_instance`.** It is never emitted. Whether an addon field is read only at setup needs per-field evidence.
 - **export-plus.** The server's export-plus copy (0.6.11) only supplies the `missionIndex` → MT code join and the mission
   display names. Node names come from the official 44.0.2 export.
+
+## Phase 2i-R1 — accept the optional `stock_check` declaration field (2026-09-30)
+
+Source: bootstrapper Revision R1 (`feat/ingame-settings-editor-2026-09-30` `dd5414c`), recorded in
+`work/research/universal-mission-editor-2026-09-29/CONTRACT_PHASE1.md` section "Revision R1". Per value, optional
+`"stock_check": "live" | "none"`, addon lane only, absent = `live`. Display only (the SCRIPT SETTINGS tooltip sentence).
+
+Hypothesis: accepting the field needs only the strict pre-check `validate_settings_declarations`; the generator output
+can stay byte-identical. Result: **TRUE**.
+
+- `src/mission_profiles.inl`: `stock_check` added to the allowed value fields; a present value must be the string `live`
+  or `none` (`stock_check is not live or none`) and the value's lane must be `addon`
+  (`stock_check is allowed only on the addon lane`).
+- **Generator: the field stays absent.** Absent already means `live`, which is the Missions addon's real rule (it writes
+  only where the live value equals the compiled stock, item 11). Emitting it explicitly would change `package.json`
+  bytes and hashes for no behavioural gain, and a pre-R1 DLL (for example `d2f22650`) rejects the field as
+  `unknown-field=stock_check`, which would switch off the package's settings capability. Absent keeps the package
+  valid on both DLLs.
+- New self-test: the generated package has no `stock_check`; `live` and `none` on the addon value are accepted;
+  `"always"` and `true` are rejected; `live` on the literal Void Flood value is rejected.
+
+Gates: build zero warnings; `self-test` `passed=136 failed=0`; ctest 2/2; `verify-missions` PASS 594/594, 12 presets,
+registry SHA-256 `0BE2780B…D3BB97`. Rebuilding `phase2i-sample/mission_settings.json` gives byte-identical
+`package.json` (`7A0F60DD…07D2768`), addon (`0F309579…317B608`), replacement (`E979F5E7…FA9F6D2`), migration file
+(`22ECEDC5…A4D5E9`) and addon source (`61DDCC9D…DB905D`); `settings-declarations` PASS values=4 groups=4.

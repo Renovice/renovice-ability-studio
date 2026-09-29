@@ -4127,6 +4127,30 @@ namespace renovice
                                 "the settings declaration schema check rejects unknown/missing fields, over-long text, out-of-range stock, "
                                 "undeclared or unused groups, fractional ints, enums without options, unknown lanes/apply classes and "
                                 "duplicate value ids");
+
+                            // Revision R1 (bootstrapper dd5414c): optional stock_check "live" | "none", addon lane only, absent = live.
+                            const auto accepts = [&](const std::function<void(Json&)>& mutate) {
+                                Json changed = good;
+                                mutate(changed);
+                                return validate_settings_declarations(changed).empty();
+                            };
+                            const auto flood = [&](Json& j) -> Json& {
+                                return j["members"]["fc711ff621a75552 (missions_exact-replacement).lua_B"]["settings"]["values"]
+                                        ["void_flood.fractures_per_round.normal"];
+                            };
+                            bool generator_omits = true;
+                            for (const auto& [member_file, member] : good.at("members").items())
+                                if (member.contains("settings"))
+                                    for (const auto& [value_id, declaration] : member.at("settings").at("values").items())
+                                        if (declaration.contains("stock_check")) generator_omits = false;
+                            check(generator_omits
+                                    && accepts([&](Json& j) { value(j)["stock_check"] = "live"; })
+                                    && accepts([&](Json& j) { value(j)["stock_check"] = "none"; })
+                                    && rejects([&](Json& j) { value(j)["stock_check"] = "always"; }, "stock_check is not live or none")
+                                    && rejects([&](Json& j) { value(j)["stock_check"] = true; }, "stock_check is not live or none")
+                                    && rejects([&](Json& j) { flood(j)["stock_check"] = "live"; }, "stock_check is allowed only on the addon lane"),
+                                "stock_check (R1) is accepted as live or none on addon values, rejected on other values or lanes, and the "
+                                "generator leaves it absent (absent = live)");
                         }
                         Json bad_layout = probe_settings(values);
                         bad_layout["output_layout"] = "zip";
