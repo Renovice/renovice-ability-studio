@@ -144,7 +144,7 @@ Install, rollback and live-test steps: `work/staging/settings-second-consumer/RE
 ## Limitations and follow-ups (exact)
 
 - **Offline only.** U-1 stays UNRESOLVED until the live steps in the staging README pass on both targets under DLL
-  `d2f22650`. Script load does not prove callback execution, and a card row does not prove damage.
+  `ed2a996d` (R1; `d2f22650` before R1). Script load does not prove callback execution, and a card row does not prove damage.
 - **Migration is required under ADDON_SETTINGS_V1.** Without `Settings/Octavia.json` and `Settings/Frost.json`,
   an ADDON_SETTINGS_V1 DLL delivers an empty table and both addons go to stock (F-3). The example files reproduce today's values.
 - **Tooltip wording: resolved by R1** (section below). Superseded text, kept as history: `value_tooltip` always
