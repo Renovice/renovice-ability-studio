@@ -262,6 +262,10 @@ int main(int argc, char** argv)
                     std::cout << "  Target: " << key << '\n';
                 }
             }
+            if (!result.package_directory.empty())
+            {
+                std::cout << "Package: " << result.package_directory.string() << '\n';
+            }
             if (!result.server_config_diff.empty())
             {
                 std::cout << "Server config diff (not applied): " << result.server_config_diff.string() << '\n';

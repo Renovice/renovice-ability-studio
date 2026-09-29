@@ -3983,6 +3983,58 @@ namespace renovice
                     check(unified_ok, "addon rows of three modules build ONE Missions.targets.addon.lua_B (compiled pool declares exactly their "
                                       "keys, no top-level hooks, no owner-changed assert); the Void Flood replacement stays separate");
 
+                    // Optional folder package layout (bootstrapper feat/script-packages-2026-09-29): the same Lua artifacts,
+                    // byte for byte, in Packages\Missions\ with a strict package.json; one [PACKAGE] Missions row.
+                    {
+                        Json packaged_settings = probe_settings(values);
+                        packaged_settings["output_layout"] = "package";
+                        const MissionSetResult packaged = build_mission_settings(packaged_settings, editor_root, mission_fixture, true);
+                        bool package_ok = packaged.success && unified.success && !packaged.package_directory.empty()
+                            && packaged.package_directory.filename() == "Missions"
+                            && packaged.package_directory.parent_path().filename() == "Packages"
+                            && packaged.directory != unified.directory;
+                        std::set<std::string> files;
+                        if (package_ok)
+                            for (const auto& entry : fs::directory_iterator(packaged.package_directory)) files.insert(entry.path().filename().string());
+                        package_ok = package_ok
+                            && files == std::set<std::string>{"package.json", "Missions.targets.addon.lua_B",
+                                                              "fc711ff621a75552 (missions_exact-replacement).lua_B"};
+                        if (package_ok)
+                        {
+                            const Json package_json = Json::parse(read_text(packaged.package_directory / "package.json"));
+                            const Json set_manifest = Json::parse(read_text(packaged.manifest));
+                            std::map<std::string, std::string> loose_hashes;
+                            for (const auto& item : unified.artifacts) loose_hashes[item.artifact.filename().string()] = item.sha256;
+                            package_ok = package_json.at("schema") == 1 && package_json.at("name") == "Missions"
+                                && package_json.at("settings") == Json::object() && package_json.at("members").size() == 2
+                                && package_json.at("members").contains("Missions.targets.addon.lua_B")
+                                && package_json.at("members").at("Missions.targets.addon.lua_B").at("label")
+                                       == "Mission tunables: Purgatory, HalloweenLanternEndless, SurvivalMission"
+                                && package_json.at("members").at("fc711ff621a75552 (missions_exact-replacement).lua_B").at("label")
+                                       == "Exact replacement: ZarimanCorruptionMission (void_flood.fractures_per_round.normal)"
+                                && set_manifest.at("output_layout") == "package"
+                                && set_manifest.at("package").at("scripts_menu").at("policy_id") == "package:missions"
+                                && set_manifest.at("package").at("scripts_menu").at("row") == "[PACKAGE] Missions"
+                                && !Json::parse(read_text(unified.manifest)).contains("package")
+                                && contains_text(packaged.gate_log, "package-folder\nPASS members=2");
+                            for (const auto& item : packaged.artifacts)
+                            {
+                                if (item.backend != "TARGET_ADDON" && item.backend != "EXACT_LITERAL") continue;
+                                const auto file = item.artifact.filename().string();
+                                package_ok = package_ok
+                                    && sha256_file(packaged.package_directory / file) == item.sha256
+                                    && loose_hashes[file] == item.sha256
+                                    && item.intended_live_relative_path == "OpenWF/CustomScripts/Packages/Missions/" + file;
+                            }
+                        }
+                        check(package_ok, "output_layout \"package\" emits Packages\\Missions\\ (package.json + the byte-identical addon and "
+                                          "replacement, one [PACKAGE] Missions row, policy package:missions); the loose build is unchanged");
+                        Json bad_layout = probe_settings(values);
+                        bad_layout["output_layout"] = "zip";
+                        check(!build_mission_settings(bad_layout, editor_root, mission_fixture, true).success,
+                              "an unknown output_layout is rejected");
+                    }
+
                     // Per-instance binding, executed by the reference Luau VM on the generated source. The fixture requests one
                     // root table per module, so the first hook of that table binds only it.
                     bool harness_ok = false;

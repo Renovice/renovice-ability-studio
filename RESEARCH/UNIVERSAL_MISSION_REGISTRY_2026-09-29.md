@@ -883,3 +883,92 @@ installed). Then check:
 - **Void Flood.** 4 fractures per round.
 - **Regression.** F9 reload is PASS with the Missions row unchanged. Disabling the row and pressing F9 runs cleanup, which
   restores the stock values. Mallet, Ice Wave, ESO and Circuit are unchanged.
+
+## Phase 2h — optional `Packages\Missions\` folder package output (2026-09-29)
+
+**Scope.** Generator and gates only. Offline; nothing was written to a game or server folder. Bootstrapper counterpart:
+branch `feat/script-packages-2026-09-29` (`8ed3d6e` packages, `3ca9564` docs), record
+`repos/runtime/bootstrapper-runtime/RESEARCH/SCRIPT_PACKAGES_AND_FIX3_2026-09-29/README.md`.
+
+### Goal
+
+One Scripts row for all mission changes, including the byte-patch replacements. Phase 2g gave one `[ADDON] Missions`
+row plus one replacement row per exact replacement. The bootstrapper now supports optional folder packages: one
+`[PACKAGE] <Name>` row and one state for a folder of replacement and target-addon members.
+
+### Hypotheses and results
+
+| # | Hypothesis | Evidence | Result |
+|---|---|---|---|
+| H29 | The package can be emitted without changing any loose build. | `output_layout` defaults to `"loose"`. `normalized["output_layout"]` and the manifest `output_layout`/`package` fields are written only for `"package"`, so loose settings bytes, build hashes, artifacts and manifests are unchanged. The Phase 2g sample rebuild is byte-identical (folder untouched), and the self-test checks that the loose manifest has no `package` field. | **TRUE (offline)** |
+| H30 | The package members are exactly the loose Lua artifacts. | The members are copied from `artifacts/` and gated by SHA-256. The Phase 2h members equal the Phase 2g loose artifacts (`00DA193D…`, `E979F5E7…`). | **TRUE (offline)** |
+| H31 | The bootstrapper loader accepts the generated folder as-is. | `verify_script_packages.ps1 -AdmitPackage …\phase2h-sample\Packages\Missions` runs the exact loader scanner: `RENOVICE PACKAGE ACCEPT … package=Missions id=package:missions members=2 replacements=1 target_addons=1 target_keys=3`, labels read from `package.json`. | **TRUE (offline, loader code)** |
+
+### Design
+
+- Settings option `"output_layout": "loose" | "package"` (anything else is rejected). Settings builds only; presets keep
+  their files.
+- With `"package"`, the build still writes `artifacts/` as before and additionally `Packages/Missions/`:
+  - `Missions.targets.addon.lua_B` (unchanged multi-target addon);
+  - every exact replacement `<key> (missions_exact-replacement).lua_B`;
+  - `package.json` = `{schema: 1, name: "Missions", description, members: {file: {label}}, settings: {}}`.
+    Labels are generated from the registry: `Mission tunables: <module names>` and
+    `Exact replacement: <module> (<tunables>)`, printable and at most 128 characters. `settings` is reserved for the
+    F12 editor.
+- Metadata patches and server-config diffs are separate systems and stay outside the package.
+- `intended_live_relative_path` of the Lua artifacts becomes `OpenWF/CustomScripts/Packages/Missions/<file>`. The
+  multi-target manifest's `scripts_menu` becomes `[PACKAGE] Missions` / `package:missions`. `MISSION_SET_MANIFEST.json`
+  gains `output_layout` and a `package` record (path, `package.json` hash, members, menu row, gates).
+- A new build gate, `package-folder`, checks:
+  - the on-disk members equal the `package.json` members;
+  - each member is byte-identical to its artifact;
+  - each member is a replacement or multi-target file;
+  - `package.json` reads back.
+- A package build with no Lua artifact writes no folder and warns `PACKAGE_EMPTY`.
+- The CLI prints `Package: <dir>`.
+
+### Gate results (offline)
+
+| Gate | Result |
+|---|---|
+| C++ build (`-Wall -Wextra -Wpedantic -Werror`) | 0 warnings, 0 errors |
+| C++ self-test | 130 PASS, 2 FAIL (both environmental, see below). New: the package layout check and the `output_layout` rejection both PASS. |
+| `test_phase2d_gates.py` / `test_phase2e_gates.py` | 7 PASS / 7 PASS |
+| `test_presets_and_sample.py` | 12 preset builds PASS. The run then **stopped at the Phase 2b default rebuild** for the environmental reason below. The Phase 2g and 2h steps of the updated script ran standalone: 2g byte-identical to its recorded sample, and 2h created then rebuilt identical. `test-results/results.json` was not rewritten. |
+| Bootstrapper loader admission (`verify_script_packages.ps1 -AdmitPackage`) | PASS |
+
+**Environmental failures (not caused by this change):**
+
+- The OpenWF server file `src/services/missionInventoryUpdateService.ts` has an uncommitted edit in the server repository, modified 2026-09-29 21:27, after `74654b1`.
+- Its SHA-256 is now `5FE80633…`. The registry pins `AD783A2C…`, although the preimage `if (config.worldState?.creditBoostMultiplier) {` is still present.
+- As a result, `verify-missions` reports 593/594, and the two self-test checks that use `server.credit_boost_multiplier` fail: registry verification and mixed settings.
+- The Phase 2b settings contain that row.
+- Neither the server nor the registry was changed here. Re-pin the row once the server work is committed.
+
+### Phase 2h sample output (Phase 2g settings + `"output_layout": "package"`)
+
+Location: `work/research/universal-mission-editor-2026-09-29/phase2h-sample/`. `Packages/Missions/` is install-ready;
+`generation/` is the full build; `SHA256SUMS.json` (SHA-256 `9BD4F929…DE33`) lists every file.
+
+| `Packages\Missions\` file | SHA-256 | Bytes |
+|---|---|---:|
+| `Missions.targets.addon.lua_B` | `00DA193D03D43472D4DF98806E7A532A82F449E17FA82E07624CC2F9816A773E` | 6,043 |
+| `fc711ff621a75552 (missions_exact-replacement).lua_B` | `E979F5E7906F0D88E49C42B4191ECA6AFDC1237FDDD91D52CBF427DB3FA9F6D2` | 112,244 |
+| `package.json` | `ADAFDA0032E33C426A3C63B367E2F5A10FEFB2C6A66E06DF8EB168634300451F` | 579 |
+
+**Migration.** Installed today (read-only check):
+
+- `Inject\Missions.targets.addon.lua_B` (`00DA193D…`);
+- root `fc711ff621a75552 (missions_exact-replacement).lua_B` (`E979F5E7…`).
+
+The package members are byte-identical to both. Remove both loose files; otherwise the loader rejects the package as a
+conflict and the loose files keep working. Then copy `Packages\` into `OpenWF\CustomScripts\`. This needs the
+script-packages DLL (`6f100ebc…`); older DLLs ignore the folder. The state ID `target-addon:missions.targets.addon.lua_b`
+becomes an orphan.
+
+### Limitations
+
+- Offline evidence only. `renovice.target.lua_call` stays `OFFLINE_VERIFIED`.
+- The package is all or nothing at the bootstrapper's static commit. A module-load binding failure of one target still
+  fails only that key at runtime.
+- Package labels come from registry module names and are not localized.

@@ -492,6 +492,9 @@ struct MissionNaming {
     bool single_artifact = false;
     std::string lane;  // a preset forces its established lane; empty = choose per body key
     std::vector<std::string> allow_unproven_hooks;  // settings.allow_unproven_hook_bindings (live acceptance runs only)
+    // settings.output_layout == "package": also emit the Lua artifacts as ONE optional bootstrapper folder package,
+    // Packages\Missions\ (bootstrapper feat/script-packages-2026-09-29). The default "loose" layout is unchanged.
+    bool package_layout = false;
 };
 
 std::string replace_all(std::string text, const std::string& from, const std::string& to) {
@@ -537,6 +540,33 @@ Json mission_addon_scaffold(const Json& registry, const std::string& body, const
 // appear only as `targets` keys; the build re-reads the compiled string pool exactly as the loader does and fails closed
 // on any other lowercase 16-hex text in the source or the pool. Presets keep their established single-key files.
 constexpr const char* kMultiTargetAddonName = "Missions";
+// Optional folder package layout (bootstrapper feat/script-packages-2026-09-29, `renovice/packages_core.hpp`): one
+// `CustomScripts\Packages\Missions\` folder holds the multi-target addon, the exact replacements and a strict
+// `package.json`; the Scripts menu shows ONE row `[PACKAGE] Missions`, policy `package:missions`. Limits mirror the
+// loader: display name <= 64, member label <= 128, description <= 1024 printable characters, members are replacement
+// (`<16-hex key> (...).lua_B`) or target-addon files only.
+constexpr const char* kMissionPackageName = "Missions";
+constexpr std::size_t kPackageLabelMaximum = 128;
+constexpr std::size_t kPackageDescriptionMaximum = 1024;
+
+std::string ascii_lower_text(std::string text) {
+    std::transform(text.begin(), text.end(), text.begin(), [](const unsigned char c) { return static_cast<char>(std::tolower(c)); });
+    return text;
+}
+
+// Printable-ASCII and length rule shared with the loader's package.json parser (control characters are rejected).
+std::string package_text(std::string text, const std::size_t maximum) {
+    for (char& c : text)
+        if (static_cast<unsigned char>(c) < 0x20 || static_cast<unsigned char>(c) >= 0x7f) c = ' ';
+    if (text.size() > maximum) text = text.substr(0, maximum - 3) + "...";
+    return text;
+}
+
+// Registry module paths are dotted module names (`Lotus.Scripts.Modes.SurvivalMission`): the label uses the last part.
+std::string module_short_name(const std::string& module_path) {
+    const auto separator = module_path.find_last_of("./\\");
+    return separator == std::string::npos || separator + 1 == module_path.size() ? module_path : module_path.substr(separator + 1);
+}
 constexpr std::size_t kMultiTargetMaximumKeys = 1024;          // bootstrapper maximum_multi_target_keys
 constexpr std::uintmax_t kMultiTargetMaximumBytes = 1024 * 1024;  // contract: smaller than 1 MiB
 
@@ -800,6 +830,12 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
         Json normalized = {{"format", "RENOVICE_MISSION_SETTINGS_V1"}, {"build", registry.at("build")}, {"values", Json::object()}};
         for (const auto& [id, value] : values) normalized["values"][id] = value;
         if (!naming.allow_unproven_hooks.empty()) normalized["allow_unproven_hook_bindings"] = naming.allow_unproven_hooks;
+        // Recorded only for the package layout, so every loose build keeps its exact settings bytes and build hash.
+        if (naming.package_layout) normalized["output_layout"] = "package";
+        const std::string package_live = std::string("OpenWF/CustomScripts/Packages/") + kMissionPackageName + "/";
+        const auto lua_live_path = [&](const std::string& loose_directory, const fs::path& artifact) {
+            return (naming.package_layout ? package_live : loose_directory) + artifact.filename().string();
+        };
         const auto build_hash = sha256_text(staging_root / ".hash-work", naming.label + "\n" + normalized.dump() + "\n" + registry_sha);
         result.directory = staging_root / artifact_stem(naming.label) / build_hash.substr(0, 12);
         fs::create_directories(result.directory / "artifacts");
@@ -904,7 +940,7 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
             gates.push_back({{"name", "exact-instruction-preimages-and-allowed-diff"}, {"pass", true}, {"exit_code", 0}});
             gate(gates, "de-roundtrip", "de-roundtrip " + quote_process_argument(artifact), "FULL BODY identical: True");
             record("NATIVE_REPLACEMENT", "EXACT_LITERAL", body, rows, source, artifact, stock, module.at("sha256").get<std::string>(),
-                   "OpenWF/CustomScripts/" + artifact.filename().string(), gates, Json::object());
+                   lua_live_path("OpenWF/CustomScripts/", artifact), gates, Json::object());
         }
 
         // Compile gates shared by every addon artifact.
@@ -1001,10 +1037,14 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
             if (!problems.empty()) throw std::runtime_error("multi-target-declared-keys failed: " + problems);
             std::string policy = artifact.filename().string();
             std::transform(policy.begin(), policy.end(), policy.begin(), [](const unsigned char c) { return static_cast<char>(std::tolower(c)); });
+            const Json scripts_menu = naming.package_layout
+                ? Json{{"row", "[PACKAGE] " + std::string(kMissionPackageName)},
+                       {"policy_id", "package:" + ascii_lower_text(kMissionPackageName)},
+                       {"package", "Packages/" + std::string(kMissionPackageName)}}
+                : Json{{"row", "[ADDON] " + std::string(kMultiTargetAddonName)}, {"policy_id", "target-addon:" + policy}};
             record("TARGET_ADDON", "TARGET_ADDON", "multi-target", all_rows, source, artifact, fs::path(), std::string(),
-                   "OpenWF/CustomScripts/Inject/" + artifact.filename().string(), gates,
-                   Json{{"target_keys", target_keys}, {"targets", targets},
-                        {"scripts_menu", {{"row", "[ADDON] " + std::string(kMultiTargetAddonName)}, {"policy_id", "target-addon:" + policy}}}});
+                   lua_live_path("OpenWF/CustomScripts/Inject/", artifact), gates,
+                   Json{{"target_keys", target_keys}, {"targets", targets}, {"scripts_menu", scripts_menu}});
         }
 
         if (!metadata.empty()) {
@@ -1057,6 +1097,90 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                                                        {"changes", changes}, {"config_patch", patch}}.dump(2) + "\n");
             server_diff = {{"path", relative(result.server_config_diff)}, {"sha256", sha256_file(result.server_config_diff)}, {"applied", false}};
         }
+        // Optional folder package: the Lua artifacts (exact replacements + the multi-target addon) are copied byte for byte
+        // into Packages\Missions\ with a strict package.json. Metadata patches and server diffs are separate systems and
+        // stay outside the package. Gates mirror the loader's static package rules.
+        Json package_record = nullptr;
+        if (naming.package_layout) {
+            if (naming.single_artifact) throw std::runtime_error("output_layout \"package\" applies to mission settings builds only");
+            std::vector<const MissionArtifact*> members;
+            for (const auto& item : result.artifacts)
+                if (item.backend == "EXACT_LITERAL" || item.backend == "TARGET_ADDON") members.push_back(&item);
+            if (members.empty()) {
+                add(result.diagnostics, Severity::warning, "PACKAGE_EMPTY",
+                    "output_layout \"package\" requested, but these settings produced no Lua artifact; no package folder was written");
+            } else {
+                const fs::path package_dir = result.directory / "Packages" / kMissionPackageName;
+                fs::create_directories(package_dir);
+                Json member_labels = Json::object();
+                Json member_records = Json::array();
+                std::set<std::string> replacement_keys;
+                for (const MissionArtifact* item : members) {
+                    const std::string file = item->artifact.filename().string();
+                    std::string label;
+                    if (item->backend == "TARGET_ADDON") {
+                        if (item->target_keys.empty()) throw std::runtime_error("Package member " + file + " is not the multi-target addon");
+                        std::string modules;
+                        for (const auto& key : item->target_keys)
+                            modules += (modules.empty() ? "" : ", ") + module_short_name(mission_module(registry, key).at("module_path").get<std::string>());
+                        label = "Mission tunables: " + modules;
+                    } else {
+                        if (!replacement_keys.insert(item->body_key).second) throw std::runtime_error("Two package members replace " + item->body_key);
+                        std::string tunables;
+                        for (const auto& id : item->tunables) tunables += (tunables.empty() ? "" : ", ") + id;
+                        label = "Exact replacement: " + module_short_name(mission_module(registry, item->body_key).at("module_path").get<std::string>()) +
+                                " (" + tunables + ")";
+                    }
+                    label = package_text(label, kPackageLabelMaximum);
+                    fs::copy_file(item->artifact, package_dir / file, fs::copy_options::overwrite_existing);
+                    member_labels[file] = Json{{"label", label}};
+                    member_records.push_back({{"file", file}, {"backend", item->backend}, {"label", label}, {"sha256", item->sha256},
+                                              {"size", item->size}, {"intended_live_relative_path", item->intended_live_relative_path}});
+                }
+                const std::string description = package_text(
+                    "RENOVICE universal mission editor output for client build " + registry.at("build").get<std::string>() +
+                    ". One Scripts row for every generated Lua mission change; values are in the build's mission_settings.json.",
+                    kPackageDescriptionMaximum);
+                const Json package_json{{"schema", 1}, {"name", kMissionPackageName}, {"description", description},
+                                        {"members", member_labels}, {"settings", Json::object()}};
+                write_text(package_dir / "package.json", package_json.dump(2) + "\n");
+
+                // Package gates (loader rules, bootstrapper renovice/packages_core.hpp).
+                std::set<std::string> on_disk, declared;
+                for (const auto& entry : fs::directory_iterator(package_dir)) {
+                    const std::string name = entry.path().filename().string();
+                    if (name != "package.json") on_disk.insert(name);
+                }
+                for (const auto& [name, value] : member_labels.items()) {
+                    static_cast<void>(value);
+                    declared.insert(name);
+                }
+                std::string problems;
+                if (on_disk != declared) problems += "on-disk members differ from package.json members; ";
+                for (const MissionArtifact* item : members)
+                    if (sha256_file(package_dir / item->artifact.filename()) != item->sha256)
+                        problems += "member " + item->artifact.filename().string() + " is not byte-identical to its artifact; ";
+                for (const auto& name : declared) {
+                    const bool bytecode = name.size() > 6 && ascii_lower_text(name.substr(name.size() - 6)) == ".lua_b";
+                    const bool multi = ascii_lower_text(name).find(".targets.addon") != std::string::npos;
+                    const bool replacement = name.size() >= 16 && std::all_of(name.begin(), name.begin() + 16, lowercase_hex_digit)
+                                             && ascii_lower_text(name).find(".addon") == std::string::npos;
+                    if (!bytecode || (!multi && !replacement)) problems += "member " + name + " is not a replacement or multi-target addon file; ";
+                }
+                if (Json::parse(read_text(package_dir / "package.json")) != package_json) problems += "package.json readback mismatch; ";
+                result.gate_log += "package-folder\n" + (problems.empty() ? std::string("PASS") : problems) + " members=" +
+                                   std::to_string(declared.size()) + "\n";
+                if (!problems.empty()) throw std::runtime_error("package-folder gate failed: " + problems);
+                result.package_directory = package_dir;
+                package_record = {{"path", relative(package_dir)}, {"name", kMissionPackageName},
+                                  {"manifest", {{"path", relative(package_dir / "package.json")}, {"sha256", sha256_file(package_dir / "package.json")}}},
+                                  {"members", member_records},
+                                  {"scripts_menu", {{"row", "[PACKAGE] " + std::string(kMissionPackageName)},
+                                                    {"policy_id", "package:" + ascii_lower_text(kMissionPackageName)}}},
+                                  {"intended_live_relative_path", "OpenWF/CustomScripts/Packages/" + std::string(kMissionPackageName)},
+                                  {"gates", Json::array({Json{{"name", "package-folder"}, {"pass", true}, {"exit_code", 0}}})}};
+            }
+        }
         if (naming.single_artifact && (result.artifacts.size() != 1 || !server.empty()))
             throw std::runtime_error("A preset build must produce exactly one artifact");
         if (result.artifacts.empty() && server.empty()) throw std::runtime_error("Mission settings produced no artifact");
@@ -1069,13 +1193,19 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                 ". No live luaCalls.before dispatch has been observed since runtime V107; treat the artifact as a live acceptance probe, not a working edit.");
 
         result.manifest = result.directory / "MISSION_SET_MANIFEST.json";
-        write_text(result.manifest, Json{{"format", "RENOVICE_MISSION_SET_BUILD_V1"}, {"status", "STAGED_PASS"}, {"label", naming.label},
-                                         {"registry_build", registry.at("build")}, {"registry_sha256", registry_sha},
-                                         {"settings_sha256", sha256_file(result.directory / "mission_settings.json")},
-                                         {"artifacts", set_artifacts}, {"server_config_diff", server_diff},
-                                         {"allow_unproven_hook_bindings", naming.allow_unproven_hooks},
-                                         {"live_write_performed", false},
-                                         {"evidence_boundary", "Offline gates only; in-game behaviour is not claimed."}}.dump(2) + "\n");
+        Json set_manifest{{"format", "RENOVICE_MISSION_SET_BUILD_V1"}, {"status", "STAGED_PASS"}, {"label", naming.label},
+                          {"registry_build", registry.at("build")}, {"registry_sha256", registry_sha},
+                          {"settings_sha256", sha256_file(result.directory / "mission_settings.json")},
+                          {"artifacts", set_artifacts}, {"server_config_diff", server_diff},
+                          {"allow_unproven_hook_bindings", naming.allow_unproven_hooks},
+                          {"live_write_performed", false},
+                          {"evidence_boundary", "Offline gates only; in-game behaviour is not claimed."}};
+        // Package-layout fields only; a loose build's manifest keeps its exact previous content.
+        if (naming.package_layout) {
+            set_manifest["output_layout"] = "package";
+            set_manifest["package"] = package_record;
+        }
+        write_text(result.manifest, set_manifest.dump(2) + "\n");
         write_text(result.directory / "BUILD_GATES.log", result.gate_log);
         result.success = true;
     } catch (const std::exception& e) {
@@ -1135,8 +1265,17 @@ MissionSetResult build_mission_settings(const Json& settings, const fs::path& ed
                 allow_unproven.push_back(name.get<std::string>());
             }
         }
+        // Optional: "output_layout": "loose" (default, unchanged files) or "package" (also Packages\Missions\).
+        bool package_layout = false;
+        if (settings.contains("output_layout")) {
+            const Json& layout = settings.at("output_layout");
+            if (!layout.is_string() || (layout != "loose" && layout != "package"))
+                throw std::runtime_error("output_layout must be \"loose\" or \"package\"");
+            package_layout = layout == "package";
+        }
         return build_mission_set(registry, settings.at("values"),
-                                 MissionNaming{"missions", "missions", "missions", "RENOVICE_Missions.txt", false, "", allow_unproven},
+                                 MissionNaming{"missions", "missions", "missions", "RENOVICE_Missions.txt", false, "", allow_unproven,
+                                               package_layout},
                                  editor_root, staging_root, run_external_gates, nullptr);
     } catch (const std::exception& e) {
         MissionSetResult result;

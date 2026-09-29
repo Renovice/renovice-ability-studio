@@ -64,6 +64,7 @@ namespace renovice
         fs::path directory;
         fs::path manifest;
         fs::path server_config_diff;
+        fs::path package_directory;  // settings output_layout "package": Packages/Missions (install-ready)
         std::vector<MissionArtifact> artifacts;
         std::vector<Diagnostic> diagnostics;
         std::string gate_log;

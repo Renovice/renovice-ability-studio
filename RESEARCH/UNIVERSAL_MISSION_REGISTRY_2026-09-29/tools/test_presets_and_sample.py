@@ -220,6 +220,45 @@ assert addons[0]['runtime_hook']['registry_status'] == 'OFFLINE_VERIFIED' and ad
 assert literals[0]['body_key'] == 'fc711ff621a75552'
 results['phase2g_sample'] = {'values': PHASE2G_VALUES, 'allow_unproven_hook_bindings': [LUA_CALL],
                              'artifacts': manifest2g['artifacts'], 'location': SAMPLE2G.relative_to(ROOT).as_posix()}
+
+# Phase 2h sample: the Phase 2g settings with "output_layout": "package". The same Lua artifacts, byte for byte, are also
+# emitted as ONE optional bootstrapper folder package Packages/Missions/ (bootstrapper feat/script-packages-2026-09-29):
+# package.json + Missions.targets.addon.lua_B + the Void Flood exact replacement; one Scripts row [PACKAGE] Missions.
+SAMPLE2H = ROOT / 'work/research/universal-mission-editor-2026-09-29/phase2h-sample'
+settings2h = dict(settings2g, output_layout='package')
+generation2h, manifest2h = build(settings2h, 'sample2h')
+assert generation2h is not None, manifest2h
+package2h = generation2h / 'Packages' / 'Missions'
+members2h = sorted(p.name for p in package2h.iterdir() if p.name != 'package.json')
+assert sorted(p.name for p in package2h.iterdir()) == sorted(members2h + ['package.json']), list(package2h.iterdir())
+assert members2h == sorted(['Missions.targets.addon.lua_B', 'fc711ff621a75552 (missions_exact-replacement).lua_B']), members2h
+loose2g = {Path(a['path']).name: a['sha256'] for a in manifest2g['artifacts']}
+package_hashes = {name: hashlib.sha256((package2h / name).read_bytes()).hexdigest().upper() for name in members2h}
+assert package_hashes == {name: loose2g[name] for name in members2h}, ('package members differ from the loose build', package_hashes)
+package_json = json.loads((package2h / 'package.json').read_text(encoding='utf-8'))
+assert package_json['schema'] == 1 and package_json['name'] == 'Missions' and package_json['settings'] == {}
+assert sorted(package_json['members']) == members2h
+assert manifest2h['output_layout'] == 'package' and manifest2h['package']['scripts_menu']['policy_id'] == 'package:missions'
+assert all(a['intended_live_relative_path'].startswith('OpenWF/CustomScripts/Packages/Missions/')
+           for a in manifest2h['artifacts'] if a['backend'] in ('TARGET_ADDON', 'EXACT_LITERAL'))
+if (SAMPLE2H / 'SHA256SUMS.json').exists():
+    recorded = json.loads((SAMPLE2H / 'SHA256SUMS.json').read_text())
+    recorded = {k.split('/')[-1]: v for k, v in recorded.items() if k.startswith('Packages/Missions/')}
+    rebuilt = dict(package_hashes, **{'package.json': hashlib.sha256((package2h / 'package.json').read_bytes()).hexdigest().upper()})
+    assert recorded == rebuilt, ('rebuilt package differs from the recorded Phase 2h sample', recorded, rebuilt)
+    state2h = 'identical to the recorded sample (folder untouched)'
+else:
+    SAMPLE2H.mkdir(parents=True)
+    (SAMPLE2H / 'mission_settings.json').write_text(json.dumps(settings2h, indent=2) + '\n')
+    shutil.copytree(generation2h, SAMPLE2H / 'generation')
+    shutil.copytree(generation2h / 'Packages', SAMPLE2H / 'Packages')  # install-ready: copy Packages\ into OpenWF\CustomScripts\
+    sums = {p.relative_to(SAMPLE2H).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest().upper()
+            for p in sorted(SAMPLE2H.rglob('*')) if p.is_file()}
+    (SAMPLE2H / 'SHA256SUMS.json').write_text(json.dumps(sums, indent=2) + '\n')
+    state2h = 'created'
+results['phase2h_sample'] = {'values': PHASE2G_VALUES, 'allow_unproven_hook_bindings': [LUA_CALL], 'output_layout': 'package',
+                             'package': manifest2h['package'], 'location': SAMPLE2H.relative_to(ROOT).as_posix()}
+print(f"PASS phase2h sample: Packages/Missions with {len(members2h)} members, byte-identical to phase 2g ({state2h})")
 (OUT / 'results.json').write_text(json.dumps(results, indent=2) + '\n')
 print(f"PASS phase2g sample: 1 multi-target addon ({len(addons[0]['target_keys'])} targets) + {len(literals)} replacement ({state2g})")
 print(f"PASS {len(results['presets'])} preset builds, {results['rejections']} rejections")
