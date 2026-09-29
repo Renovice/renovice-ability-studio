@@ -733,9 +733,16 @@ try
         {
             var owner = row.GetProperty("owner");
             var text = snapshot.RootElement.GetProperty("types").GetProperty(owner.GetProperty("type").GetString()!).GetProperty("text").GetString()!;
-            var field = MetadataPatchEditor.Core.Extract.QueryableText(text).Single(f => f.Path == owner.GetProperty("field").GetString());
-            return double.Parse(field.Value, System.Globalization.CultureInfo.InvariantCulture) == row.GetProperty("stock").GetDouble();
-        }), "every registered metadata row resolves by exact nested query to its decoded 44.0.2 stock value");
+            var queryable = MetadataPatchEditor.Core.Extract.QueryableText(text);
+            var paths = new List<string> { owner.GetProperty("field").GetString()! };
+            if (owner.TryGetProperty("also", out var also))
+                paths.AddRange(also.EnumerateArray().Select(entry => entry.GetProperty("field").GetString()!));
+            // Every entry (primary plus every `also` Scripts entry) must resolve by the exact nested query path the
+            // runtime patcher uses, and hold the registered stock value.
+            return paths.All(path => queryable.Count(f => f.Path == path) == 1 &&
+                double.Parse(queryable.Single(f => f.Path == path).Value, System.Globalization.CultureInfo.InvariantCulture)
+                    == row.GetProperty("stock").GetDouble());
+        }), "every registered metadata row (and every multi-entry path) resolves by exact nested query to its decoded 44.0.2 stock value");
         foreach (var (id, preset) in registryRoot.GetProperty("missions").EnumerateObject().Select(p => (p.Name, p.Value)))
         {
             var lane = preset.GetProperty("lane").GetString();

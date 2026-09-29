@@ -57,6 +57,39 @@ double mission_site_operand(const Json& site, const double value) {
     return site.value("inverse", false) ? numerator / value : value * numerator / site.at("denominator").get<double>();
 }
 
+constexpr const char* kConstantExclusivityGate = "K_CONSTANT_EXCLUSIVE_V1";
+
+// A number constant is shared by every instruction and table-template entry that names it. Editing one therefore
+// needs the registrar's K_CONSTANT_EXCLUSIVE_V1 proof (computed on the pinned stock bytes): the complete use set of the
+// constant is the declared owner, and a table-template owner is consumed by exactly one DUPTABLE outside any loop whose
+// initialiser is live. The SHA-256 pin makes the proof binding; this check rejects rows without it or with an
+// inconsistent one.
+void verify_constant_exclusivity(const Json& site) {
+    if (!site.contains("gate") || !site.at("gate").is_object())
+        throw std::runtime_error("number-constant site has no constant-exclusivity gate evidence");
+    const Json& gate = site.at("gate");
+    if (gate.value("gate", std::string()) != kConstantExclusivityGate)
+        throw std::runtime_error("number-constant site gate is not " + std::string(kConstantExclusivityGate));
+    if (gate.at("prototype") != site.at("prototype") || gate.at("constant") != site.at("constant"))
+        throw std::runtime_error("constant-exclusivity gate names another prototype/constant");
+    const Json& uses = gate.at("uses");
+    if (!uses.is_array() || uses.empty()) throw std::runtime_error("constant-exclusivity gate lists no uses");
+    std::size_t template_uses = 0;
+    for (const auto& use : uses) {
+        if (use.contains("template")) ++template_uses;
+        else if (!use.contains("instruction")) throw std::runtime_error("constant-exclusivity use is neither an instruction nor a template entry");
+    }
+    if (template_uses == 0) return;
+    // Single-use template gate: exactly one template entry and exactly one DUPTABLE construction site.
+    if (template_uses != 1 || uses.size() != 1)
+        throw std::runtime_error("template value constant is shared by several owners");
+    const Json& constructions = gate.at("template_uses");
+    if (!constructions.is_array() || constructions.size() != 1 || constructions.at(0).value("op", std::string()) != "DUPTABLE")
+        throw std::runtime_error("table template is not consumed by exactly one DUPTABLE construction site");
+    if (!gate.value("loop_free", false) || !gate.value("initialiser_live", false))
+        throw std::runtime_error("table template construction is inside a loop or its initialiser is overwritten");
+}
+
 // Verifies one row's exact owner against the stock evidence the registry names. Throws the exact reason.
 void verify_mission_row(const Json& registry, const Json& row, const MissionPaths& paths) {
     const auto backend = row.at("backend").get<std::string>();
@@ -91,6 +124,25 @@ void verify_mission_row(const Json& registry, const Json& row, const MissionPath
             for (std::size_t n = 0; n < width; ++n)
                 if (static_cast<unsigned char>(bytes[offset + n]) != expected[n])
                     throw std::runtime_error("exact preimage changed at offset " + std::to_string(offset));
+            // A LOADN site must load the registered register. A non-LOADN preimage is allowed only for a carried-over,
+            // separately verified linked-result site that the build rewrites into LOADN (flagged by the registrar).
+            const bool loadn = !constant && expected[0] == 0x08u;
+            if (constant) verify_constant_exclusivity(site);
+            else if (loadn ? expected[1] != site.at("register").get<unsigned int>() : !site.value("rewrites_instruction", false))
+                throw std::runtime_error("instruction site preimage is not a LOADN of the registered register");
+            // The registered stock value must be exactly what the stock operand encodes at every site.
+            if ((constant || loadn) && row.at("stock").is_number() && !site.value("inverse", false)) {
+                double stock_operand = 0;
+                if (constant) {
+                    std::uint64_t bits = 0;
+                    for (std::size_t n = 0; n < 8; ++n) bits |= static_cast<std::uint64_t>(expected[n]) << (8 * n);
+                    stock_operand = std::bit_cast<double>(bits);
+                } else {
+                    stock_operand = static_cast<double>(static_cast<std::int16_t>(expected[2] | (expected[3] << 8)));
+                }
+                if (stock_operand != mission_site_operand(site, row.at("stock").get<double>()))
+                    throw std::runtime_error("stock operand at offset " + std::to_string(offset) + " disagrees with the registered stock value");
+            }
         }
     } else if (backend == "TARGET_ADDON") {
         static_cast<void>(stock_body(owner));
@@ -132,13 +184,24 @@ void verify_mission_row(const Json& registry, const Json& row, const MissionPath
             throw std::runtime_error("metadata snapshot belongs to another Packages.bin/build");
         if (!snapshot.at("types").contains(type)) throw std::runtime_error("metadata snapshot lacks owner type " + type);
         const Json& record = snapshot.at("types").at(type);
-        if (!record.at("fields").contains(field) || record.at("fields").at(field) != owner.at("stock_text"))
-            throw std::runtime_error("metadata stock value changed for " + field);
-        const auto preimage = owner.at("preimage").get<std::string>();
-        if (preimage != field.substr(field.rfind('.') + 1) + "=" + owner.at("stock_text").get<std::string>())
-            throw std::runtime_error("metadata preimage disagrees with the owner field");
-        if (("\n" + record.at("text").get<std::string>() + "\n").find("\n" + preimage + "\n") == std::string::npos)
-            throw std::runtime_error("metadata preimage line missing from the composed owner type");
+        // The primary field plus every `also` entry (the same parameter in another Scripts entry of the owner type,
+        // for example a HUD instance) is one control: all must verify and are always patched together.
+        std::vector<Json> entries{Json{{"field", field}, {"stock_text", owner.at("stock_text")}, {"preimage", owner.at("preimage")}}};
+        if (owner.contains("also")) for (const auto& entry : owner.at("also")) entries.push_back(entry);
+        std::set<std::string> seen_fields;
+        for (const auto& entry : entries) {
+            const auto path = entry.at("field").get<std::string>();
+            if (!std::regex_match(path, field_pattern) || path.substr(path.rfind('.') + 1) != field.substr(field.rfind('.') + 1))
+                throw std::runtime_error("metadata entry " + path + " is not the same parameter as " + field);
+            if (!seen_fields.insert(path).second) throw std::runtime_error("duplicate metadata entry " + path);
+            if (!record.at("fields").contains(path) || record.at("fields").at(path) != entry.at("stock_text"))
+                throw std::runtime_error("metadata stock value changed for " + path);
+            const auto preimage = entry.at("preimage").get<std::string>();
+            if (preimage != path.substr(path.rfind('.') + 1) + "=" + entry.at("stock_text").get<std::string>())
+                throw std::runtime_error("metadata preimage disagrees with the owner field");
+            if (("\n" + record.at("text").get<std::string>() + "\n").find("\n" + preimage + "\n") == std::string::npos)
+                throw std::runtime_error("metadata preimage line missing from the composed owner type");
+        }
     } else if (backend == "SERVER_CONFIG") {
         static const std::regex key_pattern("[A-Za-z]+(\\.[A-Za-z]+)+");
         if (!std::regex_match(owner.at("config_key").get<std::string>(), key_pattern))
@@ -161,6 +224,7 @@ void verify_mission_row(const Json& registry, const Json& row, const MissionPath
 void verify_mission_registry_structure(const Json& registry) {
     std::set<std::string> ids;
     std::map<std::string, std::vector<std::tuple<std::size_t, std::size_t, std::string>>> extents;
+    std::map<std::string, std::string> metadata_owners;
     for (const auto& row : registry.at("tunables")) {
         const auto id = row.at("tunable_id").get<std::string>();
         if (!ids.insert(id).second) throw std::runtime_error("duplicate tunable_id " + id);
@@ -182,6 +246,17 @@ void verify_mission_registry_structure(const Json& registry) {
                         throw std::runtime_error("competing owners " + other + " and " + id + " overlap at offset " + std::to_string(offset));
                 body.emplace_back(offset, width, id);
             }
+        if (row.at("backend") == "METADATA_PATCH") {
+            const Json& owner = row.at("owner");
+            std::vector<std::string> fields{owner.at("field").get<std::string>()};
+            if (owner.contains("also")) for (const auto& entry : owner.at("also")) fields.push_back(entry.at("field").get<std::string>());
+            for (const auto& field : fields) {
+                const auto key = owner.at("type").get<std::string>() + "|" + field;
+                if (const auto found = metadata_owners.find(key); found != metadata_owners.end())
+                    throw std::runtime_error("competing owners " + found->second + " and " + id + " for metadata " + key);
+                metadata_owners.emplace(key, id);
+            }
+        }
     }
     for (const auto& [id, preset] : registry.at("missions").items()) {
         const auto lane = preset.at("lane").get<std::string>();
@@ -211,8 +286,12 @@ std::map<std::string, double> validate_mission_values(const Json& registry, cons
         if (row.at("backend") == "EXACT_LITERAL")
             for (const auto& site : row.at("owner").at("sites")) {
                 const double operand = mission_site_operand(site, number);
-                if (!std::isfinite(operand) || operand < 1 || operand > 32767 || std::floor(operand) != operand)
+                if (site.at("kind") == "number_constant") {
+                    // A native f64 constant holds any finite number; the row limits bound the value.
+                    if (!std::isfinite(operand)) throw std::runtime_error("Mission value must resolve to a finite constant: " + id);
+                } else if (!std::isfinite(operand) || operand < 1 || operand > 32767 || std::floor(operand) != operand) {
                     throw std::runtime_error("Mission value must resolve to an exact positive whole-number operand: " + id);
+                }
             }
         result.emplace(id, number);
     }
@@ -423,9 +502,10 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                     if (constant && (offset == 0 || static_cast<unsigned char>(bytes[offset - 1]) != 2)) throw std::runtime_error("Expected native numeric constant tag");
                     for (std::size_t n = 0; n < width; ++n)
                         if (static_cast<unsigned char>(bytes[offset + n]) != expected[n]) throw std::runtime_error("Verified instruction preimage changed");
-                    const int operand = static_cast<int>(mission_site_operand(site, value));
+                    const double exact = mission_site_operand(site, value);
+                    const int operand = static_cast<int>(exact);
                     if (constant) {
-                        const auto bits = std::bit_cast<std::uint64_t>(static_cast<double>(operand));
+                        const auto bits = std::bit_cast<std::uint64_t>(exact);
                         for (std::size_t n = 0; n < 8; ++n) bytes[offset + n] = static_cast<char>((bits >> (8 * n)) & 255);
                     } else {
                         bytes[offset] = static_cast<char>(0x08); // U44 LOADN, from the verified opcode profile.
@@ -435,7 +515,7 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                     }
                     for (std::size_t n = 0; n < width; ++n)
                         if (!permitted.insert(offset + n).second) throw std::runtime_error("Competing exact sites overlap at offset " + std::to_string(offset));
-                    plan.push_back({{"tunable_id", id}, {"value", value}, {"site", site}, {"operand", operand}});
+                    plan.push_back({{"tunable_id", id}, {"value", value}, {"site", site}, {"operand", constant ? Json(exact) : Json(operand)}});
                 }
             }
             for (std::size_t n = 0; n < bytes.size(); ++n)
@@ -485,6 +565,9 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                 for (const Json* row : rows) {
                     const auto id = row->at("tunable_id").get<std::string>();
                     text += "    q|" + row->at("owner").at("field").get<std::string>() + "|" + format_number(values.at(id)) + "\n";
+                    if (row->at("owner").contains("also"))
+                        for (const auto& entry : row->at("owner").at("also"))
+                            text += "    q|" + entry.at("field").get<std::string>() + "|" + format_number(values.at(id)) + "\n";
                     plan.push_back({{"tunable_id", id}, {"value", values.at(id)}, {"owner", row->at("owner")}});
                 }
             }

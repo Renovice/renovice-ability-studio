@@ -26,6 +26,22 @@ FASTER = {
     'archimedea': {'eta_survival_minutes': 5, 'eta_defense_waves': 3, 'eda_survival_minutes': 5, 'eda_mirror_defenses': 2,
                    'eda_alchemy_mixtures': 1, 'eda_disruption_conduits': 4},
 }
+SAMPLE2D = ROOT / 'work/research/universal-mission-editor-2026-09-29/phase2d-sample'
+PHASE2D_VALUES = {  # new modes; every Phase 2d owner mechanism in one settings file
+    'disruption.default_round_count': 6,           # one tunable, 7 LOADN sites (fixedLength + Ternary fallbacks)
+    'disruption.boss_health_multiplier': 0.5,      # root config table template f64 (single-use template gate)
+    'disruption.round_timeout': 120,
+    'excavation.resource_goal_default': 300,       # one tunable, 3 LOADN sites (Phase 2d re-derived owner)
+    'void_flood.fill_timer.timeToFillMax': 150,    # root config table template
+    'orphix.sortie_rounds': 8,                     # one tunable, 2 sites (reward interval + round limit)
+    'hijack.payload_health': 20000,
+    'netracell.power_required.base': 100,
+    'survival.elite_alert_pickup_mult': 1,         # instruction-used f64 constant (exclusive MULK)
+    'defense.inter_wave_sleep': 3,
+    'infested_capture.search_time.wf1999': 50,     # metadata, 1999 Legacyte Harvest owner type
+    'meltdown.heat_increase.descendia': 0.0125,    # metadata, Descendia Meltdown owner type
+    'coh_excavation.base_health': 3000,            # metadata, two runtime Scripts entries patched together
+}
 
 
 def run(*args):
@@ -90,5 +106,26 @@ hashes = {str(p.relative_to(SAMPLE)).replace('\\', '/'): hashlib.sha256(p.read_b
 (SAMPLE / 'SHA256SUMS.json').write_text(json.dumps(hashes, indent=2) + '\n')
 results['sample'] = {'artifacts': manifest['artifacts'], 'server_config_diff': manifest['server_config_diff'],
                      'location': str(SAMPLE.relative_to(ROOT)).replace('\\', '/')}
+
+# Phase 2d sample group build (research folder only, hashed).
+settings2d = {'format': 'RENOVICE_MISSION_SETTINGS_V1', 'build': registry['build'], 'values': PHASE2D_VALUES}
+if SAMPLE2D.exists():
+    shutil.rmtree(SAMPLE2D)
+SAMPLE2D.mkdir(parents=True)
+(SAMPLE2D / 'mission_settings.json').write_text(json.dumps(settings2d, indent=2) + '\n')
+r = run('build-missions', SAMPLE2D / 'mission_settings.json', '--staging', STAGING / 'sample2d')
+(WORK / 'sample2d-build.log').write_text(r.stdout + r.stderr)
+assert r.returncode == 0, (r.stdout, r.stderr)
+generation = Path(next(l.split(': ', 1)[1] for l in r.stdout.splitlines() if l.startswith('Generation: ')))
+shutil.copytree(generation, SAMPLE2D / 'generation')
+manifest2d = json.loads((SAMPLE2D / 'generation/MISSION_SET_MANIFEST.json').read_text())
+assert len({a['body_key'] for a in manifest2d['artifacts']}) == len(manifest2d['artifacts'])
+assert sorted(t for a in manifest2d['artifacts'] for t in a['tunables']) == sorted(PHASE2D_VALUES)
+hashes = {str(p.relative_to(SAMPLE2D)).replace('\\', '/'): hashlib.sha256(p.read_bytes()).hexdigest().upper()
+          for p in sorted(SAMPLE2D.rglob('*')) if p.is_file()}
+(SAMPLE2D / 'SHA256SUMS.json').write_text(json.dumps(hashes, indent=2) + '\n')
+results['phase2d_sample'] = {'values': PHASE2D_VALUES, 'artifacts': manifest2d['artifacts'],
+                             'location': str(SAMPLE2D.relative_to(ROOT)).replace('\\', '/')}
 (OUT / 'results.json').write_text(json.dumps(results, indent=2) + '\n')
+print(f"PASS phase2d sample artifacts={len(manifest2d['artifacts'])}")
 print(f"PASS {len(results['presets'])} preset builds, {results['rejections']} rejections, sample artifacts={len(manifest['artifacts'])}")

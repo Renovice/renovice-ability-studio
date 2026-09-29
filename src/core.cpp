@@ -8,6 +8,7 @@
 #include <cmath>
 #include <cstdint>
 #include <fstream>
+#include <functional>
 #include <iomanip>
 #include <limits>
 #include <map>
@@ -3724,6 +3725,83 @@ namespace renovice
                 try { verify_mission_registry_structure(overlapping); }
                 catch (const std::exception& e) { overlap_rejected = contains_text(e.what(), "competing owners"); }
                 check(overlap_rejected, "two registry rows claiming one exact site are rejected");
+
+                // Phase 2d: one tunable that owns several literal sites is patched atomically (all sites or nothing).
+                {
+                    const std::string multi = "disruption.default_round_count";
+                    const Json& multi_row = mission_tunable(registry, multi);
+                    const auto& multi_sites = multi_row.at("owner").at("sites");
+                    const MissionSetResult rounds = build_mission_settings(settings({{multi, 6}}), editor_root, mission_fixture, true);
+                    bool rounds_ok = multi_sites.size() == 7 && rounds.success && rounds.artifacts.size() == 1
+                        && rounds.artifacts.front().body_key == multi_row.at("owner").at("body_key").get<std::string>();
+                    if (rounds_ok)
+                    {
+                        const auto stock = read_text(mission_roots.corpus / multi_row.at("owner").at("file").get<std::string>());
+                        const auto built = read_text(rounds.artifacts.front().artifact);
+                        rounds_ok = changed_bytes(stock, built) == multi_sites.size();
+                        for (const auto& site : multi_sites)
+                            rounds_ok = rounds_ok && static_cast<unsigned char>(built[site.at("offset").get<std::size_t>() + 2]) == 6
+                                && static_cast<unsigned char>(built[site.at("offset").get<std::size_t>() + 3]) == 0;
+                    }
+                    check(rounds_ok, "a multi-site literal tunable (Disruption default rounds, 7 sites) patches every site in one artifact");
+                    Json partial = registry;
+                    for (auto& row : partial["tunables"])
+                        if (row.at("tunable_id") == multi) row["owner"]["sites"][6]["expected"][2] = 5;
+                    const MissionSetResult rejected_partial = build_mission_set(partial, Json{{multi, 6}}, group_naming, editor_root,
+                                                                                mission_fixture, true, nullptr);
+                    check(!rejected_partial.success && rejected_partial.artifacts.empty()
+                            && contains_text(rejected_partial.diagnostics.front().message, "preimage"),
+                        "one drifted site of a multi-site tunable fails the whole row closed (no partial coverage)");
+                }
+
+                // Phase 2d: a root config table template field (single-use template gate) takes an exact f64 value.
+                {
+                    const std::string field = "survival.pickup_drop_low_high_mult.lowDropMultiplier";
+                    const Json& field_row = mission_tunable(registry, field);
+                    const Json& site = field_row.at("owner").at("sites").at(0);
+                    const MissionSetResult table = build_mission_settings(settings({{field, 2.25}}), editor_root, mission_fixture, true);
+                    bool table_ok = site.at("kind") == "number_constant" && site.at("gate").at("template_uses").size() == 1
+                        && table.success && table.artifacts.size() == 1;
+                    if (table_ok)
+                    {
+                        const auto stock = read_text(mission_roots.corpus / field_row.at("owner").at("file").get<std::string>());
+                        const auto built = read_text(table.artifacts.front().artifact);
+                        std::uint64_t bits = 0;
+                        const auto offset = site.at("offset").get<std::size_t>();
+                        for (std::size_t n = 0; n < 8; ++n) bits |= static_cast<std::uint64_t>(static_cast<unsigned char>(built[offset + n])) << (8 * n);
+                        std::size_t outside = 0;
+                        for (std::size_t n = 0; n < stock.size(); ++n) outside += (stock[n] != built[n] && (n < offset || n >= offset + 8)) ? 1 : 0;
+                        table_ok = std::bit_cast<double>(bits) == 2.25 && outside == 0 && stock.size() == built.size();
+                    }
+                    check(table_ok, "a single-use table-template field builds with only its 8-byte f64 constant changed (2.25)");
+                    const auto rejects = [&](const std::function<void(Json&)>& mutate, const std::string& reason) {
+                        Json tampered = registry;
+                        for (auto& row : tampered["tunables"])
+                            if (row.at("tunable_id") == field) mutate(row["owner"]["sites"][0]);
+                        const MissionSetResult result = build_mission_set(tampered, Json{{field, 2.25}}, group_naming, editor_root,
+                                                                          mission_fixture, true, nullptr);
+                        return !result.success && contains_text(result.diagnostics.front().message, reason);
+                    };
+                    check(rejects([](Json& s) { s["gate"]["template_uses"].push_back(s["gate"]["template_uses"][0]); }, "exactly one DUPTABLE")
+                            && rejects([](Json& s) { s["gate"]["uses"].push_back(s["gate"]["uses"][0]); }, "shared")
+                            && rejects([](Json& s) { s["gate"]["loop_free"] = false; }, "inside a loop")
+                            && rejects([](Json& s) { s.erase("gate"); }, "no constant-exclusivity gate"),
+                        "the single-use template gate rejects a second construction site, a shared value, a loop and missing evidence");
+                }
+
+                // Phase 2d: a metadata control carried by two Scripts entries (gameplay + HUD) is patched in both.
+                {
+                    const MissionSetResult health = build_mission_settings(settings({{"coh_excavation.base_health", 3000}}), editor_root,
+                                                                           mission_fixture, true);
+                    bool health_ok = health.success && health.artifacts.size() == 1;
+                    if (health_ok)
+                    {
+                        const auto text = read_text(health.artifacts.front().artifact);
+                        health_ok = contains_text(text, "    q|Scripts.0.Script._baseExcavatorHealth|3000\n")
+                            && contains_text(text, "    q|Scripts.1.Script._baseExcavatorHealth|3000\n");
+                    }
+                    check(health_ok, "a multi-entry metadata control writes every runtime Scripts entry (Scripts.0 and Scripts.1)");
+                }
 
                 Json preset_project = make_linked_overguard_project(LinkedAddonForm{});
                 preset_project["id"] = "mission.descendia_excavation.selftest";

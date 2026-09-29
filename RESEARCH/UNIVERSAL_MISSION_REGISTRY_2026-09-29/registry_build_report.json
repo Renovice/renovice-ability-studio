@@ -189,21 +189,226 @@
       ]
     }
   ],
+  "phase2d": {
+    "lua_rows": 406,
+    "metadata_rows": 53,
+    "site_kinds": {
+      "instruction": 411,
+      "number_constant": 123
+    },
+    "gates": {
+      "template_single_use_pass": 54,
+      "constant_exclusive_pass": 69,
+      "pattern_complete_pass": 311
+    },
+    "failures": []
+  },
+  "phase1_accounting": {
+    "denominator": 367,
+    "registered_fully": 152,
+    "registered_partially": 32,
+    "excluded": 183,
+    "excluded_parts": 34
+  },
+  "rows_by_mode": {
+    "Alchemy (Entrati lab)": {
+      "METADATA_PARAM": 3
+    },
+    "All missions": {
+      "LUA_PROTO_LITERAL": 5,
+      "SERVER": 1
+    },
+    "Arbitration": {
+      "LUA_PROTO_LITERAL": 1
+    },
+    "Archwing (Balor Fomorian)": {
+      "LUA_PROTO_LITERAL": 1
+    },
+    "Ascension": {
+      "METADATA_PARAM": 6
+    },
+    "Capture": {
+      "LUA_PROTO_LITERAL": 4,
+      "LUA_ROOT_TABLE": 4
+    },
+    "Colonist door defense": {
+      "LUA_ROOT_TABLE": 3
+    },
+    "Deep Archimedea": {
+      "LUA_ROOT_TABLE": 3
+    },
+    "Deep/Temporal Archimedea": {
+      "LUA_ROOT_TABLE": 6
+    },
+    "Defection": {
+      "LUA_PROTO_LITERAL": 6,
+      "LUA_ROOT_TABLE": 10
+    },
+    "Defense": {
+      "LUA_ROOT_TABLE": 26,
+      "LUA_PROTO_LITERAL": 19,
+      "METADATA_PARAM": 1
+    },
+    "Defense (1999 tile)": {
+      "LUA_PROTO_LITERAL": 4
+    },
+    "Descendia: Alchemy": {
+      "METADATA_PARAM": 3
+    },
+    "Descendia: Defense": {
+      "METADATA_PARAM": 3
+    },
+    "Descendia: Destroy Targets": {
+      "METADATA_PARAM": 1,
+      "LUA_ROOT_TABLE": 4
+    },
+    "Descendia: Excavation": {
+      "METADATA_PARAM": 5,
+      "LUA_PROTO_LITERAL": 2
+    },
+    "Descendia: Legacyte Harvest": {
+      "METADATA_PARAM": 7
+    },
+    "Descendia: Meltdown": {
+      "METADATA_PARAM": 7
+    },
+    "Descendia: Mobile Interception": {
+      "METADATA_PARAM": 2
+    },
+    "Descendia: Nemesis": {
+      "LUA_PROTO_LITERAL": 2
+    },
+    "Descendia: Shrine Defense": {
+      "LUA_ROOT_TABLE": 49,
+      "METADATA_PARAM": 6
+    },
+    "Disruption": {
+      "LUA_ROOT_TABLE": 45,
+      "LUA_PROTO_LITERAL": 6
+    },
+    "Entrati Swarm": {
+      "LUA_ROOT_TABLE": 18,
+      "LUA_PROTO_LITERAL": 1
+    },
+    "Excavation": {
+      "LUA_PROTO_LITERAL": 5
+    },
+    "Exterminate": {
+      "LUA_ROOT_TABLE": 6,
+      "LUA_PROTO_LITERAL": 4
+    },
+    "Faceoff": {
+      "LUA_ROOT_TABLE": 18,
+      "METADATA_PARAM": 1
+    },
+    "Five Fates (Cetus invasion)": {
+      "LUA_ROOT_TABLE": 7
+    },
+    "Free Roam bounty (Control Area)": {
+      "LUA_PROTO_LITERAL": 3
+    },
+    "Hijack": {
+      "LUA_PROTO_LITERAL": 2
+    },
+    "Infested Salvage": {
+      "LUA_ROOT_TABLE": 12
+    },
+    "Interception": {
+      "LUA_PROTO_LITERAL": 4,
+      "METADATA_PARAM": 1
+    },
+    "Legacyte Harvest (1999)": {
+      "METADATA_PARAM": 7
+    },
+    "Lotus.Scripts.Modes.SurvivalMission": {
+      "ADDON_EXTENSION": 1
+    },
+    "Meltdown (Entrati lab Alchemy defend)": {
+      "METADATA_PARAM": 7
+    },
+    "Mirror Defense": {
+      "LUA_ROOT_TABLE": 42,
+      "LUA_PROTO_LITERAL": 8
+    },
+    "Mobile Defense": {
+      "LUA_PROTO_LITERAL": 7,
+      "LUA_ROOT_TABLE": 9
+    },
+    "MultiDefend (hack-station defense)": {
+      "LUA_PROTO_LITERAL": 9
+    },
+    "Netracell": {
+      "METADATA_PARAM": 2,
+      "LUA_PROTO_LITERAL": 3
+    },
+    "Orphix Venom": {
+      "LUA_ROOT_TABLE": 2,
+      "LUA_PROTO_LITERAL": 1
+    },
+    "Purge": {
+      "LUA_ROOT_TABLE": 3,
+      "LUA_PROTO_LITERAL": 8
+    },
+    "Pursuit": {
+      "LUA_PROTO_LITERAL": 1
+    },
+    "Raid": {
+      "LUA_PROTO_LITERAL": 11
+    },
+    "Rescue": {
+      "LUA_ROOT_TABLE": 1,
+      "LUA_PROTO_LITERAL": 3
+    },
+    "Sentient Mobile Defense": {
+      "LUA_PROTO_LITERAL": 1,
+      "LUA_ROOT_TABLE": 5
+    },
+    "Sentient swarm capture": {
+      "LUA_ROOT_TABLE": 1
+    },
+    "Spy": {
+      "LUA_PROTO_LITERAL": 1
+    },
+    "Survival": {
+      "LUA_ROOT_TABLE": 11,
+      "LUA_PROTO_LITERAL": 2
+    },
+    "Temporal Archimedea": {
+      "LUA_ROOT_TABLE": 3
+    },
+    "The Circuit": {
+      "LUA_PROTO_LITERAL": 4
+    },
+    "Void Cascade": {
+      "LUA_ROOT_TABLE": 6
+    },
+    "Void Flood": {
+      "LUA_PROTO_LITERAL": 1,
+      "LUA_ROOT_TABLE": 2,
+      "METADATA_PARAM": 1
+    }
+  },
+  "rows_by_backend": {
+    "METADATA_PATCH": 62,
+    "EXACT_LITERAL": 423,
+    "TARGET_ADDON": 4,
+    "SERVER_CONFIG": 1
+  },
   "build": "2026.09.28.13.06",
-  "rows": 31,
+  "rows": 490,
   "rows_by_owner_kind": {
-    "LUA_ROOT_TABLE": 10,
-    "METADATA_PARAM": 10,
-    "LUA_PROTO_LITERAL": 9,
+    "METADATA_PARAM": 63,
+    "LUA_PROTO_LITERAL": 129,
+    "LUA_ROOT_TABLE": 296,
     "SERVER": 1,
     "ADDON_EXTENSION": 1
   },
-  "excluded": 337,
+  "excluded": 183,
   "excluded_by_owner_kind": {
-    "METADATA_PARAM": 55,
-    "MISSIONINFO": 21,
-    "LUA_PROTO_LITERAL": 117,
-    "LUA_ROOT_TABLE": 110,
+    "METADATA_PARAM": 30,
+    "MISSIONINFO": 20,
+    "LUA_ROOT_TABLE": 52,
+    "LUA_PROTO_LITERAL": 47,
     "NATIVE_OR_UNKNOWN": 23,
     "SERVER": 11
   },
@@ -217,39 +422,193 @@
     "SERVER": 12
   },
   "phase1_ids_covered": [
+    "alchemy.crucible_remind_countdown",
+    "alchemy.mixtures_required_default",
+    "alchemy.reward_interval",
+    "arbitration.resurrection_score_cap",
     "archimedea.eda_alchemy",
     "archimedea.eda_disruption",
+    "archimedea.eda_enemy_levels",
     "archimedea.eda_mirror_defense_waves",
     "archimedea.eda_survival_minutes",
     "archimedea.eta_defense_waves",
+    "archimedea.eta_enemy_levels",
     "archimedea.eta_survival_minutes",
+    "archwing.fomorian_emp_timer",
+    "ascension.elevator_animation_time",
+    "ascension.elevator_shield",
+    "ascension.fuel",
+    "capture.bleedout_timer",
+    "capture.target_health_player_mult",
+    "capture.xp_reward",
+    "circuit.enemy_level_formula",
     "coh_destroy_targets.num_targets",
+    "coh_destroy_targets.required_by_players",
+    "coh_excavation.base_health",
+    "coh_excavation.base_shields",
     "coh_excavation.dig_duration",
+    "coh_excavation.health_level_power",
+    "coh_excavation.power_cell_seconds",
     "coh_excavation.shared_constant_90",
+    "coh_excavation.spawn_invulnerability",
+    "coh_nemesis.alive_cap",
+    "coh_nemesis.spawn_interval",
     "cohinterception.beacon_chase_time",
     "cohinterception.is_descent",
+    "colonistdoor.navbridge_thresholds",
     "control_area_deimos.duration",
     "control_area_nokko.duration",
     "control_area_plains.duration",
+    "defection.ai_tier_interval",
+    "defection.level_ramp_times",
+    "defection.max_sim_ai",
+    "defection.squads_required",
+    "defense.boss_wave_interval",
+    "defense.circle_wave_count",
+    "defense.duviri_wave_count",
+    "defense.elite_alert_spawn_scale",
+    "defense.elite_alert_wave_sleep",
+    "defense.enemy_level_ramp",
+    "defense.enemy_tier_by_wave",
+    "defense.eximus_chance_curve",
+    "defense.eximus_duviri",
+    "defense.eximus_sortie",
+    "defense.first_wave_delay",
+    "defense.inter_wave_sleep",
     "defense.marker_threshold",
+    "defense.nightmare_wave_count",
+    "defense.simultaneous_enemies_duviri",
+    "defense.simultaneous_enemies_infested",
+    "defense.simultaneous_enemies_max",
+    "defense.simultaneous_enemies_min",
+    "defense.special_mission_default_waves",
+    "defense.target_level_falloff",
+    "defense.total_spawn_per_wave",
+    "defense.total_spawn_per_wave_duviri_circle",
+    "disruption.boss_health_multiplier",
+    "disruption.capillary_reward",
+    "disruption.demolyst_health_scale_by_players",
+    "disruption.demolyst_spawn_radius_range",
+    "disruption.extraction_timeout",
+    "disruption.fixed_length",
+    "disruption.initial_spawn_delay",
+    "disruption.interval_between_rounds",
+    "disruption.max_enemies_by_players",
+    "disruption.min_enemies_by_players",
+    "disruption.round_timeout",
+    "disruption.treasure_goblin",
+    "entrati_swarm.eximus_by_scale",
+    "entrati_swarm.stage_count",
+    "entrati_swarm.tears_per_stage",
+    "entrati_swarm.tears_per_stage_challenge",
+    "escalation.crate_progress_threshold",
+    "escalation.crate_timer",
+    "escalation.keys_per_players",
     "excavation.dig_duration",
     "excavation.dig_duration_elite_alert",
     "excavation.dig_duration_old_world_salvage",
+    "excavation.duviri_excavation_count",
+    "excavation.resource_goal_default",
+    "faceoff.assassination",
     "faceoff.cd_burn",
+    "faceoff.defense_escort",
+    "faceoff.delivery",
+    "faceoff.exterminate_kill_goal",
+    "faceoff.spawn_params",
+    "fivefates.reward_count",
+    "fivefates.state_times",
+    "fivefates.state_times_sp",
+    "gamerules.arbitration_drone_cap",
+    "gamerules.arbitration_drone_cooldown",
+    "gamerules.arbitration_drone_roll",
+    "gamerules.sp_acolyte_chance",
+    "gamerules.sp_acolyte_cooldown",
+    "hijack.payload_health",
+    "infested_capture.base_mutations",
+    "infested_capture.search_rounds_before_boss",
+    "infested_capture.search_spot_range",
+    "infested_capture.search_time",
+    "infested_capture.tentacle_health",
+    "infested_capture.wander",
+    "infested_salvage.spawn_caps_by_players",
+    "interception.per_round_level_scale",
+    "interception.protea_rate_mult",
+    "interception.quest_enemy_rate",
     "interception.score_rate",
+    "loopdefend.crystal_cluster",
+    "loopdefend.enemy_counts",
+    "loopdefend.enemy_level_ramp",
+    "loopdefend.eximus",
+    "loopdefend.first_phase_delay",
+    "loopdefend.hide_session_rotations",
+    "loopdefend.inter_phase_sleep",
+    "loopdefend.level_and_enrage",
+    "loopdefend.objective_dot",
+    "loopdefend.phase_duration",
+    "loopdefend.phase_duration_jade",
+    "loopdefend.phase_start_heal",
+    "meltdown.heat_decrease",
+    "meltdown.heat_increase",
+    "meltdown.scan_rate",
+    "meltdown.start_delay",
+    "meltdown.vent_search_distance",
+    "meltdown.vents_to_reveal",
+    "mobiledefense.ai_tier",
+    "mobiledefense.archwing_grineer_mult",
+    "mobiledefense.console_count",
+    "mobiledefense.console_health",
+    "mobiledefense.enemy_counts",
+    "mobiledefense.hardmode_enemy_row",
     "mobiledefense.total_time",
+    "multidefend.defend_time",
+    "multidefend.station_count",
+    "multidefend.wrinkle_time",
     "netracell.enemy_power_fill",
+    "netracell.power_required",
     "netracell.quest_power_multiplier",
+    "orphix.max_rounds_railjack",
+    "orphix.orphix_interval",
+    "orphix.sortie_rounds",
+    "purge.alert_tiers",
+    "purge.max_enemy_count",
+    "purge.spawnlib_params",
+    "pursuit.phase_timer",
+    "raid.level_bonus_players",
+    "raid.loot_crates",
+    "rescue.hostage_health_cap",
+    "rescue.plea_threshold",
+    "rescue.timer_moon_fort_mult",
+    "rescue.timer_quest_mult",
+    "sentientcapture.swarm",
+    "sentientmd.area_count",
+    "sentientmd.defend_time",
+    "sentientmd.max_sim_ai",
     "server.credit_boost_multiplier",
+    "shrine.enemy_counts_normal",
+    "shrine.enemy_counts_sp",
+    "shrine.offering_counts",
     "shrine.offering_generation_time",
+    "shrine.pickup_and_spawn_misc",
+    "shrine.stage_time",
+    "spy.vault_timer_quest",
+    "survival.alert_ls_drop_mult",
+    "survival.duviri_fixed_length",
+    "survival.elite_alert_pickup_mult",
+    "survival.level_up_enrage",
+    "survival.pickup_drop_low_high_mult",
     "survival.pickup_time_added",
     "survival.reward_interval",
+    "survival.wf99_drop_mults",
     "void_cascade.alert_reward_interval",
+    "void_cascade.circle_fixed_length",
     "void_cascade.pillar_duration",
-    "void_flood.is_duviri_flag"
+    "void_flood.duviri_fixed_length",
+    "void_flood.fill_timer",
+    "void_flood.is_duviri_flag",
+    "wf1999def.drone_count"
   ],
-  "modules": 17,
-  "corpus_files": 17,
-  "metadata_snapshot_sha256": "3BDFB1B0EF06B7B05F6B7D7940853DB335426BFECC077FEAE760E8901AE71A3D",
-  "registry_sha256": "0DAC8B9C3BAFA1BCB40B41958A3063ADADB1EDB9015A9353AC4213E6F9D6F42F"
+  "modules": 46,
+  "corpus_files": 46,
+  "metadata_snapshot_sha256": "49F042A0A8A4D5F84B4B37C02FA0EDED3B931B29EA78F2216E9B709096066BF9",
+  "registry_sha256": "BAAFA6FCCA6C748793109EF77FA0ED31C0CB561346D5DA43D682012530A792AA"
 }

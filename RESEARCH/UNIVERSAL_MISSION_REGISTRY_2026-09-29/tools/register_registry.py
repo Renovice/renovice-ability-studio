@@ -22,6 +22,10 @@ import hashlib, json, re, struct, subprocess, sys, tempfile
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from deluau import ROOT, EDITOR, Module, body_key, sha256, SETTABLE, LOADN, RAW_LOADN  # noqa: E402
+from anchors import Analysis  # noqa: E402
+import phase2d  # noqa: E402
+import phase2d_lua_specs as P2D_LUA  # noqa: E402
+import phase2d_metadata_specs as P2D_META  # noqa: E402
 
 BUILD = '2026.09.28.13.06'
 BUILD_LABEL = 'Hotfix 44.0.2'
@@ -58,7 +62,7 @@ used_files = set()
 
 def module(file):
     if file not in module_objs:
-        module_objs[file] = Module((STOCK / file).read_bytes())
+        module_objs[file] = Analysis((STOCK / file).read_bytes())
     return module_objs[file]
 
 
@@ -84,7 +88,7 @@ def num(x):
     return int(x) if float(x).is_integer() else x
 
 
-def site_from_patch(raw, patch, numerator=None, denominator=None):
+def site_from_patch(raw, patch, numerator=None, denominator=None, file=None):
     """Verify one carried-over exact site on the 44.0.2 bytes and return the registry site."""
     off = patch['offset']
     kind = patch.get('kind', 'instruction')
@@ -97,8 +101,16 @@ def site_from_patch(raw, patch, numerator=None, denominator=None):
         if raw[off - 1] != 2:
             raise ValueError('number constant tag changed')
         site['constant'] = patch['constant']
+        m = module(file)
+        if m.constant_offset(patch['prototype'], patch['constant']) != off:
+            raise ValueError('carried-over number constant offset disagrees with the constant table')
+        uses = [u[1] for u in m.uses(patch['prototype']).get(patch['constant'], []) if u[0] == 'ins']
+        site['gate'] = m.exclusive_constant(patch['prototype'], patch['constant'], uses)
     else:
         site.update(instruction=patch['instruction'], register=patch['register'])
+        if raw[off] != RAW_LOADN:
+            # Carried-over linked-result site: the verified build rewrites this instruction into LOADN of the derived value.
+            site['rewrites_instruction'] = True
     site['numerator'] = numerator if numerator is not None else patch['numerator']
     site['denominator'] = denominator if denominator is not None else patch['denominator']
     if patch.get('owner'):
@@ -174,12 +186,12 @@ for pid, (title, lane, params) in CARRY.items():
         transform = None
         if pid == 'void_cascade':
             # The preset control is a speed multiplier; the owner is the stock 90-second duration.
-            sites = [site_from_patch(raw, p, 1, 1) for p in patches]
+            sites = [site_from_patch(raw, p, 1, 1, old['file']) for p in patches]
             transform = {'kind': 'inverse', 'numerator': 90}
             limits = {'minimum': 1, 'maximum': 32767, 'integer': True}
             unit = 's'
         else:
-            sites = [site_from_patch(raw, p) for p in patches]
+            sites = [site_from_patch(raw, p, file=old['file']) for p in patches]
             lim = old['parameters'][pname]
             limits = {'minimum': lim['minimum'], 'maximum': lim['maximum'], 'integer': True}
             unit = p1rows.get(p1id, {}).get('unit') or 's'
@@ -378,10 +390,47 @@ types = sorted({t[0] for t in tsv})
 snapshot = {}
 
 
+def runtime_script_entries(text):
+    """Scripts entries of a composed type in runtime order. Mirrors the bootstrapper EeNotationParser: a ',' only
+    ends a value, it is never a list element (Phase 1 trigger_params.py counted separators, so its Scripts.N index is
+    2 x the runtime ordinal for every entry after the first)."""
+    tokens = re.findall(r'"[^"]*"|[{}=]|[^\s{}=,"]+', text.split('\n', 1)[1])
+
+    def parse(i):
+        if tokens[i] != '{':
+            return tokens[i], i + 1
+        i += 1
+        items, obj, is_obj = [], {}, False
+        while tokens[i] != '}':
+            if i + 1 < len(tokens) and tokens[i + 1] == '=':
+                k = tokens[i]
+                v, i = parse(i + 2)
+                obj[k] = v
+                is_obj = True
+            else:
+                v, i = parse(i)
+                items.append(v)
+        return (obj if is_obj else items), i + 1
+
+    i = 0
+    top = {}
+    while i < len(tokens):
+        k = tokens[i]
+        if i + 1 < len(tokens) and tokens[i + 1] == '=':
+            v, i = parse(i + 2)
+            top[k] = v
+        else:
+            i += 1
+    scripts = top.get('Scripts', [])
+    return [e.get('Script', {}) if isinstance(e, dict) else {} for e in (scripts if isinstance(scripts, list) else [])]
+
+
 def metadata_row(tid, p1id, type_path, field_path, provenance, limits, unit):
     matches = [t for t in tsv if t[0] == type_path and t[3] == field_path]
     if len(matches) != 1:
         raise ValueError(f'{len(matches)} snapshot rows for {type_path} {field_path}')
+    if not field_path.startswith('Scripts.0.'):
+        raise ValueError('Phase 1 Scripts index counts list separators; only Scripts.0 is identical at runtime (use a Phase 2d split)')
     _, script, function, _, value = matches[0]
     if not script.startswith('/'):
         # DE metadata resolves a relative Script path against the owning type's directory.
@@ -413,6 +462,59 @@ def metadata_row(tid, p1id, type_path, field_path, provenance, limits, unit):
             'confidence': p.get('confidence', 'CARRIED_OVER'), 'provenance': provenance}
 
 
+def metadata_param_row(spec, provenance):
+    """One control = one trigger owner type + one script parameter, patched in EVERY runtime Scripts entry that carries
+    it. All entries must hold the same stock text and each entry's consumer must read the hashed global."""
+    type_path, param = spec['type'], spec['param']
+    text = composed[type_path]['text']
+    entries = [(n, e) for n, e in enumerate(runtime_script_entries(text)) if param in e]
+    if not entries:
+        raise ValueError(f'{param} not present in any runtime Scripts entry of {type_path}')
+    values = {e[param] for _, e in entries}
+    if len(values) != 1:
+        raise ValueError(f'{param} holds different values across Scripts entries {sorted(values)}; not one control')
+    value = values.pop()
+    stock = stock_number(value)
+    if stock is None:
+        raise ValueError(f'non-numeric metadata stock value {value!r}')
+    line = param + '=' + value
+    if line not in text.splitlines():
+        raise ValueError('composed metadata text lacks exact preimage line ' + line)
+    global_name = param[1:]
+    h = namehash(global_name)
+    fields, consumers = [], []
+    for n, e in entries:
+        script = e.get('Script', '')
+        if not script.startswith('/'):
+            script = type_path.rsplit('/', 1)[0] + '/' + script
+        consumer = script.strip('/').replace('/', '_') + '_B'
+        if not (STOCK / consumer).exists():
+            raise ValueError(f'consumer module {script} not in the 44.0.2 extraction')
+        if (STOCK / consumer).read_bytes().count(struct.pack('<I', h)) < 1:
+            raise ValueError(f'consumer {script} does not reference hashed global {global_name} ({h:08x}); unread parameter')
+        fields.append((f'Scripts.{n}.Script.{param}', e.get('Function', ''), script, consumer))
+    ckey, crec = register_module(fields[0][3], fields[0][2])
+    if any(f[3] != fields[0][3] for f in fields):
+        raise ValueError('Scripts entries name different consumer modules; one control per consumer')
+    rec = snapshot.setdefault(type_path, {'text': text, 'fields': {}})
+    for path, *_ in fields:
+        rec['fields'][path] = value
+    p = p1rows.get(spec['phase1'], {})
+    integer = spec.get('integer', False)
+    limits = {'minimum': 0 if stock == 0 or not integer else 1, 'maximum': max(32767, stock * 10), 'integer': integer,
+              'basis': 'numeric guard only; gameplay-safe range not established offline'}
+    owner = {'type': type_path, 'field': fields[0][0], 'stock_text': value, 'preimage': line, 'packages_bin_sha256': PACKAGES_SHA,
+             'consumer': {'body_key': ckey, 'stock_sha256': crec['sha256'], 'file': fields[0][3], 'module_path': fields[0][2],
+                          'function': fields[0][1], 'global': global_name, 'name_hash': f'{h:08x}'},
+             'runtime_index_rule': 'EeNotationParser: list separators are not elements'}
+    if len(fields) > 1:
+        owner['also'] = [{'field': path, 'stock_text': value, 'preimage': line, 'function': fn} for path, fn, *_ in fields[1:]]
+    return {'tunable_id': spec['tunable_id'], 'phase1_tunable_id': spec['phase1'], 'label': spec['label'],
+            'mission_type': spec['mode'], 'variant': spec.get('variant', ''), 'shared_with': p.get('shared_with', ''),
+            'owner_kind': 'METADATA_PARAM', 'backend': 'METADATA_PATCH', 'owner': owner, 'unit': spec['unit'], 'stock': num(stock),
+            'limits': limits, 'applies': 'restart', 'confidence': p.get('confidence', 'CONFIRMED_STATIC'), 'provenance': provenance}
+
+
 for pid, tid, pname, maximum in [('netracells', 'netracell.enemy_power_fill', 'power_per_kill', 100),
                                  ('descendia_shrine', 'shrine.offering_generation_time', 'offering_generation_time', 32767)]:
     old = previous['missions'][pid]
@@ -426,6 +528,57 @@ for pid, tid, pname, maximum in [('netracells', 'netracell.enemy_power_fill', 'p
                     'module_path': old['module_path'],
                     'parameters': {pname: {'tunable_id': tid, 'minimum': old['parameters'][pname]['minimum'], 'maximum': maximum}}}
     report['carried_over'].append({'preset': pid, 'body_key': old['body_key'], 'identical_sha256': True, 'sites': 0})
+
+# ---------------------------------------------------------------- Phase 2d exact owners (literal, table template, constant, metadata splits)
+report['phase2d'] = {'lua_rows': 0, 'metadata_rows': 0, 'site_kinds': {}, 'gates': {'template_single_use_pass': 0,
+                     'constant_exclusive_pass': 0, 'pattern_complete_pass': 0}, 'failures': []}
+phase2d_ids = set()
+for spec in P2D_LUA.TUNABLES:
+    try:
+        m = module(spec['module'])
+        sites = phase2d.resolve(m, spec['specs'])
+        for s_ in sites:
+            got = (struct.unpack_from('<h', m.raw, s_['offset'] + 2)[0] if s_['kind'] == 'instruction'
+                   else struct.unpack_from('<d', m.raw, s_['offset'])[0])
+            if got != spec['stock']:
+                raise ValueError(f'site {s_["prototype"]}@{s_["offset"]} stock {got} != {spec["stock"]}')
+        key, rec = register_module(spec['module'], dotted(spec['module_path']))
+        constant = any(s_['kind'] == 'number_constant' for s_ in sites)
+        loadn = any(s_['kind'] == 'instruction' for s_ in sites)
+        if loadn:
+            limits = {'minimum': 1, 'maximum': 32767, 'integer': True}
+        else:
+            limits = {'minimum': 0, 'maximum': max(1000, abs(spec['stock']) * 100), 'integer': bool(spec.get('integer'))}
+        limits['basis'] = 'operand domain guard only; gameplay-safe range not established offline'
+        kinds = sorted({a['kind'] for a in spec['specs']})
+        row = lua_row(spec['tunable_id'], spec['phase1'], spec['owner_kind'], key, rec, sites, num(spec['stock']), limits,
+                      spec['unit'], APPLIES_LITERAL, 'phase2d:' + '+'.join(kinds),
+                      {'label': spec['label'], 'mission_type': spec['mode'], 'variant': spec.get('variant', ''),
+                       'confidence': spec['confidence'], 'evidence': spec['evidence'],
+                       'backend_note': f'{len(sites)} exact site(s) patched together: ' + '; '.join(a['owner'] for a in spec['specs'])})
+        rows.append(row)
+        phase2d_ids.add(spec['phase1'])
+        report['phase2d']['lua_rows'] += 1
+        for s_ in sites:
+            report['phase2d']['site_kinds'][s_['kind']] = report['phase2d']['site_kinds'].get(s_['kind'], 0) + 1
+        for a in spec['specs']:
+            report['phase2d']['gates'][{'template': 'template_single_use_pass', 'constant': 'constant_exclusive_pass',
+                                        'pattern': 'pattern_complete_pass'}[a['kind']]] += 1
+    except (ValueError, KeyError) as e:
+        report['phase2d']['failures'].append({'tunable_id': spec['tunable_id'], 'reason': str(e)})
+for spec in P2D_META.METADATA:
+    try:
+        rows.append(metadata_param_row(spec, 'phase2d:metadata-split'))
+        phase2d_ids.add(spec['phase1'])
+        report['phase2d']['metadata_rows'] += 1
+    except (ValueError, KeyError) as e:
+        report['phase2d']['failures'].append({'tunable_id': spec['tunable_id'], 'reason': str(e)})
+if report['phase2d']['failures']:
+    raise SystemExit('Phase 2d spec failures: ' + json.dumps(report['phase2d']['failures'], indent=1))
+phase2d_excluded = {}
+for e in P2D_LUA.EXCLUDED + P2D_META.EXCLUDED:
+    phase2d_excluded.setdefault(e['phase1'], []).append(e)
+excluded_parts = []
 
 carried_ids = {r['phase1_tunable_id'] for r in rows}
 carried_ids |= {'mobiledefense.total_time', 'coh_excavation.shared_constant_90'}
@@ -458,6 +611,12 @@ for r in phase1['tunables']:
         if len(cur_types) == 1:
             previous_type = cur_types[0]
     if tid in carried_ids:
+        for e in phase2d_excluded.get(tid, []):
+            excluded_parts.append({'tunable_id': tid, 'owner_kind': kind, 'part': e.get('part', e.get('field', '')), 'reason': e['reason']})
+        continue
+    if tid in phase2d_excluded:
+        exclude(r, 'Phase 2d: ' + ' | '.join((e.get('part') or e.get('field') or 'row') + ': ' + e['reason'] if (e.get('part') or e.get('field'))
+                                              else e['reason'] for e in phase2d_excluded[tid]))
         continue
     if kind not in BACKENDS:
         exclude(r, {'MISSIONINFO': 'MissionInfo producer: no generator back end in mission_profiles.inl (only the ConquestLib '
@@ -600,6 +759,7 @@ registry = {
     'tunables': rows,
     'missions': presets,
     'excluded': excluded,
+    'excluded_parts': sorted(excluded_parts, key=lambda e: (e['tunable_id'], e['part'])),
 }
 (EDITOR / 'REGISTRIES/mission_build_u44.json').write_text(json.dumps(registry, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
 
@@ -611,10 +771,23 @@ excl_counts = {}
 for r in excluded:
     excl_counts.setdefault(r['owner_kind'], 0)
     excl_counts[r['owner_kind']] += 1
+by_mode, by_backend = {}, {}
+for r in rows:
+    by_mode.setdefault(r['mission_type'] or '-', {}).setdefault(r['owner_kind'], 0)
+    by_mode[r['mission_type'] or '-'][r['owner_kind']] += 1
+    by_backend[r['backend']] = by_backend.get(r['backend'], 0) + 1
+covered = {r['phase1_tunable_id'] for r in rows if r['phase1_tunable_id']} | {'coh_excavation.shared_constant_90'}
+partial = sorted({e['tunable_id'] for e in excluded_parts})
+report['phase1_accounting'] = {'denominator': len(phase1['tunables']), 'registered_fully': len(covered) - len(set(partial) & covered),
+                               'registered_partially': len(set(partial) & covered), 'excluded': len(excluded),
+                               'excluded_parts': len(excluded_parts)}
+assert report['phase1_accounting']['registered_fully'] + report['phase1_accounting']['registered_partially'] + len(excluded) == len(phase1['tunables'])
+report.update({'rows_by_mode': dict(sorted(by_mode.items())), 'rows_by_backend': by_backend})
 report.update({'build': BUILD, 'rows': len(rows), 'rows_by_owner_kind': owner_counts, 'excluded': len(excluded),
                'excluded_by_owner_kind': excl_counts, 'phase1_rows': len(phase1['tunables']), 'phase1_by_owner_kind': phase1_counts,
                'phase1_ids_covered': sorted({r['phase1_tunable_id'] for r in rows if r['phase1_tunable_id']} | {'coh_excavation.shared_constant_90'}),
                'modules': len(modules), 'corpus_files': len(manifest), 'metadata_snapshot_sha256': snapshot_sha,
                'registry_sha256': hashlib.sha256((EDITOR / 'REGISTRIES/mission_build_u44.json').read_bytes()).hexdigest().upper()})
 REPORT.write_text(json.dumps(report, indent=2) + '\n')
-print(json.dumps({k: report[k] for k in ('rows', 'rows_by_owner_kind', 'excluded', 'excluded_by_owner_kind', 'modules')}, indent=1))
+print(json.dumps({k: report[k] for k in ('rows', 'rows_by_owner_kind', 'rows_by_backend', 'excluded', 'excluded_by_owner_kind', 'modules',
+                                         'phase1_accounting', 'phase2d')}, indent=1))
