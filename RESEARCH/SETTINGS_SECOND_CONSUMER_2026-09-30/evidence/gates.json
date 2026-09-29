@@ -26,7 +26,7 @@
     },
     "mallet.build.recompile-u44": {
       "pass": true,
-      "detail": "[derecomp] recompile C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\work\\temp\\ability-editor-settings-consumer\\RESEARCH\\SETTINGS_SECOND_CONSUMER_2026-09-30\\src\\mallet-threat-settings.u44.luau -> C:\\Users\\Bartek\\AppData\\Local\\Temp\\claude\\C--Users-Bartek-OneDrive-Dokumenter-Warframe-RE-PROJECT-RENOVICE\\da3f97f0-d2c7-475a-a46d-2f428b02d1ea\\scratchpad\\final\\work\\mallet\\candidate.lua_B : 3798 bytes, nps=14, re-parses=yes, hashed-globals=0, hashed-fields=0"
+      "detail": "[derecomp] recompile C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\work\\temp\\ability-editor-settings-consumer\\RESEARCH\\SETTINGS_SECOND_CONSUMER_2026-09-30\\src\\mallet-threat-settings.u44.luau -> C:\\Users\\Bartek\\AppData\\Local\\Temp\\claude\\C--Users-Bartek-OneDrive-Dokumenter-Warframe-RE-PROJECT-RENOVICE\\da3f97f0-d2c7-475a-a46d-2f428b02d1ea\\scratchpad\\scc-r1\\work\\mallet\\candidate.lua_B : 3798 bytes, nps=14, re-parses=yes, hashed-globals=0, hashed-fields=0"
     },
     "mallet.build.deterministic": {
       "pass": true,
@@ -78,7 +78,7 @@
     },
     "icewave.build.recompile-u44": {
       "pass": true,
-      "detail": "[derecomp] recompile C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\work\\temp\\ability-editor-settings-consumer\\RESEARCH\\SETTINGS_SECOND_CONSUMER_2026-09-30\\src\\ice-wave-settings.u44.luau -> C:\\Users\\Bartek\\AppData\\Local\\Temp\\claude\\C--Users-Bartek-OneDrive-Dokumenter-Warframe-RE-PROJECT-RENOVICE\\da3f97f0-d2c7-475a-a46d-2f428b02d1ea\\scratchpad\\final\\work\\icewave\\candidate.lua_B : 14118 bytes, nps=37, re-parses=yes, hashed-globals=0, hashed-fields=0"
+      "detail": "[derecomp] recompile C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\work\\temp\\ability-editor-settings-consumer\\RESEARCH\\SETTINGS_SECOND_CONSUMER_2026-09-30\\src\\ice-wave-settings.u44.luau -> C:\\Users\\Bartek\\AppData\\Local\\Temp\\claude\\C--Users-Bartek-OneDrive-Dokumenter-Warframe-RE-PROJECT-RENOVICE\\da3f97f0-d2c7-475a-a46d-2f428b02d1ea\\scratchpad\\scc-r1\\work\\icewave\\candidate.lua_B : 14118 bytes, nps=37, re-parses=yes, hashed-globals=0, hashed-fields=0"
     },
     "icewave.build.deterministic": {
       "pass": true,
@@ -127,7 +127,7 @@
         "candidate_sha256": "1e3682a4bacf46ef4b15bcedb71ad402a2d9bd01540e410abe0a5419b418bb86",
         "candidate_size": 3798,
         "source_sha256": "641d55d9d7f42c464ed9beb562885923eae641a4d9bed13379ed9a5f2379e0ef",
-        "manifest_sha256": "c241608862a47c4e74b6651c368a4070e7008a5b1613f1f766fc0f64a07aed0a",
+        "manifest_sha256": "35b4d5efa19e091ec14bc3ed226e321fe1be966a27b89e7a3314b8bd879ecaae",
         "installed_sha256": "22e0cb4972f81050175b982cbef7c4d09a5a1fb2a1268c38172d45e151bf422a",
         "stock_sha256": "c713c4d6bf32adb06f7b3ff71d03f00feb53ccd0b651bd2cdf2382106882299f"
       },
@@ -135,7 +135,7 @@
         "candidate_sha256": "f3ddb4336b13e321d236a5f543ce1e5122783b9f3b5e619604073f2db8ea5e71",
         "candidate_size": 14118,
         "source_sha256": "3ea02a8ba692a94f3c89df404058f9121114b9f1768687f7433955a0bb52b024",
-        "manifest_sha256": "f1185838de40123117f38659e4eeda27d420337510127feecadd42fa95ed917c",
+        "manifest_sha256": "10e96fb6f449ad7a6544e8d30e4f724e9bedcb98b41a92ec3e28acde8bafda0d",
         "installed_sha256": "dcedc4a2d11cd2d7f03361432eb02c64fd01f3dc6517b627e940ac8ad4228e31",
         "stock_sha256": "f903720dee7828506f2a3e668204860f5300a27c27fc53f4e86781cab276f3c5"
       }

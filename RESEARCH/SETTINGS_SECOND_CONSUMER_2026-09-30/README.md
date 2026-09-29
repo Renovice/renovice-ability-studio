@@ -133,9 +133,9 @@ built from those exact revisions with MSVC `/W4 /WX`, 0 warnings): **7/7** (`evi
 | File | Bytes | SHA-256 |
 |---|---|---|
 | `package/Octavia/ec368d4901690a15.MalletOverguardAndCard.target.addon.lua_B` | 3,798 | `1e3682a4bacf46ef4b15bcedb71ad402a2d9bd01540e410abe0a5419b418bb86` |
-| `package/Octavia/package.json` | 1,138 | `c241608862a47c4e74b6651c368a4070e7008a5b1613f1f766fc0f64a07aed0a` |
+| `package/Octavia/package.json` (R1; pre-R1 was 1,138 B `c2416088…aed0a`) | 1,173 | `35b4d5efa19e091ec14bc3ed226e321fe1be966a27b89e7a3314b8bd879ecaae` |
 | `package/Frost/8fba3a28f8fef624.IceWaveColdStackDamage.target.addon.lua_B` | 14,118 | `f3ddb4336b13e321d236a5f543ce1e5122783b9f3b5e619604073f2db8ea5e71` |
-| `package/Frost/package.json` | 1,128 | `f1185838de40123117f38659e4eeda27d420337510127feecadd42fa95ed917c` |
+| `package/Frost/package.json` (R1; pre-R1 was 1,128 B `f1185838…d917c`) | 1,163 | `10e96fb6f449ad7a6544e8d30e4f724e9bedcb98b41a92ec3e28acde8bafda0d` |
 | `settings-example/Octavia.json` (threat 5 enabled) | 253 | `485fa61205c716cf2a06a9979783c56e421bc678401cad84d74350afc42263cb` |
 | `settings-example/Frost.json` (bonus 50 enabled) | 264 | `bf6b810e9f242b1aade8277bdcc0d8bd8c1da3bdae850a2c233299c9950ed82e` |
 
@@ -146,12 +146,10 @@ Install, rollback and live-test steps: `work/staging/settings-second-consumer/RE
 - **Offline only.** U-1 stays UNRESOLVED until the live steps in the staging README pass on both targets under DLL
   `d2f22650`. Script load does not prove callback execution, and a card row does not prove damage.
 - **Migration is required under ADDON_SETTINGS_V1.** Without `Settings/Octavia.json` and `Settings/Frost.json`,
-  `d2f22650` delivers an empty table and both addons go to stock (F-3). The example files reproduce today's values.
-- **Tooltip wording (bootstrapper owner, not changed).** `settings_ui_core.hpp` `value_tooltip` always appends "Custom
-  value applies only where the live value equals stock." That is true for the Missions table writes but not for these
-  addons: Mallet overrides a dynamic value, and Ice Wave has no live stock check. Spec: emit that sentence only when a
-  declaration asks for it, for example a future `"stock_check": true` field, or move it into the Missions scope text.
-  Doing this needs a declaration-schema revision, so nothing was changed here.
+  an ADDON_SETTINGS_V1 DLL delivers an empty table and both addons go to stock (F-3). The example files reproduce today's values.
+- **Tooltip wording: resolved by R1** (section below). Superseded text, kept as history: `value_tooltip` always
+  appended "Custom value applies only where the live value equals stock", which is false for these two addons.
+- **`verify_addon_settings -Package`: resolved by R1** (bootstrapper `dd5414c`). The item below is kept as history.
 - **`verify_addon_settings` takes no external package.** It runs only the phase2i fixtures. This note's
   `settings_package_gate.cpp` fills the gap for these packages. Spec for the owner: `verify_addon_settings.ps1
   -Package <folder> -Values <file>`, which runs parse → evaluate → delivery → page model and prints rows.
@@ -174,5 +172,33 @@ Install, rollback and live-test steps: `work/staging/settings-second-consumer/RE
   - The real addon sources pass the contract under Luau.
   - The bytes pass the U44 identity, determinism and NAMECALL gates.
   - The installed-DLL revision admits the packages with compiled defaults.
-- **Next step:** the user installs `d2f22650` (editor-phase2-3), then these packages with their `Settings` files, and
+- **Next step:** the user installs `ed2a996d` (editor-phase2-3, R1; the R1 manifests need it), then these packages with their `Settings` files, and
   runs the staging README live steps 1–8.
+
+## Revision R1: `"stock_check": "none"` (2026-09-30)
+
+Contract: `work/research/universal-mission-editor-2026-09-29/CONTRACT_PHASE1.md` "Revision R1" (bootstrapper
+`feat/ingame-settings-editor-2026-09-30` `dd5414c`, DLL `ed2a996d…`). Optional per value `"stock_check": "live" |
+"none"`, addon lane only, absent = `live`; display only (the SCRIPT SETTINGS tooltip sentence).
+
+- Hypothesis: adding `"stock_check": "none"` to `mallet.threat_level` and `ice_wave.bonus_per_cold_stack` removes the
+  false live-stock sentence from both tooltips and changes nothing else (addon bytes, deliveries, log lines).
+  Result: **TRUE (offline)**.
+- Change: the hand-written manifests `package/Octavia/package.json` and `package/Frost/package.json` (the source of
+  record; `tests/run_gates.py` copies them into the staged folders) carry `"stock_check": "none"` directly after
+  `"applies"`. The sources, the addon bytes and the settings examples are unchanged.
+- `tests/run_gates.py`: 29/29 (`evidence/run_gates.txt`, `evidence/gates.json`, now the R1 run). Addon SHA-256s are
+  unchanged (`1e3682a4…`, `f3ddb433…`); only `manifest_sha256` differs.
+- `verify_addon_settings.ps1 -Package <dir> -Settings <file>` at bootstrapper `dd5414c`
+  (`evidence/bootstrapper/verify_addon_settings_R1_{Octavia,Frost,Missions}.txt`): each exit 0, 150 PASS, 0 FAIL,
+  ADDON SETTINGS GATES PASS.
+  - Octavia and Frost: `DECL … stock_check=none`; the value tooltip ends at "Applies: live, at the next read."; delivery
+    identities `fee07438…` and `6f4414d1…`, the same as without the field.
+  - Missions phase2i (no field): `stock_check=live(default)`, and the addon tooltips keep the sentence.
+- **Compatibility.** These manifests need DLL `ed2a996d…` or later for their settings. A pre-R1 settings DLL
+  (`d2f22650`) rejects them as `unknown-field=stock_check`, which disables only these packages' settings (compiled
+  5 and 50 apply). The installed `6f100ebc` (`3ca9564`) skips member `settings` as reserved; the R1 manifests were not
+  re-gated at that revision.
+- The `7028479`/`3ca9564` bootstrapper evidence above (`tools/run_bootstrapper_gates.ps1`) is the pre-R1 run with
+  the pre-R1 manifests and was not repeated.
+- Staged: `work/staging/settings-second-consumer/` (R1; the previous manifests are in `older/Packages/`).

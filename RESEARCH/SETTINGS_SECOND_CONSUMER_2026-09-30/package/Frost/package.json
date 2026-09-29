@@ -17,7 +17,8 @@
             "max": 100,
             "scope": "Frost Ice Wave damage x (1 + Cold stacks (max 10) x bonus x Ability Strength). Unticked or 0: stock damage, the addon changes nothing",
             "lane": "addon",
-            "applies": "live_next_read"
+            "applies": "live_next_read",
+            "stock_check": "none"
           }
         }
       }

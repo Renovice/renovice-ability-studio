@@ -1,0 +1,180 @@
+﻿powershell.exe : 'vswhere.exe' is not recognized as an internal or external command,
+At line:12 char:3
++   & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $gate -Pa ...
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ('vswhere.exe' i...ternal command,:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+operable program or batch file.
+verify_addon_settings.cpp
+packages.cpp
+Generating Code...
+PASS	generator-shaped declarations parse: 3 groups, 5 values, aliases kept
+PASS	int value carries member, bounds, lane, applies and unit
+PASS	enum value carries its options
+PASS	literal value belongs to its replacement member
+PASS	`settings: {}` means no declarations (package behaves exactly as today)
+PASS	declaration rejects: settings-unknown-field=extra
+PASS	declaration rejects: settings-format-not-RENOVICE_SETTINGS_DECL_V1
+PASS	declaration rejects: settings-build-invalid
+PASS	declaration rejects: settings-groups-not-array
+PASS	declaration rejects: group-duplicate=g
+PASS	declaration rejects: group-id-invalid
+PASS	declaration rejects: group-order-invalid=g
+PASS	declaration rejects: member=M value=g.v unknown-field=enabled
+PASS	declaration rejects: member=M value=g.v group-not-declared=x
+PASS	declaration rejects: member=M value=g.v type-invalid=text
+PASS	declaration rejects: member=M value=g.v stock-outside-min-max
+PASS	declaration rejects: member=M value=g.v int-has-fraction
+PASS	declaration rejects: member=M value=g.v int-bound-not-exact-in-float32
+PASS	declaration rejects: member=M value=g.v enum-stock-not-an-option
+PASS	declaration rejects: member=M value=g.v options-only-for-enum
+PASS	declaration rejects: member=M value=g.v lane-invalid=server
+PASS	declaration rejects: member=M value=g.v applies-invalid=now
+PASS	declaration rejects: member=M value=g.v stock_check-invalid=sometimes
+PASS	declaration rejects: member=M value=g.v stock_check-invalid
+PASS	declaration rejects: member=M value=g.v stock_check-only-for-addon-lane
+PASS	declaration rejects: member=M value=g.v label-invalid
+PASS	declaration rejects: member=M value-id-invalid=bad id
+PASS	declaration rejects: member=M settings-must-be-exactly-values-object
+PASS	declaration rejects: member=M settings-not-object
+PASS	declaration rejects: settings-invalid-json
+PASS	a value id is unique across the members of a package
+PASS	stock_check: "live" | "none" parse; absent means live (backward compatible)
+PASS	values file parses (BOM, groups, per-value enabled/value/stock); a bad entry is entry-local
+PASS	malformed values file: values-file-invalid-json
+PASS	malformed values file: values-file-not-object
+PASS	malformed values file: values-file-format-not-RENOVICE_SCRIPT_SETTINGS_V1
+PASS	malformed values file: values-file-package-mismatch expected=package:missions found=package:other
+PASS	malformed values file: values-file-unknown-field=extra
+PASS	malformed values file: values-file-use_stock-not-boolean
+PASS	malformed values file: values-file-group-not-boolean=a
+PASS	malformed values file: values-file-values-not-object
+PASS	malformed values file: values-file-trailing-data
+PASS	malformed values file: values-file-invalid-json
+PASS	malformed values file: values-file-too-large
+PASS	writer round trip keeps master, sections, values and records the declared stock
+PASS	writer output is deterministic and human-editable
+PASS	missing values file: every value is stock
+PASS	malformed values file: the package reverts to stock with the exact reason
+PASS	per-value enable: an enabled valid value is effective, a disabled one stays stock, unknown ids are ignored
+PASS	invalid values revert only that value to stock with an exact reason
+PASS	master `use_stock` makes every value stock and keeps the remembered values
+PASS	a section switch reverts only its group
+PASS	build mismatch without a recorded stock never carries a value over
+PASS	build mismatch keeps a value whose recorded stock equals the declared stock
+PASS	a recorded stock that differs from the declaration fails closed
+PASS	literal member without a values file stays stock (not staged)
+PASS	literal member is staged when its value is enabled
+PASS	per-value switch off: the one-value literal member stays stock
+PASS	master `use_stock` also holds back literal members
+PASS	a replacement member without literal declarations is unaffected
+PASS	delivery holds only this member's effective addon-lane values, sorted, with stock
+PASS	delivery identity is a deterministic SHA-256
+PASS	a value edit or a per-value switch changes the identity (forces re-activation)
+PASS	an all-stock package still delivers an (empty) table with its own identity
+PASS	SHA-256 matches the FIPS 180-4 vectors
+PASS	reuse identity: bytes AND settings; loose addons (no settings) reuse exactly as before
+PASS	member ids are member:<folder>/<file>, lowercased
+PASS	member ids satisfy the ScriptStates.json id rules
+PASS	startup scan PASS (package without declarations)
+PASS	package regression: no declarations -> all members staged, no delivery (context.settings = nil)
+PASS	package regression: no settings log lines at all
+PASS	package regression: the ACCEPT line is unchanged
+PASS	F9 prepare PASS (declarations, values file absent)
+PASS	declarations without a values file: addon gets an empty table, literal member stays stock
+PASS	operational lines: package summary, literal gate, delivery
+PASS	F9 prepare PASS (valid values file)
+PASS	valid values file: enabled value delivered, literal member staged
+PASS	an out-of-range value reverts only itself, with an exact line
+PASS	F9 prepare PASS (settings-only change)
+PASS	identity-includes-settings: unchanged bytes, changed settings -> different identity
+PASS	F9 prepare PASS with a malformed values file (never rejects the transaction)
+PASS	fail-closed: malformed values file -> this package is stock (empty table, literal held back)
+PASS	fail-closed: exact FILE REJECT line
+PASS	F9 prepare PASS with invalid declarations
+PASS	fail-closed: invalid declarations reject only the settings capability (members keep compiled defaults)
+PASS	fail-closed: exact DECLARATIONS REJECT line
+PASS	F9 prepare PASS with a disabled member
+PASS	member: off -> excluded from staging, still validated, keys still inventoried; siblings unaffected
+PASS	member: off -> exact MEMBER DISABLED line
+PASS	reserved _RENOVICE_INTERNAL_ names are never package members
+PASS	internal chunk classification: only named bridges load; the probe only in a probe build
+PASS	loose/package stable ids unchanged
+PASS	phase2i contract fixtures are present
+PASS	phase2i: startup scan PASS
+PASS	phase2i: generator declarations are accepted by the runtime parser (4 values, 4 groups)
+PASS	phase2i: only survival.reward_interval is delivered (purgatory disabled, lantern absent = stock)
+PASS	phase2i: the enabled Void Flood literal keeps its replacement member staged (D2)
+PASS	phase2i: exact operational summary line
+PASS	phase2i: row labels follow CONTRACT_PHASE1 D1
+PASS	phase2i: every row label is within the width budget
+PASS	phase2i: without stock_check the addon rows keep the live-stock sentence (backward compatible); literal rows never carry it
+PASS	flat page: native title and the stock search box
+PASS	flat page uses stock row types only
+PASS	every row label fits the width budget (40 value / 48 title)
+PASS	no leading spaces, box or tree glyphs in labels
+PASS	package, master and member switches are CHECKBOX rows with current state
+PASS	int >= 0: Custom checkbox + INPUTCOUNT with stock in the label and bounds
+PASS	float and negative int use a validated INPUTBOX; enum uses TOGGLE at its stock option
+PASS	section switch is the first row of its section and reflects the file
+PASS	literal-lane values are read-only in v1 (locked row)
+PASS	flat fallback has no navigation or FinishSelection buttons (unproven gates stay off)
+PASS	tooltips carry scope and apply timing
+PASS	stock_check absent (live): addon rows say the value applies only where the live value equals stock; literal rows do not
+PASS	stock_check none: the tooltip is derived from the declaration and omits the live-stock sentence
+PASS	nested L1: one BUTTON per package with a value summary
+PASS	nested L2: mission-type buttons and Restore all
+PASS	nested L3: section switch first, stock search box, Restore section
+PASS	staging accepts CHECKBOX, INPUTCOUNT, INPUTBOX text and member rows
+PASS	host re-validates every staged value (second line of defence behind the native validator)
+PASS	apply merges staged rows into one values file per package and one policy batch
+PASS	Restore unticks Custom in scope and remembers the value
+PASS	a session with no changes is a no-op
+PASS	restaging the current value is not a change
+INFO	external package folder=Frost settings=Frost.json
+PASS	external Frost: package folder copied into an empty CustomScripts tree
+PASS	external Frost: values file read
+PASS	external Frost: startup scan PASS
+LOG	RENOVICE SETTINGS PACKAGE trigger=startup package=Frost declarations=1 groups=1 file=valid use_stock=0 effective=1 rejected=0 unknown_entries=0 members_staged=1/1
+LOG	RENOVICE SETTINGS DELIVERY trigger=startup package=Frost member=8fba3a28f8fef624.IceWaveColdStackDamage.target.addon.lua_B values=1 identity=6f4414d1c5174ea0 staged=1
+LOG	RENOVICE PACKAGE ACCEPT trigger=startup package=Frost id=package:frost members=1 replacements=0 target_addons=1 target_keys=1 lanes=replacement+inject
+LOG	RENOVICE PACKAGES scan PASS trigger=startup packages=1 accepted=1 disabled=0 rejected=0
+PASS	external Frost: package accepted
+PASS	external Frost: settings declarations accepted by the runtime parser
+DECL	id=ice_wave.bonus_per_cold_stack member=8fba3a28f8fef624.IceWaveColdStackDamage.target.addon.lua_B group=ice_wave lane=addon type=float stock=0 min=0 max=100 applies=live_next_read stock_check=none
+PASS	external Frost: the runtime finds Settings/Frost.json
+PASS	external Frost: values file valid
+INFO	file=valid use_stock=0 effective=1 rejected=0 unknown_entries=0
+PASS	external Frost: no value in the values file is rejected
+MEMBER	8fba3a28f8fef624.IceWaveColdStackDamage.target.addon.lua_B staged=1 enabled=1 delivery=yes values=1 identity=settings-v1:6f4414d1c5174ea07d6c0fcc60134c39fdb7214a06d11cf70a568a47c10f4e68
+DELIVER	8fba3a28f8fef624.IceWaveColdStackDamage.target.addon.lua_B context.settings["ice_wave.bonus_per_cold_stack"] = { enabled = true, value = 50, stock = 0 }
+PASS	external Frost: every addon member that declares values receives a delivery (context.settings)
+ROW	TITLE		FROST
+ROW	CHECKBOX	package:frost	Frost package	value=on	tooltip=Turns the whole package on or off (same switch as the SCRIPTS row).
+ROW	CHECKBOX	stock:frost	Use stock values	value=off	tooltip=On: every value of this package is stock. Your custom values are kept for later.
+ROW	SPACER		
+ROW	TITLE		ICE WAVE
+ROW	CHECKBOX	group:frost/ice_wave	Custom Ice Wave values	value=on	tooltip=Off: every value in Ice Wave is stock. Your custom values are kept.
+ROW	CHECKBOX	custom:frost/ice_wave.bonus_per_cold_stack	Custom Bonus per Cold stack	value=on	tooltip=Off: the stock value is used. Stock 0x. Range 0 to 100. Frost Ice Wave damage x (1 + Cold stacks (max 10) x bonus x Ability Strength). Unticked or 0: stock damage, the addon changes nothing. Applies: live, at the next read.
+ROW	INPUTBOX	value:frost/ice_wave.bonus_per_cold_stack	Bonus per Cold stack (stock 0x)	content=50	tooltip=Stock 0x. Range 0 to 100. Frost Ice Wave damage x (1 + Cold stacks (max 10) x bonus x Ability Strength). Unticked or 0: stock damage, the addon changes nothing. Applies: live, at the next read.
+PASS	external Frost: SCRIPT SETTINGS page has rows
+PASS	external Frost: every row label fits the width budget (40 value / 48 title)
+PASS	external Frost: every tooltip fits the tooltip budget
+PASS	external Frost: the live-stock tooltip sentence appears exactly on addon rows with stock_check live
+ADDON SETTINGS PASS
+PASS	a member held back by policy or settings stays inventoried but never staged
+PASS	addon members carry their generation-owned delivery into the chunk
+PASS	replacement members: inventoried first, staged only when admitted
+PASS	identity-includes-settings: reuse requires the settings identity to match
+PASS	root reactivation is not chosen across a settings change
+PASS	staged bindings record their settings identity
+PASS	both activation paths deliver activate(context)
+PASS	no target-addon activation bypasses the delivery
+PASS	context.settings = { [id] = { enabled, value, stock } } is built inside the protected leaf
+PASS	activate(context) only with a delivery; plain activate() otherwise
+PASS	the historical 3-argument lifecycle call delivers nothing (managed addons unchanged)
+PASS	deliveries are copied to POD views outside the leaf
+PASS	member: ids are admitted into the policy batch only for existing package members
+PASS	the primitive names no mission, ability or file (universal)
+ADDON SETTINGS GATES PASS
