@@ -1,0 +1,15 @@
+proto 0 HASH only-stock=[404f8a8c, 6514b208] only-candidate=[cb160055]
+proto 0 STRING only-stock=["maxSuitReq", "table"] only-candidate=["SolNode801", "SolNode802"]
+proto 0 KEYUSE only-stock=[GLOBAL H:404f8a8c, GLOBAL H:6514b208, SETFIELD S:maxSuitReq] only-candidate=[GLOBAL H:cb160055]
+proto 1 HASH only-stock=[] only-candidate=[404f8a8c]
+proto 1 STRING only-stock=[] only-candidate=["table"]
+proto 1 KEYUSE only-stock=[] only-candidate=[GLOBAL H:404f8a8c]
+proto 2 HASH only-stock=[] only-candidate=[404f8a8c, 6514b208]
+proto 2 STRING only-stock=[] only-candidate=["maxSuitReq", "table"]
+proto 2 KEYUSE only-stock=[] only-candidate=[GLOBAL H:404f8a8c, GLOBAL H:6514b208, SETFIELD S:maxSuitReq]
+proto 3 STRING only-stock=["BuildMissionForLocation", "activate", "after", "cleanup", "hooks", "nativeCalls"] only-candidate=[]
+proto 3 KEYUSE only-stock=[SETFIELD S:BuildMissionForLocation, SETFIELD S:activate, SETFIELD S:after, SETFIELD S:cleanup, SETFIELD S:hooks, SETFIELD S:nativeCalls] only-candidate=[]
+BOOLEANS protos_with_boolean_constant_differences=0 (value constants; not part of the verdict)
+CLASS_SWAPS hash_string_class_swaps=0 other_keyuse_differences=14
+CODE_DIFF protos_code_equal=0 protos_code_size_differs=4 differing_bytes_by_canonical_op_field={}
+CONST_IDENTITY protos_stock=4 protos_candidate=6 hash_equal=1 string_equal=0 keyuse_equal=0 verdict=FAIL

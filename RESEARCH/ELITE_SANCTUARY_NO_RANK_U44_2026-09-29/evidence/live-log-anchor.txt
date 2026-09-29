@@ -1,0 +1,29 @@
+# Read-only excerpt, renovice_source.log (pid 11584, 2026-09-29), key 64d11e6973afa4b1
+# sha256 of log at read time: 2be376aab7a902bc3ebbd9a3bd35c092ebbdf070a6ca5b1c1a9a5be525737bed
+20682:RENOVICE target module identity PASS key=64d11e6973afa4b1 env=000002240A26E350 proto=000002240A1636E0
+20683:RENOVICE native hook PASS key=64d11e6973afa4b1 event=target-environment-dispatcher.install vm=00000224411EC2D0
+20684:RENOVICE Inject PASS 64d11e6973afa4b1.EliteSanctuaryNoRank.target.addon.lua_B closure_tag=8 pcall=0 result_tag=7 exact_env=1 env=000002240A26E350
+20685:RENOVICE TARGET ADDON PASS key=64d11e6973afa4b1 addons=1 vm=00000224411EC2D0 thread=29916
+37727:RENOVICE native hook PASS key=64d11e6973afa4b1 event=nativeCalls.BuildMissionForLocation vm=00000224411EC2D0
+37721:RENOVICE ADDON_TRACE build=V79 pid=11584 tick_ms=54482203 seq=24 attempt=0 thread=29916 key=0x64d11e6973afa4b1 state=000002241F610400 vm=00000224411EC2D0 event=native.call.before ci=000002256E076F50 top=00000225662409B0 method=BuildMissionForLocation phase=before prototype=21 instruction=324 values=arguments argc=2 arg0_ta
+37722:RENOVICE ADDON_TRACE build=V79 pid=11584 tick_ms=54482203 seq=25 attempt=0 thread=29916 key=0x64d11e6973afa4b1 state=000002241F610400 vm=00000224411EC2D0 event=native.call.provider.return ci=000002256E076F50 top=00000225662409B0 method=BuildMissionForLocation phase=before providers=1 invoked=0 protected=1
+37723:RENOVICE ADDON_TRACE build=V79 pid=11584 tick_ms=54482203 seq=26 attempt=0 thread=29916 key=0x64d11e6973afa4b1 state=000002241F610400 vm=00000224411EC2D0 event=native.call.after ci=000002256E076F50 top=00000225662409C0 method=BuildMissionForLocation phase=after prototype=21 instruction=324 values=results argc=1 arg0_tag=9=
+37724:RENOVICE ADDON_TRACE build=V79 pid=11584 tick_ms=54482203 seq=27 attempt=0 thread=29916 key=0x64d11e6973afa4b1 state=000002241F610400 vm=00000224411EC2D0 event=native.call.provider.enter ci=000002256E076F50 top=00000225662409C0 method=BuildMissionForLocation phase=after addon=64d11e6973afa4b1.EliteSanctuaryNoRank.target.ad
+37725:RENOVICE ADDON_TRACE build=V79 pid=11584 tick_ms=54482203 seq=28 attempt=0 thread=29916 key=0x64d11e6973afa4b1 state=000002241F610400 vm=00000224411EC2D0 event=native.call.provider.return ci=000002256E076F50 top=00000225662409C0 method=BuildMissionForLocation phase=after addon=64d11e6973afa4b1.EliteSanctuaryNoRank.target.a
+37726:RENOVICE ADDON_TRACE build=V79 pid=11584 tick_ms=54482203 seq=29 attempt=0 thread=29916 key=0x64d11e6973afa4b1 state=000002241F610400 vm=00000224411EC2D0 event=native.call.provider.return ci=000002256E076F50 top=00000225662409C0 method=BuildMissionForLocation phase=after providers=1 invoked=1 protected=1
+37728:RENOVICE ADDON_TRACE build=V79 pid=11584 tick_ms=54482203 seq=30 attempt=0 thread=29916 key=0x64d11e6973afa4b1 state=000002241F610400 vm=00000224411EC2D0 event=native.call.return ci=000002256E076F50 top=00000225662409C0 method=BuildMissionForLocation prototype=21 instruction=324 arguments=2 results=1 results_valid=1
+42759:RENOVICE ADDON_TRACE build=V79 pid=11584 tick_ms=54601765 seq=31 attempt=0 thread=29916 key=0x64d11e6973afa4b1 state=000002253DBB1D30 vm=00000224411EC2D0 event=native.call.before ci=000002257956D420 top=0000022573521740 method=BuildMissionForLocation phase=before prototype=25 instruction=9 values=arguments argc=2 arg0_tag=
+42760:RENOVICE ADDON_TRACE build=V79 pid=11584 tick_ms=54601765 seq=32 attempt=0 thread=29916 key=0x64d11e6973afa4b1 state=000002253DBB1D30 vm=00000224411EC2D0 event=native.call.provider.return ci=000002257956D420 top=0000022573521740 method=BuildMissionForLocation phase=before providers=1 invoked=0 protected=1
+42761:RENOVICE ADDON_TRACE build=V79 pid=11584 tick_ms=54601765 seq=33 attempt=0 thread=29916 key=0x64d11e6973afa4b1 state=000002253DBB1D30 vm=00000224411EC2D0 event=native.call.after ci=000002257956D420 top=0000022573521750 method=BuildMissionForLocation phase=after prototype=25 instruction=9 values=results argc=1 arg0_tag=9=0x
+42762:RENOVICE ADDON_TRACE build=V79 pid=11584 tick_ms=54601765 seq=34 attempt=0 thread=29916 key=0x64d11e6973afa4b1 state=000002253DBB1D30 vm=00000224411EC2D0 event=native.call.provider.enter ci=000002257956D420 top=0000022573521750 method=BuildMissionForLocation phase=after addon=64d11e6973afa4b1.EliteSanctuaryNoRank.target.ad
+42763:RENOVICE ADDON_TRACE build=V79 pid=11584 tick_ms=54601765 seq=35 attempt=0 thread=29916 key=0x64d11e6973afa4b1 state=000002253DBB1D30 vm=00000224411EC2D0 event=native.call.provider.return ci=000002257956D420 top=0000022573521750 method=BuildMissionForLocation phase=after addon=64d11e6973afa4b1.EliteSanctuaryNoRank.target.a
+42764:RENOVICE ADDON_TRACE build=V79 pid=11584 tick_ms=54601765 seq=36 attempt=0 thread=29916 key=0x64d11e6973afa4b1 state=000002253DBB1D30 vm=00000224411EC2D0 event=native.call.provider.return ci=000002257956D420 top=0000022573521750 method=BuildMissionForLocation phase=after providers=1 invoked=1 protected=1
+42765:RENOVICE ADDON_TRACE build=V79 pid=11584 tick_ms=54601765 seq=37 attempt=0 thread=29916 key=0x64d11e6973afa4b1 state=000002253DBB1D30 vm=00000224411EC2D0 event=native.call.return ci=000002257956D420 top=0000022573521750 method=BuildMissionForLocation prototype=25 instruction=9 arguments=2 results=1 results_valid=1
+# Callsite tally over renovice_source.log and .1-.3 (native.call.before, this key):
+## renovice_source.log
+      1 prototype=21 instruction=324
+      1 prototype=25 instruction=9
+## renovice_source.log.1
+## renovice_source.log.2
+      3 prototype=21 instruction=324
+## renovice_source.log.3

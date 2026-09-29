@@ -1,0 +1,20 @@
+  [ 310] LOADB          A=6 B=1 C=0                                         
+  [ 311] JUMP           -> [335]                                            
+  [ 312] GETUPVAL       R11 <- U4                                           
+  [ 313] CALL           R11 nargs=0 nres=1                                  
+  [ 314] FASTCALL1      A=133 B=11 C=3                                      
+  [ 315] MOVE           R13 <- R11                                          
+  [ 316] GETIMPORT      R12 <- IsNull                                       
+  [ 317] CALL           R12 nargs=1 nres=1                                  
+  [ 318] JUMPIFNOT      R12 -> [321]                                        
+  [ 319] LOADNIL        A=12 B=0 C=0                                        
+  [ 320] RETURN         R12 nret=1                                          
+  [ 321] GETIMPORT      R14 <- Symbol                                       
+  [ 322] MOVE           R15 <- R7                                           
+  [ 323] CALL           R14 nargs=1 nres=-1                                 
+  [ 324] NAMECALL       R12 R11 :BuildMissionForLocation                    
+  [ 325] CALL           R12 nargs=-1 nres=1                                 
+  [ 326] MOVE           R2 <- R12                                           
+  [ 327] GETIMPORT      R12 <- _T.gPendingMission                           
+  [ 328] CMPK_A         R12 == nil -> [335]                                 
+  [ 329] GETIMPORT      R13 <- _T.gPendingMission.requiredItems             

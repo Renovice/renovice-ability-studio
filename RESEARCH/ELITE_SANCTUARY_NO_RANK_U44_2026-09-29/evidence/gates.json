@@ -1,0 +1,116 @@
+{
+  "gates": {
+    "input.stock-identity": {
+      "pass": true,
+      "detail": "6801f711c598efbce3b57ca50f15e45b50abaf803abe1c72694f3b962e431d25"
+    },
+    "input.installed-addon-identity": {
+      "pass": true,
+      "detail": "86eacb891078aeb40b054ae2041ea29a23c3f55bc636612af35bd133d9672ed1"
+    },
+    "tool.derecomp-identity": {
+      "pass": true,
+      "detail": "c1672d8d70e44bf7001a68f873f229714f5afdefb0b93c8558b6abb49e187c58"
+    },
+    "tool.luau-identity": {
+      "pass": true,
+      "detail": "a0f4edd1e80ef7d7afd223c061e1f3b753398152cb732abf57328a93b375053e"
+    },
+    "stock.prototype-count-28": {
+      "pass": true,
+      "detail": "protos=28 (live module.graph nodes=28)"
+    },
+    "stock.BuildMissionForLocation-namecalls": {
+      "pass": true,
+      "detail": "[(21, 324), (25, 9), (26, 3)]"
+    },
+    "stock.p25-TryLaunchOnslaught-9-then-CALL-10": {
+      "pass": true,
+      "detail": "Ternary(isElite, SolNode802, SolNode801) -> NAMECALL 9 -> CALL 10 -> checker"
+    },
+    "stock.p21-fallback-324-Symbol-argument": {
+      "pass": true,
+      "detail": "321=('GETIMPORT', 'R14 <- Symbol') 325=('CALL', 'R12 nargs=-1 nres=1')"
+    },
+    "stock.p21-owns-MissionMaxSuitRequired": {
+      "pass": true,
+      "detail": "p21 reads mission.maxSuitReq and returns the dialog key"
+    },
+    "baseline.source-reproduces-installed-bytes": {
+      "pass": true,
+      "detail": "86eacb891078aeb40b054ae2041ea29a23c3f55bc636612af35bd133d9672ed1"
+    },
+    "baseline.installed-filters-p25-i10-only": {
+      "pass": true,
+      "detail": "installed addon returns early unless instruction == 10; the runtime reports 9"
+    },
+    "source.contract-test": {
+      "pass": true,
+      "detail": "PASS contract p25/i9 + p21/i324(SolNode801|SolNode802) -> maxSuitReq=false; all else unchanged"
+    },
+    "source.contract-test-rejects-baseline": {
+      "pass": true,
+      "detail": "baseline fails at the p25/i9 assertion"
+    },
+    "build.recompile-u44": {
+      "pass": true,
+      "detail": "[derecomp] recompile C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\work\\temp\\ability-editor-elite-sanctuary-fix\\RESEARCH\\ELITE_SANCTUARY_NO_RANK_U44_2026-09-29\\64d11e6973afa4b1.EliteSanctuaryNoRank.target.addon.luau -> C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\work\\staging\\elite-sanctuary-fix\\gates\\candidate.lua_B : 785 bytes, nps=6, re-parses=yes, hashed-globals=0, hashed-fields=0"
+    },
+    "build.deterministic": {
+      "pass": true,
+      "detail": "4e6d5b7133017e6001c61d0f1e1f1b7d6878f6a9085ca570008fede6815b90e3"
+    },
+    "build.de-roundtrip": {
+      "pass": true,
+      "detail": "nps=6    consts re-encode exact: 6/6  FULL BODY identical: True"
+    },
+    "gate.const-identity-roundtrip": {
+      "pass": true,
+      "detail": "CONST_IDENTITY protos_stock=6 protos_candidate=6 hash_equal=6 string_equal=6 keyuse_equal=6 verdict=PASS"
+    },
+    "gate.compiler-closed-fixed-point": {
+      "pass": true,
+      "detail": "pass2=49d86e05273fae63f5962a14453e984e335219dda824e2294b049ddeedb17bf2 pass3=49d86e05273fae63f5962a14453e984e335219dda824e2294b049ddeedb17bf2"
+    },
+    "gate.const-identity-vs-installed-no-class-swap": {
+      "pass": true,
+      "detail": "hash_string_class_swaps=0"
+    },
+    "gate.constant-class-delta-vs-installed": {
+      "pass": true,
+      "detail": "{\"strings_added\": [\"\\\"SolNode801\\\"\", \"\\\"SolNode802\\\"\"], \"strings_removed\": [], \"hashes_added\": [\"tostring\"], \"hashes_removed\": [], \"string_hash_overlap\": []}"
+    },
+    "gate.opcode-coverage": {
+      "pass": true,
+      "detail": "candidate_ops=21 missing=[]"
+    }
+  },
+  "facts": {
+    "stock_callsites": [
+      [
+        21,
+        324
+      ],
+      [
+        25,
+        9
+      ],
+      [
+        26,
+        3
+      ]
+    ],
+    "live_anchor": "renovice_source.log pid 11584: native.call.before BuildMissionForLocation prototype=25 instruction=9 and prototype=21 instruction=324 for key 64d11e6973afa4b1",
+    "tostring_hash_u44": "cb160055",
+    "candidate_fastcalls": [
+      "A=40 B=2 C=3",
+      "A=40 B=3 C=3",
+      "A=63 B=0 C=3"
+    ],
+    "candidate_sha256": "4e6d5b7133017e6001c61d0f1e1f1b7d6878f6a9085ca570008fede6815b90e3",
+    "candidate_size": 785,
+    "source_sha256": "75b7fe5d1ace10d6e17be9d83c8bb098287cfd9754a7da0639453940db52fce6",
+    "derecomp": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\repos\\toolchains\\de-luau-toolchain\\bin\\derecomp.head.exe"
+  },
+  "all_pass": true
+}
