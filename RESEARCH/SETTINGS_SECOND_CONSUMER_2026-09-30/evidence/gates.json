@@ -1,0 +1,145 @@
+{
+  "gates": {
+    "tool.derecomp-identity": {
+      "pass": true,
+      "detail": "c1672d8d70e44bf7001a68f873f229714f5afdefb0b93c8558b6abb49e187c58"
+    },
+    "tool.u44-alias-map-identity": {
+      "pass": true,
+      "detail": "d27c3a00d0693b7c86c97831de047f69115a17a1115f54556cdc3c8dcdde4f59"
+    },
+    "tool.callsite-audit-revision": {
+      "pass": true,
+      "detail": "284263b0c75fed5d812f2620ce908ca39826e305"
+    },
+    "mallet.input.installed-identity": {
+      "pass": true,
+      "detail": "22e0cb4972f81050175b982cbef7c4d09a5a1fb2a1268c38172d45e151bf422a"
+    },
+    "mallet.input.stock-identity": {
+      "pass": true,
+      "detail": "c713c4d6bf32adb06f7b3ff71d03f00feb53ccd0b651bd2cdf2382106882299f"
+    },
+    "mallet.build.baseline-source-reproduces-installed": {
+      "pass": true,
+      "detail": "22e0cb4972f81050175b982cbef7c4d09a5a1fb2a1268c38172d45e151bf422a"
+    },
+    "mallet.build.recompile-u44": {
+      "pass": true,
+      "detail": "[derecomp] recompile C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\work\\temp\\ability-editor-settings-consumer\\RESEARCH\\SETTINGS_SECOND_CONSUMER_2026-09-30\\src\\mallet-threat-settings.u44.luau -> C:\\Users\\Bartek\\AppData\\Local\\Temp\\claude\\C--Users-Bartek-OneDrive-Dokumenter-Warframe-RE-PROJECT-RENOVICE\\da3f97f0-d2c7-475a-a46d-2f428b02d1ea\\scratchpad\\final\\work\\mallet\\candidate.lua_B : 3798 bytes, nps=14, re-parses=yes, hashed-globals=0, hashed-fields=0"
+    },
+    "mallet.build.deterministic": {
+      "pass": true,
+      "detail": "1e3682a4bacf46ef4b15bcedb71ad402a2d9bd01540e410abe0a5419b418bb86"
+    },
+    "mallet.build.de-roundtrip": {
+      "pass": true,
+      "detail": "nps=14   consts re-encode exact: 14/14  FULL BODY identical: True"
+    },
+    "mallet.gate.const-identity-delta-vs-installed": {
+      "pass": true,
+      "detail": "protos_stock=14 protos_candidate=14 hash_equal=13 string_equal=13 keyuse_equal=13 verdict=FAIL | hash_string_class_swaps=0 other_keyuse_differences=8 | deltas only in protos [11], additions only, every added hash already used by the installed addon or the stock target"
+    },
+    "mallet.ir.settings-read-as-string-keys": {
+      "pass": true,
+      "detail": "GETFIELD .settings/.enabled/.stock/.value with string constants; id constant present"
+    },
+    "mallet.gate.native-callsite-namecall": {
+      "pass": true,
+      "detail": "verdict=OK"
+    },
+    "mallet.source.settings-contract": {
+      "pass": true,
+      "detail": "PASS mallet-settings-contract cases=25 (compiled 5 without context.settings; stock without an applicable entry; enabled 0..5 forced; unrelated PushFloatArg sites unchanged)"
+    },
+    "mallet.decl.id-and-lane": {
+      "pass": true,
+      "detail": "mallet.threat_level int stock=5 min=0 max=5"
+    },
+    "mallet.package.members-match-manifest": {
+      "pass": true,
+      "detail": "ec368d4901690a15.MalletOverguardAndCard.target.addon.lua_B, package.json"
+    },
+    "mallet.package.committed-bytes-equal-rebuild": {
+      "pass": true,
+      "detail": "1e3682a4bacf46ef4b15bcedb71ad402a2d9bd01540e410abe0a5419b418bb86"
+    },
+    "icewave.input.installed-identity": {
+      "pass": true,
+      "detail": "dcedc4a2d11cd2d7f03361432eb02c64fd01f3dc6517b627e940ac8ad4228e31"
+    },
+    "icewave.input.stock-identity": {
+      "pass": true,
+      "detail": "f903720dee7828506f2a3e668204860f5300a27c27fc53f4e86781cab276f3c5"
+    },
+    "icewave.build.baseline-source-reproduces-installed": {
+      "pass": true,
+      "detail": "dcedc4a2d11cd2d7f03361432eb02c64fd01f3dc6517b627e940ac8ad4228e31"
+    },
+    "icewave.build.recompile-u44": {
+      "pass": true,
+      "detail": "[derecomp] recompile C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\work\\temp\\ability-editor-settings-consumer\\RESEARCH\\SETTINGS_SECOND_CONSUMER_2026-09-30\\src\\ice-wave-settings.u44.luau -> C:\\Users\\Bartek\\AppData\\Local\\Temp\\claude\\C--Users-Bartek-OneDrive-Dokumenter-Warframe-RE-PROJECT-RENOVICE\\da3f97f0-d2c7-475a-a46d-2f428b02d1ea\\scratchpad\\final\\work\\icewave\\candidate.lua_B : 14118 bytes, nps=37, re-parses=yes, hashed-globals=0, hashed-fields=0"
+    },
+    "icewave.build.deterministic": {
+      "pass": true,
+      "detail": "f3ddb4336b13e321d236a5f543ce1e5122783b9f3b5e619604073f2db8ea5e71"
+    },
+    "icewave.build.de-roundtrip": {
+      "pass": true,
+      "detail": "nps=37   consts re-encode exact: 37/37  FULL BODY identical: True"
+    },
+    "icewave.gate.const-identity-delta-vs-installed": {
+      "pass": true,
+      "detail": "protos_stock=37 protos_candidate=37 hash_equal=36 string_equal=36 keyuse_equal=35 verdict=FAIL | hash_string_class_swaps=0 other_keyuse_differences=7 | deltas only in protos [30, 34], additions only, every added hash already used by the installed addon or the stock target"
+    },
+    "icewave.ir.settings-read-as-string-keys": {
+      "pass": true,
+      "detail": "GETFIELD .settings/.enabled/.stock/.value with string constants; id constant present"
+    },
+    "icewave.gate.native-callsite-namecall": {
+      "pass": true,
+      "detail": "verdict=OK"
+    },
+    "icewave.source.settings-contract": {
+      "pass": true,
+      "detail": "PASS icewave-settings-contract cases=16 (compiled 50 without context.settings; stock 0 = inert card and damage; enabled 0..100 applied as stockRaw*(1+min(stacks,10)*bonus*strength))"
+    },
+    "icewave.decl.id-and-lane": {
+      "pass": true,
+      "detail": "ice_wave.bonus_per_cold_stack float stock=0 min=0 max=100"
+    },
+    "icewave.package.members-match-manifest": {
+      "pass": true,
+      "detail": "8fba3a28f8fef624.IceWaveColdStackDamage.target.addon.lua_B, package.json"
+    },
+    "icewave.package.committed-bytes-equal-rebuild": {
+      "pass": true,
+      "detail": "f3ddb4336b13e321d236a5f543ce1e5122783b9f3b5e619604073f2db8ea5e71"
+    }
+  },
+  "facts": {
+    "tools": {
+      "luau": "a0f4edd1e80ef7d7afd223c061e1f3b753398152cb732abf57328a93b375053e",
+      "callsite_audit": "cd8d1d71ef3ebb8e6d834f4f31e28f134899e63e84af7a32e6f67779281511e8"
+    },
+    "addons": {
+      "mallet": {
+        "candidate_sha256": "1e3682a4bacf46ef4b15bcedb71ad402a2d9bd01540e410abe0a5419b418bb86",
+        "candidate_size": 3798,
+        "source_sha256": "641d55d9d7f42c464ed9beb562885923eae641a4d9bed13379ed9a5f2379e0ef",
+        "manifest_sha256": "c241608862a47c4e74b6651c368a4070e7008a5b1613f1f766fc0f64a07aed0a",
+        "installed_sha256": "22e0cb4972f81050175b982cbef7c4d09a5a1fb2a1268c38172d45e151bf422a",
+        "stock_sha256": "c713c4d6bf32adb06f7b3ff71d03f00feb53ccd0b651bd2cdf2382106882299f"
+      },
+      "icewave": {
+        "candidate_sha256": "f3ddb4336b13e321d236a5f543ce1e5122783b9f3b5e619604073f2db8ea5e71",
+        "candidate_size": 14118,
+        "source_sha256": "3ea02a8ba692a94f3c89df404058f9121114b9f1768687f7433955a0bb52b024",
+        "manifest_sha256": "f1185838de40123117f38659e4eeda27d420337510127feecadd42fa95ed917c",
+        "installed_sha256": "dcedc4a2d11cd2d7f03361432eb02c64fd01f3dc6517b627e940ac8ad4228e31",
+        "stock_sha256": "f903720dee7828506f2a3e668204860f5300a27c27fc53f4e86781cab276f3c5"
+      }
+    }
+  },
+  "all_pass": true
+}

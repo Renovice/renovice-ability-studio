@@ -1,0 +1,877 @@
+1c1
+< namebase=921979 entries   string pool=123   protos=37
+---
+> namebase=921979 entries   string pool=128   protos=37
+1494,1497c1494,1497
+< == proto[27] maxstack=15 nparams=2 nups=1 vararg=0 insns=79 consts=19 ==
+<    k[0] "Modded"
+<    k[1] "Avatar"
+<    k[2] type
+---
+> == proto[27] maxstack=17 nparams=2 nups=2 vararg=0 insns=84 consts=20 ==
+>    k[0] 0
+>    k[1] "Modded"
+>    k[2] "Avatar"
+1499,1501c1499,1501
+<    k[4] "number"
+<    k[5] 1e+30
+<    k[6] error
+---
+>    k[4] type
+>    k[5] "number"
+>    k[6] 1e+30
+1503,1513c1503,1514
+<    k[8] "ICE_WAVE_CARD_STRENGTH_UNAVAILABLE"
+<    k[9] "Label"
+<    k[10] "Cold Damage Multiplier"
+<    k[11] "Value"
+<    k[12] nil
+<    k[13] "ValueUnit"
+<    k[14] "/Lotus/Language/Game/UNIT_MULTIPLIER"
+<    k[15] { Label = "Cold Damage Multiplier", Value = nil, ValueUnit = "/Lotus/Language/Game/UNIT_MULTIPLIER" }
+<    k[16] table
+<    k[17] insert
+<    k[18] table.insert
+---
+>    k[8] error
+>    k[9] "ICE_WAVE_CARD_STRENGTH_UNAVAILABLE"
+>    k[10] "Label"
+>    k[11] "Cold Damage Multiplier"
+>    k[12] "Value"
+>    k[13] nil
+>    k[14] "ValueUnit"
+>    k[15] "/Lotus/Language/Game/UNIT_MULTIPLIER"
+>    k[16] { Label = "Cold Damage Multiplier", Value = nil, ValueUnit = "/Lotus/Language/Game/UNIT_MULTIPLIER" }
+>    k[17] table
+>    k[18] insert
+>    k[19] table.insert
+1523,1541c1524,1542
+<   [   9] LOADN          R9 <- 0                                             
+<   [  10] LOADN          R2 <- 1                                             
+<   [  11] GETFIELD       R3 <- R1.Modded                                     
+<   [  12] LOADB          A=7 B=1 C=0                                         
+<   [  13] MOVE           R8 <- R3                                            
+<   [  14] JUMPIFEQ2      R8 JUMPIFEQ2 R7 -> [17]                             
+<   [  15] LOADN          R9 <- 6                                             
+<   [  16] JUMP           -> [18]                                             
+<   [  17] LOADN          R9 <- 1                                             
+<   [  18] LOADN          R10 <- 1                                            
+<   [  19] MOVE           R11 <- R9                                           
+<   [  20] JUMPIFNOTEQ    R11 JUMPIFNOTEQ R10 -> [39]                         
+<   [  21] GETUPVAL       R3 <- U0                                            
+<   [  22] GETFIELD       R4 <- R1.Avatar                                     
+<   [  23] MOVE           R12 <- R3                                           
+<   [  24] MOVE           R13 <- R4                                           
+<   [  25] CALL           R12 nargs=1 nres=1                                  
+<   [  26] MOVE           R2 <- R12                                           
+<   [  27] GETIMPORT      R3 <- type                                          
+---
+>   [   9] GETUPVAL       R11 <- U0                                           
+>   [  10] LOADK          R15 <- 0                                            
+>   [  11] MOVE           R16 <- R11                                          
+>   [  12] JUMPIFNOTEQ    R16 JUMPIFNOTEQ R15 -> [14]                         
+>   [  13] RETURN         R0 nret=1                                           
+>   [  14] LOADN          R9 <- 0                                             
+>   [  15] LOADN          R2 <- 1                                             
+>   [  16] GETFIELD       R3 <- R1.Modded                                     
+>   [  17] LOADB          A=7 B=1 C=0                                         
+>   [  18] MOVE           R8 <- R3                                            
+>   [  19] JUMPIFEQ2      R8 JUMPIFEQ2 R7 -> [22]                             
+>   [  20] LOADN          R9 <- 6                                             
+>   [  21] JUMP           -> [23]                                             
+>   [  22] LOADN          R9 <- 1                                             
+>   [  23] LOADN          R10 <- 1                                            
+>   [  24] MOVE           R11 <- R9                                           
+>   [  25] JUMPIFNOTEQ    R11 JUMPIFNOTEQ R10 -> [44]                         
+>   [  26] GETUPVAL       R3 <- U1                                            
+>   [  27] GETFIELD       R4 <- R1.Avatar                                     
+1543c1544
+<   [  29] MOVE           R13 <- R2                                           
+---
+>   [  29] MOVE           R13 <- R4                                           
+1545,1592c1546,1598
+<   [  31] MOVE           R3 <- R12                                           
+<   [  32] LOADK          R7 <- "number"                                      
+<   [  33] MOVE           R8 <- R3                                            
+<   [  34] JUMPIFNOTEQ    R8 JUMPIFNOTEQ R7 -> [36]                           
+<   [  35] JUMPIFEQ2      R2 JUMPIFEQ2 R2 -> [38]                             
+<   [  36] LOADN          R9 <- 5                                             
+<   [  37] JUMP           -> [39]                                             
+<   [  38] LOADN          R9 <- 3                                             
+<   [  39] LOADN          R10 <- 3                                            
+<   [  40] MOVE           R11 <- R9                                           
+<   [  41] JUMPIFNOTEQ    R11 JUMPIFNOTEQ R10 -> [47]                         
+<   [  42] LOADN          R3 <- 0                                             
+<   [  43] JUMPIFNOTLT    R2 JUMPIFNOTLT R3 -> [46]                           
+<   [  44] LOADN          R9 <- 5                                             
+<   [  45] JUMP           -> [47]                                             
+<   [  46] LOADN          R9 <- 4                                             
+<   [  47] LOADN          R10 <- 4                                            
+<   [  48] MOVE           R11 <- R9                                           
+<   [  49] JUMPIFNOTEQ    R11 JUMPIFNOTEQ R10 -> [55]                         
+<   [  50] LOADK          R3 <- 1e+30                                         
+<   [  51] JUMPIFLE       R3 JUMPIFLE R2 -> [54]                              
+<   [  52] LOADN          R9 <- 6                                             
+<   [  53] JUMP           -> [55]                                             
+<   [  54] LOADN          R9 <- 5                                             
+<   [  55] LOADN          R10 <- 5                                            
+<   [  56] MOVE           R11 <- R9                                           
+<   [  57] JUMPIFNOTEQ    R11 JUMPIFNOTEQ R10 -> [64]                         
+<   [  58] GETIMPORT      R3 <- error                                         
+<   [  59] LOADK          R4 <- "ICE_WAVE_CARD_STRENGTH_UNAVAILABLE"          
+<   [  60] MOVE           R12 <- R3                                           
+<   [  61] MOVE           R13 <- R4                                           
+<   [  62] CALL           R12 nargs=1 nres=0                                  
+<   [  63] LOADN          R9 <- 6                                             
+<   [  64] LOADN          R10 <- 6                                            
+<   [  65] MOVE           R11 <- R9                                           
+<   [  66] JUMPIFNOTEQ    R11 JUMPIFNOTEQ R10 -> [78]                         
+<   [  67] DUPTABLE       R12 <- { Label = "Cold Damage Multiplier", Value = nil, ValueUnit = "/Lotus/Language/Game/UNIT_MULTIPLIER" }
+<   [  68] MOVE           R5 <- R12                                           
+<   [  69] LOADN          R12 <- 50                                           
+<   [  70] MUL            A=6 B=12 C=2                                        
+<   [  71] SETFIELD       R5.Value <- R6                                      
+<   [  72] GETIMPORT      R3 <- table.insert                                  
+<   [  73] MOVE           R12 <- R3                                           
+<   [  74] MOVE           R13 <- R0                                           
+<   [  75] MOVE           R14 <- R5                                           
+<   [  76] CALL           R12 nargs=2 nres=0                                  
+<   [  77] RETURN         R0 nret=1                                           
+<   [  78] RETURN         R0 nret=0                                           
+---
+>   [  31] MOVE           R2 <- R12                                           
+>   [  32] GETIMPORT      R3 <- type                                          
+>   [  33] MOVE           R12 <- R3                                           
+>   [  34] MOVE           R13 <- R2                                           
+>   [  35] CALL           R12 nargs=1 nres=1                                  
+>   [  36] MOVE           R3 <- R12                                           
+>   [  37] LOADK          R7 <- "number"                                      
+>   [  38] MOVE           R8 <- R3                                            
+>   [  39] JUMPIFNOTEQ    R8 JUMPIFNOTEQ R7 -> [41]                           
+>   [  40] JUMPIFEQ2      R2 JUMPIFEQ2 R2 -> [43]                             
+>   [  41] LOADN          R9 <- 5                                             
+>   [  42] JUMP           -> [44]                                             
+>   [  43] LOADN          R9 <- 3                                             
+>   [  44] LOADN          R10 <- 3                                            
+>   [  45] MOVE           R11 <- R9                                           
+>   [  46] JUMPIFNOTEQ    R11 JUMPIFNOTEQ R10 -> [52]                         
+>   [  47] LOADN          R3 <- 0                                             
+>   [  48] JUMPIFNOTLT    R2 JUMPIFNOTLT R3 -> [51]                           
+>   [  49] LOADN          R9 <- 5                                             
+>   [  50] JUMP           -> [52]                                             
+>   [  51] LOADN          R9 <- 4                                             
+>   [  52] LOADN          R10 <- 4                                            
+>   [  53] MOVE           R11 <- R9                                           
+>   [  54] JUMPIFNOTEQ    R11 JUMPIFNOTEQ R10 -> [60]                         
+>   [  55] LOADK          R3 <- 1e+30                                         
+>   [  56] JUMPIFLE       R3 JUMPIFLE R2 -> [59]                              
+>   [  57] LOADN          R9 <- 6                                             
+>   [  58] JUMP           -> [60]                                             
+>   [  59] LOADN          R9 <- 5                                             
+>   [  60] LOADN          R10 <- 5                                            
+>   [  61] MOVE           R11 <- R9                                           
+>   [  62] JUMPIFNOTEQ    R11 JUMPIFNOTEQ R10 -> [69]                         
+>   [  63] GETIMPORT      R3 <- error                                         
+>   [  64] LOADK          R4 <- "ICE_WAVE_CARD_STRENGTH_UNAVAILABLE"          
+>   [  65] MOVE           R12 <- R3                                           
+>   [  66] MOVE           R13 <- R4                                           
+>   [  67] CALL           R12 nargs=1 nres=0                                  
+>   [  68] LOADN          R9 <- 6                                             
+>   [  69] LOADN          R10 <- 6                                            
+>   [  70] MOVE           R11 <- R9                                           
+>   [  71] JUMPIFNOTEQ    R11 JUMPIFNOTEQ R10 -> [83]                         
+>   [  72] DUPTABLE       R12 <- { Label = "Cold Damage Multiplier", Value = nil, ValueUnit = "/Lotus/Language/Game/UNIT_MULTIPLIER" }
+>   [  73] MOVE           R5 <- R12                                           
+>   [  74] GETUPVAL       R12 <- U0                                           
+>   [  75] MUL            A=6 B=12 C=2                                        
+>   [  76] SETFIELD       R5.Value <- R6                                      
+>   [  77] GETIMPORT      R3 <- table.insert                                  
+>   [  78] MOVE           R12 <- R3                                           
+>   [  79] MOVE           R13 <- R0                                           
+>   [  80] MOVE           R14 <- R5                                           
+>   [  81] CALL           R12 nargs=2 nres=0                                  
+>   [  82] RETURN         R0 nret=1                                           
+>   [  83] RETURN         R0 nret=0                                           
+1728c1734
+< == proto[30] maxstack=41 nparams=4 nups=7 vararg=0 insns=303 consts=65 ==
+---
+> == proto[30] maxstack=41 nparams=4 nups=8 vararg=0 insns=306 consts=64 ==
+1753,1754c1759,1760
+<    k[24] 50
+<    k[25] "stockRaw"
+---
+>    k[24] "stockRaw"
+>    k[25] pcall
+1756,1793c1762,1798
+<    k[27] pcall
+<    k[28] "label"
+<    k[29] "FROST_ICE_WAVE_DAMAGE"
+<    k[30] nil
+<    k[31] "target"
+<    k[32] "damageControl"
+<    k[33] "sourceKnown"
+<    k[34] Name__00000001
+<    k[35] "sourceAbility"
+<    k[36] "sourceAbilityKnown"
+<    k[37] Name__00000000
+<    k[38] "multiplier"
+<    k[39] "requestedRaw"
+<    k[40] "observedRaw"
+<    k[41] "batchId"
+<    k[42] "pendingDepth"
+<    k[43] "calculation"
+<    k[44] "stockRaw*(1+coldStacks*bonusPerStack*abilityStrength)"
+<    k[45] "modifierName"
+<    k[46] "coldStacks"
+<    k[47] "modifierValue"
+<    k[48] "modifierScaleName"
+<    k[49] "abilityStrength"
+<    k[50] "modifierScaleValue"
+<    k[51] "baseMultiplier"
+<    k[52] "bonusPerStack"
+<    k[53] { label = "FROST_ICE_WAVE_DAMAGE", prototype = nil, instruction = nil, target = nil, damageData = nil, damageControl = nil, source = nil, sourceKnown = true, sourceAbility = nil, sourceAbilityKnown = false, stockRaw = nil, multiplier = nil, requestedRaw = nil, observedRaw = nil, batchId = nil, targetOrdinal = nil, pendingDepth = nil, calculation = "stockRaw*(1+coldStacks*bonusPerStack*abilityStrength)", modifierName = "coldStacks", modifierValue = nil, modifierScaleName = "abilityStrength", modifierScaleValue = nil, baseMultiplier = 1, bonusPerStack = 50 }
+<    k[54] Engine
+<    k[55] UpgradedValue
+<    k[56] Engine.UpgradedValue
+<    k[57] SetBaseAmount
+<    k[58] "ICE_WAVE_INSTALL_REJECTED"
+<    k[59] "captureId"
+<    k[60] "meter"
+<    k[61] "installedRaw"
+<    k[62] { damageData = nil, stockRaw = nil, trace = nil, captureId = nil, targetOrdinal = nil, meter = nil, installedRaw = nil }
+<    k[63] "ICE_WAVE_STRENGTH_REJECTED"
+<    k[64] "no-verified-caster-strength"
+---
+>    k[27] "label"
+>    k[28] "FROST_ICE_WAVE_DAMAGE"
+>    k[29] nil
+>    k[30] "target"
+>    k[31] "damageControl"
+>    k[32] "sourceKnown"
+>    k[33] Name__00000001
+>    k[34] "sourceAbility"
+>    k[35] "sourceAbilityKnown"
+>    k[36] Name__00000000
+>    k[37] "multiplier"
+>    k[38] "requestedRaw"
+>    k[39] "observedRaw"
+>    k[40] "batchId"
+>    k[41] "pendingDepth"
+>    k[42] "calculation"
+>    k[43] "stockRaw*(1+coldStacks*bonusPerStack*abilityStrength)"
+>    k[44] "modifierName"
+>    k[45] "coldStacks"
+>    k[46] "modifierValue"
+>    k[47] "modifierScaleName"
+>    k[48] "abilityStrength"
+>    k[49] "modifierScaleValue"
+>    k[50] "baseMultiplier"
+>    k[51] "bonusPerStack"
+>    k[52] { label = "FROST_ICE_WAVE_DAMAGE", prototype = nil, instruction = nil, target = nil, damageData = nil, damageControl = nil, source = nil, sourceKnown = true, sourceAbility = nil, sourceAbilityKnown = false, stockRaw = nil, multiplier = nil, requestedRaw = nil, observedRaw = nil, batchId = nil, targetOrdinal = nil, pendingDepth = nil, calculation = "stockRaw*(1+coldStacks*bonusPerStack*abilityStrength)", modifierName = "coldStacks", modifierValue = nil, modifierScaleName = "abilityStrength", modifierScaleValue = nil, baseMultiplier = 1, bonusPerStack = nil }
+>    k[53] Engine
+>    k[54] UpgradedValue
+>    k[55] Engine.UpgradedValue
+>    k[56] SetBaseAmount
+>    k[57] "ICE_WAVE_INSTALL_REJECTED"
+>    k[58] "captureId"
+>    k[59] "meter"
+>    k[60] "installedRaw"
+>    k[61] { damageData = nil, stockRaw = nil, trace = nil, captureId = nil, targetOrdinal = nil, meter = nil, installedRaw = nil }
+>    k[62] "ICE_WAVE_STRENGTH_REJECTED"
+>    k[63] "no-verified-caster-strength"
+1863c1868
+<   [  69] JUMPIF         R7 -> [302]                                         
+---
+>   [  69] JUMPIF         R7 -> [305]                                         
+1869c1874
+<   [  75] JUMPIF         R7 -> [302]                                         
+---
+>   [  75] JUMPIF         R7 -> [305]                                         
+1906c1911
+<   [ 112] CMPK_A         R7 == nil -> [289]                                  
+---
+>   [ 112] CMPK_A         R7 == nil -> [292]                                  
+1913c1918
+<   [ 119] JUMPIF         R7 -> [289]                                         
+---
+>   [ 119] JUMPIF         R7 -> [292]                                         
+1936c1941
+<   [ 142] JUMPIFNOTEQ    R26 JUMPIFNOTEQ R25 -> [288]                        
+---
+>   [ 142] JUMPIFNOTEQ    R26 JUMPIFNOTEQ R25 -> [291]                        
+1938c1943
+<   [ 144] JUMPIFLT       R8 JUMPIFLT R9 -> [288]                             
+---
+>   [ 144] JUMPIFLT       R8 JUMPIFLT R9 -> [291]                             
+1965,2096c1970,2104
+<   [ 171] MULK           R14 <- R8 MULK 50                                   
+<   [ 172] GETFIELD       R15 <- R4.strength                                  
+<   [ 173] MUL            A=13 B=14 C=15                                      
+<   [ 174] ADD            A=11 B=12 C=13                                      
+<   [ 175] GETFIELD       R13 <- R4.stockRaw                                  
+<   [ 176] MUL            A=12 B=13 C=11                                      
+<   [ 177] GETUPVAL       R13 <- U4                                           
+<   [ 178] MOVE           R27 <- R13                                          
+<   [ 179] MOVE           R28 <- R12                                          
+<   [ 180] CALL           R27 nargs=1 nres=1                                  
+<   [ 181] MOVE           R13 <- R27                                          
+<   [ 182] JUMPIF         R13 -> [184]                                        
+<   [ 183] RETURN         R0 nret=0                                           
+<   [ 184] GETUPVAL       R15 <- U5                                           
+<   [ 185] LENGTH         A=14 B=15 C=0                                       
+<   [ 186] ADDK           R13 <- R14 ADDK 1                                   
+<   [ 187] LOADNIL        A=14 B=0 C=0                                        
+<   [ 188] GETIMPORT      R15 <- pcall                                        
+<   [ 189] GETUPVAL       R16 <- U6                                           
+<   [ 190] DUPTABLE       R27 <- { label = "FROST_ICE_WAVE_DAMAGE", prototype = nil, instruction = nil, target = nil, damageData = nil, damageControl = nil, source = nil, sourceKnown = true, sourceAbility = nil, sourceAbilityKnown = false, stockRaw = nil, multiplier = nil, requestedRaw = nil, observedRaw = nil, batchId = nil, targetOrdinal = nil, pendingDepth = nil, calculation = "stockRaw*(1+coldStacks*bonusPerStack*abilityStrength)", modifierName = "coldStacks", modifierValue = nil, modifierScaleName = "abilityStrength", modifier
+<   [ 191] MOVE           R18 <- R27                                          
+<   [ 192] SETFIELD       R18.prototype <- R0                                 
+<   [ 193] SETFIELD       R18.instruction <- R1                               
+<   [ 194] SETFIELD       R18.target <- R5                                    
+<   [ 195] SETFIELD       R18.damageData <- R6                                
+<   [ 196] SETFIELD       R18.damageControl <- R7                             
+<   [ 197] GETFIELD       R19 <- R4.source                                    
+<   [ 198] SETFIELD       R18.source <- R19                                   
+<   [ 199] GETFIELD       R19 <- R4.stockRaw                                  
+<   [ 200] SETFIELD       R18.stockRaw <- R19                                 
+<   [ 201] SETFIELD       R18.multiplier <- R11                               
+<   [ 202] SETFIELD       R18.requestedRaw <- R12                             
+<   [ 203] SETFIELD       R18.observedRaw <- R10                              
+<   [ 204] GETFIELD       R19 <- R4.id                                        
+<   [ 205] SETFIELD       R18.batchId <- R19                                  
+<   [ 206] GETFIELD       R19 <- R4.targetOrdinal                             
+<   [ 207] SETFIELD       R18.targetOrdinal <- R19                            
+<   [ 208] SETFIELD       R18.pendingDepth <- R13                             
+<   [ 209] SETFIELD       R18.modifierValue <- R8                             
+<   [ 210] GETFIELD       R19 <- R4.strength                                  
+<   [ 211] SETFIELD       R18.modifierScaleValue <- R19                       
+<   [ 212] MOVE           R27 <- R15                                          
+<   [ 213] MOVE           R28 <- R16                                          
+<   [ 214] MOVE           R29 <- R3                                           
+<   [ 215] MOVE           R30 <- R18                                          
+<   [ 216] CALL           R27 nargs=3 nres=2                                  
+<   [ 217] MOVE           R15 <- R27                                          
+<   [ 218] MOVE           R16 <- R28                                          
+<   [ 219] JUMPIFNOT      R15 -> [221]                                        
+<   [ 220] MOVE           R14 <- R16                                          
+<   [ 221] GETIMPORT      R19 <- Engine.UpgradedValue                         
+<   [ 222] MOVE           R29 <- R19                                          
+<   [ 223] MOVE           R30 <- R12                                          
+<   [ 224] CALL           R29 nargs=1 nres=-1                                 
+<   [ 225] NAMECALL       R27 R6 :SetBaseAmount                               
+<   [ 226] CALL           R27 nargs=-1 nres=0                                 
+<   [ 227] GETUPVAL       R17 <- U3                                           
+<   [ 228] MOVE           R27 <- R17                                          
+<   [ 229] NAMECALL       R28 R6 :GetBaseAmount                               
+<   [ 230] CALL           R28 nargs=1 nres=-1                                 
+<   [ 231] CALL           R27 nargs=-1 nres=1                                 
+<   [ 232] MOVE           R17 <- R27                                          
+<   [ 233] GETUPVAL       R18 <- U4                                           
+<   [ 234] MOVE           R27 <- R18                                          
+<   [ 235] MOVE           R28 <- R17                                          
+<   [ 236] CALL           R27 nargs=1 nres=1                                  
+<   [ 237] MOVE           R18 <- R27                                          
+<   [ 238] JUMPIF         R18 -> [266]                                        
+<   [ 239] GETIMPORT      R20 <- Engine.UpgradedValue                         
+<   [ 240] GETFIELD       R21 <- R4.stockRaw                                  
+<   [ 241] MOVE           R29 <- R20                                          
+<   [ 242] MOVE           R30 <- R21                                          
+<   [ 243] CALL           R29 nargs=1 nres=-1                                 
+<   [ 244] NAMECALL       R27 R6 :SetBaseAmount                               
+<   [ 245] CALL           R27 nargs=-1 nres=0                                 
+<   [ 246] GETUPVAL       R18 <- U2                                           
+<   [ 247] GETFIELD       R20 <- R4.trace                                     
+<   [ 248] MOVE           R19 <- R20                                          
+<   [ 249] JUMPIF         R19 -> [251]                                        
+<   [ 250] MOVE           R19 <- R3                                           
+<   [ 251] LOADK          R20 <- "ICE_WAVE_INSTALL_REJECTED"                  
+<   [ 252] GETFIELD       R21 <- R4.id                                        
+<   [ 253] LOADK          R22 <- "targetOrdinal"                              
+<   [ 254] GETFIELD       R23 <- R4.targetOrdinal                             
+<   [ 255] LOADK          R24 <- "requestedRaw"                               
+<   [ 256] MOVE           R27 <- R18                                          
+<   [ 257] MOVE           R28 <- R19                                          
+<   [ 258] MOVE           R29 <- R20                                          
+<   [ 259] MOVE           R30 <- R21                                          
+<   [ 260] MOVE           R31 <- R22                                          
+<   [ 261] MOVE           R32 <- R23                                          
+<   [ 262] MOVE           R33 <- R24                                          
+<   [ 263] MOVE           R34 <- R12                                          
+<   [ 264] CALL           R27 nargs=7 nres=0                                  
+<   [ 265] RETURN         R0 nret=0                                           
+<   [ 266] GETUPVAL       R18 <- U5                                           
+<   [ 267] GETUPVAL       R21 <- U5                                           
+<   [ 268] LENGTH         A=20 B=21 C=0                                       
+<   [ 269] ADDK           R19 <- R20 ADDK 1                                   
+<   [ 270] DUPTABLE       R27 <- { damageData = nil, stockRaw = nil, trace = nil, captureId = nil, targetOrdinal = nil, meter = nil, installedRaw = nil }
+<   [ 271] MOVE           R20 <- R27                                          
+<   [ 272] SETFIELD       R20.damageData <- R6                                
+<   [ 273] GETFIELD       R21 <- R4.stockRaw                                  
+<   [ 274] SETFIELD       R20.stockRaw <- R21                                 
+<   [ 275] GETFIELD       R22 <- R4.trace                                     
+<   [ 276] MOVE           R21 <- R22                                          
+<   [ 277] JUMPIF         R21 -> [279]                                        
+<   [ 278] MOVE           R21 <- R3                                           
+<   [ 279] SETFIELD       R20.trace <- R21                                    
+<   [ 280] GETFIELD       R21 <- R4.id                                        
+<   [ 281] SETFIELD       R20.captureId <- R21                                
+<   [ 282] GETFIELD       R21 <- R4.targetOrdinal                             
+<   [ 283] SETFIELD       R20.targetOrdinal <- R21                            
+<   [ 284] SETFIELD       R20.meter <- R14                                    
+<   [ 285] SETFIELD       R20.installedRaw <- R17                             
+<   [ 286] SETTABLE       A=20 B=18 C=19                                      
+<   [ 287] RETURN         R0 nret=0                                           
+<   [ 288] RETURN         R0 nret=0                                           
+<   [ 289] GETUPVAL       R7 <- U2                                            
+<   [ 290] LOADK          R9 <- "ICE_WAVE_STRENGTH_REJECTED"                  
+<   [ 291] GETFIELD       R10 <- R4.id                                        
+<   [ 292] LOADK          R11 <- "reason"                                     
+<   [ 293] LOADK          R12 <- "no-verified-caster-strength"                
+<   [ 294] MOVE           R27 <- R7                                           
+<   [ 295] MOVE           R28 <- R3                                           
+<   [ 296] MOVE           R29 <- R9                                           
+<   [ 297] MOVE           R30 <- R10                                          
+<   [ 298] MOVE           R31 <- R11                                          
+<   [ 299] MOVE           R32 <- R12                                          
+<   [ 300] CALL           R27 nargs=5 nres=0                                  
+<   [ 301] RETURN         R0 nret=0                                           
+<   [ 302] RETURN         R0 nret=0                                           
+---
+>   [ 171] GETUPVAL       R27 <- U5                                           
+>   [ 172] MUL            A=14 B=8 C=27                                       
+>   [ 173] GETFIELD       R15 <- R4.strength                                  
+>   [ 174] MUL            A=13 B=14 C=15                                      
+>   [ 175] ADD            A=11 B=12 C=13                                      
+>   [ 176] GETFIELD       R13 <- R4.stockRaw                                  
+>   [ 177] MUL            A=12 B=13 C=11                                      
+>   [ 178] GETUPVAL       R13 <- U4                                           
+>   [ 179] MOVE           R27 <- R13                                          
+>   [ 180] MOVE           R28 <- R12                                          
+>   [ 181] CALL           R27 nargs=1 nres=1                                  
+>   [ 182] MOVE           R13 <- R27                                          
+>   [ 183] JUMPIF         R13 -> [185]                                        
+>   [ 184] RETURN         R0 nret=0                                           
+>   [ 185] GETUPVAL       R15 <- U6                                           
+>   [ 186] LENGTH         A=14 B=15 C=0                                       
+>   [ 187] ADDK           R13 <- R14 ADDK 1                                   
+>   [ 188] LOADNIL        A=14 B=0 C=0                                        
+>   [ 189] GETIMPORT      R15 <- pcall                                        
+>   [ 190] GETUPVAL       R16 <- U7                                           
+>   [ 191] DUPTABLE       R27 <- { label = "FROST_ICE_WAVE_DAMAGE", prototype = nil, instruction = nil, target = nil, damageData = nil, damageControl = nil, source = nil, sourceKnown = true, sourceAbility = nil, sourceAbilityKnown = false, stockRaw = nil, multiplier = nil, requestedRaw = nil, observedRaw = nil, batchId = nil, targetOrdinal = nil, pendingDepth = nil, calculation = "stockRaw*(1+coldStacks*bonusPerStack*abilityStrength)", modifierName = "coldStacks", modifierValue = nil, modifierScaleName = "abilityStrength", modifier
+>   [ 192] GETUPVAL       R28 <- U5                                           
+>   [ 193] SETFIELD       R27.bonusPerStack <- R28                            
+>   [ 194] MOVE           R18 <- R27                                          
+>   [ 195] SETFIELD       R18.prototype <- R0                                 
+>   [ 196] SETFIELD       R18.instruction <- R1                               
+>   [ 197] SETFIELD       R18.target <- R5                                    
+>   [ 198] SETFIELD       R18.damageData <- R6                                
+>   [ 199] SETFIELD       R18.damageControl <- R7                             
+>   [ 200] GETFIELD       R19 <- R4.source                                    
+>   [ 201] SETFIELD       R18.source <- R19                                   
+>   [ 202] GETFIELD       R19 <- R4.stockRaw                                  
+>   [ 203] SETFIELD       R18.stockRaw <- R19                                 
+>   [ 204] SETFIELD       R18.multiplier <- R11                               
+>   [ 205] SETFIELD       R18.requestedRaw <- R12                             
+>   [ 206] SETFIELD       R18.observedRaw <- R10                              
+>   [ 207] GETFIELD       R19 <- R4.id                                        
+>   [ 208] SETFIELD       R18.batchId <- R19                                  
+>   [ 209] GETFIELD       R19 <- R4.targetOrdinal                             
+>   [ 210] SETFIELD       R18.targetOrdinal <- R19                            
+>   [ 211] SETFIELD       R18.pendingDepth <- R13                             
+>   [ 212] SETFIELD       R18.modifierValue <- R8                             
+>   [ 213] GETFIELD       R19 <- R4.strength                                  
+>   [ 214] SETFIELD       R18.modifierScaleValue <- R19                       
+>   [ 215] MOVE           R27 <- R15                                          
+>   [ 216] MOVE           R28 <- R16                                          
+>   [ 217] MOVE           R29 <- R3                                           
+>   [ 218] MOVE           R30 <- R18                                          
+>   [ 219] CALL           R27 nargs=3 nres=2                                  
+>   [ 220] MOVE           R15 <- R27                                          
+>   [ 221] MOVE           R16 <- R28                                          
+>   [ 222] JUMPIFNOT      R15 -> [224]                                        
+>   [ 223] MOVE           R14 <- R16                                          
+>   [ 224] GETIMPORT      R19 <- Engine.UpgradedValue                         
+>   [ 225] MOVE           R29 <- R19                                          
+>   [ 226] MOVE           R30 <- R12                                          
+>   [ 227] CALL           R29 nargs=1 nres=-1                                 
+>   [ 228] NAMECALL       R27 R6 :SetBaseAmount                               
+>   [ 229] CALL           R27 nargs=-1 nres=0                                 
+>   [ 230] GETUPVAL       R17 <- U3                                           
+>   [ 231] MOVE           R27 <- R17                                          
+>   [ 232] NAMECALL       R28 R6 :GetBaseAmount                               
+>   [ 233] CALL           R28 nargs=1 nres=-1                                 
+>   [ 234] CALL           R27 nargs=-1 nres=1                                 
+>   [ 235] MOVE           R17 <- R27                                          
+>   [ 236] GETUPVAL       R18 <- U4                                           
+>   [ 237] MOVE           R27 <- R18                                          
+>   [ 238] MOVE           R28 <- R17                                          
+>   [ 239] CALL           R27 nargs=1 nres=1                                  
+>   [ 240] MOVE           R18 <- R27                                          
+>   [ 241] JUMPIF         R18 -> [269]                                        
+>   [ 242] GETIMPORT      R20 <- Engine.UpgradedValue                         
+>   [ 243] GETFIELD       R21 <- R4.stockRaw                                  
+>   [ 244] MOVE           R29 <- R20                                          
+>   [ 245] MOVE           R30 <- R21                                          
+>   [ 246] CALL           R29 nargs=1 nres=-1                                 
+>   [ 247] NAMECALL       R27 R6 :SetBaseAmount                               
+>   [ 248] CALL           R27 nargs=-1 nres=0                                 
+>   [ 249] GETUPVAL       R18 <- U2                                           
+>   [ 250] GETFIELD       R20 <- R4.trace                                     
+>   [ 251] MOVE           R19 <- R20                                          
+>   [ 252] JUMPIF         R19 -> [254]                                        
+>   [ 253] MOVE           R19 <- R3                                           
+>   [ 254] LOADK          R20 <- "ICE_WAVE_INSTALL_REJECTED"                  
+>   [ 255] GETFIELD       R21 <- R4.id                                        
+>   [ 256] LOADK          R22 <- "targetOrdinal"                              
+>   [ 257] GETFIELD       R23 <- R4.targetOrdinal                             
+>   [ 258] LOADK          R24 <- "requestedRaw"                               
+>   [ 259] MOVE           R27 <- R18                                          
+>   [ 260] MOVE           R28 <- R19                                          
+>   [ 261] MOVE           R29 <- R20                                          
+>   [ 262] MOVE           R30 <- R21                                          
+>   [ 263] MOVE           R31 <- R22                                          
+>   [ 264] MOVE           R32 <- R23                                          
+>   [ 265] MOVE           R33 <- R24                                          
+>   [ 266] MOVE           R34 <- R12                                          
+>   [ 267] CALL           R27 nargs=7 nres=0                                  
+>   [ 268] RETURN         R0 nret=0                                           
+>   [ 269] GETUPVAL       R18 <- U6                                           
+>   [ 270] GETUPVAL       R21 <- U6                                           
+>   [ 271] LENGTH         A=20 B=21 C=0                                       
+>   [ 272] ADDK           R19 <- R20 ADDK 1                                   
+>   [ 273] DUPTABLE       R27 <- { damageData = nil, stockRaw = nil, trace = nil, captureId = nil, targetOrdinal = nil, meter = nil, installedRaw = nil }
+>   [ 274] MOVE           R20 <- R27                                          
+>   [ 275] SETFIELD       R20.damageData <- R6                                
+>   [ 276] GETFIELD       R21 <- R4.stockRaw                                  
+>   [ 277] SETFIELD       R20.stockRaw <- R21                                 
+>   [ 278] GETFIELD       R22 <- R4.trace                                     
+>   [ 279] MOVE           R21 <- R22                                          
+>   [ 280] JUMPIF         R21 -> [282]                                        
+>   [ 281] MOVE           R21 <- R3                                           
+>   [ 282] SETFIELD       R20.trace <- R21                                    
+>   [ 283] GETFIELD       R21 <- R4.id                                        
+>   [ 284] SETFIELD       R20.captureId <- R21                                
+>   [ 285] GETFIELD       R21 <- R4.targetOrdinal                             
+>   [ 286] SETFIELD       R20.targetOrdinal <- R21                            
+>   [ 287] SETFIELD       R20.meter <- R14                                    
+>   [ 288] SETFIELD       R20.installedRaw <- R17                             
+>   [ 289] SETTABLE       A=20 B=18 C=19                                      
+>   [ 290] RETURN         R0 nret=0                                           
+>   [ 291] RETURN         R0 nret=0                                           
+>   [ 292] GETUPVAL       R7 <- U2                                            
+>   [ 293] LOADK          R9 <- "ICE_WAVE_STRENGTH_REJECTED"                  
+>   [ 294] GETFIELD       R10 <- R4.id                                        
+>   [ 295] LOADK          R11 <- "reason"                                     
+>   [ 296] LOADK          R12 <- "no-verified-caster-strength"                
+>   [ 297] MOVE           R27 <- R7                                           
+>   [ 298] MOVE           R28 <- R3                                           
+>   [ 299] MOVE           R29 <- R9                                           
+>   [ 300] MOVE           R30 <- R10                                          
+>   [ 301] MOVE           R31 <- R11                                          
+>   [ 302] MOVE           R32 <- R12                                          
+>   [ 303] CALL           R27 nargs=5 nres=0                                  
+>   [ 304] RETURN         R0 nret=0                                           
+>   [ 305] RETURN         R0 nret=0                                           
+2098c2106
+< == proto[31] maxstack=29 nparams=4 nups=4 vararg=0 insns=122 consts=21 ==
+---
+> == proto[31] maxstack=29 nparams=4 nups=5 vararg=0 insns=122 consts=21 ==
+2211c2219
+<   [  91] LOADN          R16 <- 50                                           
+---
+>   [  91] GETUPVAL       R16 <- U4                                           
+2365,2372c2373,2442
+< == proto[34] maxstack=2 nparams=0 nups=2 vararg=0 insns=7 consts=0 ==
+<   [   0] LOADNIL        A=0 B=0 C=0                                         
+<   [   1] LOADB          A=0 B=1 C=0                                         
+<   [   2] SETUPVAL       U0 <- R0                                            
+<   [   3] GETUPVAL       R0 <- U1                                            
+<   [   4] MOVE           R1 <- R0                                            
+<   [   5] CALL           R1 nargs=0 nres=0                                   
+<   [   6] RETURN         R0 nret=0                                           
+---
+> == proto[34] maxstack=9 nparams=1 nups=3 vararg=0 insns=59 consts=10 ==
+>    k[0] type
+>    k[1] type
+>    k[2] "table"
+>    k[3] "settings"
+>    k[4] "ice_wave.bonus_per_cold_stack"
+>    k[5] "enabled"
+>    k[6] "stock"
+>    k[7] 0
+>    k[8] "value"
+>    k[9] "number"
+>   [   0] LOADNIL        A=1 B=0 C=0                                         
+>   [   1] LOADN          R2 <- 50                                            
+>   [   2] FASTCALL1      A=40 B=0 C=3                                        
+>   [   3] MOVE           R4 <- R0                                            
+>   [   4] GETIMPORT      R3 <- type                                          
+>   [   5] CALL           R3 nargs=1 nres=1                                   
+>   [   6] LOADK          R7 <- "table"                                       
+>   [   7] MOVE           R8 <- R3                                            
+>   [   8] JUMPIFNOTEQ    R8 JUMPIFNOTEQ R7 -> [48]                           
+>   [   9] GETFIELD       R4 <- R0.settings                                   
+>   [  10] FASTCALL1      A=40 B=4 C=2                                        
+>   [  11] GETIMPORT      R3 <- type                                          
+>   [  12] CALL           R3 nargs=1 nres=1                                   
+>   [  13] LOADK          R7 <- "table"                                       
+>   [  14] MOVE           R8 <- R3                                            
+>   [  15] JUMPIFNOTEQ    R8 JUMPIFNOTEQ R7 -> [48]                           
+>   [  16] LOADN          R2 <- 0                                             
+>   [  17] GETFIELD       R4 <- R0.settings                                   
+>   [  18] GETFIELD       R3 <- R4.ice_wave.bonus_per_cold_stack              
+>   [  19] FASTCALL1      A=40 B=3 C=3                                        
+>   [  20] MOVE           R5 <- R3                                            
+>   [  21] GETIMPORT      R4 <- type                                          
+>   [  22] CALL           R4 nargs=1 nres=1                                   
+>   [  23] LOADK          R7 <- "table"                                       
+>   [  24] MOVE           R8 <- R4                                            
+>   [  25] JUMPIFNOTEQ    R8 JUMPIFNOTEQ R7 -> [48]                           
+>   [  26] GETFIELD       R4 <- R3.enabled                                    
+>   [  27] LOADB          A=7 B=1 C=0                                         
+>   [  28] MOVE           R8 <- R4                                            
+>   [  29] JUMPIFNOTEQ    R8 JUMPIFNOTEQ R7 -> [48]                           
+>   [  30] GETFIELD       R4 <- R3.stock                                      
+>   [  31] LOADK          R7 <- 0                                             
+>   [  32] MOVE           R8 <- R4                                            
+>   [  33] JUMPIFNOTEQ    R8 JUMPIFNOTEQ R7 -> [48]                           
+>   [  34] GETFIELD       R4 <- R3.value                                      
+>   [  35] FASTCALL1      A=40 B=4 C=3                                        
+>   [  36] MOVE           R6 <- R4                                            
+>   [  37] GETIMPORT      R5 <- type                                          
+>   [  38] CALL           R5 nargs=1 nres=1                                   
+>   [  39] LOADK          R7 <- "number"                                      
+>   [  40] MOVE           R8 <- R5                                            
+>   [  41] JUMPIFNOTEQ    R8 JUMPIFNOTEQ R7 -> [48]                           
+>   [  42] JUMPIFNOTEQ    R4 JUMPIFNOTEQ R4 -> [48]                           
+>   [  43] LOADN          R5 <- 0                                             
+>   [  44] JUMPIFNOTLE    R5 JUMPIFNOTLE R4 -> [48]                           
+>   [  45] LOADN          R5 <- 100                                           
+>   [  46] JUMPIFNOTLE    R4 JUMPIFNOTLE R5 -> [48]                           
+>   [  47] MOVE           R2 <- R4                                            
+>   [  48] SETUPVAL       U0 <- R2                                            
+>   [  49] LOADK          R7 <- 0                                             
+>   [  50] MOVE           R8 <- R2                                            
+>   [  51] JUMPIFNOTEQ    R8 JUMPIFNOTEQ R7 -> [53]                           
+>   [  52] LOADB          A=1 B=0 C=1                                         
+>   [  53] LOADB          A=1 B=1 C=0                                         
+>   [  54] SETUPVAL       U1 <- R1                                            
+>   [  55] GETUPVAL       R1 <- U2                                            
+>   [  56] MOVE           R3 <- R1                                            
+>   [  57] CALL           R3 nargs=0 nres=0                                   
+>   [  58] RETURN         R0 nret=0                                           
+2383c2453
+< == proto[36] maxstack=32 nparams=0 nups=0 vararg=1 insns=134 consts=26 ==
+---
+> == proto[36] maxstack=33 nparams=0 nups=0 vararg=1 insns=139 consts=26 ==
+2442,2543c2512,2618
+<   [  32] LOADN          R0 <- 0                                             
+<   [  33] DUPCLOSURE     R1 <- closure(const[0] -> proto[0])                 
+<   [  34] DUPCLOSURE     R2 <- closure(const[1] -> proto[1])                 
+<   [  35] DUPCLOSURE     R3 <- closure(const[2] -> proto[2])                 
+<   [  36] NEWCLOSURE     R4 <- closure(child[3] -> proto[12])                
+<   [  37] CAPTURE        A=1 B=1 C=0                                         
+<   [  38] CAPTURE        A=1 B=2 C=0                                         
+<   [  39] CAPTURE        A=1 B=3 C=0                                         
+<   [  40] NEWCLOSURE     R5 <- closure(child[4] -> proto[14])                
+<   [  41] CAPTURE        A=1 B=1 C=0                                         
+<   [  42] NEWCLOSURE     R6 <- closure(child[5] -> proto[16])                
+<   [  43] CAPTURE        A=1 B=1 C=0                                         
+<   [  44] DUPCLOSURE     R7 <- closure(const[3] -> proto[17])                
+<   [  45] DUPCLOSURE     R8 <- closure(const[4] -> proto[18])                
+<   [  46] NEWCLOSURE     R9 <- closure(child[8] -> proto[19])                
+<   [  47] CAPTURE        A=1 B=0 C=0                                         
+<   [  48] CAPTURE        A=1 B=4 C=0                                         
+<   [  49] CAPTURE        A=1 B=5 C=0                                         
+<   [  50] CAPTURE        A=1 B=6 C=0                                         
+<   [  51] CAPTURE        A=1 B=8 C=0                                         
+<   [  52] NEWCLOSURE     R10 <- closure(child[9] -> proto[20])               
+<   [  53] CAPTURE        A=1 B=4 C=0                                         
+<   [  54] CAPTURE        A=1 B=7 C=0                                         
+<   [  55] CAPTURE        A=1 B=5 C=0                                         
+<   [  56] CAPTURE        A=1 B=8 C=0                                         
+<   [  57] NEWCLOSURE     R11 <- closure(child[10] -> proto[21])              
+<   [  58] CAPTURE        A=1 B=0 C=0                                         
+<   [  59] LOADB          A=12 B=0 C=0                                        
+<   [  60] LOADNIL        A=13 B=0 C=0                                        
+<   [  61] NEWTABLE       A=14 B=0 C=0                                        
+<   [  62] LOADN          R15 <- 0                                            
+<   [  63] DUPCLOSURE     R16 <- closure(const[5] -> proto[23])               
+<   [  64] DUPCLOSURE     R17 <- closure(const[6] -> proto[24])               
+<   [  65] NEWCLOSURE     R18 <- closure(child[13] -> proto[25])              
+<   [  66] CAPTURE        A=1 B=16 C=0                                        
+<   [  67] DUPCLOSURE     R19 <- closure(const[7] -> proto[26])               
+<   [  68] NEWCLOSURE     R20 <- closure(child[15] -> proto[27])              
+<   [  69] CAPTURE        A=1 B=18 C=0                                        
+<   [  70] DUPCLOSURE     R21 <- closure(const[8] -> proto[28])               
+<   [  71] NEWCLOSURE     R22 <- closure(child[17] -> proto[29])              
+<   [  72] CAPTURE        A=1 B=12 C=0                                        
+<   [  73] CAPTURE        A=1 B=16 C=0                                        
+<   [  74] CAPTURE        A=1 B=17 C=0                                        
+<   [  75] CAPTURE        A=1 B=15 C=0                                        
+<   [  76] CAPTURE        A=1 B=13 C=0                                        
+<   [  77] CAPTURE        A=1 B=21 C=0                                        
+<   [  78] NEWCLOSURE     R23 <- closure(child[18] -> proto[30])              
+<   [  79] CAPTURE        A=1 B=12 C=0                                        
+<   [  80] CAPTURE        A=1 B=13 C=0                                        
+<   [  81] CAPTURE        A=1 B=21 C=0                                        
+<   [  82] CAPTURE        A=1 B=16 C=0                                        
+<   [  83] CAPTURE        A=1 B=17 C=0                                        
+<   [  84] CAPTURE        A=1 B=14 C=0                                        
+<   [  85] CAPTURE        A=1 B=9 C=0                                         
+<   [  86] NEWCLOSURE     R24 <- closure(child[19] -> proto[31])              
+<   [  87] CAPTURE        A=1 B=12 C=0                                        
+<   [  88] CAPTURE        A=1 B=13 C=0                                        
+<   [  89] CAPTURE        A=1 B=21 C=0                                        
+<   [  90] CAPTURE        A=1 B=18 C=0                                        
+<   [  91] NEWCLOSURE     R25 <- closure(child[20] -> proto[32])              
+<   [  92] CAPTURE        A=1 B=14 C=0                                        
+<   [  93] CAPTURE        A=1 B=16 C=0                                        
+<   [  94] CAPTURE        A=1 B=21 C=0                                        
+<   [  95] CAPTURE        A=1 B=10 C=0                                        
+<   [  96] NEWCLOSURE     R26 <- closure(child[21] -> proto[33])              
+<   [  97] CAPTURE        A=1 B=13 C=0                                        
+<   [  98] CAPTURE        A=1 B=14 C=0                                        
+<   [  99] CAPTURE        A=1 B=15 C=0                                        
+<   [ 100] CAPTURE        A=1 B=11 C=0                                        
+<   [ 101] DUPTABLE       R31 <- { activate = nil, cleanup = nil, hooks = nil }
+<   [ 102] MOVE           R27 <- R31                                          
+<   [ 103] NEWCLOSURE     R28 <- closure(child[22] -> proto[34])              
+<   [ 104] CAPTURE        A=1 B=12 C=0                                        
+<   [ 105] CAPTURE        A=1 B=26 C=0                                        
+<   [ 106] SETFIELD       R27.activate <- R28                                 
+<   [ 107] NEWCLOSURE     R28 <- closure(child[23] -> proto[35])              
+<   [ 108] CAPTURE        A=1 B=12 C=0                                        
+<   [ 109] CAPTURE        A=1 B=26 C=0                                        
+<   [ 110] SETFIELD       R27.cleanup <- R28                                  
+<   [ 111] DUPTABLE       R31 <- { matchesAbility = nil, afterAbilityCard = nil, nativeCalls = nil }
+<   [ 112] MOVE           R28 <- R31                                          
+<   [ 113] SETFIELD       R28.matchesAbility <- R19                           
+<   [ 114] SETFIELD       R28.afterAbilityCard <- R20                         
+<   [ 115] DUPTABLE       R31 <- { SetBaseAmount = nil, SetSource = nil, DamageDD = nil }
+<   [ 116] MOVE           R29 <- R31                                          
+<   [ 117] DUPTABLE       R31 <- { before = nil }                             
+<   [ 118] MOVE           R30 <- R31                                          
+<   [ 119] SETFIELD       R30.before <- R22                                   
+<   [ 120] SETFIELD       R29.SetBaseAmount <- R30                            
+<   [ 121] DUPTABLE       R31 <- { before = nil }                             
+<   [ 122] MOVE           R30 <- R31                                          
+<   [ 123] SETFIELD       R30.before <- R24                                   
+<   [ 124] SETFIELD       R29.SetSource <- R30                                
+<   [ 125] DUPTABLE       R31 <- { before = nil, after = nil }                
+<   [ 126] MOVE           R30 <- R31                                          
+<   [ 127] SETFIELD       R30.before <- R23                                   
+<   [ 128] SETFIELD       R30.after <- R25                                    
+<   [ 129] SETFIELD       R29.DamageDD <- R30                                 
+<   [ 130] SETFIELD       R28.nativeCalls <- R29                              
+<   [ 131] SETFIELD       R27.hooks <- R28                                    
+<   [ 132] CLOSEUPVALS    A=0 B=0 C=0                                         
+<   [ 133] RETURN         R27 nret=1                                          
+---
+>   [  32] LOADN          R31 <- 50                                           
+>   [  33] LOADN          R0 <- 0                                             
+>   [  34] DUPCLOSURE     R1 <- closure(const[0] -> proto[0])                 
+>   [  35] DUPCLOSURE     R2 <- closure(const[1] -> proto[1])                 
+>   [  36] DUPCLOSURE     R3 <- closure(const[2] -> proto[2])                 
+>   [  37] NEWCLOSURE     R4 <- closure(child[3] -> proto[12])                
+>   [  38] CAPTURE        A=1 B=1 C=0                                         
+>   [  39] CAPTURE        A=1 B=2 C=0                                         
+>   [  40] CAPTURE        A=1 B=3 C=0                                         
+>   [  41] NEWCLOSURE     R5 <- closure(child[4] -> proto[14])                
+>   [  42] CAPTURE        A=1 B=1 C=0                                         
+>   [  43] NEWCLOSURE     R6 <- closure(child[5] -> proto[16])                
+>   [  44] CAPTURE        A=1 B=1 C=0                                         
+>   [  45] DUPCLOSURE     R7 <- closure(const[3] -> proto[17])                
+>   [  46] DUPCLOSURE     R8 <- closure(const[4] -> proto[18])                
+>   [  47] NEWCLOSURE     R9 <- closure(child[8] -> proto[19])                
+>   [  48] CAPTURE        A=1 B=0 C=0                                         
+>   [  49] CAPTURE        A=1 B=4 C=0                                         
+>   [  50] CAPTURE        A=1 B=5 C=0                                         
+>   [  51] CAPTURE        A=1 B=6 C=0                                         
+>   [  52] CAPTURE        A=1 B=8 C=0                                         
+>   [  53] NEWCLOSURE     R10 <- closure(child[9] -> proto[20])               
+>   [  54] CAPTURE        A=1 B=4 C=0                                         
+>   [  55] CAPTURE        A=1 B=7 C=0                                         
+>   [  56] CAPTURE        A=1 B=5 C=0                                         
+>   [  57] CAPTURE        A=1 B=8 C=0                                         
+>   [  58] NEWCLOSURE     R11 <- closure(child[10] -> proto[21])              
+>   [  59] CAPTURE        A=1 B=0 C=0                                         
+>   [  60] LOADB          A=12 B=0 C=0                                        
+>   [  61] LOADNIL        A=13 B=0 C=0                                        
+>   [  62] NEWTABLE       A=14 B=0 C=0                                        
+>   [  63] LOADN          R15 <- 0                                            
+>   [  64] DUPCLOSURE     R16 <- closure(const[5] -> proto[23])               
+>   [  65] DUPCLOSURE     R17 <- closure(const[6] -> proto[24])               
+>   [  66] NEWCLOSURE     R18 <- closure(child[13] -> proto[25])              
+>   [  67] CAPTURE        A=1 B=16 C=0                                        
+>   [  68] DUPCLOSURE     R19 <- closure(const[7] -> proto[26])               
+>   [  69] NEWCLOSURE     R20 <- closure(child[15] -> proto[27])              
+>   [  70] CAPTURE        A=1 B=31 C=0                                        
+>   [  71] CAPTURE        A=1 B=18 C=0                                        
+>   [  72] DUPCLOSURE     R21 <- closure(const[8] -> proto[28])               
+>   [  73] NEWCLOSURE     R22 <- closure(child[17] -> proto[29])              
+>   [  74] CAPTURE        A=1 B=12 C=0                                        
+>   [  75] CAPTURE        A=1 B=16 C=0                                        
+>   [  76] CAPTURE        A=1 B=17 C=0                                        
+>   [  77] CAPTURE        A=1 B=15 C=0                                        
+>   [  78] CAPTURE        A=1 B=13 C=0                                        
+>   [  79] CAPTURE        A=1 B=21 C=0                                        
+>   [  80] NEWCLOSURE     R23 <- closure(child[18] -> proto[30])              
+>   [  81] CAPTURE        A=1 B=12 C=0                                        
+>   [  82] CAPTURE        A=1 B=13 C=0                                        
+>   [  83] CAPTURE        A=1 B=21 C=0                                        
+>   [  84] CAPTURE        A=1 B=16 C=0                                        
+>   [  85] CAPTURE        A=1 B=17 C=0                                        
+>   [  86] CAPTURE        A=1 B=31 C=0                                        
+>   [  87] CAPTURE        A=1 B=14 C=0                                        
+>   [  88] CAPTURE        A=1 B=9 C=0                                         
+>   [  89] NEWCLOSURE     R24 <- closure(child[19] -> proto[31])              
+>   [  90] CAPTURE        A=1 B=12 C=0                                        
+>   [  91] CAPTURE        A=1 B=13 C=0                                        
+>   [  92] CAPTURE        A=1 B=21 C=0                                        
+>   [  93] CAPTURE        A=1 B=18 C=0                                        
+>   [  94] CAPTURE        A=1 B=31 C=0                                        
+>   [  95] NEWCLOSURE     R25 <- closure(child[20] -> proto[32])              
+>   [  96] CAPTURE        A=1 B=14 C=0                                        
+>   [  97] CAPTURE        A=1 B=16 C=0                                        
+>   [  98] CAPTURE        A=1 B=21 C=0                                        
+>   [  99] CAPTURE        A=1 B=10 C=0                                        
+>   [ 100] NEWCLOSURE     R26 <- closure(child[21] -> proto[33])              
+>   [ 101] CAPTURE        A=1 B=13 C=0                                        
+>   [ 102] CAPTURE        A=1 B=14 C=0                                        
+>   [ 103] CAPTURE        A=1 B=15 C=0                                        
+>   [ 104] CAPTURE        A=1 B=11 C=0                                        
+>   [ 105] DUPTABLE       R32 <- { activate = nil, cleanup = nil, hooks = nil }
+>   [ 106] MOVE           R27 <- R32                                          
+>   [ 107] NEWCLOSURE     R28 <- closure(child[22] -> proto[34])              
+>   [ 108] CAPTURE        A=1 B=31 C=0                                        
+>   [ 109] CAPTURE        A=1 B=12 C=0                                        
+>   [ 110] CAPTURE        A=1 B=26 C=0                                        
+>   [ 111] SETFIELD       R27.activate <- R28                                 
+>   [ 112] NEWCLOSURE     R28 <- closure(child[23] -> proto[35])              
+>   [ 113] CAPTURE        A=1 B=12 C=0                                        
+>   [ 114] CAPTURE        A=1 B=26 C=0                                        
+>   [ 115] SETFIELD       R27.cleanup <- R28                                  
+>   [ 116] DUPTABLE       R32 <- { matchesAbility = nil, afterAbilityCard = nil, nativeCalls = nil }
+>   [ 117] MOVE           R28 <- R32                                          
+>   [ 118] SETFIELD       R28.matchesAbility <- R19                           
+>   [ 119] SETFIELD       R28.afterAbilityCard <- R20                         
+>   [ 120] DUPTABLE       R32 <- { SetBaseAmount = nil, SetSource = nil, DamageDD = nil }
+>   [ 121] MOVE           R29 <- R32                                          
+>   [ 122] DUPTABLE       R32 <- { before = nil }                             
+>   [ 123] MOVE           R30 <- R32                                          
+>   [ 124] SETFIELD       R30.before <- R22                                   
+>   [ 125] SETFIELD       R29.SetBaseAmount <- R30                            
+>   [ 126] DUPTABLE       R32 <- { before = nil }                             
+>   [ 127] MOVE           R30 <- R32                                          
+>   [ 128] SETFIELD       R30.before <- R24                                   
+>   [ 129] SETFIELD       R29.SetSource <- R30                                
+>   [ 130] DUPTABLE       R32 <- { before = nil, after = nil }                
+>   [ 131] MOVE           R30 <- R32                                          
+>   [ 132] SETFIELD       R30.before <- R23                                   
+>   [ 133] SETFIELD       R30.after <- R25                                    
+>   [ 134] SETFIELD       R29.DamageDD <- R30                                 
+>   [ 135] SETFIELD       R28.nativeCalls <- R29                              
+>   [ 136] SETFIELD       R27.hooks <- R28                                    
+>   [ 137] CLOSEUPVALS    A=0 B=0 C=0                                         
+>   [ 138] RETURN         R27 nret=1                                          

@@ -1,0 +1,7 @@
+proto 11 HASH only-stock=[] only-candidate=[404f8a8c, b6e30ca3, d4f2b58e]
+proto 11 STRING only-stock=[] only-candidate=["enabled", "mallet.threat_level", "number", "settings", "stock", "table", "value"]
+proto 11 KEYUSE only-stock=[] only-candidate=[FIELD H:d4f2b58e, FIELD S:enabled, FIELD S:mallet.threat_level, FIELD S:settings, FIELD S:stock, FIELD S:value, GLOBAL H:404f8a8c, GLOBAL H:b6e30ca3]
+BOOLEANS protos_with_boolean_constant_differences=0 (value constants; not part of the verdict)
+CLASS_SWAPS hash_string_class_swaps=0 other_keyuse_differences=8
+CODE_DIFF protos_code_equal=11 protos_code_size_differs=3 differing_bytes_by_canonical_op_field={}
+CONST_IDENTITY protos_stock=14 protos_candidate=14 hash_equal=13 string_equal=13 keyuse_equal=13 verdict=FAIL

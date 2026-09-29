@@ -1,0 +1,30 @@
+PASS tool.derecomp-identity: c1672d8d70e44bf7001a68f873f229714f5afdefb0b93c8558b6abb49e187c58
+PASS tool.u44-alias-map-identity: d27c3a00d0693b7c86c97831de047f69115a17a1115f54556cdc3c8dcdde4f59
+PASS tool.callsite-audit-revision: 284263b0c75fed5d812f2620ce908ca39826e305
+PASS mallet.input.installed-identity: 22e0cb4972f81050175b982cbef7c4d09a5a1fb2a1268c38172d45e151bf422a
+PASS mallet.input.stock-identity: c713c4d6bf32adb06f7b3ff71d03f00feb53ccd0b651bd2cdf2382106882299f
+PASS mallet.build.baseline-source-reproduces-installed: 22e0cb4972f81050175b982cbef7c4d09a5a1fb2a1268c38172d45e151bf422a
+PASS mallet.build.recompile-u44: [derecomp] recompile C:\Users\Bartek\OneDrive\Dokumenter\Warframe RE PROJECT RENOVICE\work\temp\ability-editor-settings-consumer\RESEARCH\SETTINGS_SECOND_CONSUMER_2026-09-30\src\mallet-threat-settings.u44.luau -> C:\Users\Bartek\AppData\Local\Temp\claude\C--Users-Bartek-OneDrive-Dokumenter-Warframe-RE-PROJECT-RENOVICE\da3f97f0-d2c7-475a-a46d-2f428b02d1ea\scratchpad\final\work\mallet\candidate.lua_B : 3798 bytes, nps=14, re-parses=yes, hashed-globals=0, hashed-fields=0
+PASS mallet.build.deterministic: 1e3682a4bacf46ef4b15bcedb71ad402a2d9bd01540e410abe0a5419b418bb86
+PASS mallet.build.de-roundtrip: nps=14   consts re-encode exact: 14/14  FULL BODY identical: True
+PASS mallet.gate.const-identity-delta-vs-installed: protos_stock=14 protos_candidate=14 hash_equal=13 string_equal=13 keyuse_equal=13 verdict=FAIL | hash_string_class_swaps=0 other_keyuse_differences=8 | deltas only in protos [11], additions only, every added hash already used by the installed addon or the stock target
+PASS mallet.ir.settings-read-as-string-keys: GETFIELD .settings/.enabled/.stock/.value with string constants; id constant present
+PASS mallet.gate.native-callsite-namecall: verdict=OK
+PASS mallet.source.settings-contract: PASS mallet-settings-contract cases=25 (compiled 5 without context.settings; stock without an applicable entry; enabled 0..5 forced; unrelated PushFloatArg sites unchanged)
+PASS mallet.decl.id-and-lane: mallet.threat_level int stock=5 min=0 max=5
+PASS mallet.package.members-match-manifest: ec368d4901690a15.MalletOverguardAndCard.target.addon.lua_B, package.json
+PASS mallet.package.committed-bytes-equal-rebuild: 1e3682a4bacf46ef4b15bcedb71ad402a2d9bd01540e410abe0a5419b418bb86
+PASS icewave.input.installed-identity: dcedc4a2d11cd2d7f03361432eb02c64fd01f3dc6517b627e940ac8ad4228e31
+PASS icewave.input.stock-identity: f903720dee7828506f2a3e668204860f5300a27c27fc53f4e86781cab276f3c5
+PASS icewave.build.baseline-source-reproduces-installed: dcedc4a2d11cd2d7f03361432eb02c64fd01f3dc6517b627e940ac8ad4228e31
+PASS icewave.build.recompile-u44: [derecomp] recompile C:\Users\Bartek\OneDrive\Dokumenter\Warframe RE PROJECT RENOVICE\work\temp\ability-editor-settings-consumer\RESEARCH\SETTINGS_SECOND_CONSUMER_2026-09-30\src\ice-wave-settings.u44.luau -> C:\Users\Bartek\AppData\Local\Temp\claude\C--Users-Bartek-OneDrive-Dokumenter-Warframe-RE-PROJECT-RENOVICE\da3f97f0-d2c7-475a-a46d-2f428b02d1ea\scratchpad\final\work\icewave\candidate.lua_B : 14118 bytes, nps=37, re-parses=yes, hashed-globals=0, hashed-fields=0
+PASS icewave.build.deterministic: f3ddb4336b13e321d236a5f543ce1e5122783b9f3b5e619604073f2db8ea5e71
+PASS icewave.build.de-roundtrip: nps=37   consts re-encode exact: 37/37  FULL BODY identical: True
+PASS icewave.gate.const-identity-delta-vs-installed: protos_stock=37 protos_candidate=37 hash_equal=36 string_equal=36 keyuse_equal=35 verdict=FAIL | hash_string_class_swaps=0 other_keyuse_differences=7 | deltas only in protos [30, 34], additions only, every added hash already used by the installed addon or the stock target
+PASS icewave.ir.settings-read-as-string-keys: GETFIELD .settings/.enabled/.stock/.value with string constants; id constant present
+PASS icewave.gate.native-callsite-namecall: verdict=OK
+PASS icewave.source.settings-contract: PASS icewave-settings-contract cases=16 (compiled 50 without context.settings; stock 0 = inert card and damage; enabled 0..100 applied as stockRaw*(1+min(stacks,10)*bonus*strength))
+PASS icewave.decl.id-and-lane: ice_wave.bonus_per_cold_stack float stock=0 min=0 max=100
+PASS icewave.package.members-match-manifest: 8fba3a28f8fef624.IceWaveColdStackDamage.target.addon.lua_B, package.json
+PASS icewave.package.committed-bytes-equal-rebuild: f3ddb4336b13e321d236a5f543ce1e5122783b9f3b5e619604073f2db8ea5e71
+ALL GATES PASS

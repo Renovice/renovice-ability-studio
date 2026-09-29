@@ -1,0 +1,5 @@
+﻿'vswhere.exe' is not recognized as an internal or external command,
+operable program or batch file.
+settings_package_gate.cpp
+packages.cpp
+Generating Code...

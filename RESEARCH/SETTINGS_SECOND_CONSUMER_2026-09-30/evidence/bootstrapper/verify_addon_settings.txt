@@ -1,0 +1,137 @@
+﻿'vswhere.exe' is not recognized as an internal or external command,
+operable program or batch file.
+verify_addon_settings.cpp
+packages.cpp
+Generating Code...
+PASS	generator-shaped declarations parse: 3 groups, 5 values, aliases kept
+PASS	int value carries member, bounds, lane, applies and unit
+PASS	enum value carries its options
+PASS	literal value belongs to its replacement member
+PASS	`settings: {}` means no declarations (package behaves exactly as today)
+PASS	declaration rejects: settings-unknown-field=extra
+PASS	declaration rejects: settings-format-not-RENOVICE_SETTINGS_DECL_V1
+PASS	declaration rejects: settings-build-invalid
+PASS	declaration rejects: settings-groups-not-array
+PASS	declaration rejects: group-duplicate=g
+PASS	declaration rejects: group-id-invalid
+PASS	declaration rejects: group-order-invalid=g
+PASS	declaration rejects: member=M value=g.v unknown-field=enabled
+PASS	declaration rejects: member=M value=g.v group-not-declared=x
+PASS	declaration rejects: member=M value=g.v type-invalid=text
+PASS	declaration rejects: member=M value=g.v stock-outside-min-max
+PASS	declaration rejects: member=M value=g.v int-has-fraction
+PASS	declaration rejects: member=M value=g.v int-bound-not-exact-in-float32
+PASS	declaration rejects: member=M value=g.v enum-stock-not-an-option
+PASS	declaration rejects: member=M value=g.v options-only-for-enum
+PASS	declaration rejects: member=M value=g.v lane-invalid=server
+PASS	declaration rejects: member=M value=g.v applies-invalid=now
+PASS	declaration rejects: member=M value=g.v label-invalid
+PASS	declaration rejects: member=M value-id-invalid=bad id
+PASS	declaration rejects: member=M settings-must-be-exactly-values-object
+PASS	declaration rejects: member=M settings-not-object
+PASS	declaration rejects: settings-invalid-json
+PASS	a value id is unique across the members of a package
+PASS	values file parses (BOM, groups, per-value enabled/value/stock); a bad entry is entry-local
+PASS	malformed values file: values-file-invalid-json
+PASS	malformed values file: values-file-not-object
+PASS	malformed values file: values-file-format-not-RENOVICE_SCRIPT_SETTINGS_V1
+PASS	malformed values file: values-file-package-mismatch expected=package:missions found=package:other
+PASS	malformed values file: values-file-unknown-field=extra
+PASS	malformed values file: values-file-use_stock-not-boolean
+PASS	malformed values file: values-file-group-not-boolean=a
+PASS	malformed values file: values-file-values-not-object
+PASS	malformed values file: values-file-trailing-data
+PASS	malformed values file: values-file-invalid-json
+PASS	malformed values file: values-file-too-large
+PASS	writer round trip keeps master, sections, values and records the declared stock
+PASS	writer output is deterministic and human-editable
+PASS	missing values file: every value is stock
+PASS	malformed values file: the package reverts to stock with the exact reason
+PASS	per-value enable: an enabled valid value is effective, a disabled one stays stock, unknown ids are ignored
+PASS	invalid values revert only that value to stock with an exact reason
+PASS	master `use_stock` makes every value stock and keeps the remembered values
+PASS	a section switch reverts only its group
+PASS	build mismatch without a recorded stock never carries a value over
+PASS	build mismatch keeps a value whose recorded stock equals the declared stock
+PASS	a recorded stock that differs from the declaration fails closed
+PASS	literal member without a values file stays stock (not staged)
+PASS	literal member is staged when its value is enabled
+PASS	per-value switch off: the one-value literal member stays stock
+PASS	master `use_stock` also holds back literal members
+PASS	a replacement member without literal declarations is unaffected
+PASS	delivery holds only this member's effective addon-lane values, sorted, with stock
+PASS	delivery identity is a deterministic SHA-256
+PASS	a value edit or a per-value switch changes the identity (forces re-activation)
+PASS	an all-stock package still delivers an (empty) table with its own identity
+PASS	SHA-256 matches the FIPS 180-4 vectors
+PASS	reuse identity: bytes AND settings; loose addons (no settings) reuse exactly as before
+PASS	member ids are member:<folder>/<file>, lowercased
+PASS	member ids satisfy the ScriptStates.json id rules
+PASS	startup scan PASS (package without declarations)
+PASS	package regression: no declarations -> all members staged, no delivery (context.settings = nil)
+PASS	package regression: no settings log lines at all
+PASS	package regression: the ACCEPT line is unchanged
+PASS	F9 prepare PASS (declarations, values file absent)
+PASS	declarations without a values file: addon gets an empty table, literal member stays stock
+PASS	operational lines: package summary, literal gate, delivery
+PASS	F9 prepare PASS (valid values file)
+PASS	valid values file: enabled value delivered, literal member staged
+PASS	an out-of-range value reverts only itself, with an exact line
+PASS	F9 prepare PASS (settings-only change)
+PASS	identity-includes-settings: unchanged bytes, changed settings -> different identity
+PASS	F9 prepare PASS with a malformed values file (never rejects the transaction)
+PASS	fail-closed: malformed values file -> this package is stock (empty table, literal held back)
+PASS	fail-closed: exact FILE REJECT line
+PASS	F9 prepare PASS with invalid declarations
+PASS	fail-closed: invalid declarations reject only the settings capability (members keep compiled defaults)
+PASS	fail-closed: exact DECLARATIONS REJECT line
+PASS	F9 prepare PASS with a disabled member
+PASS	member: off -> excluded from staging, still validated, keys still inventoried; siblings unaffected
+PASS	member: off -> exact MEMBER DISABLED line
+PASS	reserved _RENOVICE_INTERNAL_ names are never package members
+PASS	internal chunk classification: only named bridges load; the probe only in a probe build
+PASS	loose/package stable ids unchanged
+PASS	phase2i contract fixtures are present
+PASS	phase2i: startup scan PASS
+PASS	phase2i: generator declarations are accepted by the runtime parser (4 values, 4 groups)
+PASS	phase2i: only survival.reward_interval is delivered (purgatory disabled, lantern absent = stock)
+PASS	phase2i: the enabled Void Flood literal keeps its replacement member staged (D2)
+PASS	phase2i: exact operational summary line
+PASS	phase2i: row labels follow CONTRACT_PHASE1 D1
+PASS	phase2i: every row label is within the width budget
+PASS	flat page: native title and the stock search box
+PASS	flat page uses stock row types only
+PASS	every row label fits the width budget (40 value / 48 title)
+PASS	no leading spaces, box or tree glyphs in labels
+PASS	package, master and member switches are CHECKBOX rows with current state
+PASS	int >= 0: Custom checkbox + INPUTCOUNT with stock in the label and bounds
+PASS	float and negative int use a validated INPUTBOX; enum uses TOGGLE at its stock option
+PASS	section switch is the first row of its section and reflects the file
+PASS	literal-lane values are read-only in v1 (locked row)
+PASS	flat fallback has no navigation or FinishSelection buttons (unproven gates stay off)
+PASS	tooltips carry scope and apply timing
+PASS	nested L1: one BUTTON per package with a value summary
+PASS	nested L2: mission-type buttons and Restore all
+PASS	nested L3: section switch first, stock search box, Restore section
+PASS	staging accepts CHECKBOX, INPUTCOUNT, INPUTBOX text and member rows
+PASS	host re-validates every staged value (second line of defence behind the native validator)
+PASS	apply merges staged rows into one values file per package and one policy batch
+PASS	Restore unticks Custom in scope and remembers the value
+PASS	a session with no changes is a no-op
+PASS	restaging the current value is not a change
+ADDON SETTINGS PASS
+PASS	a member held back by policy or settings stays inventoried but never staged
+PASS	addon members carry their generation-owned delivery into the chunk
+PASS	replacement members: inventoried first, staged only when admitted
+PASS	identity-includes-settings: reuse requires the settings identity to match
+PASS	root reactivation is not chosen across a settings change
+PASS	staged bindings record their settings identity
+PASS	both activation paths deliver activate(context)
+PASS	no target-addon activation bypasses the delivery
+PASS	context.settings = { [id] = { enabled, value, stock } } is built inside the protected leaf
+PASS	activate(context) only with a delivery; plain activate() otherwise
+PASS	the historical 3-argument lifecycle call delivers nothing (managed addons unchanged)
+PASS	deliveries are copied to POD views outside the leaf
+PASS	member: ids are admitted into the policy batch only for existing package members
+PASS	the primitive names no mission, ability or file (universal)
+ADDON SETTINGS GATES PASS

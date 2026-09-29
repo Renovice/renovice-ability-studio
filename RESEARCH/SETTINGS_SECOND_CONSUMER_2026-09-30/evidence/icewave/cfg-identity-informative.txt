@@ -1,0 +1,7 @@
+proto 27 CFG_DIFF kind=LABEL depth=0 stock[11]="GETFIELD S:\x22Modded\x22" candidate[9]="GETUPVAL u0" class="LABEL GETFIELD -> GETUPVAL"
+proto 30 CFG_DIFF kind=LABEL depth=53 stock[171]="MULK N:50" candidate[171]="GETUPVAL u5" class="LABEL MULK -> GETUPVAL"
+proto 31 CFG_DIFF kind=LABEL depth=34 stock[86]="LOAD S:\x22ICE_WAVE_STRENGTH_CAPTURE\x22" candidate[91]="GETUPVAL u4" class="LABEL LOAD -> GETUPVAL"
+proto 34 CFG_DIFF kind=LABEL depth=0 stock[1]="LOAD B:true" candidate[4]="GETIMPORT I:H:404f8a8c" class="LABEL LOAD -> GETIMPORT"
+proto 36 CFG_DIFF kind=LABEL depth=17 stock[70]="CLOSURE p28" candidate[32]="LOAD N:50" class="LABEL CLOSURE -> LOAD"
+CFG_CLASSES {LABEL CLOSURE -> LOAD:1;LABEL GETFIELD -> GETUPVAL:1;LABEL LOAD -> GETIMPORT:1;LABEL LOAD -> GETUPVAL:1;LABEL MULK -> GETUPVAL:1}
+CFG_IDENTITY protos_stock=37 protos_candidate=37 cfg_equal=32 model_errors=0 candidate_dispatch_webs=1 verdict=FAIL

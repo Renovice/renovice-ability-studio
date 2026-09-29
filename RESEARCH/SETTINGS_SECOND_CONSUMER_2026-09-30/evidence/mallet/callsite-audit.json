@@ -1,0 +1,35 @@
+{
+  "addon": "C:\\Users\\Bartek\\AppData\\Local\\Temp\\claude\\C--Users-Bartek-OneDrive-Dokumenter-Warframe-RE-PROJECT-RENOVICE\\da3f97f0-d2c7-475a-a46d-2f428b02d1ea\\scratchpad\\final\\work\\mallet\\named\\ec368d4901690a15.MalletOverguardAndCard.target.addon.lua_B",
+  "sha256": "1e3682a4bacf46ef4b15bcedb71ad402a2d9bd01540e410abe0a5419b418bb86",
+  "body_key": "ec368d4901690a15",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\repos\\toolchains\\de-luau-toolchain\\work\\u44-rawhash-2026-09-29\\stock\\Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B",
+  "stock_profile": "u44",
+  "stock_sha256": "c713c4d6bf32adb06f7b3ff71d03f00feb53ccd0b651bd2cdf2382106882299f",
+  "decompile_profile": "u44",
+  "hooks": [
+    {
+      "hook": "transformFloatArgument",
+      "method": "PushFloatArg",
+      "phase": "call",
+      "sites": [
+        {
+          "prototype": 16,
+          "instruction": 596,
+          "method": "PushFloatArg",
+          "method_namecalls": [
+            "p10/i64",
+            "p10/i67",
+            "p15/i100",
+            "p15/i103",
+            "p16/i596"
+          ],
+          "at": "NAMECALL R30 R29 :PushFloatArg",
+          "class": "OK",
+          "reason": "NAMECALL :PushFloatArg at 596, CALL at 597"
+        }
+      ],
+      "prototype_only": []
+    }
+  ],
+  "verdict": "OK"
+}

@@ -1,0 +1,139 @@
+﻿[derecomp] recompile C:\Users\Bartek\AppData\Local\Temp\scg\r3ca9564\repos\runtime\bootstrapper-runtime\RENOVICE_TOOLCHAIN\injection\fixtures\MultiTargetFixture.targets.addon.luau -> C:\Users\Bartek\AppData\Local\Temp\scg\r3ca9564\repos\runtime\bootstrapper-runtime\RENOVICE_TOOLCHAIN\bin\injection\PackageFixture.targets.addon.u44.lua_B : 698 bytes, nps=7, re-parses=yes, hashed-globals=0, hashed-fields=0
+nps=7    consts re-encode exact: 7/7  FULL BODY identical: True
+'vswhere.exe' is not recognized as an internal or external command,
+operable program or batch file.
+verify_script_packages.cpp
+packages.cpp
+Generating Code...
+PASS	annotated 16-hex file is a replacement member keyed by its prefix
+PASS	<Name>.targets.addon.lua_B is a multi-target member
+PASS	<key>.<Name>.target.addon.lua_B is a single-key target member
+PASS	untargeted managed addon member is rejected with an exact reason
+PASS	one-shot Inject chunk is not admissible in an all-or-nothing package
+PASS	single-key target member without a key prefix is rejected
+PASS	multi-target member with a key prefix uses the loader's own reason
+PASS	retired spawn/persist names are rejected
+PASS	bootstrapper infrastructure cannot be packaged
+PASS	zero key is not a replacement key
+PASS	non-bytecode file is not a member
+PASS	ordinary folder names are admissible
+PASS	empty, hidden, trailing-dot, special-character and overlong folder names are rejected
+PASS	policy ID is package:<folder lowercased>
+PASS	row label is [PACKAGE] <manifest name or folder>
+PASS	package chunk names cannot collide with loose Inject names
+PASS	tooltip member summary uses manifest labels
+PASS	tooltip member summary is bounded and reports the remainder
+PASS	tooltip description is bounded
+PASS	package order is case-insensitive
+PASS	full manifest with BOM, escapes, labels and reserved settings parses
+PASS	empty manifest object is valid
+PASS	manifest rejects: manifest-not-a-json-object
+PASS	manifest rejects: manifest-schema-unsupported
+PASS	manifest rejects: manifest-schema-not-number
+PASS	manifest rejects: manifest-name-invalid
+PASS	manifest rejects: manifest-name-invalid
+PASS	manifest rejects: manifest-name-invalid
+PASS	manifest rejects: manifest-duplicate-field=name
+PASS	manifest rejects: manifest-unknown-field=enabled
+PASS	manifest rejects: manifest-members-not-object
+PASS	manifest rejects: manifest-member-name-not-lua_B=a.txt
+PASS	manifest rejects: manifest-member-duplicate=A.LUA_B
+PASS	manifest rejects: manifest-member-entry-not-object=a.lua_B
+PASS	manifest rejects: manifest-member-unknown-field=enabled
+PASS	manifest rejects: manifest-member-label-invalid=a.lua_B
+PASS	manifest rejects: manifest-settings-invalid-json
+PASS	manifest rejects: manifest-settings-invalid-json
+PASS	manifest rejects: manifest-settings-invalid-json
+PASS	manifest rejects: manifest-invalid-json
+PASS	manifest rejects: manifest-description-invalid
+PASS	manifest rejects: manifest-trailing-data
+PASS	manifest rejects: manifest-invalid-json
+PASS	manifest nesting deeper than 32 is rejected
+PASS	manifest larger than 64 KiB is rejected
+PASS	declared members match the disk case-insensitively
+PASS	a partially copied package fails as a whole
+PASS	an undeclared extra member fails the package
+PASS	without a members list every lua_B file in the folder is a member
+PASS	one decision per package
+PASS	package vs loose replacement key: the package fails closed with an exact reason
+PASS	package vs loose target key: the package fails; the holder is the first loose source by name
+PASS	a rejected package's claims never block a later package
+PASS	package vs package target key: the later-sorted package fails
+PASS	replacement and target key spaces are independent
+PASS	disjoint packages both apply
+PASS	real compiled DE multi-target fixture is available
+PASS	absent Packages folder: empty snapshot, no log output
+PASS	loose scanners' non-recursive enumeration never sees package members
+PASS	startup scan PASS with mixed valid/invalid packages
+PASS	Missions package accepted with manifest name, description and policy ID
+PASS	Missions members: exact replacement bytes and the real fixture's three declared targets
+PASS	package replacement conflicting with an enabled loose replacement fails closed
+PASS	a disabled loose file claims nothing, so the package applies
+PASS	package target conflicting with a loose single-key target addon fails closed
+PASS	package target conflicting with a loose multi-target addon fails closed
+PASS	later-sorted package conflicting with Missions fails; Missions keeps working
+PASS	a rejected package does not block a later package on its other keys
+PASS	disabled package: keys inventoried, no bytes enter any lane
+PASS	one-shot member fails its package with an exact reason
+PASS	managed addon member fails its package with an exact reason
+PASS	invalid manifest fails its package
+PASS	partially copied package fails as a whole
+PASS	undeclared member fails its package
+PASS	folder without members is rejected
+PASS	invalid folder name is rejected
+PASS	two replacement members with one key fail the package
+PASS	malformed multi-target member fails its package with the loader's reason
+PASS	packages are evaluated in deterministic case-insensitive order; loose files in Packages are ignored
+PASS	operational log: exact ACCEPT line
+PASS	operational log: exact package-local REJECT line
+PASS	operational log: disabled package is inventory-only
+PASS	operational log: scan summary
+PASS	F9 package prepare PASS
+PASS	F9 candidate is the prepared snapshot; the disabled package keeps inventory keys only
+PASS	with Missions disabled it claims nothing, so Zeta applies deterministically
+PASS	discard restores the committed snapshot
+PASS	F9 package prepare PASS (second)
+PASS	commit publishes the prepared snapshot atomically
+PASS	F9 package prepare PASS after deleting a package
+PASS	a deleted package leaves the snapshot on the next F9
+PASS	menu inventory is quiet and holds no member bytes
+PASS	existing kind ordinals and menu sort positions are unchanged; Package is appended last
+PASS	loose identity unchanged: Missions.targets.addon.lua_B
+PASS	loose identity unchanged: ec368d4901690a15.Mallet.target.addon.lua_B
+PASS	loose identity unchanged: fc711ff621a75552 (missions_exact-replacement).lua_B
+PASS	loose identity unchanged: Example.addon.lua_B
+PASS	loose identity unchanged: Riven Lock Script.lua_B
+PASS	loose classification unchanged
+PASS	external package copied into an empty CustomScripts tree
+PASS	external package scan PASS
+PASS	external package is accepted by the loader rules: Frost
+INFO	package=Frost id=package:frost row=[PACKAGE] Frost members=1
+INFO	member=8fba3a28f8fef624.IceWaveColdStackDamage.target.addon.lua_B kind=target-addon key=8fba3a28f8fef624 targets=1 bytes=14118 label="Ice Wave Cold-stack damage"
+INFO	  target=8fba3a28f8fef624
+LOG	RENOVICE PACKAGE ACCEPT trigger=startup package=Frost id=package:frost members=1 replacements=0 target_addons=1 target_keys=1 lanes=replacement+inject
+LOG	RENOVICE PACKAGES scan PASS trigger=startup packages=1 accepted=1 disabled=0 rejected=0
+SCRIPT PACKAGES PASS
+PASS	injection.cpp never enumerates recursively, so loose scanners cannot pick up package members
+PASS	replacements.cpp never enumerates recursively, so loose scanners cannot pick up package members
+PASS	script_control.cpp never enumerates recursively, so loose scanners cannot pick up package members
+PASS	packages.cpp never enumerates recursively, so loose scanners cannot pick up package members
+PASS	loose Inject loop is the unchanged non-recursive regular-file scan
+PASS	package chunks join after the loose loop and before the deterministic sort
+PASS	Inject lane consumes the one package snapshot of the transaction
+PASS	package target keys are inventoried before the accepted/enabled filter (like disabled loose target addons)
+PASS	package members enter the ordinary target lane with the ordinary Chunk shape
+PASS	no managed or one-shot chunk is created from a package
+PASS	loose replacement loop and its duplicate-key rule are unchanged
+PASS	package replacements merge after the loose loop
+PASS	package replacement keys are inventoried even while disabled
+PASS	replacement lane consumes the same package snapshot as the Inject lane
+PASS	F9 scans packages once, after the prepared policy and before both consuming lanes
+PASS	an unreadable Packages root rejects F9 with an exact logged reason
+PASS	F9 rollback discards the prepared package snapshot
+PASS	F9 commit publishes the package snapshot with the replacement map
+PASS	startup scans packages after the policy and before both consuming lanes
+PASS	a startup package failure is local to packages
+PASS	Scripts menu lists one row per package from the loader rules
+PASS	menu rows use the package label and member tooltip; loose rows are unchanged
+PASS	package rejection is logged as package-local
+SCRIPT PACKAGES GATES PASS
