@@ -1003,3 +1003,138 @@ The registrar changed one line, `consumer_sha256`. Registry SHA-256 `EEFF2087…
 
 **Limitation.** The server edit is still uncommitted in the server repository. Any further edit to that file needs another
 registrar run. The server repository was not touched.
+
+## Phase 2i — in-game settings editor Phase 1: registry UI fields, package.json declarations, settings-aware addon (2026-09-30)
+
+**Build.** Client `2026.09.28.13.06` (Hotfix 44.0.2). Contract: `work/research/universal-mission-editor-2026-09-29/INGAME_EDITOR_DESIGN.md`
+Phase 1. The notes for the bootstrapper agent (two small deviations and the clarifications) are in `CONTRACT_PHASE1.md` next to it.
+**Scope.** Generator, registry and gates only. Offline. Nothing was written to a game or server folder.
+
+### Hypotheses and results
+
+| # | Hypothesis | Result |
+|---|---|---|
+| H32 | Every one of the 594 rows can get a label that fits the design's 40-character row budget (`"Custom " + label`) and is unique inside its mission-type group, generated from the row id, the prose label and at most a short curated override list. | **TRUE.** 594/594 fit and are unique. Label sources: 263 id, 197 prose, 98 curated override, 26 variant-tagged (`(Descendia)` / `(Lab)` / `(1999)`), 10 Lua field name. For 461/594 rows, the editor row with the stock suffix (`"Reward interval (stock 300 s)"`) also fits in 40 characters. The other 133 rows keep the stock value in the tooltip (`CONTRACT_PHASE1.md` D1). |
+| H33 | Node-name search aliases per mission type can be derived from the current build's exports alone. | **TRUE.** The official 44.0.2 `ExportRegions_en.json` (269 nodes) is joined by `uniqueName` with export-plus 0.6.11 `missionType`. All 269 nodes join, and each `missionIndex` maps to exactly one MT code. Result: Survival has 30 nodes, including `Hell-Scrub: Scaldra` / `Hell-Scrub: Techrot` (SolNode851/852) and `Conjunction Survival`, plus the informal alias `Hellscrubber`. |
+| H34 | A settings-aware addon can keep today's behaviour byte-for-byte in effect: without `context.settings`, the compiled values apply. | **TRUE (offline, executed).** The existing per-instance harness (`activate()` with no context) passes unchanged on the new source. New luau.exe cases cover: empty settings (nothing written), enabled context value (written and restored), disabled value (never written), declared stock ≠ compiled stock (not written), and a disabled value on a drifted table (no error). |
+| H35 | The declarations can be checked against the registry and the compiled addon at build time. | **TRUE.** New build gate `settings-declarations`: strict schema; exactly one declaration per member tunable; declaration = registry row; declared stock = registry stock = the addon's compiled `stock` constant (read back from the generated source); the compiled `value` = the build value; row-label budget. |
+
+### What was built
+
+- **Registry** (through `tools/register_registry.py` → new `tools/editor_fields.py`; no hand edits). Registry SHA-256 `90D2C61A…9579C3` →
+  `0BE2780B2476644260021723E71B003D159D049CD294EEE1CB6B4F2C23D3BB97`.
+  - Per row `ui`:
+    - `group` = the tunable_id family;
+    - `mt_codes`;
+    - `short_label`;
+    - `label_source`;
+    - `scope_text` (for example "All Survival nodes (30) incl. Conjunction Survival, Hell-Scrub. Case: normal");
+    - `aliases` (row keywords such as Steel Path, Sortie or Duviri, also appended to the scope text so the search finds them);
+    - `lane`;
+    - `applies` (derived from the lane: addon `live_next_read`, literal `next_mission`, metadata `restart`, server `server_reload`);
+    - `type` (`int` / `float` / `enum` from `limits.integer`; bool/flag units are enums Off/On);
+    - `editor` (INPUTCOUNT 434, INPUTBOX 157, TOGGLE 3);
+    - `unit` (compact display unit);
+    - `min` / `max` (= `limits`);
+    - `options` (enums only).
+  - Top level:
+    - `ui_format` `RENOVICE_MISSION_UI_FIELDS_V1`;
+    - `ui_rules` (the label composition and budget rules);
+    - `ui_sources` (export paths and SHA-256);
+    - `ui_groups` (49 groups: readable title, order, MT codes, aliases, nodes).
+  - The existing `applies` field (F9 / next_mission / restart / immediate) is unchanged, so presets and `verify-missions`
+    keep their meaning.
+- **C++ core** (`src/mission_profiles.inl`):
+  - `verify_mission_ui` is part of the registry structure check. It covers the row budget, per-group label uniqueness,
+    lane/applies, the editor rule and min/max = limits, printable ASCII, and scope ≤ 256.
+  - `mission_value_declaration`, `validate_settings_declarations` (strict schema), `multi_target_compiled_values`.
+  - Package builds emit:
+    - top-level `settings = {format: RENOVICE_SETTINGS_DECL_V1, build, groups[]}` (only the groups used);
+    - per member `settings = {values: {id: {group, label, unit, type, stock, min, max, scope, lane, applies}}}`
+      (addon lane and literal lane);
+    - `generation/Settings/Missions.json`, a migration file with every built value enabled.
+  - `MISSION_SET_MANIFEST.json` `package.settings` records the declaration counts and the migration path, SHA-256 and live
+    path `OpenWF/CustomScripts/Settings/Missions.json`.
+- **Addon source.** `multi_target_addon_source` now:
+  - adds `effectiveSettings(compiled, context)` and `anyEnabled`;
+  - binds only enabled fields (stock check only over those);
+  - makes a table with no enabled field cost one boolean test per hooked call;
+  - restores only the fields it wrote.
+
+  The compiled `settings = { [id] = { value, stock } }` table and its format are unchanged.
+
+### Gate results (offline)
+
+| Gate | Result |
+|---|---|
+| Registrar reproducibility before the change | the unchanged registrar reproduced `90D2C61A…` byte for byte |
+| `verify-missions` | 594/594 PASS (TARGET_ADDON 289, EXACT_LITERAL 242, METADATA_PATCH 62, SERVER_CONFIG 1), structure PASS (includes the new ui check) |
+| C++ build (`-Wall -Wextra -Wpedantic -Werror`) | 0 warnings, 0 errors |
+| C++ self-test | 135/135 PASS (132 + 3 new). The package check and the luau harness check were extended. |
+| CTest | 2/2 PASS |
+| Managed Dev tests | 162/162 PASS |
+| `test_phase2d_gates.py` / `test_phase2e_gates.py` | 7 PASS / 7 PASS |
+| `test_presets_and_sample.py` | 12 presets byte-identical, 36 rejections. 2b/2d/2e opt-in probes 4/5, 8/9, 1/4 identical, as before. 2f identical. 2g and 2h identical except the intentional Phase 2i change of `Missions.targets.addon.lua_B` (and `package.json` for 2h); the Void Flood replacement is identical. The recorded folders are untouched. 2i was created, then rebuilt identical. |
+| `settings-declarations` (phase2i sample) | PASS values=4 groups=4 |
+| `multi-target-declared-keys` (no stray lowercase 16-hex text) | PASS declared=3 expected=3 |
+| Bootstrapper loader admission (`verify_script_packages.exe --admit`, existing binary, file time 2026-09-30 00:20) | `PACKAGE ACCEPT package=Missions id=package:missions members=2 target_keys=3`; `SCRIPT PACKAGES PASS` |
+
+New self-test checks:
+
+1. Registry ui gate rejections:
+   - over-budget label;
+   - duplicate label in a group;
+   - wrong apply timing;
+   - wrong editor;
+   - min/max ≠ limits;
+   - a group that is not the id family;
+   - over-long scope;
+   - an over-budget group title.
+2. Declaration schema rejections:
+   - unknown field (`step`);
+   - missing field;
+   - label over 64 characters;
+   - scope over 256 characters;
+   - stock out of range;
+   - undeclared or unused group;
+   - fractional int;
+   - enum without options;
+   - unknown lane or apply class;
+   - wrong format;
+   - unknown top-level field;
+   - a member `settings` with an extra key;
+   - a duplicate value id across members.
+3. The compiled settings table reads back as build value + registry stock, and `activate(context)` reads `context.settings`.
+
+### Phase 2i sample output (Phase 2h settings, rebuilt)
+
+Location: `work/research/universal-mission-editor-2026-09-29/phase2i-sample/`. `SHA256SUMS.json` lists 19 files; its own
+SHA-256 is `759C6313…82527`.
+
+| File | SHA-256 | Bytes |
+|---|---|---:|
+| `Packages/Missions/Missions.targets.addon.lua_B` | `0F3095793C03F0D9E8DFEE8A23114981B0B7F45C5A3B46A312ACC8412317B608` | 7,280 |
+| `Packages/Missions/fc711ff621a75552 (missions_exact-replacement).lua_B` | `E979F5E7906F0D88E49C42B4191ECA6AFDC1237FDDD91D52CBF427DB3FA9F6D2` (unchanged) | 112,244 |
+| `Packages/Missions/package.json` | `7A0F60DDE8592BDE2A22A175D4CAC54093C10BC75B3CE23824E37568207D2768` | 3,732 |
+| `CustomScripts/Settings/Missions.json` (hand-editable live-test values) | `EE4FA704D6CA3673E2DEF44375504A63761517C700EDFE5B730B0D1EBBABC887` | |
+| `generation/Settings/Missions.json` (migration, all built values enabled) | `22ECEDC51AF9FACB49A4C8694EF8A6E6BDE532E5A5BEFBB5D11FEA1689A4D5E9` | |
+
+Source `generation/source/Missions.targets.addon.luau` has SHA-256 `61DDCC9D…DB905D`.
+
+The live-test values file contains:
+- Survival reward interval 150, enabled;
+- Purgatory difficulty 1 warrior level 15, present but disabled;
+- Void Flood fractures 4, enabled, which keeps its one-value replacement member on;
+- no Lantern entry, so Lantern stays stock.
+
+### Limitations
+
+- **Offline only.** `renovice.target.lua_call` stays `OFFLINE_VERIFIED`. `context.settings` delivery does not exist in any
+  runtime yet (Phase 2, bootstrapper). Under today's DLL the addon applies its compiled values exactly as before.
+- **Label quality.** Labels are generated and budget-checked but not reviewed one by one in game. The 98 overrides are
+  listed in `editor_fields.py`. Some id-derived labels stay terse, for example `Fractures per round normal`.
+- **Package size.** A package that declares all 289 addon rows would be about 127 KiB, which is over the current loader
+  manifest bound of 64 KiB (`CONTRACT_PHASE1.md` item 12). Today a package declares only the values it builds.
+- **`next_instance`.** It is never emitted. Whether an addon field is read only at setup needs per-field evidence.
+- **export-plus.** The server's export-plus copy (0.6.11) only supplies the `missionIndex` → MT code join and the mission
+  display names. Node names come from the official 44.0.2 export.

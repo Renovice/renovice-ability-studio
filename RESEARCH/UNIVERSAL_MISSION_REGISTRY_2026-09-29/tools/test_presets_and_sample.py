@@ -130,16 +130,27 @@ def per_body(manifest):
     return rows
 
 
-def sample(folder, settings, name, extra_files):
+# Phase 2i (2026-09-29): the multi-target addon reads context.settings (ADDON_SETTINGS_V1) and package.json carries the
+# settings declarations, so these two files differ from samples recorded before Phase 2i BY DESIGN. Every other artifact
+# must stay byte-identical; the recorded folders are never rewritten.
+INTENTIONAL_2I = {'Missions.targets.addon.lua_B', 'package.json'}
+
+
+def sample(folder, settings, name, extra_files, intentional=frozenset()):
     """Builds a sample into staging. A recorded sample folder is dated evidence and is never rewritten: its artifacts
-    must be byte-identical to the rebuild. Only a missing folder is created (settings, extra files, generation, sums)."""
+    must be byte-identical to the rebuild, except the files named in `intentional` (recorded as intentional changes). Only
+    a missing folder is created (settings, extra files, generation, sums)."""
     generation, manifest = build(settings, name)
     assert generation is not None, manifest
     built = {p.name: hashlib.sha256(p.read_bytes()).hexdigest().upper() for p in (generation / 'artifacts').iterdir()}
     if (folder / 'SHA256SUMS.json').exists():
         recorded = json.loads((folder / 'SHA256SUMS.json').read_text())
         recorded = {k.split('/')[-1]: v for k, v in recorded.items() if k.startswith('generation/artifacts/')}
-        assert recorded == built, (folder.name, 'rebuilt artifacts differ from the recorded sample', recorded, built)
+        assert sorted(recorded) == sorted(built), (folder.name, 'artifact set changed', recorded, built)
+        changed = sorted(k for k in built if built[k] != recorded[k])
+        assert set(changed) <= set(intentional), (folder.name, 'rebuilt artifacts differ from the recorded sample', changed)
+        if changed:
+            return manifest, 'identical except the intentional Phase 2i change of ' + ', '.join(changed) + ' (folder untouched)'
         return manifest, 'identical to the recorded sample (folder untouched)'
     folder.mkdir(parents=True)
     (folder / 'mission_settings.json').write_text(json.dumps(settings, indent=2) + '\n')
@@ -210,7 +221,7 @@ PHASE2G_VALUES = {
     'void_flood.fractures_per_round.normal': 4,    # root local, exact replacement
 }
 settings2g = probe(dict(base_settings, values=PHASE2G_VALUES))
-manifest2g, state2g = sample(SAMPLE2G, settings2g, 'sample2g', {})
+manifest2g, state2g = sample(SAMPLE2G, settings2g, 'sample2g', {}, INTENTIONAL_2I)
 addons = [a for a in manifest2g['artifacts'] if a['backend'] == 'TARGET_ADDON']
 literals = [a for a in manifest2g['artifacts'] if a['backend'] == 'EXACT_LITERAL']
 assert len(addons) == 1 and len(literals) == 1 and len(manifest2g['artifacts']) == 2, manifest2g['artifacts']
@@ -236,7 +247,8 @@ loose2g = {Path(a['path']).name: a['sha256'] for a in manifest2g['artifacts']}
 package_hashes = {name: hashlib.sha256((package2h / name).read_bytes()).hexdigest().upper() for name in members2h}
 assert package_hashes == {name: loose2g[name] for name in members2h}, ('package members differ from the loose build', package_hashes)
 package_json = json.loads((package2h / 'package.json').read_text(encoding='utf-8'))
-assert package_json['schema'] == 1 and package_json['name'] == 'Missions' and package_json['settings'] == {}
+assert package_json['schema'] == 1 and package_json['name'] == 'Missions'
+assert package_json['settings']['format'] == 'RENOVICE_SETTINGS_DECL_V1' and package_json['settings']['build'] == registry['build']
 assert sorted(package_json['members']) == members2h
 assert manifest2h['output_layout'] == 'package' and manifest2h['package']['scripts_menu']['policy_id'] == 'package:missions'
 assert all(a['intended_live_relative_path'].startswith('OpenWF/CustomScripts/Packages/Missions/')
@@ -245,8 +257,11 @@ if (SAMPLE2H / 'SHA256SUMS.json').exists():
     recorded = json.loads((SAMPLE2H / 'SHA256SUMS.json').read_text())
     recorded = {k.split('/')[-1]: v for k, v in recorded.items() if k.startswith('Packages/Missions/')}
     rebuilt = dict(package_hashes, **{'package.json': hashlib.sha256((package2h / 'package.json').read_bytes()).hexdigest().upper()})
-    assert recorded == rebuilt, ('rebuilt package differs from the recorded Phase 2h sample', recorded, rebuilt)
-    state2h = 'identical to the recorded sample (folder untouched)'
+    assert sorted(recorded) == sorted(rebuilt), ('package member set changed', recorded, rebuilt)
+    changed2h = sorted(k for k in rebuilt if rebuilt[k] != recorded[k])
+    assert set(changed2h) <= INTENTIONAL_2I, ('rebuilt package differs from the recorded Phase 2h sample', changed2h)
+    state2h = ('identical except the intentional Phase 2i change of ' + ', '.join(changed2h) if changed2h else 'identical') + \
+        ' to the recorded sample (folder untouched)'
 else:
     SAMPLE2H.mkdir(parents=True)
     (SAMPLE2H / 'mission_settings.json').write_text(json.dumps(settings2h, indent=2) + '\n')
@@ -259,6 +274,63 @@ else:
 results['phase2h_sample'] = {'values': PHASE2G_VALUES, 'allow_unproven_hook_bindings': [LUA_CALL], 'output_layout': 'package',
                              'package': manifest2h['package'], 'location': SAMPLE2H.relative_to(ROOT).as_posix()}
 print(f"PASS phase2h sample: Packages/Missions with {len(members2h)} members, byte-identical to phase 2g ({state2h})")
+# Phase 2i sample: the Phase 2h settings rebuilt with settings declarations. Packages/Missions/ is install-ready;
+# CustomScripts/Settings/Missions.json is the hand-editable values file for the Phase 2 live test (Survival reward interval
+# 150 enabled, Purgatory warrior level present but disabled, Lantern absent = stock, Void Flood replacement value kept
+# enabled so its one-value member stays on).
+SAMPLE2I = ROOT / 'work/research/universal-mission-editor-2026-09-29/phase2i-sample'
+generation2i, manifest2i = build(settings2h, 'sample2i')
+assert generation2i is not None, manifest2i
+package2i = generation2i / 'Packages' / 'Missions'
+pkg2i = json.loads((package2i / 'package.json').read_text(encoding='utf-8'))
+decl2i = {vid: (member, d) for member, m in pkg2i['members'].items() for vid, d in m['settings']['values'].items()}
+groups2i = {g['id']: g for g in pkg2i['settings']['groups']}
+assert sorted(decl2i) == sorted(PHASE2G_VALUES), sorted(decl2i)
+for vid, (member, d) in decl2i.items():
+    row = next(r for r in registry['tunables'] if r['tunable_id'] == vid)
+    assert d['stock'] == row['stock'] and d['label'] == row['ui']['short_label'] and d['group'] in groups2i, vid
+    assert len('Custom ' + d['label']) <= 40 and len(groups2i[d['group']]['label'].upper()) <= 48, vid
+    assert d['lane'] == ('addon' if member.endswith('.targets.addon.lua_B') else 'literal'), vid
+# Package members other than the addon and package.json are byte-identical to Phase 2h (the Void Flood replacement).
+for name in members2h:
+    if name not in INTENTIONAL_2I:
+        assert hashlib.sha256((package2i / name).read_bytes()).hexdigest().upper() == package_hashes[name], name
+migration2i = json.loads((generation2i / 'Settings' / 'Missions.json').read_text(encoding='utf-8'))
+assert migration2i['values'] == {k: {'enabled': True, 'value': v} for k, v in PHASE2G_VALUES.items()}, migration2i
+EXAMPLE2I = {'format': 'RENOVICE_SCRIPT_SETTINGS_V1', 'package': 'package:missions', 'build': registry['build'], 'use_stock': False,
+             'groups': {g: True for g in sorted(groups2i)},
+             'values': {'survival.reward_interval': {'enabled': True, 'value': 150},
+                        'purgatory.difficulty1.warrior_level': {'enabled': False, 'value': 15},
+                        'void_flood.fractures_per_round.normal': {'enabled': True, 'value': 4}}}
+for vid, entry in EXAMPLE2I['values'].items():  # the example must validate against the declarations
+    d = decl2i[vid][1]
+    assert set(entry) == {'enabled', 'value'} and isinstance(entry['enabled'], bool) and d['min'] <= entry['value'] <= d['max'], vid
+    assert d['type'] != 'int' or float(entry['value']).is_integer(), vid
+assert set(EXAMPLE2I['groups']) <= set(groups2i)
+package_files2i = sorted(p.name for p in package2i.iterdir())
+if (SAMPLE2I / 'SHA256SUMS.json').exists():
+    recorded = json.loads((SAMPLE2I / 'SHA256SUMS.json').read_text())
+    recorded = {k.split('/')[-1]: v for k, v in recorded.items() if k.startswith('Packages/Missions/')}
+    rebuilt = {n: hashlib.sha256((package2i / n).read_bytes()).hexdigest().upper() for n in package_files2i}
+    assert recorded == rebuilt, ('rebuilt package differs from the recorded Phase 2i sample', recorded, rebuilt)
+    state2i = 'identical to the recorded sample (folder untouched)'
+else:
+    SAMPLE2I.mkdir(parents=True)
+    (SAMPLE2I / 'mission_settings.json').write_text(json.dumps(settings2h, indent=2) + '\n')
+    shutil.copytree(generation2i, SAMPLE2I / 'generation')
+    shutil.copytree(generation2i / 'Packages', SAMPLE2I / 'Packages')
+    (SAMPLE2I / 'CustomScripts' / 'Settings').mkdir(parents=True)
+    (SAMPLE2I / 'CustomScripts' / 'Settings' / 'Missions.json').write_text(json.dumps(EXAMPLE2I, indent=2) + '\n')
+    sums = {p.relative_to(SAMPLE2I).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest().upper()
+            for p in sorted(SAMPLE2I.rglob('*')) if p.is_file()}
+    (SAMPLE2I / 'SHA256SUMS.json').write_text(json.dumps(sums, indent=2) + '\n')
+    state2i = 'created'
+results['phase2i_sample'] = {'values': PHASE2G_VALUES, 'allow_unproven_hook_bindings': [LUA_CALL], 'output_layout': 'package',
+                             'package': manifest2i['package'], 'example_settings': EXAMPLE2I,
+                             'location': SAMPLE2I.relative_to(ROOT).as_posix()}
+print(f"PASS phase2i sample: {len(decl2i)} declarations in {len(groups2i)} groups, migration + example settings ({state2i})")
+results['phase2g_sample_state'] = state2g
+results['phase2h_sample_state'] = state2h
 (OUT / 'results.json').write_text(json.dumps(results, indent=2) + '\n')
 print(f"PASS phase2g sample: 1 multi-target addon ({len(addons[0]['target_keys'])} targets) + {len(literals)} replacement ({state2g})")
 print(f"PASS {len(results['presets'])} preset builds, {results['rejections']} rejections")

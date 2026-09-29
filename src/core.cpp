@@ -3738,6 +3738,8 @@ namespace renovice
                 fake["owner"].erase("fields");  // template-only addon row: no generic or literal form on this body
                 fake["owner"].erase("gate");
                 fake["tunable_id"] = "excavation.selftest_addon";
+                fake["ui"]["group"] = "excavation";  // Phase 2i: a row's ui group is its tunable_id family, labels unique per group
+                fake["ui"]["short_label"] = "Self-test addon row";
                 fake["owner"]["body_key"] = "f7444e3c621ff018";
                 fake["owner"]["stock_sha256"] = registry.at("modules").at("f7444e3c621ff018").at("sha256");
                 fake["owner"]["file"] = registry.at("modules").at("f7444e3c621ff018").at("file");
@@ -3940,6 +3942,34 @@ namespace renovice
                         "a nested root table (Purgatory difficulty 2) is reached through its container path");
                 }
 
+                // Phase 2i: registry ui fields (row budget, unique labels per group, lane-derived apply timing, editor rule).
+                {
+                    const auto rejects_ui = [&](const std::function<void(Json&)>& mutate, const std::string& needle) {
+                        Json bad = registry;
+                        mutate(bad);
+                        try { verify_mission_registry_structure(bad); } catch (const std::exception& e) { return contains_text(e.what(), needle); }
+                        return false;
+                    };
+                    const auto ui_of = [](Json& r, const std::string& id) -> Json& {
+                        for (auto& row : r["tunables"]) if (row["tunable_id"] == id) return row["ui"];
+                        throw std::runtime_error("no row " + id);
+                    };
+                    bool ui_ok = true;
+                    try { verify_mission_registry_structure(registry); } catch (const std::exception&) { ui_ok = false; }
+                    check(ui_ok
+                            && rejects_ui([&](Json& r) { ui_of(r, "survival.reward_interval")["short_label"] = std::string(34, 'A'); }, "row budget")
+                            && rejects_ui([&](Json& r) { ui_of(r, "survival.reward_interval")["short_label"] =
+                                                             ui_of(r, "survival.pickup_time_added")["short_label"]; }, "not unique in group")
+                            && rejects_ui([&](Json& r) { ui_of(r, "survival.reward_interval")["applies"] = "next_mission"; }, "lane/applies")
+                            && rejects_ui([&](Json& r) { ui_of(r, "survival.reward_interval")["editor"] = "INPUTCOUNT"; }, "float value editor")
+                            && rejects_ui([&](Json& r) { ui_of(r, "survival.reward_interval")["max"] = 1; }, "min/max")
+                            && rejects_ui([&](Json& r) { ui_of(r, "survival.reward_interval")["group"] = "defense"; }, "family")
+                            && rejects_ui([&](Json& r) { ui_of(r, "survival.reward_interval")["scope_text"] = std::string(257, 'a'); }, "scope_text")
+                            && rejects_ui([&](Json& r) { r["ui_groups"]["survival"]["label"] = std::string(41, 'A'); }, "over its budget"),
+                          "registry ui fields: every row fits the 40-character row budget with a label unique in its group, and the "
+                          "apply timing, editor and min/max agree with the lane and limits");
+                }
+
                 // Phase 2g: a settings build emits ONE multi-target addon (Inject\Missions.targets.addon.lua_B) for every
                 // addon-lane body key; exact replacements stay separate files. Gate: exact declared keys in the compiled string
                 // pool, no stray lowercase 16-hex text, no top-level hooks, and per-instance binding executed under luau.exe.
@@ -4005,8 +4035,35 @@ namespace renovice
                             const Json set_manifest = Json::parse(read_text(packaged.manifest));
                             std::map<std::string, std::string> loose_hashes;
                             for (const auto& item : unified.artifacts) loose_hashes[item.artifact.filename().string()] = item.sha256;
+                            const Json& addon_values = package_json.at("members").at("Missions.targets.addon.lua_B").at("settings").at("values");
+                            const Json& flood_values = package_json.at("members").at("fc711ff621a75552 (missions_exact-replacement).lua_B")
+                                                           .at("settings").at("values");
+                            std::set<std::string> group_ids;
+                            for (const auto& group : package_json.at("settings").at("groups")) group_ids.insert(group.at("id").get<std::string>());
+                            const fs::path migration_path = packaged.directory / "Settings" / "Missions.json";
+                            const Json migration = fs::exists(migration_path) ? Json::parse(read_text(migration_path)) : Json();
                             package_ok = package_json.at("schema") == 1 && package_json.at("name") == "Missions"
-                                && package_json.at("settings") == Json::object() && package_json.at("members").size() == 2
+                                && package_json.at("settings").at("format") == "RENOVICE_SETTINGS_DECL_V1"
+                                && package_json.at("settings").at("build") == registry.at("build")
+                                && group_ids == std::set<std::string>{"lantern", "purgatory", "survival", "void_flood"}
+                                && validate_settings_declarations(package_json).empty()
+                                && addon_values.size() == 3 && flood_values.size() == 1
+                                && addon_values.at("survival.reward_interval") == mission_value_declaration(mission_tunable(registry, "survival.reward_interval"))
+                                && addon_values.at("survival.reward_interval").at("stock") == 300
+                                && addon_values.at("survival.reward_interval").at("lane") == "addon"
+                                && addon_values.at("survival.reward_interval").at("applies") == "live_next_read"
+                                && flood_values.at("void_flood.fractures_per_round.normal").at("lane") == "literal"
+                                && flood_values.at("void_flood.fractures_per_round.normal").at("applies") == "next_mission"
+                                && flood_values.at("void_flood.fractures_per_round.normal").at("stock") == 3
+                                && migration.is_object() && migration.at("format") == "RENOVICE_SCRIPT_SETTINGS_V1"
+                                && migration.at("package") == "package:missions" && migration.at("use_stock") == false
+                                && migration.at("values").size() == 4
+                                && migration.at("values").at("survival.reward_interval") == Json{{"enabled", true}, {"value", 150}}
+                                && migration.at("values").at("purgatory.difficulty1.warrior_level") == Json{{"enabled", true}, {"value", 15}}
+                                && set_manifest.at("package").at("settings").at("migration").at("intended_live_relative_path")
+                                       == "OpenWF/CustomScripts/Settings/Missions.json"
+                                && contains_text(packaged.gate_log, "settings-declarations\nPASS values=4 groups=4")
+                                && package_json.at("members").size() == 2
                                 && package_json.at("members").contains("Missions.targets.addon.lua_B")
                                 && package_json.at("members").at("Missions.targets.addon.lua_B").at("label")
                                        == "Mission tunables: Purgatory, HalloweenLanternEndless, SurvivalMission"
@@ -4028,7 +4085,49 @@ namespace renovice
                             }
                         }
                         check(package_ok, "output_layout \"package\" emits Packages\\Missions\\ (package.json + the byte-identical addon and "
-                                          "replacement, one [PACKAGE] Missions row, policy package:missions); the loose build is unchanged");
+                                          "replacement, one [PACKAGE] Missions row, policy package:missions) with one RENOVICE_SETTINGS_DECL_V1 "
+                                          "declaration per member tunable, the Settings\\Missions.json migration file and a PASS "
+                                          "settings-declarations gate; the loose build is unchanged");
+
+                        // Phase 2i: the declaration schema check rejects every malformed shape the runtime parser must reject.
+                        if (package_ok)
+                        {
+                            const Json good = Json::parse(read_text(packaged.package_directory / "package.json"));
+                            const std::string addon_file = "Missions.targets.addon.lua_B";
+                            const auto rejects = [&](const std::function<void(Json&)>& mutate, const std::string& needle) {
+                                Json bad = good;
+                                mutate(bad);
+                                const auto problems = validate_settings_declarations(bad);
+                                std::string joined;
+                                for (const auto& problem : problems) joined += problem + "; ";
+                                return !problems.empty() && contains_text(joined, needle);
+                            };
+                            const auto value = [&](Json& j) -> Json& {
+                                return j["members"][addon_file]["settings"]["values"]["survival.reward_interval"];
+                            };
+                            check(validate_settings_declarations(good).empty()
+                                    && rejects([&](Json& j) { value(j)["step"] = 1; }, "unknown field step")
+                                    && rejects([&](Json& j) { value(j).erase("scope"); }, "missing field scope")
+                                    && rejects([&](Json& j) { value(j)["label"] = std::string(65, 'a'); }, "label is invalid")
+                                    && rejects([&](Json& j) { value(j)["scope"] = std::string(257, 'a'); }, "scope is invalid")
+                                    && rejects([&](Json& j) { value(j)["stock"] = 5000000; }, "stock is outside min..max")
+                                    && rejects([&](Json& j) { value(j)["group"] = "defense"; }, "group is not declared")
+                                    && rejects([&](Json& j) { value(j)["type"] = "int"; value(j)["stock"] = 2.5; }, "fractional")
+                                    && rejects([&](Json& j) { value(j)["type"] = "enum"; }, "enum has no options")
+                                    && rejects([&](Json& j) { value(j)["lane"] = "server"; }, "lane is not")
+                                    && rejects([&](Json& j) { value(j)["applies"] = "F9"; }, "applies is not")
+                                    && rejects([&](Json& j) { j["settings"]["format"] = "V0"; }, "settings.format")
+                                    && rejects([&](Json& j) { j["settings"]["values"] = Json::object(); }, "settings has unknown field values")
+                                    && rejects([&](Json& j) { j["settings"]["groups"].push_back({{"id", "spy"}, {"label", "Spy"}, {"order", 1},
+                                                                                                 {"aliases", Json::array()}}); },
+                                               "group spy is declared but no value uses it")
+                                    && rejects([&](Json& j) { j["members"][addon_file]["settings"]["enabled"] = true; }, "exactly")
+                                    && rejects([&](Json& j) { j["members"]["fc711ff621a75552 (missions_exact-replacement).lua_B"]["settings"]["values"]
+                                                                   ["survival.reward_interval"] = value(j); }, "declared twice"),
+                                "the settings declaration schema check rejects unknown/missing fields, over-long text, out-of-range stock, "
+                                "undeclared or unused groups, fractional ints, enums without options, unknown lanes/apply classes and "
+                                "duplicate value ids");
+                        }
                         Json bad_layout = probe_settings(values);
                         bad_layout["output_layout"] = "zip";
                         check(!build_mission_settings(bad_layout, editor_root, mission_fixture, true).success,
@@ -4051,7 +4150,7 @@ namespace renovice
                             if (row.at("backend") != "TARGET_ADDON") continue;
                             for (const auto& field : row.at("owner").at("fields"))
                                 owned[row.at("owner").at("body_key").get<std::string>()][field.at("table_id").get<std::string>()] +=
-                                    "{ key = " + lua_table_key(field.at("field")) + ", stock = " + format_number(row.at("stock").get<double>()) +
+                                    "{ id = " + lua_quote(id) + ", key = " + lua_table_key(field.at("field")) + ", stock = " + format_number(row.at("stock").get<double>()) +
                                     ", value = " + format_number(value.get<double>()) + " }, ";
                         }
                         for (const auto& [body, tables] : owned)
@@ -4131,6 +4230,37 @@ for _, case in ipairs(cases) do
     check(holds(b, case, "stock"), tag .. " the second cleanup restores it")
     print("PASS " .. tag)
 end
+-- Phase 2i: values delivered by the host as context.settings (ADDON_SETTINGS_V1); no context keeps the compiled values (above).
+for _, case in ipairs(cases) do
+    local tag = case.key .. "/" .. case.prototype .. " settings"
+    local first = case.fields[1]
+    local function run(settings, offset)
+        local fresh = chunk()
+        local entry = fresh.targets[case.key]
+        local owner, up = instance(case, offset or 0)
+        entry.activate({ settings = settings })
+        local ok = pcall(entry.hooks.luaCalls[case.prototype].before, case.prototype, {}, up)
+        return owner, entry, ok
+    end
+    local function given(enabled, delta, stockDelta)
+        local result = {}
+        for _, field in ipairs(case.fields) do
+            result[field.id] = { enabled = enabled, value = field.value + delta, stock = field.stock + stockDelta }
+        end
+        return result
+    end
+    local empty = run({})
+    check(holds(empty, case, "stock"), tag .. ": an empty settings table (no settings file) writes nothing")
+    local custom, entry = run(given(true, 1, 0))
+    check(custom[first.key] == first.value + 1, tag .. ": an enabled value from context.settings is written")
+    entry.cleanup()
+    check(holds(custom, case, "stock"), tag .. ": cleanup restores a value delivered by context.settings")
+    check(holds((run(given(false, 1, 0))), case, "stock"), tag .. ": a disabled value is never written")
+    check(holds((run(given(true, 1, 1))), case, "stock"), tag .. ": a value whose declared stock differs from the compiled stock is not written")
+    local drifted, _, ok = run(given(false, 1, 0), 1)
+    check(ok and drifted[first.key] == first.stock + 1, tag .. ": a disabled value ignores a drifted table")
+    print("PASS " .. tag)
+end
 local other = chunk()
 check(other.targets[cases[1].key] ~= container.targets[cases[1].key], "each binding runs its own chunk state")
 print("MULTI-TARGET HARNESS PASS cases=" .. #cases)
@@ -4143,7 +4273,20 @@ print("MULTI-TARGET HARNESS PASS cases=" .. #cases)
                         if (!harness_ok) harness_output = run.output;
                     }
                     check(harness_ok, "the generated entries bind every live instance once (weak-keyed), skip a drifted instance with one error, "
-                                      "and restore every written instance in cleanup (luau.exe, 3 modules)" + harness_output);
+                                      "restore every written instance in cleanup, and take enabled values from context.settings while "
+                                      "disabled, missing or stock-mismatched values stay stock (luau.exe, 3 modules)" + harness_output);
+
+                    // Phase 2i: the compiled settings table is read back exactly (value = build value, stock = registry stock).
+                    {
+                        const auto compiled = unified_ok ? multi_target_compiled_values(unified_source) : std::map<std::string, std::pair<double, double>>{};
+                        bool compiled_ok = compiled.size() == 3;
+                        for (const auto& [id, pair] : compiled)
+                            compiled_ok = compiled_ok && pair.first == values.at(id).get<double>()
+                                && pair.second == mission_tunable(registry, id).at("stock").get<double>();
+                        check(compiled_ok && contains_text(unified_source, "activate = function(context)")
+                                && contains_text(unified_source, "effectiveSettings(settings, context)"),
+                              "the multi-target addon compiles its build values with the registry stock and reads context.settings in activate");
+                    }
 
                     // No-stray-hex rule: the source check and the loader-equivalent pool reader.
                     std::string pool{'\x09', '\x03', '\x03', '\x10'};

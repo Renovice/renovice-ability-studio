@@ -139,7 +139,7 @@
         "backend_before": "TARGET_ADDON",
         "backend_now": "TARGET_ADDON",
         "identical": false,
-        "sha256_now": "54A425F800AD79DDEF9EADFD8E8B8D0314357E30539F69B4F65E397B53391F64",
+        "sha256_now": "9FB8A57D653EEC3E9533F94944D469659E314B0658A7A7BF102943877643C021",
         "multi_target_artifact": "artifacts/Missions.targets.addon.lua_B",
         "runtime_hook": {
           "binding": "renovice.target.lua_call",
@@ -376,7 +376,7 @@
         "backend_before": "EXACT_LITERAL",
         "backend_now": "TARGET_ADDON",
         "identical": false,
-        "sha256_now": "379184BDBDBFBB9BF64A4E78A8504AD7671C4EB750A12DAE071CE6738B6B28BF",
+        "sha256_now": "DB38B45BC232DFCFDF2A947D65E4B540460786D152EF87A2DE57F035730552A2",
         "multi_target_artifact": "artifacts/Missions.targets.addon.lua_B",
         "runtime_hook": {
           "binding": "renovice.target.lua_call",
@@ -427,7 +427,7 @@
         "backend_before": "TARGET_ADDON",
         "backend_now": "TARGET_ADDON",
         "identical": false,
-        "sha256_now": "00DA193D03D43472D4DF98806E7A532A82F449E17FA82E07624CC2F9816A773E",
+        "sha256_now": "0F3095793C03F0D9E8DFEE8A23114981B0B7F45C5A3B46A312ACC8412317B608",
         "multi_target_artifact": "artifacts/Missions.targets.addon.lua_B",
         "runtime_hook": {
           "binding": "renovice.target.lua_call",
@@ -444,7 +444,7 @@
         "backend_before": "TARGET_ADDON",
         "backend_now": "TARGET_ADDON",
         "identical": false,
-        "sha256_now": "00DA193D03D43472D4DF98806E7A532A82F449E17FA82E07624CC2F9816A773E",
+        "sha256_now": "0F3095793C03F0D9E8DFEE8A23114981B0B7F45C5A3B46A312ACC8412317B608",
         "multi_target_artifact": "artifacts/Missions.targets.addon.lua_B",
         "runtime_hook": {
           "binding": "renovice.target.lua_call",
@@ -461,7 +461,7 @@
         "backend_before": "TARGET_ADDON",
         "backend_now": "TARGET_ADDON",
         "identical": false,
-        "sha256_now": "00DA193D03D43472D4DF98806E7A532A82F449E17FA82E07624CC2F9816A773E",
+        "sha256_now": "0F3095793C03F0D9E8DFEE8A23114981B0B7F45C5A3B46A312ACC8412317B608",
         "multi_target_artifact": "artifacts/Missions.targets.addon.lua_B",
         "runtime_hook": {
           "binding": "renovice.target.lua_call",
@@ -548,8 +548,8 @@
           "policy_id": "target-addon:missions.targets.addon.lua_b",
           "row": "[ADDON] Missions"
         },
-        "sha256": "00DA193D03D43472D4DF98806E7A532A82F449E17FA82E07624CC2F9816A773E",
-        "size": 6043,
+        "sha256": "0F3095793C03F0D9E8DFEE8A23114981B0B7F45C5A3B46A312ACC8412317B608",
+        "size": 7280,
         "target_keys": [
           "6fa60841c9e0f207",
           "caec63d8e739b693",
@@ -619,12 +619,17 @@
           "exit_code": 0,
           "name": "package-folder",
           "pass": true
+        },
+        {
+          "exit_code": 0,
+          "name": "settings-declarations",
+          "pass": true
         }
       ],
       "intended_live_relative_path": "OpenWF/CustomScripts/Packages/Missions",
       "manifest": {
         "path": "Packages/Missions/package.json",
-        "sha256": "ADAFDA0032E33C426A3C63B367E2F5A10FEFB2C6A66E06DF8EB168634300451F"
+        "sha256": "7A0F60DDE8592BDE2A22A175D4CAC54093C10BC75B3CE23824E37568207D2768"
       },
       "members": [
         {
@@ -640,8 +645,8 @@
           "file": "Missions.targets.addon.lua_B",
           "intended_live_relative_path": "OpenWF/CustomScripts/Packages/Missions/Missions.targets.addon.lua_B",
           "label": "Mission tunables: Purgatory, HalloweenLanternEndless, SurvivalMission",
-          "sha256": "00DA193D03D43472D4DF98806E7A532A82F449E17FA82E07624CC2F9816A773E",
-          "size": 6043
+          "sha256": "0F3095793C03F0D9E8DFEE8A23114981B0B7F45C5A3B46A312ACC8412317B608",
+          "size": 7280
         }
       ],
       "name": "Missions",
@@ -649,8 +654,118 @@
       "scripts_menu": {
         "policy_id": "package:missions",
         "row": "[PACKAGE] Missions"
+      },
+      "settings": {
+        "declarations": {
+          "format": "RENOVICE_SETTINGS_DECL_V1",
+          "groups": 4,
+          "values": 4
+        },
+        "migration": {
+          "format": "RENOVICE_SCRIPT_SETTINGS_V1",
+          "intended_live_relative_path": "OpenWF/CustomScripts/Settings/Missions.json",
+          "path": "Settings/Missions.json",
+          "sha256": "22ECEDC51AF9FACB49A4C8694EF8A6E6BDE532E5A5BEFBB5D11FEA1689A4D5E9"
+        }
       }
     },
     "location": "work/research/universal-mission-editor-2026-09-29/phase2h-sample"
-  }
+  },
+  "phase2i_sample": {
+    "values": {
+      "survival.reward_interval": 150,
+      "purgatory.difficulty1.warrior_level": 15,
+      "lantern.tier_up_interval": 60,
+      "void_flood.fractures_per_round.normal": 4
+    },
+    "allow_unproven_hook_bindings": [
+      "renovice.target.lua_call"
+    ],
+    "output_layout": "package",
+    "package": {
+      "gates": [
+        {
+          "exit_code": 0,
+          "name": "package-folder",
+          "pass": true
+        },
+        {
+          "exit_code": 0,
+          "name": "settings-declarations",
+          "pass": true
+        }
+      ],
+      "intended_live_relative_path": "OpenWF/CustomScripts/Packages/Missions",
+      "manifest": {
+        "path": "Packages/Missions/package.json",
+        "sha256": "7A0F60DDE8592BDE2A22A175D4CAC54093C10BC75B3CE23824E37568207D2768"
+      },
+      "members": [
+        {
+          "backend": "EXACT_LITERAL",
+          "file": "fc711ff621a75552 (missions_exact-replacement).lua_B",
+          "intended_live_relative_path": "OpenWF/CustomScripts/Packages/Missions/fc711ff621a75552 (missions_exact-replacement).lua_B",
+          "label": "Exact replacement: ZarimanCorruptionMission (void_flood.fractures_per_round.normal)",
+          "sha256": "E979F5E7906F0D88E49C42B4191ECA6AFDC1237FDDD91D52CBF427DB3FA9F6D2",
+          "size": 112244
+        },
+        {
+          "backend": "TARGET_ADDON",
+          "file": "Missions.targets.addon.lua_B",
+          "intended_live_relative_path": "OpenWF/CustomScripts/Packages/Missions/Missions.targets.addon.lua_B",
+          "label": "Mission tunables: Purgatory, HalloweenLanternEndless, SurvivalMission",
+          "sha256": "0F3095793C03F0D9E8DFEE8A23114981B0B7F45C5A3B46A312ACC8412317B608",
+          "size": 7280
+        }
+      ],
+      "name": "Missions",
+      "path": "Packages/Missions",
+      "scripts_menu": {
+        "policy_id": "package:missions",
+        "row": "[PACKAGE] Missions"
+      },
+      "settings": {
+        "declarations": {
+          "format": "RENOVICE_SETTINGS_DECL_V1",
+          "groups": 4,
+          "values": 4
+        },
+        "migration": {
+          "format": "RENOVICE_SCRIPT_SETTINGS_V1",
+          "intended_live_relative_path": "OpenWF/CustomScripts/Settings/Missions.json",
+          "path": "Settings/Missions.json",
+          "sha256": "22ECEDC51AF9FACB49A4C8694EF8A6E6BDE532E5A5BEFBB5D11FEA1689A4D5E9"
+        }
+      }
+    },
+    "example_settings": {
+      "format": "RENOVICE_SCRIPT_SETTINGS_V1",
+      "package": "package:missions",
+      "build": "2026.09.28.13.06",
+      "use_stock": false,
+      "groups": {
+        "lantern": true,
+        "purgatory": true,
+        "survival": true,
+        "void_flood": true
+      },
+      "values": {
+        "survival.reward_interval": {
+          "enabled": true,
+          "value": 150
+        },
+        "purgatory.difficulty1.warrior_level": {
+          "enabled": false,
+          "value": 15
+        },
+        "void_flood.fractures_per_round.normal": {
+          "enabled": true,
+          "value": 4
+        }
+      }
+    },
+    "location": "work/research/universal-mission-editor-2026-09-29/phase2i-sample"
+  },
+  "phase2g_sample_state": "identical except the intentional Phase 2i change of Missions.targets.addon.lua_B (folder untouched)",
+  "phase2h_sample_state": "identical except the intentional Phase 2i change of Missions.targets.addon.lua_B, package.json to the recorded sample (folder untouched)"
 }

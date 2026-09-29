@@ -18,6 +18,8 @@ bytes (SHA-256 + exact preimage). Every other Phase 1 row is written to `exclude
 Phase 2e: every LUA_ROOT_TABLE row that passes ROOT_TABLE_UPVALUE_V1 (addon_owner.py) is routed to the target-addon
 lane (its literal form is kept as `literal_owner`); phase2e_specs.py adds addon-only fields (shared constants) and the
 Void Flood / Lantern / Purgatory rows (run add_phase1_rows.py once first).
+Phase 2i: editor_fields.py adds the in-game settings editor fields (row `ui`, `ui_groups`, `ui_sources`, `ui_rules`) from
+the rows plus the current build's ExportRegions (read-only); see INGAME_EDITOR_DESIGN.md Phase 1.
 Nothing here writes into a game or server folder.
 """
 from pathlib import Path
@@ -31,6 +33,7 @@ import phase2d  # noqa: E402
 import phase2e_specs as P2E  # noqa: E402
 import phase2d_lua_specs as P2D_LUA  # noqa: E402
 import phase2d_metadata_specs as P2D_META  # noqa: E402
+import editor_fields as UI  # noqa: E402
 
 BUILD = '2026.09.28.13.06'
 BUILD_LABEL = 'Hotfix 44.0.2'
@@ -846,6 +849,8 @@ for r in rows:
         addon_fields[k] = r['tunable_id']
 rows.sort(key=lambda r: r['tunable_id'])
 excluded.sort(key=lambda r: r['tunable_id'])
+# Phase 2i: in-game settings editor fields (group, short label, scope, apply timing, editor, limits, search aliases).
+ui_groups, ui_sources, ui_rules = UI.apply(rows, ROOT, SERVER_REL, p1rows)
 
 # ---------------------------------------------------------------- corpus
 CORPUS.mkdir(parents=True, exist_ok=True)
@@ -888,6 +893,10 @@ registry = {
     'missions': presets,
     'excluded': excluded,
     'excluded_parts': sorted(excluded_parts, key=lambda e: (e['tunable_id'], e['part'])),
+    'ui_format': 'RENOVICE_MISSION_UI_FIELDS_V1',
+    'ui_rules': ui_rules,
+    'ui_sources': ui_sources,
+    'ui_groups': dict(sorted(ui_groups.items(), key=lambda kv: kv[1]['order'])),
 }
 (EDITOR / 'REGISTRIES/mission_build_u44.json').write_text(json.dumps(registry, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
 
@@ -916,6 +925,10 @@ report.update({'build': BUILD, 'rows': len(rows), 'rows_by_owner_kind': owner_co
                'phase1_ids_covered': sorted({r['phase1_tunable_id'] for r in rows if r['phase1_tunable_id']} | {'coh_excavation.shared_constant_90'}),
                'modules': len(modules), 'corpus_files': len(manifest), 'metadata_snapshot_sha256': snapshot_sha,
                'registry_sha256': hashlib.sha256((EDITOR / 'REGISTRIES/mission_build_u44.json').read_bytes()).hexdigest().upper()})
+report['ui'] = {'groups': len(ui_groups), 'editors': {e: sum(1 for r in rows if r['ui']['editor'] == e) for e in ('INPUTCOUNT', 'INPUTBOX', 'TOGGLE')},
+                'label_sources': {k: sum(1 for r in rows if r['ui']['label_source'] == k) for k in sorted({r['ui']['label_source'] for r in rows})},
+                'applies': {k: sum(1 for r in rows if r['ui']['applies'] == k) for k in sorted({r['ui']['applies'] for r in rows})},
+                'sources': ui_sources}
 REPORT.write_text(json.dumps(report, indent=2) + '\n')
-print(json.dumps({k: report[k] for k in ('rows', 'rows_by_owner_kind', 'rows_by_backend', 'excluded', 'excluded_by_owner_kind', 'modules',
+print(json.dumps({k: report[k] for k in ('ui', 'rows', 'rows_by_owner_kind', 'rows_by_backend', 'excluded', 'excluded_by_owner_kind', 'modules',
                                          'phase1_accounting', 'phase2d', 'phase2e')}, indent=1))

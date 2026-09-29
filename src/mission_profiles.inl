@@ -347,6 +347,277 @@ void verify_mission_row(const Json& registry, const Json& row, const MissionPath
     }
 }
 
+// Phase 2i: in-game settings editor fields (registrar tools/editor_fields.py; design
+// work/research/universal-mission-editor-2026-09-29/INGAME_EDITOR_DESIGN.md sections 3.2, 3.3 and 4.6). Every registry row
+// carries a `ui` object; package builds turn it into the `settings` declarations of package.json that the bootstrapper's
+// ADDON_SETTINGS_V1 primitive validates. The composed row labels are budgeted here so the native GenericSettings rows never
+// truncate: CHECKBOX "Custom <label>" <= 40 characters, TITLE (group label upper-cased) <= 48.
+constexpr const char* kMissionUiFormat = "RENOVICE_MISSION_UI_FIELDS_V1";
+constexpr const char* kSettingsDeclarationFormat = "RENOVICE_SETTINGS_DECL_V1";
+constexpr const char* kScriptSettingsFormat = "RENOVICE_SCRIPT_SETTINGS_V1";
+constexpr std::size_t kSettingsLabelBudget = 40;    // value rows, composed "Custom <label>"
+constexpr std::size_t kSettingsTitleBudget = 48;    // TITLE rows
+constexpr std::size_t kSettingsTextMaximum = 64;    // runtime bound for labels and aliases
+constexpr std::size_t kSettingsScopeMaximum = 256;  // runtime bound for scope text
+constexpr std::size_t kSettingsUnitMaximum = 16;
+constexpr std::size_t kSettingsMaximumValues = 4096;
+constexpr std::size_t kSettingsMaximumAliases = 1024;
+constexpr const char* kSettingsCheckboxPrefix = "Custom ";
+
+bool settings_printable(const std::string& text) {
+    return std::all_of(text.begin(), text.end(), [](const char c) { return c >= 0x20 && c < 0x7f; });
+}
+
+std::string settings_upper(std::string text) {
+    std::transform(text.begin(), text.end(), text.begin(), [](const unsigned char c) { return static_cast<char>(std::toupper(c)); });
+    return text;
+}
+
+std::string settings_lane(const std::string& backend) {
+    if (backend == "TARGET_ADDON") return "addon";
+    if (backend == "EXACT_LITERAL") return "literal";
+    if (backend == "METADATA_PATCH") return "metadata";
+    if (backend == "SERVER_CONFIG") return "server";
+    throw std::runtime_error("unknown mission backend " + backend);
+}
+
+// Apply timing is a property of the lane (design section 5): an addon write is seen at the game's next read of the field,
+// an exact replacement at the next module load (next mission), a metadata patch at the next game start.
+std::string settings_applies(const std::string& lane) {
+    if (lane == "addon") return "live_next_read";
+    if (lane == "literal") return "next_mission";
+    if (lane == "metadata") return "restart";
+    return "server_reload";
+}
+
+bool settings_whole(const Json& number) {
+    return number.is_number_integer() || (number.is_number_float() && std::floor(number.get<double>()) == number.get<double>());
+}
+
+// Structural check of the registry `ui` fields; throws the first exact reason.
+void verify_mission_ui(const Json& registry) {
+    static const std::regex group_id("[a-z0-9_]{1,64}");
+    if (registry.value("ui_format", std::string()) != kMissionUiFormat) throw std::runtime_error("registry has no RENOVICE_MISSION_UI_FIELDS_V1 ui fields");
+    const Json& groups = registry.at("ui_groups");
+    if (!groups.is_object() || groups.empty()) throw std::runtime_error("registry ui_groups is empty");
+    std::set<long long> orders;
+    for (const auto& [id, group] : groups.items()) {
+        const auto label = group.at("label").get<std::string>();
+        if (!std::regex_match(id, group_id)) throw std::runtime_error("invalid ui group id " + id);
+        if (label.empty() || !settings_printable(label) || label.size() > kSettingsLabelBudget || settings_upper(label).size() > kSettingsTitleBudget)
+            throw std::runtime_error("ui group " + id + " label is empty, not printable ASCII or over its budget");
+        if (!group.at("order").is_number_integer() || !orders.insert(group.at("order").get<long long>()).second)
+            throw std::runtime_error("ui group " + id + " order is not a unique integer");
+        if (!group.at("aliases").is_array() || group.at("aliases").size() > kSettingsMaximumAliases)
+            throw std::runtime_error("ui group " + id + " aliases are not a bounded array");
+        for (const auto& alias : group.at("aliases"))
+            if (!alias.is_string() || alias.get<std::string>().empty() || alias.get<std::string>().size() > kSettingsTextMaximum ||
+                !settings_printable(alias.get<std::string>()))
+                throw std::runtime_error("ui group " + id + " has an invalid alias");
+    }
+    std::set<std::string> labels;
+    for (const auto& row : registry.at("tunables")) {
+        const auto id = row.at("tunable_id").get<std::string>();
+        if (!row.contains("ui") || !row.at("ui").is_object()) throw std::runtime_error(id + ": no ui fields");
+        const Json& ui = row.at("ui");
+        const auto group = ui.at("group").get<std::string>();
+        if (!groups.contains(group) || id.substr(0, id.find('.')) != group) throw std::runtime_error(id + ": ui group is not its tunable_id family");
+        const auto label = ui.at("short_label").get<std::string>();
+        if (label.empty() || !settings_printable(label) || label.front() == ' ' || label.back() == ' ' ||
+            std::string(kSettingsCheckboxPrefix).size() + label.size() > kSettingsLabelBudget)
+            throw std::runtime_error(id + ": short_label is empty, not printable ASCII or over the " + std::to_string(kSettingsLabelBudget) +
+                                     "-character row budget");
+        std::string folded = label;
+        std::transform(folded.begin(), folded.end(), folded.begin(), [](const unsigned char c) { return static_cast<char>(std::tolower(c)); });
+        if (!labels.insert(group + "|" + folded).second) throw std::runtime_error(id + ": short_label is not unique in group " + group);
+        const auto scope = ui.at("scope_text").get<std::string>();
+        if (scope.empty() || scope.size() > kSettingsScopeMaximum || !settings_printable(scope))
+            throw std::runtime_error(id + ": scope_text is empty, not printable ASCII or over " + std::to_string(kSettingsScopeMaximum) + " characters");
+        const auto lane = settings_lane(row.at("backend").get<std::string>());
+        if (ui.at("lane") != lane || ui.at("applies") != settings_applies(lane)) throw std::runtime_error(id + ": ui lane/applies disagree with the backend");
+        const Json& limits = row.at("limits");
+        if (ui.at("min") != limits.at("minimum") || ui.at("max") != limits.at("maximum")) throw std::runtime_error(id + ": ui min/max disagree with limits");
+        const auto type = ui.at("type").get<std::string>();
+        const auto editor = ui.at("editor").get<std::string>();
+        const bool integer = limits.value("integer", false);
+        if (type == "enum") {
+            if (editor != "TOGGLE" || !ui.contains("options") || !ui.at("options").is_array() || ui.at("options").empty())
+                throw std::runtime_error(id + ": enum value needs TOGGLE and options");
+        } else if (type == "int") {
+            if (!integer || editor != (limits.at("minimum").get<double>() >= 0 ? "INPUTCOUNT" : "INPUTBOX") || ui.contains("options"))
+                throw std::runtime_error(id + ": int value editor/limits disagree");
+            if ((row.at("stock").is_number() && !settings_whole(row.at("stock"))) || !settings_whole(limits.at("minimum")) || !settings_whole(limits.at("maximum")))
+                throw std::runtime_error(id + ": int value has a fractional stock or limit");
+        } else if (type == "float") {
+            if (integer || editor != "INPUTBOX" || ui.contains("options")) throw std::runtime_error(id + ": float value editor/limits disagree");
+        } else {
+            throw std::runtime_error(id + ": unknown ui type " + type);
+        }
+        const auto unit = ui.at("unit").get<std::string>();
+        if (unit.size() > kSettingsUnitMaximum || !settings_printable(unit)) throw std::runtime_error(id + ": ui unit is not a short printable text");
+    }
+}
+
+// Declaration of one value (design section 3.2), copied from the registry row: stock is the registry stock.
+Json mission_value_declaration(const Json& row) {
+    const Json& ui = row.at("ui");
+    Json declaration{{"group", ui.at("group")}, {"label", ui.at("short_label")}, {"unit", ui.at("unit")}, {"type", ui.at("type")},
+                     {"stock", row.at("stock")}, {"min", ui.at("min")}, {"max", ui.at("max")}, {"scope", ui.at("scope_text")},
+                     {"lane", ui.at("lane")}, {"applies", ui.at("applies")}};
+    if (ui.contains("options")) declaration["options"] = ui.at("options");
+    return declaration;
+}
+
+Json mission_group_declaration(const Json& registry, const std::string& id) {
+    const Json& group = registry.at("ui_groups").at(id);
+    return Json{{"id", id}, {"label", group.at("label")}, {"order", group.at("order")}, {"aliases", group.at("aliases")}};
+}
+
+// Strict schema check of package.json `settings` declarations (top level and per member), mirroring the design's runtime
+// parser: exact field sets, types, bounds, value ranges, group references. Returns every problem found (empty = valid).
+std::vector<std::string> validate_settings_declarations(const Json& package_json) {
+    static const std::regex group_id("[a-z0-9_]{1,64}");
+    static const std::regex value_id("[A-Za-z0-9_.]{1,128}");
+    static const std::set<std::string> value_fields{"group", "label", "unit", "type", "stock", "min", "max", "scope", "lane", "applies", "options"};
+    static const std::set<std::string> types{"int", "float", "enum"}, lanes{"addon", "literal", "metadata"},
+        applies{"live_next_read", "next_instance", "next_mission", "restart"};
+    std::vector<std::string> problems;
+    const auto text_ok = [](const Json& value, const std::size_t maximum, const bool allow_empty) {
+        return value.is_string() && (allow_empty || !value.get<std::string>().empty()) && value.get<std::string>().size() <= maximum &&
+               settings_printable(value.get<std::string>());
+    };
+    if (!package_json.is_object() || !package_json.contains("settings") || !package_json.at("settings").is_object()) {
+        problems.push_back("package.json has no settings object");
+        return problems;
+    }
+    const Json& top = package_json.at("settings");
+    for (const auto& [key, value] : top.items()) {
+        static_cast<void>(value);
+        if (key != "format" && key != "build" && key != "groups") problems.push_back("settings has unknown field " + key);
+    }
+    if (top.value("format", std::string()) != kSettingsDeclarationFormat) problems.push_back("settings.format is not RENOVICE_SETTINGS_DECL_V1");
+    if (!top.contains("build") || !text_ok(top.at("build"), kSettingsTextMaximum, false)) problems.push_back("settings.build is not a build label");
+    std::set<std::string> declared_groups, used_groups;
+    if (!top.contains("groups") || !top.at("groups").is_array()) {
+        problems.push_back("settings.groups is not an array");
+    } else {
+        for (const auto& group : top.at("groups")) {
+            if (!group.is_object()) { problems.push_back("settings.groups entry is not an object"); continue; }
+            for (const auto& [key, value] : group.items()) {
+                static_cast<void>(value);
+                if (key != "id" && key != "label" && key != "order" && key != "aliases") problems.push_back("group has unknown field " + key);
+            }
+            const std::string id = group.contains("id") && group.at("id").is_string() ? group.at("id").get<std::string>() : std::string();
+            if (!std::regex_match(id, group_id)) problems.push_back("group id '" + id + "' is invalid");
+            else if (!declared_groups.insert(id).second) problems.push_back("group " + id + " is declared twice");
+            if (!group.contains("label") || !text_ok(group.at("label"), kSettingsTextMaximum, false)) problems.push_back("group " + id + " label is invalid");
+            if (!group.contains("order") || !group.at("order").is_number_integer()) problems.push_back("group " + id + " order is not an integer");
+            if (!group.contains("aliases") || !group.at("aliases").is_array() || group.at("aliases").size() > kSettingsMaximumAliases) {
+                problems.push_back("group " + id + " aliases are not a bounded array");
+            } else {
+                for (const auto& alias : group.at("aliases"))
+                    if (!text_ok(alias, kSettingsTextMaximum, false)) problems.push_back("group " + id + " has an invalid alias");
+            }
+        }
+    }
+    std::set<std::string> ids;
+    if (!package_json.contains("members") || !package_json.at("members").is_object()) {
+        problems.push_back("package.json has no members object");
+        return problems;
+    }
+    for (const auto& [file, member] : package_json.at("members").items()) {
+        if (!member.is_object() || !member.contains("settings")) continue;
+        const Json& settings = member.at("settings");
+        if (!settings.is_object() || settings.size() != 1 || !settings.contains("values") || !settings.at("values").is_object()) {
+            problems.push_back(file + ": member settings must be exactly { \"values\": { ... } }");
+            continue;
+        }
+        for (const auto& [id, value] : settings.at("values").items()) {
+            const std::string where = file + ": " + id;
+            if (!std::regex_match(id, value_id)) problems.push_back(where + ": invalid value id");
+            if (!ids.insert(id).second) problems.push_back(where + ": value id declared twice in the package");
+            if (!value.is_object()) { problems.push_back(where + ": declaration is not an object"); continue; }
+            for (const auto& [key, field] : value.items()) {
+                static_cast<void>(field);
+                if (!value_fields.contains(key)) problems.push_back(where + ": unknown field " + key);
+            }
+            for (const char* key : {"group", "label", "unit", "type", "stock", "min", "max", "scope", "lane", "applies"})
+                if (!value.contains(key)) problems.push_back(where + ": missing field " + key);
+            if (value.contains("group") && value.at("group").is_string()) used_groups.insert(value.at("group").get<std::string>());
+            if (value.contains("group") && (!value.at("group").is_string() || !declared_groups.contains(value.at("group").get<std::string>())))
+                problems.push_back(where + ": group is not declared");
+            if (value.contains("label") && !text_ok(value.at("label"), kSettingsTextMaximum, false)) problems.push_back(where + ": label is invalid");
+            if (value.contains("unit") && !text_ok(value.at("unit"), kSettingsUnitMaximum, true)) problems.push_back(where + ": unit is invalid");
+            if (value.contains("scope") && !text_ok(value.at("scope"), kSettingsScopeMaximum, false)) problems.push_back(where + ": scope is invalid");
+            const std::string type = value.contains("type") && value.at("type").is_string() ? value.at("type").get<std::string>() : std::string();
+            if (!types.contains(type)) problems.push_back(where + ": type is not int, float or enum");
+            if (value.contains("lane") && (!value.at("lane").is_string() || !lanes.contains(value.at("lane").get<std::string>())))
+                problems.push_back(where + ": lane is not addon, literal or metadata");
+            if (value.contains("applies") && (!value.at("applies").is_string() || !applies.contains(value.at("applies").get<std::string>())))
+                problems.push_back(where + ": applies is not a known apply class");
+            bool numbers = true;
+            for (const char* key : {"stock", "min", "max"})
+                if (!value.contains(key) || !value.at(key).is_number() || !std::isfinite(value.at(key).get<double>())) numbers = false;
+            if (!numbers) {
+                problems.push_back(where + ": stock/min/max are not finite numbers");
+            } else {
+                const double stock = value.at("stock").get<double>(), low = value.at("min").get<double>(), high = value.at("max").get<double>();
+                if (low > high || stock < low || stock > high) problems.push_back(where + ": stock is outside min..max");
+                if (type == "int" && (!settings_whole(value.at("stock")) || !settings_whole(value.at("min")) || !settings_whole(value.at("max"))))
+                    problems.push_back(where + ": int value has a fractional stock or bound");
+            }
+            if (type == "enum") {
+                bool stock_listed = false;
+                if (!value.contains("options") || !value.at("options").is_array() || value.at("options").empty()) {
+                    problems.push_back(where + ": enum has no options");
+                } else {
+                    for (const auto& option : value.at("options")) {
+                        if (!option.is_object() || option.size() != 2 || !option.contains("label") || !option.contains("value") ||
+                            !text_ok(option.at("label"), kSettingsTextMaximum, false) || !option.at("value").is_number())
+                            problems.push_back(where + ": enum option must be { \"label\", \"value\" }");
+                        else if (numbers && option.at("value").get<double>() == value.at("stock").get<double>())
+                            stock_listed = true;
+                    }
+                    if (!stock_listed) problems.push_back(where + ": enum stock is not one of its options");
+                }
+            } else if (value.contains("options")) {
+                problems.push_back(where + ": options are allowed only for enums");
+            }
+        }
+    }
+    if (ids.size() > kSettingsMaximumValues) problems.push_back("more than 4096 values in one package");
+    for (const auto& group : declared_groups)
+        if (!used_groups.contains(group)) problems.push_back("group " + group + " is declared but no value uses it");
+    return problems;
+}
+
+// Row-label budget of one declaration (design section 4.6 item 3).
+std::vector<std::string> settings_label_budget_problems(const std::string& id, const Json& declaration, const Json& group) {
+    std::vector<std::string> problems;
+    const auto label = declaration.at("label").get<std::string>();
+    if (std::string(kSettingsCheckboxPrefix).size() + label.size() > kSettingsLabelBudget)
+        problems.push_back(id + ": row label \"Custom " + label + "\" is over " + std::to_string(kSettingsLabelBudget) + " characters");
+    const auto title = settings_upper(group.at("label").get<std::string>());
+    if (title.size() > kSettingsTitleBudget) problems.push_back(id + ": group title " + title + " is over " + std::to_string(kSettingsTitleBudget) + " characters");
+    return problems;
+}
+
+// Compiled values of a generated multi-target addon source: `[id] = { value = V, stock = S },` per value.
+std::map<std::string, std::pair<double, double>> multi_target_compiled_values(const std::string& source) {
+    static const std::regex entry("\\[\"([A-Za-z0-9_.]+)\"\\] = \\{ value = ([^,]+), stock = ([^ ]+) \\},");
+    std::map<std::string, std::pair<double, double>> values;
+    for (auto it = std::sregex_iterator(source.begin(), source.end(), entry); it != std::sregex_iterator(); ++it)
+        if (!values.emplace((*it)[1].str(), std::pair{std::stod((*it)[2].str()), std::stod((*it)[3].str())}).second)
+            throw std::runtime_error("compiled value " + (*it)[1].str() + " appears twice");
+    return values;
+}
+
+// A settings value as JSON: whole numbers of int/enum declarations are written as integers.
+Json settings_number(const double value, const std::string& type) {
+    if (type != "float" && std::floor(value) == value && std::abs(value) < 9.0e15) return Json(static_cast<long long>(value));
+    return Json(value);
+}
+
 // Registry-wide invariants that do not depend on stock bytes.
 void verify_mission_registry_structure(const Json& registry) {
     std::set<std::string> ids;
@@ -406,6 +677,7 @@ void verify_mission_registry_structure(const Json& registry) {
                 throw std::runtime_error("preset " + id + "." + name + " targets another body key");
         }
     }
+    verify_mission_ui(registry);
 }
 
 std::map<std::string, double> validate_mission_values(const Json& registry, const Json& values) {
@@ -633,8 +905,15 @@ std::string lua_table_key(const Json& key) {
 // runtime dispatches luaCalls[P].before for EVERY live instance (matched by exact prototype), so an entry never caches one
 // owner: each hook resolves the table from that call's upvalues, and `ownedTable` keeps a weak-keyed record per live
 // table. Per table: the stock values are checked once, the new values written once; a drifted table is left unchanged
-// and reported once; cleanup restores every table it wrote whose field still holds the written value. The values live
-// once in the entry's `settings` table (reserved field, ignored by the runtime; read by a later F12 overlay).
+// and reported once; cleanup restores every table it wrote whose field still holds the written value.
+//
+// Phase 2i (INGAME_EDITOR_DESIGN.md section 3.4, primitive ADDON_SETTINGS_V1): each entry keeps its compiled values in its
+// `settings` table (`[id] = { value, stock }`, stock equal to the registry stock). `activate(context)` derives the effective
+// settings of this generation: with `context.settings` (a generation-owned table `[id] = { enabled, value, stock }` built by
+// the host from package.json declarations and CustomScripts\Settings\<package>.json) only enabled values whose declared
+// stock equals the compiled stock are bound; a missing or disabled value keeps its field stock and is never written.
+// Without `context.settings` (loose layout, an older runtime, or an addon without declarations) the compiled values apply
+// exactly as before. The stock check runs only over the fields this generation writes.
 std::string multi_target_addon_source(const Json& registry, const std::map<std::string, std::vector<const Json*>>& bodies,
                                       const std::map<std::string, double>& values) {
     std::ostringstream out;
@@ -643,15 +922,43 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
         << kMultiTargetAddonName << "\".\n"
         << "-- Target keys appear only as the keys of `targets` (every lowercase 16-hex string constant is a declared target).\n"
         << "-- Root-table fields (gate " << kRootTableGate << ") are bound per live table instance: stock checked once per\n"
-        << "-- table, written once, restored in cleanup. No polling, no per-frame writes, no single-owner assumption.\n\n"
+        << "-- table, written once, restored in cleanup. No polling, no per-frame writes, no single-owner assumption.\n"
+        << "-- Values: activate(context) reads context.settings (ADDON_SETTINGS_V1: [id] = { enabled, value, stock }); without\n"
+        << "-- it the compiled values below apply. A value that is not enabled is never written.\n\n"
+        << "local function effectiveSettings(compiled, context)\n"
+        << "    local provided = nil\n"
+        << "    if type(context) == \"table\" and type(context.settings) == \"table\" then provided = context.settings end\n"
+        << "    local result = {}\n"
+        << "    for id, entry in pairs(compiled) do\n"
+        << "        if provided == nil then\n"
+        << "            result[id] = { enabled = true, value = entry.value, stock = entry.stock }\n"
+        << "        else\n"
+        << "            local given = provided[id]\n"
+        << "            local usable = type(given) == \"table\" and given.enabled == true and type(given.value) == \"number\"\n"
+        << "                and given.value == given.value and given.stock == entry.stock\n"
+        << "            if usable then\n"
+        << "                result[id] = { enabled = true, value = given.value, stock = entry.stock }\n"
+        << "            else\n"
+        << "                result[id] = { enabled = false, value = entry.stock, stock = entry.stock }\n"
+        << "            end\n"
+        << "        end\n"
+        << "    end\n"
+        << "    return result\n"
+        << "end\n\n"
+        << "local function anyEnabled(current, fields)\n"
+        << "    for i = 1, #fields do\n"
+        << "        if current[fields[i].setting].enabled then return true end\n"
+        << "    end\n"
+        << "    return false\n"
+        << "end\n\n"
         << "local function ownedTable(tag, settings, fields)\n"
         << "    local bound = setmetatable({}, { __mode = \"k\" }) -- live table -> written values, or false when drifted\n"
-        << "    local function bind(owner)\n"
+        << "    local function bind(owner, current)\n"
         << "        assert(type(owner) == \"table\", tag .. \" is not a table\")\n"
         << "        if bound[owner] ~= nil then return end\n"
         << "        for i = 1, #fields do\n"
         << "            local field = fields[i]\n"
-        << "            if owner[field.key] ~= settings[field.setting].stock then\n"
+        << "            if current[field.setting].enabled and owner[field.key] ~= settings[field.setting].stock then\n"
         << "                bound[owner] = false\n"
         << "                assert(false, tag .. \" stock values drifted; this instance is left unchanged\")\n"
         << "            end\n"
@@ -659,9 +966,11 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
         << "        local written = {}\n"
         << "        for i = 1, #fields do\n"
         << "            local field = fields[i]\n"
-        << "            local value = settings[field.setting].value\n"
-        << "            owner[field.key] = value\n"
-        << "            written[i] = value\n"
+        << "            if current[field.setting].enabled then\n"
+        << "                local value = current[field.setting].value\n"
+        << "                owner[field.key] = value\n"
+        << "                written[i] = value\n"
+        << "            end\n"
         << "        end\n"
         << "        bound[owner] = written\n"
         << "    end\n"
@@ -670,7 +979,8 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
         << "            if written then\n"
         << "                for i = 1, #fields do\n"
         << "                    local field = fields[i]\n"
-        << "                    if owner[field.key] == written[i] then owner[field.key] = settings[field.setting].stock end\n"
+        << "                    local value = written[i]\n"
+        << "                    if value ~= nil and owner[field.key] == value then owner[field.key] = settings[field.setting].stock end\n"
         << "                end\n"
         << "            end\n"
         << "            bound[owner] = nil\n"
@@ -694,21 +1004,23 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
         }
         out << "\n-- Target " << target << ": " << module_path << "\n"
             << "local function target" << target << "()\n"
-            << "    local settings = {\n";
+            << "    local settings = { -- compiled values (used without context.settings) and the registry stock\n";
         for (const auto& [id, row] : settings)
             out << "        [" << lua_quote(id) << "] = { value = " << format_number(values.at(id)) << ", stock = "
                 << format_number(row->at("stock").get<double>()) << " },\n";
         out << "    }\n"
-            << "    local active = false\n";
+            << "    local current = nil -- effective settings of the active generation; nil while inactive\n";
         struct Bind { int upvalue; std::vector<std::string> steps; std::size_t slot; };
         std::map<int, std::vector<Bind>> hooks;  // prototype -> tables its captures reach
         std::size_t slot = 0;
         for (const auto& [table_id, fields] : tables) {
             ++slot;
-            out << "    local bind" << slot << ", restore" << slot << " = ownedTable(" << lua_quote(module_path + " " + table_id)
-                << ", settings, {\n";
+            out << "    local fields" << slot << " = {\n";
             for (const auto& field : fields) out << "        { key = " << field.key << ", setting = " << field.setting << " },\n";
-            out << "    })\n";
+            out << "    }\n"
+                << "    local bind" << slot << ", restore" << slot << " = ownedTable(" << lua_quote(module_path + " " + table_id)
+                << ", settings, fields" << slot << ")\n"
+                << "    local live" << slot << " = false\n";
             for (const auto& hook : module.at("root_tables").at(table_id).at("hooks")) {
                 Bind bind{hook.at("upvalue").get<int>(), {}, slot};
                 for (const auto& key : hook.at("path")) bind.steps.push_back("[" + lua_table_key(key) + "]");
@@ -717,33 +1029,36 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
         }
         for (const auto& [prototype, binds] : hooks) {
             out << "    local function before" << prototype << "(prototype, arguments, upvalues)\n"
-                << "        if not active then return end\n"
+                << "        if current == nil then return end\n"
                 << "        assert(prototype == " << prototype << ", " << lua_quote(module_path + " hook received the wrong prototype") << ")\n"
                 << "        assert(type(upvalues) == \"table\", \"upvalue view is unavailable\")\n";
             for (const auto& bind : binds) {
                 const std::string base = "upvalues[" + std::to_string(bind.upvalue) + "]";
                 if (bind.steps.empty()) {
-                    out << "        bind" << bind.slot << "(" << base << ")\n";
+                    out << "        if live" << bind.slot << " then bind" << bind.slot << "(" << base << ", current) end\n";
                     continue;
                 }
                 // A nested table is reached through its root container(s) of this instance; every step must be a table.
-                out << "        do\n"
+                out << "        if live" << bind.slot << " then\n"
                     << "            local container = " << base << "\n";
                 for (const auto& step : bind.steps)
                     out << "            assert(type(container) == \"table\", \"root-table container is not a table\")\n"
                         << "            container = container" << step << "\n";
-                out << "            bind" << bind.slot << "(container)\n"
+                out << "            bind" << bind.slot << "(container, current)\n"
                     << "        end\n";
             }
             out << "    end\n";
         }
         out << "    return {\n"
-            << "        label = " << lua_quote(module_path) << ", -- reserved for the F12 overlay; ignored by the runtime\n"
-            << "        settings = settings, -- reserved for the F12 overlay; ignored by the runtime\n"
-            << "        activate = function() active = true end,\n"
+            << "        label = " << lua_quote(module_path) << ", -- reserved for the settings editor; ignored by the runtime\n"
+            << "        settings = settings, -- reserved for the settings editor; ignored by the runtime\n"
+            << "        activate = function(context)\n"
+            << "            current = effectiveSettings(settings, context)\n";
+        for (std::size_t n = 1; n <= slot; ++n) out << "            live" << n << " = anyEnabled(current, fields" << n << ")\n";
+        out << "        end,\n"
             << "        cleanup = function()\n"
-            << "            active = false\n";
-        for (std::size_t n = 1; n <= slot; ++n) out << "            restore" << n << "()\n";
+            << "            current = nil\n";
+        for (std::size_t n = 1; n <= slot; ++n) out << "            live" << n << " = false\n            restore" << n << "()\n";
         out << "        end,\n"
             << "        hooks = { luaCalls = {\n";
         for (const auto& [prototype, binds] : hooks) out << "            [" << prototype << "] = { before = before" << prototype << " },\n";
@@ -752,7 +1067,7 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
             << "end\n";
     }
     out << "\nreturn {\n"
-        << "    label = " << lua_quote(kMultiTargetAddonName) << ", -- reserved for the F12 overlay; ignored by the runtime\n"
+        << "    label = " << lua_quote(kMultiTargetAddonName) << ", -- reserved for the settings editor; ignored by the runtime\n"
         << "    targets = {\n";
     target = 0;
     for (const auto& entry : bodies) out << "        [" << lua_quote(entry.first) << "] = target" << ++target << "(),\n";
@@ -1114,7 +1429,7 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                 fs::create_directories(package_dir);
                 Json member_labels = Json::object();
                 Json member_records = Json::array();
-                std::set<std::string> replacement_keys;
+                std::set<std::string> replacement_keys, used_groups;
                 for (const MissionArtifact* item : members) {
                     const std::string file = item->artifact.filename().string();
                     std::string label;
@@ -1133,16 +1448,32 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                     }
                     label = package_text(label, kPackageLabelMaximum);
                     fs::copy_file(item->artifact, package_dir / file, fs::copy_options::overwrite_existing);
-                    member_labels[file] = Json{{"label", label}};
+                    // Phase 2i: one declaration per tunable the member carries (design section 3.2), from the registry row.
+                    Json member_values = Json::object();
+                    for (const auto& id : item->tunables) {
+                        const Json& row = mission_tunable(registry, id);
+                        member_values[id] = mission_value_declaration(row);
+                        used_groups.insert(row.at("ui").at("group").get<std::string>());
+                    }
+                    member_labels[file] = Json{{"label", label}, {"settings", Json{{"values", member_values}}}};
                     member_records.push_back({{"file", file}, {"backend", item->backend}, {"label", label}, {"sha256", item->sha256},
                                               {"size", item->size}, {"intended_live_relative_path", item->intended_live_relative_path}});
                 }
                 const std::string description = package_text(
                     "RENOVICE universal mission editor output for client build " + registry.at("build").get<std::string>() +
-                    ". One Scripts row for every generated Lua mission change; values are in the build's mission_settings.json.",
+                    ". One Scripts row for every generated Lua mission change. Every value is declared in settings; "
+                    "CustomScripts/Settings/Missions.json selects which values apply.",
                     kPackageDescriptionMaximum);
+                Json group_declarations = Json::array();
+                std::vector<std::string> ordered_groups(used_groups.begin(), used_groups.end());
+                std::sort(ordered_groups.begin(), ordered_groups.end(), [&](const std::string& a, const std::string& b) {
+                    return registry.at("ui_groups").at(a).at("order").get<long long>() < registry.at("ui_groups").at(b).at("order").get<long long>();
+                });
+                for (const auto& group : ordered_groups) group_declarations.push_back(mission_group_declaration(registry, group));
                 const Json package_json{{"schema", 1}, {"name", kMissionPackageName}, {"description", description},
-                                        {"members", member_labels}, {"settings", Json::object()}};
+                                        {"members", member_labels},
+                                        {"settings", Json{{"format", kSettingsDeclarationFormat}, {"build", registry.at("build")},
+                                                          {"groups", group_declarations}}}};
                 write_text(package_dir / "package.json", package_json.dump(2) + "\n");
 
                 // Package gates (loader rules, bootstrapper renovice/packages_core.hpp).
@@ -1171,6 +1502,70 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                 result.gate_log += "package-folder\n" + (problems.empty() ? std::string("PASS") : problems) + " members=" +
                                    std::to_string(declared.size()) + "\n";
                 if (!problems.empty()) throw std::runtime_error("package-folder gate failed: " + problems);
+
+                // Phase 2i gate settings-declarations: strict schema; exactly one declaration per member tunable and nothing
+                // else; declaration == registry row; declared stock == registry stock == the addon's compiled stock constant;
+                // row-label budget. A failure fails the package build closed.
+                std::vector<std::string> settings_problems;
+                for (const auto& problem : validate_settings_declarations(package_json)) settings_problems.push_back("schema: " + problem);
+                std::size_t declared_values = 0;
+                Json migration_values = Json::object(), migration_groups = Json::object();
+                for (const MissionArtifact* item : members) {
+                    const std::string file = item->artifact.filename().string();
+                    const Json& declared_member = package_json.at("members").at(file).at("settings").at("values");
+                    std::set<std::string> want(item->tunables.begin(), item->tunables.end()), have;
+                    for (const auto& [id, declaration] : declared_member.items()) {
+                        static_cast<void>(declaration);
+                        have.insert(id);
+                    }
+                    if (want != have) settings_problems.push_back(file + ": declarations are not exactly the member tunables");
+                    std::map<std::string, std::pair<double, double>> compiled;
+                    if (item->backend == "TARGET_ADDON") {
+                        compiled = multi_target_compiled_values(read_text(item->source));
+                        std::set<std::string> compiled_ids;
+                        for (const auto& [id, value] : compiled) compiled_ids.insert(id);
+                        if (compiled_ids != want) settings_problems.push_back(file + ": compiled settings table is not exactly the declared values");
+                    }
+                    for (const auto& id : want) {
+                        if (!declared_member.contains(id)) continue;
+                        const Json& row = mission_tunable(registry, id);
+                        const Json& declaration = declared_member.at(id);
+                        ++declared_values;
+                        if (declaration != mission_value_declaration(row)) settings_problems.push_back(id + ": declaration differs from its registry row");
+                        const double stock = row.at("stock").get<double>();
+                        if (!declaration.at("stock").is_number() || declaration.at("stock").get<double>() != stock)
+                            settings_problems.push_back(id + ": declared stock differs from the registry stock");
+                        if (declaration.at("lane") != (item->backend == "TARGET_ADDON" ? "addon" : "literal"))
+                            settings_problems.push_back(id + ": declared lane differs from the member kind");
+                        if (item->backend == "TARGET_ADDON") {
+                            const auto found = compiled.find(id);
+                            if (found == compiled.end() || found->second.second != stock)
+                                settings_problems.push_back(id + ": compiled stock constant differs from the registry stock");
+                            else if (found->second.first != values.at(id))
+                                settings_problems.push_back(id + ": compiled value differs from the build value");
+                        }
+                        const auto group = declaration.at("group").get<std::string>();
+                        for (const auto& problem : settings_label_budget_problems(id, declaration, registry.at("ui_groups").at(group)))
+                            settings_problems.push_back(problem);
+                        migration_groups[group] = true;
+                        migration_values[id] = Json{{"enabled", true}, {"value", settings_number(values.at(id), declaration.at("type").get<std::string>())}};
+                    }
+                }
+                std::string settings_text;
+                for (const auto& problem : settings_problems) settings_text += (settings_text.empty() ? "" : "; ") + problem;
+                result.gate_log += "settings-declarations\n" + (settings_text.empty() ? std::string("PASS") : settings_text) + " values=" +
+                                   std::to_string(declared_values) + " groups=" + std::to_string(group_declarations.size()) + "\n";
+                if (!settings_text.empty()) throw std::runtime_error("settings-declarations gate failed: " + settings_text);
+                // Migration settings file (design section 3.3): the values this build applies, all enabled, so a runtime with
+                // ADDON_SETTINGS_V1 reproduces the loose behaviour. It is installed outside the package folder
+                // (CustomScripts/Settings/<package>.json) because the package folder is replaced on redeploy.
+                const fs::path settings_file = result.directory / "Settings" / (std::string(kMissionPackageName) + ".json");
+                fs::create_directories(settings_file.parent_path());
+                const Json migration{{"format", kScriptSettingsFormat}, {"package", "package:" + ascii_lower_text(kMissionPackageName)},
+                                     {"build", registry.at("build")}, {"use_stock", false}, {"groups", migration_groups},
+                                     {"values", migration_values}};
+                write_text(settings_file, migration.dump(2) + "\n");
+                if (Json::parse(read_text(settings_file)) != migration) throw std::runtime_error("settings migration file readback mismatch");
                 result.package_directory = package_dir;
                 package_record = {{"path", relative(package_dir)}, {"name", kMissionPackageName},
                                   {"manifest", {{"path", relative(package_dir / "package.json")}, {"sha256", sha256_file(package_dir / "package.json")}}},
@@ -1178,7 +1573,14 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                                   {"scripts_menu", {{"row", "[PACKAGE] " + std::string(kMissionPackageName)},
                                                     {"policy_id", "package:" + ascii_lower_text(kMissionPackageName)}}},
                                   {"intended_live_relative_path", "OpenWF/CustomScripts/Packages/" + std::string(kMissionPackageName)},
-                                  {"gates", Json::array({Json{{"name", "package-folder"}, {"pass", true}, {"exit_code", 0}}})}};
+                                  {"settings", {{"declarations", {{"format", kSettingsDeclarationFormat}, {"values", declared_values},
+                                                                  {"groups", group_declarations.size()}}},
+                                                {"migration", {{"path", relative(settings_file)}, {"sha256", sha256_file(settings_file)},
+                                                               {"format", kScriptSettingsFormat},
+                                                               {"intended_live_relative_path", "OpenWF/CustomScripts/Settings/" +
+                                                                                                   std::string(kMissionPackageName) + ".json"}}}}},
+                                  {"gates", Json::array({Json{{"name", "package-folder"}, {"pass", true}, {"exit_code", 0}},
+                                                         Json{{"name", "settings-declarations"}, {"pass", true}, {"exit_code", 0}}})}};
             }
         }
         if (naming.single_artifact && (result.artifacts.size() != 1 || !server.empty()))

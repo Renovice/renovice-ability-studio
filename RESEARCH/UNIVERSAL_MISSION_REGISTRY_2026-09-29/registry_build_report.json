@@ -660,5 +660,41 @@
   "modules": 48,
   "corpus_files": 48,
   "metadata_snapshot_sha256": "49F042A0A8A4D5F84B4B37C02FA0EDED3B931B29EA78F2216E9B709096066BF9",
-  "registry_sha256": "90D2C61A7A8DF6B4781F01DA3185D9DA8CBDC335694BE61716CBA063009579C3"
+  "registry_sha256": "0BE2780B2476644260021723E71B003D159D049CD294EEE1CB6B4F2C23D3BB97",
+  "ui": {
+    "groups": 49,
+    "editors": {
+      "INPUTCOUNT": 434,
+      "INPUTBOX": 157,
+      "TOGGLE": 3
+    },
+    "label_sources": {
+      "id": 263,
+      "id-leaf": 10,
+      "override": 98,
+      "prose": 197,
+      "variant-id": 16,
+      "variant-prose": 10
+    },
+    "applies": {
+      "live_next_read": 289,
+      "next_mission": 242,
+      "restart": 62,
+      "server_reload": 1
+    },
+    "sources": {
+      "public_export_regions": {
+        "path": "work/research/U44.0.2-2026-09-29/public-export/ExportRegions_en.json",
+        "sha256": "2C88839A179C2037A48913471639A28C0514BAD1D5A4B26C015096D074642941",
+        "nodes": 269
+      },
+      "export_plus": {
+        "path": "../OpenWF Server 23.09.2026/SpaceNinjaServer/node_modules/warframe-public-export-plus",
+        "version": "0.6.11",
+        "regions_sha256": "56BAA9B44520E1CADB4E045DD3AF065EDF8F15287257E4B3F48A40D153822072",
+        "dict_en_sha256": "AB82BABCDE2CB4B2C741D33DB1D99B4A523695988768A8CC91D7D6B9465AE9D0",
+        "use": "missionIndex -> missionType join (every joined node agrees) and mission display names"
+      }
+    }
+  }
 }
