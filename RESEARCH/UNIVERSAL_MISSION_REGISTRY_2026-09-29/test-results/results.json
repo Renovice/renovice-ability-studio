@@ -147,5 +147,137 @@
       "sha256": "2C3063AA4BCD1D1ADD8F5D3E9105F8DB9F32A121B7F13EE425F600151D75B88C"
     },
     "location": "work/research/universal-mission-editor-2026-09-29/phase2b-sample"
+  },
+  "phase2d_sample": {
+    "values": {
+      "disruption.default_round_count": 6,
+      "disruption.boss_health_multiplier": 0.5,
+      "disruption.round_timeout": 120,
+      "excavation.resource_goal_default": 300,
+      "void_flood.fill_timer.timeToFillMax": 150,
+      "orphix.sortie_rounds": 8,
+      "hijack.payload_health": 20000,
+      "netracell.power_required.base": 100,
+      "survival.elite_alert_pickup_mult": 1,
+      "defense.inter_wave_sleep": 3,
+      "infested_capture.search_time.wf1999": 50,
+      "meltdown.heat_increase.descendia": 0.0125,
+      "coh_excavation.base_health": 3000
+    },
+    "artifacts": [
+      {
+        "backend": "EXACT_LITERAL",
+        "body_key": "0c498e078835f9fe",
+        "intended_live_relative_path": "OpenWF/CustomScripts/0c498e078835f9fe (missions_exact-replacement).lua_B",
+        "manifest": "BUILD_MANIFEST.EXACT_LITERAL_0c498e078835f9fe.json",
+        "path": "artifacts/0c498e078835f9fe (missions_exact-replacement).lua_B",
+        "sha256": "8D0EDA35362FA8F8FE62918F3628799080455EA029257BDE1534ACAD45DCC564",
+        "size": 61951,
+        "tunables": [
+          "netracell.power_required.base"
+        ]
+      },
+      {
+        "backend": "EXACT_LITERAL",
+        "body_key": "1a1354d153712f9d",
+        "intended_live_relative_path": "OpenWF/CustomScripts/1a1354d153712f9d (missions_exact-replacement).lua_B",
+        "manifest": "BUILD_MANIFEST.EXACT_LITERAL_1a1354d153712f9d.json",
+        "path": "artifacts/1a1354d153712f9d (missions_exact-replacement).lua_B",
+        "sha256": "BFE46442738A5D38B9492B84832720A13486D0D3655056781739DF1F3B488782",
+        "size": 96329,
+        "tunables": [
+          "defense.inter_wave_sleep"
+        ]
+      },
+      {
+        "backend": "EXACT_LITERAL",
+        "body_key": "721710696afea305",
+        "intended_live_relative_path": "OpenWF/CustomScripts/721710696afea305 (missions_exact-replacement).lua_B",
+        "manifest": "BUILD_MANIFEST.EXACT_LITERAL_721710696afea305.json",
+        "path": "artifacts/721710696afea305 (missions_exact-replacement).lua_B",
+        "sha256": "8F536A417CA00581D3146EB94B77954AF70592E94F441750DDF94D3EF8ED0D18",
+        "size": 41200,
+        "tunables": [
+          "orphix.sortie_rounds"
+        ]
+      },
+      {
+        "backend": "EXACT_LITERAL",
+        "body_key": "b6d8c45f9424d376",
+        "intended_live_relative_path": "OpenWF/CustomScripts/b6d8c45f9424d376 (missions_exact-replacement).lua_B",
+        "manifest": "BUILD_MANIFEST.EXACT_LITERAL_b6d8c45f9424d376.json",
+        "path": "artifacts/b6d8c45f9424d376 (missions_exact-replacement).lua_B",
+        "sha256": "BE99A12BCD3927DDA2B037A47BF97E9D5227FC4F7CB3299CA728A1542204AB56",
+        "size": 132739,
+        "tunables": [
+          "disruption.boss_health_multiplier",
+          "disruption.default_round_count",
+          "disruption.round_timeout"
+        ]
+      },
+      {
+        "backend": "EXACT_LITERAL",
+        "body_key": "f10a043e7f825db2",
+        "intended_live_relative_path": "OpenWF/CustomScripts/f10a043e7f825db2 (missions_exact-replacement).lua_B",
+        "manifest": "BUILD_MANIFEST.EXACT_LITERAL_f10a043e7f825db2.json",
+        "path": "artifacts/f10a043e7f825db2 (missions_exact-replacement).lua_B",
+        "sha256": "DE20BA0CDC32404AC3E434BFAE52D7F3FE8BA2BC9B960553B93C6B22299FB9D2",
+        "size": 137662,
+        "tunables": [
+          "survival.elite_alert_pickup_mult"
+        ]
+      },
+      {
+        "backend": "EXACT_LITERAL",
+        "body_key": "f7444e3c621ff018",
+        "intended_live_relative_path": "OpenWF/CustomScripts/f7444e3c621ff018 (missions_exact-replacement).lua_B",
+        "manifest": "BUILD_MANIFEST.EXACT_LITERAL_f7444e3c621ff018.json",
+        "path": "artifacts/f7444e3c621ff018 (missions_exact-replacement).lua_B",
+        "sha256": "B9F98E43FC02621DDFF0C1B654CA1043A46A6B2E37CED914F0EBD8334AEE8D6A",
+        "size": 77843,
+        "tunables": [
+          "excavation.resource_goal_default"
+        ]
+      },
+      {
+        "backend": "EXACT_LITERAL",
+        "body_key": "fb346b59e2b7687a",
+        "intended_live_relative_path": "OpenWF/CustomScripts/fb346b59e2b7687a (missions_exact-replacement).lua_B",
+        "manifest": "BUILD_MANIFEST.EXACT_LITERAL_fb346b59e2b7687a.json",
+        "path": "artifacts/fb346b59e2b7687a (missions_exact-replacement).lua_B",
+        "sha256": "6D7C70D43CD1A7F2A3DF4E0BCE7A190CA048A5CFB65B06A07BBC3E9CFF2F2273",
+        "size": 34335,
+        "tunables": [
+          "hijack.payload_health"
+        ]
+      },
+      {
+        "backend": "EXACT_LITERAL",
+        "body_key": "fc711ff621a75552",
+        "intended_live_relative_path": "OpenWF/CustomScripts/fc711ff621a75552 (missions_exact-replacement).lua_B",
+        "manifest": "BUILD_MANIFEST.EXACT_LITERAL_fc711ff621a75552.json",
+        "path": "artifacts/fc711ff621a75552 (missions_exact-replacement).lua_B",
+        "sha256": "D8F3C4E77D48271C255671AF32AF1A825CA8FF70CD8847B170280ACD5DAF4330",
+        "size": 112244,
+        "tunables": [
+          "void_flood.fill_timer.timeToFillMax"
+        ]
+      },
+      {
+        "backend": "METADATA_PATCH",
+        "body_key": "metadata",
+        "intended_live_relative_path": "OpenWF/Metadata Patches/RENOVICE_Missions.txt",
+        "manifest": "BUILD_MANIFEST.METADATA_PATCH_metadata.json",
+        "path": "artifacts/RENOVICE_Missions.txt",
+        "sha256": "7EE0AD908459601E38EE73ADFE74978F2CA893A8814B14B3BD0B7E85AFD6566F",
+        "size": 391,
+        "tunables": [
+          "coh_excavation.base_health",
+          "infested_capture.search_time.wf1999",
+          "meltdown.heat_increase.descendia"
+        ]
+      }
+    ],
+    "location": "work/research/universal-mission-editor-2026-09-29/phase2d-sample"
   }
 }

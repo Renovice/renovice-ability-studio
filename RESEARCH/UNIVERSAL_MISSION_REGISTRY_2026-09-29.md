@@ -208,3 +208,241 @@ hashes.
 
 Superseded: the build-`2026.09.24.13.29` schema-1 registry (kept in git history as `01c9651`) and its hard-coded
 build checks in `mission_profiles.inl` / `MissionBuildProfile.cs`.
+
+## Phase 2d — exact owners for Phase 1 rows (2026-09-29)
+
+**Build.** Client `2026.09.28.13.06` (Hotfix 44.0.2) only. **Scope.** Offline only; nothing was written to a game folder,
+deployed, or applied to the server. Registry SHA-256 `BAAFA6FC…0A792AA` (`REGISTRIES/mission_build_u44.json`).
+
+### Hypotheses and results
+
+| # | Hypothesis | Result |
+|---|---|---|
+| H7 | A root config table value held in a `DUPTABLE` template constant can be edited exactly when a gate proves the constant and the template have a single owner. | **TRUE, with a new gate.** `K_CONSTANT_EXCLUSIVE_V1` (`tools/anchors.py`) requires: the value constant is used by exactly one entry of one tag-8 template and by no instruction or other constant; the template is consumed by exactly one `DUPTABLE`; that `DUPTABLE` is outside any loop; and the constructing prototype does not overwrite the field before the register is reassigned. Corpus census over all 311 extracted modules: **1953** numeric template fields, **766 PASS**, 1187 FAIL (1118 value constant shared, 39 built inside a loop, 30 template used by several `DUPTABLE` sites, 0 dead initialisers). |
+| H8 | Most Phase 1 prose owners can be pinned to exact bytecode sites. | **PARTIALLY TRUE.** 406 new Lua rows and 53 new metadata rows resolve and verify. Shared constants are the main blocker (35 Phase 1 rows or parts). |
+| H9 | Phase 1 `Scripts.N` metadata paths match the runtime patcher. | **FALSE for N>0.** `trigger_params.py` counts list separators as elements, so its `Scripts.2` is runtime `Scripts.1`: in the bootstrapper `EeNotationParser`, `,` only ends a value. Only `Scripts.0` rows were registered before, so no earlier row was wrong. The registrar now parses entries with the runtime rule and refuses Phase 1 paths with N>0. The managed test independently resolves every path, `Scripts.1` included, with the metadata editor's query extractor. |
+| H10 | Survival `interval` (300) is safe to edit as a constant. | **FALSE.** Its constant is shared with `killPlayerTime`. It stays on the live-proven target-addon lane. |
+
+### What was built
+
+**Gate and resolver (tools)**
+- `anchors.py` provides:
+  - constant offsets;
+  - a complete per-prototype constant-use census, covering every K operand, template key/value and import descriptor
+    (unclassified operands count as possible uses and fail closed);
+  - loop detection;
+  - the gate itself.
+- `phase2d.py` defines three declarative owner kinds:
+  - `pattern` matches every `LOADN v` whose neighbouring instruction signatures match, and requires an exact `count`, so a
+    row owns the complete set of sites of one control;
+  - `template` applies the single-use template gate;
+  - `constant` requires the declared instruction-use set to equal the complete use set.
+- `phase2d_lua_specs.py` holds 406 rows and 70 exclusions; `phase2d_metadata_specs.py` holds 53 rows and 8 exclusions. The Lua
+  specs came from four per-family anchor passes and were merged. `register_registry.py` re-resolves and re-gates every spec
+  on each run.
+- `register_registry.py` also:
+  - attaches the gate evidence to every `number_constant` site, including the carried-over Descendia 45 constant (3 `SUBRK`
+    and 1 `DIVK` uses);
+  - flags carried-over linked-result sites with `rewrites_instruction`;
+  - writes `excluded_parts` for split Phase 1 rows.
+
+**C++ core (`src/mission_profiles.inl`)**
+- A `number_constant` site must carry `K_CONSTANT_EXCLUSIVE_V1` evidence consistent with the site. A template use needs exactly
+  one template entry, one `DUPTABLE`, `loop_free` and `initialiser_live`.
+- Every LOADN and constant site must decode to the registered stock value.
+- Constant sites accept any finite f64 value within the row limits. LOADN sites keep the whole-number 1..32767 rule.
+- Metadata rows may list `also` entries: the same parameter in another runtime `Scripts` entry. All entries are verified and
+  always written together.
+- Two rows may not own the same metadata path.
+
+The desktop contract is unchanged.
+
+### Rows (client 44.0.2)
+
+Registry: **490 rows** (31 before Phase 2d + 459 new). By backend: `EXACT_LITERAL` 423, `METADATA_PATCH` 62,
+`TARGET_ADDON` 4, `SERVER_CONFIG` 1.
+
+Of the 459 new rows, 456 are `CONFIRMED_STATIC`. The other 3 are `CONFIRMED_STATIC_PHASE2D`: they were re-derived from
+bytecode where Phase 1 was PARTIAL or MISSIONINFO. They are Disruption default rounds, Disruption sortie rounds and the
+Excavation default resource goal.
+
+**New rows by owner kind**
+
+| Owner kind | New rows | Exact sites |
+|---|---:|---|
+| `LUA_ROOT_TABLE` | 286 | Root/config table initialisers: LOADN before SETTABLEKS/SETLIST, and single-use template f64 constants. Player-count arrays get one row per element. |
+| `LUA_PROTO_LITERAL` | 120 | LOADN literals and exclusive instruction-used constants |
+| `METADATA_PARAM` | 53 | Per-owner-type and per-field splits; 5 rows patch two runtime `Scripts` entries |
+
+Sites: 411 LOADN and 123 number constants. Gates passed: 311 complete patterns, 54 single-use templates, 69 exclusive
+constants.
+
+37 rows own more than one site, and each is always patched as a unit. Examples:
+- the four Defense wave-count literals, with 15 inlined copies each;
+- the Arbitration cap 25 (10 sites);
+- the Steel Path acolyte cooldown (8 sites);
+- Disruption default rounds (7 sites: 4 `fixedLength` fallbacks and 3 `Ternary(maxWaveNum>0, maxWaveNum, 4)`);
+- the Excavation default goal 500 (3 sites);
+- Descendia excavation 45: 1 constant with 4 uses plus 1 LOADN (carried over, now gated).
+
+**New rows by mode (priority modes first)**
+
+| Mode | Rows | Mode | Rows |
+|---|---:|---|---:|
+| Survival | 11 | Descendia: Shrine Defense | 54 (49 Lua + 5 metadata) |
+| Orphix Venom | 3 | Descendia: Excavation | 6 (1 Lua + 5 metadata) |
+| Void Cascade | 4 | Descendia: Legacyte Harvest / Meltdown / Alchemy / Defense / Destroy Targets / Nemesis | 7 / 7 / 3 / 3 / 4 / 2 |
+| Void Flood | 3 | Legacyte Harvest (1999) | 7 |
+| Defense | 45 | Alchemy (Entrati lab) / Meltdown (lab) | 3 / 7 |
+| Mirror Defense | 50 | Ascension | 6 |
+| Mobile Defense / Sentient MD / MultiDefend / 1999 Defense tile | 14 / 6 / 9 / 4 | Entrati Swarm | 19 |
+| Interception | 4 | Infested Salvage | 12 |
+| Disruption | 51 | Hijack | 2 |
+| Excavation | 2 | Netracell | 3 |
+
+Other families add 109 rows:
+- Faceoff 18
+- Defection 16
+- Purge 11
+- Raid 11
+- Exterminate/Escalation 10
+- Capture 8
+- Five Fates 7
+- Archimedea levels 6
+- All-missions acolyte/drone 5
+- Rescue 4
+- The Circuit 4
+- Colonist door 3
+- Arbitration, Spy, Archwing, Pursuit and Sentient capture, 1 each
+
+Lantern and Purgatory have **no Phase 1 row** in `mission_tunables.json`, so nothing was registered for them. They need a
+Phase 1 study first.
+
+### Phase 1 accounting (denominator 367)
+
+| Status | Rows |
+|---|---:|
+| Registered fully | 152 |
+| Registered partially (other parts listed in `excluded_parts`, 34 parts) | 32 |
+| Excluded | 183 |
+
+**Excluded rows by reason**
+
+| Reason | Rows |
+|---|---:|
+| Phase 1 PARTIAL | 85 |
+| Phase 1 UNCONFIRMED | 7 |
+| Native or unknown owner | 24 |
+| MissionInfo (no producer back end) | 20 |
+| Shared constant or template (gate FAIL) | 12 |
+| Flag, selector or index | 9 |
+| Server code or compound | 9 |
+| Transmission or HUD only | 5 |
+| Other semantic reasons (coupled to level data or equipment, or meaning differs from Phase 1) | 5 |
+| Debug only | 2 |
+| Derived | 2 |
+| List value | 2 |
+| Other | 1 |
+
+**Excluded parts by reason**
+
+| Reason | Parts |
+|---|---:|
+| Shared constant or template | 23 |
+| Coupled, dual-unit, marker or reset values | 6 |
+| Formula | 2 |
+| Derived | 1 |
+| Transmission | 1 |
+| Index | 1 |
+
+Every entry carries its exact reason. These notable exclusions are all shared constants, so editing them would change
+unrelated fields:
+- Survival `alertInterval`, `maxTimeAvailable`, Kuva 600/600, and the alert/sortie level boosts;
+- Orphix `interval` 3 and 50, and `scoreAddPerRound`;
+- Void Flood `curseCountNormal`/`SteelPath`, `maxFractureActive`, `playerCapacity` and `timeToFillMin`.
+
+### Gate results (offline)
+
+| Gate | Denominator | Result |
+|---|---|---|
+| `verify-missions` (structure + every row vs 44.0.2 stock evidence) | 490 rows | 490 PASS / 0 FAIL: EXACT_LITERAL 423, METADATA_PATCH 62, TARGET_ADDON 4, SERVER_CONFIG 1 |
+| Template gate corpus census | 1953 numeric template fields in 311 modules | 766 PASS / 1187 FAIL (reasons above) |
+| Phase 2d gate cases (`tools/test_phase2d_gates.py`) | 7 cases | 7 PASS |
+| C++ build (`-Werror`) | core + GUI + CLI + tests | 0 warnings, 0 errors |
+| CTest | 2 tests | 2/2 PASS |
+| C++ self-test | 115 checks (110 + 5 new) | 115 PASS |
+| Managed Dev tests | 162 checks | 162 PASS |
+| WPF App / Dev build (`--no-incremental`) | 2 projects | 0 warnings, 0 errors |
+| Preset builds through the registry path | 12 presets, 36 rejections | 12 PASS; all 12 artifacts byte-identical to the Phase 2b results |
+| Phase 2b sample | 5 artifacts | Byte-identical to the Phase 2b hashes |
+
+The 7 gate cases are:
+- template PASS (Survival `lowDropMultiplier`);
+- rejection of a shared value;
+- rejection of a template built in a loop;
+- rejection of a template used by two `DUPTABLE` sites;
+- rejection of an incomplete pattern;
+- rejection of a constant declared with only a subset of its uses;
+- constant PASS with the full use set.
+
+The 5 new self-test checks are:
+- a multi-site row (Disruption default rounds) patches all 7 sites and nothing else;
+- one drifted site fails the whole row, and no artifact is written (no partial coverage);
+- a template field builds with only its 8-byte f64 changed (2.25);
+- the template gate rejects a second `DUPTABLE`, a shared value, a loop, and missing evidence;
+- a multi-entry metadata control writes `Scripts.0` and `Scripts.1`.
+
+The managed metadata check now resolves every `also` path as well.
+
+### Phase 2d sample output
+
+Location: `work/research/universal-mission-editor-2026-09-29/phase2d-sample/` (research folder). `SHA256SUMS.json` there
+lists every file.
+
+Settings: 13 tunables, producing 8 exact replacements and 1 metadata file.
+
+| Artifact body | Tunables | SHA-256 |
+|---|---|---|
+| `b6d8c45f9424d376` (Disruption) | default_round_count 6, boss_health_multiplier 0.5, round_timeout 120 | `BE99A12B…04AB56` |
+| `f7444e3c621ff018` (Excavation) | resource_goal_default 300 | `B9F98E43…AEE8D6A` |
+| `fc711ff621a75552` (Void Flood) | fill_timer.timeToFillMax 150 | `D8F3C4E7…DAF4330` |
+| `721710696afea305` (Orphix) | sortie_rounds 8 | `8F536A41…F8ED0D18` |
+| `fb346b59e2b7687a` (Hijack) | payload_health 20000 | `6D7C70D4…F2F2273` |
+| `0c498e078835f9fe` (Netracell) | power_required.base 100 | `8D0EDA35…45DCC564` |
+| `f10a043e7f825db2` (Survival) | elite_alert_pickup_mult 1 | `DE20BA0C…2299FB9D2` |
+| `1a1354d153712f9d` (Defense) | inter_wave_sleep 3 | `BFE46442…3B488782` |
+| `RENOVICE_Missions.txt` | coh_excavation.base_health 3000 (2 entries), infested_capture.search_time.wf1999 50, meltdown.heat_increase.descendia 0.0125 | `7EE0AD90…AFD6566F` |
+
+### Limitations
+
+- **Offline evidence only.** In-game behaviour, multiplayer authority and host migration are not claimed.
+- **Survival body `f10a…` is also the target-addon body.** A settings file that mixes Survival literal rows with the
+  Survival addon rows fails closed, because a body may own only one artifact.
+- **Limits are operand-domain guards, not gameplay-safe ranges.** Constant rows accept any finite value in
+  `[0, max(1000, 100 × stock)]`.
+- **Per-element array rows follow the stock index semantics.** Two Phase 1 corrections came out of the anchor passes:
+  - the Entrati Swarm index is the stage/area counter;
+  - the Shrine Steel Path `OverallStateTime` is never read.
+- **Gaps the current tools cannot handle yet:**
+  - a group owner for shared templates (Five Fates 3600/180);
+  - a per-site scale (the acolyte chance increment is stored as 5/100 in one site and 0.05 in another);
+  - a table-path anchor for nested tables (Interception spawn profiles);
+  - a constant-split primitive for shared constants. It would append a new constant and redirect one template entry, which
+    changes the body size, so it needs Replacement-lane evidence first.
+
+### Suggested live checks (need explicit user authorization to deploy)
+
+Two targets per mechanism:
+
+| Mechanism | Tunable | Change | Where to observe |
+|---|---|---|---|
+| LOADN literal | `loopdefend.phase_duration` (2 sites) | 150 → 75 | Mirror Defense phase timer |
+| LOADN literal | `defense.inter_wave_sleep` | 6 → 3 | Pause between Defense waves |
+| Template f64 | `void_flood.fill_timer.timeToFillMax` | 200 → 100 | Void Flood tank fill time |
+| Template f64 | `disruption.boss_health_multiplier` | 0.7 → 0.35 | Demolyst health |
+| Instruction constant | `circuit.enemy_level_formula.base_normal` | 30 → 60 | Normal Circuit enemy level |
+| Instruction constant | `survival.elite_alert_pickup_mult` | 0.75 → 1 | Arbitration Survival life support per pickup |
+| Metadata split | `coh_excavation.base_health` | 1500 → 3000 | Descendia excavator health; gameplay and HUD entries |
+| Metadata split | `infested_capture.search_time.wf1999` | 100 → 50 | 1999 Legacyte Harvest search duration |
+
+Check the current EE.log for new script errors after each test.

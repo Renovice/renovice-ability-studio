@@ -1,0 +1,95 @@
+{
+  "cases": [
+    {
+      "case": "template single-use PASS: Survival frame_79[15].lowDropMultiplier",
+      "result": "PASS",
+      "gate": {
+        "gate": "K_CONSTANT_EXCLUSIVE_V1",
+        "prototype": 79,
+        "constant": 19,
+        "uses": [
+          {
+            "template": 33,
+            "entry": 2,
+            "field": "lowDropMultiplier"
+          }
+        ],
+        "template_uses": [
+          {
+            "instruction": 18,
+            "op": "DUPTABLE",
+            "register": 8
+          }
+        ],
+        "loop_free": true,
+        "initialiser_live": true
+      }
+    },
+    {
+      "case": "template shared value FAIL: Survival interval 300 (shared with killPlayerTime)",
+      "result": "FAIL as expected",
+      "reason": "value constant 34 of interval is shared: [('template-value', 39, 0, 'interval'), ('template-value', 112, 3, 'killPlayerTime')]"
+    },
+    {
+      "case": "template in a loop FAIL: MechSurvival proto 21 template 21",
+      "result": "FAIL as expected",
+      "reason": "DUPTABLE 65 is inside a loop [(25, 78)]; one template would build several tables"
+    },
+    {
+      "case": "template consumed by two DUPTABLE sites FAIL: SyndicateMissionGenerator proto 4 template 56",
+      "result": "FAIL as expected",
+      "reason": "template 56 is consumed by 2 DUPTABLE sites and 0 other uses"
+    },
+    {
+      "case": "pattern completeness FAIL: fixedLength 300 without the EndlessDuviri context matches two owners",
+      "result": "FAIL as expected",
+      "reason": "pattern x matched 2 sites, spec requires exactly 1: [(61, 172), (61, 730)]"
+    },
+    {
+      "case": "constant use-set FAIL: declaring 1 of the 4 uses of the Descendia 45 constant",
+      "result": "FAIL as expected",
+      "reason": "constant 90 instruction uses ['DIVK:45', 'SUBRK:45', 'SUBRK:45', 'SUBRK:45'] != declared ['SUBRK:45']"
+    },
+    {
+      "case": "constant use-set PASS: Descendia 45 constant with its complete use set (3 SUBRK + 1 DIVK)",
+      "result": "PASS",
+      "gate": {
+        "gate": "K_CONSTANT_EXCLUSIVE_V1",
+        "prototype": 23,
+        "constant": 90,
+        "uses": [
+          {
+            "instruction": 248,
+            "op": "SUBRK",
+            "operand": "B"
+          },
+          {
+            "instruction": 348,
+            "op": "SUBRK",
+            "operand": "B"
+          },
+          {
+            "instruction": 547,
+            "op": "SUBRK",
+            "operand": "B"
+          },
+          {
+            "instruction": 607,
+            "op": "DIVK",
+            "operand": "C"
+          }
+        ]
+      }
+    }
+  ],
+  "template_gate_census": {
+    "modules": 311,
+    "numeric_template_fields": 1953,
+    "pass": 766,
+    "fail": {
+      "value constant shared": 1118,
+      "inside a loop": 39,
+      "several DUPTABLE sites": 30
+    }
+  }
+}
