@@ -601,5 +601,56 @@
       }
     ],
     "location": "work/research/universal-mission-editor-2026-09-29/phase2g-sample"
+  },
+  "phase2h_sample": {
+    "values": {
+      "survival.reward_interval": 150,
+      "purgatory.difficulty1.warrior_level": 15,
+      "lantern.tier_up_interval": 60,
+      "void_flood.fractures_per_round.normal": 4
+    },
+    "allow_unproven_hook_bindings": [
+      "renovice.target.lua_call"
+    ],
+    "output_layout": "package",
+    "package": {
+      "gates": [
+        {
+          "exit_code": 0,
+          "name": "package-folder",
+          "pass": true
+        }
+      ],
+      "intended_live_relative_path": "OpenWF/CustomScripts/Packages/Missions",
+      "manifest": {
+        "path": "Packages/Missions/package.json",
+        "sha256": "ADAFDA0032E33C426A3C63B367E2F5A10FEFB2C6A66E06DF8EB168634300451F"
+      },
+      "members": [
+        {
+          "backend": "EXACT_LITERAL",
+          "file": "fc711ff621a75552 (missions_exact-replacement).lua_B",
+          "intended_live_relative_path": "OpenWF/CustomScripts/Packages/Missions/fc711ff621a75552 (missions_exact-replacement).lua_B",
+          "label": "Exact replacement: ZarimanCorruptionMission (void_flood.fractures_per_round.normal)",
+          "sha256": "E979F5E7906F0D88E49C42B4191ECA6AFDC1237FDDD91D52CBF427DB3FA9F6D2",
+          "size": 112244
+        },
+        {
+          "backend": "TARGET_ADDON",
+          "file": "Missions.targets.addon.lua_B",
+          "intended_live_relative_path": "OpenWF/CustomScripts/Packages/Missions/Missions.targets.addon.lua_B",
+          "label": "Mission tunables: Purgatory, HalloweenLanternEndless, SurvivalMission",
+          "sha256": "00DA193D03D43472D4DF98806E7A532A82F449E17FA82E07624CC2F9816A773E",
+          "size": 6043
+        }
+      ],
+      "name": "Missions",
+      "path": "Packages/Missions",
+      "scripts_menu": {
+        "policy_id": "package:missions",
+        "row": "[PACKAGE] Missions"
+      }
+    },
+    "location": "work/research/universal-mission-editor-2026-09-29/phase2h-sample"
   }
 }

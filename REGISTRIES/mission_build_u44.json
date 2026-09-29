@@ -41138,7 +41138,7 @@
         "schema_sha256": "D6F46F8B9897367C5CC93B42088B6987B2FE669C271E8200C8618E080D1DED5C",
         "schema_preimage": "creditBoostMultiplier?: number;",
         "consumer_file": "src/services/missionInventoryUpdateService.ts",
-        "consumer_sha256": "AD783A2CA9F53A6A6BD904598FF61C54C1A418FCF199FDA2EFEA1AE4964B02FD",
+        "consumer_sha256": "5FE8063385109DBCBB74C4BF37CC16E33CEE9B61469FDF5F0D05C3E691ECF815",
         "consumer_preimage": "if (config.worldState?.creditBoostMultiplier) {"
       },
       "unit": "x",

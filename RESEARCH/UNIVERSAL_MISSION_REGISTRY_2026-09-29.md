@@ -972,3 +972,34 @@ becomes an orphan.
 - The package is all or nothing at the bootstrapper's static commit. A module-load binding failure of one target still
   fails only that key at runtime.
 - Package labels come from registry module names and are not localized.
+
+## 2026-09-29 — Re-pin of the SERVER row after the ChallengeInstanceStates merge fix
+
+**Build.** Client `2026.09.28.13.06` (Hotfix 44.0.2); editor binaries from `58fec71` (ninja: no work to do).
+
+**Hypothesis.** The server edit (ChallengeInstanceStates merge now matches by id) left the owner of
+`server.credit_boost_multiplier` unchanged, so only the consumer file hash is stale.
+
+**Evidence.**
+
+- The pre-change backup `work/backups/server-challenge-merge-2026-09-29/src/services/missionInventoryUpdateService.ts`
+  hashes to the pinned `AD783A2C…4B02FD`. The current file hashes to `5FE80633…ECF815`.
+- `diff` backup vs current: only the import list (`collapseDuplicateChallengeInstanceStates` added, `toOid2` removed)
+  and the ChallengeInstanceStates merge hunk (lines ~2281–2295) changed.
+- The consumer block is byte-identical and still at lines 2349–2352:
+  `if (config.worldState?.creditBoostMultiplier) {` adds `TotalCredits[1] * (m - 1)` to `RegularCredits` and
+  multiplies `TotalCredits[1]` by `m`.
+- The schema `src/services/configService.ts` (`creditBoostMultiplier?: number;`, line 78) is unchanged
+  (`D6F46F8B…`).
+
+**Result.** **TRUE.** The row is still correct. It was re-pinned through `tools/register_registry.py`, not by hand.
+The registrar changed one line, `consumer_sha256`. Registry SHA-256 `EEFF2087…25B0AFA` → `90D2C61A…9579C3`.
+
+| Gate | Result |
+|---|---|
+| `verify-missions` | 594/594 PASS, structure PASS |
+| `ctest` (card_stats_tests + self-test) | 2/2; self-test 132 PASS / 0 FAIL (the two environmental failures are gone) |
+| `test_presets_and_sample.py` | 12 presets PASS (36 rejections). Phase 2b default REJECTED (expected NEEDS_BINDING), opt-in 4/5 identical. 2d, 2e, 2f, 2g and 2h rebuilt identical to their recorded samples. `results.json` gained the `phase2h_sample` record that the interrupted Phase 2h run did not write. |
+
+**Limitation.** The server edit is still uncommitted in the server repository. Any further edit to that file needs another
+registrar run. The server repository was not touched.
