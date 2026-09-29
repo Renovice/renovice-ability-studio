@@ -3623,6 +3623,11 @@ namespace renovice
                     for (std::size_t n = 0; changed != std::string::npos && n < left.size(); ++n) changed += left[n] != right[n] ? 1 : 0;
                     return changed;
                 };
+                // Phase 2g multi-target source: the value lives once in the entry's settings table and the field names it.
+                const auto writes_field = [](const std::string& source, const std::string& id, const std::string& key, const std::string& value) {
+                    return contains_text(source, "[\"" + id + "\"] = { value = " + value + ",")
+                        && contains_text(source, "{ key = \"" + key + "\", setting = \"" + id + "\" }");
+                };
 
                 const MissionSetResult merged = build_mission_settings(
                     settings({{"excavation.dig_duration", 50}, {"excavation.dig_duration_elite_alert", 70}}), editor_root, mission_fixture, true);
@@ -3648,14 +3653,15 @@ namespace renovice
                     "while renovice.target.lua_call is not LIVE_CONFIRMED, rows with an exact literal form build as one exact replacement");
                 const MissionSetResult cascade = build_mission_settings(
                     probe_settings({{"void_cascade.pillar_duration", 45}, {"void_cascade.alert_reward_interval", 5}}), editor_root, mission_fixture, true);
-                bool cascade_ok = cascade.success && cascade.artifacts.size() == 1 && cascade.artifacts.front().body_key == "32c344afa33be174"
+                bool cascade_ok = cascade.success && cascade.artifacts.size() == 1 && cascade.artifacts.front().target_keys == std::vector<std::string>{"32c344afa33be174"}
                     && cascade.artifacts.front().backend == "TARGET_ADDON"
                     && mission_tunable(registry, "void_cascade.pillar_duration").contains("literal_owner");
                 if (cascade_ok)
                 {
                     const auto source = read_text(cascade.artifacts.front().source);
-                    cascade_ok = contains_text(source, "owner[\"PILLAR_DURATION\"] = 45") && contains_text(source, "owner[\"PILLAR_DURATION_CIRCLE\"] = 45")
-                        && contains_text(source, "owner[\"ALERT_REWARD_INTERVAL\"] = 5");
+                    cascade_ok = writes_field(source, "void_cascade.pillar_duration", "PILLAR_DURATION", "45")
+                        && writes_field(source, "void_cascade.pillar_duration", "PILLAR_DURATION_CIRCLE", "45")
+                        && writes_field(source, "void_cascade.alert_reward_interval", "ALERT_REWARD_INTERVAL", "5");
                 }
                 check(cascade_ok, "root-table rows of one body build one generic target addon that writes every owned field");
 
@@ -3841,9 +3847,10 @@ namespace renovice
                     const auto interval_source = source_of(Json{{"survival.reward_interval", 150}});
                     const auto kill_source = source_of(Json{{"survival.player_damage_at_zero_ls.killPlayerTime", 200}});
                     check(interval.at("stock") == 300 && kill.at("stock") == 300 && kill.at("backend") == "TARGET_ADDON"
-                            && contains_text(interval_source, "owner[\"interval\"] = 150") && !contains_text(interval_source, "killPlayerTime")
+                            && writes_field(interval_source, "survival.reward_interval", "interval", "150") && !contains_text(interval_source, "killPlayerTime")
                             && !contains_text(interval_source, "alertInterval") && contains_text(interval_source, "[67] = { before = before67 }")
-                            && contains_text(kill_source, "owner[\"killPlayerTime\"] = 200") && !contains_text(kill_source, "\"interval\""),
+                            && writes_field(kill_source, "survival.player_damage_at_zero_ls.killPlayerTime", "killPlayerTime", "200")
+                            && !contains_text(kill_source, "\"interval\""),
                         "shared-constant root-table fields build as independent addon controls (interval 150 leaves killPlayerTime unchanged)");
                     // 2026-09-29 live failure: the addon attached but no before-hook ran. Default settings must not stage it.
                     const MissionSetResult unproven = build_mission_settings(settings(Json{{"survival.reward_interval", 150}}), editor_root,
@@ -3920,7 +3927,8 @@ namespace renovice
                     if (flood_ok)
                     {
                         const auto source = read_text(flood_addon.artifacts.front().source);
-                        flood_ok = contains_text(source, "owner[\"maxFractureActive\"] = 4") && contains_text(source, "owner[\"curseCountNormal\"] = 3")
+                        flood_ok = writes_field(source, "void_flood.fractures_per_round.shadowgrapher", "maxFractureActive", "4")
+                            && writes_field(source, "void_flood.curse_count.curseCountNormal", "curseCountNormal", "3")
                             && !contains_text(source, "curseCountSteelPath");
                     }
                     check(flood_ok, "Shadowgrapher fractures per round and a curse count build as one root-table addon");
@@ -3928,8 +3936,196 @@ namespace renovice
                                                                               mission_fixture, true);
                     check(purgatory.success && purgatory.artifacts.size() == 1
                             && contains_text(read_text(purgatory.artifacts.front().source), "container = container[2]")
-                            && contains_text(read_text(purgatory.artifacts.front().source), "owner[\"ghostLevel\"] = 12"),
+                            && writes_field(read_text(purgatory.artifacts.front().source), "purgatory.difficulty2.ghost_level", "ghostLevel", "12"),
                         "a nested root table (Purgatory difficulty 2) is reached through its container path");
+                }
+
+                // Phase 2g: a settings build emits ONE multi-target addon (Inject\Missions.targets.addon.lua_B) for every
+                // addon-lane body key; exact replacements stay separate files. Gate: exact declared keys in the compiled string
+                // pool, no stray lowercase 16-hex text, no top-level hooks, and per-instance binding executed under luau.exe.
+                {
+                    const Json values{{"survival.reward_interval", 150}, {"purgatory.difficulty1.warrior_level", 15},
+                                      {"lantern.tier_up_interval", 60}, {"void_flood.fractures_per_round.normal", 4}};
+                    const std::set<std::string> expected_keys{"6fa60841c9e0f207", "caec63d8e739b693", "f10a043e7f825db2"};
+                    const MissionSetResult unified = build_mission_settings(probe_settings(values), editor_root, mission_fixture, true);
+                    const MissionArtifact* multi = nullptr;
+                    std::size_t addon_count = 0, replacement_count = 0;
+                    for (const auto& item : unified.artifacts)
+                    {
+                        if (item.backend == "TARGET_ADDON") { ++addon_count; multi = &item; }
+                        if (item.backend == "EXACT_LITERAL") ++replacement_count;
+                    }
+                    bool unified_ok = unified.success && addon_count == 1 && replacement_count == 1 && multi != nullptr
+                        && multi->artifact.filename() == "Missions.targets.addon.lua_B" && multi->body_key == "multi-target"
+                        && std::set<std::string>(multi->target_keys.begin(), multi->target_keys.end()) == expected_keys
+                        && multi->intended_live_relative_path == "OpenWF/CustomScripts/Inject/Missions.targets.addon.lua_B";
+                    std::string unified_source;
+                    if (unified_ok)
+                    {
+                        unified_source = read_text(multi->source);
+                        const Json manifest = Json::parse(read_text(multi->manifest));
+                        std::set<std::string> superseded;
+                        for (const auto& target : manifest.at("targets")) superseded.insert(target.at("supersedes").get<std::string>());
+                        const auto tail = unified_source.substr(unified_source.rfind("\nreturn {\n"));
+                        unified_ok = multi_target_declared_keys(read_text(multi->artifact)) == expected_keys
+                            && multi_target_stray_hex(unified_source, expected_keys).empty()
+                            && contains_text(tail, "    targets = {\n") && !contains_text(tail, "hooks")
+                            && !contains_text(unified_source, "owner changed")
+                            && contains_text(unified_source, "setmetatable({}, { __mode = \"k\" })")
+                            && manifest.at("scripts_menu").at("policy_id") == "target-addon:missions.targets.addon.lua_b"
+                            && manifest.at("runtime_hook").at("built_by_explicit_opt_in") == true
+                            && !manifest.contains("stock_artifact") && manifest.at("targets").size() == 3
+                            && superseded == std::set<std::string>{"6fa60841c9e0f207.missions.target.addon.lua_B",
+                                                                   "caec63d8e739b693.missions.target.addon.lua_B",
+                                                                   "f10a043e7f825db2.missions.target.addon.lua_B"}
+                            && contains_text(unified.gate_log, "multi-target-declared-keys\nPASS declared=3 expected=3");
+                    }
+                    check(unified_ok, "addon rows of three modules build ONE Missions.targets.addon.lua_B (compiled pool declares exactly their "
+                                      "keys, no top-level hooks, no owner-changed assert); the Void Flood replacement stays separate");
+
+                    // Per-instance binding, executed by the reference Luau VM on the generated source. The fixture requests one
+                    // root table per module, so the first hook of that table binds only it.
+                    bool harness_ok = false;
+                    std::string harness_output;
+                    if (unified_ok)
+                    {
+                        std::ostringstream harness;
+                        harness << "local function chunk()\n" << unified_source << "end\n\n"
+                                << "local EXPECTED_TARGETS = " << expected_keys.size() << "\nlocal cases = {\n";
+                        std::map<std::string, std::map<std::string, std::string>> owned;  // body -> table -> Lua field list
+                        for (const auto& [id, value] : values.items())
+                        {
+                            const Json& row = mission_tunable(registry, id);
+                            if (row.at("backend") != "TARGET_ADDON") continue;
+                            for (const auto& field : row.at("owner").at("fields"))
+                                owned[row.at("owner").at("body_key").get<std::string>()][field.at("table_id").get<std::string>()] +=
+                                    "{ key = " + lua_table_key(field.at("field")) + ", stock = " + format_number(row.at("stock").get<double>()) +
+                                    ", value = " + format_number(value.get<double>()) + " }, ";
+                        }
+                        for (const auto& [body, tables] : owned)
+                            for (const auto& [table_id, fields] : tables)
+                            {
+                                const Json& hook = registry.at("modules").at(body).at("root_tables").at(table_id).at("hooks").at(0);
+                                std::string path;
+                                for (const auto& key : hook.at("path")) path += lua_table_key(key) + ", ";
+                                harness << "    { key = " << lua_quote(body) << ", prototype = " << hook.at("prototype").get<int>()
+                                        << ", upvalue = " << hook.at("upvalue").get<int>() << ", path = { " << path << "}, fields = { "
+                                        << fields << "} },\n";
+                            }
+                        harness << "}\n" << R"LUA(
+local function check(condition, message)
+    if not condition then error("MULTI-TARGET HARNESS FAIL: " .. message, 0) end
+end
+local function instance(case, offset)
+    local owner = {}
+    for _, field in ipairs(case.fields) do owner[field.key] = field.stock + offset end
+    local root = owner
+    for i = #case.path, 1, -1 do root = { [case.path[i]] = root } end
+    local upvalues = {}
+    upvalues[case.upvalue] = root
+    return owner, upvalues
+end
+local function holds(owner, case, name)
+    for _, field in ipairs(case.fields) do
+        if owner[field.key] ~= field[name] then return false end
+    end
+    return true
+end
+
+local container = chunk()
+check(type(container) == "table" and container.hooks == nil and type(container.targets) == "table", "container has targets and no top-level hooks")
+local count = 0
+for key, entry in pairs(container.targets) do
+    count = count + 1
+    check(type(entry) == "table" and type(entry.activate) == "function" and type(entry.cleanup) == "function"
+        and type(entry.hooks) == "table" and type(entry.hooks.luaCalls) == "table", key .. " entry shape")
+end
+check(count == EXPECTED_TARGETS, "declared target count")
+for _, case in ipairs(cases) do
+    local entry = container.targets[case.key]
+    local before = entry.hooks.luaCalls[case.prototype].before
+    local tag = case.key .. "/" .. case.prototype
+    local first = case.fields[1]
+    local a, ua = instance(case, 0)
+    before(case.prototype, {}, ua)
+    check(holds(a, case, "stock"), tag .. " inert before activate")
+    entry.activate()
+    entry.activate()
+    before(case.prototype, {}, ua)
+    local b, ub = instance(case, 0)
+    before(case.prototype, {}, ub)
+    before(case.prototype, {}, ub)
+    check(holds(a, case, "value") and holds(b, case, "value"), tag .. " two live instances are both written")
+    a[first.key] = first.value + 1000
+    before(case.prototype, {}, ua)
+    check(a[first.key] == first.value + 1000, tag .. " each instance is written once")
+    local d, ud = instance(case, 1)
+    local ok, err = pcall(before, case.prototype, {}, ud)
+    check(not ok and string.find(tostring(err), "drifted", 1, true) ~= nil, tag .. " a drifted instance reports an error")
+    check(d[first.key] == first.stock + 1, tag .. " a drifted instance is left unchanged")
+    ok = pcall(before, case.prototype, {}, ud)
+    check(ok and d[first.key] == first.stock + 1, tag .. " a drifted instance is reported once and never written")
+    entry.cleanup()
+    entry.cleanup()
+    check(holds(b, case, "stock"), tag .. " cleanup restores every written instance")
+    check(a[first.key] == first.value + 1000, tag .. " cleanup keeps a value another owner changed")
+    local c, uc = instance(case, 0)
+    before(case.prototype, {}, uc)
+    check(holds(c, case, "stock"), tag .. " inert after cleanup")
+    entry.activate()
+    before(case.prototype, {}, ub)
+    check(holds(b, case, "value"), tag .. " re-activation binds a restored instance again")
+    entry.cleanup()
+    check(holds(b, case, "stock"), tag .. " the second cleanup restores it")
+    print("PASS " .. tag)
+end
+local other = chunk()
+check(other.targets[cases[1].key] ~= container.targets[cases[1].key], "each binding runs its own chunk state")
+print("MULTI-TARGET HARNESS PASS cases=" .. #cases)
+)LUA";
+                        const fs::path harness_path = mission_fixture / "multi_target_harness.luau";
+                        write_text(harness_path, harness.str());
+                        const fs::path luau = resolve_workspace_path(editor_root, "repos", "de_luau_toolchain") / "bin/luau.exe";
+                        const ProcessResult run = run_process(quote_process_argument(luau) + " " + quote_process_argument(harness_path), mission_fixture);
+                        harness_ok = run.exit_code == 0 && contains_text(run.output, "MULTI-TARGET HARNESS PASS cases=3");
+                        if (!harness_ok) harness_output = run.output;
+                    }
+                    check(harness_ok, "the generated entries bind every live instance once (weak-keyed), skip a drifted instance with one error, "
+                                      "and restore every written instance in cleanup (luau.exe, 3 modules)" + harness_output);
+
+                    // No-stray-hex rule: the source check and the loader-equivalent pool reader.
+                    std::string pool{'\x09', '\x03', '\x03', '\x10'};
+                    pool += "0123456789abcdef";
+                    pool += '\x10';
+                    pool += "0123456789ABCDEF";
+                    pool += '\x03';
+                    pool += "abc";
+                    bool zero_rejected = false;
+                    try { static_cast<void>(multi_target_declared_keys(std::string{'\x09', '\x03', '\x01', '\x10'} + std::string(16, '0'))); }
+                    catch (const std::exception&) { zero_rejected = true; }
+                    check(unified_ok && !multi_target_stray_hex(unified_source + "-- 0123456789abcdef\n", expected_keys).empty()
+                            && !multi_target_stray_hex(unified_source + "-- f10a043e7f825db2\n", expected_keys).empty()
+                            && !multi_target_stray_hex(unified_source + "-- 0123456789abcdef0\n", expected_keys).empty()
+                            && multi_target_stray_hex(unified_source + "-- F10A043E7F825DB2\n", expected_keys).empty()
+                            && multi_target_declared_keys(pool) == std::set<std::string>{"0123456789abcdef"} && zero_rejected,
+                        "stray or repeated lowercase 16-hex text is rejected, uppercase is ignored, and the pool reader matches the loader rules");
+                    Json stray_registry = registry;
+                    stray_registry["modules"]["6fa60841c9e0f207"]["module_path"] = "Lotus.Scripts.Modes.Purgatory0123456789abcdef";
+                    const MissionSetResult stray = build_mission_set(stray_registry, values,
+                        MissionNaming{"missions-selftest", "missions", "missions", "RENOVICE_Missions.txt", false, "", {"renovice.target.lua_call"}},
+                        editor_root, mission_fixture, true, nullptr);
+                    check(!stray.success && !stray.diagnostics.empty()
+                            && contains_text(stray.diagnostics.front().message, "multi-target-declared-keys failed")
+                            && contains_text(stray.diagnostics.front().message, "stray lowercase hex text '0123456789abcdef'"),
+                        "a generated string that would become an extra declared key fails the multi-target build closed");
+
+                    // Template-only rows bind one owner per activation (not multi-instance safe) and stay with their preset.
+                    const MissionSetResult template_row = build_mission_settings(probe_settings({{"survival.pickup_reward_progress", 5}}),
+                                                                                 editor_root, mission_fixture, true);
+                    check(!template_row.success && template_row.artifacts.empty() && !template_row.diagnostics.empty()
+                            && contains_text(template_row.diagnostics.front().message, "not multi-instance safe")
+                            && contains_text(template_row.diagnostics.front().message, "'survival' preset"),
+                        "a template-only addon row fails closed in the multi-target file and names its preset");
                 }
 
                 // Phase 2d: a metadata control carried by two Scripts entries (gameplay + HUD) is patched in both.

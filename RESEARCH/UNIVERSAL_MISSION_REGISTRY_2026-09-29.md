@@ -729,3 +729,157 @@ Acceptance log lines after a runtime fix: `RENOVICE native hook PASS key=f10a043
 - Survival reward interval, Purgatory difficulty and every other addon-only row cannot be delivered until the runtime
   change above is live-accepted, or until a constant-split replacement primitive exists.
 - The Phase 2e sample folder is left untouched as dated evidence of the installed (inert) artifacts.
+
+## Phase 2g — one multi-target Missions addon with per-instance binding (2026-09-29)
+
+**Build.** Client `2026.09.28.13.06` (Hotfix 44.0.2). Registry unchanged: SHA-256 `EEFF2087…25B0AFA`. Runtime contract:
+bootstrapper-runtime `feat/multi-target-addon` `67cd256`
+(`RESEARCH/MULTI_TARGET_ADDON_AND_ROOT_BINDING_2026-09-29/README.md`, repo copy of `OpenWF/CustomScripts/HOW_TO_ADD_SCRIPTS.md`).
+**Scope.** Generator and gates only. Offline; nothing was written to a game or server folder. The installed files were
+only hashed (read-only) to name what the sample replaces.
+
+### Goal
+
+One **Missions** row in the in-game Scripts menu instead of one file and one row per mission module. Later, the same
+script is meant to expose every mission value for in-game editing (F12 overlay; not built here). Its reserved `label` and
+`settings` fields are emitted now so that the overlay has one place to read the values from.
+
+### Hypotheses and results
+
+| # | Hypothesis | Result |
+|---|---|---|
+| H25 | Every addon-lane body key of a settings build fits in ONE `Inject\Missions.targets.addon.lua_B` without a runtime change. | **TRUE (offline).** The runtime (67cd256) expands `targets["<key>"]` into one ordinary target binding per key. The generator emits one entry per body key; replacements, metadata and server rows are unchanged. |
+| H26 | The compiled file declares exactly the addon body keys: no generated string (tunable ids, table ids, module paths, labels, messages) is lowercase 16-hex. | **TRUE.** The editor's own pool reader (the loader's `09 03 | varint count | {varint length, bytes}` rules) and the bootstrapper's `verify_multi_target_addon.exe` (built from 67cd256, running the real `discover_multi_target_keys`) both read exactly `6fa60841c9e0f207`, `caec63d8e739b693`, `f10a043e7f825db2` from the sample artifact (`MULTI-TARGET ADDON PASS declared_targets=3`). Keys occur only as `targets` keys; comments name modules by path. |
+| H27 | The Phase 2e generic root-table generator is safe when hooks fire for every live instance. | **FALSE.** It cached the first table (`tableN`) and asserted `owner changed` for any other table. With 67cd256 attributing `luaCalls` by exact prototype for every instance, a second module instance would raise on every hooked call and never be written; cleanup restored only the first table. The generator is replaced (below). |
+| H28 | Weak-keyed per-table binding meets the instance contract: each live table written once after its stock check, a drifted table skipped with one error, every written table restored in cleanup, lifecycle idempotent and repeatable. | **TRUE (offline, executed).** The generated source runs under the reference Luau VM (`de-luau-toolchain/bin/luau.exe`) in the new self-test harness for all 3 modules (see Gate results). |
+| H29 | The established Survival/Interception template addons can be embedded as entries unchanged. | **FALSE.** Both bind one owner per activation (`configured`, module-global state); the Survival template asserts `owner changed`. Template-only rows (`survival.pickup_reward_progress`, `interception.score_rate`) now fail closed in a settings build with the exact reason and the preset that still builds them (`survival`, `interception`, single-key files, byte-identical). |
+
+### Design
+
+- **One file per settings build.** `build-missions` puts every body key whose rows are on the addon lane into
+  `artifacts/Missions.targets.addon.lua_B` (source `source/Missions.targets.addon.luau`). Exact replacements stay separate
+  files, one per body key; one body key still never gets both. Presets (`single_artifact`) keep their established
+  `<key>.mission_<id>.target.addon.lua_B` file and bytes.
+- **Returned value.** `return { label = "Missions", targets = { ["<key>"] = targetN(), ... } }`. There is no top-level
+  `hooks` and no top-level lifecycle. Each entry has its own `activate`, `cleanup` and `hooks = { luaCalls = { [P] = { before = … } } }`,
+  plus the reserved `label` (module path) and `settings` (`{ ["<tunable_id>"] = { value = …, stock = … } }`). The runtime
+  ignores both reserved fields. The entry's code reads its values from that one `settings` table.
+- **Per-instance binding** (`ownedTable(tag, settings, fields)`, shared helper emitted once):
+  - `bound = setmetatable({}, { __mode = "k" })` maps each live table to the values written, or to `false` if it drifted.
+    Weak keys let the collector drop tables of finished instances. `setmetatable`/`__mode` are used by stock DE code
+    (`Lotus.Scripts.HubNpc`), and the compiled file resolves `setmetatable`/`pairs`/`assert`/`type` by name like the earlier addons (`hashed-globals=0`).
+  - A hook resolves the table from **that call's** `upvalues` (and container path), never from a cached owner. A table
+    already in `bound` returns at once (idempotent; one table lookup per call on hot prototypes).
+  - Stock check before the write: every owned field must hold its registered stock value. On drift the table is marked
+    `false` and the call fails with `<module path> <table id> stock values drifted; this instance is left unchanged`; later calls skip it silently (reported once).
+  - `cleanup` restores every table it wrote whose field still holds the written value, and clears the record, so the
+    next activation (rollback, F9, root-return rebind) binds again from stock. Fields another owner changed are left alone.
+- **Declaration gate** (`multi-target-declared-keys`, in every multi-target build): the compiled pool must declare exactly
+  the addon body keys; the source must hold no other run of 16 or more lowercase hex digits and each key exactly once;
+  the file must be smaller than 1 MiB and declare at most 1,024 keys. The gate runs after the existing
+  `source-compile`, `source-plan`, `u44-compile` and `de-roundtrip` gates.
+- **Manifests.** The addon record has `body_key = "multi-target"`, `target_keys`, and one `targets[]` record per module
+  (module path, tunables, stock body path and SHA-256, and `supersedes`: the per-module file it replaces). It also has
+  `scripts_menu` (`[ADDON] Missions`, `target-addon:missions.targets.addon.lua_b`) and the unchanged `runtime_hook`
+  record. The CLI prints one `Target:` line per key.
+- **Hook status gate kept.** `renovice.target.lua_call` stays `OFFLINE_VERIFIED`; the addon lane is used only with the
+  settings opt-in `"allow_unproven_hook_bindings": ["renovice.target.lua_call"]`, and the build warns `HOOK_UNPROVEN`. The
+  warning is now added only after the addon is actually staged, so a failed build reports its error first.
+
+### Gate results (offline)
+
+| Gate | Result |
+|---|---|
+| `verify-missions` | 594/594 PASS (TARGET_ADDON 289, EXACT_LITERAL 242, METADATA_PATCH 62, SERVER_CONFIG 1); structure PASS; registry SHA-256 unchanged |
+| C++ build (`-Wall -Wextra -Wpedantic -Werror`) | 0 warnings, 0 errors |
+| CTest | 2/2 PASS |
+| C++ self-test | 130/130 PASS (125 + 5 new, below) |
+| Managed Dev tests | 162/162 PASS |
+| WPF App / Dev (`--no-incremental`) | 0 warnings, 0 errors each |
+| `test_phase2e_gates.py` / `test_phase2d_gates.py` | 7 PASS / 7 PASS; template census unchanged (766 / 1187) |
+| Presets (`test_presets_and_sample.py`) | 12 PASS, all byte-identical to the previous run; 36 rejections |
+| Phase 2b / 2d / 2e settings, opt-in rebuild | 4/5, 8/9, 1/4 byte-identical. Every difference is an addon now carried by the Missions file (by design). Default builds unchanged (2b/2e NEEDS_BINDING, 2d PASS). |
+| Phase 2f sample rebuild | both replacements byte-identical |
+| Phase 2g sample | built twice; artifacts identical (deterministic) |
+| Bootstrapper loader discovery (`verify_multi_target_addon.exe`, 67cd256) on the Phase 2g artifact | `MULTI-TARGET ADDON PASS`, 6,043 bytes, declared_targets=3 |
+
+New self-test checks:
+1. Survival + Purgatory + Lantern (opt-in) + Void Flood build exactly one addon, `Missions.targets.addon.lua_B`, and one
+   replacement. The compiled pool declares exactly the 3 keys; the source has no stray hex; the returned table has
+   `targets` and no top-level hooks; there is no `owner changed`; the manifest records the policy ID, the opt-in and the 3 superseded per-module files.
+2. **Per-instance harness** (luau.exe, generated source unchanged, one case per module). Hooks are inert before
+   `activate`. Two live instances are both written. A repeated call does not rewrite a table. A drifted instance errors
+   once and is never written. Double `activate`/`cleanup` are safe. Cleanup restores every written instance and keeps a
+   value changed by another owner. Hooks are inert after cleanup. Re-activation binds a restored instance again. Two chunk runs (two bindings) have separate state.
+3. **No-stray-hex rule.** A stray lowercase 16-hex run, a repeated key, or a 17-digit run is rejected; uppercase is ignored.
+   The pool reader matches the loader (uppercase is not declared; the zero key is rejected).
+4. A registry string that would compile to an extra declaration (module path `…Purgatory0123456789abcdef`) fails the
+   build closed with `multi-target-declared-keys failed: stray lowercase hex text '0123456789abcdef'`.
+5. A template-only row (`survival.pickup_reward_progress`) fails closed with `not multi-instance safe` and names the `survival` preset.
+
+Existing checks were updated for the new source form (value in the entry's `settings`, field named by
+`{ key = …, setting = … }`): Void Cascade 3 fields, Survival `interval` vs `killPlayerTime`, Void Flood Shadowgrapher and
+curse, and Purgatory nested difficulty 2.
+
+`test_presets_and_sample.py` compares multi-target artifacts per covered body key. It now **never rewrites a recorded
+sample folder**: an existing folder is compared by artifact hash and left untouched, and only a missing folder is created.
+Before that fix, the first run of this phase rebuilt `phase2f-sample` in place, as the Phase 2f script always did. Its
+two artifacts and the recorded `phase2f_sample` entry in `test-results/results.json` are identical. The folder's
+`SHA256SUMS.json` changed from `852042D9…82E8D845` to `D86E2A25…E2CF7B51`, and the prior ancillary files (logs, manifests,
+settings copies) were not preserved.
+
+### Phase 2g sample output (live-test set)
+
+Location: `work/research/universal-mission-editor-2026-09-29/phase2g-sample/`. Settings: `survival.reward_interval` 150,
+`purgatory.difficulty1.warrior_level` 15, `lantern.tier_up_interval` 60 (addon lane via the opt-in), and
+`void_flood.fractures_per_round.normal` 4 (replacement), with `allow_unproven_hook_bindings: ["renovice.target.lua_call"]`.
+`SHA256SUMS.json` (SHA-256 `C7142325…EF334151`) lists every file.
+
+| Artifact | Install to | Covers | SHA-256 | Bytes |
+|---|---|---|---|---:|
+| `Missions.targets.addon.lua_B` | `OpenWF\CustomScripts\Inject\` | Purgatory `6fa60841c9e0f207`, Lantern `caec63d8e739b693`, Survival `f10a043e7f825db2` | `00DA193D03D43472D4DF98806E7A532A82F449E17FA82E07624CC2F9816A773E` | 6,043 |
+| `fc711ff621a75552 (missions_exact-replacement).lua_B` | `OpenWF\CustomScripts\` | Void Flood fractures per round 3 → 4 | `E979F5E7906F0D88E49C42B4191ECA6AFDC1237FDDD91D52CBF427DB3FA9F6D2` | 112,244 |
+
+Source `Missions.targets.addon.luau` SHA-256 `FAA6149F…0E14C2`.
+
+**Migration against the installed files** (read-only hash check on 2026-09-29; installed `wtsapi32.dll` is `83e74faf…51a9`,
+the 67cd256 multi-target build):
+
+- `Missions.targets.addon.lua_B` replaces all three installed Phase 2e per-module addons. Remove them, or the hooks bind twice:
+  - `Inject\f10a043e7f825db2.missions.target.addon.lua_B` (`CEF8808F…`)
+  - `Inject\caec63d8e739b693.missions.target.addon.lua_B` (`228754AF…`)
+  - `Inject\6fa60841c9e0f207.missions.target.addon.lua_B` (`043176EC…`)
+- The installed root `fc711ff621a75552 (missions_exact-replacement).lua_B` is already byte-identical (`E979F5E7…`), so
+  no change is needed.
+- The old `ScriptStates.json` IDs of the three per-module files become harmless orphans.
+
+### Limitations
+
+- **Offline evidence only.** No live claim. `renovice.target.lua_call` stays `OFFLINE_VERIFIED` until two unrelated
+  live passes (for example Survival and Purgatory) confirm dispatch; then the registry row is flipped and the opt-in is no longer needed.
+- **Double binding.** A per-module mission addon, or a Survival/Interception preset file for a key the Missions file also
+  covers, binds a second time if it stays installed. The per-target `supersedes` record names the files to remove.
+- **Template-only rows** (`survival.pickup_reward_progress`, `interception.score_rate`) are not in the Missions file. They
+  build only through their presets until a per-instance form exists.
+- **Harness coverage.** The luau harness drives one root table per module, through its first hook. A prototype binding
+  several tables and container paths deeper than one step are covered by the same generated code, but not executed by the harness.
+- **Rebind window.** On a root-return rebind, cleanup restores every instance's table and the new binding writes each
+  again at that table's next hooked capturer call. Gate `ROOT_TABLE_UPVALUE_V1` condition 3 (all capturers hooked) means
+  no stock code reads the table in between without a hook running first.
+- **Drift reporting.** A drifted table is reported once per binding. It is logged through the runtime's sampled
+  `luaCalls.before protected leaf FAIL` line with the bounded error text.
+
+### Suggested live checks (need explicit user authorization to deploy)
+
+With the game closed, remove the three per-module addons, then copy the Missions file (the replacement is already
+installed). Then check:
+
+- **Scripts menu.** Exactly one row, `[ADDON] Missions`, tooltip `target 3 modules`.
+- **`renovice_source.log`.** No `MULTI-TARGET ADDON REJECT`, `multi_target_reason=`, or `stock values drifted`. `TARGET ADDON PASS` per module as it loads.
+- **Survival.** `native hook PASS key=f10a043e7f825db2 event=luaCalls.61.before` (or `.67.before`). In `EE.log`,
+  `Survival: Host - first reward` appears about 150 s after `State Change: ENDLESS`. The zero-LS kill timer stays at 300 s.
+- **Purgatory.** Difficulty 1 warriors spawn at level 15 (`luaCalls.37.before`).
+- **Lantern.** The lantern tier rises every 60 s (`luaCalls.14.before`).
+- **Void Flood.** 4 fractures per round.
+- **Regression.** F9 reload is PASS with the Missions row unchanged. Disabling the row and pressing F9 runs cleanup, which
+  restores the stock values. Mallet, Ice Wave, ESO and Circuit are unchanged.

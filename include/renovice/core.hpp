@@ -55,6 +55,7 @@ namespace renovice
         std::string sha256;
         std::uintmax_t size = 0;
         std::string intended_live_relative_path;
+        std::vector<std::string> target_keys;  // multi-target addon only: declared module body keys
     };
 
     struct MissionSetResult

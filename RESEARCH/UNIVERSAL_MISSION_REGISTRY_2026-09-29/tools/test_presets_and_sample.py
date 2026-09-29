@@ -1,6 +1,6 @@
 """Offline regression for the 44.0.2 mission registry: 12 preset builds through the registry path, 3 rejections per
 preset, rebuilds of the Phase 2b/2d/2e sample settings with default settings and with the live-acceptance opt-in
-(compared with their recorded manifests, folders left untouched) and the Phase 2f sample group build. Writes only to
+(compared with their recorded manifests, folders left untouched) and the Phase 2f/2g sample group builds. Writes only to
 work/staging and the Phase 1 research folder.
 No game or server folder is written. Requires the built CLI (work/builds/ability-editor/current)."""
 from pathlib import Path
@@ -117,12 +117,48 @@ def probe(settings):
     return dict(settings, allow_unproven_hook_bindings=[LUA_CALL])
 
 
+def per_body(manifest):
+    """Per-body view of a set manifest. Phase 2g: one multi-target addon covers several body keys; each covered body is
+    compared against its recorded single-key artifact (never byte-identical: the file format changed by design)."""
+    rows = []
+    for a in manifest['artifacts']:
+        if a.get('target_keys'):
+            for target in a['targets']:
+                rows.append(dict(a, body_key=target['body_key'], tunables=target['tunables'], multi_target=a['path']))
+        else:
+            rows.append(a)
+    return rows
+
+
+def sample(folder, settings, name, extra_files):
+    """Builds a sample into staging. A recorded sample folder is dated evidence and is never rewritten: its artifacts
+    must be byte-identical to the rebuild. Only a missing folder is created (settings, extra files, generation, sums)."""
+    generation, manifest = build(settings, name)
+    assert generation is not None, manifest
+    built = {p.name: hashlib.sha256(p.read_bytes()).hexdigest().upper() for p in (generation / 'artifacts').iterdir()}
+    if (folder / 'SHA256SUMS.json').exists():
+        recorded = json.loads((folder / 'SHA256SUMS.json').read_text())
+        recorded = {k.split('/')[-1]: v for k, v in recorded.items() if k.startswith('generation/artifacts/')}
+        assert recorded == built, (folder.name, 'rebuilt artifacts differ from the recorded sample', recorded, built)
+        return manifest, 'identical to the recorded sample (folder untouched)'
+    folder.mkdir(parents=True)
+    (folder / 'mission_settings.json').write_text(json.dumps(settings, indent=2) + '\n')
+    for file_name, value in extra_files.items():
+        (folder / file_name).write_text(json.dumps(value, indent=2) + '\n')
+    shutil.copytree(generation, folder / 'generation')
+    hashes = {p.relative_to(folder).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest().upper()
+              for p in sorted(folder.rglob('*')) if p.is_file()}
+    (folder / 'SHA256SUMS.json').write_text(json.dumps(hashes, indent=2) + '\n')
+    return manifest, 'created'
+
+
 def compare(recorded, manifest):
     before = {a['body_key']: a for a in recorded['artifacts']}
-    assert sorted(before) == sorted(a['body_key'] for a in manifest['artifacts'])
+    now = per_body(manifest)
+    assert sorted(before) == sorted(a['body_key'] for a in now)
     return [{'body_key': a['body_key'], 'tunables': a['tunables'], 'backend_before': before[a['body_key']]['backend'],
              'backend_now': a['backend'], 'identical': before[a['body_key']]['sha256'] == a['sha256'], 'sha256_now': a['sha256'],
-             'runtime_hook': a.get('runtime_hook')} for a in manifest['artifacts']]
+             'multi_target_artifact': a.get('multi_target'), 'runtime_hook': a.get('runtime_hook')} for a in now]
 
 
 for folder, name in [(SAMPLE, 'sample2b'), (SAMPLE2D, 'sample2d'), (SAMPLE2E, 'sample2e')]:
@@ -156,22 +192,34 @@ for tid in ('survival.reward_interval', 'purgatory.difficulty1.warrior_level'):
     generation, text = build(dict(base_settings, values={tid: PHASE2E_VALUES[tid]}), 'sample2f-reject-' + tid.split('.')[0])
     assert generation is None and 'NEEDS_BINDING' in text and tid in text and LUA_CALL in text, text
     rejected[tid] = next(l for l in text.splitlines() if 'NEEDS_BINDING' in l).strip()
-if SAMPLE2F.exists():
-    shutil.rmtree(SAMPLE2F)
-SAMPLE2F.mkdir(parents=True)
 settings2f = dict(base_settings, values=buildable)
-(SAMPLE2F / 'mission_settings.json').write_text(json.dumps(settings2f, indent=2) + '\n')
-(SAMPLE2F / 'rejected_rows.json').write_text(json.dumps({'requested': PHASE2E_VALUES, 'rejected': rejected}, indent=2) + '\n')
-generation, manifest2f = build(settings2f, 'sample2f')
-assert generation is not None, manifest2f
-shutil.copytree(generation, SAMPLE2F / 'generation')
+manifest2f, state2f = sample(SAMPLE2F, settings2f, 'sample2f', {'rejected_rows.json': {'requested': PHASE2E_VALUES, 'rejected': rejected}})
 assert [a['backend'] for a in manifest2f['artifacts']] == ['EXACT_LITERAL', 'EXACT_LITERAL'], manifest2f['artifacts']
 assert sorted(t for a in manifest2f['artifacts'] for t in a['tunables']) == sorted(buildable)
-hashes = {p.relative_to(SAMPLE2F).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest().upper()
-          for p in sorted(SAMPLE2F.rglob('*')) if p.is_file()}
-(SAMPLE2F / 'SHA256SUMS.json').write_text(json.dumps(hashes, indent=2) + '\n')
 results['phase2f_sample'] = {'values': buildable, 'artifacts': manifest2f['artifacts'], 'rejected': rejected,
                              'location': SAMPLE2F.relative_to(ROOT).as_posix()}
+print(f"PASS phase2f sample artifacts={len(manifest2f['artifacts'])} rejected={sorted(rejected)} ({state2f})")
+
+# Phase 2g sample: the live-test set with the explicit opt-in. Every addon-lane body key goes into ONE multi-target addon
+# (Inject/Missions.targets.addon.lua_B); the Void Flood fracture count stays a separate exact replacement.
+SAMPLE2G = ROOT / 'work/research/universal-mission-editor-2026-09-29/phase2g-sample'
+PHASE2G_VALUES = {
+    'survival.reward_interval': 150,               # Survival root table (shared constant with killPlayerTime), addon only
+    'purgatory.difficulty1.warrior_level': 15,     # Purgatory nested difficulty table, addon only
+    'lantern.tier_up_interval': 60,                # Lantern spawn config, addon lane (literal form exists)
+    'void_flood.fractures_per_round.normal': 4,    # root local, exact replacement
+}
+settings2g = probe(dict(base_settings, values=PHASE2G_VALUES))
+manifest2g, state2g = sample(SAMPLE2G, settings2g, 'sample2g', {})
+addons = [a for a in manifest2g['artifacts'] if a['backend'] == 'TARGET_ADDON']
+literals = [a for a in manifest2g['artifacts'] if a['backend'] == 'EXACT_LITERAL']
+assert len(addons) == 1 and len(literals) == 1 and len(manifest2g['artifacts']) == 2, manifest2g['artifacts']
+assert addons[0]['path'] == 'artifacts/Missions.targets.addon.lua_B', addons[0]['path']
+assert sorted(addons[0]['target_keys']) == ['6fa60841c9e0f207', 'caec63d8e739b693', 'f10a043e7f825db2'], addons[0]['target_keys']
+assert addons[0]['runtime_hook']['registry_status'] == 'OFFLINE_VERIFIED' and addons[0]['runtime_hook']['built_by_explicit_opt_in']
+assert literals[0]['body_key'] == 'fc711ff621a75552'
+results['phase2g_sample'] = {'values': PHASE2G_VALUES, 'allow_unproven_hook_bindings': [LUA_CALL],
+                             'artifacts': manifest2g['artifacts'], 'location': SAMPLE2G.relative_to(ROOT).as_posix()}
 (OUT / 'results.json').write_text(json.dumps(results, indent=2) + '\n')
-print(f"PASS phase2f sample artifacts={len(manifest2f['artifacts'])} rejected={sorted(rejected)}")
+print(f"PASS phase2g sample: 1 multi-target addon ({len(addons[0]['target_keys'])} targets) + {len(literals)} replacement ({state2g})")
 print(f"PASS {len(results['presets'])} preset builds, {results['rejections']} rejections")

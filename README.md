@@ -460,7 +460,7 @@ All six choices export as one ConquestLib replacement through **Build + Save Mis
 & "..\..\..\work\builds\ability-editor\current\bin\renovice_ability_editor_cli.exe" build-missions ".\mission_settings.json" --staging "..\..\..\work\staging\missions" --editor-root "."
 ```
 
-`build-missions` takes `{"format":"RENOVICE_MISSION_SETTINGS_V1","build":"2026.09.28.13.06","values":{"<tunable_id>":number}}` and writes at most one artifact per module body key (merged exact replacement or one target addon; both for one body is rejected), one `RENOVICE_Missions.txt` metadata patch and an unapplied `server-config-diff.json`. It never writes a game or server folder. Offline gates only; in-game verification is pending. [Registry, gates and limitations](RESEARCH/UNIVERSAL_MISSION_REGISTRY_2026-09-29.md).
+`build-missions` takes `{"format":"RENOVICE_MISSION_SETTINGS_V1","build":"2026.09.28.13.06","values":{"<tunable_id>":number}}` and writes one merged exact replacement per module body key that uses the literal lane, one multi-target addon `Inject\Missions.targets.addon.lua_B` (one Scripts row, `[ADDON] Missions`) covering every body key on the addon lane, one `RENOVICE_Missions.txt` metadata patch and an unapplied `server-config-diff.json`. One body key never gets both a replacement and an addon entry. The addon lane needs the explicit `"allow_unproven_hook_bindings": ["renovice.target.lua_call"]` opt-in until that hook binding is `LIVE_CONFIRMED`. Presets keep their established single-key files. It never writes a game or server folder. Offline gates only; in-game verification is pending. [Registry, gates and limitations](RESEARCH/UNIVERSAL_MISSION_REGISTRY_2026-09-29.md).
 
 ## Linked ability stats (2026-09-27)
 

@@ -257,6 +257,10 @@ int main(int argc, char** argv)
             {
                 std::cout << "Artifact: " << artifact.backend << ' ' << artifact.body_key << ' '
                           << artifact.sha256 << ' ' << artifact.artifact.string() << '\n';
+                for (const std::string& key : artifact.target_keys)
+                {
+                    std::cout << "  Target: " << key << '\n';
+                }
             }
             if (!result.server_config_diff.empty())
             {
