@@ -3607,6 +3607,14 @@ namespace renovice
                 const auto settings = [&](const Json& values) {
                     return Json{{"format", "RENOVICE_MISSION_SETTINGS_V1"}, {"build", registry.at("build")}, {"values", values}};
                 };
+                // Target addons act only through hook binding renovice.target.lua_call. While it is not LIVE_CONFIRMED the
+                // automatic lane refuses addon-only rows (NEEDS_BINDING); the addon generator itself is exercised through
+                // the explicit live-acceptance opt-in.
+                const auto probe_settings = [&](const Json& values) {
+                    Json value = settings(values);
+                    value["allow_unproven_hook_bindings"] = Json::array({"renovice.target.lua_call"});
+                    return value;
+                };
                 const auto site_of = [&](const std::string& id, const std::size_t index) -> const Json& {
                     return mission_tunable(registry, id).at("owner").at("sites").at(index);
                 };
@@ -3633,8 +3641,13 @@ namespace renovice
 
                 // Phase 2e: root-table rows of one body (carried-over preset row + Phase 2d row) are routed to ONE generic
                 // target addon that writes each field; the preset keeps its literal form (literal_owner).
-                const MissionSetResult cascade = build_mission_settings(
+                const MissionSetResult cascade_default = build_mission_settings(
                     settings({{"void_cascade.pillar_duration", 45}, {"void_cascade.alert_reward_interval", 5}}), editor_root, mission_fixture, true);
+                check(cascade_default.success && cascade_default.artifacts.size() == 1 && cascade_default.artifacts.front().backend == "EXACT_LITERAL"
+                        && cascade_default.artifacts.front().tunables.size() == 2,
+                    "while renovice.target.lua_call is not LIVE_CONFIRMED, rows with an exact literal form build as one exact replacement");
+                const MissionSetResult cascade = build_mission_settings(
+                    probe_settings({{"void_cascade.pillar_duration", 45}, {"void_cascade.alert_reward_interval", 5}}), editor_root, mission_fixture, true);
                 bool cascade_ok = cascade.success && cascade.artifacts.size() == 1 && cascade.artifacts.front().body_key == "32c344afa33be174"
                     && cascade.artifacts.front().backend == "TARGET_ADDON"
                     && mission_tunable(registry, "void_cascade.pillar_duration").contains("literal_owner");
@@ -3668,7 +3681,7 @@ namespace renovice
                         && static_cast<unsigned char>(read_text(conquest_build.artifacts.front().artifact)[46823 + 2]) == 4,
                     "re-registered ConquestLib builds one replacement from the 44.0.2 stock body");
 
-                const MissionSetResult mixed = build_mission_settings(settings({
+                const MissionSetResult mixed = build_mission_settings(probe_settings({
                     {"netracell.enemy_power_fill", 2}, {"shrine.offering_generation_time", 15},
                     {"mobiledefense.total_time.minimum", 90}, {"survival.reward_interval", 150},
                     {"server.credit_boost_multiplier", 2}}), editor_root, mission_fixture, true);
@@ -3698,7 +3711,7 @@ namespace renovice
                         && !build_mission_settings(settings({{"void_cascade.pillar_duration", 22.5}}), editor_root, mission_fixture, true).success,
                     "out-of-range and non-whole-number literal operands fail closed");
 
-                const MissionNaming group_naming{"missions-selftest", "missions", "missions", "RENOVICE_Missions.txt", false, ""};
+                const MissionNaming group_naming{"missions-selftest", "missions", "missions", "RENOVICE_Missions.txt", false, "", {}};
                 Json hash_mismatch = registry;
                 hash_mismatch["modules"]["f7444e3c621ff018"]["sha256"] = std::string(64, '0');
                 const MissionSetResult rejected_hash = build_mission_set(hash_mismatch, Json{{"excavation.dig_duration", 50}},
@@ -3821,7 +3834,7 @@ namespace renovice
                     const Json interval = mission_tunable(registry, "survival.reward_interval");
                     const Json kill = mission_tunable(registry, "survival.player_damage_at_zero_ls.killPlayerTime");
                     const auto source_of = [&](const Json& values) {
-                        const MissionSetResult built = build_mission_settings(settings(values), editor_root, mission_fixture, true);
+                        const MissionSetResult built = build_mission_settings(probe_settings(values), editor_root, mission_fixture, true);
                         return built.success && built.artifacts.size() == 1 && built.artifacts.front().backend == "TARGET_ADDON"
                             ? read_text(built.artifacts.front().source) : std::string();
                     };
@@ -3832,6 +3845,38 @@ namespace renovice
                             && !contains_text(interval_source, "alertInterval") && contains_text(interval_source, "[67] = { before = before67 }")
                             && contains_text(kill_source, "owner[\"killPlayerTime\"] = 200") && !contains_text(kill_source, "\"interval\""),
                         "shared-constant root-table fields build as independent addon controls (interval 150 leaves killPlayerTime unchanged)");
+                    // 2026-09-29 live failure: the addon attached but no before-hook ran. Default settings must not stage it.
+                    const MissionSetResult unproven = build_mission_settings(settings(Json{{"survival.reward_interval", 150}}), editor_root,
+                                                                             mission_fixture, true);
+                    check(!unproven.success && unproven.artifacts.empty() && !unproven.diagnostics.empty()
+                            && contains_text(unproven.diagnostics.front().message, "NEEDS_BINDING")
+                            && contains_text(unproven.diagnostics.front().message, "survival.reward_interval")
+                            && contains_text(unproven.diagnostics.front().message, "renovice.target.lua_call")
+                            && contains_text(unproven.diagnostics.front().message, "OFFLINE_VERIFIED"),
+                        "an addon-only row fails closed with NEEDS_BINDING while renovice.target.lua_call is not LIVE_CONFIRMED");
+                    const MissionSetResult probe = build_mission_settings(probe_settings(Json{{"survival.reward_interval", 150}}), editor_root,
+                                                                          mission_fixture, true);
+                    bool probe_ok = probe.success && probe.artifacts.size() == 1 && probe.artifacts.front().backend == "TARGET_ADDON"
+                        && std::any_of(probe.diagnostics.begin(), probe.diagnostics.end(),
+                                       [](const Diagnostic& d) { return d.severity == Severity::warning && d.code == "HOOK_UNPROVEN"; });
+                    if (probe_ok)
+                    {
+                        const Json manifest = Json::parse(read_text(probe.artifacts.front().manifest));
+                        const Json set = Json::parse(read_text(probe.manifest));
+                        probe_ok = manifest.at("runtime_hook").at("binding") == "renovice.target.lua_call"
+                            && manifest.at("runtime_hook").at("registry_status") == "OFFLINE_VERIFIED"
+                            && manifest.at("runtime_hook").at("live_confirmed") == false
+                            && manifest.at("runtime_hook").at("built_by_explicit_opt_in") == true
+                            && set.at("artifacts").at(0).at("runtime_hook") == manifest.at("runtime_hook")
+                            && set.at("allow_unproven_hook_bindings") == Json::array({"renovice.target.lua_call"});
+                    }
+                    check(probe_ok, "the explicit live-acceptance opt-in stages the addon, warns HOOK_UNPROVEN and records the binding status");
+                    Json unknown_binding = settings(Json{{"survival.reward_interval", 150}});
+                    unknown_binding["allow_unproven_hook_bindings"] = Json::array({"renovice.target.not_a_binding"});
+                    const MissionSetResult rejected_binding = build_mission_settings(unknown_binding, editor_root, mission_fixture, true);
+                    check(!rejected_binding.success && !rejected_binding.diagnostics.empty()
+                            && contains_text(rejected_binding.diagnostics.front().message, "unregistered hook binding"),
+                        "an opt-in that names an unregistered hook binding fails closed");
                     const auto rejects_addon = [&](const std::function<void(Json&)>& mutate, const std::string& reason) {
                         Json tampered = registry;
                         mutate(tampered);
@@ -3869,7 +3914,7 @@ namespace renovice
                             duviri_ok = duviri_ok && static_cast<unsigned char>(built[site.at("offset").get<std::size_t>() + 2]) == 6;
                     }
                     check(duviri_ok, "the Duviri fracture count (two assignment sites) builds as one exact replacement");
-                    const MissionSetResult flood_addon = build_mission_settings(settings({{"void_flood.fractures_per_round.shadowgrapher", 4},
+                    const MissionSetResult flood_addon = build_mission_settings(probe_settings({{"void_flood.fractures_per_round.shadowgrapher", 4},
                         {"void_flood.curse_count.curseCountNormal", 3}}), editor_root, mission_fixture, true);
                     bool flood_ok = flood_addon.success && flood_addon.artifacts.size() == 1 && flood_addon.artifacts.front().backend == "TARGET_ADDON";
                     if (flood_ok)
@@ -3879,7 +3924,7 @@ namespace renovice
                             && !contains_text(source, "curseCountSteelPath");
                     }
                     check(flood_ok, "Shadowgrapher fractures per round and a curse count build as one root-table addon");
-                    const MissionSetResult purgatory = build_mission_settings(settings({{"purgatory.difficulty2.ghost_level", 12}}), editor_root,
+                    const MissionSetResult purgatory = build_mission_settings(probe_settings({{"purgatory.difficulty2.ghost_level", 12}}), editor_root,
                                                                               mission_fixture, true);
                     check(purgatory.success && purgatory.artifacts.size() == 1
                             && contains_text(read_text(purgatory.artifacts.front().source), "container = container[2]")

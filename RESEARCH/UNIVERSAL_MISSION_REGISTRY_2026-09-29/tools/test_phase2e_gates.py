@@ -42,7 +42,7 @@ SURV = 'Lotus_Scripts_Modes_SurvivalMission.lua_B'
 cases = []
 interval, kill = mod(SURV).owner('interval', 300.0, 19), mod(SURV).owner('killPlayerTime', 300.0)
 assert interval['table_id'] != kill['table_id'] and interval['field'] != kill['field']
-assert any(h['prototype'] == 67 and h['upvalue'] == 70 for h in interval['hooks'])  # the live-proven Survival owner
+assert any(h['prototype'] == 67 and h['upvalue'] == 70 for h in interval['hooks'])  # the Survival preset owner (live only on the pre-V107 VM-entry lane)
 cases.append({'case': 'shared stock value 300: interval and killPlayerTime are separate table fields', 'result': 'PASS',
               'tables': [interval['table_id'], kill['table_id']]})
 nested = mod('Lotus_Scripts_Modes_Purgatory.lua_B').owner('ghostLevel', 10.0, 80)

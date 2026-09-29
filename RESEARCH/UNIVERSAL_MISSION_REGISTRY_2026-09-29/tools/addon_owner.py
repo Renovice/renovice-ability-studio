@@ -1,9 +1,13 @@
 """Phase 2e root-table field owners for the target-addon lane (offline, read-only).
 
-A root config table field does not need a byte patch: the proven target-addon lane (``luaCalls[P].before``) can write
-the field on the live table once, check the stock value first, and restore it in cleanup (the Survival preset has
-done this since 2026-09-09). Because the addon writes the *table field*, constant sharing in the bytecode is
-irrelevant: every field is an independent control.
+A root config table field does not need a byte patch: a target addon (``luaCalls[P].before``) can write the field on
+the live table once, check the stock value first, and restore it in cleanup. Because the addon writes the *table
+field*, constant sharing in the bytecode is irrelevant: every field is an independent control.
+
+Runtime status (Phase 2f, 2026-09-29): this gate proves the static owner only. The hook binding
+``renovice.target.lua_call`` is OFFLINE_VERIFIED, not LIVE_CONFIRMED. The Survival preset worked only on the pre-V107
+VM-entry lane; since V107 no ``luaCalls.before`` dispatch has been logged live, and the 44.0.2 Survival addon attached
+without ever being called. The generator therefore stages these addons only with an explicit opt-in.
 
 Gate ``ROOT_TABLE_UPVALUE_V1`` (all conditions must hold on the pinned 44.0.2 bytes):
 

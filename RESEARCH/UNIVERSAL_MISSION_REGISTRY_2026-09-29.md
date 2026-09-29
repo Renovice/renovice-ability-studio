@@ -613,3 +613,119 @@ Location: `work/research/universal-mission-editor-2026-09-29/phase2e-sample/` (r
 | Literal | `void_flood.fractures_per_round.normal` | 3 → 4 | fractures per round (normal Void Flood) |
 
 Check the current EE.log for new script errors after each test.
+
+## Phase 2f — live failure of the Phase 2e Survival addon: root cause and generator fix (2026-09-29)
+
+**Build.** Client `2026.09.28.13.06` (Hotfix 44.0.2). Installed runtime `wtsapi32.dll` SHA-256 `15DAF981…3CEA`
+(bootstrapper `bcad39e`, V110 luaCalls boundary). Registry unchanged: SHA-256 `EEFF2087…25B0AFA`.
+**Scope.** Offline analysis of the stock bytes, decompiled source, runtime source and the user's logs (read only).
+Nothing was written to a game folder, and the bootstrapper was not changed.
+
+### Live symptom
+
+The user installed the Phase 2e sample (`f10a043e7f825db2.missions.target.addon.lua_B`, SHA-256 `CEF8808F…`,
+`survival.reward_interval` 300 → 150) and ran a Kuva Survival (`SolNode744_Hard`). No reward came at 2:30.
+
+- `renovice_source.log` (session from line 63055; `Logging=true`, diagnostics off): `target module identity PASS
+  key=f10a043e7f825db2 env=000001E4BD62DA60`, `native hook PASS … event=target-environment-dispatcher.install`,
+  `Inject PASS …missions.target.addon.lua_B`, `TARGET ADDON PASS key=f10a043e7f825db2 addons=1`. After that there is
+  no `luaCalls` line of any kind for this key.
+- `EE.log`: `Survival: State Change: ENDLESS` at 127.17 s. The log ends at 328.0 s, about 201 s of survival.
+  There is no `Survival: Session locked` and no `Survival: Host - first reward` line. With `interval = 150` both
+  would print at about 277 s (prototype 31, reward 1).
+
+### Hypotheses and results
+
+| # | Hypothesis | Result |
+|---|---|---|
+| H15 | `interval` on `root:i19:R9` is what times the Survival reward rotation on 44.0.2. | **TRUE (static).** Host tick prototype 67 advances the elapsed reward clock (root R119, `REF` capture) by `dt`. It then calls prototype 33 (`cap_79_717_47`). Prototype 33 computes `floor(elapsed / rewardTable.interval)` and calls prototype 31 once for each new reward. Prototype 31 locks the session, calls `OnTieredRewardRoundOver` and prints `Survival: Host reward N`. The field is read live on every tick (prototypes 31, 33, 55, 58, 67, 69). It is not cached in another local, upvalue or native timer. Reward *contents* come from the mission deck, but *timing* is Lua on the host. |
+| H16 | A hooked capturer is entered by a Lua `CALL` before the first read of `interval`. | **TRUE (static).** The global `Mission` is prototype 70. It is called by the engine and captures no config table, so it is unhooked. It calls prototype 61 (host setup), then 62, then 67 and 68 every tick, all by Lua `CALL`. Prototype 67 calls 33, and 33 calls 31. |
+| H17 | A `before` callback ran, and an assert (upvalue index, stock drift) failed silently. | **FALSE.** A callback error logs `RENOVICE luaCalls.before protected leaf FAIL key=0x… prototype=… stage=… callback_status=…` through `config::log`. That happens whenever `Logging=true`, independent of diagnostics, and the first 8 occurrences are always logged. The line does not appear. (The Lua error *text* is not logged; see the parallel Circuit finding below. The failure line itself is.) All 10 registry upvalue indices equal the decompiled capture index + 1 (`cap_79_376_8` → 9 … `cap_79_805_25` → 26). |
+| H18 | The runtime dispatched `luaCalls[P].before` for the addon. | **FALSE.** The first successful dispatch per key/prototype/VM logs `RENOVICE native hook PASS key=… event=luaCalls.<P>.before` (`log_native_hook_once`). The same function logged `nativeCalls.SetSource/DamageDD/SetBaseAmount` and `BuildMissionForLocation` in the same session. It logged no `luaCalls` event. EE.log confirms that no reward was processed. |
+| H19 | The `luaCalls.before` boundary has worked live since it was replaced in V107 (2026-09-19). | **FALSE (log census).** The pre-V107 archive (`Logs/Archive/ARSENAL_LOADOUT_UI_REGRESSION_2026-09-19_PRE_FULL_DIAGNOSTICS`, VM-entry lane) has `luaCalls.18.before` (Mallet), `luaCalls.64/67.after.skipped` (Survival `1e3647332a578b78`), and `target-execution.enter` for every target. The retained logs since then (V109 trace session with Mallet `luaCalls[18]` and 55 Mallet casts, V110, both 44.0.2 sessions, and the `Warframe Ice blade of narin 28.09.2026` copy) contain **zero** `luaCalls` events and **zero** `target-execution.enter` lines. `REGISTRIES/hook_registry.tsv` has always listed `renovice.target.lua_call` as `OFFLINE_VERIFIED`. The Phase 2e phrase "live-proven 67:70" (and H4 above) was wrong: 64:70 was live only on the pre-V107 lane. |
+| H20 | The runtime rejects every call at closure identity, because live module closures do not carry the environment recorded at module load. | **TRUE on static and log evidence; live confirmation is pending.** `target_lua_call_for_published_closure` → `published_target_closure_is_live` requires `closure->env == identity.environment`. `identity.environment` is the registry closure's env at the loader return (`remember_target_module_identity`, logged `env=000001E4BD62DA60`). In the same session TopMenu logs load `env=000001E471CCD8C0` but `runtime_env=000001E4B2212660` for the same proto `000001E475EB2360`, so the root runs later in another environment and its closures inherit that environment. The V110 record (Mallet H4) proved the same mismatch live. V110 added an exact prototype + `savedpc` fallback only for damage-target association, which is why `nativeCalls` work and `luaCalls` do not. `target-execution.enter` uses the same check and has also not been logged since V109. The parallel Circuit finding (`CIRCUIT_PROGRESS_PREVIEW_ACTIVATION_2026-09-29.md`) is the same mechanism for `activate`. Which later check would fail after the env check (proto-prefix liveness, CALL decode) cannot be tested until the env check passes. |
+| H21 | The old Survival preset stopped working because of U44. | **FALSE.** It worked on the V60/V61 VM-entry/resume lane. That lane identified closures by prototype address only (V108 source still does), with no env check. V107–V109 (2026-09-19) replaced the lane and added the strict env identity. U44 only renumbered prototype 64 → 67. The U44 port of the preset fails the same way. |
+| H22 | The reward interval can be reached today through another live-proven lane without a runtime change. | **FALSE.** The value is template constant K34, shared with `killPlayerTime`. Changing it needs a constant-split replacement primitive, which changes the body size and has no Replacement-lane evidence yet. `nativeCalls` callbacks get no upvalue view. No module global reaches the table. |
+| H23 | Lantern (`caec63d8e739b693`) and Purgatory (`6fa60841c9e0f207`) have the same problem. | **TRUE.** Both act only through `luaCalls.before`. For Lantern, hooks 11–14 are the capturers; only 14 is called by Lua, from prototype 32. Purgatory hook 37 is `MasterInit`, called from `StartMode` (prototype 39). Statically their binding order is correct, but the runtime never dispatches them. Lantern `tier_up_interval` has a literal form (single-use template f64) and now builds as an exact replacement. Purgatory `difficulty1.warrior_level` has none. |
+| H24 | The Circuit `activate` `protected-call-rejected` has the same cause. | **Different boundary, same mechanism.** Circuit declares no `luaCalls`. It fails in `activate` because module-root globals are published in the runtime env, not the load env (parallel finding). It is not caused by the mission generator. |
+
+Also corrected: the Phase 2e limitation "variant code that overwrites a field before the first hook makes the stock check
+fail" is inaccurate for Survival. Prototype 61 is hooked. Its `before` would write first, and then the fixed-length
+branch sets `interval = fixedLength` (and fast mode sets `pickupTimeAdded = 4`), so the variant value wins. Prototype
+60's `interval` writes are dead code: they run only under `debugCmd`, which the same function sets to `false` first.
+
+### Generator fix (smallest generic change)
+
+The mission generator did not apply the rule the editor already enforces for ability projects: `HOOK_UNPROVEN`, meaning
+generate only from `LIVE_CONFIRMED` hooks. It staged `TARGET_ADDON` artifacts as `STAGED_PASS` for a hook binding that
+has no live dispatch. Changes (`src/mission_profiles.inl`):
+
+- Every mission target addon is tied to hook binding `renovice.target.lua_call`. Its status is read from
+  `REGISTRIES/hook_registry.tsv`, the same authority `validate_project` uses.
+- Automatic lane, while the binding is not `LIVE_CONFIRMED`:
+  - a body whose rows all have an exact literal form builds as one exact replacement, including dual root-table rows through `literal_owner`;
+  - a body with addon-only rows fails closed with `NEEDS_BINDING: body key … <rows> can be written only by a target addon … renovice.target.lua_call, which is OFFLINE_VERIFIED …`;
+  - mixed bodies keep the existing competing-artifact error.
+- Live acceptance probe: the settings may name the binding in `"allow_unproven_hook_bindings":
+  ["renovice.target.lua_call"]`. Only registered binding names are accepted; others fail closed. The addon is then
+  staged with a `HOOK_UNPROVEN` warning. The opt-in is part of the settings hash.
+- Every `TARGET_ADDON` manifest and set-manifest entry records `runtime_hook` (`binding`, `registry_status`,
+  `live_confirmed`, `built_by_explicit_opt_in`). Presets keep their lane and bytes and get the same warning and record.
+- When the binding becomes `LIVE_CONFIRMED` in the hook registry, the Phase 2e routing returns automatically. No code
+  change is needed.
+- `REGISTRIES/hook_registry.tsv`: the `renovice.target.lua_call` authority note and evidence were updated. The status
+  stays `OFFLINE_VERIFIED`.
+
+No addon source, gate, registry row or runtime file changed. The generated addon bytes are identical under the opt-in.
+
+### Gate results (offline)
+
+| Gate | Result |
+|---|---|
+| `verify-missions` | 594/594 PASS (TARGET_ADDON 289, EXACT_LITERAL 242, METADATA_PATCH 62, SERVER_CONFIG 1); registry SHA-256 unchanged |
+| `test_phase2e_gates.py` / `test_phase2d_gates.py` | 7 PASS / 7 PASS, template census unchanged (766 / 1187) |
+| C++ build (`-Wall -Wextra -Wpedantic -Werror`) | 0 warnings, 0 errors |
+| CTest | 2/2 PASS |
+| C++ self-test | 125/125 PASS (121 + 4 new: literal lane for dual rows, NEEDS_BINDING for an addon-only row, opt-in probe records the binding status and warns, unregistered opt-in rejected) |
+| Managed Dev tests | 162/162 PASS |
+| WPF App / Dev (`--no-incremental`) | 0 warnings, 0 errors |
+| Presets (`test_presets_and_sample.py`) | 12 PASS, byte-identical to the previous run; 36 rejections |
+| Phase 2b settings | default: NEEDS_BINDING (`survival.reward_interval`); opt-in probe: 4/5 identical (Survival = Phase 2e generic addon) |
+| Phase 2d settings | default: 9/9 **identical to the recorded Phase 2d manifest** (Void Flood `timeToFillMax` back on its exact literal); opt-in: 8/9 |
+| Phase 2e settings | default: NEEDS_BINDING (Purgatory, Survival); opt-in probe: 4/4 identical to the installed Phase 2e artifacts |
+
+### Phase 2f sample output
+
+Location: `work/research/universal-mission-editor-2026-09-29/phase2f-sample/`. The Phase 2e values were rebuilt with
+default settings. `rejected_rows.json` holds the two exact NEEDS_BINDING rejections (`survival.reward_interval`,
+`purgatory.difficulty1.warrior_level`). `SHA256SUMS.json` lists every file.
+
+| Artifact | Tunable | Lane | SHA-256 |
+|---|---|---|---|
+| `caec63d8e739b693 (missions_exact-replacement).lua_B` (Lantern) | `lantern.tier_up_interval` 90 → 60 (one f64 constant; 2 bytes differ; DE round-trip identical) | replacement | `AF066CE608243DF782DFFAABC1EF33135E82C2DB28E5F19AF70729D458C919D8` |
+| `fc711ff621a75552 (missions_exact-replacement).lua_B` (Void Flood) | `void_flood.fractures_per_round.normal` 3 → 4 | replacement | `E979F5E7906F0D88E49C42B4191ECA6AFDC1237FDDD91D52CBF427DB3FA9F6D2` (same as Phase 2e) |
+
+### What the runtime must provide (bootstrapper owner; not done here)
+
+1. Publish the target module's **runtime** environment (the env the root actually runs in; per VM, root proto, env
+   instance and generation) into the identity used by `published_target_closure_is_live`. Alternatively, give
+   `target_lua_call_for_published_closure` the V110 exact-prototype fallback. Moving only `activate` to the root
+   return does **not** fix `luaCalls`, because resolution would still compare against the load env.
+2. Per-instance activation. The generic addon binds one owner table per activation and asserts `owner changed` if a
+   second root instance's table arrives. Per-instance activation keeps that invariant; a shared activation would need
+   per-owner bookkeeping in the generator.
+3. Bounded error text for lifecycle and `luaCalls.before` failures, so asserts are readable (operational logging, not diagnostics).
+4. Live acceptance on two unrelated targets, for example Survival `reward_interval` and Purgatory warrior level or a
+   Void Cascade field, built with the opt-in probe. Then set `renovice.target.lua_call` to `LIVE_CONFIRMED`.
+
+Acceptance log lines after a runtime fix: `RENOVICE native hook PASS key=f10a043e7f825db2 event=luaCalls.61.before`
+(host) and/or `…event=luaCalls.67.before`; no `luaCalls.before protected leaf FAIL key=0xf10a043e7f825db2`;
+`EE.log` `Survival: Session locked` and `Survival: Host - first reward` about 150 s after
+`Survival: State Change: ENDLESS`.
+
+### Limitations
+
+- H20 names the first failing check. Later checks in the same path cannot be tested until it passes.
+- Survival reward interval, Purgatory difficulty and every other addon-only row cannot be delivered until the runtime
+  change above is live-accepted, or until a constant-split replacement primitive exists.
+- The Phase 2e sample folder is left untouched as dated evidence of the installed (inert) artifacts.

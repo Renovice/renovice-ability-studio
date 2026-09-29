@@ -116,6 +116,38 @@ void verify_constant_exclusivity(const Json& site) {
 constexpr const char* kRootTableAddonTemplate = "ROOT_TABLE_FIELD";
 constexpr const char* kRootTableGate = "ROOT_TABLE_UPVALUE_V1";
 
+// Every mission target addon (generic ROOT_TABLE_FIELD and the established Survival/Interception/timer templates) acts
+// only from hooks.luaCalls[P].before, i.e. hook binding renovice.target.lua_call. Its runtime status comes from
+// REGISTRIES/hook_registry.tsv, the same authority validate_project uses for HOOK_UNPROVEN. The 44.0.2 live test
+// (2026-09-29) proved the failure mode of an unproven binding: the addon attaches (TARGET ADDON PASS) but the runtime
+// never dispatches a before-hook, so nothing is written. While the binding is not LIVE_CONFIRMED the automatic lane
+// therefore uses the exact literal form of a row when it has one and reports NEEDS_BINDING for addon-only rows. Settings
+// may name the binding in allow_unproven_hook_bindings to build the addon for a live acceptance run; the manifest records
+// the binding status either way.
+constexpr const char* kMissionAddonHookBinding = "renovice.target.lua_call";
+
+struct MissionHookStatus {
+    std::string status;
+    bool live = false;    // LIVE_CONFIRMED in the hook registry
+    bool opt_in = false;  // not live, explicitly allowed by the settings for an acceptance run
+};
+
+MissionHookStatus mission_addon_hook_status(const fs::path& editor_root, const std::vector<std::string>& allowed) {
+    const auto rows = load_registry(editor_root / "REGISTRIES" / "hook_registry.tsv");
+    const RegistryRow* hook = find_binding(rows, kMissionAddonHookBinding);
+    if (hook == nullptr) throw std::runtime_error(std::string("Hook binding is not registered: ") + kMissionAddonHookBinding);
+    MissionHookStatus result;
+    result.status = hook->at("status");
+    result.live = result.status == "LIVE_CONFIRMED";
+    result.opt_in = !result.live && std::find(allowed.begin(), allowed.end(), kMissionAddonHookBinding) != allowed.end();
+    return result;
+}
+
+Json mission_hook_record(const MissionHookStatus& hook) {
+    return {{"binding", kMissionAddonHookBinding}, {"registry_status", hook.status}, {"live_confirmed", hook.live},
+            {"built_by_explicit_opt_in", hook.opt_in}};
+}
+
 // A root-table field owned through the target-addon lane (registrar gate ROOT_TABLE_UPVALUE_V1, pinned by the body
 // SHA-256): the module root builds the table once, the table leaves the root only by closure capture, every capturing
 // prototype is hooked (luaCalls[P].before) and one of them reads the field. The addon writes the live table field, so a
@@ -455,6 +487,7 @@ struct MissionNaming {
     std::string metadata_file;
     bool single_artifact = false;
     std::string lane;  // a preset forces its established lane; empty = choose per body key
+    std::vector<std::string> allow_unproven_hooks;  // settings.allow_unproven_hook_bindings (live acceptance runs only)
 };
 
 std::string replace_all(std::string text, const std::string& from, const std::string& to) {
@@ -608,6 +641,11 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
         // by the target addon uses the addon lane (root-table fields are independent controls there). A body that also
         // has literal-only rows is built as ONE merged exact replacement when every requested row has an exact literal
         // form; otherwise it fails closed and names the rows that have only one form. A preset keeps its established lane.
+        // The addon lane is chosen automatically only while its hook binding is LIVE_CONFIRMED (or explicitly allowed by
+        // the settings for an acceptance run); otherwise a row's exact literal form is used, and a body with addon-only
+        // rows reports NEEDS_BINDING instead of staging an addon that the runtime would never call.
+        const MissionHookStatus hook = mission_addon_hook_status(editor_root, naming.allow_unproven_hooks);
+        const bool addon_lane_usable = hook.live || hook.opt_in;
         std::map<std::string, std::vector<const Json*>> lua_rows, literal, addon;
         std::vector<const Json*> metadata, server;
         for (const auto& [id, value] : values) {
@@ -636,8 +674,17 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                 if (can_addon && !can_literal) addon_only.push_back(row);
                 if (can_literal && !can_addon) literal_only.push_back(row);
             }
+            if (naming.lane.empty() && all_addon && !addon_lane_usable && !all_literal) {
+                throw std::runtime_error("NEEDS_BINDING: body key " + body + ": " + id_list(addon_only) +
+                                         " can be written only by a target addon (no exact literal form), and that addon acts only through hook "
+                                         "binding " + kMissionAddonHookBinding + ", which is " + hook.status +
+                                         " (not LIVE_CONFIRMED) in REGISTRIES/hook_registry.tsv. The 2026-09-29 44.0.2 live test showed the "
+                                         "addon attaching without any luaCalls.before dispatch, so it would change nothing. To stage it for a "
+                                         "live acceptance run only, add \"allow_unproven_hook_bindings\": [\"" + kMissionAddonHookBinding +
+                                         "\"] to the mission settings");
+            }
             if (naming.lane == "EXACT_LITERAL" ? all_literal : naming.lane == "TARGET_ADDON" ? all_addon : all_addon || all_literal) {
-                if (naming.lane == "EXACT_LITERAL" || (naming.lane.empty() && !all_addon)) literal[body] = rows;
+                if (naming.lane == "EXACT_LITERAL" || (naming.lane.empty() && (!all_addon || !addon_lane_usable))) literal[body] = rows;
                 else addon[body] = rows;
             } else {
                 throw std::runtime_error("Body key " + body + " would need both an exact replacement (literal-only: " + id_list(literal_only) +
@@ -645,10 +692,16 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                                          "); one body key may own only one artifact");
             }
         }
+        if (!addon.empty() && !hook.live)
+            add(result.diagnostics, Severity::warning, "HOOK_UNPROVEN",
+                std::string("Target addon staged although hook binding ") + kMissionAddonHookBinding + " is " + hook.status +
+                " (not LIVE_CONFIRMED): " + (hook.opt_in ? "explicit allow_unproven_hook_bindings opt-in" : "preset keeps its established lane") +
+                ". No live luaCalls.before dispatch has been observed since runtime V107; treat the artifact as a live acceptance probe, not a working edit.");
 
         const auto registry_sha = sha256_file(editor_root / kMissionRegistryPath);
         Json normalized = {{"format", "RENOVICE_MISSION_SETTINGS_V1"}, {"build", registry.at("build")}, {"values", Json::object()}};
         for (const auto& [id, value] : values) normalized["values"][id] = value;
+        if (!naming.allow_unproven_hooks.empty()) normalized["allow_unproven_hook_bindings"] = naming.allow_unproven_hooks;
         const auto build_hash = sha256_text(staging_root / ".hash-work", naming.label + "\n" + normalized.dump() + "\n" + registry_sha);
         result.directory = staging_root / artifact_stem(naming.label) / build_hash.substr(0, 12);
         fs::create_directories(result.directory / "artifacts");
@@ -681,7 +734,7 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
             item.intended_live_relative_path = live;
             item.manifest = result.directory / (naming.single_artifact ? std::string("BUILD_MANIFEST.json")
                                                                         : "BUILD_MANIFEST." + artifact_stem(backend + "." + body) + ".json");
-            const Json manifest{{"format", "RENOVICE_ABILITY_EDITOR_BUILD_V1"}, {"package_type", package_type}, {"status", "STAGED_PASS"},
+            Json manifest{{"format", "RENOVICE_ABILITY_EDITOR_BUILD_V1"}, {"package_type", package_type}, {"status", "STAGED_PASS"},
                                 {"project_id", naming.label}, {"build_sha256", build_hash}, {"registry_build", registry.at("build")},
                                 {"registry_sha256", registry_sha}, {"body_key", body}, {"tunables", item.tunables},
                                 {"source", {{"path", relative(source)}, {"sha256", sha256_file(source)}}},
@@ -689,10 +742,12 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                                 {"stock_artifact", {{"path", stock.string()}, {"sha256", stock_sha}}},
                                 {"intended_live_relative_path", live}, {"live_write_performed", false}, {"gates", gates},
                                 {"diagnostics", Json::array()}};
+            Json entry{{"backend", backend}, {"body_key", body}, {"tunables", item.tunables}, {"path", relative(artifact)},
+                       {"sha256", item.sha256}, {"size", item.size}, {"manifest", relative(item.manifest)},
+                       {"intended_live_relative_path", live}};
+            if (backend == "TARGET_ADDON") manifest["runtime_hook"] = entry["runtime_hook"] = mission_hook_record(hook);
             write_text(item.manifest, manifest.dump(2) + "\n");
-            set_artifacts.push_back({{"backend", backend}, {"body_key", body}, {"tunables", item.tunables}, {"path", relative(artifact)},
-                                     {"sha256", item.sha256}, {"size", item.size}, {"manifest", relative(item.manifest)},
-                                     {"intended_live_relative_path", live}});
+            set_artifacts.push_back(entry);
             result.artifacts.push_back(std::move(item));
         };
 
@@ -851,6 +906,7 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                                          {"registry_build", registry.at("build")}, {"registry_sha256", registry_sha},
                                          {"settings_sha256", sha256_file(result.directory / "mission_settings.json")},
                                          {"artifacts", set_artifacts}, {"server_config_diff", server_diff},
+                                         {"allow_unproven_hook_bindings", naming.allow_unproven_hooks},
                                          {"live_write_performed", false},
                                          {"evidence_boundary", "Offline gates only; in-game behaviour is not claimed."}}.dump(2) + "\n");
         write_text(result.directory / "BUILD_GATES.log", result.gate_log);
@@ -899,7 +955,21 @@ MissionSetResult build_mission_settings(const Json& settings, const fs::path& ed
             throw std::runtime_error("Mission settings must be a RENOVICE_MISSION_SETTINGS_V1 object");
         require_mission_build(registry, settings.contains("build") ? settings.at("build") : Json());
         if (!settings.contains("values")) throw std::runtime_error("Mission settings have no values object");
-        return build_mission_set(registry, settings.at("values"), MissionNaming{"missions", "missions", "missions", "RENOVICE_Missions.txt", false, ""},
+        // Optional, for live acceptance runs only: hook bindings that may stage an addon although they are not
+        // LIVE_CONFIRMED. Every name must be a registered binding; the manifest records the status.
+        std::vector<std::string> allow_unproven;
+        if (settings.contains("allow_unproven_hook_bindings")) {
+            const Json& list = settings.at("allow_unproven_hook_bindings");
+            if (!list.is_array()) throw std::runtime_error("allow_unproven_hook_bindings must be an array of hook binding ids");
+            const auto hooks = load_registry(editor_root / "REGISTRIES" / "hook_registry.tsv");
+            for (const auto& name : list) {
+                if (!name.is_string() || find_binding(hooks, name.get<std::string>()) == nullptr)
+                    throw std::runtime_error("allow_unproven_hook_bindings names an unregistered hook binding: " + name.dump());
+                allow_unproven.push_back(name.get<std::string>());
+            }
+        }
+        return build_mission_set(registry, settings.at("values"),
+                                 MissionNaming{"missions", "missions", "missions", "RENOVICE_Missions.txt", false, "", allow_unproven},
                                  editor_root, staging_root, run_external_gates, nullptr);
     } catch (const std::exception& e) {
         MissionSetResult result;
@@ -919,7 +989,7 @@ BuildResult build_profile_mission(const Json& project, const fs::path& editor_ro
         const Json values = preset_mission_values(registry, preset, project.at("mission_profile").at("values"));
         const auto set = build_mission_set(registry, values,
                                            MissionNaming{project.at("id").get<std::string>(), "mission_" + id + "_timers", "mission_" + id, id + ".txt", true,
-                                                         preset.at("lane").get<std::string>()},
+                                                         preset.at("lane").get<std::string>(), {}},
                                            editor_root, staging_root, run_external_gates, project);
         result.diagnostics.insert(result.diagnostics.end(), set.diagnostics.begin(), set.diagnostics.end());
         result.gate_log = set.gate_log;

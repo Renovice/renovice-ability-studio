@@ -87,165 +87,382 @@
     }
   ],
   "rejections": 36,
-  "sample2b_rebuild": [
-    {
-      "body_key": "076a7b443af7fdb8",
-      "tunables": [
-        "archimedea.eta_survival_minutes"
-      ],
-      "backend_before": "EXACT_LITERAL",
-      "backend_now": "EXACT_LITERAL",
-      "identical": true,
-      "sha256_now": "2832158E3B243C4F508AD882ED69A9339FE7F062DF76A709CBE90C58E5522D9D"
+  "sample2b_rebuild": {
+    "default": {
+      "result": "REJECTED",
+      "reason": "ERROR [MISSION_BUILD_PROFILE] NEEDS_BINDING: body key f10a043e7f825db2: survival.reward_interval can be written only by a target addon (no exact literal form), and that addon acts only through hook binding renovice.target.lua_call, which is OFFLINE_VERIFIED (not LIVE_CONFIRMED) in REGISTRIES/hook_registry.tsv. The 2026-09-29 44.0.2 live test showed the addon attaching without any luaCalls.before dispatch, so it would change nothing. To stage it for a live acceptance run only, add \"allow_unproven_hook_bindings\": [\"renovice.target.lua_call\"] to the mission settings"
     },
-    {
-      "body_key": "a807aae359ffc1eb",
-      "tunables": [
-        "mobiledefense.total_time.maximum",
-        "mobiledefense.total_time.minimum"
-      ],
-      "backend_before": "EXACT_LITERAL",
-      "backend_now": "EXACT_LITERAL",
-      "identical": true,
-      "sha256_now": "9DC9D6FB76B9FEDC7BD7F057FCD75D77E98AE5A63CCEFF71803F1DD502DAD368"
+    "opt_in_probe": [
+      {
+        "body_key": "076a7b443af7fdb8",
+        "tunables": [
+          "archimedea.eta_survival_minutes"
+        ],
+        "backend_before": "EXACT_LITERAL",
+        "backend_now": "EXACT_LITERAL",
+        "identical": true,
+        "sha256_now": "2832158E3B243C4F508AD882ED69A9339FE7F062DF76A709CBE90C58E5522D9D",
+        "runtime_hook": null
+      },
+      {
+        "body_key": "a807aae359ffc1eb",
+        "tunables": [
+          "mobiledefense.total_time.maximum",
+          "mobiledefense.total_time.minimum"
+        ],
+        "backend_before": "EXACT_LITERAL",
+        "backend_now": "EXACT_LITERAL",
+        "identical": true,
+        "sha256_now": "9DC9D6FB76B9FEDC7BD7F057FCD75D77E98AE5A63CCEFF71803F1DD502DAD368",
+        "runtime_hook": null
+      },
+      {
+        "body_key": "f7444e3c621ff018",
+        "tunables": [
+          "excavation.dig_duration",
+          "excavation.dig_duration_elite_alert"
+        ],
+        "backend_before": "EXACT_LITERAL",
+        "backend_now": "EXACT_LITERAL",
+        "identical": true,
+        "sha256_now": "D2A8537B7EA0259D4ECE33F7A5C456F7E7E643CAB4CC0FCF6B0027926128B0BA",
+        "runtime_hook": null
+      },
+      {
+        "body_key": "f10a043e7f825db2",
+        "tunables": [
+          "survival.reward_interval"
+        ],
+        "backend_before": "TARGET_ADDON",
+        "backend_now": "TARGET_ADDON",
+        "identical": false,
+        "sha256_now": "CEF8808F993059F44C3E55CDE72038C5271260A7BFB803FB8B47C6132CE9DA6A",
+        "runtime_hook": {
+          "binding": "renovice.target.lua_call",
+          "built_by_explicit_opt_in": true,
+          "live_confirmed": false,
+          "registry_status": "OFFLINE_VERIFIED"
+        }
+      },
+      {
+        "body_key": "metadata",
+        "tunables": [
+          "netracell.enemy_power_fill",
+          "shrine.offering_generation_time"
+        ],
+        "backend_before": "METADATA_PATCH",
+        "backend_now": "METADATA_PATCH",
+        "identical": true,
+        "sha256_now": "F6FDB56BA18466485CF7669A90C048DC676CA8A59A8574D010DF128F1AC571B8",
+        "runtime_hook": null
+      }
+    ]
+  },
+  "sample2d_rebuild": {
+    "default": {
+      "result": "PASS",
+      "artifacts": [
+        {
+          "body_key": "0c498e078835f9fe",
+          "tunables": [
+            "netracell.power_required.base"
+          ],
+          "backend_before": "EXACT_LITERAL",
+          "backend_now": "EXACT_LITERAL",
+          "identical": true,
+          "sha256_now": "8D0EDA35362FA8F8FE62918F3628799080455EA029257BDE1534ACAD45DCC564",
+          "runtime_hook": null
+        },
+        {
+          "body_key": "1a1354d153712f9d",
+          "tunables": [
+            "defense.inter_wave_sleep"
+          ],
+          "backend_before": "EXACT_LITERAL",
+          "backend_now": "EXACT_LITERAL",
+          "identical": true,
+          "sha256_now": "BFE46442738A5D38B9492B84832720A13486D0D3655056781739DF1F3B488782",
+          "runtime_hook": null
+        },
+        {
+          "body_key": "721710696afea305",
+          "tunables": [
+            "orphix.sortie_rounds"
+          ],
+          "backend_before": "EXACT_LITERAL",
+          "backend_now": "EXACT_LITERAL",
+          "identical": true,
+          "sha256_now": "8F536A417CA00581D3146EB94B77954AF70592E94F441750DDF94D3EF8ED0D18",
+          "runtime_hook": null
+        },
+        {
+          "body_key": "b6d8c45f9424d376",
+          "tunables": [
+            "disruption.boss_health_multiplier",
+            "disruption.default_round_count",
+            "disruption.round_timeout"
+          ],
+          "backend_before": "EXACT_LITERAL",
+          "backend_now": "EXACT_LITERAL",
+          "identical": true,
+          "sha256_now": "BE99A12BCD3927DDA2B037A47BF97E9D5227FC4F7CB3299CA728A1542204AB56",
+          "runtime_hook": null
+        },
+        {
+          "body_key": "f10a043e7f825db2",
+          "tunables": [
+            "survival.elite_alert_pickup_mult"
+          ],
+          "backend_before": "EXACT_LITERAL",
+          "backend_now": "EXACT_LITERAL",
+          "identical": true,
+          "sha256_now": "DE20BA0CDC32404AC3E434BFAE52D7F3FE8BA2BC9B960553B93C6B22299FB9D2",
+          "runtime_hook": null
+        },
+        {
+          "body_key": "f7444e3c621ff018",
+          "tunables": [
+            "excavation.resource_goal_default"
+          ],
+          "backend_before": "EXACT_LITERAL",
+          "backend_now": "EXACT_LITERAL",
+          "identical": true,
+          "sha256_now": "B9F98E43FC02621DDFF0C1B654CA1043A46A6B2E37CED914F0EBD8334AEE8D6A",
+          "runtime_hook": null
+        },
+        {
+          "body_key": "fb346b59e2b7687a",
+          "tunables": [
+            "hijack.payload_health"
+          ],
+          "backend_before": "EXACT_LITERAL",
+          "backend_now": "EXACT_LITERAL",
+          "identical": true,
+          "sha256_now": "6D7C70D43CD1A7F2A3DF4E0BCE7A190CA048A5CFB65B06A07BBC3E9CFF2F2273",
+          "runtime_hook": null
+        },
+        {
+          "body_key": "fc711ff621a75552",
+          "tunables": [
+            "void_flood.fill_timer.timeToFillMax"
+          ],
+          "backend_before": "EXACT_LITERAL",
+          "backend_now": "EXACT_LITERAL",
+          "identical": true,
+          "sha256_now": "D8F3C4E77D48271C255671AF32AF1A825CA8FF70CD8847B170280ACD5DAF4330",
+          "runtime_hook": null
+        },
+        {
+          "body_key": "metadata",
+          "tunables": [
+            "coh_excavation.base_health",
+            "infested_capture.search_time.wf1999",
+            "meltdown.heat_increase.descendia"
+          ],
+          "backend_before": "METADATA_PATCH",
+          "backend_now": "METADATA_PATCH",
+          "identical": true,
+          "sha256_now": "7EE0AD908459601E38EE73ADFE74978F2CA893A8814B14B3BD0B7E85AFD6566F",
+          "runtime_hook": null
+        }
+      ]
     },
-    {
-      "body_key": "f7444e3c621ff018",
-      "tunables": [
-        "excavation.dig_duration",
-        "excavation.dig_duration_elite_alert"
-      ],
-      "backend_before": "EXACT_LITERAL",
-      "backend_now": "EXACT_LITERAL",
-      "identical": true,
-      "sha256_now": "D2A8537B7EA0259D4ECE33F7A5C456F7E7E643CAB4CC0FCF6B0027926128B0BA"
+    "opt_in_probe": [
+      {
+        "body_key": "0c498e078835f9fe",
+        "tunables": [
+          "netracell.power_required.base"
+        ],
+        "backend_before": "EXACT_LITERAL",
+        "backend_now": "EXACT_LITERAL",
+        "identical": true,
+        "sha256_now": "8D0EDA35362FA8F8FE62918F3628799080455EA029257BDE1534ACAD45DCC564",
+        "runtime_hook": null
+      },
+      {
+        "body_key": "1a1354d153712f9d",
+        "tunables": [
+          "defense.inter_wave_sleep"
+        ],
+        "backend_before": "EXACT_LITERAL",
+        "backend_now": "EXACT_LITERAL",
+        "identical": true,
+        "sha256_now": "BFE46442738A5D38B9492B84832720A13486D0D3655056781739DF1F3B488782",
+        "runtime_hook": null
+      },
+      {
+        "body_key": "721710696afea305",
+        "tunables": [
+          "orphix.sortie_rounds"
+        ],
+        "backend_before": "EXACT_LITERAL",
+        "backend_now": "EXACT_LITERAL",
+        "identical": true,
+        "sha256_now": "8F536A417CA00581D3146EB94B77954AF70592E94F441750DDF94D3EF8ED0D18",
+        "runtime_hook": null
+      },
+      {
+        "body_key": "b6d8c45f9424d376",
+        "tunables": [
+          "disruption.boss_health_multiplier",
+          "disruption.default_round_count",
+          "disruption.round_timeout"
+        ],
+        "backend_before": "EXACT_LITERAL",
+        "backend_now": "EXACT_LITERAL",
+        "identical": true,
+        "sha256_now": "BE99A12BCD3927DDA2B037A47BF97E9D5227FC4F7CB3299CA728A1542204AB56",
+        "runtime_hook": null
+      },
+      {
+        "body_key": "f10a043e7f825db2",
+        "tunables": [
+          "survival.elite_alert_pickup_mult"
+        ],
+        "backend_before": "EXACT_LITERAL",
+        "backend_now": "EXACT_LITERAL",
+        "identical": true,
+        "sha256_now": "DE20BA0CDC32404AC3E434BFAE52D7F3FE8BA2BC9B960553B93C6B22299FB9D2",
+        "runtime_hook": null
+      },
+      {
+        "body_key": "f7444e3c621ff018",
+        "tunables": [
+          "excavation.resource_goal_default"
+        ],
+        "backend_before": "EXACT_LITERAL",
+        "backend_now": "EXACT_LITERAL",
+        "identical": true,
+        "sha256_now": "B9F98E43FC02621DDFF0C1B654CA1043A46A6B2E37CED914F0EBD8334AEE8D6A",
+        "runtime_hook": null
+      },
+      {
+        "body_key": "fb346b59e2b7687a",
+        "tunables": [
+          "hijack.payload_health"
+        ],
+        "backend_before": "EXACT_LITERAL",
+        "backend_now": "EXACT_LITERAL",
+        "identical": true,
+        "sha256_now": "6D7C70D43CD1A7F2A3DF4E0BCE7A190CA048A5CFB65B06A07BBC3E9CFF2F2273",
+        "runtime_hook": null
+      },
+      {
+        "body_key": "fc711ff621a75552",
+        "tunables": [
+          "void_flood.fill_timer.timeToFillMax"
+        ],
+        "backend_before": "EXACT_LITERAL",
+        "backend_now": "TARGET_ADDON",
+        "identical": false,
+        "sha256_now": "0DCB62DDF3642BED3173E1A132710032C3F4EF333CF7A80093D43D989B3574AF",
+        "runtime_hook": {
+          "binding": "renovice.target.lua_call",
+          "built_by_explicit_opt_in": true,
+          "live_confirmed": false,
+          "registry_status": "OFFLINE_VERIFIED"
+        }
+      },
+      {
+        "body_key": "metadata",
+        "tunables": [
+          "coh_excavation.base_health",
+          "infested_capture.search_time.wf1999",
+          "meltdown.heat_increase.descendia"
+        ],
+        "backend_before": "METADATA_PATCH",
+        "backend_now": "METADATA_PATCH",
+        "identical": true,
+        "sha256_now": "7EE0AD908459601E38EE73ADFE74978F2CA893A8814B14B3BD0B7E85AFD6566F",
+        "runtime_hook": null
+      }
+    ]
+  },
+  "sample2e_rebuild": {
+    "default": {
+      "result": "REJECTED",
+      "reason": "ERROR [MISSION_BUILD_PROFILE] NEEDS_BINDING: body key 6fa60841c9e0f207: purgatory.difficulty1.warrior_level can be written only by a target addon (no exact literal form), and that addon acts only through hook binding renovice.target.lua_call, which is OFFLINE_VERIFIED (not LIVE_CONFIRMED) in REGISTRIES/hook_registry.tsv. The 2026-09-29 44.0.2 live test showed the addon attaching without any luaCalls.before dispatch, so it would change nothing. To stage it for a live acceptance run only, add \"allow_unproven_hook_bindings\": [\"renovice.target.lua_call\"] to the mission settings"
     },
-    {
-      "body_key": "f10a043e7f825db2",
-      "tunables": [
-        "survival.reward_interval"
-      ],
-      "backend_before": "TARGET_ADDON",
-      "backend_now": "TARGET_ADDON",
-      "identical": false,
-      "sha256_now": "CEF8808F993059F44C3E55CDE72038C5271260A7BFB803FB8B47C6132CE9DA6A"
-    },
-    {
-      "body_key": "metadata",
-      "tunables": [
-        "netracell.enemy_power_fill",
-        "shrine.offering_generation_time"
-      ],
-      "backend_before": "METADATA_PATCH",
-      "backend_now": "METADATA_PATCH",
-      "identical": true,
-      "sha256_now": "F6FDB56BA18466485CF7669A90C048DC676CA8A59A8574D010DF128F1AC571B8"
-    }
-  ],
-  "sample2d_rebuild": [
-    {
-      "body_key": "0c498e078835f9fe",
-      "tunables": [
-        "netracell.power_required.base"
-      ],
-      "backend_before": "EXACT_LITERAL",
-      "backend_now": "EXACT_LITERAL",
-      "identical": true,
-      "sha256_now": "8D0EDA35362FA8F8FE62918F3628799080455EA029257BDE1534ACAD45DCC564"
-    },
-    {
-      "body_key": "1a1354d153712f9d",
-      "tunables": [
-        "defense.inter_wave_sleep"
-      ],
-      "backend_before": "EXACT_LITERAL",
-      "backend_now": "EXACT_LITERAL",
-      "identical": true,
-      "sha256_now": "BFE46442738A5D38B9492B84832720A13486D0D3655056781739DF1F3B488782"
-    },
-    {
-      "body_key": "721710696afea305",
-      "tunables": [
-        "orphix.sortie_rounds"
-      ],
-      "backend_before": "EXACT_LITERAL",
-      "backend_now": "EXACT_LITERAL",
-      "identical": true,
-      "sha256_now": "8F536A417CA00581D3146EB94B77954AF70592E94F441750DDF94D3EF8ED0D18"
-    },
-    {
-      "body_key": "b6d8c45f9424d376",
-      "tunables": [
-        "disruption.boss_health_multiplier",
-        "disruption.default_round_count",
-        "disruption.round_timeout"
-      ],
-      "backend_before": "EXACT_LITERAL",
-      "backend_now": "EXACT_LITERAL",
-      "identical": true,
-      "sha256_now": "BE99A12BCD3927DDA2B037A47BF97E9D5227FC4F7CB3299CA728A1542204AB56"
-    },
-    {
-      "body_key": "f10a043e7f825db2",
-      "tunables": [
-        "survival.elite_alert_pickup_mult"
-      ],
-      "backend_before": "EXACT_LITERAL",
-      "backend_now": "EXACT_LITERAL",
-      "identical": true,
-      "sha256_now": "DE20BA0CDC32404AC3E434BFAE52D7F3FE8BA2BC9B960553B93C6B22299FB9D2"
-    },
-    {
-      "body_key": "f7444e3c621ff018",
-      "tunables": [
-        "excavation.resource_goal_default"
-      ],
-      "backend_before": "EXACT_LITERAL",
-      "backend_now": "EXACT_LITERAL",
-      "identical": true,
-      "sha256_now": "B9F98E43FC02621DDFF0C1B654CA1043A46A6B2E37CED914F0EBD8334AEE8D6A"
-    },
-    {
-      "body_key": "fb346b59e2b7687a",
-      "tunables": [
-        "hijack.payload_health"
-      ],
-      "backend_before": "EXACT_LITERAL",
-      "backend_now": "EXACT_LITERAL",
-      "identical": true,
-      "sha256_now": "6D7C70D43CD1A7F2A3DF4E0BCE7A190CA048A5CFB65B06A07BBC3E9CFF2F2273"
-    },
-    {
-      "body_key": "fc711ff621a75552",
-      "tunables": [
-        "void_flood.fill_timer.timeToFillMax"
-      ],
-      "backend_before": "EXACT_LITERAL",
-      "backend_now": "TARGET_ADDON",
-      "identical": false,
-      "sha256_now": "0DCB62DDF3642BED3173E1A132710032C3F4EF333CF7A80093D43D989B3574AF"
-    },
-    {
-      "body_key": "metadata",
-      "tunables": [
-        "coh_excavation.base_health",
-        "infested_capture.search_time.wf1999",
-        "meltdown.heat_increase.descendia"
-      ],
-      "backend_before": "METADATA_PATCH",
-      "backend_now": "METADATA_PATCH",
-      "identical": true,
-      "sha256_now": "7EE0AD908459601E38EE73ADFE74978F2CA893A8814B14B3BD0B7E85AFD6566F"
-    }
-  ],
-  "phase2e_sample": {
+    "opt_in_probe": [
+      {
+        "body_key": "fc711ff621a75552",
+        "tunables": [
+          "void_flood.fractures_per_round.normal"
+        ],
+        "backend_before": "EXACT_LITERAL",
+        "backend_now": "EXACT_LITERAL",
+        "identical": true,
+        "sha256_now": "E979F5E7906F0D88E49C42B4191ECA6AFDC1237FDDD91D52CBF427DB3FA9F6D2",
+        "runtime_hook": null
+      },
+      {
+        "body_key": "6fa60841c9e0f207",
+        "tunables": [
+          "purgatory.difficulty1.warrior_level"
+        ],
+        "backend_before": "TARGET_ADDON",
+        "backend_now": "TARGET_ADDON",
+        "identical": true,
+        "sha256_now": "043176ECDEECF9A876108D87BEB72EB4A7BD7CAA3A799ECD849FAD4E0EEA8472",
+        "runtime_hook": {
+          "binding": "renovice.target.lua_call",
+          "built_by_explicit_opt_in": true,
+          "live_confirmed": false,
+          "registry_status": "OFFLINE_VERIFIED"
+        }
+      },
+      {
+        "body_key": "caec63d8e739b693",
+        "tunables": [
+          "lantern.tier_up_interval"
+        ],
+        "backend_before": "TARGET_ADDON",
+        "backend_now": "TARGET_ADDON",
+        "identical": true,
+        "sha256_now": "228754AF891C5A9A75DA250EF171A0689323E6E439CDFD28EC054D6B7334358C",
+        "runtime_hook": {
+          "binding": "renovice.target.lua_call",
+          "built_by_explicit_opt_in": true,
+          "live_confirmed": false,
+          "registry_status": "OFFLINE_VERIFIED"
+        }
+      },
+      {
+        "body_key": "f10a043e7f825db2",
+        "tunables": [
+          "survival.reward_interval"
+        ],
+        "backend_before": "TARGET_ADDON",
+        "backend_now": "TARGET_ADDON",
+        "identical": true,
+        "sha256_now": "CEF8808F993059F44C3E55CDE72038C5271260A7BFB803FB8B47C6132CE9DA6A",
+        "runtime_hook": {
+          "binding": "renovice.target.lua_call",
+          "built_by_explicit_opt_in": true,
+          "live_confirmed": false,
+          "registry_status": "OFFLINE_VERIFIED"
+        }
+      }
+    ]
+  },
+  "phase2f_sample": {
     "values": {
-      "survival.reward_interval": 150,
       "void_flood.fractures_per_round.normal": 4,
-      "lantern.tier_up_interval": 60,
-      "purgatory.difficulty1.warrior_level": 15
+      "lantern.tier_up_interval": 60
     },
     "artifacts": [
+      {
+        "backend": "EXACT_LITERAL",
+        "body_key": "caec63d8e739b693",
+        "intended_live_relative_path": "OpenWF/CustomScripts/caec63d8e739b693 (missions_exact-replacement).lua_B",
+        "manifest": "BUILD_MANIFEST.EXACT_LITERAL_caec63d8e739b693.json",
+        "path": "artifacts/caec63d8e739b693 (missions_exact-replacement).lua_B",
+        "sha256": "AF066CE608243DF782DFFAABC1EF33135E82C2DB28E5F19AF70729D458C919D8",
+        "size": 46502,
+        "tunables": [
+          "lantern.tier_up_interval"
+        ]
+      },
       {
         "backend": "EXACT_LITERAL",
         "body_key": "fc711ff621a75552",
@@ -257,44 +474,12 @@
         "tunables": [
           "void_flood.fractures_per_round.normal"
         ]
-      },
-      {
-        "backend": "TARGET_ADDON",
-        "body_key": "6fa60841c9e0f207",
-        "intended_live_relative_path": "OpenWF/CustomScripts/Inject/6fa60841c9e0f207.missions.target.addon.lua_B",
-        "manifest": "BUILD_MANIFEST.TARGET_ADDON_6fa60841c9e0f207.json",
-        "path": "artifacts/6fa60841c9e0f207.missions.target.addon.lua_B",
-        "sha256": "043176ECDEECF9A876108D87BEB72EB4A7BD7CAA3A799ECD849FAD4E0EEA8472",
-        "size": 1115,
-        "tunables": [
-          "purgatory.difficulty1.warrior_level"
-        ]
-      },
-      {
-        "backend": "TARGET_ADDON",
-        "body_key": "caec63d8e739b693",
-        "intended_live_relative_path": "OpenWF/CustomScripts/Inject/caec63d8e739b693.missions.target.addon.lua_B",
-        "manifest": "BUILD_MANIFEST.TARGET_ADDON_caec63d8e739b693.json",
-        "path": "artifacts/caec63d8e739b693.missions.target.addon.lua_B",
-        "sha256": "228754AF891C5A9A75DA250EF171A0689323E6E439CDFD28EC054D6B7334358C",
-        "size": 1666,
-        "tunables": [
-          "lantern.tier_up_interval"
-        ]
-      },
-      {
-        "backend": "TARGET_ADDON",
-        "body_key": "f10a043e7f825db2",
-        "intended_live_relative_path": "OpenWF/CustomScripts/Inject/f10a043e7f825db2.missions.target.addon.lua_B",
-        "manifest": "BUILD_MANIFEST.TARGET_ADDON_f10a043e7f825db2.json",
-        "path": "artifacts/f10a043e7f825db2.missions.target.addon.lua_B",
-        "sha256": "CEF8808F993059F44C3E55CDE72038C5271260A7BFB803FB8B47C6132CE9DA6A",
-        "size": 2983,
-        "tunables": [
-          "survival.reward_interval"
-        ]
       }
     ],
-    "location": "work/research/universal-mission-editor-2026-09-29/phase2e-sample"
+    "rejected": {
+      "survival.reward_interval": "ERROR [MISSION_BUILD_PROFILE] NEEDS_BINDING: body key f10a043e7f825db2: survival.reward_interval can be written only by a target addon (no exact literal form), and that addon acts only through hook binding renovice.target.lua_call, which is OFFLINE_VERIFIED (not LIVE_CONFIRMED) in REGISTRIES/hook_registry.tsv. The 2026-09-29 44.0.2 live test showed the addon attaching without any luaCalls.before dispatch, so it would change nothing. To stage it for a live acceptance run only, add \"allow_unproven_hook_bindings\": [\"renovice.target.lua_call\"] to the mission settings",
+      "purgatory.difficulty1.warrior_level": "ERROR [MISSION_BUILD_PROFILE] NEEDS_BINDING: body key 6fa60841c9e0f207: purgatory.difficulty1.warrior_level can be written only by a target addon (no exact literal form), and that addon acts only through hook binding renovice.target.lua_call, which is OFFLINE_VERIFIED (not LIVE_CONFIRMED) in REGISTRIES/hook_registry.tsv. The 2026-09-29 44.0.2 live test showed the addon attaching without any luaCalls.before dispatch, so it would change nothing. To stage it for a live acceptance run only, add \"allow_unproven_hook_bindings\": [\"renovice.target.lua_call\"] to the mission settings"
+    },
+    "location": "work/research/universal-mission-editor-2026-09-29/phase2f-sample"
   }
 }
