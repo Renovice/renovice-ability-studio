@@ -13,9 +13,10 @@
             "unit": "",
             "type": "int",
             "stock": 5,
+            "default": 5,
             "min": 0,
             "max": 5,
-            "scope": "Octavia Mallet. Unticked: the game's dynamic level (5 while the Mallet's damage pool is empty, down to 0 at 1500). Ticked: always this level",
+            "scope": "The Mallet always draws enemy attention at this threat level (0 to 5). Turn the Octavia script off in SCRIPTS for the game's own changing level.",
             "lane": "addon",
             "applies": "live_next_read",
             "stock_check": "none"
@@ -28,7 +29,18 @@
     "format": "RENOVICE_SETTINGS_DECL_V1",
     "build": "2026.09.28.13.06",
     "groups": [
-      { "id": "mallet", "label": "Mallet", "order": 10, "aliases": ["Octavia", "Octavia Prime", "BardMusic", "threat", "aggro"] }
+      {
+        "id": "mallet",
+        "label": "Mallet",
+        "order": 10,
+        "aliases": [
+          "Octavia",
+          "Octavia Prime",
+          "BardMusic",
+          "threat",
+          "aggro"
+        ]
+      }
     ]
   }
 }

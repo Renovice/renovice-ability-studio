@@ -13,9 +13,10 @@
             "unit": "x",
             "type": "float",
             "stock": 0,
+            "default": 50,
             "min": 0,
             "max": 100,
-            "scope": "Frost Ice Wave damage x (1 + Cold stacks (max 10) x bonus x Ability Strength). Unticked or 0: stock damage, the addon changes nothing",
+            "scope": "Ice Wave damage grows with each Cold stack on the target (up to 10) and with Ability Strength. 0 turns the bonus off.",
             "lane": "addon",
             "applies": "live_next_read",
             "stock_check": "none"
@@ -28,7 +29,17 @@
     "format": "RENOVICE_SETTINGS_DECL_V1",
     "build": "2026.09.28.13.06",
     "groups": [
-      { "id": "ice_wave", "label": "Ice Wave", "order": 10, "aliases": ["Frost", "Frost Prime", "Cold", "IceWave"] }
+      {
+        "id": "ice_wave",
+        "label": "Ice Wave",
+        "order": 10,
+        "aliases": [
+          "Frost",
+          "Frost Prime",
+          "Cold",
+          "IceWave"
+        ]
+      }
     ]
   }
 }

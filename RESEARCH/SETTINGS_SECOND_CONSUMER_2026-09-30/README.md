@@ -202,3 +202,29 @@ Contract: `work/research/universal-mission-editor-2026-09-29/CONTRACT_PHASE1.md`
 - The `7028479`/`3ca9564` bootstrapper evidence above (`tools/run_bootstrapper_gates.ps1`) is the pre-R1 run with
   the pre-R1 manifests and was not repeated.
 - Staged: `work/staging/settings-second-consumer/` (R1; the previous manifests are in `older/Packages/`).
+
+## Revision R7: author's defaults (2026-09-30)
+
+Live feedback: the Ice Wave card showed the bonus only after "Custom" was ticked in SCRIPT SETTINGS, and "Restore stock
+values" turned the bonus off (stock 0x) instead of returning to the addon's 50x. Contract `CONTRACT_PHASE1.md` Revision R7
+(bootstrapper `feat/settings-r7-hierarchy-2026-09-30`) adds the optional declaration field `default` (addon lane only).
+
+| Hypothesis | Result | Evidence |
+|---|---|---|
+| With `context.settings` present and no entry, the Frost addon applies 0 (inert), not its compiled 50 | **TRUE** | `src/ice-wave-settings.u44.luau` L1238-1251: `bonus = 0` as soon as `context.settings` is a table; only an enabled entry with `stock == 0` sets another bonus. The Mallet addon keeps the game's dynamic level in the same case (L245-255). |
+| Declaring `default` makes the host deliver the author's default without a file entry, so no addon byte changes | **TRUE (offline)** | Bootstrapper R7 `member_delivery`: a declared default is delivered as `{ enabled = true, value = default, stock }`; gate `verify_addon_settings.ps1` ("declared default: delivered at 50 with no file or a disabled entry ...") and `-Package` on these manifests (`DELIVER ... ice_wave.bonus_per_cold_stack ... value = 50, stock = 0`). |
+
+Changes (manifests only; the addon `.lua_B` bytes and the example `Settings` files are unchanged):
+
+- `package/Frost/package.json`: `"default": 50`; scope "Ice Wave damage grows with each Cold stack on the target (up to 10)
+  and with Ability Strength. 0 turns the bonus off." SCRIPT SETTINGS shows "Bonus per Cold stack: 50x (default)".
+- `package/Octavia/package.json`: `"default": 5` (forced threat 5, as the addon does today); scope "The Mallet always draws
+  enemy attention at this threat level (0 to 5). Turn the Octavia script off in SCRIPTS for the game's own changing level."
+- Neither package has `path` (older layout): SCRIPT SETTINGS lists the value directly on the package page; the render gate
+  covers both (`verify_script_settings_render.ps1` section 1c).
+
+Compatibility: a DLL before R7 rejects the field (`unknown-field=default`, settings capability only); the members then get
+`context.settings = nil` and run their compiled values, which are the same 50 and 5. The pinned-revision gate of this note
+(`tools/run_bootstrapper_gates.ps1`, R1-R5 bootstrappers) therefore reports the settings capability as rejected for these
+manifests; that is the documented older-DLL behaviour, not a regression. Staged in `work/staging/settings-second-consumer/`
+(R1 manifests moved to `older/r1/`).
