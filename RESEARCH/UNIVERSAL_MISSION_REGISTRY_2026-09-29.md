@@ -1327,3 +1327,33 @@ What the package does with it:
   it applies until then).
 - The static weight is a heuristic (loop nesting); it is not a runtime measurement.
 - 31 stays armed until the first reward and 69 until its first call (see cost model).
+
+## Phase 2k-R3b — hook every declared table, idle retire, no rebuild (2026-09-30)
+
+Coordinator direction: requiring a rebuild after ticking a value defeats the in-game editor; use R3 instead. Supersedes the
+Phase 2k rule "hooks only for tables with an enabled value" and its `requireHooked` activation error (both removed).
+
+| # | Hypothesis | Result | Evidence |
+|---|---|---|---|
+| 2k-8 | Every hook can retire when its tables hold no enabled value, without writing. | **TRUE (offline).** | All 64 hooks of the full package are root children; each begins (after the activation guard) with `if not (liveA or ...) then return "RENOVICE_RETIRE" end`. Gate `hook-retire` also reads the idle path back (64/64); a hook without it is detected (self-test). luau harness: every hook returns the sentinel on its first call with `context.settings = {}` and nil before activation (full package 64 cases, wide build 69). |
+| 2k-9 | A hot tick with nothing enabled costs one dispatch per instance. | **TRUE (static + harness).** | SurvivalMission 67 (called every tick by `Mission`) takes the idle path on its first call and is retired by R3 until the next root entry, F9 or apply; afterwards a call costs the ~3.4 ns claim check. 68 is not hooked. |
+| 2k-10 | Hooks of modules that are not loaded never hold the fast gate open. | **TRUE for modules never loaded in the VM; FALSE after an apply for modules loaded earlier.** | `f3a3303` `bind_lua_call_retire_ledgers_locked` sets admitted bits only for prototypes of published identities, and an identity is published only after the keyed module loads (`remember_target_module_identity`, push_back at L14204). Identities are never erased, and every F9/apply creates new ledgers whose slots start pending (untracked member). A module loaded earlier in the session therefore keeps the gate open after an apply until it runs again (spec S4). |
+| 2k-11 | Another proven prototype would let every hook retire at mission start. | **FALSE (Survival).** | Under the nesting rule an engine-called reader can only be covered by its own hook. Even a first-bind-only escape-site rule would drop only 31 (escapes at 33:20, inside 67) and 59 (escapes at 61:12, inside 61); 69 escapes at `Mission` instruction 10 (the `CreateModeMgr` callback), before any capturer runs, and 72 is an engine-called global. Across the package, 19 of 64 hooks are engine-called (7 callbacks, 12 globals) with a first-call time not established statically (`evidence/hook_first_call_classes.txt`). |
+
+Per-mission cost: at most one dispatch per hooked prototype of each loaded module (Survival <= 8), plus one per drifted
+table; the fast gate is open from the root entry until the last of them has run once (never, for a handler the engine does
+not call). Full model in the staging README.
+
+Bootstrapper specs (not implemented): **S2** armed-prototype prefilter before the probes (open-gate cost becomes a hash
+lookup); **S4** a new ledger should not re-arm slots of a module with no live instance (for example keep retired bits across a
+generation change for modules without a root entry since the last level transition); **S5** an idle retire for the whole
+provider (for example `"RENOVICE_RETIRE_ALL"`, retiring every slot of the calling target for the instance), so an idle
+mission type costs one dispatch and closes the gate at mission start, including engine callbacks that have not fired yet.
+
+Package (`work/staging/missions-full-package/`, previous set in `older/enabled-tables-only-de4d7e00/`): 22 targets, 64
+hooks, 64 idle + 64 settled retire paths, 281 declared values; addon 73,345 B `BE75266D...7F61F169`; `package.json`
+`ABF62770...25AC32C9` and Settings `5DF49C67...1F42775C` unchanged.
+
+Gates: build 0 warnings; verify-missions 594/594; self-test 144/144; ctest 2/2; hook-plan cases 6/6; presets byte-identical,
+samples as before, full package identical to the staged set; bootstrapper `verify_addon_settings -Package -Settings`
+163/0 and `verify_script_packages -AdmitPackage` PASS (`f3a3303` copy).
