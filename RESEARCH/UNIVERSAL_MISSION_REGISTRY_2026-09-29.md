@@ -1407,3 +1407,20 @@ Package (`work/staging/missions-full-package/`, previous set in `older/r3-idle-r
 Limitations: offline only. Whether the runtime retires the not-yet-called hooks (for example Survival 31/69/72) on the
 first idle dispatch is the bootstrapper's R4 behaviour. It needs the R4 DLL (`731fdb11…`, staged in
 `work/staging/editor-phase2-3/`) and a live run. On `372a9eea` the package behaves exactly like the R3b set.
+
+## Phase 2l — player text, sections, master knobs (contract Revision R5, 2026-09-30)
+
+Record: `RESEARCH/MISSION_SETTINGS_PLAYER_TEXT_R5_2026-09-30.md` (hypotheses, the Mobile Defense timer answer, the headline
+matrix for every mission type, label examples, gates). Contract: `work/research/universal-mission-editor-2026-09-29/CONTRACT_PHASE1.md`
+Revision R5 (producer-only; no new declaration field).
+
+- Registry: player-facing `ui.short_label` / `ui.scope_text` (description with stock and unit), `ui.rank`, `ui.hidden`, 17
+  `<family>_advanced` groups, `ui_masters` (28 master knobs), `ui_player_text`; source `tools/player_text.py`, applied by
+  `register_registry.py` after `editor_fields.apply` or standalone. `verify-missions` 594/594.
+- Generator: player-text and master gates in `verify_mission_ui`; masters (addon lane resolved in `effectiveSettings`; literal
+  lane built into one member that declares only the master); `disabled_values`; hidden rows excluded; declarations written in
+  section/rank order. Builds without masters are byte-identical to Phase 2k-R4 (presets and samples unchanged).
+- Corrections: `survival.alert_interval` is the length of fixed-length Survival (not a reward interval); the Five Fates Steel
+  Path stage timers have no reader (hidden); the Defense regular enemy caps are literal only because of a registrar gate false
+  negative; Rescue's hostage timer is a literal, not MissionInfo.
+- Package: `work/staging/missions-full-package/` (previous set in `older/r4-retire-all-e05f4980/`), 294 declared values.

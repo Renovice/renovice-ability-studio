@@ -3959,15 +3959,50 @@ namespace renovice
                     check(ui_ok
                             && rejects_ui([&](Json& r) { ui_of(r, "survival.reward_interval")["short_label"] = std::string(34, 'A'); }, "row budget")
                             && rejects_ui([&](Json& r) { ui_of(r, "survival.reward_interval")["short_label"] =
-                                                             ui_of(r, "survival.pickup_time_added")["short_label"]; }, "not unique in group")
+                                                             ui_of(r, "survival.pickup_time_added")["short_label"]; }, "not unique in its mission section")
+                            && rejects_ui([&](Json& r) { ui_of(r, "survival.reward_interval")["short_label"] =
+                                                             ui_of(r, "survival.capsule_interval")["short_label"]; }, "not unique in its mission section")
                             && rejects_ui([&](Json& r) { ui_of(r, "survival.reward_interval")["applies"] = "next_mission"; }, "lane/applies")
                             && rejects_ui([&](Json& r) { ui_of(r, "survival.reward_interval")["editor"] = "INPUTCOUNT"; }, "float value editor")
                             && rejects_ui([&](Json& r) { ui_of(r, "survival.reward_interval")["max"] = 1; }, "min/max")
                             && rejects_ui([&](Json& r) { ui_of(r, "survival.reward_interval")["group"] = "defense"; }, "family")
                             && rejects_ui([&](Json& r) { ui_of(r, "survival.reward_interval")["scope_text"] = std::string(257, 'a'); }, "scope_text")
                             && rejects_ui([&](Json& r) { r["ui_groups"]["survival"]["label"] = std::string(41, 'A'); }, "over its budget"),
-                          "registry ui fields: every row fits the 40-character row budget with a label unique in its group, and the "
-                          "apply timing, editor and min/max agree with the lane and limits");
+                          "registry ui fields: every row fits the 40-character row budget with a label unique in its mission section, "
+                          "and the apply timing, editor and min/max agree with the lane and limits");
+                    // Contract R5: player-text gates (labels, abbreviations, code identifiers, stock + unit in the description,
+                    // rendered tooltip <= 300), Advanced subsections and master knobs.
+                    const auto master_of = [](Json& r, const std::string& id) -> Json& { return r["ui_masters"][id]; };
+                    bool ui_r5 = registry.contains("ui_masters") && registry.contains("ui_player_text")
+                        && registry.at("ui_groups").contains("survival_advanced")
+                        && registry.at("ui_groups").at("survival_advanced").at("advanced_of") == "survival"
+                        && mission_tunable(registry, "survival.alert_ls_drop_mult").at("ui").at("group") == "survival_advanced"
+                        && mission_tunable(registry, "survival.alert_ls_drop_mult").at("ui").at("short_label") == "Alert missions: pickup drop rate"
+                        && mission_tunable(registry, "fivefates.state_times_sp.state1").at("ui").contains("hidden");
+                    check(ui_r5
+                            && rejects_ui([&](Json& r) { ui_of(r, "survival.reward_interval")["short_label"] = "LS reward time"; }, "abbreviation")
+                            && rejects_ui([&](Json& r) { ui_of(r, "survival.reward_interval")["short_label"] = "Max sim. enemies"; }, "abbreviation")
+                            && rejects_ui([&](Json& r) { ui_of(r, "survival.reward_interval")["short_label"] = "Reward mult"; }, "abbreviation")
+                            && rejects_ui([&](Json& r) { ui_of(r, "survival.reward_interval")["short_label"] = "Reward interval (1P)"; }, "abbreviation")
+                            && rejects_ui([&](Json& r) { ui_of(r, "survival.reward_interval")["short_label"] = "rewardInterval"; }, "code identifier")
+                            && rejects_ui([&](Json& r) { ui_of(r, "survival.reward_interval")["scope_text"] = "Seconds per reward rotation"; }, "stock value")
+                            && rejects_ui([&](Json& r) { ui_of(r, "survival.reward_interval")["scope_text"] = "Seconds per reward; stock 300 minutes"; },
+                                          "followed by its unit")
+                            && rejects_ui([&](Json& r) { ui_of(r, "survival.reward_interval")["scope_text"] = std::string(140, 'a') + "; stock 300 s"; },
+                                          "rendered tooltip")
+                            && rejects_ui([&](Json& r) { ui_of(r, "survival.reward_interval")["group"] = "defense_advanced"; }, "family")
+                            && rejects_ui([&](Json& r) { r["ui_groups"]["survival_advanced"]["order"] = 1; }, "Advanced subsection")
+                            && rejects_ui([&](Json& r) { master_of(r, "loopdefend.max_enemies.p1")["drives"][0]["scale"] = 1.5; }, "whole")
+                            && rejects_ui([&](Json& r) { master_of(r, "loopdefend.max_enemies.p1")["stock"] = 17; }, "first driven row")
+                            && rejects_ui([&](Json& r) { master_of(r, "loopdefend.max_enemies.p1")["drives"].push_back(
+                                                             {{"tunable_id", "survival.reward_interval"}, {"scale", 1}}); }, "is not a addon row of module")
+                            && rejects_ui([&](Json& r) { master_of(r, "loopdefend.max_enemies.p2")["drives"].push_back(
+                                                             {{"tunable_id", "loopdefend.enemy_counts.maxNum.p1"}, {"scale", 1}}); }, "already driven")
+                            && rejects_ui([&](Json& r) { r["ui_masters"]["survival.reward_interval"] = master_of(r, "orphix.spawn_interval"); }, "collides")
+                            && rejects_ui([&](Json& r) { r["ui_player_text"]["banned_abbreviations"] = Json::array({"LS"}); }, "banned-abbreviation"),
+                          "R5 player text: labels <= 33 without unexplained abbreviations or code identifiers, descriptions that state "
+                          "stock and unit, tooltips <= 300, Advanced subsections after their section, and master knobs (whole scales for "
+                          "int, stock from the first row, one module and lane, each row driven once, ids distinct from rows)");
                 }
 
                 // Phase 2g: a settings build emits ONE multi-target addon (Inject\Missions.targets.addon.lua_B) for every
@@ -4045,7 +4080,7 @@ namespace renovice
                             package_ok = package_json.at("schema") == 1 && package_json.at("name") == "Missions"
                                 && package_json.at("settings").at("format") == "RENOVICE_SETTINGS_DECL_V1"
                                 && package_json.at("settings").at("build") == registry.at("build")
-                                && group_ids == std::set<std::string>{"lantern", "purgatory", "survival", "void_flood"}
+                                && group_ids == std::set<std::string>{"lantern", "purgatory_advanced", "survival", "void_flood"}
                                 && validate_settings_declarations(package_json).empty()
                                 && addon_values.size() == 3 && flood_values.size() == 1
                                 && addon_values.at("survival.reward_interval") == mission_value_declaration(mission_tunable(registry, "survival.reward_interval"))
@@ -4103,7 +4138,7 @@ namespace renovice
                             std::vector<std::string> many, one_group;
                             std::set<std::string> seen_groups;
                             for (const auto& row : registry.at("tunables")) {
-                                const auto group = row.at("ui").at("group").get<std::string>();
+                                const auto group = section_family(row.at("ui").at("group").get<std::string>());
                                 if (row.at("backend") == "TARGET_ADDON" && seen_groups.insert(group).second)
                                     many.push_back(row.at("tunable_id").get<std::string>());
                             }
@@ -4587,12 +4622,16 @@ print("MULTI-TARGET HARNESS PASS cases=" .. #cases .. " idle=" .. #idle .. " ret
                         bool full_ok = full.success && !full.package_directory.empty();
                         std::string full_detail;
                         if (!full_ok && !full.diagnostics.empty()) full_detail = " " + full.diagnostics.front().message;
-                        std::size_t addon_rows = 0, flood_rows = 0;
+                        std::size_t addon_rows = 0, flood_rows = 0, hidden_rows = 0, addon_masters = 0;
                         for (const auto& row : registry.at("tunables"))
                             if (row.at("backend") == "TARGET_ADDON" && row.at("owner").contains("fields")) {
                                 ++addon_rows;
                                 if (row.at("owner").at("body_key") == "fc711ff621a75552") ++flood_rows;
+                                else if (row.at("ui").contains("hidden")) ++hidden_rows;
                             }
+                        for (const auto& [id, master] : registry.at("ui_masters").items())
+                            if (master.at("lane") == "addon" && master.at("body_key") != "fc711ff621a75552") ++addon_masters;
+                        const std::size_t declared_addon = addon_rows - flood_rows - hidden_rows + addon_masters;
                         if (full_ok) {
                             const Json package_json = Json::parse(read_text(full.package_directory / "package.json"));
                             const Json& addon_member = package_json.at("members").at("Missions.targets.addon.lua_B").at("settings").at("values");
@@ -4608,9 +4647,9 @@ print("MULTI-TARGET HARNESS PASS cases=" .. #cases .. " idle=" .. #idle .. " ret
                             for (const auto& [module_path, set] : source_hooks) hooked_targets += set.empty() ? 0 : 1;
                             const auto& excluded = set_manifest.at("package").at("settings").at("declarations").at("excluded_values");
                             full_ok = full_addon != nullptr && validate_settings_declarations(package_json).empty()
-                                && addon_member.size() == addon_rows - flood_rows
-                                && excluded.size() == flood_rows + 2
-                                && migration.at("values").size() == addon_rows - flood_rows + 1 && enabled_entries == 2
+                                && addon_member.size() == declared_addon && hidden_rows > 0 && addon_masters > 0
+                                && excluded.size() == flood_rows + 2 + hidden_rows
+                                && migration.at("values").size() == declared_addon + 1 && enabled_entries == 2
                                 && migration.at("values").at("survival.reward_interval") == Json{{"enabled", true}, {"value", 150}}
                                 && migration.at("values").at("void_flood.fractures_per_round.normal") == Json{{"enabled", true}, {"value", 4}}
                                 && migration.at("values").at("survival.pickup_time_added") == Json{{"enabled", false}, {"value", 7}}
@@ -4622,7 +4661,9 @@ print("MULTI-TARGET HARNESS PASS cases=" .. #cases .. " idle=" .. #idle .. " ret
                                 && addon_manifest.at("hook_plan").at("retire_all_hooks") == addon_manifest.at("hook_plan").at("hooks")
                                 && addon_manifest.at("hook_plan").at("retire_all_sentinel") == "RENOVICE_RETIRE_ALL"
                                 && contains_text(full.gate_log, "hook-plan\nPASS targets=" + std::to_string(addon_manifest.at("target_keys").size()) + " hooked_targets=" + std::to_string(addon_manifest.at("target_keys").size()) + " ")
-                                && contains_text(full.gate_log, "settings-declarations\nPASS values=" + std::to_string(addon_rows - flood_rows + 1));
+                                && contains_text(full.gate_log, "settings-declarations\nPASS values=" + std::to_string(declared_addon + 1) + " ")
+                                && contains_text(full.gate_log, " masters=" + std::to_string(addon_masters) + "\n")
+                                && contains_text(read_text(full_addon->source), kMasterEffectiveCall);
                             if (full_ok) {
                                 // Two-instance harness over the full file plus a second build with nested (1- and 2-step
                                 // container) and shared-hook tables enabled.
@@ -4651,6 +4692,207 @@ print("MULTI-TARGET HARNESS PASS cases=" .. #cases .. " idle=" .. #idle .. " ret
                                        "and an R4 retire-all path), "
                                        "stays under 512 KiB, and passes "
                                        "the two-instance harness incl. nested and shared-hook tables" + full_detail);
+
+                        // Contract R5: master knobs of the full package, executed by the reference Luau VM. One case per (master,
+                        // hooked prototype): a usable master writes master x scale into every driven row it binds; a driven row
+                        // that is itself enabled wins; a master whose declared stock differs writes nothing; cleanup restores.
+                        {
+                            const MissionArtifact* master_addon = nullptr;
+                            for (const auto& item : full.artifacts) if (item.backend == "TARGET_ADDON") master_addon = &item;
+                            bool masters_ok = full.success && master_addon != nullptr && !master_addon->masters.empty();
+                            std::string masters_detail;
+                            std::size_t master_cases = 0;
+                            if (masters_ok) {
+                                std::ostringstream harness;
+                                harness << "local function chunk()\n" << read_text(master_addon->source) << "end\n\nlocal cases = {\n";
+                                for (const auto& id : master_addon->masters) {
+                                    const Json& master = registry.at("ui_masters").at(id);
+                                    const auto body = master.at("body_key").get<std::string>();
+                                    const Json& module = registry.at("modules").at(body);
+                                    const double value = master.at("stock").get<double>() + 1;
+                                    // prototype -> table -> (upvalue/path, fields)
+                                    std::map<int, std::map<std::string, std::pair<std::string, std::string>>> by_proto;
+                                    for (const auto& drive : master.at("drives")) {
+                                        const std::string row_id = drive.at("tunable_id").get<std::string>();
+                                        const Json& row = mission_tunable(registry, row_id);
+                                        for (const auto& field : row.at("owner").at("fields")) {
+                                            const auto table_id = field.at("table_id").get<std::string>();
+                                            const Json& table = module.at("root_tables").at(table_id);
+                                            std::set<int> minimal;
+                                            for (const auto& prototype : table.at("minimal_hooks").at("prototypes")) minimal.insert(prototype.get<int>());
+                                            for (const auto& hook : table.at("hooks")) {
+                                                const int proto = hook.at("prototype").get<int>();
+                                                if (!minimal.contains(proto)) continue;
+                                                std::string path;
+                                                for (const auto& key : hook.at("path")) path += lua_table_key(key) + ", ";
+                                                auto& slot = by_proto[proto][table_id];
+                                                slot.first = "upvalue = " + std::to_string(hook.at("upvalue").get<int>()) + ", path = { " + path + "}";
+                                                slot.second += "{ id = " + lua_quote(row.at("tunable_id").get<std::string>()) + ", key = " +
+                                                               lua_table_key(field.at("field")) + ", stock = " +
+                                                               format_number(row.at("stock").get<double>()) + ", scale = " +
+                                                               format_number(drive.at("scale").get<double>()) + " }, ";
+                                            }
+                                        }
+                                    }
+                                    for (const auto& [proto, tables] : by_proto) {
+                                        harness << "    { key = " << lua_quote(body) << ", prototype = " << proto << ", master = " << lua_quote(id)
+                                                << ", mstock = " << format_number(master.at("stock").get<double>()) << ", value = "
+                                                << format_number(value) << ", tables = { ";
+                                        for (const auto& [table_id, slot] : tables)
+                                            harness << "{ " << slot.first << ", fields = { " << slot.second << "} }, ";
+                                        harness << "} },\n";
+                                        ++master_cases;
+                                    }
+                                }
+                                harness << "}\n" << R"LUA(
+local function check(condition, message)
+    if not condition then error("MASTER HARNESS FAIL: " .. message, 0) end
+end
+local function instance(case)
+    local upvalues, owners = {}, {}
+    for t, tab in ipairs(case.tables) do
+        local owner = {}
+        for _, field in ipairs(tab.fields) do owner[field.key] = field.stock end
+        owners[t] = owner
+        if #tab.path == 0 then
+            upvalues[tab.upvalue] = owner
+        else
+            local node = upvalues[tab.upvalue] or {}
+            upvalues[tab.upvalue] = node
+            for i = 1, #tab.path - 1 do
+                local k = tab.path[i]
+                node[k] = node[k] or {}
+                node = node[k]
+            end
+            node[tab.path[#tab.path]] = owner
+        end
+    end
+    return owners, upvalues
+end
+local function run(case, settings)
+    local entry = chunk().targets[case.key]
+    local owners, upvalues = instance(case)
+    entry.activate({ settings = settings })
+    local ok, err = pcall(entry.hooks.luaCalls[case.prototype].before, case.prototype, {}, upvalues)
+    check(ok, case.master .. "/" .. case.prototype .. " hook raised: " .. tostring(err))
+    return owners, entry
+end
+for _, case in ipairs(cases) do
+    local tag = case.master .. "/" .. case.prototype
+    local owners, entry = run(case, { [case.master] = { enabled = true, value = case.value, stock = case.mstock } })
+    for t, tab in ipairs(case.tables) do
+        for _, field in ipairs(tab.fields) do
+            check(owners[t][field.key] == case.value * field.scale, tag .. " master writes value x scale into " .. field.id)
+        end
+    end
+    entry.cleanup()
+    for t, tab in ipairs(case.tables) do
+        for _, field in ipairs(tab.fields) do check(owners[t][field.key] == field.stock, tag .. " cleanup restores " .. field.id) end
+    end
+    local first = case.tables[1].fields[1]
+    local settings = { [case.master] = { enabled = true, value = case.value, stock = case.mstock },
+                       [first.id] = { enabled = true, value = first.stock + 2, stock = first.stock } }
+    owners = run(case, settings)
+    for t, tab in ipairs(case.tables) do
+        for _, field in ipairs(tab.fields) do
+            local want = field.id == first.id and first.stock + 2 or case.value * field.scale
+            check(owners[t][field.key] == want, tag .. " an enabled driven row wins over its master (" .. field.id .. ")")
+        end
+    end
+    owners = run(case, { [case.master] = { enabled = true, value = case.value, stock = case.mstock + 1 } })
+    owners = owners
+    for t, tab in ipairs(case.tables) do
+        for _, field in ipairs(tab.fields) do check(owners[t][field.key] == field.stock, tag .. " a master with another stock writes nothing") end
+    end
+    owners = run(case, { [case.master] = { enabled = false, value = case.value, stock = case.mstock } })
+    for t, tab in ipairs(case.tables) do
+        for _, field in ipairs(tab.fields) do check(owners[t][field.key] == field.stock, tag .. " a disabled master writes nothing") end
+    end
+    local plain = chunk().targets[case.key]
+    local compiled_owners, compiled_up = instance(case)
+    plain.activate()
+    pcall(plain.hooks.luaCalls[case.prototype].before, case.prototype, {}, compiled_up)
+    for t, tab in ipairs(case.tables) do
+        for _, field in ipairs(tab.fields) do
+            check(compiled_owners[t][field.key] == field.stock, tag .. " without context.settings a stock-compiled master writes nothing")
+        end
+    end
+end
+print("MASTER HARNESS PASS cases=" .. #cases)
+)LUA";
+                                const fs::path harness_path = mission_fixture / "master_harness.luau";
+                                write_text(harness_path, harness.str());
+                                const fs::path luau = resolve_workspace_path(editor_root, "repos", "de_luau_toolchain") / "bin/luau.exe";
+                                const ProcessResult run = run_process(quote_process_argument(luau) + " " + quote_process_argument(harness_path), mission_fixture);
+                                masters_ok = master_cases > 0 && run.exit_code == 0 &&
+                                             contains_text(run.output, "MASTER HARNESS PASS cases=" + std::to_string(master_cases));
+                                masters_detail = masters_ok ? " [cases=" + std::to_string(master_cases) + "]" : " " + run.output.substr(0, 600);
+                            }
+                            check(masters_ok, "R5 master knobs (luau.exe, full package): a master writes master x scale into every driven row, "
+                                              "an enabled driven row wins, a master with another declared stock or disabled writes nothing, "
+                                              "cleanup restores, and a stock-compiled master is inert without context.settings" + masters_detail);
+                        }
+
+                        // Contract R5: literal master knobs and disabled_values. Mobile Defense "Time per terminal" drives both
+                        // total-time literals (x3) into ONE replacement member that declares only the master; the Mobile Defense
+                        // addon rows and addon masters give way with reasons; a disabled value is built but shipped off.
+                        {
+                            Json literal_settings = probe_settings(Json{{"mobiledefense.time_per_terminal", 20}, {"excavation.dig_time", 50}});
+                            literal_settings["output_layout"] = "package";
+                            literal_settings["package_scope"] = "all_addon_values";
+                            literal_settings["disabled_values"] = Json::array({"excavation.dig_time"});
+                            const MissionSetResult literal = build_mission_settings(literal_settings, editor_root, mission_fixture, true);
+                            bool literal_ok = literal.success && !literal.package_directory.empty();
+                            std::string literal_detail = literal_ok || literal.diagnostics.empty() ? std::string() : " " + literal.diagnostics.front().message;
+                            if (literal_ok) {
+                                const Json package_json = Json::parse(read_text(literal.package_directory / "package.json"));
+                                const Json migration = Json::parse(read_text(literal.directory / "Settings" / "Missions.json"));
+                                const Json plan = Json::parse(read_text(literal.directory / "source" / "a807aae359ffc1eb.plan.json"));
+                                const Json normalized = Json::parse(read_text(literal.directory / "mission_settings.json"));
+                                const Json set_manifest = Json::parse(read_text(literal.manifest));
+                                std::set<std::string> excluded_ids;
+                                for (const auto& entry : set_manifest.at("package").at("settings").at("declarations").at("excluded_values"))
+                                    excluded_ids.insert(entry.at("tunable_id").get<std::string>());
+                                std::set<int> operands;
+                                for (const auto& edit : plan.at("edits")) operands.insert(edit.at("operand").get<int>());
+                                const Json& md = package_json.at("members").at("a807aae359ffc1eb (missions_exact-replacement).lua_B").at("settings").at("values");
+                                const Json& dig = package_json.at("members").at("f7444e3c621ff018 (missions_exact-replacement).lua_B").at("settings").at("values");
+                                literal_ok = md.size() == 1 && md.contains("mobiledefense.time_per_terminal")
+                                    && md.at("mobiledefense.time_per_terminal").at("lane") == "literal" && dig.size() == 1 && dig.contains("excavation.dig_time")
+                                    && plan.at("edits").size() == 2 && operands == std::set<int>{60}
+                                    && migration.at("values").at("mobiledefense.time_per_terminal") == Json{{"enabled", true}, {"value", 20}}
+                                    && migration.at("values").at("excavation.dig_time") == Json{{"enabled", false}, {"value", 50}}
+                                    && excluded_ids.contains("mobiledefense.enemy_counts.max.p1") && excluded_ids.contains("mobiledefense.max_enemies.p1")
+                                    && normalized.at("values").contains("mobiledefense.time_per_terminal")
+                                    && !normalized.at("values").contains("mobiledefense.total_time.minimum")
+                                    && normalized.at("disabled_values") == Json::array({"excavation.dig_time"})
+                                    && contains_text(literal.gate_log, "settings-declarations\nPASS");
+                            }
+                            const auto rejected = [&](Json settings_json, const std::string& needle) {
+                                const MissionSetResult bad = build_mission_settings(settings_json, editor_root, mission_fixture, true);
+                                return !bad.success && !bad.diagnostics.empty() && contains_text(bad.diagnostics.front().message, needle);
+                            };
+                            const auto full_input = [&](const Json& values_json) {
+                                Json value = probe_settings(values_json);
+                                value["output_layout"] = "package";
+                                value["package_scope"] = "all_addon_values";
+                                return value;
+                            };
+                            Json unnamed_disabled = full_input(Json{{"survival.reward_interval", 150}});
+                            unnamed_disabled["disabled_values"] = Json::array({"excavation.dig_time"});
+                            check(literal_ok
+                                    && rejected(probe_settings(Json{{"mobiledefense.time_per_terminal", 20}}), "needs \"package_scope\"")
+                                    && rejected(full_input(Json{{"mobiledefense.time_per_terminal", 0}}), "master knob mobiledefense.time_per_terminal")
+                                    && rejected(full_input(Json{{"mobiledefense.time_per_terminal", 20}, {"mobiledefense.total_time.minimum", 60}}), "named both")
+                                    && rejected(full_input(Json{{"mobiledefense.time_per_terminal", 20}, {"mobiledefense.console_count", 2}}),
+                                                "only the rows its master drives")
+                                    && rejected(unnamed_disabled, "which values does not name")
+                                    && rejected(full_input(Json{{"fivefates.state_times_sp.state1", 200}}), "hidden"),
+                                  "R5 literal master: Mobile Defense time per terminal builds both total-time operands (20 x 3 = 60) into one "
+                                  "replacement member that declares only the master, displaces the Mobile Defense addon rows and masters with "
+                                  "reasons, ships a disabled value off, and rejects masters outside all_addon_values, out-of-range values, a row "
+                                  "named twice, a foreign row in a master member, unnamed disabled ids and hidden rows" + literal_detail);
+                        }
                         Json loose_scope = probe_settings(Json{{"survival.reward_interval", 150}});
                         loose_scope["package_scope"] = "all_addon_values";
                         Json bad_scope = loose_scope;

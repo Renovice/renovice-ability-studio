@@ -417,6 +417,125 @@ bool settings_whole(const Json& number) {
     return number.is_number_integer() || (number.is_number_float() && std::floor(number.get<double>()) == number.get<double>());
 }
 
+// Contract R5 (CONTRACT_PHASE1.md, 2026-09-30): player-facing text, sections and master knobs.
+//  - Rows curated by RESEARCH/.../tools/player_text.py carry ui.label_source "player_text"; they and every master knob pass
+//    the player-text gates below (a mirror of the tool's gates): label <= 33 characters (the CHECKBOX row "Custom <label>"
+//    fits 40) and "<label>: <stock>" <= 40 (the value BUTTON row), no unexplained abbreviation or code identifier, a
+//    description that states the stock value followed by its unit, and a rendered tooltip (bootstrapper value_tooltip plus
+//    the CHECKBOX prefix) of at most 300 characters, so nothing is cut.
+//  - A section is a mission family (first dotted part of the id); its Advanced subsection is the ui group
+//    "<family>_advanced", ordered right after the family. Labels are unique within a section (the section TITLE names the
+//    mission; the stock search box is off since bootstrapper R4).
+//  - A master knob (registry `ui_masters`) is one declared value that drives several rows of ONE module: every driven row
+//    gets master x scale unless the row itself is enabled (the row wins). Addon lane: resolved by the generated addon in
+//    activate(context). Literal lane: the replacement is built with master x scale in every driven row's sites, and the
+//    member declares only the master (one literal value per member, design section 5).
+//  - A row with ui.hidden (a reason) is never declared in a package (for example a value no stock code reads).
+constexpr const char* kAdvancedGroupSuffix = "_advanced";
+constexpr const char* kPlayerTextFormat = "RENOVICE_MISSION_PLAYER_TEXT_V1";
+constexpr std::size_t kPlayerLabelMaximum = 33;
+constexpr std::size_t kSettingsTooltipMaximum = 300;  // bootstrapper settings_ui_core.hpp maximum_tooltip
+const std::vector<std::string>& player_text_banned_words() {
+    static const std::vector<std::string> words{"LS", "MD", "SP", "AI", "HP", "DoT", "sim", "Sim", "mult", "Mult", "pct", "dist",
+                                                "num", "Num", "lvl", "req", "thr", "cfg", "max.", "min.", "sim.", "mult.", "1P",
+                                                "2P", "3P", "4P", "P1", "P2", "P3", "P4", "p1", "p2", "p3", "p4", "Lerp", "proto",
+                                                "upvalue", "frame_", "cap_", "Name__", "maxWaveNum", "NpcHardCap", "fixedLength"};
+    return words;
+}
+
+std::string mission_family(const std::string& id) { return id.substr(0, id.find('.')); }
+
+std::string section_family(const std::string& group) {
+    const std::string suffix = kAdvancedGroupSuffix;
+    return group.size() > suffix.size() && group.compare(group.size() - suffix.size(), suffix.size(), suffix) == 0
+               ? group.substr(0, group.size() - suffix.size()) : group;
+}
+
+// Display numbers exactly as the bootstrapper (whole numbers without a decimal point, otherwise %.6g).
+std::string settings_display_number(const double value) {
+    if (std::floor(value) == value && std::fabs(value) < 1.0e15) return std::to_string(static_cast<long long>(value));
+    char buffer[48]{};
+    std::snprintf(buffer, sizeof(buffer), "%.6g", value);
+    return buffer;
+}
+
+std::string settings_with_unit(const double value, const std::string& unit) {
+    return settings_display_number(value) + (unit.empty() ? std::string() : unit == "x" ? unit : " " + unit);
+}
+
+// Longest tooltip the bootstrapper renders for a value (CHECKBOX row: "Off: ..." + value_tooltip).
+std::string settings_rendered_tooltip(const double stock, const std::string& unit, const double low, const double high,
+                                      const std::string& scope, const std::string& lane) {
+    std::string text = "Off: the stock value is used. Stock " + settings_with_unit(stock, unit) + ".";
+    text += " Range " + settings_display_number(low) + " to " + settings_display_number(high) + ".";
+    text += " " + scope + ".";
+    if (lane == "literal") text += " Edited in Ability Studio; this switch applies the edited script at the next mission.";
+    else text += " Applies: live, at the next read. Custom value applies only where the live value equals stock.";
+    return text;
+}
+
+bool player_text_word_char(const char c) { return std::isalnum(static_cast<unsigned char>(c)) || c == '_'; }
+
+std::vector<std::string> player_text_problems(const std::string& where, const std::string& label, const std::string& unit,
+                                              const double stock, const double low, const double high,
+                                              const std::string& description, const std::string& lane) {
+    std::vector<std::string> problems;
+    const auto token_problems = [&](const std::string& text, const std::string& what) {
+        for (const auto& word : player_text_banned_words())
+            for (std::size_t at = text.find(word); at != std::string::npos; at = text.find(word, at + 1)) {
+                const bool before = at == 0 || !player_text_word_char(text[at - 1]);
+                const bool after = !player_text_word_char(word.back()) || at + word.size() == text.size() ||
+                                   !player_text_word_char(text[at + word.size()]);
+                if (before && after) {
+                    problems.push_back(where + ": " + what + " has the unexplained abbreviation or code token '" + word + "'");
+                    break;
+                }
+            }
+        for (std::size_t at = 0; at < text.size();) {
+            if (!player_text_word_char(text[at])) { ++at; continue; }
+            std::size_t end = at;
+            while (end < text.size() && player_text_word_char(text[end])) ++end;
+            const std::string token = text.substr(at, end - at);
+            static const std::regex camel("[a-z]+[A-Z][A-Za-z]*");
+            if (std::regex_match(token, camel)) problems.push_back(where + ": " + what + " has the code identifier '" + token + "'");
+            at = end;
+        }
+    };
+    if (label.empty() || label.size() > kPlayerLabelMaximum || !settings_printable(label) || label.front() == ' ' || label.back() == ' ')
+        problems.push_back(where + ": label '" + label + "' is empty, padded, not printable ASCII or over " +
+                           std::to_string(kPlayerLabelMaximum) + " characters");
+    if ((label + ": " + settings_with_unit(stock, unit)).size() > kSettingsLabelBudget)
+        problems.push_back(where + ": value row '" + label + ": " + settings_with_unit(stock, unit) + "' is over 40 characters");
+    token_problems(label, "label");
+    if (description.empty() || description.size() > kSettingsScopeMaximum || !settings_printable(description))
+        problems.push_back(where + ": description is empty, not printable ASCII or over 256 characters");
+    token_problems(description, "description");
+    const std::string head = "stock " + settings_display_number(stock);
+    const auto at = description.find(head);
+    if (at == std::string::npos) {
+        problems.push_back(where + ": description does not state the stock value ('" + head + "')");
+    } else {
+        const std::string tail = description.substr(at + head.size());
+        static const std::map<std::string, std::string> words{{"s", " s"}, {"x", "x"}, {"m", " m"}, {"HP", " health"},
+                                                              {"XP", " XP"}, {"min", " min"}};
+        if (const auto found = words.find(unit); found != words.end()) {
+            if (tail.rfind(found->second, 0) != 0) problems.push_back(where + ": the stock value is not followed by its unit");
+        } else if (!(tail.size() >= 2 && ((tail[0] == ' ' && (std::isalpha(static_cast<unsigned char>(tail[1])) || tail[1] == '(')) ||
+                                          tail[0] == '%'))) {
+            problems.push_back(where + ": the stock value of a unitless value is not followed by what it counts");
+        }
+    }
+    const auto tooltip = settings_rendered_tooltip(stock, unit, low, high, description, lane);
+    if (tooltip.size() > kSettingsTooltipMaximum)
+        problems.push_back(where + ": rendered tooltip is " + std::to_string(tooltip.size()) + " characters (over 300)");
+    return problems;
+}
+
+const Json* mission_master(const Json& registry, const std::string& id) {
+    if (!registry.contains("ui_masters") || !registry.at("ui_masters").contains(id)) return nullptr;
+    return &registry.at("ui_masters").at(id);
+}
+
 // Structural check of the registry `ui` fields; throws the first exact reason.
 void verify_mission_ui(const Json& registry) {
     static const std::regex group_id("[a-z0-9_]{1,64}");
@@ -438,26 +557,56 @@ void verify_mission_ui(const Json& registry) {
                 !settings_printable(alias.get<std::string>()))
                 throw std::runtime_error("ui group " + id + " has an invalid alias");
     }
-    std::set<std::string> labels;
+    for (const auto& [id, group] : groups.items()) {
+        // R5: an Advanced subsection names its family and sorts right after it.
+        if (!group.contains("advanced_of")) continue;
+        const auto family = group.at("advanced_of").get<std::string>();
+        if (id != family + kAdvancedGroupSuffix || !groups.contains(family) || groups.at(family).contains("advanced_of") ||
+            group.at("order").get<long long>() <= groups.at(family).at("order").get<long long>())
+            throw std::runtime_error("ui group " + id + " is not the Advanced subsection of an existing family ordered after it");
+    }
+    std::map<std::string, std::string> labels;  // (section family + folded label) -> id
+    const auto unique_label = [&](const std::string& id, const std::string& group, const std::string& label) {
+        std::string folded = label;
+        std::transform(folded.begin(), folded.end(), folded.begin(), [](const unsigned char c) { return static_cast<char>(std::tolower(c)); });
+        // R5: unique within the mission section (family and its Advanced subsection). The section TITLE names the mission and
+        // the stock search box is off (bootstrapper R4), so "Max enemies at once (solo)" may appear in several sections.
+        if (const auto [it, inserted] = labels.emplace(section_family(group) + "|" + folded, id); !inserted)
+            throw std::runtime_error(id + ": short_label is not unique in its mission section " + section_family(group) + " (also " +
+                                     it->second + ")");
+    };
+    const bool player_text = registry.contains("ui_player_text");
+    if (player_text) {
+        const Json& meta = registry.at("ui_player_text");
+        if (meta.value("format", std::string()) != kPlayerTextFormat || meta.at("banned_abbreviations") != Json(player_text_banned_words()))
+            throw std::runtime_error("registry ui_player_text is not RENOVICE_MISSION_PLAYER_TEXT_V1 with the generator's banned-abbreviation list");
+    }
     for (const auto& row : registry.at("tunables")) {
         const auto id = row.at("tunable_id").get<std::string>();
         if (!row.contains("ui") || !row.at("ui").is_object()) throw std::runtime_error(id + ": no ui fields");
         const Json& ui = row.at("ui");
         const auto group = ui.at("group").get<std::string>();
-        if (!groups.contains(group) || id.substr(0, id.find('.')) != group) throw std::runtime_error(id + ": ui group is not its tunable_id family");
+        if (!groups.contains(group) || mission_family(id) != section_family(group)) throw std::runtime_error(id + ": ui group is not its tunable_id family");
         const auto label = ui.at("short_label").get<std::string>();
         if (label.empty() || !settings_printable(label) || label.front() == ' ' || label.back() == ' ' ||
             std::string(kSettingsCheckboxPrefix).size() + label.size() > kSettingsLabelBudget)
             throw std::runtime_error(id + ": short_label is empty, not printable ASCII or over the " + std::to_string(kSettingsLabelBudget) +
                                      "-character row budget");
-        std::string folded = label;
-        std::transform(folded.begin(), folded.end(), folded.begin(), [](const unsigned char c) { return static_cast<char>(std::tolower(c)); });
-        // Phase 2k: unique across the registry, not only in the group (one SCRIPT SETTINGS page shows every section, and
-        // the stock search box matches labels only).
-        if (!labels.insert(folded).second) throw std::runtime_error(id + ": short_label is not unique in group " + group + " or in the registry");
+        unique_label(id, group, label);
         const auto scope = ui.at("scope_text").get<std::string>();
         if (scope.empty() || scope.size() > kSettingsScopeMaximum || !settings_printable(scope))
             throw std::runtime_error(id + ": scope_text is empty, not printable ASCII or over " + std::to_string(kSettingsScopeMaximum) + " characters");
+        if (ui.contains("rank") && !ui.at("rank").is_number_integer()) throw std::runtime_error(id + ": ui rank is not an integer");
+        if (ui.contains("hidden") && (!ui.at("hidden").is_string() || ui.at("hidden").get<std::string>().empty()))
+            throw std::runtime_error(id + ": ui hidden must be a non-empty reason");
+        if (ui.value("label_source", std::string()) == "player_text") {
+            if (!player_text) throw std::runtime_error(id + ": player_text row without registry ui_player_text");
+            if (row.at("stock").is_number())
+                for (const auto& problem : player_text_problems(id, label, ui.at("unit").get<std::string>(), row.at("stock").get<double>(),
+                                                                ui.at("min").get<double>(), ui.at("max").get<double>(), scope,
+                                                                ui.at("lane").get<std::string>()))
+                    throw std::runtime_error(problem);
+        }
         const auto lane = settings_lane(row.at("backend").get<std::string>());
         if (ui.at("lane") != lane || ui.at("applies") != settings_applies(lane)) throw std::runtime_error(id + ": ui lane/applies disagree with the backend");
         const Json& limits = row.at("limits");
@@ -481,6 +630,61 @@ void verify_mission_ui(const Json& registry) {
         const auto unit = ui.at("unit").get<std::string>();
         if (unit.size() > kSettingsUnitMaximum || !settings_printable(unit)) throw std::runtime_error(id + ": ui unit is not a short printable text");
     }
+    // R5 master knobs: one module, one lane, every driven row driven once, stock = first row stock / its scale, limits inside
+    // every driven row's limits after scaling, whole scales for int masters, the player-text gates.
+    if (!registry.contains("ui_masters")) return;
+    static const std::regex master_id("[A-Za-z0-9_.]{1,128}");
+    std::map<std::string, std::string> driven_by;
+    for (const auto& [id, master] : registry.at("ui_masters").items()) {
+        if (!std::regex_match(id, master_id)) throw std::runtime_error("ui master " + id + ": invalid value id");
+        for (const auto& row : registry.at("tunables"))
+            if (row.at("tunable_id") == id) throw std::runtime_error("ui master " + id + ": id collides with a tunable_id");
+        const auto group = master.at("group").get<std::string>();
+        if (!groups.contains(group) || group != mission_family(id) || groups.at(group).contains("advanced_of"))
+            throw std::runtime_error("ui master " + id + ": group is not its family's main section");
+        const auto lane = master.at("lane").get<std::string>();
+        if ((lane != "addon" && lane != "literal") || master.at("applies") != settings_applies(lane))
+            throw std::runtime_error("ui master " + id + ": lane/applies must be addon/live_next_read or literal/next_mission");
+        const auto type = master.at("type").get<std::string>();
+        const double stock = master.at("stock").get<double>(), low = master.at("min").get<double>(), high = master.at("max").get<double>();
+        if ((type != "int" && type != "float") || low > high || stock < low || stock > high ||
+            (type == "int" && (!settings_whole(master.at("stock")) || !settings_whole(master.at("min")) || !settings_whole(master.at("max")))))
+            throw std::runtime_error("ui master " + id + ": type, stock or limits are inconsistent");
+        const auto editor = master.at("editor").get<std::string>();
+        if (editor != (type == "int" && low >= 0 ? "INPUTCOUNT" : "INPUTBOX")) throw std::runtime_error("ui master " + id + ": editor/limits disagree");
+        if (!master.at("drives").is_array() || master.at("drives").empty()) throw std::runtime_error("ui master " + id + ": drives no row");
+        const auto body = master.at("body_key").get<std::string>();
+        bool first = true;
+        for (const auto& drive : master.at("drives")) {
+            const auto row_id = drive.at("tunable_id").get<std::string>();
+            const Json& row = mission_tunable(registry, row_id);
+            const double scale = drive.at("scale").get<double>();
+            if (!(scale > 0) || (type == "int" && std::floor(scale) != scale))
+                throw std::runtime_error("ui master " + id + ": scale of " + row_id + " must be positive (whole for an int master)");
+            if (row.at("owner").at("body_key") != body || row.at("ui").at("lane") != lane)
+                throw std::runtime_error("ui master " + id + ": " + row_id + " is not a " + lane + " row of module " + body);
+            if (!row.at("stock").is_number()) throw std::runtime_error("ui master " + id + ": " + row_id + " has no stock");
+            if (first && std::fabs(row.at("stock").get<double>() / scale - stock) > 1e-9)
+                throw std::runtime_error("ui master " + id + ": stock is not the first driven row's stock divided by its scale");
+            if (low * scale < row.at("limits").at("minimum").get<double>() - 1e-9 || high * scale > row.at("limits").at("maximum").get<double>() + 1e-9)
+                throw std::runtime_error("ui master " + id + ": limits exceed " + row_id + " after scaling");
+            if (const auto [it, inserted] = driven_by.emplace(row_id, id); !inserted)
+                throw std::runtime_error("ui master " + id + ": " + row_id + " is already driven by " + it->second);
+            first = false;
+        }
+        const auto label = master.at("short_label").get<std::string>();
+        unique_label(id, group, label);
+        for (const auto& problem : player_text_problems(id, label, master.at("unit").get<std::string>(), stock, low, high,
+                                                        master.at("scope_text").get<std::string>(), lane))
+            throw std::runtime_error(problem);
+    }
+}
+
+// Declaration of one master knob (R5): the same fields as a row declaration.
+Json mission_master_declaration(const Json& master) {
+    return Json{{"group", master.at("group")}, {"label", master.at("short_label")}, {"unit", master.at("unit")}, {"type", master.at("type")},
+                {"stock", master.at("stock")}, {"min", master.at("min")}, {"max", master.at("max")}, {"scope", master.at("scope_text")},
+                {"lane", master.at("lane")}, {"applies", master.at("applies")}};
 }
 
 // Declaration of one value (design section 3.2), copied from the registry row: stock is the registry stock.
@@ -807,7 +1011,14 @@ struct MissionNaming {
     // in `values` are enabled with that value; every other declared row is compiled as stock and disabled. luaCalls hooks
     // are emitted only for root tables that hold at least one enabled value (a target without one declares no hook).
     bool declare_all_addon_values = false;
+    // R5, settings.disabled_values (package_scope all_addon_values only): ids named in `values` that are built with that
+    // value but shipped switched off (compiled enabled = false; the Settings file entry enabled = false). A replacement
+    // member whose declared values are all off is not staged until the player ticks one (bootstrapper literal gate).
+    std::set<std::string> disabled_values{};
 };
+
+// R5 master knobs of one build: value per declared master (build value or stock) and whether it ships enabled.
+struct MasterBuild { double value = 0; bool enabled = false; };
 
 std::string replace_all(std::string text, const std::string& from, const std::string& to) {
     for (std::size_t pos = 0; (pos = text.find(from, pos)) != std::string::npos; pos += to.size()) text.replace(pos, from.size(), to);
@@ -892,7 +1103,8 @@ constexpr std::size_t kPackageMemberRowLabelBudget = 40;
 std::vector<std::string> member_section_labels(const Json& registry, const std::vector<std::string>& tunables) {
     std::map<long long, std::string> ordered;
     for (const auto& id : tunables) {
-        const auto group = mission_tunable(registry, id).at("ui").at("group").get<std::string>();
+        // R5: an Advanced subsection counts as its mission section.
+        const auto group = section_family(mission_tunable(registry, id).at("ui").at("group").get<std::string>());
         const Json& record = registry.at("ui_groups").at(group);
         ordered[record.at("order").get<long long>()] = record.at("label").get<std::string>();
     }
@@ -1048,8 +1260,18 @@ std::string target_live_assignment(const std::vector<std::size_t>& slots) {
     return std::string(kTargetLiveFlag) + " = " + (condition.empty() ? std::string("false") : condition);
 }
 
+// R5 master knobs, generated source form (read back by multi_target_compiled_values like every settings entry):
+//   local masters = { ["<id>"] = { value = V, stock = S, enabled = B }, }   -- compiled value, declared stock, build choice
+//   local drives = { ["<row>"] = { master = "<id>", scale = N }, }          -- the master that drives a row
+// effectiveSettings(settings, context, masters, drives): a row that is itself usable (enabled, number, declared stock equal
+// to the compiled stock) keeps its own value; otherwise a usable master gives master x scale; otherwise the row stays stock
+// and is never written. Without context.settings the compiled flags decide in the same order. A build without masters
+// emits the Phase 2i function unchanged (byte-identical sources).
+constexpr const char* kMasterEffectiveCall = "effectiveSettings(settings, context, masters, drives)";
+
 std::string multi_target_addon_source(const Json& registry, const std::map<std::string, std::vector<const Json*>>& bodies,
-                                      const std::map<std::string, double>& values, const std::set<std::string>& enabled) {
+                                      const std::map<std::string, double>& values, const std::set<std::string>& enabled,
+                                      const std::map<std::string, MasterBuild>& masters = {}) {
     std::ostringstream out;
     const std::string retire = hook_retire_statement();
     out << "-- Generated by RENOVICE Ability Editor from the mission registry. Do not hand-edit.\n"
@@ -1062,27 +1284,68 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
         << "-- prototypes. A hook with no enabled value retires at once (R3); one with a value binds, writes, then retires.\n"
         << "-- A target with no enabled value at all retires every hook of the target at its first hooked call (R4 retire-all).\n"
         << "-- Values: activate(context) reads context.settings (ADDON_SETTINGS_V1: [id] = { enabled, value, stock }); without\n"
-        << "-- it the compiled values below apply where enabled. A value that is not enabled is never written.\n\n"
-        << "local function effectiveSettings(compiled, context)\n"
-        << "    local provided = nil\n"
-        << "    if type(context) == \"table\" and type(context.settings) == \"table\" then provided = context.settings end\n"
-        << "    local result = {}\n"
-        << "    for id, entry in pairs(compiled) do\n"
-        << "        if provided == nil then\n"
-        << "            result[id] = { enabled = entry.enabled, value = entry.value, stock = entry.stock }\n"
-        << "        else\n"
-        << "            local given = provided[id]\n"
-        << "            local usable = type(given) == \"table\" and given.enabled == true and type(given.value) == \"number\"\n"
-        << "                and given.value == given.value and given.stock == entry.stock\n"
-        << "            if usable then\n"
-        << "                result[id] = { enabled = true, value = given.value, stock = entry.stock }\n"
-        << "            else\n"
-        << "                result[id] = { enabled = false, value = entry.stock, stock = entry.stock }\n"
-        << "            end\n"
-        << "        end\n"
-        << "    end\n"
-        << "    return result\n"
-        << "end\n\n"
+        << "-- it the compiled values below apply where enabled. A value that is not enabled is never written.\n";
+    if (masters.empty()) {
+        out << "\n"
+            << "local function effectiveSettings(compiled, context)\n"
+            << "    local provided = nil\n"
+            << "    if type(context) == \"table\" and type(context.settings) == \"table\" then provided = context.settings end\n"
+            << "    local result = {}\n"
+            << "    for id, entry in pairs(compiled) do\n"
+            << "        if provided == nil then\n"
+            << "            result[id] = { enabled = entry.enabled, value = entry.value, stock = entry.stock }\n"
+            << "        else\n"
+            << "            local given = provided[id]\n"
+            << "            local usable = type(given) == \"table\" and given.enabled == true and type(given.value) == \"number\"\n"
+            << "                and given.value == given.value and given.stock == entry.stock\n"
+            << "            if usable then\n"
+            << "                result[id] = { enabled = true, value = given.value, stock = entry.stock }\n"
+            << "            else\n"
+            << "                result[id] = { enabled = false, value = entry.stock, stock = entry.stock }\n"
+            << "            end\n"
+            << "        end\n"
+            << "    end\n"
+            << "    return result\n"
+            << "end\n\n";
+    } else {
+        out << "-- Master knobs (contract R5): a master value drives several rows of one target (row = master x scale); a row that\n"
+            << "-- is itself enabled wins over its master.\n\n"
+            << "local function effectiveSettings(compiled, context, masters, drives)\n"
+            << "    local provided = nil\n"
+            << "    if type(context) == \"table\" and type(context.settings) == \"table\" then provided = context.settings end\n"
+            << "    local function pick(id, entry)\n"
+            << "        if provided == nil then\n"
+            << "            if entry.enabled then return entry.value end\n"
+            << "            return nil\n"
+            << "        end\n"
+            << "        local given = provided[id]\n"
+            << "        if type(given) == \"table\" and given.enabled == true and type(given.value) == \"number\"\n"
+            << "            and given.value == given.value and given.stock == entry.stock then\n"
+            << "            return given.value\n"
+            << "        end\n"
+            << "        return nil\n"
+            << "    end\n"
+            << "    local chosen = {}\n"
+            << "    if masters ~= nil then\n"
+            << "        for id, entry in pairs(masters) do chosen[id] = pick(id, entry) end\n"
+            << "    end\n"
+            << "    local result = {}\n"
+            << "    for id, entry in pairs(compiled) do\n"
+            << "        local value = pick(id, entry)\n"
+            << "        if value == nil and drives ~= nil then\n"
+            << "            local drive = drives[id]\n"
+            << "            if drive ~= nil and chosen[drive.master] ~= nil then value = chosen[drive.master] * drive.scale end\n"
+            << "        end\n"
+            << "        if value ~= nil then\n"
+            << "            result[id] = { enabled = true, value = value, stock = entry.stock }\n"
+            << "        else\n"
+            << "            result[id] = { enabled = false, value = entry.stock, stock = entry.stock }\n"
+            << "        end\n"
+            << "    end\n"
+            << "    return result\n"
+            << "end\n\n";
+    }
+    out
         << "local function anyEnabled(current, fields)\n"
         << "    for i = 1, #fields do\n"
         << "        if current[fields[i].setting].enabled then return true end\n"
@@ -1147,7 +1410,38 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
         for (const auto& [id, row] : settings)
             out << "        [" << lua_quote(id) << "] = { value = " << format_number(values.at(id)) << ", stock = "
                 << format_number(row->at("stock").get<double>()) << ", enabled = " << (enabled.contains(id) ? "true" : "false") << " },\n";
-        out << "    }\n"
+        out << "    }\n";
+        // R5 master knobs whose driven rows belong to this target (every driven row is a declared row of the target).
+        std::vector<std::string> target_masters;
+        for (const auto& [id, build] : masters) {
+            static_cast<void>(build);
+            const Json* master = mission_master(registry, id);
+            if (master == nullptr) throw std::runtime_error("unknown master knob " + id);
+            if (master->at("body_key") != body) continue;
+            for (const auto& drive : master->at("drives"))
+                if (!settings.contains(drive.at("tunable_id").get<std::string>()))
+                    throw std::runtime_error("master knob " + id + " drives " + drive.at("tunable_id").get<std::string>() +
+                                             ", which is not a declared row of its target");
+            target_masters.push_back(id);
+        }
+        if (!target_masters.empty()) {
+            out << "    local masters = { -- master knobs (R5): compiled value, declared stock and the build's choice\n";
+            for (const auto& id : target_masters)
+                out << "        [" << lua_quote(id) << "] = { value = " << format_number(masters.at(id).value) << ", stock = "
+                    << format_number(mission_master(registry, id)->at("stock").get<double>()) << ", enabled = "
+                    << (masters.at(id).enabled ? "true" : "false") << " },\n";
+            out << "    }\n"
+                << "    local drives = { -- row -> master knob that drives it (row value = master value x scale)\n";
+            std::map<std::string, std::string> drive_lines;
+            for (const auto& id : target_masters)
+                for (const auto& drive : mission_master(registry, id)->at("drives"))
+                    drive_lines[drive.at("tunable_id").get<std::string>()] =
+                        "        [" + lua_quote(drive.at("tunable_id").get<std::string>()) + "] = { master = " + lua_quote(id) +
+                        ", scale = " + format_number(drive.at("scale").get<double>()) + " },\n";
+            for (const auto& [row_id, line] : drive_lines) out << line;
+            out << "    }\n";
+        }
+        out
             << "    local current = nil -- effective settings of the active generation; nil while inactive\n"
             << "    local " << kTargetLiveFlag << " = false -- any enabled value of this target in the active generation (R4)\n";
         struct Bind { int upvalue; std::vector<std::string> steps; std::size_t slot; bool retire_safe; bool root_child; };
@@ -1221,7 +1515,7 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
             << "        label = " << lua_quote(module_path) << ", -- reserved for the settings editor; ignored by the runtime\n"
             << "        settings = settings, -- reserved for the settings editor; ignored by the runtime\n"
             << "        activate = function(context)\n"
-            << "            local effective = effectiveSettings(settings, context)\n";
+            << "            local effective = " << (target_masters.empty() ? "effectiveSettings(settings, context)" : kMasterEffectiveCall) << "\n";
         out << "            current = effective\n";
         for (const auto n : hooked_slots) out << "            live" << n << " = anyEnabled(current, fields" << n << ")\n";
         out << "            " << target_live_assignment(hooked_slots) << "\n"
@@ -1359,7 +1653,47 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
     try {
         if (!run_external_gates) throw std::runtime_error("Current-build mission export requires all verification gates");
         verify_mission_registry_structure(registry);
-        const auto values = validate_mission_values(registry, values_json, naming.declare_all_addon_values);
+        // R5: master knobs named in `values` are split from row values. A literal master is expanded into its driven rows
+        // (each built with master x scale); an addon master is compiled into its target (declared below).
+        Json row_values = Json::object();
+        std::map<std::string, double> master_values;
+        std::map<std::string, std::string> literal_master_of_body;  // body key -> the literal master its member declares
+        std::set<std::string> expanded_rows;
+        for (const auto& [id, value] : values_json.items()) {
+            const Json* master = mission_master(registry, id);
+            if (master == nullptr) {
+                const Json& row = mission_tunable(registry, id);
+                if (row.at("ui").contains("hidden"))
+                    throw std::runtime_error(id + " is hidden from packages: " + row.at("ui").at("hidden").get<std::string>());
+                row_values[id] = value;
+                continue;
+            }
+            if (!naming.declare_all_addon_values)
+                throw std::runtime_error("master knob " + id + " needs \"package_scope\": \"all_addon_values\"");
+            if (!value.is_number() || !std::isfinite(value.get<double>()) || value.get<double>() < master->at("min").get<double>() ||
+                value.get<double>() > master->at("max").get<double>() ||
+                (master->at("type") == "int" && std::floor(value.get<double>()) != value.get<double>()))
+                throw std::runtime_error("Out-of-range or non-whole value for master knob " + id);
+            master_values[id] = value.get<double>();
+        }
+        for (const auto& id : naming.disabled_values)
+            if (!values_json.contains(id)) throw std::runtime_error("disabled_values names " + id + ", which values does not name");
+        for (const auto& [id, number] : master_values) {
+            const Json& master = *mission_master(registry, id);
+            if (master.at("lane") != "literal") continue;
+            for (const auto& drive : master.at("drives")) {
+                const auto row = drive.at("tunable_id").get<std::string>();
+                if (row_values.contains(row)) throw std::runtime_error(row + " is named both directly and through master knob " + id);
+                const double scaled = number * drive.at("scale").get<double>();
+                row_values[row] = mission_tunable(registry, row).at("limits").value("integer", false) ? Json(static_cast<long long>(std::llround(scaled)))
+                                                                                                       : Json(scaled);
+                expanded_rows.insert(row);
+            }
+            const auto body = master.at("body_key").get<std::string>();
+            if (!literal_master_of_body.emplace(body, id).second)
+                throw std::runtime_error("two literal master knobs name body key " + body);
+        }
+        const auto values = validate_mission_values(registry, row_values, naming.declare_all_addon_values);
         const MissionPaths paths = mission_paths(registry, editor_root);
 
         // Lua rows are grouped per body key and each body gets exactly one artifact. A body whose rows can all be written
@@ -1427,7 +1761,7 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
             for (const Json* row : rows) {
                 const auto id = row->at("tunable_id").get<std::string>();
                 compiled_values[id] = values.at(id);
-                enabled_ids.insert(id);
+                if (!naming.disabled_values.contains(id)) enabled_ids.insert(id);  // R5: built but shipped off
             }
         Json excluded_values = Json::array();
         if (naming.declare_all_addon_values) {
@@ -1441,6 +1775,10 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                 const auto id = row.at("tunable_id").get<std::string>();
                 if (values.contains(id)) continue;
                 const auto body = row.at("owner").at("body_key").get<std::string>();
+                if (row.at("ui").contains("hidden")) {  // R5: never declared (for example: no stock code reads it)
+                    excluded_values.push_back({{"tunable_id", id}, {"reason", "hidden: " + row.at("ui").at("hidden").get<std::string>()}});
+                    continue;
+                }
                 if (!row.at("owner").contains("fields")) {
                     std::string presets;
                     for (const auto& [preset_id, preset] : registry.at("missions").items())
@@ -1461,18 +1799,64 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                 addon[body].push_back(&row);
                 compiled_values[id] = row.at("stock").get<double>();
             }
-            // Design section 5: a literal value is toggled through its member, so a replacement member may carry exactly one.
-            for (const auto& [body, rows] : literal)
+            // Design section 5: a literal value is toggled through its member, so a replacement member may declare exactly one.
+            // R5: a member built from a literal master knob declares only the master, and every row of it must be driven by
+            // that master (one switch, one value).
+            for (const auto& [body, rows] : literal) {
+                if (const auto master = literal_master_of_body.find(body); master != literal_master_of_body.end()) {
+                    for (const Json* row : rows)
+                        if (!expanded_rows.contains(row->at("tunable_id").get<std::string>()))
+                            throw std::runtime_error("package_scope \"all_addon_values\": " + row->at("tunable_id").get<std::string>() +
+                                                     " shares body key " + body + " with master knob " + master->second +
+                                                     "; a master member may carry only the rows its master drives");
+                    continue;
+                }
                 if (rows.size() != 1)
                     throw std::runtime_error("package_scope \"all_addon_values\": the exact replacement of body key " + body + " carries " +
                                              std::to_string(rows.size()) + " literal values (" + id_list(rows) + "); a live-list literal value "
                                              "must be the only value of its replacement member");
+            }
+        }
+        // R5 addon master knobs: declared when every driven row is a declared addon row of this build (package_scope
+        // all_addon_values); compiled with the build value when named (shipped on unless in disabled_values), else stock/off.
+        std::map<std::string, MasterBuild> addon_masters;
+        if (naming.declare_all_addon_values && registry.contains("ui_masters")) {
+            for (const auto& [id, master] : registry.at("ui_masters").items()) {
+                if (master.at("lane") != "addon") continue;
+                const auto body = master.at("body_key").get<std::string>();
+                std::string missing;
+                for (const auto& drive : master.at("drives")) {
+                    const auto row = drive.at("tunable_id").get<std::string>();
+                    bool present = false;
+                    if (addon.contains(body))
+                        for (const Json* declared : addon.at(body)) present = present || declared->at("tunable_id") == row;
+                    if (!present) missing += (missing.empty() ? "" : ", ") + row;
+                }
+                if (!missing.empty()) {
+                    if (master_values.contains(id))
+                        throw std::runtime_error("master knob " + id + " is named, but its driven rows " + missing + " are not declared addon rows");
+                    excluded_values.push_back({{"tunable_id", id}, {"reason", "master knob: driven rows " + missing +
+                                                                              " are not declared addon rows in this build"}});
+                    continue;
+                }
+                const bool named = master_values.contains(id);
+                addon_masters[id] = MasterBuild{named ? master_values.at(id) : master.at("stock").get<double>(),
+                                                named && !naming.disabled_values.contains(id)};
+            }
+        }
+        for (const auto& [id, value] : master_values) {
+            static_cast<void>(value);
+            if (mission_master(registry, id)->at("lane") == "addon" && !addon_masters.contains(id))
+                throw std::runtime_error("master knob " + id + " is not part of this build");
         }
         const auto registry_sha = sha256_file(editor_root / kMissionRegistryPath);
         Json normalized = {{"format", "RENOVICE_MISSION_SETTINGS_V1"}, {"build", registry.at("build")}, {"values", Json::object()}};
-        for (const auto& [id, value] : values) normalized["values"][id] = value;
+        for (const auto& [id, value] : values)
+            if (!expanded_rows.contains(id)) normalized["values"][id] = value;
+        for (const auto& [id, value] : master_values) normalized["values"][id] = value;  // R5: masters as named
         if (!naming.allow_unproven_hooks.empty()) normalized["allow_unproven_hook_bindings"] = naming.allow_unproven_hooks;
         if (naming.declare_all_addon_values) normalized["package_scope"] = "all_addon_values";
+        if (!naming.disabled_values.empty()) normalized["disabled_values"] = naming.disabled_values;
         // Recorded only for the package layout, so every loose build keeps its exact settings bytes and build hash.
         if (naming.package_layout) normalized["output_layout"] = "package";
         const std::string package_live = std::string("OpenWF/CustomScripts/Packages/") + kMissionPackageName + "/";
@@ -1530,6 +1914,7 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                 item.target_keys = extra.at("target_keys").get<std::vector<std::string>>();
                 manifest.erase("stock_artifact");
             }
+            if (extra.contains("masters")) item.masters = extra.at("masters").get<std::vector<std::string>>();  // R5
             write_text(item.manifest, manifest.dump(2) + "\n");
             set_artifacts.push_back(entry);
             result.artifacts.push_back(std::move(item));
@@ -1583,7 +1968,8 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
             gates.push_back({{"name", "exact-instruction-preimages-and-allowed-diff"}, {"pass", true}, {"exit_code", 0}});
             gate(gates, "de-roundtrip", "de-roundtrip " + quote_process_argument(artifact), "FULL BODY identical: True");
             record("NATIVE_REPLACEMENT", "EXACT_LITERAL", body, rows, source, artifact, stock, module.at("sha256").get<std::string>(),
-                   lua_live_path("OpenWF/CustomScripts/", artifact), gates, Json::object());
+                   lua_live_path("OpenWF/CustomScripts/", artifact), gates,
+                   literal_master_of_body.contains(body) ? Json{{"masters", Json::array({literal_master_of_body.at(body)})}} : Json::object());
         }
 
         // Compile gates shared by every addon artifact.
@@ -1656,7 +2042,7 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
             }
             if (addon.size() > kMultiTargetMaximumKeys) throw std::runtime_error("Multi-target addon would declare more than 1024 targets");
             const std::string name = std::string(kMultiTargetAddonName) + ".targets.addon";
-            const std::string source_text = multi_target_addon_source(registry, addon, compiled_values, enabled_ids);
+            const std::string source_text = multi_target_addon_source(registry, addon, compiled_values, enabled_ids, addon_masters);
             const fs::path source = result.directory / "source" / (name + ".luau");
             const fs::path artifact = result.directory / "artifacts" / (name + ".lua_B");
             write_text(source, source_text);
@@ -1765,14 +2151,19 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                        {"policy_id", "package:" + ascii_lower_text(kMissionPackageName)},
                        {"package", "Packages/" + std::string(kMissionPackageName)}}
                 : Json{{"row", "[ADDON] " + std::string(kMultiTargetAddonName)}, {"policy_id", "target-addon:" + policy}};
+            Json addon_extra{{"target_keys", target_keys}, {"targets", targets}, {"scripts_menu", scripts_menu},
+                             {"hook_plan", {{"gate", kMinimalHooksGate}, {"targets", hook_plan}, {"hooked_targets", hooked_targets},
+                                            {"hooks", hook_count}, {"full_capturer_hooks", full_hooks}, {"values", compiled_values.size()},
+                                            {"enabled", enabled_ids.size()}, {"retiring_hooks", retiring_hooks}, {"idle_retire_hooks", idle_hooks},
+                                            {"retire_all_hooks", retire_all_hooks}, {"retire_sentinel", kLuaCallRetireSentinel},
+                                            {"retire_all_sentinel", kLuaCallRetireAllSentinel}}}};
+            // R5: recorded only when the build declares master knobs (older builds keep their manifest shape).
+            for (const auto& [id, build] : addon_masters) {
+                static_cast<void>(build);
+                addon_extra["masters"].push_back(id);
+            }
             record("TARGET_ADDON", "TARGET_ADDON", "multi-target", all_rows, source, artifact, fs::path(), std::string(),
-                   lua_live_path("OpenWF/CustomScripts/Inject/", artifact), gates,
-                   Json{{"target_keys", target_keys}, {"targets", targets}, {"scripts_menu", scripts_menu},
-                        {"hook_plan", {{"gate", kMinimalHooksGate}, {"targets", hook_plan}, {"hooked_targets", hooked_targets},
-                                       {"hooks", hook_count}, {"full_capturer_hooks", full_hooks}, {"values", compiled_values.size()},
-                                       {"enabled", enabled_ids.size()}, {"retiring_hooks", retiring_hooks}, {"idle_retire_hooks", idle_hooks},
-                                       {"retire_all_hooks", retire_all_hooks}, {"retire_sentinel", kLuaCallRetireSentinel},
-                                       {"retire_all_sentinel", kLuaCallRetireAllSentinel}}}});
+                   lua_live_path("OpenWF/CustomScripts/Inject/", artifact), gates, addon_extra);
         }
 
         if (!metadata.empty()) {
@@ -1840,6 +2231,24 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
             } else {
                 const fs::path package_dir = result.directory / "Packages" / kMissionPackageName;
                 fs::create_directories(package_dir);
+                // R5 declaration helpers: the declared ids of a member, the declaration of a row or master, and its order key.
+                const auto member_declared_ids = [&](const MissionArtifact& item) {
+                    if (item.backend == "EXACT_LITERAL" && !item.masters.empty()) return item.masters;
+                    std::vector<std::string> ids = item.tunables;
+                    ids.insert(ids.end(), item.masters.begin(), item.masters.end());
+                    return ids;
+                };
+                const auto mission_declaration = [&](const std::string& id) -> Json {
+                    if (const Json* master = mission_master(registry, id)) return mission_master_declaration(*master);
+                    return mission_value_declaration(mission_tunable(registry, id));
+                };
+                const auto declaration_order = [&](const std::string& id) {
+                    const Json* master = mission_master(registry, id);
+                    const Json& ui = master != nullptr ? *master : mission_tunable(registry, id).at("ui");
+                    return std::tuple<long long, long long, std::string>{
+                        registry.at("ui_groups").at(ui.at("group").get<std::string>()).at("order").get<long long>(),
+                        ui.contains("rank") ? ui.at("rank").get<long long>() : 1000000000LL, id};
+                };
                 Json member_labels = Json::object();
                 Json member_records = Json::array();
                 std::set<std::string> replacement_keys, used_groups, used_labels;
@@ -1863,12 +2272,13 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                                                                    item->backend == "TARGET_ADDON" ? file : item->body_key, used_labels);
                     used_labels.insert(ascii_lower_text(label));
                     fs::copy_file(item->artifact, package_dir / file, fs::copy_options::overwrite_existing);
-                    // Phase 2i: one declaration per tunable the member carries (design section 3.2), from the registry row.
+                    // Phase 2i: one declaration per value the member carries (design section 3.2), from the registry row. R5: plus
+                    // its master knobs; a literal master member declares only its master.
                     Json member_values = Json::object();
-                    for (const auto& id : item->tunables) {
-                        const Json& row = mission_tunable(registry, id);
-                        member_values[id] = mission_value_declaration(row);
-                        used_groups.insert(row.at("ui").at("group").get<std::string>());
+                    for (const auto& id : member_declared_ids(*item)) {
+                        const Json declaration = mission_declaration(id);
+                        member_values[id] = declaration;
+                        used_groups.insert(declaration.at("group").get<std::string>());
                     }
                     member_labels[file] = Json{{"label", label}, {"settings", Json{{"values", member_values}}}};
                     member_records.push_back({{"file", file}, {"backend", item->backend}, {"label", label}, {"detail", detail},
@@ -1890,7 +2300,26 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                                         {"members", member_labels},
                                         {"settings", Json{{"format", kSettingsDeclarationFormat}, {"build", registry.at("build")},
                                                           {"groups", group_declarations}}}};
-                write_text(package_dir / "package.json", package_json.dump(2) + "\n");
+                // R5: the bootstrapper lists a section's values in declaration order, so each member's values are written in
+                // (section order, rank, id) order: headline values first, per-player-count variants together. Every other key
+                // keeps the sorted order of earlier builds.
+                nlohmann::ordered_json ordered_package = nlohmann::ordered_json::parse(package_json.dump());
+                for (auto& [file, member] : ordered_package.at("members").items()) {
+                    if (!member.contains("settings")) continue;
+                    const Json& values_of = package_json.at("members").at(file).at("settings").at("values");
+                    std::vector<std::string> ids;
+                    for (const auto& [id, declaration] : values_of.items()) {
+                        static_cast<void>(declaration);
+                        ids.push_back(id);
+                    }
+                    std::sort(ids.begin(), ids.end(), [&](const std::string& a, const std::string& b) {
+                        return declaration_order(a) < declaration_order(b);
+                    });
+                    nlohmann::ordered_json values_ordered = nlohmann::ordered_json::object();
+                    for (const auto& id : ids) values_ordered[id] = nlohmann::ordered_json::parse(values_of.at(id).dump());
+                    member["settings"]["values"] = values_ordered;
+                }
+                write_text(package_dir / "package.json", ordered_package.dump(2) + "\n");
 
                 // Package gates (loader rules, bootstrapper renovice/packages_core.hpp).
                 std::set<std::string> on_disk, declared;
@@ -1941,16 +2370,18 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                 for (const auto& problem : validate_settings_declarations(package_json)) settings_problems.push_back("schema: " + problem);
                 std::size_t declared_values = 0;
                 Json migration_values = Json::object(), migration_groups = Json::object();
-                std::map<std::string, std::string> value_labels;  // folded label -> id (unique in the package)
+                std::map<std::string, std::string> value_labels;  // section + folded label -> id (R5: unique per mission section)
+                std::size_t declared_masters = 0;
                 for (const MissionArtifact* item : members) {
                     const std::string file = item->artifact.filename().string();
                     const Json& declared_member = package_json.at("members").at(file).at("settings").at("values");
-                    std::set<std::string> want(item->tunables.begin(), item->tunables.end()), have;
+                    const auto declared_ids = member_declared_ids(*item);
+                    std::set<std::string> want(declared_ids.begin(), declared_ids.end()), have;
                     for (const auto& [id, declaration] : declared_member.items()) {
                         static_cast<void>(declaration);
                         have.insert(id);
                     }
-                    if (want != have) settings_problems.push_back(file + ": declarations are not exactly the member tunables");
+                    if (want != have) settings_problems.push_back(file + ": declarations are not exactly the member values");
                     std::map<std::string, CompiledMissionValue> compiled;
                     if (item->backend == "TARGET_ADDON") {
                         compiled = multi_target_compiled_values(read_text(item->source));
@@ -1960,20 +2391,26 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                     }
                     for (const auto& id : want) {
                         if (!declared_member.contains(id)) continue;
-                        const Json& row = mission_tunable(registry, id);
+                        const Json* master = mission_master(registry, id);
+                        const Json& ui = master != nullptr ? *master : mission_tunable(registry, id).at("ui");
                         const Json& declaration = declared_member.at(id);
                         ++declared_values;
-                        if (declaration != mission_value_declaration(row)) settings_problems.push_back(id + ": declaration differs from its registry row");
-                        const double stock = row.at("stock").get<double>();
+                        declared_masters += master != nullptr ? 1 : 0;
+                        if (declaration != mission_declaration(id)) settings_problems.push_back(id + ": declaration differs from its registry row");
+                        const double stock = master != nullptr ? master->at("stock").get<double>() : mission_tunable(registry, id).at("stock").get<double>();
                         if (!declaration.at("stock").is_number() || declaration.at("stock").get<double>() != stock)
                             settings_problems.push_back(id + ": declared stock differs from the registry stock");
                         if (declaration.at("lane") != (item->backend == "TARGET_ADDON" ? "addon" : "literal"))
                             settings_problems.push_back(id + ": declared lane differs from the member kind");
                         // The build's choice for this value: an addon value is enabled when the build names it (otherwise it
                         // is declared at stock, package_scope "all_addon_values"); a replacement member exists only for values
-                        // the build names.
-                        const bool on = item->backend == "TARGET_ADDON" ? enabled_ids.contains(id) : values.contains(id);
-                        const double chosen = on ? values.at(id) : stock;
+                        // the build names. R5: disabled_values ships a named value switched off (the value is still built);
+                        // a master is on/off as a whole.
+                        const bool named = master != nullptr ? master_values.contains(id) : values.contains(id);
+                        const bool on = item->backend == "TARGET_ADDON"
+                                            ? (master != nullptr ? addon_masters.at(id).enabled : enabled_ids.contains(id))
+                                            : named && !naming.disabled_values.contains(id);
+                        const double chosen = named ? (master != nullptr ? master_values.at(id) : values.at(id)) : stock;
                         if (item->backend == "TARGET_ADDON") {
                             const auto found = compiled.find(id);
                             if (found == compiled.end() || found->second.stock != stock)
@@ -1986,20 +2423,51 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                         const auto group = declaration.at("group").get<std::string>();
                         for (const auto& problem : settings_label_budget_problems(id, declaration, registry.at("ui_groups").at(group)))
                             settings_problems.push_back(problem);
-                        // Phase 2k: value labels are unique in the package and end in no list punctuation.
+                        // Phase 2k: value labels end in no list punctuation. R5: unique within the mission section (the section
+                        // TITLE names the mission; the search box is off since bootstrapper R4).
                         const auto label = declaration.at("label").get<std::string>();
                         if (label.empty() || std::string(" ,;:(-/").find(label.back()) != std::string::npos || label.front() == ' ')
                             settings_problems.push_back(id + ": label is empty or starts/ends with a space or list punctuation");
-                        if (const auto [it, inserted] = value_labels.emplace(ascii_lower_text(label), id); !inserted)
-                            settings_problems.push_back(id + ": label \"" + label + "\" is not unique in the package (also " + it->second + ")");
+                        if (const auto [it, inserted] = value_labels.emplace(section_family(group) + "|" + ascii_lower_text(label), id); !inserted)
+                            settings_problems.push_back(id + ": label \"" + label + "\" is not unique in its mission section (also " + it->second + ")");
+                        // R5 player-text gates (label <= 33, value row <= 40, no unexplained abbreviation or code identifier, stock
+                        // and unit stated, tooltip <= 300). A full package (all_addon_values) must declare player text only.
+                        if (ui.value("label_source", std::string()) == "player_text") {
+                            for (const auto& problem : player_text_problems(id, label, declaration.at("unit").get<std::string>(), stock,
+                                                                            declaration.at("min").get<double>(), declaration.at("max").get<double>(),
+                                                                            declaration.at("scope").get<std::string>(),
+                                                                            declaration.at("lane").get<std::string>()))
+                                settings_problems.push_back(problem);
+                        } else if (naming.declare_all_addon_values) {
+                            settings_problems.push_back(id + ": declared without player text (label_source " +
+                                                        ui.value("label_source", std::string("?")) + ")");
+                        }
                         migration_groups[group] = true;
                         migration_values[id] = Json{{"enabled", on}, {"value", settings_number(chosen, declaration.at("type").get<std::string>())}};
                     }
                 }
                 std::string settings_text;
                 for (const auto& problem : settings_problems) settings_text += (settings_text.empty() ? "" : "; ") + problem;
+                // R5 declaration order, read back from the written file: inside every member, values of one section follow
+                // their rank (headline values first, per-player-count variants together).
+                {
+                    const auto written = nlohmann::ordered_json::parse(read_text(package_dir / "package.json"));
+                    for (const auto& [file, member] : written.at("members").items()) {
+
+                        std::tuple<long long, long long, std::string> previous{-1, -1, std::string()};
+                        for (const auto& [id, declaration] : member.at("settings").at("values").items()) {
+                            static_cast<void>(declaration);
+                            const auto key = declaration_order(id);
+                            if (key < previous) settings_problems.push_back(file + ": " + id + " is declared out of section/rank order");
+                            previous = key;
+                        }
+                    }
+                }
+                if (!settings_problems.empty()) settings_text.clear();
+                for (const auto& problem : settings_problems) settings_text += (settings_text.empty() ? "" : "; ") + problem;
                 result.gate_log += "settings-declarations\n" + (settings_text.empty() ? std::string("PASS") : settings_text) + " values=" +
-                                   std::to_string(declared_values) + " groups=" + std::to_string(group_declarations.size()) + "\n";
+                                   std::to_string(declared_values) + " groups=" + std::to_string(group_declarations.size()) +
+                                   (declared_masters != 0 ? " masters=" + std::to_string(declared_masters) : std::string()) + "\n";
                 if (!settings_text.empty()) throw std::runtime_error("settings-declarations gate failed: " + settings_text);
                 // Migration settings file (design section 3.3): the values this build applies, enabled, so a runtime with
                 // ADDON_SETTINGS_V1 reproduces the loose behaviour; with package_scope "all_addon_values" every other declared
@@ -2023,6 +2491,7 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                                                                   {"groups", group_declarations.size()},
                                                                   {"scope", naming.declare_all_addon_values ? "all_addon_values" : "built_values"},
                                                                   {"enabled_addon_values", enabled_ids.size()},
+                                                                  {"masters", declared_masters},
                                                                   {"excluded_values", excluded_values}}},
                                                 {"migration", {{"path", relative(settings_file)}, {"sha256", sha256_file(settings_file)},
                                                                {"format", kScriptSettingsFormat},
@@ -2133,10 +2602,21 @@ MissionSetResult build_mission_settings(const Json& settings, const fs::path& ed
                 throw std::runtime_error("package_scope must be \"built_values\" or \"all_addon_values\"");
             declare_all = scope == "all_addon_values";
         }
-        return build_mission_set(registry, settings.at("values"),
-                                 MissionNaming{"missions", "missions", "missions", "RENOVICE_Missions.txt", false, "", allow_unproven,
-                                               package_layout, declare_all},
-                                 editor_root, staging_root, run_external_gates, nullptr);
+        // Optional (R5): "disabled_values": [ids] named in `values` that are built but shipped switched off
+        // (package_scope "all_addon_values" only).
+        std::set<std::string> disabled;
+        if (settings.contains("disabled_values")) {
+            const Json& list = settings.at("disabled_values");
+            if (!list.is_array() || !declare_all || !package_layout)
+                throw std::runtime_error("disabled_values must be an array of ids and needs package_scope \"all_addon_values\"");
+            for (const auto& id : list) {
+                if (!id.is_string() || !disabled.insert(id.get<std::string>()).second)
+                    throw std::runtime_error("disabled_values holds a non-string or repeated id: " + id.dump());
+            }
+        }
+        MissionNaming naming{"missions", "missions", "missions", "RENOVICE_Missions.txt", false, "", allow_unproven, package_layout, declare_all};
+        naming.disabled_values = std::move(disabled);
+        return build_mission_set(registry, settings.at("values"), naming, editor_root, staging_root, run_external_gates, nullptr);
     } catch (const std::exception& e) {
         MissionSetResult result;
         add(result.diagnostics, Severity::error, "MISSION_BUILD_PROFILE", e.what());

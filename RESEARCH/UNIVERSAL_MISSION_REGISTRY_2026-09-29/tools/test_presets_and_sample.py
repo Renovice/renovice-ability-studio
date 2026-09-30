@@ -341,6 +341,13 @@ import missions_settings_to_build as REBUILD  # noqa: E402
 STAGE2K = ROOT / 'work/staging/missions-full-package'
 settings2k = REBUILD.convert(SAMPLE2I / 'CustomScripts' / 'Settings' / 'Missions.json')
 assert settings2k['values'] == {'survival.reward_interval': 150, 'void_flood.fractures_per_round.normal': 4}, settings2k['values']
+# Contract R5 (2026-09-30): the staged package also carries the literal headline timers with the user's earlier choices,
+# built but shipped off (Mobile Defense 20 s per terminal, Excavation 50 s dig, Control Area 30 s). The staged
+# evidence/rebuild_input.mission_settings.json is exactly this input.
+R5_LITERAL = {'mobiledefense.time_per_terminal': 20, 'excavation.dig_time': 50, 'control_area_plains.duration': 30,
+              'control_area_deimos.duration': 30}
+settings2k['values'].update(R5_LITERAL)
+settings2k['disabled_values'] = list(R5_LITERAL)
 generation2k, manifest2k = build(settings2k, 'sample2k')
 assert generation2k is not None, manifest2k
 package2k = generation2k / 'Packages' / 'Missions'
@@ -365,6 +372,7 @@ else:
 results['phase2k_full_package'] = {'settings': settings2k, 'hook_plan': addon2k['hook_plan'],
                                    'declarations': manifest2k['package']['settings']['declarations'], 'files': hashes2k,
                                    'state': state2k}
+assert manifest2k['package']['settings']['declarations']['masters'] > 0
 print(f"PASS phase2k full package: {manifest2k['package']['settings']['declarations']['values']} declared values, "
       f"{addon2k['hook_plan']['hooked_targets']} hooked target(s), {addon2k['hook_plan']['hooks']} hooks ({state2k})")
 results['phase2g_sample_state'] = state2g

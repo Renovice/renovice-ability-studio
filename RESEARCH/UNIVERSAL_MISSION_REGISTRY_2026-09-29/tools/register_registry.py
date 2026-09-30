@@ -20,6 +20,8 @@ lane (its literal form is kept as `literal_owner`); phase2e_specs.py adds addon-
 Void Flood / Lantern / Purgatory rows (run add_phase1_rows.py once first).
 Phase 2i: editor_fields.py adds the in-game settings editor fields (row `ui`, `ui_groups`, `ui_sources`, `ui_rules`) from
 the rows plus the current build's ExportRegions (read-only); see INGAME_EDITOR_DESIGN.md Phase 1.
+2026-09-30 (contract R5): player_text.py then sets the player-facing labels/descriptions, the `<family>_advanced` sections,
+`ui_masters` (master knobs) and `ui_player_text`; `python player_text.py` applies the same fields to the current registry.
 Nothing here writes into a game or server folder.
 """
 from pathlib import Path
@@ -34,6 +36,7 @@ import phase2e_specs as P2E  # noqa: E402
 import phase2d_lua_specs as P2D_LUA  # noqa: E402
 import phase2d_metadata_specs as P2D_META  # noqa: E402
 import editor_fields as UI  # noqa: E402
+import player_text as PT  # noqa: E402
 import hook_plan as HOOK_PLAN  # noqa: E402
 
 BUILD = '2026.09.28.13.06'
@@ -888,6 +891,8 @@ for key, rec in modules.items():
         report['phase2k']['by_method'][plan['method']] = report['phase2k']['by_method'].get(plan['method'], 0) + 1
 # Phase 2i: in-game settings editor fields (group, short label, scope, apply timing, editor, limits, search aliases).
 ui_groups, ui_sources, ui_rules = UI.apply(rows, ROOT, SERVER_REL, p1rows)
+# 2026-09-30 (contract R5): player-facing labels, descriptions, advanced sections and master knobs (player_text.py).
+ui_masters, ui_player_text = PT.apply(rows, ui_groups)
 
 # ---------------------------------------------------------------- corpus
 CORPUS.mkdir(parents=True, exist_ok=True)
@@ -934,6 +939,8 @@ registry = {
     'ui_rules': ui_rules,
     'ui_sources': ui_sources,
     'ui_groups': dict(sorted(ui_groups.items(), key=lambda kv: kv[1]['order'])),
+    'ui_masters': ui_masters,
+    'ui_player_text': ui_player_text,
 }
 (EDITOR / 'REGISTRIES/mission_build_u44.json').write_text(json.dumps(registry, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
 
