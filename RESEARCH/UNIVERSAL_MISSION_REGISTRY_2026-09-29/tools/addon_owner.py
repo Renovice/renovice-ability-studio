@@ -24,7 +24,8 @@ Gate ``ROOT_TABLE_UPVALUE_V1`` (all conditions must hold on the pinned 44.0.2 by
 3. Every capturing prototype is created exactly once in the module, by the root. Every one of them is hooked
    (``before``), so no code that can reach the table runs before the write. No capturer, and no closure nested in a
    capturer that re-captures the upvalue, executes ``SETUPVAL`` on it (the table identity is fixed).
-4. At least one capturer (or a nested re-capture) reads the field through the upvalue (the field is consumed).
+4. At least one capturer (or a nested re-capture) reads the field through the upvalue (the field is consumed). The
+   holder registers are a may-dataflow over the capturer's control-flow graph (contract R10: a read in any branch counts).
 
 The evidence is recorded per row and pinned by the module SHA-256. Nothing here writes files outside a temp folder.
 """
@@ -360,22 +361,43 @@ class RootTables(Analysis):
 
     def _consumer(self, proto, up, key, seen):
         """Reads of ``key`` (field name or array index; a dynamic GETTABLE counts) through upvalue ``up`` of ``proto``
-        and of nested re-captures; raises when any of them replaces the captured value (SETUPVAL)."""
+        and of nested re-captures; raises when any of them replaces the captured value (SETUPVAL).
+
+        Flow-sensitive (contract R10, 2026-09-30; research work/research/mission-owners-2026-09-30 GATE-1/GATE-2): the
+        registers that may hold the upvalue form a may-dataflow over the prototype CFG (union at joins, kill on a register
+        write, gen on GETUPVAL of the upvalue), iterated to a fixed point. The earlier straight-order scan kept one holder
+        set, so when sibling branches load different upvalues into the same register before one merge block (44.0.2
+        WaveDefend prototype 26: regular / Infested / Duviri / Circle tables in R54/R55) only the last GETUPVAL survived and
+        every other table read "no capturer reads". An unclassified opcode fails closed."""
         if (proto, up) in seen:
             return 0
         seen.add((proto, up))
         ins = self.protos[proto][0]
-        count = 0
-        holders = set()
         for i, (_, w) in enumerate(ins):
             if w[0] == SETUPVAL and w[2] == up:
                 raise ValueError(f'prototype {proto} replaces the captured table (SETUPVAL {up})')
-            if w[2] in holders and ((w[0] == GETTABLEKS and self.key_string(proto, w) == key) or
-                                    (w[0] == GETTABLEN and w[3] + 1 == key) or w[0] == 0x01):
-                count += 1
-            holders = {r for r in holders if not writes(w, r)}
+        succ = successors(ins)
+        holders = [None] * len(ins)
+        if ins:
+            holders[0] = frozenset()
+        work = [0] if ins else []
+        while work:
+            i = work.pop()
+            w = ins[i][1]
+            out = {r for r in holders[i] if not writes(w, r)}
             if w[0] == GETUPVAL and w[2] == up:
-                holders.add(w[1])
+                out.add(w[1])
+            out = frozenset(out)
+            for s in succ[i]:
+                new = out if holders[s] is None else holders[s] | out
+                if new != holders[s]:
+                    holders[s] = new
+                    work.append(s)
+        count = 0
+        for i, (_, w) in enumerate(ins):
+            if holders[i] is not None and w[2] in holders[i] and ((w[0] == GETTABLEKS and self.key_string(proto, w) == key) or
+                                                                  (w[0] == GETTABLEN and w[3] + 1 == key) or w[0] == 0x01):
+                count += 1
         for parent, _, target, caps in self.sites:
             if parent == proto:
                 for n, (mode, src) in caps.items():
@@ -383,6 +405,51 @@ class RootTables(Analysis):
                         count += self._consumer(target, n, key, seen)
         return count
 
+
+# ---------------------------------------------------------------- control flow for the flow-sensitive consumer (R10)
+# Canonical opcodes that branch (fall through + target), jump unconditionally, or skip on a successful FASTCALL. 0x0b is
+# not in OPCODE_MAP.md; every 44.0.2 occurrence checked is `LOADNIL; LOADNIL; 0x0b A D` before a generic-for body whose D
+# target is a FORGLOOP (0x1e), i.e. it behaves as Luau FORGPREP_NEXT. That inference is asserted per occurrence (fail
+# closed otherwise), as is every opcode outside KNOWN.
+AUX_BRANCH = {0x1c, 0x21, 0x23, 0x27, 0x33, 0x37, 0x20, 0x41, 0x34, 0x3a, 0x1e}   # fused compares, JUMPXEQK*, FORGLOOP
+COND = {0x18, 0x4b} | AUX_BRANCH | {0x47, 0x0a}                                    # JUMPIF(NOT), FORNPREP, FORNLOOP
+UNCOND = {0x40, 0x25, 0x30, 0x1b, 0x0b}                                            # JUMP JUMPBACK FORGPREP(_INEXT/_NEXT)
+FAST = {0x10: 1, 0x19: 1, 0x26: 2, 0x0c: 2}                                        # FASTCALL*: skip C words on success
+KNOWN = {0x0b} | set(NO_READS) | set(BRANCH) | set(A_NOT_WRITTEN) | {
+    0x14, 0x0e, 0x50, 0x4d, 0x44, 0x3d, 0x2d, 0x19, 0x0c, 0x38, 0x09, 0x32, 0x3c, 0x08, 0x24, 0x31, 0x3e, 0x06, 0x3b, 0x49,
+    0x07, 0x22, 0x1a, 0x55, 0x45, 0x01, 0x2b, 0x2f, 0x00, 0x15, 0x2e, 0x2a, 0x02, 0x53, 0x54, 0x29, 0x28, 0x3f, 0x35, 0x51}
+
+
+def successors(ins):
+    """Successor instruction indices of every instruction of one prototype (canonical opcodes)."""
+    word, at = [], 0
+    for _, w in ins:
+        word.append(at)
+        at += len(w) // 4
+    index = {wd: i for i, wd in enumerate(word)}
+    succ = []
+    for i, (_, w) in enumerate(ins):
+        op = w[0]
+        if op not in KNOWN:
+            raise ValueError(f'unclassified opcode {op:#04x} at instruction {i}; the flow-sensitive consumer fails closed')
+        d = struct.unpack_from('<h', w, 2)[0]
+        nxt = [i + 1] if i + 1 < len(ins) else []
+        if op == 0x29:                                    # RETURN
+            s = []
+        elif op in UNCOND:
+            s = [index[word[i] + 1 + d]]
+            if op == 0x0b and ins[s[0]][1][0] != 0x1e:
+                raise ValueError(f'0x0b at instruction {i} does not target FORGLOOP; the flow-sensitive consumer fails closed')
+        elif op in COND:
+            s = nxt + [index[word[i] + 1 + d]]
+        elif op == 0x04:                                  # LOADB A B C: pc += C
+            s = [index[word[i] + 1 + w[3]]] if w[3] else nxt
+        elif op in FAST:
+            s = nxt + [index[word[i] + FAST[op] + w[3]]]
+        else:
+            s = nxt
+        succ.append(sorted(set(s)))
+    return succ
 
 if __name__ == '__main__':
     # Exploration: python addon_owner.py <stock file> field=stock [field=stock ...]

@@ -45,6 +45,7 @@ EXPORT_PLUS_REL = 'node_modules/warframe-public-export-plus'  # under the regist
 # mission name, system name or node name. `aliases` are informal search names that no export carries.
 GROUPS = {
     'alchemy': {'label': 'Alchemy', 'nodes': {'mt': ['MT_ALCHEMY', 'MT_DESCENT']}, 'aliases': ['Descendia']},
+    'assassination': {'label': 'Assassination', 'nodes': {'mt': ['MT_ASSASSINATION']}, 'aliases': ['Boss']},  # R10
     'arbitration': {'label': 'Arbitration', 'aliases': ['Elite Alert']},
     'archimedea': {'label': 'Deep and Temporal Archimedea',
                    'aliases': ['Archimedea', 'Deep Archimedea', 'Temporal Archimedea', 'EDA', 'ETA']},
@@ -59,8 +60,9 @@ GROUPS = {
     'colonistdoor': {'label': 'Colonist Door Defense'},
     'control_area_deimos': {'label': 'Control Area (Cambion Drift)', 'nodes': {'mt': ['MT_LANDSCAPE'], 'names': ['Cambion Drift']},
                             'aliases': ['Bounty', 'Free Roam']},
-    'control_area_nokko': {'label': 'Control Area (Orb Vallis)', 'nodes': {'mt': ['MT_LANDSCAPE'], 'names': ['Orb Vallis']},
-                           'aliases': ['Bounty', 'Free Roam', 'Nokko']},
+    # R10 (research CA-1/CA-2): the Nokko AreaDefense encounter is the Deepmines below Fortuna. Orb Vallis has no Control
+    # Area stage. The Deepmines node (NokkoColony) is not in the official 44.0.2 ExportRegions, so no node list.
+    'control_area_nokko': {'label': 'Control Area (Deepmines)', 'aliases': ['Bounty', 'Free Roam', 'Nokko', 'Fortuna', 'Deepmines']},
     'control_area_plains': {'label': 'Control Area (Plains)', 'nodes': {'mt': ['MT_LANDSCAPE'], 'names': ['Plains of Eidolon']},
                             'aliases': ['Bounty', 'Free Roam', 'Cetus']},
     'defection': {'label': 'Defection', 'nodes': {'mt': ['MT_EVACUATION']}},
@@ -71,6 +73,7 @@ GROUPS = {
     'escalation': {'label': 'Exterminate (1999 Escalation)',
                    'nodes': {'mt': ['MT_EXTERMINATION'], 'systems': ['Höllvania']}, 'aliases': ['1999', 'Hollvania']},
     'excavation': {'label': 'Excavation', 'nodes': {'mt': ['MT_EXCAVATE']}, 'aliases': ['Excavator']},
+    'exterminate': {'label': 'Exterminate', 'nodes': {'mt': ['MT_EXTERMINATION']}},  # R10
     'faceoff': {'label': 'Faceoff', 'nodes': {'mt': ['MT_PVPVE']}, 'aliases': ['1999', 'Hollvania']},
     'fivefates': {'label': 'Five Fates (Cetus)', 'aliases': ['Five Fates', 'Cetus invasion']},
     'gamerules': {'label': 'All Missions (Game Rules)', 'aliases': ['All missions', 'Game rules']},
@@ -85,12 +88,15 @@ GROUPS = {
     'mobiledefense': {'label': 'Mobile Defense', 'nodes': {'mt': ['MT_MOBILE_DEFENSE']}},
     'multidefend': {'label': 'Hack-Station Defense', 'aliases': ['MultiDefend']},
     'netracell': {'label': 'Netracell', 'nodes': {'mt': ['MT_VAULTS']}, 'aliases': ['Archon Hunt']},
+    'onslaught': {'label': 'Sanctuary Onslaught', 'aliases': ['Elite Onslaught']},  # R10 (no node in the public export join)
     'orphix': {'label': 'Orphix Venom', 'aliases': ['Orphix', 'Railjack']},
     'purgatory': {'label': 'Purgatory'},
     'purge': {'label': 'Purge', 'nodes': {'mt': ['MT_PURGE']}},
     'pursuit': {'label': 'Pursuit', 'nodes': {'mt': ['MT_PURSUIT']}},
     'raid': {'label': 'Raid'},
     'rescue': {'label': 'Rescue', 'nodes': {'mt': ['MT_RESCUE']}},
+    'rush': {'label': 'Rush', 'nodes': {'mt': ['MT_RACE']}, 'aliases': ['Archwing']},  # R10
+    'sabotage': {'label': 'Sabotage', 'nodes': {'mt': ['MT_SABOTAGE']}, 'aliases': ['Gas City', 'Orokin', 'Forest']},  # R10
     'sentientcapture': {'label': 'Sentient Swarm Capture', 'aliases': ['Sentient']},
     'sentientmd': {'label': 'Sentient Mobile Defense', 'aliases': ['Sentient']},
     'server': {'label': 'Server', 'aliases': ['Server config']},
@@ -98,6 +104,7 @@ GROUPS = {
     'spy': {'label': 'Spy', 'nodes': {'mt': ['MT_INTEL']}},
     'survival': {'label': 'Survival', 'nodes': {'mt': ['MT_SURVIVAL']}, 'aliases': ['Hellscrubber']},
     'void_cascade': {'label': 'Void Cascade', 'nodes': {'mt': ['MT_VOID_CASCADE']}, 'aliases': ['Zariman', 'Exolizer']},
+    'void_armageddon': {'label': 'Void Armageddon', 'nodes': {'mt': ['MT_ARMAGEDDON']}, 'aliases': ['Zariman']},  # R10
     'void_flood': {'label': 'Void Flood', 'nodes': {'mt': ['MT_CORRUPTION']}, 'aliases': ['Zariman']},
     'wf1999def': {'label': 'Defense (1999)', 'nodes': {'mt': ['MT_DEFENSE'], 'systems': ['Höllvania']},
                   'aliases': ['1999', 'Hollvania']},
@@ -113,7 +120,11 @@ KEYWORDS = [('Steel Path', r'steel path|\bsp\b|hard ?mode'), ('Sortie', r'sortie
             ('Shadowgrapher', r'shadowgrapher'), ('Old World Salvage', r'old ?world ?salvage')]
 
 UNIT_DISPLAY = {'s': 's', 's (inferred)': 's', 'virtual s': 's', 's per cell': 's', 's/interval': 's', 'minutes': 'min',
-                'm': 'm', 'x': 'x', 'multiplier': 'x', 'x stock rate': 'x', 'HP': 'HP', 'XP': 'XP'}
+                'm': 'm', 'x': 'x', 'multiplier': 'x', 'x stock rate': 'x', 'HP': 'HP', 'XP': 'XP',
+                'min': 'min', 'm/s': 'm/s'}  # R10 rows
+# Contract R10: target-addon rows written at a module entry (MissionInfo fields, script-parameter globals) take effect at
+# the next mission; a scaled or absolute script parameter is written whatever the level passed (no live stock check).
+ENTRY_TEMPLATES = ('MISSION_INFO_FIELD_AT_ENTRY', 'SCRIPT_PARAM_GLOBAL_AT_ENTRY')
 ENUM_UNITS = {'bool', 'flag'}
 
 # Words kept capitalised when a label is sentence-cased or its first letter is lowered for "Custom <label>".
@@ -223,6 +234,13 @@ OVERRIDES = {
     **{f'raid.level_bonus_players.p{n}_{k}': f'{k.title()} level bonus, {n}{"+" if n == 4 else ""} players'
        for k in ('max', 'min') for n in (2, 3, 4)},
     'shrine.pickup_and_spawn_misc.pickup_anim_play_rate': 'Offering pickup anim speed',
+    # R10 (contract R10 rows; the player-facing labels come from player_text.py)
+    'gamerules.extraction_countdown': 'Extraction countdown (trigger)',
+    'gamerules.extraction_countdown_endless': 'Extraction countdown (endless)',
+    'void_armageddon.reward_interval': 'Armageddon rounds per reward',
+    'void_armageddon.round_complete_time': 'Armageddon time between rounds',
+    **{f'void_armageddon.max_enemies.p{n}': f'Armageddon max enemies, {n} player' + ('s' if n > 1 else '')
+       for n in range(1, 5)},
 }
 
 
@@ -703,10 +721,14 @@ def apply(rows, workspace, server_root, phase1_rows):
                 problems.append(f'{r["tunable_id"]}: addon scope text is over {ADDON_SCOPE_TOOLTIP_MAX} characters after compaction')
         if len(scope) > SCOPE_MAX or not all(0x20 <= ord(c) < 0x7f for c in scope):
             problems.append(f'{r["tunable_id"]}: scope text is over {SCOPE_MAX} characters or not printable ASCII')
+        template = r['owner'].get('template') if r['backend'] == 'TARGET_ADDON' else None
         ui = {'group': f, 'mt_codes': own_mt or g['mt_codes'], 'short_label': labels.get(r['tunable_id'], ''),
               'label_source': label_source.get(r['tunable_id'], ''), 'scope_text': scope, 'aliases': kw,
-              'lane': lane[r['backend']], 'applies': applies[lane[r['backend']]], 'type': kind, 'editor': editor,
-              'unit': unit_of[r['tunable_id']], 'min': lim['minimum'], 'max': lim['maximum']}
+              'lane': lane[r['backend']],
+              'applies': 'next_mission' if template in ENTRY_TEMPLATES else applies[lane[r['backend']]], 'type': kind,
+              'editor': editor, 'unit': unit_of[r['tunable_id']], 'min': lim['minimum'], 'max': lim['maximum']}
+        if template == 'SCRIPT_PARAM_GLOBAL_AT_ENTRY':
+            ui['stock_check'] = 'none'
         if enum:
             ui['options'] = [{'label': 'Off', 'value': 0}, {'label': 'On', 'value': 1}]
         r['ui'] = ui

@@ -502,6 +502,11 @@ import player_text_live_literals  # noqa: E402  (same folder)
 player_text_live_literals.register(row, master, PLAYERS, MASTER_RULE, VARIANT_RULE)
 LIVE_LITERAL_HEADLINE = list(player_text_live_literals.HEADLINE)
 
+# ---- Contract R10 (2026-09-30): mission-owner research rows (player_text_r10.py); its literal rows are live literals too.
+import player_text_r10  # noqa: E402  (same folder)
+player_text_r10.register(row, master, per_player, PLAYERS)
+LIVE_LITERAL_HEADLINE += player_text_r10.HEADLINE
+
 # Group labels (sections). Existing ui_groups labels stay; advanced sections are "<label>: advanced" or the short form.
 ADVANCED_LABELS = {'escalation': '1999 Escalation: advanced', 'shrine': 'Shrine Defense: advanced',
                    'coh_destroy_targets': 'Destroy Targets: advanced', 'fivefates': 'Five Fates: advanced',
@@ -706,7 +711,7 @@ def main():
     registry['ui_groups'] = dict(sorted(registry['ui_groups'].items(), key=lambda kv: kv[1]['order']))
     registry['ui_masters'] = masters
     registry['ui_player_text'] = meta
-    path.write_text(json.dumps(registry, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
+    path.write_text(json.dumps(registry, indent=2, ensure_ascii=False) + '\n', encoding='utf-8', newline='\n')  # LF on every OS
     print(f"player text: {meta['rows']} rows, {meta['masters']} masters, {meta['hidden']} hidden; data {meta['data_sha256'][:16]}")
 
 

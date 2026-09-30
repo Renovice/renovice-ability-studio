@@ -38,11 +38,16 @@ import phase2d_metadata_specs as P2D_META  # noqa: E402
 import editor_fields as UI  # noqa: E402
 import player_text as PT  # noqa: E402
 import hook_plan as HOOK_PLAN  # noqa: E402
+import mission_owner_specs as R10_SPECS  # noqa: E402
 
 BUILD = '2026.09.28.13.06'
 BUILD_LABEL = 'Hotfix 44.0.2'
 PHASE1 = ROOT / 'work/research/universal-mission-editor-2026-09-29'
 STOCK = PHASE1 / 'stock'
+# Contract R10 (2026-09-30): modules outside the Phase 1 extraction come from the full U44 extraction of the same client
+# (de-luau-toolchain RESEARCH/U44_RAW_HASH_RECOMPILE_2026-09-29.md: 5,473 modules read from Cache.Windows B.Font.toc).
+# All 311 files present in both folders are byte-identical (checked 2026-09-30); a file is taken from Phase 1 when present.
+STOCK_U44_FULL = ROOT / 'repos/toolchains/de-luau-toolchain/work/u44-rawhash-2026-09-29/stock'
 CORPUS_REL = 'shared/corpus/de-luau-u44.0.2-authoring'
 CORPUS = ROOT / CORPUS_REL
 SERVER_REL = '../OpenWF Server 23.09.2026/SpaceNinjaServer'
@@ -75,14 +80,24 @@ module_objs = {}  # file -> Module
 used_files = set()
 
 
+def stock_path(file):
+    path = STOCK / file
+    if path.exists():
+        return path
+    full = STOCK_U44_FULL / file
+    if not full.exists():
+        raise ValueError(f'stock module {file} is in neither extraction')
+    return full
+
+
 def module(file):
     if file not in module_objs:
-        module_objs[file] = RootTables((STOCK / file).read_bytes())
+        module_objs[file] = RootTables(stock_path(file).read_bytes())
     return module_objs[file]
 
 
 def register_module(file, module_path):
-    raw = (STOCK / file).read_bytes()
+    raw = stock_path(file).read_bytes()
     key = body_key(raw)
     rec = modules.setdefault(key, {'file': file, 'sha256': sha256(raw), 'size': len(raw), 'module_path': module_path})
     assert rec['file'] == file
@@ -658,6 +673,21 @@ for spec in P2E.ADDON:
         report['phase2e']['gate_failures'].append({'tunable_id': spec['tunable_id'], 'reason': str(e)})
 if report['phase2e']['gate_failures']:
     raise SystemExit('Phase 2e addon spec failures: ' + json.dumps(report['phase2e']['gate_failures'], indent=1))
+
+
+# ---------------------------------------------------------------- contract R10: mission-owner research rows
+class _R10Context:
+    module = staticmethod(module)
+    register_module = staticmethod(lambda file, path: register_module(file, dotted(path)))
+    addon_field = staticmethod(addon_field)
+    addon_owner = staticmethod(addon_owner)
+    namehash = staticmethod(namehash)
+    snapshot = snapshot
+    packages_sha = PACKAGES_SHA
+
+
+r10_rows, r10_excluded, report['r10'] = R10_SPECS.rows(_R10Context)
+rows += r10_rows
 for key, rec in modules.items():
     if 'root_tables' in rec:
         rec['root_tables'] = dict(sorted(rec['root_tables'].items(), key=lambda kv: int(kv[0].split(':')[1][1:])))
@@ -900,7 +930,7 @@ ui_layout = PT.LAYOUT.apply(rows, ui_groups, ui_masters)
 CORPUS.mkdir(parents=True, exist_ok=True)
 manifest = []
 for file in sorted(used_files):
-    data = (STOCK / file).read_bytes()
+    data = stock_path(file).read_bytes()
     (CORPUS / file).write_bytes(data)
     manifest.append({'file': file, 'sha256': sha256(data), 'body_key': body_key(data), 'size': len(data)})
 snap = {'format': 'RENOVICE_METADATA_SNAPSHOT_V1', 'build': BUILD, 'packages_bin_sha256': PACKAGES_SHA,
@@ -935,7 +965,8 @@ registry = {
     'modules': dict(sorted(modules.items())),
     'tunables': rows,
     'missions': presets,
-    'excluded': excluded,
+    # Phase 1 exclusions plus the R10 research drafts that were not admitted (reason prefixed "R10:").
+    'excluded': sorted(excluded + r10_excluded, key=lambda r: r['tunable_id']),
     'excluded_parts': sorted(excluded_parts, key=lambda e: (e['tunable_id'], e['part'])),
     'ui_format': 'RENOVICE_MISSION_UI_FIELDS_V1',
     'ui_rules': ui_rules,
@@ -945,7 +976,8 @@ registry = {
     'ui_player_text': ui_player_text,
     'ui_layout': ui_layout,
 }
-(EDITOR / 'REGISTRIES/mission_build_u44.json').write_text(json.dumps(registry, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
+(EDITOR / 'REGISTRIES/mission_build_u44.json').write_text(json.dumps(registry, indent=2, ensure_ascii=False) + '\n', encoding='utf-8',
+                                                          newline='\n')  # LF on every OS (R10: stable file hash)
 
 phase1_counts = {}
 for r in phase1['tunables']:
@@ -976,6 +1008,6 @@ report['ui'] = {'groups': len(ui_groups), 'editors': {e: sum(1 for r in rows if 
                 'label_sources': {k: sum(1 for r in rows if r['ui']['label_source'] == k) for k in sorted({r['ui']['label_source'] for r in rows})},
                 'applies': {k: sum(1 for r in rows if r['ui']['applies'] == k) for k in sorted({r['ui']['applies'] for r in rows})},
                 'sources': ui_sources}
-REPORT.write_text(json.dumps(report, indent=2) + '\n')
+REPORT.write_text(json.dumps(report, indent=2) + '\n', newline='\n')
 print(json.dumps({k: report[k] for k in ('ui', 'rows', 'rows_by_owner_kind', 'rows_by_backend', 'excluded', 'excluded_by_owner_kind', 'modules', 'phase2k',
                                          'phase1_accounting', 'phase2d', 'phase2e')}, indent=1))

@@ -1,8 +1,11 @@
 """Offline regression for LIVE_LITERALS_V1 recipe emission (2026-09-30, contract CONTRACT_PHASE1.md Revision R8).
 
-1. Baked mode is unchanged: the rebuild input of the staged full package (work/staging/missions-full-package, R7) builds a
-   byte-identical package and values file (the exact-replacement builder now runs on the shared patch core). Merged R7 + R8
-   (contract R9): package.json differs only by the two R9 master descriptions (a typed number replaces the range).
+1. Baked mode is unchanged: the rebuild input of the staged full package (work/staging/missions-full-package, R7) builds
+   byte-identical exact-replacement members and values-file entries (the exact-replacement builder runs on the shared patch
+   core). Merged R7 + R8 (contract R9): the declarations differ only by the two R9 master descriptions. Contract R10: the
+   addon member adds exactly the R10 addon values (mission-owner research rows and the 20 Defense caps the flow-sensitive
+   gate unlocks, with their 4 masters); two existing set pages gain their category level because their mission types now
+   have more than one category; every other staged declaration and values-file entry is unchanged.
 2. Recipe mode ("literal_mode": "recipe", "literal_scope": "headline"): literals.json instead of baked members; every
    registry headline literal value declared; the generator's own synthesis of the five built literal values reproduces the
    staged baked replacements byte for byte; R5-C: no addon value is excluded because its module carries a literal value;
@@ -73,9 +76,11 @@ check(run.returncode == 0 and generation is not None, 'baked build succeeds')
 staged_members = {p.name: sha(p) for p in (STAGED / 'Packages/Missions').iterdir()}
 built_members = {p.name: sha(p) for p in (generation / 'Packages/Missions').iterdir()}
 R9_TEXT = {'mobiledefense.time_per_terminal', 'excavation.dig_time'}  # contract R9: master descriptions (typed number replaces the range)
-check({k: v for k, v in staged_members.items() if k != 'package.json'} == {k: v for k, v in built_members.items() if k != 'package.json'}
+ADDON = 'Missions.targets.addon.lua_B'
+check({k: v for k, v in staged_members.items() if k not in ('package.json', ADDON)} ==
+      {k: v for k, v in built_members.items() if k not in ('package.json', ADDON)}
       and staged_members.keys() == built_members.keys(),
-      f'baked package members byte-identical to the staged set ({len(built_members)} files)')
+      f'baked exact-replacement members byte-identical to the staged set ({len(built_members) - 2} files; R10 changes only the addon member)')
 
 
 def declared_values(path):
@@ -85,12 +90,31 @@ def declared_values(path):
 
 staged_manifest, staged_values = declared_values(STAGED / 'Packages/Missions/package.json')
 built_manifest, built_values = declared_values(generation / 'Packages/Missions/package.json')
+registry_rows = {r['tunable_id']: r for r in json.loads((EDITOR / 'REGISTRIES/mission_build_u44.json').read_text(encoding='utf-8'))['tunables']}
+# R10: the addon values the baked full package gains. A body built as a baked replacement here (the five staged exact
+# replacements) keeps one artifact per module, so its R10 entry rows are excluded like its other addon rows.
+REPLACED = {name[:16] for name in staged_members if name.endswith('(missions_exact-replacement).lua_B')}
+R10_ADDED = ({t for t, r in registry_rows.items() if r['provenance'].startswith('research:mission-owners-2026-09-30')
+              and r['backend'] == 'TARGET_ADDON' and r['owner']['body_key'] not in REPLACED}
+             | {f'defense.{n}.p{k}' for n in ('simultaneous_enemies_max', 'simultaneous_enemies_min', 'simultaneous_enemies_infested.max',
+                                              'simultaneous_enemies_infested.min', 'simultaneous_enemies_duviri.min') for k in range(1, 5)}
+             | {f'defense.max_enemies.p{k}' for k in range(1, 5)})
+# R10: page sets whose mission type now has more than one category keep their category level (r7_collapse_paths).
+R10_PATH = {f'defense.simultaneous_enemies_duviri.max.p{k}' for k in range(1, 5)} | {f'escalation.keys_per_players.p{k}' for k in range(1, 5)}
 changed = {k for k in staged_values if staged_values[k] != built_values.get(k)}
-check(staged_values.keys() == built_values.keys() and changed == R9_TEXT
-      and all({f: v for f, v in staged_values[k].items() if f != 'scope'} == {f: v for f, v in built_values[k].items() if f != 'scope'} for k in changed)
-      and staged_manifest['settings'] == built_manifest['settings'] and staged_manifest['description'] == built_manifest['description'],
-      'baked package.json equals the staged one except the two R9 master descriptions')
-check(sha(generation / 'Settings/Missions.json') == sha(STAGED / 'Settings/Missions.json'), 'baked values file byte-identical')
+check(set(built_values) - set(staged_values) == R10_ADDED and not set(staged_values) - set(built_values),
+      f'baked package.json declares every staged value plus exactly the {len(R10_ADDED)} R10 addon values')
+check(changed == R9_TEXT | R10_PATH
+      and all({f: v for f, v in staged_values[k].items() if f != 'scope'} == {f: v for f, v in built_values[k].items() if f != 'scope'} for k in R9_TEXT)
+      and all({f: v for f, v in staged_values[k].items() if f != 'path'} == {f: v for f, v in built_values[k].items() if f != 'path'}
+              and built_values[k]['path'][1] in ('Enemies', 'Objectives') for k in R10_PATH)
+      and staged_manifest['description'] == built_manifest['description'],
+      'baked declarations equal the staged ones except the two R9 master descriptions and the R10 category levels')
+staged_file = json.loads((STAGED / 'Settings/Missions.json').read_text(encoding='utf-8'))['values']
+built_file = json.loads((generation / 'Settings/Missions.json').read_text(encoding='utf-8'))['values']
+check(all(built_file.get(k) == v for k, v in staged_file.items()) and set(built_file) - set(staged_file) == R10_ADDED
+      and not any(built_file[k]['enabled'] for k in R10_ADDED),
+      'baked values file: every staged entry unchanged; the R10 values are added off at their defaults')
 
 # 2. Recipe mode.
 recipe_input = dict(base, literal_mode='recipe', literal_scope='headline')

@@ -5,15 +5,19 @@
       "pass": true
     },
     {
-      "name": "baked package members byte-identical to the staged set (7 files)",
+      "name": "baked exact-replacement members byte-identical to the staged set (5 files; R10 changes only the addon member)",
       "pass": true
     },
     {
-      "name": "baked package.json equals the staged one except the two R9 master descriptions",
+      "name": "baked package.json declares every staged value plus exactly the 56 R10 addon values",
       "pass": true
     },
     {
-      "name": "baked values file byte-identical",
+      "name": "baked declarations equal the staged ones except the two R9 master descriptions and the R10 category levels",
+      "pass": true
+    },
+    {
+      "name": "baked values file: every staged entry unchanged; the R10 values are added off at their defaults",
       "pass": true
     },
     {
@@ -25,7 +29,7 @@
       "pass": true
     },
     {
-      "name": "every registry headline literal value is declared (105)",
+      "name": "every registry headline literal value is declared (121)",
       "pass": true
     },
     {
@@ -105,10 +109,6 @@
       "pass": true
     },
     {
-      "name": "git archive 6227cc0",
-      "pass": true
-    },
-    {
       "name": "6227cc0: verify_script_packages -AdmitPackage PACKAGE ACCEPT",
       "pass": true
     },
@@ -118,17 +118,17 @@
     }
   ],
   "recipe": {
-    "values": 105,
-    "modules": 28,
-    "masters": 12,
-    "literals_json_sha256": "3368af5641910dab6b5f191d5d5428d969722ff682c4daa26125aeb0d1482d57",
-    "package_json_sha256": "d20c5194226ee194aac4e0ec5349e53519eb573e698f36427734cb1624be5343",
-    "generation": "work/temp/live-literals-tests/recipe/missions/CA7C14197424"
+    "values": 121,
+    "modules": 42,
+    "masters": 8,
+    "literals_json_sha256": "05393c3aaa8f6b6665267b21f8a9308574256c56946b808dc6504c846ba0b8b9",
+    "package_json_sha256": "cf40478788a5a0209a1b1ea0b544069d23d9b03ecb2707e3485ab9a80106da82",
+    "generation": "work\\temp\\live-literals-tests\\recipe\\missions\\9CFD707393CB"
   },
   "old_bootstrapper": {
     "revision": "6227cc0",
     "admit": [
-      "LOG\tRENOVICE PACKAGE ACCEPT trigger=startup package=Missions id=package:missions members=1 replacements=0 target_addons=1 target_keys=23 lanes=replacement+inject"
+      "LOG\tRENOVICE PACKAGE ACCEPT trigger=startup package=Missions id=package:missions members=1 replacements=0 target_addons=1 target_keys=31 lanes=replacement+inject"
     ],
     "settings_tail": [
       "PASS\tdeclaration rejects: settings-unknown-field=extra",

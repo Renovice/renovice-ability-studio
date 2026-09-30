@@ -650,7 +650,7 @@
             "body_key": "6fa60841c9e0f207",
             "module_path": "Lotus.Scripts.Modes.Purgatory",
             "stock_artifact": {
-              "path": "C:/Users/Bartek/OneDrive/Dokumenter/Warframe RE PROJECT RENOVICE\\shared/corpus/de-luau-u44.0.2-authoring\\Lotus_Scripts_Modes_Purgatory.lua_B",
+              "path": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared/corpus/de-luau-u44.0.2-authoring\\Lotus_Scripts_Modes_Purgatory.lua_B",
               "sha256": "6B0ECD7C47B23A0C2C0A4598E4D9B044E070F51E76DAA149A14F0E12AA244FE9"
             },
             "supersedes": "6fa60841c9e0f207.missions.target.addon.lua_B",
@@ -662,7 +662,7 @@
             "body_key": "caec63d8e739b693",
             "module_path": "Lotus.Scripts.Modes.HalloweenLanternEndless",
             "stock_artifact": {
-              "path": "C:/Users/Bartek/OneDrive/Dokumenter/Warframe RE PROJECT RENOVICE\\shared/corpus/de-luau-u44.0.2-authoring\\Lotus_Scripts_Modes_HalloweenLanternEndless.lua_B",
+              "path": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared/corpus/de-luau-u44.0.2-authoring\\Lotus_Scripts_Modes_HalloweenLanternEndless.lua_B",
               "sha256": "1E5A6E3919A93D78521E2E2F59501DCC06DFA55B0673190450542DC00B3875E2"
             },
             "supersedes": "caec63d8e739b693.missions.target.addon.lua_B",
@@ -674,7 +674,7 @@
             "body_key": "f10a043e7f825db2",
             "module_path": "Lotus.Scripts.Modes.SurvivalMission",
             "stock_artifact": {
-              "path": "C:/Users/Bartek/OneDrive/Dokumenter/Warframe RE PROJECT RENOVICE\\shared/corpus/de-luau-u44.0.2-authoring\\Lotus_Scripts_Modes_SurvivalMission.lua_B",
+              "path": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared/corpus/de-luau-u44.0.2-authoring\\Lotus_Scripts_Modes_SurvivalMission.lua_B",
               "sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D"
             },
             "supersedes": "f10a043e7f825db2.missions.target.addon.lua_B",
@@ -719,7 +719,7 @@
       "intended_live_relative_path": "OpenWF/CustomScripts/Packages/Missions",
       "manifest": {
         "path": "Packages/Missions/package.json",
-        "sha256": "934187A2AB15DA8A7A02C52E7B9893976523F1B367012A41B47B3C0A89FF3F4A"
+        "sha256": "7A4E2FDCFE4E8552F4D1B4E3713565A8350315C4004BF7648167574959D1459B"
       },
       "members": [
         {
@@ -794,7 +794,7 @@
       "intended_live_relative_path": "OpenWF/CustomScripts/Packages/Missions",
       "manifest": {
         "path": "Packages/Missions/package.json",
-        "sha256": "934187A2AB15DA8A7A02C52E7B9893976523F1B367012A41B47B3C0A89FF3F4A"
+        "sha256": "7A4E2FDCFE4E8552F4D1B4E3713565A8350315C4004BF7648167574959D1459B"
       },
       "members": [
         {
@@ -894,15 +894,15 @@
     },
     "hook_plan": {
       "enabled": 1,
-      "full_capturer_hooks": 118,
+      "full_capturer_hooks": 137,
       "gate": "ROOT_TABLE_MINIMAL_HOOKS_V1",
-      "hooked_targets": 21,
-      "hooks": 62,
-      "idle_retire_hooks": 62,
-      "retire_all_hooks": 62,
+      "hooked_targets": 28,
+      "hooks": 88,
+      "idle_retire_hooks": 88,
+      "retire_all_hooks": 88,
       "retire_all_sentinel": "RENOVICE_RETIRE_ALL",
       "retire_sentinel": "RENOVICE_RETIRE",
-      "retiring_hooks": 62,
+      "retiring_hooks": 88,
       "targets": [
         {
           "body_key": "070fa0ad32d6da72",
@@ -950,22 +950,31 @@
           "body_key": "1a1354d153712f9d",
           "full_capturer_prototypes": 1,
           "hooked_tables": [
-            "root:i104:R32"
+            "root:i104:R32",
+            "root:i74:R27",
+            "root:i80:R28",
+            "root:i86:R29",
+            "root:i92:R30",
+            "root:i98:R31"
           ],
           "idle_retire_prototypes": [
-            26
+            26,
+            50
           ],
           "module_path": "Lotus.Scripts.WaveDefend",
           "prototypes": [
-            26
+            26,
+            50
           ],
           "retire_all_prototypes": [
-            26
+            26,
+            50
           ],
           "retiring_prototypes": [
-            26
+            26,
+            50
           ],
-          "tables": 1
+          "tables": 6
         },
         {
           "body_key": "1ef96aede7fe612e",
@@ -1040,7 +1049,8 @@
             46,
             73,
             74,
-            79
+            79,
+            88
           ],
           "module_path": "Lotus.Scripts.Modes.ZarimanSurvivalMission",
           "prototypes": [
@@ -1051,7 +1061,8 @@
             46,
             73,
             74,
-            79
+            79,
+            88
           ],
           "retire_all_prototypes": [
             2,
@@ -1061,7 +1072,8 @@
             46,
             73,
             74,
-            79
+            79,
+            88
           ],
           "retiring_prototypes": [
             2,
@@ -1071,7 +1083,8 @@
             46,
             73,
             74,
-            79
+            79,
+            88
           ],
           "tables": 2
         },
@@ -1120,7 +1133,8 @@
             50,
             51,
             53,
-            59
+            59,
+            60
           ],
           "module_path": "Lotus.Scripts.LoopDefend",
           "prototypes": [
@@ -1132,7 +1146,8 @@
             50,
             51,
             53,
-            59
+            59,
+            60
           ],
           "retire_all_prototypes": [
             1,
@@ -1143,7 +1158,8 @@
             50,
             51,
             53,
-            59
+            59,
+            60
           ],
           "retiring_prototypes": [
             1,
@@ -1154,9 +1170,29 @@
             50,
             51,
             53,
-            59
+            59,
+            60
           ],
           "tables": 10
+        },
+        {
+          "body_key": "5b59e2968c1ec7bf",
+          "full_capturer_prototypes": 0,
+          "hooked_tables": [],
+          "idle_retire_prototypes": [
+            15
+          ],
+          "module_path": "Lotus.Scripts.Modes.GasCitySabotage",
+          "prototypes": [
+            15
+          ],
+          "retire_all_prototypes": [
+            15
+          ],
+          "retiring_prototypes": [
+            15
+          ],
+          "tables": 0
         },
         {
           "body_key": "6fa60841c9e0f207",
@@ -1251,6 +1287,25 @@
           "tables": 5
         },
         {
+          "body_key": "7e0adf2d83f7a086",
+          "full_capturer_prototypes": 0,
+          "hooked_tables": [],
+          "idle_retire_prototypes": [
+            11
+          ],
+          "module_path": "Lotus.Scripts.Sabotage",
+          "prototypes": [
+            11
+          ],
+          "retire_all_prototypes": [
+            11
+          ],
+          "retiring_prototypes": [
+            11
+          ],
+          "tables": 0
+        },
+        {
           "body_key": "97ddf9f92301da45",
           "full_capturer_prototypes": 16,
           "hooked_tables": [
@@ -1314,6 +1369,73 @@
             170
           ],
           "tables": 9
+        },
+        {
+          "body_key": "ac839a89c06bf0bb",
+          "full_capturer_prototypes": 19,
+          "hooked_tables": [
+            "root:i28:R9",
+            "root:i29:R10",
+            "root:i36:R10"
+          ],
+          "idle_retire_prototypes": [
+            9,
+            16,
+            23,
+            25,
+            35,
+            38,
+            60,
+            61,
+            74,
+            78,
+            80,
+            90
+          ],
+          "module_path": "Lotus.Scripts.Zariman.Encounters.DynamicAssassinateEndless",
+          "prototypes": [
+            9,
+            16,
+            23,
+            25,
+            35,
+            38,
+            60,
+            61,
+            74,
+            78,
+            80,
+            90
+          ],
+          "retire_all_prototypes": [
+            9,
+            16,
+            23,
+            25,
+            35,
+            38,
+            60,
+            61,
+            74,
+            78,
+            80,
+            90
+          ],
+          "retiring_prototypes": [
+            9,
+            16,
+            23,
+            25,
+            35,
+            38,
+            60,
+            61,
+            74,
+            78,
+            80,
+            90
+          ],
+          "tables": 3
         },
         {
           "body_key": "ae99f8ae6c2eb271",
@@ -1415,6 +1537,52 @@
           "tables": 2
         },
         {
+          "body_key": "c05987eccd08c1ca",
+          "full_capturer_prototypes": 0,
+          "hooked_tables": [],
+          "idle_retire_prototypes": [
+            21
+          ],
+          "module_path": "Lotus.Scripts.TriggerAlarm",
+          "prototypes": [
+            21
+          ],
+          "retire_all_prototypes": [
+            21
+          ],
+          "retiring_prototypes": [
+            21
+          ],
+          "tables": 0
+        },
+        {
+          "body_key": "c9605470a8c47d8d",
+          "full_capturer_prototypes": 0,
+          "hooked_tables": [],
+          "idle_retire_prototypes": [
+            31,
+            35,
+            37
+          ],
+          "module_path": "Lotus.Scripts.Modes.TerritoryMission",
+          "prototypes": [
+            31,
+            35,
+            37
+          ],
+          "retire_all_prototypes": [
+            31,
+            35,
+            37
+          ],
+          "retiring_prototypes": [
+            31,
+            35,
+            37
+          ],
+          "tables": 0
+        },
+        {
           "body_key": "caec63d8e739b693",
           "full_capturer_prototypes": 5,
           "hooked_tables": [
@@ -1464,6 +1632,25 @@
           "tables": 1
         },
         {
+          "body_key": "e4bb611e00823d46",
+          "full_capturer_prototypes": 0,
+          "hooked_tables": [],
+          "idle_retire_prototypes": [
+            9
+          ],
+          "module_path": "Lotus.Scripts.Venus.NokkoColony.Encounters.AreaDefense",
+          "prototypes": [
+            9
+          ],
+          "retire_all_prototypes": [
+            9
+          ],
+          "retiring_prototypes": [
+            9
+          ],
+          "tables": 0
+        },
+        {
           "body_key": "eacd4629273a9981",
           "full_capturer_prototypes": 1,
           "hooked_tables": [
@@ -1486,6 +1673,33 @@
           "tables": 2
         },
         {
+          "body_key": "ee15b583788c3e7d",
+          "full_capturer_prototypes": 0,
+          "hooked_tables": [],
+          "idle_retire_prototypes": [
+            18,
+            43,
+            55
+          ],
+          "module_path": "Lotus.Scripts.Intel",
+          "prototypes": [
+            18,
+            43,
+            55
+          ],
+          "retire_all_prototypes": [
+            18,
+            43,
+            55
+          ],
+          "retiring_prototypes": [
+            18,
+            43,
+            55
+          ],
+          "tables": 0
+        },
+        {
           "body_key": "f10a043e7f825db2",
           "full_capturer_prototypes": 22,
           "hooked_tables": [
@@ -1504,6 +1718,7 @@
             61,
             67,
             69,
+            70,
             72
           ],
           "module_path": "Lotus.Scripts.Modes.SurvivalMission",
@@ -1515,6 +1730,7 @@
             61,
             67,
             69,
+            70,
             72
           ],
           "retire_all_prototypes": [
@@ -1525,6 +1741,7 @@
             61,
             67,
             69,
+            70,
             72
           ],
           "retiring_prototypes": [
@@ -1535,6 +1752,7 @@
             61,
             67,
             69,
+            70,
             72
           ],
           "tables": 6
@@ -1562,7 +1780,7 @@
           "tables": 2
         }
       ],
-      "values": 266
+      "values": 318
     },
     "declarations": {
       "enabled_addon_values": 1,
@@ -1570,6 +1788,10 @@
         {
           "reason": "hidden: defaults audit 2026-09-30: an id the game matches against the mission enemy list, not a strength; any other value switches treasure Demolysts off",
           "tunable_id": "disruption.treasure_goblin.tier"
+        },
+        {
+          "reason": "body key f7444e3c621ff018 is built as an exact replacement (excavation.dig_duration, excavation.dig_duration_elite_alert, excavation.dig_duration_old_world_salvage) and one body key may own only one artifact; disable that replacement value and rebuild to declare this value",
+          "tunable_id": "excavation.excavators_to_finish"
         },
         {
           "reason": "hidden: no reader in 44.0.2: the Five Fates script reads OverallStateTime only from the normal stage table (frame_84[114]); the Steel Path table (frame_84[195]) is read only for enemy counts, so this value has no effect",
@@ -1660,6 +1882,10 @@
           "tunable_id": "void_flood.fractures_per_round.shadowgrapher"
         },
         {
+          "reason": "body key fc711ff621a75552 is built as an exact replacement (void_flood.fractures_per_round.normal) and one body key may own only one artifact; disable that replacement value and rebuild to declare this value",
+          "tunable_id": "void_flood.tanks_to_finish"
+        },
+        {
           "reason": "master knob: driven rows mobiledefense.enemy_counts.max.p1, mobiledefense.enemy_counts.min.p1 are not declared addon rows in this build",
           "tunable_id": "mobiledefense.max_enemies.p1"
         },
@@ -1677,10 +1903,10 @@
         }
       ],
       "format": "RENOVICE_SETTINGS_DECL_V1",
-      "groups": 34,
-      "masters": 24,
+      "groups": 46,
+      "masters": 28,
       "scope": "all_addon_values",
-      "values": 293
+      "values": 349
     },
     "files": {
       "Packages/Missions/8a0b0819de60df01 (missions_exact-replacement).lua_B": "F0436757C021BDD7C9121DD57031791D0F8EB9AADA9939727E488C783C1E134B",
@@ -1688,11 +1914,11 @@
       "Packages/Missions/b3a5a18d68d61e16 (missions_exact-replacement).lua_B": "E2E8BB2F5B67AEC1540245B18AC1786A4AB3EBE485D51FAAFC27ECB6ADD27E57",
       "Packages/Missions/f7444e3c621ff018 (missions_exact-replacement).lua_B": "66B4F9349C0EC7FB45A457DFC2EED5D49C102C7B79E0C1183A6A874E8E7830E7",
       "Packages/Missions/fc711ff621a75552 (missions_exact-replacement).lua_B": "E979F5E7906F0D88E49C42B4191ECA6AFDC1237FDDD91D52CBF427DB3FA9F6D2",
-      "Packages/Missions/Missions.targets.addon.lua_B": "4CB290F77FB0D68EA1F1B39F9CFAF9390C04A7FE90B5C10EE209A595FEE95CB1",
-      "Packages/Missions/package.json": "CA581DD9F02E970073B8F34553847E9FA31528C62B163F0580AAE962F182E32A",
-      "Settings/Missions.json": "E3A1FDCA732CCCEA3C70772A1FEE2EA950436286AC03EBBE3355C7C20FC8B737"
+      "Packages/Missions/Missions.targets.addon.lua_B": "D2CCE207F99870E475DF46946D73AF2AB96B31FC9E0E35E399618569F1E41A48",
+      "Packages/Missions/package.json": "C828F7A5245414F77ABBAFDCF573C301F953B2530577E3B7279CF917A62506E6",
+      "Settings/Missions.json": "EFD966E12884EA26C82C235209C7BD0887E122EA0EB4EE7CB6AAA3C4E4479D27"
     },
-    "state": "identical to the staged install set except the intentional R9 description change of package.json (folder untouched)"
+    "state": "staged exact replacements identical; R10 adds 56 addon values (all off); R9/R10 description and category-level changes only (folder untouched)"
   },
   "phase2g_sample_state": "identical except the intentional Phase 2i change of Missions.targets.addon.lua_B (folder untouched)",
   "phase2h_sample_state": "identical except the intentional Phase 2i change of Missions.targets.addon.lua_B, package.json to the recorded sample (folder untouched)"

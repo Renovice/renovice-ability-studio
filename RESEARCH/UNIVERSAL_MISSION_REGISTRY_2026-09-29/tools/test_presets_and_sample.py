@@ -381,6 +381,27 @@ if (STAGE2K / 'SHA256SUMS.json').exists():
             for k in changed) and old_manifest['settings'] == new_manifest['settings'], \
             ('rebuilt full package.json differs from the staged one beyond the R9 descriptions', changed)
         state2k = 'identical to the staged install set except the intentional R9 description change of package.json (folder untouched)'
+    elif differing == {'Packages/Missions/Missions.targets.addon.lua_B', 'Packages/Missions/package.json', 'Settings/Missions.json'}:
+        # Contract R10 (2026-09-30): the addon member gains the R10 addon values (mission-owner research rows and the Defense
+        # caps unlocked by the flow-sensitive gate). Every staged declaration and values-file entry is unchanged except the R9
+        # descriptions and the category level two set pages keep now that their mission type has more categories; every
+        # exact-replacement member is byte-identical.
+        def _values(path):
+            manifest = json.loads(Path(path).read_text(encoding='utf-8'))
+            return manifest, {k: v for m in manifest['members'].values() for k, v in m.get('settings', {}).get('values', {}).items()}
+        old_manifest, old_values = _values(STAGE2K / 'Packages/Missions/package.json')
+        new_manifest, new_values = _values(package2k / 'package.json')
+        R10_PATH = {f'defense.simultaneous_enemies_duviri.max.p{k}' for k in range(1, 5)} | {f'escalation.keys_per_players.p{k}' for k in range(1, 5)}
+        changed = {k for k in old_values if old_values[k] != new_values.get(k)}
+        added = set(new_values) - set(old_values)
+        old_file = json.loads((STAGE2K / 'Settings/Missions.json').read_text(encoding='utf-8'))['values']
+        new_file = json.loads((generation2k / 'Settings' / 'Missions.json').read_text(encoding='utf-8'))['values']
+        assert not set(old_values) - set(new_values) and changed == R9_TEXT | R10_PATH and all(
+            {f: v for f, v in old_values[k].items() if f not in ('scope', 'path')} ==
+            {f: v for f, v in new_values[k].items() if f not in ('scope', 'path')} for k in changed),             ('rebuilt full package.json differs from the staged one beyond R9 and R10', changed)
+        assert all(new_file.get(k) == v for k, v in old_file.items()) and set(new_file) - set(old_file) == added and             not any(new_file[k]['enabled'] for k in added), 'values file: staged entries changed or R10 entries enabled'
+        state2k = (f'staged exact replacements identical; R10 adds {len(added)} addon values (all off); R9/R10 description and '
+                   'category-level changes only (folder untouched)')
     else:
         assert staged == hashes2k, ('rebuilt full package differs from the staged install set', staged, hashes2k)
         state2k = 'identical to the staged install set (folder untouched)'

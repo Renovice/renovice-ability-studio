@@ -57,9 +57,14 @@ TYPES = {
     'server': ('Server', None), 'shrine': ('Descendia', 'Shrine Defense'), 'spy': ('Spy', None),
     'survival': ('Survival', None), 'void_cascade': ('Void Cascade', None), 'void_flood': ('Void Flood', None),
     'wf1999def': ('Defense', None),
+    # Contract R10 families (mission-owner research)
+    'exterminate': ('Exterminate', None), 'sabotage': ('Sabotage', None), 'rush': ('Rush', None),
+    'void_armageddon': ('Void Armageddon', None), 'assassination': ('Assassination', None),
+    'onslaught': ('Sanctuary Onslaught', None),
 }
 # Families merged into another family's mission type sort right after it.
-MERGED = {'sentientcapture', 'sentientmd', 'wf1999def'}
+# R10: the 1999 Escalation rows come first on the Exterminate page (its Timers category), the R10 kill-count rows follow.
+MERGED = {'sentientcapture', 'sentientmd', 'wf1999def', 'exterminate'}
 
 L = {}        # id -> {'path': [...], 'row': str, 'quick': str|None}
 ORDER = []    # display order (rank)
@@ -92,7 +97,12 @@ put('control_area_plains.duration', ['Control Area', 'Plains of Eidolon (Cetus)'
     quick='Control Area (Plains): hold time')
 put('control_area_deimos.duration', ['Control Area', 'Cambion Drift (Deimos)', 'Timers'], 'Hold-zone time',
     quick='Control Area (Cambion): hold time')
-put('control_area_nokko.duration', ['Control Area', 'Deepmines (below Fortuna)', 'Timers'], 'Hold-zone time')
+# R10: the Deepmines hold time is the encounter parameter `defendTime` (default 90 s); the old literal-rewrite row
+# control_area_nokko.duration has no stock and is never declared (it stays the preset owner). Orb Vallis has no Control Area
+# stage.
+put('control_area_nokko.hold_time', ['Control Area', 'Deepmines (below Fortuna)', 'Timers'], 'Hold-zone time',
+    quick='Control Area (Deepmines): hold time')
+put('control_area_nokko.bonus_threshold', ['Control Area', 'Deepmines (below Fortuna)', 'Advanced'], 'Bonus control threshold')
 
 # ---- Defection
 put('defection.squads_required', ['Defection', 'Objectives'], 'Squads to rescue')  # R8 live literal
@@ -109,13 +119,20 @@ players('defection.max_sim_ai.min_{}', ['Defection', 'Enemies', 'Max enemies at 
 put('defense.first_wave_delay', ['Defense', 'Timers'], 'Delay before first wave')
 put('defense.inter_wave_sleep', ['Defense', 'Timers'], 'Time between waves')
 put('wf1999def.drone_count.spawn_interval', ['Defense', 'Timers'], '1999: time between drones')
+# R10: "Waves to finish" is the normal-node count (MissionInfo, written at mission start); the special-mission counts
+# (fixed numbers in the Defense script) sit on their own page next to it.
+put('defense.waves_to_finish', ['Defense', 'Objectives'], 'Waves to finish', quick='Defense: waves to finish')
 for _tid, _row in (('special_mission_default_waves', 'Alert missions'), ('nightmare_wave_count', 'Nightmare'),
                    ('duviri_wave_count', 'Duviri'), ('circle_wave_count', 'Descendia')):
-    put(f'defense.{_tid}', ['Defense', 'Objectives', 'Waves to finish'], _row)
+    put(f'defense.{_tid}', ['Defense', 'Objectives', 'Special-mission waves'], _row)
+# R10: the regular, Infested and Duviri-min caps are addon values (flow-sensitive gate); every end of the level range shows.
 players('defense.max_enemies.{}', ['Defense', 'Enemies', 'Max enemies at once'])
 players('defense.simultaneous_enemies_max.{}', ['Defense', 'Enemies', 'Max enemies at once', 'Level 30 and up'])
+players('defense.simultaneous_enemies_min.{}', ['Defense', 'Enemies', 'Max enemies at once', 'Lowest levels'])
 players('defense.simultaneous_enemies_infested.max.{}', ['Defense', 'Enemies', 'Max enemies at once', 'Infested, level 30 and up'])
+players('defense.simultaneous_enemies_infested.min.{}', ['Defense', 'Enemies', 'Max enemies at once', 'Infested, lowest levels'])
 players('defense.simultaneous_enemies_duviri.max.{}', ['Defense', 'Enemies', 'Duviri: max enemies at once'])
+players('defense.simultaneous_enemies_duviri.min.{}', ['Defense', 'Enemies', 'Duviri: max enemies at once', 'Lowest levels'])
 
 # ---- Descendia: Destroy Targets, Shrine Defense
 players('coh_destroy_targets.required_by_players.{}', ['Descendia', 'Destroy Targets', 'Objectives', 'Targets to destroy'])
@@ -163,12 +180,15 @@ for i in (1, 2, 3, 4):
 
 # ---- Excavation (the master drives the three variants; the literal rows are built from it, never declared)
 put('excavation.dig_time', ['Excavation', 'Timers'], 'Excavator dig time', quick='Excavation: dig time')
+put('excavation.excavators_to_finish', ['Excavation', 'Objectives'], 'Excavators to finish')  # R10
 put('excavation.dig_duration', ['Excavation', 'Timers', 'Dig time by variant'], 'Standard')
 put('excavation.dig_duration_elite_alert', ['Excavation', 'Timers', 'Dig time by variant'], 'Elite Alert')
 put('excavation.dig_duration_old_world_salvage', ['Excavation', 'Timers', 'Dig time by variant'], 'Old World Salvage')
 put('excavation.duviri_excavation_count', ['Excavation', 'Objectives'], 'Duviri: excavations')  # R8 live literal
 
-# ---- Exterminate (1999 Escalation)
+# ---- Exterminate (R10 kill count parameters) and 1999 Escalation
+put('exterminate.kills_scale', ['Exterminate', 'Objectives'], 'Kills needed', quick='Exterminate: kills needed')
+put('exterminate.archwing_kill_mult', ['Exterminate', 'Advanced'], 'Archwing kill factor')
 put('escalation.crate_timer', ['Exterminate', 'Timers'], 'Escalation: crate timer')  # R8 live literal
 players('escalation.keys_per_players.{}', ['Exterminate', 'Objectives', '1999 Escalation: keys needed'])
 
@@ -231,6 +251,7 @@ for c in ('b', 'm', 'p', 'v'):
 # ---- Mirror Defense
 put('loopdefend.phase_duration', ['Mirror Defense', 'Timers'], 'Time per phase')  # R8 live literal
 put('loopdefend.phase_duration_jade', ['Mirror Defense', 'Timers'], 'Jade: time per phase')  # R8 live literal
+put('loopdefend.phases_to_finish', ['Mirror Defense', 'Objectives'], 'Phases to finish')  # R10
 players('loopdefend.max_enemies.{}', ['Mirror Defense', 'Enemies', 'Max enemies at once'])
 for key, name in (('maxNum', 'Most (regular)'), ('minNum', 'Fewest (regular)'), ('maxNumInfested', 'Most (Infested)'),
                   ('minNumInfested', 'Fewest (Infested)')):
@@ -306,6 +327,7 @@ for i in (1, 2, 3):
 # ---- Survival
 put('survival.reward_interval', ['Survival', 'Timers'], 'Time between rewards', quick='Survival: time between rewards')
 put('survival.alert_interval', ['Survival', 'Timers'], 'Alert mission length')
+put('survival.fixed_length_minutes', ['Survival', 'Timers'], 'Fixed length')  # R10
 put('survival.duviri_fixed_length', ['Survival', 'Timers'], 'Duviri: Survival length')  # R8 live literal
 LIFE = ['Survival', 'Timers', 'Life support']
 for tid, row in (('capsule_initial_time', 'At mission start'), ('capsule_max_time', 'Capacity at 100%'),
@@ -340,6 +362,7 @@ for tid, row in (('level_up_enrage.levelUpTime', 'Time to reach max level'),
 # ---- Void Cascade
 put('void_cascade.pillar_duration', ['Void Cascade', 'Timers'], 'Exolizer defense time',
     quick='Void Cascade: exolizer defense time')
+put('void_cascade.exolizers_to_finish', ['Void Cascade', 'Objectives'], 'Exolizers to finish')  # R10
 players('void_cascade.circle_fixed_length.{}', ['Void Cascade', 'Objectives', 'The Circuit: exolizers to finish'])
 put('void_cascade.alert_reward_interval', ['Void Cascade', 'Rewards / drops'], 'Alert: reward interval')
 
@@ -348,6 +371,7 @@ put('void_flood.fill_timer.timeToFillMax', ['Void Flood', 'Timers'], 'Tank fill 
 put('void_flood.fill_timer.timeToFillMin', ['Void Flood', 'Timers'], 'Shortest tank fill time')
 put('void_flood.fractures_per_round.normal', ['Void Flood', 'Objectives'], 'Fractures per round',
     quick='Void Flood: fractures per round')
+put('void_flood.tanks_to_finish', ['Void Flood', 'Objectives'], 'Tanks to finish')  # R10
 put('void_flood.fill_timer.curveScaleV', ['Void Flood', 'Advanced'], 'Fill time shrink')
 put('void_flood.curse_count.curseCountNormal', ['Void Flood', 'Advanced'], 'Curses')
 put('void_flood.curse_count.curseCountSteelPath', ['Void Flood', 'Advanced'], 'Steel Path: curses')
@@ -374,6 +398,53 @@ put('hijack.payload_health.goal_mission', ['Hijack', 'Objectives'], 'Goal missio
 put('netracell.power_required.base', ['Netracell', 'Objectives'], 'Power required')
 put('netracell.power_required.per_extra_player', ['Netracell', 'Objectives'], 'Power per extra player')
 put('pursuit.phase_timer', ['Pursuit', 'Timers'], 'Defend-ship phase time')
+
+# ---- Contract R10 (mission-owner research, 2026-09-30)
+put('interception.round_end_timer', ['Interception', 'Timers'], 'Time between rounds')
+put('interception.score_goal_scale', ['Interception', 'Objectives'], 'Score to win',
+    quick='Interception: score to win')
+put('interception.rounds_to_finish', ['Interception', 'Objectives'], 'Rounds to finish')
+put('interception.scoring_speed', ['Interception', 'Advanced'], 'Scoring speed')
+put('spy.vault_alarm_scale', ['Spy', 'Timers'], 'Alarm time', quick='Spy: vault alarm time')
+put('spy.vaults_required', ['Spy', 'Advanced'], 'Vaults required')
+put('rescue.hostage_timer.easy', ['Rescue', 'Timers', 'Hostage timer'], 'Easiest nodes')
+put('rescue.hostage_timer.hard', ['Rescue', 'Timers', 'Hostage timer'], 'Hardest nodes')
+for _tid, _row in (('high_scaling', 'High scaling'), ('mutated', 'Mutated enemies'), ('double', 'Double trouble'),
+                   ('descendia', 'Descendia')):
+    put(f'infested_capture.required_captures.{_tid}', ['Legacyte Harvest', 'Objectives', 'Captures to finish'], _row)
+put('sabotage.reactor_extract_timer', ['Sabotage', 'Timers'], 'Ship escape timer')
+put('sabotage.gascity_hack_time', ['Sabotage', 'Timers'], 'Gas City: meltdown time')
+put('sabotage.orokin_charge_time', ['Sabotage', 'Timers'], 'Orokin: charge time')
+put('sabotage.forest_defend_time', ['Sabotage', 'Timers'], 'Forest: injector time')
+put('sabotage.trenchrun_timer', ['Sabotage', 'Timers'], 'Archwing: time limit')
+put('sabotage.trenchrun_enemy_cap', ['Sabotage', 'Enemies'], 'Archwing: enemies')
+put('sabotage.gascity_meltdown_scale.easy', ['Sabotage', 'Advanced', 'Gas City meltdown factor'], 'Easiest nodes')
+put('sabotage.gascity_meltdown_scale.hard', ['Sabotage', 'Advanced', 'Gas City meltdown factor'], 'Hardest nodes')
+put('sabotage.random_extraction_timer', ['Sabotage', 'Advanced'], 'Surprise extraction')
+put('rush.pace_speed', ['Rush', 'Timers'], 'Pace speed')
+put('void_armageddon.wave_time', ['Void Armageddon', 'Timers'], 'Wave time', quick='Void Armageddon: wave time')
+put('void_armageddon.pre_wave_time', ['Void Armageddon', 'Timers'], 'Time before a wave')
+put('void_armageddon.post_wave_time', ['Void Armageddon', 'Timers'], 'Time after a wave')
+put('void_armageddon.prepare_time', ['Void Armageddon', 'Timers'], 'Round prepare time')
+put('void_armageddon.round_complete_time', ['Void Armageddon', 'Timers'], 'Time between rounds')
+put('void_armageddon.waves_per_round', ['Void Armageddon', 'Objectives'], 'Waves per round')
+players('void_armageddon.kills_per_wave.{}', ['Void Armageddon', 'Objectives', 'Kills per wave'])
+players('void_armageddon.max_enemies.{}', ['Void Armageddon', 'Enemies', 'Max enemies at once'])
+put('void_armageddon.reward_interval', ['Void Armageddon', 'Rewards / drops'], 'Rounds per reward')
+put('void_armageddon.angel_channel_time', ['Void Armageddon', 'Advanced'], 'Angel channel time')
+put('gamerules.extraction_countdown_endless', ['All missions', 'Timers'], 'Extraction (endless)')
+put('onslaught.zone_time', ['Sanctuary Onslaught', 'Timers'], 'Zone time')
+put('onslaught.efficiency_per_kill', ['Sanctuary Onslaught', 'Objectives', 'Efficiency gained'], 'Normal kill')
+put('onslaught.efficiency_per_special_kill', ['Sanctuary Onslaught', 'Objectives', 'Efficiency gained'], 'Special kill')
+put('onslaught.efficiency_per_pickup', ['Sanctuary Onslaught', 'Objectives', 'Efficiency gained'], 'Time pickup')
+put('onslaught.zones_per_reward', ['Sanctuary Onslaught', 'Rewards / drops'], 'Zones per reward')
+put('onslaught.efficiency_max', ['Sanctuary Onslaught', 'Advanced'], 'Efficiency for 100%')
+for _key, _row in (('p2', 'Duo'), ('p3', 'Trio'), ('p4', 'Squad')):
+    put(f'assassination.kela_health.{_key}', ['Assassination', 'Enemies', 'Kela De Thaym health'], _row)
+put('assassination.boss_level_bonus', ['Assassination', 'Enemies'], 'Boss level bonus')
+put('assassination.hard_mode_level_base', ['Assassination', 'Advanced'], 'Hard-mode boss level')
+put('assassination.hard_mode_level_per_player', ['Assassination', 'Advanced'], 'Hard-mode level per player')
+put('assassination.ambulas_level_per_player', ['Assassination', 'Advanced'], 'Ambulas level per player')
 
 # ------------------------------------------------------------------------------------------------ descriptions
 # R7 tooltips: one or two short plain sentences; no stock number (the row shows the default), no precedence jargon, no
@@ -409,6 +480,9 @@ UNIT = {'faceoff.spawn_params.tier_up_interval': ''}
 # Values the audit found unsafe to offer: never declared (reason recorded in ui.hidden).
 HIDE = {'disruption.treasure_goblin.tier': 'defaults audit 2026-09-30: an id the game matches against the mission enemy list, '
                                            'not a strength; any other value switches treasure Demolysts off'}
+# R10: control_area_nokko.duration (the carried-over literal-rewrite preset row, no registered stock, never declared) stays
+# the owner of the 'control_area_nokko' preset; SCRIPT SETTINGS shows control_area_nokko.hold_time (encounter parameter
+# defendTime, default 90 s) on that page instead.
 # Defaults audit (2026-09-30, 294 values against the 44.0.2 decompile: 262 single numbers, 32 ranges or formulas, no
 # stock wrong). `label`: the default as the player sees it (the row shows it instead of the one stock number); `note`:
 # the phrase the tooltip adds.
@@ -437,6 +511,22 @@ DEFAULTS['survival.pickup_time_added'] = {'label': None, 'note': 'Duviri Surviva
 DEFAULTS['void_flood.fractures_per_round.normal'] = {'label': None, 'note': 'Duviri Void Flood uses 5'}
 DEFAULTS['control_area_plains.duration'] = {'label': None, 'note': 'Cetus and Narmer bounties on the Plains'}
 DEFAULTS['control_area_deimos.duration'] = {'label': None, 'note': 'Necralisk bounties, including endless Area Defense'}
+
+# Contract R10 defaults. Counts written into the mission info: the default 0 keeps the game's own rule (endless on normal
+# nodes). Script-parameter scales: x1 keeps the value the map or encounter passes.
+_SPECIAL = 'Alerts, sorties and other special missions keep their own count'
+for _tid in ('defense.waves_to_finish', 'interception.rounds_to_finish', 'excavation.excavators_to_finish',
+             'loopdefend.phases_to_finish', 'void_flood.tanks_to_finish', 'void_cascade.exolizers_to_finish'):
+    DEFAULTS[_tid] = {'label': 'Endless', 'note': _SPECIAL}
+DEFAULTS['survival.fixed_length_minutes'] = {'label': 'Endless', 'note': 'At most 60 minutes; alerts, sorties and other special missions keep their own length'}
+DEFAULTS['spy.vaults_required'] = {'label': 'Game rule', 'note': None}
+DEFAULTS['interception.score_goal_scale'] = {'label': 'x1 (map value)', 'note': None}
+DEFAULTS['interception.scoring_speed'] = {'label': 'x1 (map value)', 'note': None}
+DEFAULTS['spy.vault_alarm_scale'] = {'label': 'x1 (30-120 s)', 'note': None}
+DEFAULTS['exterminate.kills_scale'] = {'label': 'x1 (formula)', 'note': None}
+DEFAULTS['exterminate.archwing_kill_mult'] = {'label': '0.5-0.8x', 'note': 'A number you type applies on every Archwing map'}
+for _key, _label in (('p1', '7-10'), ('p2', '13-20'), ('p3', '22-26'), ('p4', '25-29')):
+    DEFAULTS[f'defense.max_enemies.{_key}'] = {'label': _label, 'note': 'Depends on enemy level (fewer below level 30)'}
 
 
 def _strip(text):
@@ -569,7 +659,9 @@ def apply(rows, groups, masters):
             ui['quick'] = quick
         else:
             ui.pop('quick', None)
-        ui['rank'] = rank.get(tid, 100000 + (ui.get('rank') or 0))
+        # Rows without a layout entry sort after every placed row; idempotent over repeated runs (R10 fix: the offset was
+        # added again on every run of player_text.py).
+        ui['rank'] = rank.get(tid, 100000 + (ui.get('rank') or 0) % 100000)
         base_group = ui['group'][:-len('_advanced')] if ui['group'].endswith('_advanced') else ui['group']
         want = base_group + ('_advanced' if category == 'Advanced' and not is_master else '')
         if want not in groups:

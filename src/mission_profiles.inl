@@ -132,6 +132,24 @@ constexpr const char* kRootTableGate = "ROOT_TABLE_UPVALUE_V1";
 // rule; valid at the first bind and after every re-activation). The full ROOT_TABLE_UPVALUE_V1 capturer list stays the
 // owner evidence; the generator emits only `minimal_hooks.prototypes`.
 constexpr const char* kMinimalHooksGate = "ROOT_TABLE_MINIMAL_HOOKS_V1";
+// Contract R10 (2026-09-30): target-addon rows written once at a module entry (registrar tools/mission_owner_specs.py,
+// gate CAPTURE_GRAPH_ENTRY_V1). Every entry prototype is a direct child of the module root (so the hook may retire, R3)
+// and every recorded reader of the value runs only inside a call that starts at an entry (capture-graph proof).
+//  - MISSION_INFO_FIELD_AT_ENTRY: host only; writes one MissionInfo field through the game's own setter
+//    (m = gGameRules:GetMission(); m.<field> = N; gGameRules:SetMission(m)), only on normal nodes (the field is 0 and
+//    the mission is no alert, invasion, syndicate, goal, sortie or nightmare mission), once per mission.
+//  - SCRIPT_PARAM_GLOBAL_AT_ENTRY: a level/encounter script parameter. It is a global of the CALLED instance's
+//    environment, which the runtime passes as the fifth luaCalls.before argument (bootstrapper contract R10); the name
+//    is compiled as a hashed field (`-- RENOVICE_HASH_FIELD:` directive), the key the stock GETGLOBAL reads.
+constexpr const char* kEntryGate = "CAPTURE_GRAPH_ENTRY_V1";
+constexpr const char* kMissionInfoTemplate = "MISSION_INFO_FIELD_AT_ENTRY";
+constexpr const char* kScriptParamTemplate = "SCRIPT_PARAM_GLOBAL_AT_ENTRY";
+
+bool entry_template_row(const Json& row) {
+    if (row.at("backend") != "TARGET_ADDON") return false;
+    const auto name = row.at("owner").value("template", std::string());
+    return name == kMissionInfoTemplate || name == kScriptParamTemplate;
+}
 
 // Every mission target addon (generic ROOT_TABLE_FIELD and the established Survival/Interception/timer templates) acts
 // only from hooks.luaCalls[P].before, i.e. hook binding renovice.target.lua_call. Its runtime status comes from
@@ -239,6 +257,58 @@ void verify_root_table_fields(const Json& row, const Json& module, const std::st
     }
 }
 
+// Contract R10: re-verifies an entry-template owner (MISSION_INFO_FIELD_AT_ENTRY / SCRIPT_PARAM_GLOBAL_AT_ENTRY) against
+// the stock bytes: every entry is a recorded root child, a MissionInfo field is a string key present in the module, a
+// parameter global's hash is the U44 name hash of its name and is referenced by the module.
+void verify_entry_owner(const Json& registry, const Json& row, const std::string& bytes) {
+    static const std::regex identifier("[A-Za-z_][A-Za-z0-9_]*");
+    const Json& owner = row.at("owner");
+    const auto name = owner.at("template").get<std::string>();
+    if (owner.value("gate", std::string()) != kEntryGate) throw std::runtime_error("entry row has no CAPTURE_GRAPH_ENTRY_V1 gate");
+    if (!row.at("stock").is_number()) throw std::runtime_error("entry row has no numeric stock value");
+    const Json& entries = owner.at("entries");
+    if (!entries.is_array() || entries.empty()) throw std::runtime_error("entry row names no entry prototype");
+    std::set<int> prototypes;
+    for (const auto& entry : entries) {
+        const int prototype = entry.at("prototype").get<int>();
+        if (prototype < 0 || !prototypes.insert(prototype).second) throw std::runtime_error("entry row has an invalid or duplicate entry prototype");
+        if (!entry.value("root_child", false) || entry.value("created_by", std::string()) != "root")
+            throw std::runtime_error("entry prototype " + std::to_string(prototype) + " is not a recorded direct child of the module root");
+    }
+    if (!owner.at("readers").is_array() || owner.at("readers").empty()) throw std::runtime_error("entry row records no reader");
+    if (name == kMissionInfoTemplate) {
+        const auto field = owner.at("field").get<std::string>();
+        if (!std::regex_match(field, identifier)) throw std::runtime_error("invalid MissionInfo field name");
+        if (!owner.value("host_only", false)) throw std::runtime_error("a MissionInfo write must be host only");
+        if (row.at("stock").get<double>() != 0) throw std::runtime_error("a MissionInfo count row must have stock 0 (the normal-node default)");
+        if (bytes.find(field) == std::string::npos) throw std::runtime_error("module does not name the MissionInfo field " + field);
+        for (const auto& reader : owner.at("readers"))
+            if (reader.at("key") != field) throw std::runtime_error("a MissionInfo reader names another field");
+        return;
+    }
+    static const std::set<std::string> modes{"scale", "scale_inverse", "absolute"};
+    const auto mode = owner.at("mode").get<std::string>();
+    if (!modes.contains(mode)) throw std::runtime_error("unknown script-parameter mode " + mode);
+    if (mode != "absolute" && (row.at("stock").get<double>() != 1 || row.at("limits").at("minimum").get<double>() <= 0))
+        throw std::runtime_error("a scaled script parameter needs stock 1 and a positive minimum");
+    const auto seed = static_cast<std::uint32_t>(std::stoul(registry.at("name_hash_seed").get<std::string>(), nullptr, 16));
+    std::set<std::string> names;
+    if (!owner.at("globals").is_array() || owner.at("globals").empty()) throw std::runtime_error("script-parameter row names no global");
+    for (const auto& global : owner.at("globals")) {
+        const auto parameter = global.at("name").get<std::string>();
+        if (!std::regex_match(parameter, identifier) || !names.insert(parameter).second) throw std::runtime_error("invalid or duplicate parameter global");
+        const std::uint32_t hash = de_name_hash(parameter, seed);
+        std::ostringstream hex;
+        hex << std::hex << std::nouppercase << std::setw(8) << std::setfill('0') << hash;
+        if (hex.str() != global.at("hash").get<std::string>()) throw std::runtime_error("registered hash is wrong for parameter " + parameter);
+        std::string little_endian(4, '\0');
+        for (std::size_t n = 0; n < 4; ++n) little_endian[n] = static_cast<char>((hash >> (8 * n)) & 255u);
+        if (bytes.find(little_endian) == std::string::npos) throw std::runtime_error("module does not read the hashed parameter " + parameter);
+    }
+    for (const auto& reader : owner.at("readers"))
+        if (!names.contains(reader.at("key").get<std::string>())) throw std::runtime_error("a reader names a global outside the row");
+}
+
 // Verifies one row's exact owner against the stock evidence the registry names. Throws the exact reason.
 void verify_mission_row(const Json& registry, const Json& row, const MissionPaths& paths) {
     const auto backend = row.at("backend").get<std::string>();
@@ -296,6 +366,10 @@ void verify_mission_row(const Json& registry, const Json& row, const MissionPath
         const auto bytes = stock_body(owner);
         const auto body = owner.at("body_key").get<std::string>();
         const Json& module = mission_module(registry, body);
+        if (entry_template_row(row)) {
+            verify_entry_owner(registry, row, bytes);
+            return;
+        }
         if (owner.at("template") != kRootTableAddonTemplate) {
             if (!module.contains("addon") || module.at("addon").at("template") != owner.at("template"))
                 throw std::runtime_error("target-addon row has no matching module addon template");
@@ -308,7 +382,8 @@ void verify_mission_row(const Json& registry, const Json& row, const MissionPath
         else if (owner.at("template") == kRootTableAddonTemplate) throw std::runtime_error("root-table addon row owns no field");
     } else if (backend == "METADATA_PATCH") {
         static const std::regex type_pattern("/Lotus/[A-Za-z0-9_/]+");
-        static const std::regex field_pattern("Scripts\\.[0-9]+\\.Script\\._[A-Za-z0-9_]+");
+        // R10: also a named script struct of the owner type (`OnFirstTouchedScript._duration`, `PickUpScript._x`).
+        static const std::regex field_pattern("(Scripts\\.[0-9]+\\.Script|[A-Za-z]+Script)\\._[A-Za-z0-9_]+");
         const auto type = owner.at("type").get<std::string>();
         const auto field = owner.at("field").get<std::string>();
         if (!std::regex_match(type, type_pattern) || !std::regex_match(field, field_pattern))
@@ -713,7 +788,11 @@ void verify_mission_ui(const Json& registry) {
         if (layout_r7)
             for (const auto& problem : r7_layout_ui_problems(id, ui)) throw std::runtime_error(problem);
         const auto lane = settings_lane(row.at("backend").get<std::string>());
-        if (ui.at("lane") != lane || ui.at("applies") != settings_applies(lane)) throw std::runtime_error(id + ": ui lane/applies disagree with the backend");
+        // R10: an entry-template addon row is written at the mission's entry, so it applies at the next mission.
+        const auto applies = entry_template_row(row) ? std::string("next_mission") : settings_applies(lane);
+        if (ui.at("lane") != lane || ui.at("applies") != applies) throw std::runtime_error(id + ": ui lane/applies disagree with the backend");
+        if (ui.contains("stock_check") && (lane != "addon" || (ui.at("stock_check") != "live" && ui.at("stock_check") != "none")))
+            throw std::runtime_error(id + ": ui stock_check must be live or none on the addon lane");
         const Json& limits = row.at("limits");
         if (ui.at("min") != limits.at("minimum") || ui.at("max") != limits.at("maximum")) throw std::runtime_error(id + ": ui min/max disagree with limits");
         const auto type = ui.at("type").get<std::string>();
@@ -809,6 +888,8 @@ Json mission_value_declaration(const Json& row) {
                      {"stock", row.at("stock")}, {"min", ui.at("min")}, {"max", ui.at("max")}, {"scope", ui.at("scope_text")},
                      {"lane", ui.at("lane")}, {"applies", ui.at("applies")}};
     if (ui.contains("options")) declaration["options"] = ui.at("options");
+    // R1 field, emitted since R10 for values the addon writes whatever the live value is (script-parameter scales).
+    if (ui.contains("stock_check")) declaration["stock_check"] = ui.at("stock_check");
     add_layout_fields(declaration, ui);
     return declaration;
 }
@@ -1429,12 +1510,92 @@ std::string target_live_assignment(const std::vector<std::size_t>& slots) {
 // and is never written. Without context.settings the compiled flags decide in the same order. A build without masters
 // emits the Phase 2i function unchanged (byte-identical sources).
 constexpr const char* kMasterEffectiveCall = "effectiveSettings(settings, context, masters, drives)";
+constexpr const char* kHashedFieldDirective = "-- RENOVICE_HASH_FIELD: ";
+
+// Contract R10 entry templates, generated Lua (file-level helpers, emitted only when a template is used):
+//  - missionInfo_<field>(tag, value): host only (gRegion:IsMaster()); on a normal node (field 0; no alert, invasion,
+//    syndicate, goal, sortie or nightmare mission) writes the field through the game's own setter and prints one line;
+//    skips when the field already holds the value, so repeated entries and several entry prototypes write once.
+//  - scriptParameter(tag, mode, read, write): per called environment (weak keys) the first entry records the observed
+//    number and writes observed x value (scale), observed / value (scale_inverse) or value (absolute); later entries skip
+//    while the written number is there, write again when the observed number is back, and leave any other number alone
+//    (another writer: fail closed, one line). restore() puts the observed number back where the written one is still
+//    there (cleanup: F9 or SCRIPT SETTINGS apply, script disable). No environment (runtime before R10): nothing written.
+std::string mission_info_helper(const std::string& field) {
+    return "local function missionInfo_" + field + "(tag, value)\n"
+           "    local region = gRegion\n"
+           "    if region == nil or not region:IsMaster() then return end\n"
+           "    local rules = gGameRules\n"
+           "    if rules == nil then return end\n"
+           "    local mission = rules:GetMission()\n"
+           "    if mission == nil then return end\n"
+           "    local now = mission." + field + "\n"
+           "    if now == value then return end\n"
+           "    if now ~= 0 or mission.alertId ~= \"\" or mission.invasionId ~= \"\" or mission.goalId ~= \"\" or mission.sortieId ~= \"\"\n"
+           "        or mission.nightmare then return end\n"
+           "    local syndicate = mission.syndicateTag\n"
+           "    if syndicate ~= nil and syndicate:IsValid() then return end\n"
+           "    mission." + field + " = value\n"
+           "    rules:SetMission(mission)\n"
+           "    print(\"RENOVICE Missions: \" .. tag .. \" " + field + " 0 -> \" .. tostring(value))\n"
+           "end\n";
+}
+
+constexpr const char* kScriptParameterHelper =
+    "local function scriptParameter(tag, mode, read, write)\n"
+    "    local records = setmetatable({}, { __mode = \"k\" }) -- environment -> { observed, written }, or false\n"
+    "    local function enter(environment, value)\n"
+    "        if type(environment) ~= \"table\" then return end\n"
+    "        local record = records[environment]\n"
+    "        local current = read(environment)\n"
+    "        if record == nil then\n"
+    "            if type(current) ~= \"number\" then\n"
+    "                records[environment] = false\n"
+    "                print(\"RENOVICE Missions: \" .. tag .. \" is not a number in this instance; left unchanged\")\n"
+    "                return\n"
+    "            end\n"
+    "            local written = value\n"
+    "            if mode == \"scale\" then written = current * value elseif mode == \"scale_inverse\" then written = current / value end\n"
+    "            write(environment, written)\n"
+    "            records[environment] = { observed = current, written = written }\n"
+    "            print(\"RENOVICE Missions: \" .. tag .. \" \" .. tostring(current) .. \" -> \" .. tostring(written))\n"
+    "            return\n"
+    "        end\n"
+    "        if record == false or current == record.written then return end\n"
+    "        if current == record.observed then\n"
+    "            write(environment, record.written)\n"
+    "            return\n"
+    "        end\n"
+    "        records[environment] = false\n"
+    "        print(\"RENOVICE Missions: \" .. tag .. \" was changed by another writer; left unchanged\")\n"
+    "    end\n"
+    "    local function restore()\n"
+    "        for environment, record in pairs(records) do\n"
+    "            if record and read(environment) == record.written then write(environment, record.observed) end\n"
+    "            records[environment] = nil\n"
+    "        end\n"
+    "    end\n"
+    "    return enter, restore\n"
+    "end\n";
 
 std::string multi_target_addon_source(const Json& registry, const std::map<std::string, std::vector<const Json*>>& bodies,
                                       const std::map<std::string, double>& values, const std::set<std::string>& enabled,
                                       const std::map<std::string, MasterBuild>& masters = {}) {
     std::ostringstream out;
     const std::string retire = hook_retire_statement();
+    // R10: script-parameter globals of the called instance are read and written as hashed fields of its environment
+    // table. The directive hashes EVERY field access with that name in this file, so the build gate
+    // `entry-parameter-keys` checks that the names occur only in the generated accessors.
+    std::set<std::string> parameter_names, info_fields;
+    for (const auto& [body, rows] : bodies)
+        for (const Json* row : rows) {
+            if (!entry_template_row(*row)) continue;
+            if (row->at("owner").at("template") == kScriptParamTemplate)
+                for (const auto& global : row->at("owner").at("globals")) parameter_names.insert(global.at("name").get<std::string>());
+            else
+                info_fields.insert(row->at("owner").at("field").get<std::string>());
+        }
+    for (const auto& name : parameter_names) out << kHashedFieldDirective << name << "\n";
     out << "-- Generated by RENOVICE Ability Editor from the mission registry. Do not hand-edit.\n"
         << "-- Build profile " << registry.at("build").get<std::string>() << ". Multi-target addon: one Scripts row, \"[ADDON] "
         << kMultiTargetAddonName << "\".\n"
@@ -1551,6 +1712,8 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
         << "    end\n"
         << "    return bind, restore\n"
         << "end\n";
+    for (const auto& field : info_fields) out << "\n" << mission_info_helper(field);
+    if (!parameter_names.empty()) out << "\n" << kScriptParameterHelper;
     std::size_t target = 0;
     for (const auto& [body, rows] : bodies) {
         ++target;
@@ -1559,9 +1722,14 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
         struct Owned { std::string key; std::string setting; bool enabled; };
         std::map<std::string, std::vector<Owned>> tables;
         std::map<std::string, const Json*> settings;
+        std::vector<const Json*> entry_rows;  // R10 entry templates
         for (const Json* row : rows) {
             const auto id = row->at("tunable_id").get<std::string>();
             settings.emplace(id, row);
+            if (entry_template_row(*row)) {
+                entry_rows.push_back(row);
+                continue;
+            }
             for (const auto& field : row->at("owner").at("fields"))
                 tables[field.at("table_id").get<std::string>()].push_back({lua_table_key(field.at("field")), lua_quote(id), enabled.contains(id)});
         }
@@ -1634,24 +1802,74 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
             }
             if (emitted != minimal.size()) throw std::runtime_error("hook plan of " + tag + " names a prototype without a capturer hook");
         }
-        for (const auto& [prototype, binds] : hooks) {
+        // R10 entry rows: one live flag per row; the hook of every entry prototype applies it.
+        struct EntryUse { std::size_t slot; bool environment; };
+        std::map<int, std::vector<EntryUse>> entry_hooks;  // prototype -> entry rows it applies
+        std::map<std::size_t, std::string> activation, restores;  // slot -> activate expression / cleanup statements
+        for (const Json* row : entry_rows) {
+            ++slot;
+            const auto id = row->at("tunable_id").get<std::string>();
+            const Json& owner = row->at("owner");
+            const bool parameter = owner.at("template") == kScriptParamTemplate;
+            hooked_slots.push_back(slot);
+            activation[slot] = "current[" + lua_quote(id) + "].enabled";
+            out << "    local live" << slot << " = false\n";
+            if (parameter) {
+                const auto mode = owner.at("mode").get<std::string>();
+                std::size_t k = 0;
+                for (const auto& global : owner.at("globals")) {
+                    ++k;
+                    const auto name = global.at("name").get<std::string>();
+                    out << "    local enter" << slot << "_" << k << ", restore" << slot << "_" << k << " = scriptParameter("
+                        << lua_quote(id + " " + name) << ", " << lua_quote(mode) << ",\n"
+                        << "        function(environment) return environment." << name << " end,\n"
+                        << "        function(environment, value) environment." << name << " = value end)\n";
+                    restores[slot] += "            restore" + std::to_string(slot) + "_" + std::to_string(k) + "()\n";
+                }
+                out << "    local function apply" << slot << "(environment) -- " << kScriptParamTemplate << " " << mode << "\n"
+                    << "        local value = current[" << lua_quote(id) << "].value\n";
+                for (std::size_t n = 1; n <= k; ++n) out << "        enter" << slot << "_" << n << "(environment, value)\n";
+                out << "    end\n";
+            } else {
+                const auto field = owner.at("field").get<std::string>();
+                out << "    local function apply" << slot << "() -- " << kMissionInfoTemplate << " " << field << "\n"
+                    << "        missionInfo_" << field << "(" << lua_quote(id) << ", current[" << lua_quote(id) << "].value)\n"
+                    << "    end\n";
+            }
+            for (const auto& entry : owner.at("entries")) {
+                if (!entry.value("root_child", false))
+                    throw std::runtime_error(module_path + " entry " + std::to_string(entry.at("prototype").get<int>()) + " of " + id +
+                                             " is not a root child: it would have no R3 retire path");
+                entry_hooks[entry.at("prototype").get<int>()].push_back({slot, parameter});
+            }
+        }
+        std::set<int> hooked_prototypes;
+        for (const auto& [prototype, binds] : hooks) hooked_prototypes.insert(prototype);
+        for (const auto& [prototype, uses] : entry_hooks) hooked_prototypes.insert(prototype);
+        for (const int prototype : hooked_prototypes) {
+            const std::vector<Bind> binds = hooks.contains(prototype) ? hooks.at(prototype) : std::vector<Bind>{};
+            const std::vector<EntryUse> uses = entry_hooks.contains(prototype) ? entry_hooks.at(prototype) : std::vector<EntryUse>{};
             if (!std::all_of(binds.begin(), binds.end(), [](const Bind& bind) { return bind.root_child; }))
                 throw std::runtime_error(module_path + " hook " + std::to_string(prototype) +
                                          " is not a root child: it would have no R3 retire path");
             std::set<std::size_t> slots;
             for (const auto& bind : binds) slots.insert(bind.slot);
+            for (const auto& use : uses) slots.insert(use.slot);
             std::string condition;
             for (const auto n : slots) condition += (condition.empty() ? "live" : " or live") + std::to_string(n);
             // R3 obligations 1 and 2 hold for this hook exactly when it carries the settled retire (below); R4 obligation 4
-            // admits the retire-all statement only there.
+            // admits the retire-all statement only there. An entry is a root child whose work is done for the instance once
+            // it ran (the write is once per instance), so entries never block the settled retire.
             const bool retire_here = !retire.empty() &&
                 std::all_of(binds.begin(), binds.end(), [](const Bind& bind) { return bind.retire_safe; });
-            out << "    local function before" << prototype << "(prototype, arguments, upvalues)\n"
+            const bool environment = std::any_of(uses.begin(), uses.end(), [](const EntryUse& use) { return use.environment; });
+            out << "    local function before" << prototype
+                << (environment ? "(prototype, arguments, upvalues, trace, environment)\n" : "(prototype, arguments, upvalues)\n")
                 << "        if current == nil then return end\n";
             if (retire_here) out << "        " << hook_retire_all_statement() << "\n";
             out << "        " << hook_idle_retire_statement(condition) << "\n"
-                << "        assert(prototype == " << prototype << ", " << lua_quote(module_path + " hook received the wrong prototype") << ")\n"
-                << "        assert(type(upvalues) == \"table\", \"upvalue view is unavailable\")\n";
+                << "        assert(prototype == " << prototype << ", " << lua_quote(module_path + " hook received the wrong prototype") << ")\n";
+            if (!binds.empty()) out << "        assert(type(upvalues) == \"table\", \"upvalue view is unavailable\")\n";
             for (const auto& bind : binds) {
                 const std::string base = "upvalues[" + std::to_string(bind.upvalue) + "]";
                 if (bind.steps.empty()) {
@@ -1668,7 +1886,9 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
                 out << "            bind" << bind.slot << "(container, current)\n"
                     << "        end\n";
             }
-            // Every bind above returned or raised: reaching this line means each table of this hook is settled.
+            for (const auto& use : uses)
+                out << "        if live" << use.slot << " then apply" << use.slot << (use.environment ? "(environment)" : "()") << " end\n";
+            // Every bind above returned or raised and every entry ran: each table and entry of this hook is settled.
             if (retire_here) out << "        " << retire << "\n";
             out << "    end\n";
         }
@@ -1678,17 +1898,23 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
             << "        activate = function(context)\n"
             << "            local effective = " << (target_masters.empty() ? "effectiveSettings(settings, context)" : kMasterEffectiveCall) << "\n";
         out << "            current = effective\n";
-        for (const auto n : hooked_slots) out << "            live" << n << " = anyEnabled(current, fields" << n << ")\n";
+        for (const auto n : hooked_slots)
+            out << "            live" << n << " = "
+                << (activation.contains(n) ? activation.at(n) : "anyEnabled(current, fields" + std::to_string(n) + ")") << "\n";
         out << "            " << target_live_assignment(hooked_slots) << "\n"
             << "        end,\n"
             << "        cleanup = function()\n"
             << "            current = nil\n"
             << "            " << kTargetLiveFlag << " = false\n";
-        for (const auto n : hooked_slots) out << "            live" << n << " = false\n            restore" << n << "()\n";
+        for (const auto n : hooked_slots) {
+            out << "            live" << n << " = false\n";
+            if (!activation.contains(n)) out << "            restore" << n << "()\n";
+            else if (restores.contains(n)) out << restores.at(n);
+        }
         out << "        end,\n";
-        if (!hooks.empty()) {
+        if (!hooked_prototypes.empty()) {
             out << "        hooks = { luaCalls = {\n";
-            for (const auto& [prototype, binds] : hooks) out << "            [" << prototype << "] = { before = before" << prototype << " },\n";
+            for (const int prototype : hooked_prototypes) out << "            [" << prototype << "] = { before = before" << prototype << " },\n";
             out << "        } },\n";
         }
         out << "    }\n"
@@ -1715,9 +1941,10 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
 struct SourceRetirePaths { std::set<int> idle; std::set<int> settled; std::set<int> retire_all; };
 std::map<std::string, SourceRetirePaths> multi_target_source_retire_paths(const std::string& source) {
     static const std::regex section("\n-- Target [0-9]+: ([^\n]+)\n");
-    static const std::regex function("\n    local function before([0-9]+)\\(prototype, arguments, upvalues\\)\n([\\s\\S]*?)\n    end(?=\n)");
-    static const std::regex live_use("\n        if (live[0-9]+) then");
-    static const std::regex live_declaration("\n    local live([0-9]+) = false\n");
+    static const std::regex function("\n    local function before([0-9]+)\\(prototype, arguments, upvalues(?:, trace, environment)?\\)\n([\\s\\S]*?)\n    end(?=\n)");
+    static const std::regex live_use("\n        if (live[0-9]+) then");  // table binds and R10 entry applies
+    // Lookahead: two declarations on consecutive lines (a table flag, then an R10 entry flag) must both match.
+    static const std::regex live_declaration("\n    local live([0-9]+) = false(?=\n)");
     std::map<std::string, SourceRetirePaths> result;
     std::vector<std::pair<std::size_t, std::string>> starts;
     for (auto it = std::sregex_iterator(source.begin(), source.end(), section); it != std::sregex_iterator(); ++it)
@@ -1943,7 +2170,7 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                     excluded_values.push_back({{"tunable_id", id}, {"reason", "hidden: " + row.at("ui").at("hidden").get<std::string>()}});
                     continue;
                 }
-                if (!row.at("owner").contains("fields")) {
+                if (!row.at("owner").contains("fields") && !entry_template_row(row)) {
                     std::string presets;
                     for (const auto& [preset_id, preset] : registry.at("missions").items())
                         if (preset.at("body_key") == body) presets += (presets.empty() ? "" : ", ") + preset_id;
@@ -2187,7 +2414,7 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                 const Json& module = mission_module(registry, body);
                 std::vector<const Json*> template_only;
                 for (const Json* row : rows)
-                    if (!row->at("owner").contains("fields")) template_only.push_back(row);
+                    if (!row->at("owner").contains("fields") && !entry_template_row(*row)) template_only.push_back(row);
                 if (!template_only.empty()) {
                     std::string presets;
                     for (const auto& [id, preset] : registry.at("missions").items())
@@ -2216,7 +2443,51 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
             const fs::path artifact = result.directory / "artifacts" / (name + ".lua_B");
             write_text(source, source_text);
             Json gates = Json::array();
+            const std::size_t compile_log_start = result.gate_log.size();
             addon_gates(gates, source, result.directory / "source" / (std::string(kMultiTargetAddonName) + ".verification-u43.lua_B"), artifact);
+            // Contract R10 gate `entry-parameter-keys`: every script-parameter name is compiled as exactly one hashed field
+            // name (the compiler reports hashed-fields=<names>), it occurs in the source only in its generated accessor pair
+            // (`environment.<name>` read and write), and never as a string key. A name also used as a string field
+            // anywhere else in the file would be hashed there too, so the build fails instead.
+            {
+                std::set<std::string> names;
+                std::map<std::string, std::size_t> accessors;
+                for (const auto& [body, rows] : addon)
+                    for (const Json* row : rows)
+                        if (entry_template_row(*row) && row->at("owner").at("template") == kScriptParamTemplate)
+                            for (const auto& global : row->at("owner").at("globals")) {
+                                names.insert(global.at("name").get<std::string>());
+                                ++accessors[global.at("name").get<std::string>()];
+                            }
+                std::string problems;
+                const std::string compile_log = result.gate_log.substr(compile_log_start);
+                static const std::regex reported("hashed-fields=([0-9]+)");
+                std::size_t reports = 0;
+                for (auto it = std::sregex_iterator(compile_log.begin(), compile_log.end(), reported); it != std::sregex_iterator(); ++it) {
+                    ++reports;
+                    if (std::stoul((*it)[1].str()) != names.size())
+                        problems += "compiler reports " + (*it)[1].str() + " hashed field names, expected " + std::to_string(names.size()) + "; ";
+                }
+                if (reports == 0) problems += "compiler output has no hashed-fields count; ";
+                for (const auto& name : names) {
+                    std::size_t uses = 0;
+                    for (std::size_t at = source_text.find("." + name); at != std::string::npos; at = source_text.find("." + name, at + 1)) {
+                        const std::size_t end = at + 1 + name.size();
+                        if (end < source_text.size() && (std::isalnum(static_cast<unsigned char>(source_text[end])) || source_text[end] == '_')) continue;
+                        ++uses;
+                    }
+                    if (uses != 2 * accessors.at(name))
+                        problems += name + " is used as a field " + std::to_string(uses) + " times, expected only its " +
+                                    std::to_string(2 * accessors.at(name)) + " accessor uses; ";
+                    if (source_text.find("\"" + name + "\"") != std::string::npos || source_text.find("[\"" + name + "\"]") != std::string::npos)
+                        problems += name + " also appears as a string key; ";
+                    if (!contains_text(source_text, kHashedFieldDirective + name + "\n")) problems += name + " has no hashed-field directive; ";
+                }
+                result.gate_log += "entry-parameter-keys\n" + (problems.empty() ? std::string("PASS") : problems) + " names=" +
+                                   std::to_string(names.size()) + "\n";
+                gates.push_back({{"name", "entry-parameter-keys"}, {"pass", problems.empty()}, {"exit_code", problems.empty() ? 0 : 1}});
+                if (!problems.empty()) throw std::runtime_error("entry-parameter-keys failed: " + problems);
+            }
             // Declaration gate: the compiled string pool declares exactly the addon body keys (loader discovery rules), the
             // source holds no other lowercase 16-hex text, and the file stays inside the loader limits.
             std::set<std::string> expected;
@@ -2243,16 +2514,24 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
             try { source_retiring = multi_target_source_retire_paths(source_text); }
             catch (const std::exception& e) { problems += std::string(e.what()) + "; "; }
             std::size_t hooked_targets = 0, hook_count = 0, hooked_tables = 0, table_count = 0, full_hooks = 0, retiring_hooks = 0,
-                        idle_hooks = 0, enabled_tables = 0, retire_all_hooks = 0;
+                        idle_hooks = 0, enabled_tables = 0, retire_all_hooks = 0, entry_rows_total = 0;
             Json hook_plan = Json::array();
             for (const auto& [body, rows] : addon) {
                 const Json& module = mission_module(registry, body);
                 const auto module_path = module.at("module_path").get<std::string>();
                 std::map<std::string, bool> tables;
-                for (const Json* row : rows)
+                std::set<int> entry_prototypes;  // R10 entry templates (registry entries, every one a root child)
+                for (const Json* row : rows) {
+                    if (entry_template_row(*row)) {
+                        ++entry_rows_total;
+                        for (const auto& entry : row->at("owner").at("entries")) entry_prototypes.insert(entry.at("prototype").get<int>());
+                        continue;
+                    }
                     for (const auto& field : row->at("owner").at("fields"))
                         tables[field.at("table_id").get<std::string>()] |= enabled_ids.contains(row->at("tunable_id").get<std::string>());
+                }
                 std::set<int> want, full, not_retirable;
+                for (const int prototype : entry_prototypes) want.insert(prototype);
                 Json hooked = Json::array();
                 for (const auto& [table_id, on] : tables) {
                     const Json& table = module.at("root_tables").at(table_id);
@@ -2309,7 +2588,7 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                                " full_capturer_hooks=" + std::to_string(full_hooks) + " tables=" + std::to_string(table_count) +
                                " hooked_tables=" + std::to_string(hooked_tables) + " enabled_tables=" + std::to_string(enabled_tables) + " values=" + std::to_string(compiled_values.size()) +
                                " enabled=" + std::to_string(enabled_ids.size()) + " retiring_hooks=" + std::to_string(retiring_hooks) + " idle_retire_hooks=" + std::to_string(idle_hooks) +
-                               " retire_all_hooks=" + std::to_string(retire_all_hooks) + "\n";
+                               " retire_all_hooks=" + std::to_string(retire_all_hooks) + " entry_rows=" + std::to_string(entry_rows_total) + "\n";
             gates.push_back({{"name", "hook-plan"}, {"pass", problems.empty()}, {"exit_code", problems.empty() ? 0 : 1}});
             gates.push_back({{"name", "hook-retire"}, {"pass", problems.empty()}, {"exit_code", problems.empty() ? 0 : 1}});
             if (!problems.empty()) throw std::runtime_error("hook-plan failed: " + problems);

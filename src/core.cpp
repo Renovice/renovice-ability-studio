@@ -4268,6 +4268,7 @@ namespace renovice
                             for (const auto& id_json : target.at("tunables")) {
                                 const auto id = id_json.get<std::string>();
                                 const Json& row = mission_tunable(registry, id);
+                                if (!row.at("owner").contains("fields")) continue;  // R10 entry row (own harness below)
                                 for (const auto& field : row.at("owner").at("fields")) {
                                     const auto table_id = field.at("table_id").get<std::string>();
                                     if (enabled.contains(id))
@@ -4310,10 +4311,14 @@ namespace renovice
                                         const auto other_id = id_json.get<std::string>();
                                         const Json& row = mission_tunable(registry, other_id);
                                         bool bound_here = false;
-                                        for (const auto& field : row.at("owner").at("fields"))
-                                            for (const auto& hooked : module.at("root_tables").at(field.at("table_id").get<std::string>())
-                                                                          .at("minimal_hooks").at("prototypes"))
-                                                bound_here = bound_here || hooked.get<int>() == proto;
+                                        if (row.at("owner").contains("entries"))  // R10 entry row: bound at its entries
+                                            for (const auto& entry : row.at("owner").at("entries"))
+                                                bound_here = bound_here || entry.at("prototype").get<int>() == proto;
+                                        if (row.at("owner").contains("fields"))
+                                            for (const auto& field : row.at("owner").at("fields"))
+                                                for (const auto& hooked : module.at("root_tables").at(field.at("table_id").get<std::string>())
+                                                                              .at("minimal_hooks").at("prototypes"))
+                                                    bound_here = bound_here || hooked.get<int>() == proto;
                                         if (bound_here) continue;
                                         other = "{ id = " + lua_quote(other_id) + ", stock = " +
                                                 format_number(row.at("stock").get<double>()) + " }";
@@ -4651,7 +4656,7 @@ print("MULTI-TARGET HARNESS PASS cases=" .. #cases .. " idle=" .. #idle .. " ret
                         if (!full_ok && !full.diagnostics.empty()) full_detail = " " + full.diagnostics.front().message;
                         std::size_t addon_rows = 0, flood_rows = 0, hidden_rows = 0, addon_masters = 0;
                         for (const auto& row : registry.at("tunables"))
-                            if (row.at("backend") == "TARGET_ADDON" && row.at("owner").contains("fields")) {
+                            if (row.at("backend") == "TARGET_ADDON" && (row.at("owner").contains("fields") || entry_template_row(row))) {
                                 ++addon_rows;
                                 if (row.at("owner").at("body_key") == "fc711ff621a75552") ++flood_rows;
                                 else if (row.at("ui").contains("hidden")) ++hidden_rows;
@@ -4681,7 +4686,7 @@ print("MULTI-TARGET HARNESS PASS cases=" .. #cases .. " idle=" .. #idle .. " ret
                                 && migration.at("values").at("void_flood.fractures_per_round.normal") == Json{{"enabled", true}, {"value", 4}}
                                 && migration.at("values").at("survival.pickup_time_added") == Json{{"enabled", false}, {"value", 7}}
                                 && hooked_targets == addon_manifest.at("target_keys").size()
-                                && source_hooks.at("Lotus.Scripts.Modes.SurvivalMission") == std::set<int>{23, 31, 34, 59, 61, 67, 69, 72}
+                                && source_hooks.at("Lotus.Scripts.Modes.SurvivalMission") == std::set<int>{23, 31, 34, 59, 61, 67, 69, 70, 72}  // R10: 70 = the fixed-length entry
                                 && fs::file_size(full.package_directory / "package.json") <= 512u * 1024u
                                 && addon_manifest.at("hook_plan").at("hooked_targets") == addon_manifest.at("target_keys").size()
                                 && addon_manifest.at("hook_plan").at("idle_retire_hooks") == addon_manifest.at("hook_plan").at("hooks")
@@ -4858,6 +4863,126 @@ print("MASTER HARNESS PASS cases=" .. #cases)
                             check(masters_ok, "R5 master knobs (luau.exe, full package): a master writes master x scale into every driven row, "
                                               "an enabled driven row wins, a master with another declared stock or disabled writes nothing, "
                                               "cleanup restores, and a stock-compiled master is inert without context.settings" + masters_detail);
+                        }
+
+                        // Contract R10: entry templates, executed by the reference Luau VM on a package that enables one MissionInfo
+                        // count and three script-parameter rows. Mocks: gRegion:IsMaster(), gGameRules:GetMission()/SetMission()
+                        // (GetMission returns a COPY, as the stock pattern assumes), print. Checks: host-only, normal-node-only,
+                        // written once per mission through SetMission; parameters written once per called environment (scale,
+                        // inverse, two globals together), skip, rewrite, drift, no environment, cleanup restore; hook return
+                        // values (settled retire).
+                        {
+                            Json entry_values{{"defense.waves_to_finish", 3}, {"interception.score_goal_scale", 2},
+                                              {"spy.vault_alarm_scale", 0.5}, {"exterminate.kills_scale", 0.1}};
+                            Json entry_settings = probe_settings(entry_values);
+                            entry_settings["output_layout"] = "package";
+                            entry_settings["package_scope"] = "all_addon_values";
+                            const MissionSetResult entry_build = build_mission_settings(entry_settings, editor_root, mission_fixture, true);
+                            const MissionArtifact* entry_addon = nullptr;
+                            for (const auto& item : entry_build.artifacts) if (item.backend == "TARGET_ADDON") entry_addon = &item;
+                            bool entry_ok = entry_build.success && entry_addon != nullptr && contains_text(entry_build.gate_log, "entry-parameter-keys\nPASS");
+                            std::string entry_detail = entry_ok || entry_build.diagnostics.empty() ? std::string() : " " + entry_build.diagnostics.front().message;
+                            if (entry_ok) {
+                                std::ostringstream harness;
+                                harness << "local function chunk()\n" << read_text(entry_addon->source) << "end\n" << R"LUA(
+local failures = 0
+local function check(condition, label)
+    if not condition then failures = failures + 1; print("FAIL " .. label) end
+end
+local master = true
+local stored = { maxWaveNum = 0, alertId = "", invasionId = "", goalId = "", sortieId = "", nightmare = false,
+                 syndicateTag = { IsValid = function() return false end } }
+local sets = 0
+local function copy() local c = {} for k, v in pairs(stored) do c[k] = v end return c end
+gRegion = { IsMaster = function() return master end }
+gGameRules = { GetMission = function() return copy() end, SetMission = function(_, m) sets = sets + 1; stored = m end }
+local lines = {}
+local base_print = print
+print = function(text) lines[#lines + 1] = text end
+local addon = chunk()
+local defense = addon.targets["1a1354d153712f9d"]
+local territory = addon.targets["c9605470a8c47d8d"]
+local intel = addon.targets["ee15b583788c3e7d"]
+local alarm = addon.targets["c05987eccd08c1ca"]
+local context = { settings = {
+    ["defense.waves_to_finish"] = { enabled = true, value = 3, stock = 0 },
+    ["interception.score_goal_scale"] = { enabled = true, value = 2, stock = 1 },
+    ["spy.vault_alarm_scale"] = { enabled = true, value = 0.5, stock = 1 },
+    ["exterminate.kills_scale"] = { enabled = true, value = 0.1, stock = 1 },
+} }
+for _, t in ipairs({ defense, territory, intel, alarm }) do t.activate(context) end
+-- MissionInfo: host, normal node -> one SetMission with maxWaveNum 3; a second entry is a no-op.
+local r1, r2 = defense.hooks.luaCalls[50].before(50, {}, {})
+check(stored.maxWaveNum == 3 and sets == 1, "host normal node: maxWaveNum 0 -> 3 through SetMission")
+check(r1 == "RENOVICE_RETIRE" and r2 == nil, "entry hook returns the settled retire")
+defense.hooks.luaCalls[50].before(50, {}, {})
+check(sets == 1, "second entry: no second SetMission")
+-- Special missions and clients keep their own count.
+stored = { maxWaveNum = 0, alertId = "Alert1", invasionId = "", goalId = "", sortieId = "", nightmare = false,
+           syndicateTag = { IsValid = function() return false end } }
+sets = 0
+defense.hooks.luaCalls[50].before(50, {}, {})
+check(stored.maxWaveNum == 0 and sets == 0, "alert mission: not written")
+stored = { maxWaveNum = 0, alertId = "", invasionId = "", goalId = "", sortieId = "", nightmare = false,
+           syndicateTag = { IsValid = function() return true end } }
+defense.hooks.luaCalls[50].before(50, {}, {})
+check(stored.maxWaveNum == 0 and sets == 0, "syndicate mission: not written")
+stored = { maxWaveNum = 6, alertId = "", invasionId = "", goalId = "", sortieId = "", nightmare = false,
+           syndicateTag = { IsValid = function() return false end } }
+defense.hooks.luaCalls[50].before(50, {}, {})
+check(stored.maxWaveNum == 6 and sets == 0, "mission with its own count: not written")
+stored = { maxWaveNum = 0, alertId = "", invasionId = "", goalId = "", sortieId = "", nightmare = false,
+           syndicateTag = { IsValid = function() return false end } }
+master = false
+defense.hooks.luaCalls[50].before(50, {}, {})
+check(stored.maxWaveNum == 0 and sets == 0, "client: not written")
+master = true
+-- Script parameters: per called environment.
+local e1 = { scoreGoal = 1450 }
+local e2 = { scoreGoal = 180 }
+territory.hooks.luaCalls[35].before(35, {}, {}, nil, e1)
+territory.hooks.luaCalls[37].before(37, {}, {}, nil, e1)
+territory.hooks.luaCalls[35].before(35, {}, {}, nil, e2)
+check(e1.scoreGoal == 2900 and e2.scoreGoal == 360, "scale: each map value x2, once per environment")
+e1.scoreGoal = 1450
+territory.hooks.luaCalls[35].before(35, {}, {}, nil, e1)
+check(e1.scoreGoal == 2900, "observed value back: written again")
+e2.scoreGoal = 5
+territory.hooks.luaCalls[35].before(35, {}, {}, nil, e2)
+check(e2.scoreGoal == 5, "drift: left alone")
+local vault = { intelTimerDurationMax = 55, intelTimerDurationMin = 35 }
+intel.hooks.luaCalls[43].before(43, {}, {}, nil, vault)
+check(vault.intelTimerDurationMax == 27.5 and vault.intelTimerDurationMin == 17.5, "two globals scaled together (x0.5)")
+local killer = { metersPerEnemy = 15 }
+alarm.hooks.luaCalls[21].before(21, {}, {}, nil, killer)
+check(math.abs(killer.metersPerEnemy - 150) < 1e-9, "inverse scale: kills x0.1 -> meters per enemy / 0.1")
+local old = { metersPerEnemy = 15 }
+alarm.hooks.luaCalls[21].before(21, {}, {})
+check(old.metersPerEnemy == 15, "no environment (runtime before R10): nothing written")
+local missing = {}
+alarm.hooks.luaCalls[21].before(21, {}, {}, nil, missing)
+check(missing.metersPerEnemy == nil, "instance without the parameter: nothing written")
+for _, t in ipairs({ defense, territory, intel, alarm }) do t.cleanup() end
+check(e1.scoreGoal == 1450 and e2.scoreGoal == 5, "cleanup restores the observed value, not a drifted one")
+check(vault.intelTimerDurationMax == 55 and vault.intelTimerDurationMin == 35 and killer.metersPerEnemy == 15, "cleanup restores every parameter")
+local written = 0
+for _, line in ipairs(lines) do if string.find(line, "RENOVICE Missions: ", 1, true) == 1 then written = written + 1 end end
+check(written >= 6, "one print line per write or refusal")
+print = base_print
+if failures == 0 then print("R10 ENTRY HARNESS PASS") else print("R10 ENTRY HARNESS FAIL failures=" .. failures) end
+)LUA";
+                                const fs::path harness_path = mission_fixture / "r10_entry_harness.luau";
+                                write_text(harness_path, harness.str());
+                                const fs::path luau = resolve_workspace_path(editor_root, "repos", "de_luau_toolchain") / "bin/luau.exe";
+                                const ProcessResult run = run_process(quote_process_argument(luau) + " " + quote_process_argument(harness_path), mission_fixture);
+                                entry_ok = run.exit_code == 0 && contains_text(run.output, "R10 ENTRY HARNESS PASS");
+                                entry_detail = entry_ok ? std::string() : " " + run.output.substr(0, 800);
+                            }
+                            check(entry_ok, "R10 entry templates (luau.exe): a MissionInfo count is written once, host only, on normal nodes, "
+                                            "through the game's setter; script parameters are written once per called environment (scale, "
+                                            "inverse scale, two globals), rewritten when the level value returns, left alone after drift or "
+                                            "without an environment, and restored by cleanup; the parameter names compile as hashed fields" +
+                                            entry_detail);
                         }
 
                         // Contract R5: literal master knobs and disabled_values. Mobile Defense "Time per terminal" drives both

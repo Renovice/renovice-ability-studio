@@ -204,23 +204,57 @@
     "failures": []
   },
   "phase2e": {
-    "converted_to_addon": 217,
-    "addon_gate_fail": 104,
+    "converted_to_addon": 237,
+    "addon_gate_fail": 84,
     "addon_rows_new": 68,
     "template_rows_with_fields": 2,
     "literal_rows_new": 36,
     "gate_failures": []
   },
+  "r10": {
+    "drafts": 65,
+    "drafts_rejected_by_research": 8,
+    "admitted": 64,
+    "excluded": [
+      "sabotage_orokin.escape_timer"
+    ],
+    "renamed": {
+      "legacyte_harvest.required_captures.high_scaling": "infested_capture.required_captures.high_scaling",
+      "legacyte_harvest.required_captures.mutated": "infested_capture.required_captures.mutated",
+      "legacyte_harvest.required_captures.double": "infested_capture.required_captures.double",
+      "legacyte_harvest.required_captures.descendia": "infested_capture.required_captures.descendia",
+      "sabotage_orokin.portal_charge_time": "sabotage.orokin_charge_time",
+      "sabotage_forest.defend_time": "sabotage.forest_defend_time",
+      "gascity.meltdown_scale_easy": "sabotage.gascity_meltdown_scale.easy",
+      "gascity.meltdown_scale_hard": "sabotage.gascity_meltdown_scale.hard",
+      "mirror_defense.phases_to_finish": "loopdefend.phases_to_finish",
+      "gascity.hack_time": "sabotage.gascity_hack_time",
+      "extraction.countdown_endless": "gamerules.extraction_countdown_endless",
+      "extraction.countdown": "gamerules.extraction_countdown"
+    },
+    "by_backend": {
+      "EXACT_LITERAL": 28,
+      "TARGET_ADDON": 34,
+      "METADATA_PATCH": 2
+    },
+    "by_template": {
+      "EXACT_LITERAL": 28,
+      "ROOT_TABLE_FIELD": 16,
+      "MISSION_INFO_FIELD_AT_ENTRY": 8,
+      "SCRIPT_PARAM_GLOBAL_AT_ENTRY": 10,
+      "METADATA_PATCH": 2
+    }
+  },
   "phase2k": {
-    "tables": 83,
+    "tables": 91,
     "tables_without_owned_fields": 0,
-    "hooks_full": 269,
-    "hooks_minimal": 129,
+    "hooks_full": 331,
+    "hooks_minimal": 149,
     "downstream_after_escape": 1,
     "by_method": {
-      "minimal-search": 83
+      "minimal-search": 91
     },
-    "retire_safe_tables": 83
+    "retire_safe_tables": 91
   },
   "phase1_accounting": {
     "denominator": 387,
@@ -234,7 +268,8 @@
       "METADATA_PARAM": 3
     },
     "All missions": {
-      "LUA_PROTO_LITERAL": 5,
+      "LUA_PROTO_LITERAL": 6,
+      "METADATA_PARAM": 1,
       "SERVER": 1
     },
     "Arbitration": {
@@ -245,6 +280,9 @@
     },
     "Ascension": {
       "METADATA_PARAM": 6
+    },
+    "Assassination": {
+      "LUA_PROTO_LITERAL": 7
     },
     "Capture": {
       "LUA_PROTO_LITERAL": 4,
@@ -266,7 +304,8 @@
     "Defense": {
       "LUA_ROOT_TABLE": 26,
       "LUA_PROTO_LITERAL": 19,
-      "METADATA_PARAM": 1
+      "METADATA_PARAM": 1,
+      "MISSION_INFO_FIELD": 1
     },
     "Defense (1999 tile)": {
       "LUA_PROTO_LITERAL": 4
@@ -310,11 +349,13 @@
       "LUA_PROTO_LITERAL": 1
     },
     "Excavation": {
-      "LUA_PROTO_LITERAL": 5
+      "LUA_PROTO_LITERAL": 5,
+      "MISSION_INFO_FIELD": 1
     },
     "Exterminate": {
       "LUA_ROOT_TABLE": 6,
-      "LUA_PROTO_LITERAL": 4
+      "LUA_PROTO_LITERAL": 4,
+      "SCRIPT_PARAM_GLOBAL": 2
     },
     "Faceoff": {
       "LUA_ROOT_TABLE": 37,
@@ -324,7 +365,8 @@
       "LUA_ROOT_TABLE": 14
     },
     "Free Roam bounty (Control Area)": {
-      "LUA_PROTO_LITERAL": 3
+      "LUA_PROTO_LITERAL": 3,
+      "SCRIPT_PARAM_GLOBAL": 2
     },
     "Hijack": {
       "LUA_PROTO_LITERAL": 2
@@ -334,11 +376,16 @@
     },
     "Interception": {
       "LUA_PROTO_LITERAL": 4,
+      "SCRIPT_PARAM_GLOBAL": 3,
+      "MISSION_INFO_FIELD": 1,
       "METADATA_PARAM": 1
     },
     "Lantern": {
       "LUA_PROTO_LITERAL": 5,
       "LUA_ROOT_TABLE": 14
+    },
+    "Legacyte Harvest": {
+      "LUA_PROTO_LITERAL": 4
     },
     "Legacyte Harvest (1999)": {
       "METADATA_PARAM": 7
@@ -351,7 +398,8 @@
     },
     "Mirror Defense": {
       "LUA_ROOT_TABLE": 49,
-      "LUA_PROTO_LITERAL": 8
+      "LUA_PROTO_LITERAL": 8,
+      "MISSION_INFO_FIELD": 1
     },
     "Mobile Defense": {
       "LUA_PROTO_LITERAL": 7,
@@ -384,7 +432,32 @@
     },
     "Rescue": {
       "LUA_ROOT_TABLE": 1,
-      "LUA_PROTO_LITERAL": 3
+      "LUA_PROTO_LITERAL": 5
+    },
+    "Rush (Archwing)": {
+      "LUA_PROTO_LITERAL": 1
+    },
+    "Sabotage (Archwing trench run)": {
+      "LUA_PROTO_LITERAL": 2
+    },
+    "Sabotage (Corpus/Grineer ship)": {
+      "LUA_PROTO_LITERAL": 1
+    },
+    "Sabotage (Gas City)": {
+      "SCRIPT_PARAM_GLOBAL": 1,
+      "LUA_PROTO_LITERAL": 2
+    },
+    "Sabotage (Grineer Forest)": {
+      "LUA_PROTO_LITERAL": 1
+    },
+    "Sabotage (Orokin)": {
+      "LUA_PROTO_LITERAL": 1
+    },
+    "Sabotage (ships)": {
+      "SCRIPT_PARAM_GLOBAL": 1
+    },
+    "Sanctuary Onslaught": {
+      "LUA_PROTO_LITERAL": 6
     },
     "Sentient Mobile Defense": {
       "LUA_PROTO_LITERAL": 1,
@@ -394,39 +467,50 @@
       "LUA_ROOT_TABLE": 1
     },
     "Spy": {
-      "LUA_PROTO_LITERAL": 1
+      "SCRIPT_PARAM_GLOBAL": 1,
+      "LUA_PROTO_LITERAL": 1,
+      "MISSION_INFO_FIELD": 1
     },
     "Survival": {
       "LUA_ROOT_TABLE": 28,
-      "LUA_PROTO_LITERAL": 2
+      "LUA_PROTO_LITERAL": 2,
+      "MISSION_INFO_FIELD": 1
     },
     "Temporal Archimedea": {
       "LUA_ROOT_TABLE": 3
     },
     "The Circuit": {
+      "METADATA_PARAM": 1,
       "LUA_PROTO_LITERAL": 4
     },
+    "Void Armageddon": {
+      "LUA_ROOT_TABLE": 16
+    },
     "Void Cascade": {
-      "LUA_ROOT_TABLE": 6
+      "LUA_ROOT_TABLE": 6,
+      "MISSION_INFO_FIELD": 1
     },
     "Void Flood": {
       "LUA_ROOT_TABLE": 8,
       "LUA_PROTO_LITERAL": 2,
-      "METADATA_PARAM": 1
+      "METADATA_PARAM": 1,
+      "MISSION_INFO_FIELD": 1
     }
   },
   "rows_by_backend": {
-    "METADATA_PATCH": 62,
-    "EXACT_LITERAL": 242,
-    "TARGET_ADDON": 289,
+    "METADATA_PATCH": 64,
+    "EXACT_LITERAL": 250,
+    "TARGET_ADDON": 343,
     "SERVER_CONFIG": 1
   },
   "build": "2026.09.28.13.06",
-  "rows": 594,
+  "rows": 658,
   "rows_by_owner_kind": {
-    "METADATA_PARAM": 63,
-    "LUA_PROTO_LITERAL": 138,
-    "LUA_ROOT_TABLE": 391,
+    "METADATA_PARAM": 65,
+    "LUA_PROTO_LITERAL": 166,
+    "LUA_ROOT_TABLE": 407,
+    "SCRIPT_PARAM_GLOBAL": 10,
+    "MISSION_INFO_FIELD": 8,
     "SERVER": 1,
     "ADDON_EXTENSION": 1
   },
@@ -668,29 +752,29 @@
     "void_flood.is_duviri_flag",
     "wf1999def.drone_count"
   ],
-  "modules": 48,
-  "corpus_files": 48,
-  "metadata_snapshot_sha256": "49F042A0A8A4D5F84B4B37C02FA0EDED3B931B29EA78F2216E9B709096066BF9",
-  "registry_sha256": "6ED8C8AE8F8686DAF286749AB337F4E4EAFB5CFDD96724AF848960909204C358",
+  "modules": 62,
+  "corpus_files": 62,
+  "metadata_snapshot_sha256": "33D3D0EA8ED3FB4E4FB54A6101683701C353CA909D597C60EC2D7ADF1212A7D2",
+  "registry_sha256": "9E4451701DB27607D61BB2092A6607B44864E4941BF4A0254E01FB4A6CE235FF",
   "ui": {
-    "groups": 49,
+    "groups": 102,
     "editors": {
-      "INPUTCOUNT": 434,
-      "INPUTBOX": 157,
+      "INPUTCOUNT": 480,
+      "INPUTBOX": 175,
       "TOGGLE": 3
     },
     "label_sources": {
-      "id": 260,
-      "id-leaf": 10,
-      "override": 113,
-      "prose": 185,
+      "id": 66,
+      "override": 62,
+      "player_text": 450,
+      "prose": 54,
       "variant-id": 16,
       "variant-prose": 10
     },
     "applies": {
-      "live_next_read": 289,
-      "next_mission": 242,
-      "restart": 62,
+      "live_next_read": 325,
+      "next_mission": 268,
+      "restart": 64,
       "server_reload": 1
     },
     "sources": {

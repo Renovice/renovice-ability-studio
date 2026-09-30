@@ -37,20 +37,32 @@ def register(row, master, players, master_rule, variant_rule):
     live('survival.duviri_fixed_length', 'Duviri: Survival length',
          'Length of endless Duviri Survival (missions flagged EndlessDuviri, The Circuit)')
 
-    # ---- Defense: enemies at once (regular and Infested tables; both ends of the level range), waves, timers
+    # ---- Defense: enemies at once (regular and Infested tables; both ends of the level range), waves, timers.
+    # Contract R10: the flow-sensitive ROOT_TABLE_UPVALUE_V1 gate proves the regular, Infested and Duviri-min cap tables
+    # (WaveDefend root tables read in sibling branches of prototype 26), so these 20 rows and their masters are addon
+    # values now (live, written into the live table), not live literals.
     for key, short, long in players:
-        live_master(f'defense.max_enemies.{key}', f'Max enemies at once ({short})',
-                    f'Defense enemies alive at once with {long}, regular and Infested, all levels; {master_rule}',
-                    [(f'defense.simultaneous_enemies_max.{key}', 1), (f'defense.simultaneous_enemies_min.{key}', 1),
-                     (f'defense.simultaneous_enemies_infested.max.{key}', 1),
-                     (f'defense.simultaneous_enemies_infested.min.{key}', 1)],
-                    note='(fewer below level 30)')
+        master(f'defense.max_enemies.{key}', f'Max enemies at once ({short})',
+               f'Defense enemies alive at once with {long}, regular and Infested, all levels; {master_rule}',
+               [(f'defense.simultaneous_enemies_max.{key}', 1), (f'defense.simultaneous_enemies_min.{key}', 1),
+                (f'defense.simultaneous_enemies_infested.max.{key}', 1),
+                (f'defense.simultaneous_enemies_infested.min.{key}', 1)],
+               note='(fewer below level 30)')
     for key, short, long in players:
-        live(f'defense.simultaneous_enemies_max.{key}', f'Level 30+: max enemies ({short})',
-             f'Defense enemies alive at once at enemy level 30 and above with {long}, regular enemies; {variant_rule}', 'adv')
+        row(f'defense.simultaneous_enemies_max.{key}', f'Level 30+: max enemies ({short})',
+            f'Defense enemies alive at once at enemy level 30 and above with {long}, regular enemies; {variant_rule}', 'adv')
     for key, short, long in players:
-        live(f'defense.simultaneous_enemies_infested.max.{key}', f'Infested: max enemies ({short})',
-             f'Defense enemies alive at once at enemy level 30 and above with {long}, Infested; {variant_rule}', 'adv')
+        row(f'defense.simultaneous_enemies_min.{key}', f'Low level: max enemies ({short})',
+            f'Defense enemies alive at once at the lowest enemy levels with {long}, regular enemies; {variant_rule}', 'adv')
+    for key, short, long in players:
+        row(f'defense.simultaneous_enemies_infested.max.{key}', f'Infested: max enemies ({short})',
+            f'Defense enemies alive at once at enemy level 30 and above with {long}, Infested; {variant_rule}', 'adv')
+    for key, short, long in players:
+        row(f'defense.simultaneous_enemies_infested.min.{key}', f'Infested low level: max ({short})',
+            f'Defense enemies alive at once at the lowest enemy levels with {long}, Infested; {variant_rule}', 'adv')
+    for key, short, long in players:
+        row(f'defense.simultaneous_enemies_duviri.min.{key}', f'Duviri low level: max ({short})',
+            f'Duviri Defense enemies alive at once at the lowest enemy levels with {long}', 'adv')
     live('defense.first_wave_delay', 'Delay before the first wave', 'Seconds before the first Defense wave starts')
     live('defense.inter_wave_sleep', 'Time between waves', 'Seconds of intermission between Defense waves')
     live('defense.special_mission_default_waves', 'Alert missions: waves to finish',
