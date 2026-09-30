@@ -1,4 +1,5 @@
 #include "renovice/core.hpp"
+#include "renovice/live_literal_patch_core.hpp"
 
 #include <algorithm>
 #include <array>

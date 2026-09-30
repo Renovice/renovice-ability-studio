@@ -61,9 +61,19 @@ MissionPaths mission_paths(const Json& registry, const fs::path& editor_root) {
             (workspace / registry.at("server_root").get<std::string>()).lexically_normal()};
 }
 
+// LIVE_LITERALS_V1: operand, domain, encoding and preimage rules live in the shared core
+// include/renovice/live_literal_patch_core.hpp (byte-identical in the bootstrapper, which synthesizes recipes at run time).
+live_literal_patch::Site mission_operand_site(const Json& site) {
+    live_literal_patch::Site core;
+    core.kind = site.at("kind") == "number_constant" ? live_literal_patch::SiteKind::NumberConstant : live_literal_patch::SiteKind::Loadn;
+    core.inverse = site.value("inverse", false);
+    core.numerator = site.at("numerator").get<double>();
+    core.denominator = core.inverse ? 1.0 : site.at("denominator").get<double>();
+    return core;
+}
+
 double mission_site_operand(const Json& site, const double value) {
-    const double numerator = site.at("numerator").get<double>();
-    return site.value("inverse", false) ? numerator / value : value * numerator / site.at("denominator").get<double>();
+    return live_literal_patch::operand(mission_operand_site(site), value);
 }
 
 constexpr const char* kConstantExclusivityGate = "K_CONSTANT_EXCLUSIVE_V1";
@@ -78,12 +88,10 @@ const Json* mission_literal_owner(const Json& row) {
 // Operand domain of one literal site: a native f64 constant holds any finite number (the row limits bound it); a LOADN
 // immediate must be a whole number in 1..32767.
 void check_literal_operand(const Json& site, const double value, const std::string& id) {
-    const double operand = mission_site_operand(site, value);
-    if (site.at("kind") == "number_constant") {
-        if (!std::isfinite(operand)) throw std::runtime_error("Mission value must resolve to a finite constant: " + id);
-    } else if (!std::isfinite(operand) || operand < 1 || operand > 32767 || std::floor(operand) != operand) {
+    const auto error = live_literal_patch::operand_error(mission_operand_site(site), value);
+    if (error == live_literal_patch::Error::OperandNotFinite) throw std::runtime_error("Mission value must resolve to a finite constant: " + id);
+    if (error != live_literal_patch::Error::None)
         throw std::runtime_error("Mission value must resolve to an exact positive whole-number operand: " + id);
-    }
 }
 
 // A number constant is shared by every instruction and table-template entry that names it. Editing one therefore
@@ -274,15 +282,9 @@ void verify_mission_row(const Json& registry, const Json& row, const MissionPath
                 throw std::runtime_error("instruction site preimage is not a LOADN of the registered register");
             // The registered stock value must be exactly what the stock operand encodes at every site.
             if ((constant || loadn) && row.at("stock").is_number() && !site.value("inverse", false)) {
-                double stock_operand = 0;
-                if (constant) {
-                    std::uint64_t bits = 0;
-                    for (std::size_t n = 0; n < 8; ++n) bits |= static_cast<std::uint64_t>(expected[n]) << (8 * n);
-                    stock_operand = std::bit_cast<double>(bits);
-                } else {
-                    stock_operand = static_cast<double>(static_cast<std::int16_t>(expected[2] | (expected[3] << 8)));
-                }
-                if (stock_operand != mission_site_operand(site, row.at("stock").get<double>()))
+                live_literal_patch::Site core = mission_operand_site(site);
+                for (std::size_t n = 0; n < width; ++n) core.expected[n] = static_cast<unsigned char>(expected[n]);
+                if (live_literal_patch::stock_error(core, row.at("stock").get<double>()) != live_literal_patch::Error::None)
                     throw std::runtime_error("stock operand at offset " + std::to_string(offset) + " disagrees with the registered stock value");
             }
         }
@@ -1015,6 +1017,12 @@ struct MissionNaming {
     // value but shipped switched off (compiled enabled = false; the Settings file entry enabled = false). A replacement
     // member whose declared values are all off is not staged until the player ticks one (bootstrapper literal gate).
     std::set<std::string> disabled_values{};
+    // LIVE_LITERALS_V1 (contract R8), settings.literal_mode == "recipe" (package layout, all_addon_values): literal values
+    // are emitted as a declarative recipe (Packages/Missions/literals.json) the bootstrapper synthesizes at each apply, so
+    // they are typeable in game; no baked exact replacement is built. settings.literal_scope == "headline" also declares
+    // every registry headline literal value (ui_player_text.live_literal_headline) at stock/off.
+    bool literal_recipes = false;
+    bool literal_headline = false;
 };
 
 // R5 master knobs of one build: value per declared master (build value or stock) and whether it ships enabled.
@@ -1646,6 +1654,8 @@ std::map<std::string, std::set<int>> multi_target_source_hooks(const std::string
     return result;
 }
 
+#include "mission_live_literals.inl"
+
 MissionSetResult build_mission_set(const Json& registry, const Json& values_json, const MissionNaming& naming,
                                    const fs::path& editor_root, const fs::path& staging_root, bool run_external_gates,
                                    const Json& project_snapshot) {
@@ -1680,7 +1690,7 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
             if (!values_json.contains(id)) throw std::runtime_error("disabled_values names " + id + ", which values does not name");
         for (const auto& [id, number] : master_values) {
             const Json& master = *mission_master(registry, id);
-            if (master.at("lane") != "literal") continue;
+            if (master.at("lane") != "literal" || naming.literal_recipes) continue;  // R8: a recipe declares the master itself
             for (const auto& drive : master.at("drives")) {
                 const auto row = drive.at("tunable_id").get<std::string>();
                 if (row_values.contains(row)) throw std::runtime_error(row + " is named both directly and through master knob " + id);
@@ -1713,6 +1723,7 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
             try { verify_mission_row(registry, row, paths); }
             catch (const std::exception& e) { throw std::runtime_error(id + ": " + e.what()); }
             const auto backend = row.at("backend").get<std::string>();
+            if (naming.literal_recipes && backend == "EXACT_LITERAL") continue;  // R8: declared in the recipe below
             if (backend == "EXACT_LITERAL" || backend == "TARGET_ADDON") lua_rows[row.at("owner").at("body_key").get<std::string>()].push_back(&row);
             else if (backend == "METADATA_PATCH") metadata.push_back(&row);
             else server.push_back(&row);
@@ -1857,6 +1868,8 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
         if (!naming.allow_unproven_hooks.empty()) normalized["allow_unproven_hook_bindings"] = naming.allow_unproven_hooks;
         if (naming.declare_all_addon_values) normalized["package_scope"] = "all_addon_values";
         if (!naming.disabled_values.empty()) normalized["disabled_values"] = naming.disabled_values;
+        if (naming.literal_recipes) normalized["literal_mode"] = "recipe";
+        if (naming.literal_headline) normalized["literal_scope"] = "headline";
         // Recorded only for the package layout, so every loose build keeps its exact settings bytes and build hash.
         if (naming.package_layout) normalized["output_layout"] = "package";
         const std::string package_live = std::string("OpenWF/CustomScripts/Packages/") + kMissionPackageName + "/";
@@ -1924,9 +1937,9 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
             const Json& module = mission_module(registry, body);
             const fs::path stock = paths.corpus / module.at("file").get<std::string>();
             if (sha256_file(stock) != module.at("sha256").get<std::string>()) throw std::runtime_error("Current mission stock hash mismatch: " + body);
-            auto bytes = read_text(stock);
-            const auto original = bytes;
+            const auto original = read_text(stock);
             std::set<std::size_t> permitted;
+            std::vector<patch::Patch> patches;
             Json plan = Json::array();
             for (const Json* row : rows) {
                 const auto id = row->at("tunable_id").get<std::string>();
@@ -1934,29 +1947,32 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                 for (const auto& site : mission_literal_owner(*row)->at("sites")) {
                     check_literal_operand(site, value, id);
                     const auto offset = site.at("offset").get<std::size_t>();
-                    const auto expected = site.at("expected").get<std::vector<unsigned int>>();
                     const bool constant = site.at("kind") == "number_constant";
                     const std::size_t width = constant ? 8 : 4;
-                    if (expected.size() != width || offset > bytes.size() || width > bytes.size() - offset) throw std::runtime_error("Invalid patch extent");
-                    if (constant && (offset == 0 || static_cast<unsigned char>(bytes[offset - 1]) != 2)) throw std::runtime_error("Expected native numeric constant tag");
-                    for (std::size_t n = 0; n < width; ++n)
-                        if (static_cast<unsigned char>(bytes[offset + n]) != expected[n]) throw std::runtime_error("Verified instruction preimage changed");
-                    const double exact = mission_site_operand(site, value);
-                    const int operand = static_cast<int>(exact);
-                    if (constant) {
-                        const auto bits = std::bit_cast<std::uint64_t>(exact);
-                        for (std::size_t n = 0; n < 8; ++n) bytes[offset + n] = static_cast<char>((bits >> (8 * n)) & 255);
-                    } else {
-                        bytes[offset] = static_cast<char>(0x08); // U44 LOADN, from the verified opcode profile.
-                        bytes[offset + 1] = static_cast<char>(site.at("register").get<int>());
-                        bytes[offset + 2] = static_cast<char>(operand & 255);
-                        bytes[offset + 3] = static_cast<char>((operand >> 8) & 255);
+                    if (site.at("expected").size() != width) throw std::runtime_error("Invalid patch extent");
+                    // Shared core (LIVE_LITERALS_V1): extent, constant tag and preimage against the stock bytes, then the
+                    // U44 LOADN / native f64 encoding. The bootstrapper synthesizes recipes with the same code.
+                    patch::Patch item;
+                    item.site = mission_patch_site(site);
+                    switch (patch::verify(item.site, reinterpret_cast<const unsigned char*>(original.data()), original.size())) {
+                    case patch::Error::None: break;
+                    case patch::Error::Extent: throw std::runtime_error("Invalid patch extent");
+                    case patch::Error::ConstantTag: throw std::runtime_error("Expected native numeric constant tag");
+                    case patch::Error::PreimageChanged: throw std::runtime_error("Verified instruction preimage changed");
+                    default: throw std::runtime_error("Literal site shape rejected at offset " + std::to_string(offset));
                     }
+                    if (patch::encode(item.site, value, item.bytes) != patch::Error::None)
+                        throw std::runtime_error("Mission value must resolve to an exact positive whole-number operand: " + id);
                     for (std::size_t n = 0; n < width; ++n)
                         if (!permitted.insert(offset + n).second) throw std::runtime_error("Competing exact sites overlap at offset " + std::to_string(offset));
-                    plan.push_back({{"tunable_id", id}, {"value", value}, {"site", site}, {"operand", constant ? Json(exact) : Json(operand)}});
+                    patches.push_back(item);
+                    const double exact = mission_site_operand(site, value);
+                    plan.push_back({{"tunable_id", id}, {"value", value}, {"site", site},
+                                    {"operand", constant ? Json(exact) : Json(static_cast<int>(exact))}});
                 }
             }
+            std::sort(patches.begin(), patches.end(), [](const patch::Patch& a, const patch::Patch& b) { return a.site.offset < b.site.offset; });
+            const std::string bytes = synthesize_live_literal_module(original, patches, body);
             for (std::size_t n = 0; n < bytes.size(); ++n)
                 if (original[n] != bytes[n] && !permitted.contains(n)) throw std::runtime_error("Unexpected bytecode change");
             const fs::path source = result.directory / "source" / (body + ".plan.json");
@@ -2220,6 +2236,7 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
         // into Packages\Missions\ with a strict package.json. Metadata patches and server diffs are separate systems and
         // stay outside the package. Gates mirror the loader's static package rules.
         Json package_record = nullptr;
+        LiveLiteralOutput live_literal_output;  // R8 recipe (literal_mode "recipe" only)
         if (naming.package_layout) {
             if (naming.single_artifact) throw std::runtime_error("output_layout \"package\" applies to mission settings builds only");
             std::vector<const MissionArtifact*> members;
@@ -2286,9 +2303,13 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                                               {"size", item->size}, {"intended_live_relative_path", item->intended_live_relative_path}});
                 }
                 const std::string description = package_text(
-                    "RENOVICE universal mission editor output for client build " + registry.at("build").get<std::string>() +
-                    ". One Scripts row for every generated Lua mission change. Every value is declared in settings; "
-                    "CustomScripts/Settings/Missions.json selects which values apply.",
+                    naming.literal_recipes
+                        ? "RENOVICE mission editor output for client build " + registry.at("build").get<std::string>() +
+                              ". Script-literal values (literals.json) need the LIVE_LITERALS_V1 bootstrapper; older DLLs ignore "
+                              "that file and keep those values stock. CustomScripts/Settings/Missions.json holds the chosen values."
+                        : "RENOVICE universal mission editor output for client build " + registry.at("build").get<std::string>() +
+                              ". One Scripts row for every generated Lua mission change. Every value is declared in settings; "
+                              "CustomScripts/Settings/Missions.json selects which values apply.",
                     kPackageDescriptionMaximum);
                 Json group_declarations = Json::array();
                 std::vector<std::string> ordered_groups(used_groups.begin(), used_groups.end());
@@ -2320,12 +2341,29 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                     member["settings"]["values"] = values_ordered;
                 }
                 write_text(package_dir / "package.json", ordered_package.dump(2) + "\n");
+                if (naming.literal_recipes) {
+                    std::vector<std::string> package_value_ids;
+                    for (const auto& [file, member] : ordered_package.at("members").items())
+                        for (const auto& [id, declaration] : member.at("settings").at("values").items()) {
+                            static_cast<void>(declaration);
+                            package_value_ids.push_back(id);
+                        }
+                    live_literal_output = emit_live_literal_recipe(
+                        registry, paths, editor_root, values, master_values, naming, package_dir, used_groups, package_value_ids,
+                        declaration_order,
+                        [&](const fs::path& file) {
+                            Json roundtrip_gates = Json::array();
+                            gate(roundtrip_gates, "live-literal-roundtrip", "de-roundtrip " + quote_process_argument(file),
+                                 "FULL BODY identical: True");
+                        },
+                        result);
+                }
 
                 // Package gates (loader rules, bootstrapper renovice/packages_core.hpp).
                 std::set<std::string> on_disk, declared;
                 for (const auto& entry : fs::directory_iterator(package_dir)) {
                     const std::string name = entry.path().filename().string();
-                    if (name != "package.json") on_disk.insert(name);
+                    if (name != "package.json" && name != kLiveLiteralRecipeFile) on_disk.insert(name);
                 }
                 for (const auto& [name, value] : member_labels.items()) {
                     static_cast<void>(value);
@@ -2475,6 +2513,8 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                 // (CustomScripts/Settings/<package>.json) because the package folder is replaced on redeploy.
                 const fs::path settings_file = result.directory / "Settings" / (std::string(kMissionPackageName) + ".json");
                 fs::create_directories(settings_file.parent_path());
+                for (const auto& [id, entry] : live_literal_output.settings_values.items()) migration_values[id] = entry;  // R8
+                for (const auto& group : live_literal_output.groups) migration_groups[group] = true;
                 const Json migration{{"format", kScriptSettingsFormat}, {"package", "package:" + ascii_lower_text(kMissionPackageName)},
                                      {"build", registry.at("build")}, {"use_stock", false}, {"groups", migration_groups},
                                      {"values", migration_values}};
@@ -2499,6 +2539,10 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                                                                                                    std::string(kMissionPackageName) + ".json"}}}}},
                                   {"gates", Json::array({Json{{"name", "package-folder"}, {"pass", true}, {"exit_code", 0}},
                                                          Json{{"name", "settings-declarations"}, {"pass", true}, {"exit_code", 0}}})}};
+                if (naming.literal_recipes) {
+                    package_record["live_literals"] = live_literal_output.record;
+                    package_record["gates"].push_back({{"name", "live-literal-recipe"}, {"pass", true}, {"exit_code", 0}});
+                }
             }
         }
         if (naming.single_artifact && (result.artifacts.size() != 1 || !server.empty()))
@@ -2616,6 +2660,23 @@ MissionSetResult build_mission_settings(const Json& settings, const fs::path& ed
         }
         MissionNaming naming{"missions", "missions", "missions", "RENOVICE_Missions.txt", false, "", allow_unproven, package_layout, declare_all};
         naming.disabled_values = std::move(disabled);
+        // Optional (R8): "literal_mode": "baked" (default: exact replacements) or "recipe" (LIVE_LITERALS_V1 literals.json,
+        // typeable in game; package layout with package_scope "all_addon_values"), and "literal_scope": "built_values"
+        // (default) or "headline" (recipe mode: also declare every registry headline literal value at stock, off).
+        if (settings.contains("literal_mode")) {
+            const Json& mode = settings.at("literal_mode");
+            if (!mode.is_string() || (mode != "baked" && mode != "recipe")) throw std::runtime_error("literal_mode must be \"baked\" or \"recipe\"");
+            naming.literal_recipes = mode == "recipe";
+            if (naming.literal_recipes && (!package_layout || !declare_all))
+                throw std::runtime_error("literal_mode \"recipe\" needs output_layout \"package\" and package_scope \"all_addon_values\"");
+        }
+        if (settings.contains("literal_scope")) {
+            const Json& scope = settings.at("literal_scope");
+            if (!scope.is_string() || (scope != "built_values" && scope != "headline"))
+                throw std::runtime_error("literal_scope must be \"built_values\" or \"headline\"");
+            naming.literal_headline = scope == "headline";
+            if (naming.literal_headline && !naming.literal_recipes) throw std::runtime_error("literal_scope \"headline\" needs literal_mode \"recipe\"");
+        }
         return build_mission_set(registry, settings.at("values"), naming, editor_root, staging_root, run_external_gates, nullptr);
     } catch (const std::exception& e) {
         MissionSetResult result;

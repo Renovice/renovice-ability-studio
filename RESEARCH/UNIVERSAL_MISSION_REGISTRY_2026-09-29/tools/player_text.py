@@ -496,6 +496,11 @@ row('control_area_plains.duration', 'Hold-zone time',
 row('control_area_deimos.duration', 'Hold-zone time (Cambion)',
     'Seconds to hold the zone in Cambion Drift Control Area bounties')
 
+# ---- LIVE_LITERALS_V1 (contract R8): headline literal values, typeable in game (player_text_live_literals.py)
+import player_text_live_literals  # noqa: E402  (same folder)
+player_text_live_literals.register(row, master, PLAYERS, MASTER_RULE, VARIANT_RULE)
+LIVE_LITERAL_HEADLINE = list(player_text_live_literals.HEADLINE)
+
 # Group labels (sections). Existing ui_groups labels stay; advanced sections are "<label>: advanced" or the short form.
 ADVANCED_LABELS = {'escalation': '1999 Escalation: advanced', 'shrine': 'Shrine Defense: advanced',
                    'coh_destroy_targets': 'Destroy Targets: advanced', 'fivefates': 'Five Fates: advanced',
@@ -547,7 +552,8 @@ def description_problems(description, stock, unit_display, where):
 
 # ------------------------------------------------------------------------------------------------------------- apply
 def data_digest():
-    blob = json.dumps({'rows': R, 'masters': MASTERS, 'hidden': HIDDEN, 'advanced': ADVANCED_LABELS}, sort_keys=True)
+    blob = json.dumps({'rows': R, 'masters': MASTERS, 'hidden': HIDDEN, 'advanced': ADVANCED_LABELS,
+                       'live_literals': LIVE_LITERAL_HEADLINE}, sort_keys=True)
     return hashlib.sha256(blob.encode()).hexdigest().upper()
 
 
@@ -676,6 +682,17 @@ def apply(rows, groups):
             'data_sha256': data_digest(), 'label_max': LABEL_MAX, 'row_max': ROW_MAX, 'tooltip_max': TOOLTIP_MAX,
             'banned_abbreviations': BANNED, 'rows': len(R), 'masters': len(masters), 'hidden': len(HIDDEN),
             'advanced_suffix': ADVANCED_SUFFIX}
+    # LIVE_LITERALS_V1: the headline literal values (rows and literal masters) a "literal_scope": "headline" build declares.
+    shown_ids = {r['tunable_id'] for r in rows if r['ui'].get('label_source') == 'player_text'} | set(masters)
+    for tid in LIVE_LITERAL_HEADLINE:
+        lane = masters[tid]['lane'] if tid in masters else (by_id[tid]['ui']['lane'] if tid in by_id else None)
+        if tid not in shown_ids or lane != 'literal':
+            problems.append(f'live literal {tid}: not a literal row or master with player text')
+    if len(set(LIVE_LITERAL_HEADLINE)) != len(LIVE_LITERAL_HEADLINE):
+        problems.append('live literal headline list names a value twice')
+    if problems:
+        raise SystemExit('player text gate failures:\n  ' + '\n  '.join(problems))
+    meta['live_literal_headline'] = list(LIVE_LITERAL_HEADLINE)
     return masters, meta
 
 

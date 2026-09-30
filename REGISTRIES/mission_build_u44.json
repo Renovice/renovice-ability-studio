@@ -7227,9 +7227,9 @@
       "ui": {
         "group": "arbitration",
         "mt_codes": [],
-        "short_label": "Maximum resurrection score",
-        "label_source": "prose",
-        "scope_text": "Arbitration",
+        "short_label": "Max resurrection score",
+        "label_source": "player_text",
+        "scope_text": "Highest Arbitration resurrection score, also the most buff stacks it gives; stock 25 points",
         "aliases": [
           "Arbitration"
         ],
@@ -7239,7 +7239,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 373
       }
     },
     {
@@ -7290,9 +7291,9 @@
       "ui": {
         "group": "archimedea",
         "mt_codes": [],
-        "short_label": "EDA alchemy",
-        "label_source": "id",
-        "scope_text": "Deep/Temporal Archimedea. Case: Deep Archimedea",
+        "short_label": "Deep: Alchemy mixtures",
+        "label_source": "player_text",
+        "scope_text": "Alchemy mixtures in newly generated Deep Archimedea chains; stock 2 mixtures",
         "aliases": [
           "Archimedea"
         ],
@@ -7302,7 +7303,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 1,
-        "max": 2
+        "max": 2,
+        "rank": 357
       }
     },
     {
@@ -7353,9 +7355,9 @@
       "ui": {
         "group": "archimedea",
         "mt_codes": [],
-        "short_label": "EDA disruption",
-        "label_source": "id",
-        "scope_text": "Deep/Temporal Archimedea. Case: Deep Archimedea",
+        "short_label": "Deep: Disruption conduits",
+        "label_source": "player_text",
+        "scope_text": "Disruption conduits in newly generated Deep Archimedea chains; stock 8 conduits",
         "aliases": [
           "Archimedea"
         ],
@@ -7365,7 +7367,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 1,
-        "max": 8
+        "max": 8,
+        "rank": 358
       }
     },
     {
@@ -7683,9 +7686,9 @@
       "ui": {
         "group": "archimedea",
         "mt_codes": [],
-        "short_label": "EDA Mirror defense waves",
-        "label_source": "id",
-        "scope_text": "Deep/Temporal Archimedea. Case: Deep Archimedea (Mirror Defense)",
+        "short_label": "Deep: Mirror Defense phases",
+        "label_source": "player_text",
+        "scope_text": "Mirror Defense phases in newly generated Deep Archimedea chains; stock 4 phases",
         "aliases": [
           "Archimedea"
         ],
@@ -7695,7 +7698,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 1,
-        "max": 4
+        "max": 4,
+        "rank": 359
       }
     },
     {
@@ -7746,9 +7750,9 @@
       "ui": {
         "group": "archimedea",
         "mt_codes": [],
-        "short_label": "EDA survival minutes",
-        "label_source": "id",
-        "scope_text": "Deep/Temporal Archimedea. Case: Deep Archimedea (LAB_CONFIGURATION)",
+        "short_label": "Deep: Survival minutes",
+        "label_source": "player_text",
+        "scope_text": "Survival length in newly generated Deep Archimedea chains; stock 10 min",
         "aliases": [
           "Archimedea"
         ],
@@ -7758,7 +7762,8 @@
         "editor": "INPUTCOUNT",
         "unit": "min",
         "min": 1,
-        "max": 60
+        "max": 60,
+        "rank": 354
       }
     },
     {
@@ -7809,9 +7814,9 @@
       "ui": {
         "group": "archimedea",
         "mt_codes": [],
-        "short_label": "ETA defense waves",
-        "label_source": "id",
-        "scope_text": "Deep/Temporal Archimedea. Case: Temporal Archimedea",
+        "short_label": "Temporal: Defense waves",
+        "label_source": "player_text",
+        "scope_text": "Defense waves in newly generated Temporal Archimedea chains; stock 6 waves",
         "aliases": [
           "Archimedea"
         ],
@@ -7821,7 +7826,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 1,
-        "max": 6
+        "max": 6,
+        "rank": 356
       }
     },
     {
@@ -8139,9 +8145,9 @@
       "ui": {
         "group": "archimedea",
         "mt_codes": [],
-        "short_label": "ETA survival minutes",
-        "label_source": "id",
-        "scope_text": "Deep/Temporal Archimedea. Case: Temporal Archimedea (HEX_CONFIGURATION)",
+        "short_label": "Temporal: Survival minutes",
+        "label_source": "player_text",
+        "scope_text": "Survival length in newly generated Temporal Archimedea chains; stock 10 min",
         "aliases": [
           "Archimedea"
         ],
@@ -8151,7 +8157,8 @@
         "editor": "INPUTCOUNT",
         "unit": "min",
         "min": 1,
-        "max": 60
+        "max": 60,
+        "rank": 355
       }
     },
     {
@@ -8243,8 +8250,8 @@
         "group": "archwing",
         "mt_codes": [],
         "short_label": "EMP countdown",
-        "label_source": "prose",
-        "scope_text": "Archwing (Balor Fomorian). Case: Balor Fomorian assault",
+        "label_source": "player_text",
+        "scope_text": "Seconds on the Balor Fomorian EMP countdown; stock 30 s",
         "aliases": [],
         "lane": "literal",
         "applies": "next_mission",
@@ -8252,7 +8259,8 @@
         "editor": "INPUTCOUNT",
         "unit": "s",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 361
       }
     },
     {
@@ -8651,9 +8659,9 @@
         "mt_codes": [
           "MT_CAPTURE"
         ],
-        "short_label": "Bleedout timer fail timer",
-        "label_source": "id",
-        "scope_text": "All Capture nodes (17). Case: target downed past grace",
+        "short_label": "Downed target: escape timer",
+        "label_source": "player_text",
+        "scope_text": "Seconds on the escape timer of a downed Capture target; the mission fails at 0; stock 60 s",
         "aliases": [],
         "lane": "literal",
         "applies": "next_mission",
@@ -8661,7 +8669,8 @@
         "editor": "INPUTCOUNT",
         "unit": "s",
         "min": 0,
-        "max": 6000
+        "max": 6000,
+        "rank": 328
       }
     },
     {
@@ -8755,9 +8764,9 @@
         "mt_codes": [
           "MT_CAPTURE"
         ],
-        "short_label": "Bleedout timer grace",
-        "label_source": "id",
-        "scope_text": "All Capture nodes (17). Case: target downed (health <= 2)",
+        "short_label": "Downed target: grace time",
+        "label_source": "player_text",
+        "scope_text": "Seconds a downed Capture target waits before its escape timer starts; stock 20 s",
         "aliases": [],
         "lane": "literal",
         "applies": "next_mission",
@@ -8765,7 +8774,8 @@
         "editor": "INPUTCOUNT",
         "unit": "s",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 327
       }
     },
     {
@@ -10383,9 +10393,9 @@
         "mt_codes": [
           "MT_DESCENT"
         ],
-        "short_label": "Dig time per excavator",
-        "label_source": "prose",
-        "scope_text": "Descendia: Excavation. Case: Descendia/Circuit of Hell",
+        "short_label": "Excavation: dig time",
+        "label_source": "player_text",
+        "scope_text": "Seconds each excavator digs on a Descendia Excavation floor; stock 45 s",
         "aliases": [
           "Circuit",
           "Descendia"
@@ -10396,7 +10406,8 @@
         "editor": "INPUTCOUNT",
         "unit": "s",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 341
       }
     },
     {
@@ -10805,9 +10816,9 @@
         "mt_codes": [
           "MT_DESCENT"
         ],
-        "short_label": "Nemesis spawn interval",
-        "label_source": "prose",
-        "scope_text": "Descendia: Nemesis",
+        "short_label": "Nemesis: time between spawns",
+        "label_source": "player_text",
+        "scope_text": "Seconds between Nemesis spawns on a Descendia floor; stock 15 s",
         "aliases": [],
         "lane": "literal",
         "applies": "next_mission",
@@ -10815,7 +10826,8 @@
         "editor": "INPUTCOUNT",
         "unit": "s",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 342
       }
     },
     {
@@ -12856,8 +12868,8 @@
           "MT_EVACUATION"
         ],
         "short_label": "Squads to rescue",
-        "label_source": "prose",
-        "scope_text": "Nodes: Memphis, Caracol, Yursa. Case: standard (maxWaveNum == 0)",
+        "label_source": "player_text",
+        "scope_text": "Defector squads to rescue when the node sets none; stock 4 squads",
         "aliases": [],
         "lane": "literal",
         "applies": "next_mission",
@@ -12865,7 +12877,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 329
       }
     },
     {
@@ -12930,9 +12943,9 @@
         "mt_codes": [
           "MT_EVACUATION"
         ],
-        "short_label": "Squads to rescue in sorties",
-        "label_source": "prose",
-        "scope_text": "Nodes: Memphis, Caracol, Yursa. Case: IsSortieMission() and maxWaveNum == 0",
+        "short_label": "Sortie: squads to rescue",
+        "label_source": "player_text",
+        "scope_text": "Defector squads to rescue in Sorties; stock 5 squads",
         "aliases": [
           "Sortie"
         ],
@@ -12942,7 +12955,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 330
       }
     },
     {
@@ -13493,9 +13507,9 @@
         "mt_codes": [
           "MT_DEFENSE"
         ],
-        "short_label": "Circle wave count",
-        "label_source": "id",
-        "scope_text": "All Defense nodes (29); Descendia stages. Case: isCircle (Descendia circle defense). Also: Circuit",
+        "short_label": "Descendia: waves to finish",
+        "label_source": "player_text",
+        "scope_text": "Waves in Descendia (circle) Defense; stock 1 wave",
         "aliases": [
           "Circuit",
           "Descendia"
@@ -13506,7 +13520,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 305
       }
     },
     {
@@ -13979,9 +13994,9 @@
         "mt_codes": [
           "MT_DEFENSE"
         ],
-        "short_label": "Duviri wave count",
-        "label_source": "id",
-        "scope_text": "All Defense nodes (29); Descendia stages. Case: isDuviriDefense (Duviri defense trigger)",
+        "short_label": "Duviri: waves to finish",
+        "label_source": "player_text",
+        "scope_text": "Waves in Duviri Defense; stock 3 waves",
         "aliases": [
           "Duviri"
         ],
@@ -13991,7 +14006,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 304
       }
     },
     {
@@ -14933,8 +14949,8 @@
           "MT_DEFENSE"
         ],
         "short_label": "Delay before the first wave",
-        "label_source": "prose",
-        "scope_text": "All Defense nodes (29); Descendia stages. Case: mission start (before wave 1)",
+        "label_source": "player_text",
+        "scope_text": "Seconds before the first Defense wave starts; stock 6 s",
         "aliases": [],
         "lane": "literal",
         "applies": "next_mission",
@@ -14942,7 +14958,8 @@
         "editor": "INPUTCOUNT",
         "unit": "s",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 300
       }
     },
     {
@@ -15008,9 +15025,9 @@
         "mt_codes": [
           "MT_DEFENSE"
         ],
-        "short_label": "Intermission between waves",
-        "label_source": "prose",
-        "scope_text": "All Defense nodes (29); Descendia stages. Case: between waves (before waveSleepOverride / elite-alert rules in proto 33)",
+        "short_label": "Time between waves",
+        "label_source": "player_text",
+        "scope_text": "Seconds of intermission between Defense waves; stock 6 s",
         "aliases": [
           "Alert"
         ],
@@ -15020,7 +15037,8 @@
         "editor": "INPUTCOUNT",
         "unit": "s",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 301
       }
     },
     {
@@ -15502,9 +15520,9 @@
         "mt_codes": [
           "MT_DEFENSE"
         ],
-        "short_label": "Nightmare wave count",
-        "label_source": "id",
-        "scope_text": "All Defense nodes (29); Descendia stages. Case: mission.nightmare (overrides maxWaveNum)",
+        "short_label": "Nightmare: waves to finish",
+        "label_source": "player_text",
+        "scope_text": "Waves in Nightmare Defense; stock 3 waves",
         "aliases": [
           "Nightmare"
         ],
@@ -15514,7 +15532,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 303
       }
     },
     {
@@ -16617,13 +16636,13 @@
       "backend_note": "1 exact site(s) patched together: frame_61[88] / cap_61_223_6[1]",
       "addon_gate": "FAIL: no capturer reads 1 through the captured upvalue",
       "ui": {
-        "group": "defense",
+        "group": "defense_advanced",
         "mt_codes": [
           "MT_DEFENSE"
         ],
-        "short_label": "Sim. enemies Infested max 1P",
-        "label_source": "id",
-        "scope_text": "All Defense nodes (29); Descendia stages. Case: Infestation; 1 player. Also: Infested",
+        "short_label": "Infested: max enemies (solo)",
+        "label_source": "player_text",
+        "scope_text": "Defense enemies alive at once at enemy level 30 and above with 1 player, Infested; wins over the main knob; stock 10 enemies",
         "aliases": [
           "Infested"
         ],
@@ -16633,7 +16652,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 296
       }
     },
     {
@@ -16730,13 +16750,13 @@
       "backend_note": "1 exact site(s) patched together: frame_61[88] / cap_61_223_6[2]",
       "addon_gate": "FAIL: no capturer reads 2 through the captured upvalue",
       "ui": {
-        "group": "defense",
+        "group": "defense_advanced",
         "mt_codes": [
           "MT_DEFENSE"
         ],
-        "short_label": "Sim. enemies Infested max 2P",
-        "label_source": "id",
-        "scope_text": "All Defense nodes (29); Descendia stages. Case: Infestation; 2 players. Also: Infested",
+        "short_label": "Infested: max enemies (duo)",
+        "label_source": "player_text",
+        "scope_text": "Defense enemies alive at once at enemy level 30 and above with 2 players, Infested; wins over the main knob; stock 20 enemies",
         "aliases": [
           "Infested"
         ],
@@ -16746,7 +16766,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 297
       }
     },
     {
@@ -16843,13 +16864,13 @@
       "backend_note": "1 exact site(s) patched together: frame_61[88] / cap_61_223_6[3]",
       "addon_gate": "FAIL: no capturer reads 3 through the captured upvalue",
       "ui": {
-        "group": "defense",
+        "group": "defense_advanced",
         "mt_codes": [
           "MT_DEFENSE"
         ],
-        "short_label": "Sim. enemies Infested max 3P",
-        "label_source": "id",
-        "scope_text": "All Defense nodes (29); Descendia stages. Case: Infestation; 3 players. Also: Infested",
+        "short_label": "Infested: max enemies (trio)",
+        "label_source": "player_text",
+        "scope_text": "Defense enemies alive at once at enemy level 30 and above with 3 players, Infested; wins over the main knob; stock 26 enemies",
         "aliases": [
           "Infested"
         ],
@@ -16859,7 +16880,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 298
       }
     },
     {
@@ -16956,13 +16978,13 @@
       "backend_note": "1 exact site(s) patched together: frame_61[88] / cap_61_223_6[4]",
       "addon_gate": "FAIL: no capturer reads 4 through the captured upvalue",
       "ui": {
-        "group": "defense",
+        "group": "defense_advanced",
         "mt_codes": [
           "MT_DEFENSE"
         ],
-        "short_label": "Sim. enemies Infested max 4P",
-        "label_source": "id",
-        "scope_text": "All Defense nodes (29); Descendia stages. Case: Infestation; 4 players (also hard mode / Steel Path row where noted). Also: Infested",
+        "short_label": "Infested: max enemies (squad)",
+        "label_source": "player_text",
+        "scope_text": "Defense enemies alive at once at enemy level 30 and above with 4 players, Infested; wins over the main knob; stock 29 enemies",
         "aliases": [
           "Steel Path",
           "Infested"
@@ -16973,7 +16995,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 299
       }
     },
     {
@@ -17523,13 +17546,13 @@
       "backend_note": "1 exact site(s) patched together: frame_61[78] / cap_61_223_4[1]",
       "addon_gate": "FAIL: no capturer reads 1 through the captured upvalue",
       "ui": {
-        "group": "defense",
+        "group": "defense_advanced",
         "mt_codes": [
           "MT_DEFENSE"
         ],
-        "short_label": "Sim. enemies max, 1 player",
-        "label_source": "id",
-        "scope_text": "All Defense nodes (29); Descendia stages. Case: regular factions; 1 player",
+        "short_label": "Level 30+: max enemies (solo)",
+        "label_source": "player_text",
+        "scope_text": "Defense enemies alive at once at enemy level 30 and above with 1 player, regular enemies; wins over the main knob; stock 10 enemies",
         "aliases": [],
         "lane": "literal",
         "applies": "next_mission",
@@ -17537,7 +17560,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 292
       }
     },
     {
@@ -17634,13 +17658,13 @@
       "backend_note": "1 exact site(s) patched together: frame_61[78] / cap_61_223_4[2]",
       "addon_gate": "FAIL: no capturer reads 2 through the captured upvalue",
       "ui": {
-        "group": "defense",
+        "group": "defense_advanced",
         "mt_codes": [
           "MT_DEFENSE"
         ],
-        "short_label": "Sim. enemies max, 2 players",
-        "label_source": "id",
-        "scope_text": "All Defense nodes (29); Descendia stages. Case: regular factions; 2 players",
+        "short_label": "Level 30+: max enemies (duo)",
+        "label_source": "player_text",
+        "scope_text": "Defense enemies alive at once at enemy level 30 and above with 2 players, regular enemies; wins over the main knob; stock 20 enemies",
         "aliases": [],
         "lane": "literal",
         "applies": "next_mission",
@@ -17648,7 +17672,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 293
       }
     },
     {
@@ -17745,13 +17770,13 @@
       "backend_note": "1 exact site(s) patched together: frame_61[78] / cap_61_223_4[3]",
       "addon_gate": "FAIL: no capturer reads 3 through the captured upvalue",
       "ui": {
-        "group": "defense",
+        "group": "defense_advanced",
         "mt_codes": [
           "MT_DEFENSE"
         ],
-        "short_label": "Sim. enemies max, 3 players",
-        "label_source": "id",
-        "scope_text": "All Defense nodes (29); Descendia stages. Case: regular factions; 3 players",
+        "short_label": "Level 30+: max enemies (trio)",
+        "label_source": "player_text",
+        "scope_text": "Defense enemies alive at once at enemy level 30 and above with 3 players, regular enemies; wins over the main knob; stock 26 enemies",
         "aliases": [],
         "lane": "literal",
         "applies": "next_mission",
@@ -17759,7 +17784,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 294
       }
     },
     {
@@ -17856,13 +17882,13 @@
       "backend_note": "1 exact site(s) patched together: frame_61[78] / cap_61_223_4[4]",
       "addon_gate": "FAIL: no capturer reads 4 through the captured upvalue",
       "ui": {
-        "group": "defense",
+        "group": "defense_advanced",
         "mt_codes": [
           "MT_DEFENSE"
         ],
-        "short_label": "Sim. enemies max, 4 players",
-        "label_source": "id",
-        "scope_text": "All Defense nodes (29); Descendia stages. Case: regular factions; 4 players (also hard mode / Steel Path row where noted)",
+        "short_label": "Level 30+: max enemies (squad)",
+        "label_source": "player_text",
+        "scope_text": "Defense enemies alive at once at enemy level 30 and above with 4 players, regular enemies; wins over the main knob; stock 29 enemies",
         "aliases": [
           "Steel Path"
         ],
@@ -17872,7 +17898,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 295
       }
     },
     {
@@ -18791,9 +18818,9 @@
         "mt_codes": [
           "MT_DEFENSE"
         ],
-        "short_label": "Special mission default waves",
-        "label_source": "id",
-        "scope_text": "All Defense nodes (29); Descendia stages. Case: alert / invasion / syndicate mission with maxWaveNum == 0",
+        "short_label": "Alert missions: waves to finish",
+        "label_source": "player_text",
+        "scope_text": "Waves in alert, invasion and syndicate Defense when the mission sets none; stock 6 waves",
         "aliases": [
           "Alert",
           "Invasion"
@@ -18804,7 +18831,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 302
       }
     },
     {
@@ -19870,9 +19898,9 @@
         "mt_codes": [
           "MT_ARTIFACT"
         ],
-        "short_label": "Default round count",
-        "label_source": "id",
-        "scope_text": "All Disruption nodes (8). Case: maxWaveNum == 0 and sortieId == \"\"",
+        "short_label": "Rounds to finish",
+        "label_source": "player_text",
+        "scope_text": "Disruption rounds when the node sets no round count (not Sorties); stock 4 rounds",
         "aliases": [
           "Sortie"
         ],
@@ -19882,7 +19910,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 309
       }
     },
     {
@@ -21116,9 +21145,9 @@
         "mt_codes": [
           "MT_ARTIFACT"
         ],
-        "short_label": "Interval between rounds",
-        "label_source": "prose",
-        "scope_text": "All Disruption nodes (8). Case: not IsRelicMission",
+        "short_label": "Time between rounds",
+        "label_source": "player_text",
+        "scope_text": "Seconds between Disruption rounds; stock 20 s",
         "aliases": [],
         "lane": "literal",
         "applies": "next_mission",
@@ -21126,7 +21155,8 @@
         "editor": "INPUTCOUNT",
         "unit": "s",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 312
       }
     },
     {
@@ -21220,9 +21250,9 @@
         "mt_codes": [
           "MT_ARTIFACT"
         ],
-        "short_label": "Interval between rounds relic",
-        "label_source": "id",
-        "scope_text": "All Disruption nodes (8). Case: IsRelicMission (Void Fissure)",
+        "short_label": "Relics: time between rounds",
+        "label_source": "player_text",
+        "scope_text": "Seconds between Disruption rounds on relic missions; wins over Time between rounds there; stock 10 s",
         "aliases": [],
         "lane": "literal",
         "applies": "next_mission",
@@ -21230,7 +21260,8 @@
         "editor": "INPUTCOUNT",
         "unit": "s",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 313
       }
     },
     {
@@ -21298,13 +21329,13 @@
       "backend_note": "1 exact site(s) patched together: disruption.max_enemies_by_players.entrati_lab element 1",
       "addon_gate": "FAIL: no capturer reads 1 through the captured upvalue",
       "ui": {
-        "group": "disruption",
+        "group": "disruption_advanced",
         "mt_codes": [
           "MT_ARTIFACT"
         ],
-        "short_label": "Max enemies Entrati lab 1P",
-        "label_source": "id",
-        "scope_text": "All Disruption nodes (8). Case: Entrati lab (faction MITW) table",
+        "short_label": "Lab: max enemies (solo)",
+        "label_source": "player_text",
+        "scope_text": "Upper enemy count of Entrati lab Disruption with 1 player; wins over the main knob; stock 8 enemies",
         "aliases": [
           "Entrati lab"
         ],
@@ -21314,7 +21345,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 322
       }
     },
     {
@@ -21382,13 +21414,13 @@
       "backend_note": "1 exact site(s) patched together: disruption.max_enemies_by_players.entrati_lab element 2",
       "addon_gate": "FAIL: no capturer reads 2 through the captured upvalue",
       "ui": {
-        "group": "disruption",
+        "group": "disruption_advanced",
         "mt_codes": [
           "MT_ARTIFACT"
         ],
-        "short_label": "Max enemies Entrati lab 2P",
-        "label_source": "id",
-        "scope_text": "All Disruption nodes (8). Case: Entrati lab (faction MITW) table",
+        "short_label": "Lab: max enemies (duo)",
+        "label_source": "player_text",
+        "scope_text": "Upper enemy count of Entrati lab Disruption with 2 players; wins over the main knob; stock 12 enemies",
         "aliases": [
           "Entrati lab"
         ],
@@ -21398,7 +21430,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 323
       }
     },
     {
@@ -21466,13 +21499,13 @@
       "backend_note": "1 exact site(s) patched together: disruption.max_enemies_by_players.entrati_lab element 3",
       "addon_gate": "FAIL: no capturer reads 3 through the captured upvalue",
       "ui": {
-        "group": "disruption",
+        "group": "disruption_advanced",
         "mt_codes": [
           "MT_ARTIFACT"
         ],
-        "short_label": "Max enemies Entrati lab 3P",
-        "label_source": "id",
-        "scope_text": "All Disruption nodes (8). Case: Entrati lab (faction MITW) table",
+        "short_label": "Lab: max enemies (trio)",
+        "label_source": "player_text",
+        "scope_text": "Upper enemy count of Entrati lab Disruption with 3 players; wins over the main knob; stock 20 enemies",
         "aliases": [
           "Entrati lab"
         ],
@@ -21482,7 +21515,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 324
       }
     },
     {
@@ -21550,13 +21584,13 @@
       "backend_note": "1 exact site(s) patched together: disruption.max_enemies_by_players.entrati_lab element 4",
       "addon_gate": "FAIL: no capturer reads 4 through the captured upvalue",
       "ui": {
-        "group": "disruption",
+        "group": "disruption_advanced",
         "mt_codes": [
           "MT_ARTIFACT"
         ],
-        "short_label": "Max enemies Entrati lab 4P",
-        "label_source": "id",
-        "scope_text": "All Disruption nodes (8). Case: Entrati lab (faction MITW) table",
+        "short_label": "Lab: max enemies (squad)",
+        "label_source": "player_text",
+        "scope_text": "Upper enemy count of Entrati lab Disruption with 4 players; wins over the main knob; stock 25 enemies",
         "aliases": [
           "Entrati lab"
         ],
@@ -21566,7 +21600,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 325
       }
     },
     {
@@ -21634,13 +21669,13 @@
       "backend_note": "1 exact site(s) patched together: disruption.max_enemies_by_players.sentient element 1",
       "addon_gate": "FAIL: no capturer reads 1 through the captured upvalue",
       "ui": {
-        "group": "disruption",
+        "group": "disruption_advanced",
         "mt_codes": [
           "MT_ARTIFACT"
         ],
-        "short_label": "Max enemies Sentient, 1 player",
-        "label_source": "id",
-        "scope_text": "All Disruption nodes (8). Case: Sentient faction table",
+        "short_label": "Sentient: max enemies (solo)",
+        "label_source": "player_text",
+        "scope_text": "Upper enemy count of Sentient Disruption with 1 player; wins over the main knob; stock 6 enemies",
         "aliases": [
           "Sentient"
         ],
@@ -21650,7 +21685,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 318
       }
     },
     {
@@ -21718,13 +21754,13 @@
       "backend_note": "1 exact site(s) patched together: disruption.max_enemies_by_players.sentient element 2",
       "addon_gate": "FAIL: no capturer reads 2 through the captured upvalue",
       "ui": {
-        "group": "disruption",
+        "group": "disruption_advanced",
         "mt_codes": [
           "MT_ARTIFACT"
         ],
-        "short_label": "Max enemies Sentient, 2 players",
-        "label_source": "id",
-        "scope_text": "All Disruption nodes (8). Case: Sentient faction table",
+        "short_label": "Sentient: max enemies (duo)",
+        "label_source": "player_text",
+        "scope_text": "Upper enemy count of Sentient Disruption with 2 players; wins over the main knob; stock 8 enemies",
         "aliases": [
           "Sentient"
         ],
@@ -21734,7 +21770,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 319
       }
     },
     {
@@ -21802,13 +21839,13 @@
       "backend_note": "1 exact site(s) patched together: disruption.max_enemies_by_players.sentient element 3",
       "addon_gate": "FAIL: no capturer reads 3 through the captured upvalue",
       "ui": {
-        "group": "disruption",
+        "group": "disruption_advanced",
         "mt_codes": [
           "MT_ARTIFACT"
         ],
-        "short_label": "Max enemies Sentient, 3 players",
-        "label_source": "id",
-        "scope_text": "All Disruption nodes (8). Case: Sentient faction table",
+        "short_label": "Sentient: max enemies (trio)",
+        "label_source": "player_text",
+        "scope_text": "Upper enemy count of Sentient Disruption with 3 players; wins over the main knob; stock 10 enemies",
         "aliases": [
           "Sentient"
         ],
@@ -21818,7 +21855,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 320
       }
     },
     {
@@ -21886,13 +21924,13 @@
       "backend_note": "1 exact site(s) patched together: disruption.max_enemies_by_players.sentient element 4",
       "addon_gate": "FAIL: no capturer reads 4 through the captured upvalue",
       "ui": {
-        "group": "disruption",
+        "group": "disruption_advanced",
         "mt_codes": [
           "MT_ARTIFACT"
         ],
-        "short_label": "Max enemies Sentient, 4 players",
-        "label_source": "id",
-        "scope_text": "All Disruption nodes (8). Case: Sentient faction table",
+        "short_label": "Sentient: max enemies (squad)",
+        "label_source": "player_text",
+        "scope_text": "Upper enemy count of Sentient Disruption with 4 players; wins over the main knob; stock 12 enemies",
         "aliases": [
           "Sentient"
         ],
@@ -21902,7 +21940,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 321
       }
     },
     {
@@ -21970,13 +22009,13 @@
       "backend_note": "1 exact site(s) patched together: disruption.max_enemies_by_players.standard element 1",
       "addon_gate": "FAIL: prototype 73 replaces the captured table (SETUPVAL 42)",
       "ui": {
-        "group": "disruption",
+        "group": "disruption_advanced",
         "mt_codes": [
           "MT_ARTIFACT"
         ],
-        "short_label": "Max enemies standard, 1 player",
-        "label_source": "id",
-        "scope_text": "All Disruption nodes (8). Case: standard table",
+        "short_label": "Standard: max enemies (solo)",
+        "label_source": "player_text",
+        "scope_text": "Upper enemy count of standard Disruption with 1 player; wins over the main knob; stock 10 enemies",
         "aliases": [],
         "lane": "literal",
         "applies": "next_mission",
@@ -21984,7 +22023,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 314
       }
     },
     {
@@ -22052,13 +22092,13 @@
       "backend_note": "1 exact site(s) patched together: disruption.max_enemies_by_players.standard element 2",
       "addon_gate": "FAIL: prototype 73 replaces the captured table (SETUPVAL 42)",
       "ui": {
-        "group": "disruption",
+        "group": "disruption_advanced",
         "mt_codes": [
           "MT_ARTIFACT"
         ],
-        "short_label": "Max enemies standard, 2 players",
-        "label_source": "id",
-        "scope_text": "All Disruption nodes (8). Case: standard table",
+        "short_label": "Standard: max enemies (duo)",
+        "label_source": "player_text",
+        "scope_text": "Upper enemy count of standard Disruption with 2 players; wins over the main knob; stock 25 enemies",
         "aliases": [],
         "lane": "literal",
         "applies": "next_mission",
@@ -22066,7 +22106,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 315
       }
     },
     {
@@ -22134,13 +22175,13 @@
       "backend_note": "1 exact site(s) patched together: disruption.max_enemies_by_players.standard element 3",
       "addon_gate": "FAIL: prototype 73 replaces the captured table (SETUPVAL 42)",
       "ui": {
-        "group": "disruption",
+        "group": "disruption_advanced",
         "mt_codes": [
           "MT_ARTIFACT"
         ],
-        "short_label": "Max enemies standard, 3 players",
-        "label_source": "id",
-        "scope_text": "All Disruption nodes (8). Case: standard table",
+        "short_label": "Standard: max enemies (trio)",
+        "label_source": "player_text",
+        "scope_text": "Upper enemy count of standard Disruption with 3 players; wins over the main knob; stock 30 enemies",
         "aliases": [],
         "lane": "literal",
         "applies": "next_mission",
@@ -22148,7 +22189,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 316
       }
     },
     {
@@ -22216,13 +22258,13 @@
       "backend_note": "1 exact site(s) patched together: disruption.max_enemies_by_players.standard element 4",
       "addon_gate": "FAIL: prototype 73 replaces the captured table (SETUPVAL 42)",
       "ui": {
-        "group": "disruption",
+        "group": "disruption_advanced",
         "mt_codes": [
           "MT_ARTIFACT"
         ],
-        "short_label": "Max enemies standard, 4 players",
-        "label_source": "id",
-        "scope_text": "All Disruption nodes (8). Case: standard table",
+        "short_label": "Standard: max enemies (squad)",
+        "label_source": "player_text",
+        "scope_text": "Upper enemy count of standard Disruption with 4 players; wins over the main knob; stock 35 enemies",
         "aliases": [],
         "lane": "literal",
         "applies": "next_mission",
@@ -22230,7 +22272,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 317
       }
     },
     {
@@ -23297,9 +23340,9 @@
         "mt_codes": [
           "MT_ARTIFACT"
         ],
-        "short_label": "Round timeout timer",
-        "label_source": "prose",
-        "scope_text": "All Disruption nodes (8)",
+        "short_label": "Round time-out timer",
+        "label_source": "player_text",
+        "scope_text": "Time-out timer a Disruption round shows after 900 s without a conduit defense (fail effect not traced); stock 180 s",
         "aliases": [],
         "lane": "literal",
         "applies": "next_mission",
@@ -23307,7 +23350,8 @@
         "editor": "INPUTCOUNT",
         "unit": "s",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 311
       }
     },
     {
@@ -23445,9 +23489,9 @@
         "mt_codes": [
           "MT_ARTIFACT"
         ],
-        "short_label": "Sortie round count",
-        "label_source": "id",
-        "scope_text": "All Disruption nodes (8). Case: maxWaveNum == 0 and sortieId ~= \"\"",
+        "short_label": "Sortie: rounds to finish",
+        "label_source": "player_text",
+        "scope_text": "Disruption rounds in Sorties when the node sets no round count; stock 8 rounds",
         "aliases": [
           "Sortie"
         ],
@@ -23457,7 +23501,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 310
       }
     },
     {
@@ -24870,9 +24915,9 @@
       "ui": {
         "group": "entrati_swarm",
         "mt_codes": [],
-        "short_label": "Tears, stage 1",
-        "label_source": "id",
-        "scope_text": "Entrati Swarm. Case: standard",
+        "short_label": "Tears for stage 1",
+        "label_source": "player_text",
+        "scope_text": "Tears to collect in stage 1 of Entrati Swarm; stock 8 tears",
         "aliases": [],
         "lane": "literal",
         "applies": "next_mission",
@@ -24880,7 +24925,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 362
       }
     },
     {
@@ -24951,9 +24997,9 @@
       "ui": {
         "group": "entrati_swarm",
         "mt_codes": [],
-        "short_label": "Tears, stage 2",
-        "label_source": "id",
-        "scope_text": "Entrati Swarm. Case: standard",
+        "short_label": "Tears for stage 2",
+        "label_source": "player_text",
+        "scope_text": "Tears to collect in stage 2 of Entrati Swarm; stock 10 tears",
         "aliases": [],
         "lane": "literal",
         "applies": "next_mission",
@@ -24961,7 +25007,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 363
       }
     },
     {
@@ -25032,9 +25079,9 @@
       "ui": {
         "group": "entrati_swarm",
         "mt_codes": [],
-        "short_label": "Tears, stage 3",
-        "label_source": "id",
-        "scope_text": "Entrati Swarm. Case: standard",
+        "short_label": "Tears for stage 3",
+        "label_source": "player_text",
+        "scope_text": "Tears to collect in stage 3 of Entrati Swarm; stock 12 tears",
         "aliases": [],
         "lane": "literal",
         "applies": "next_mission",
@@ -25042,7 +25089,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 364
       }
     },
     {
@@ -25113,9 +25161,9 @@
       "ui": {
         "group": "entrati_swarm",
         "mt_codes": [],
-        "short_label": "Tears, stage 4",
-        "label_source": "id",
-        "scope_text": "Entrati Swarm. Case: standard",
+        "short_label": "Tears for stage 4",
+        "label_source": "player_text",
+        "scope_text": "Tears to collect in stage 4 of Entrati Swarm; stock 15 tears",
         "aliases": [],
         "lane": "literal",
         "applies": "next_mission",
@@ -25123,7 +25171,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 365
       }
     },
     {
@@ -25194,9 +25243,9 @@
       "ui": {
         "group": "entrati_swarm",
         "mt_codes": [],
-        "short_label": "Tears, stage 5",
-        "label_source": "id",
-        "scope_text": "Entrati Swarm. Case: standard",
+        "short_label": "Tears for stage 5",
+        "label_source": "player_text",
+        "scope_text": "Tears to collect in stage 5 of Entrati Swarm; stock 15 tears",
         "aliases": [],
         "lane": "literal",
         "applies": "next_mission",
@@ -25204,7 +25253,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 366
       }
     },
     {
@@ -25273,11 +25323,11 @@
       "backend_note": "1 exact site(s) patched together: entrati_swarm.tears_per_stage_challenge element 1",
       "addon_gate": "FAIL: no capturer reads 1 through the captured upvalue",
       "ui": {
-        "group": "entrati_swarm",
+        "group": "entrati_swarm_advanced",
         "mt_codes": [],
-        "short_label": "Tears challenge, stage 1",
-        "label_source": "id",
-        "scope_text": "Entrati Swarm. Case: EntratiLabCollectTearsChallenge active. Also: Entrati lab",
+        "short_label": "Challenge: tears for stage 1",
+        "label_source": "player_text",
+        "scope_text": "Tears to collect in stage 1 of Entrati Swarm with the collect-tears challenge; stock 10 tears",
         "aliases": [
           "Entrati lab"
         ],
@@ -25287,7 +25337,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 367
       }
     },
     {
@@ -25356,11 +25407,11 @@
       "backend_note": "1 exact site(s) patched together: entrati_swarm.tears_per_stage_challenge element 2",
       "addon_gate": "FAIL: no capturer reads 2 through the captured upvalue",
       "ui": {
-        "group": "entrati_swarm",
+        "group": "entrati_swarm_advanced",
         "mt_codes": [],
-        "short_label": "Tears challenge, stage 2",
-        "label_source": "id",
-        "scope_text": "Entrati Swarm. Case: EntratiLabCollectTearsChallenge active. Also: Entrati lab",
+        "short_label": "Challenge: tears for stage 2",
+        "label_source": "player_text",
+        "scope_text": "Tears to collect in stage 2 of Entrati Swarm with the collect-tears challenge; stock 15 tears",
         "aliases": [
           "Entrati lab"
         ],
@@ -25370,7 +25421,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 368
       }
     },
     {
@@ -25439,11 +25491,11 @@
       "backend_note": "1 exact site(s) patched together: entrati_swarm.tears_per_stage_challenge element 3",
       "addon_gate": "FAIL: no capturer reads 3 through the captured upvalue",
       "ui": {
-        "group": "entrati_swarm",
+        "group": "entrati_swarm_advanced",
         "mt_codes": [],
-        "short_label": "Tears challenge, stage 3",
-        "label_source": "id",
-        "scope_text": "Entrati Swarm. Case: EntratiLabCollectTearsChallenge active. Also: Entrati lab",
+        "short_label": "Challenge: tears for stage 3",
+        "label_source": "player_text",
+        "scope_text": "Tears to collect in stage 3 of Entrati Swarm with the collect-tears challenge; stock 20 tears",
         "aliases": [
           "Entrati lab"
         ],
@@ -25453,7 +25505,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 369
       }
     },
     {
@@ -25522,11 +25575,11 @@
       "backend_note": "1 exact site(s) patched together: entrati_swarm.tears_per_stage_challenge element 4",
       "addon_gate": "FAIL: no capturer reads 4 through the captured upvalue",
       "ui": {
-        "group": "entrati_swarm",
+        "group": "entrati_swarm_advanced",
         "mt_codes": [],
-        "short_label": "Tears challenge, stage 4",
-        "label_source": "id",
-        "scope_text": "Entrati Swarm. Case: EntratiLabCollectTearsChallenge active. Also: Entrati lab",
+        "short_label": "Challenge: tears for stage 4",
+        "label_source": "player_text",
+        "scope_text": "Tears to collect in stage 4 of Entrati Swarm with the collect-tears challenge; stock 15 tears",
         "aliases": [
           "Entrati lab"
         ],
@@ -25536,7 +25589,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 370
       }
     },
     {
@@ -25605,11 +25659,11 @@
       "backend_note": "1 exact site(s) patched together: entrati_swarm.tears_per_stage_challenge element 5",
       "addon_gate": "FAIL: no capturer reads 5 through the captured upvalue",
       "ui": {
-        "group": "entrati_swarm",
+        "group": "entrati_swarm_advanced",
         "mt_codes": [],
-        "short_label": "Tears challenge, stage 5",
-        "label_source": "id",
-        "scope_text": "Entrati Swarm. Case: EntratiLabCollectTearsChallenge active. Also: Entrati lab",
+        "short_label": "Challenge: tears for stage 5",
+        "label_source": "player_text",
+        "scope_text": "Tears to collect in stage 5 of Entrati Swarm with the collect-tears challenge; stock 15 tears",
         "aliases": [
           "Entrati lab"
         ],
@@ -25619,7 +25673,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 371
       }
     },
     {
@@ -25875,9 +25930,9 @@
         "mt_codes": [
           "MT_EXTERMINATION"
         ],
-        "short_label": "Supply crate countdown",
-        "label_source": "prose",
-        "scope_text": "Nodes: Exterminate: Scaldra, Exterminate: Techrot. Case: 1999 Escalation Exterminate",
+        "short_label": "Supply crate timer",
+        "label_source": "player_text",
+        "scope_text": "Countdown of the supply crate in 1999 Exterminate Escalation (Escalate Now adds 60 s); stock 120 s",
         "aliases": [
           "1999"
         ],
@@ -25887,7 +25942,8 @@
         "editor": "INPUTCOUNT",
         "unit": "s",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 307
       }
     },
     {
@@ -27158,9 +27214,9 @@
         "mt_codes": [
           "MT_EXCAVATE"
         ],
-        "short_label": "Duviri excavation count",
-        "label_source": "id",
-        "scope_text": "All Excavation nodes (8). Case: Duviri excavation",
+        "short_label": "Duviri: excavations",
+        "label_source": "player_text",
+        "scope_text": "Excavations to finish Duviri Excavation; stock 3 excavations",
         "aliases": [
           "Duviri"
         ],
@@ -27170,7 +27226,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 308
       }
     },
     {
@@ -32460,9 +32517,9 @@
         "mt_codes": [
           "MT_RETRIEVAL"
         ],
-        "short_label": "Payload max health",
-        "label_source": "prose",
-        "scope_text": "Nodes: Ludi, Marid, Sorath. Case: goalId == \"\" (normal)",
+        "short_label": "Payload health",
+        "label_source": "player_text",
+        "scope_text": "Health of the Hijack payload (Steel Path scales it); stock 10000 health",
         "aliases": [],
         "lane": "literal",
         "applies": "next_mission",
@@ -32470,7 +32527,8 @@
         "editor": "INPUTCOUNT",
         "unit": "HP",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 374
       }
     },
     {
@@ -32536,9 +32594,9 @@
         "mt_codes": [
           "MT_RETRIEVAL"
         ],
-        "short_label": "Payload health goal mission",
-        "label_source": "id",
-        "scope_text": "Nodes: Ludi, Marid, Sorath. Case: goalId ~= \"\" (goal missions)",
+        "short_label": "Goal missions: payload health",
+        "label_source": "player_text",
+        "scope_text": "Health of the Hijack payload on goal missions; wins over Payload health there; stock 3000 health",
         "aliases": [],
         "lane": "literal",
         "applies": "next_mission",
@@ -32546,7 +32604,8 @@
         "editor": "INPUTCOUNT",
         "unit": "HP",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 375
       }
     },
     {
@@ -35175,9 +35234,9 @@
       "ui": {
         "group": "lantern",
         "mt_codes": [],
-        "short_label": "Boss spawn time",
-        "label_source": "id",
-        "scope_text": "Lantern",
+        "short_label": "Boss arrives after",
+        "label_source": "player_text",
+        "scope_text": "Seconds into a Lantern run before the boss spawns; stock 900 s",
         "aliases": [],
         "lane": "literal",
         "applies": "next_mission",
@@ -35185,7 +35244,8 @@
         "editor": "INPUTCOUNT",
         "unit": "s",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 335
       }
     },
     {
@@ -35267,9 +35327,9 @@
       "ui": {
         "group": "lantern",
         "mt_codes": [],
-        "short_label": "Time limit to reach extraction",
-        "label_source": "prose",
-        "scope_text": "Lantern",
+        "short_label": "Time to reach extraction",
+        "label_source": "player_text",
+        "scope_text": "Seconds to reach extraction once it opens in Lantern; stock 180 s",
         "aliases": [],
         "lane": "literal",
         "applies": "next_mission",
@@ -35277,7 +35337,8 @@
         "editor": "INPUTCOUNT",
         "unit": "s",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 334
       }
     },
     {
@@ -36304,9 +36365,9 @@
       "ui": {
         "group": "lantern",
         "mt_codes": [],
-        "short_label": "Minimum score for success",
-        "label_source": "prose",
-        "scope_text": "Lantern",
+        "short_label": "Score to win",
+        "label_source": "player_text",
+        "scope_text": "Seconds a Lantern run must last before extraction opens; less fails; stock 300 s",
         "aliases": [],
         "lane": "literal",
         "applies": "next_mission",
@@ -36314,7 +36375,8 @@
         "editor": "INPUTCOUNT",
         "unit": "s",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 333
       }
     },
     {
@@ -43586,9 +43648,9 @@
         "mt_codes": [
           "MT_DEFENSE"
         ],
-        "short_label": "Phase duration",
-        "label_source": "id",
-        "scope_text": "Nodes: Tyana Pass, Munio. Case: regular (levelOverride not JSStalkerCaveHub)",
+        "short_label": "Time per phase",
+        "label_source": "player_text",
+        "scope_text": "Defend timer of each Mirror Defense phase; stock 150 s",
         "aliases": [],
         "lane": "literal",
         "applies": "next_mission",
@@ -43596,7 +43658,8 @@
         "editor": "INPUTCOUNT",
         "unit": "s",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 331
       }
     },
     {
@@ -43686,9 +43749,9 @@
         "mt_codes": [
           "MT_DEFENSE"
         ],
-        "short_label": "Phase timer",
-        "label_source": "prose",
-        "scope_text": "Nodes: Tyana Pass, Munio. Case: Jade Ascension (levelOverride contains JSStalkerCaveHub)",
+        "short_label": "Jade: time per phase",
+        "label_source": "player_text",
+        "scope_text": "Defend timer of each phase when the Jade level override is active; stock 60 s",
         "aliases": [
           "Jade"
         ],
@@ -43698,7 +43761,8 @@
         "editor": "INPUTCOUNT",
         "unit": "s",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 332
       }
     },
     {
@@ -44817,9 +44881,9 @@
         "mt_codes": [
           "MT_MOBILE_DEFENSE"
         ],
-        "short_label": "Consoles per mission",
-        "label_source": "prose",
-        "scope_text": "All Mobile Defense nodes (23). Case: regular (non-custom objective stage)",
+        "short_label": "Terminals per mission",
+        "label_source": "player_text",
+        "scope_text": "Terminals to defend in Mobile Defense (fewer when the tile has fewer); stock 3 terminals",
         "aliases": [],
         "lane": "literal",
         "applies": "next_mission",
@@ -44827,7 +44891,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 0,
-        "max": 1000
+        "max": 1000,
+        "rank": 306
       }
     },
     {
@@ -46135,11 +46200,11 @@
       "evidence": "readable L1753-1758 proto 9 (SpawnLoop): max = Lerp(120, 240, difficulty), min = Lerp(30, 120, difficulty); RandomInt(min, max) -> timer. Pattern restricted to proto 9 and pinned to the Lerp call; the null-mission fallbacks (60/120 at the top of the function) are separate controls (excluded).",
       "backend_note": "1 exact site(s) patched together: Lerp endpoint in proto 9",
       "ui": {
-        "group": "multidefend",
+        "group": "multidefend_advanced",
         "mt_codes": [],
-        "short_label": "Defend time max diff 0",
-        "label_source": "id",
-        "scope_text": "MultiDefend (hack-station defense)",
+        "short_label": "Easy nodes: longest defend time",
+        "label_source": "player_text",
+        "scope_text": "High end of the random station defend time on the easiest nodes; wins over the main knob; stock 120 s",
         "aliases": [],
         "lane": "literal",
         "applies": "next_mission",
@@ -46147,7 +46212,8 @@
         "editor": "INPUTCOUNT",
         "unit": "s",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 348
       }
     },
     {
@@ -46209,11 +46275,11 @@
       "evidence": "readable L1753-1758 proto 9 (SpawnLoop): max = Lerp(120, 240, difficulty), min = Lerp(30, 120, difficulty); RandomInt(min, max) -> timer. Pattern restricted to proto 9 and pinned to the Lerp call; the null-mission fallbacks (60/120 at the top of the function) are separate controls (excluded).",
       "backend_note": "1 exact site(s) patched together: Lerp endpoint in proto 9",
       "ui": {
-        "group": "multidefend",
+        "group": "multidefend_advanced",
         "mt_codes": [],
-        "short_label": "Defend time max diff 1",
-        "label_source": "id",
-        "scope_text": "MultiDefend (hack-station defense)",
+        "short_label": "Hard nodes: longest defend time",
+        "label_source": "player_text",
+        "scope_text": "High end of the random station defend time on the hardest nodes; wins over the main knob; stock 240 s",
         "aliases": [],
         "lane": "literal",
         "applies": "next_mission",
@@ -46221,7 +46287,8 @@
         "editor": "INPUTCOUNT",
         "unit": "s",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 350
       }
     },
     {
@@ -46283,11 +46350,11 @@
       "evidence": "readable L1753-1758 proto 9 (SpawnLoop): max = Lerp(120, 240, difficulty), min = Lerp(30, 120, difficulty); RandomInt(min, max) -> timer. Pattern restricted to proto 9 and pinned to the Lerp call; the null-mission fallbacks (60/120 at the top of the function) are separate controls (excluded).",
       "backend_note": "1 exact site(s) patched together: Lerp endpoint in proto 9",
       "ui": {
-        "group": "multidefend",
+        "group": "multidefend_advanced",
         "mt_codes": [],
-        "short_label": "Defend time min diff 0",
-        "label_source": "id",
-        "scope_text": "MultiDefend (hack-station defense)",
+        "short_label": "Easy nodes: shortest defend time",
+        "label_source": "player_text",
+        "scope_text": "Low end of the random station defend time on the easiest nodes; wins over the main knob; stock 30 s",
         "aliases": [],
         "lane": "literal",
         "applies": "next_mission",
@@ -46295,7 +46362,8 @@
         "editor": "INPUTCOUNT",
         "unit": "s",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 347
       }
     },
     {
@@ -46357,11 +46425,11 @@
       "evidence": "readable L1753-1758 proto 9 (SpawnLoop): max = Lerp(120, 240, difficulty), min = Lerp(30, 120, difficulty); RandomInt(min, max) -> timer. Pattern restricted to proto 9 and pinned to the Lerp call; the null-mission fallbacks (60/120 at the top of the function) are separate controls (excluded).",
       "backend_note": "1 exact site(s) patched together: Lerp endpoint in proto 9",
       "ui": {
-        "group": "multidefend",
+        "group": "multidefend_advanced",
         "mt_codes": [],
-        "short_label": "Defend time min diff 1",
-        "label_source": "id",
-        "scope_text": "MultiDefend (hack-station defense)",
+        "short_label": "Hard nodes: shortest defend time",
+        "label_source": "player_text",
+        "scope_text": "Low end of the random station defend time on the hardest nodes; wins over the main knob; stock 120 s",
         "aliases": [],
         "lane": "literal",
         "applies": "next_mission",
@@ -46369,7 +46437,8 @@
         "editor": "INPUTCOUNT",
         "unit": "s",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 349
       }
     },
     {
@@ -46513,9 +46582,9 @@
       "ui": {
         "group": "multidefend",
         "mt_codes": [],
-        "short_label": "Hack stations to defend",
-        "label_source": "prose",
-        "scope_text": "MultiDefend (hack-station defense)",
+        "short_label": "Stations to defend",
+        "label_source": "player_text",
+        "scope_text": "Hack stations to defend in Hack-Station Defense; stock 4 stations",
         "aliases": [],
         "lane": "literal",
         "applies": "next_mission",
@@ -46523,7 +46592,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 351
       }
     },
     {
@@ -46938,9 +47008,9 @@
         "mt_codes": [
           "MT_VAULTS"
         ],
-        "short_label": "Base power required",
-        "label_source": "prose",
-        "scope_text": "Netracell",
+        "short_label": "Power required",
+        "label_source": "player_text",
+        "scope_text": "Power to charge a Netracell with 1 player; stock 200 power",
         "aliases": [],
         "lane": "literal",
         "applies": "next_mission",
@@ -46948,7 +47018,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 352
       }
     },
     {
@@ -47101,9 +47172,9 @@
         "mt_codes": [
           "MT_VAULTS"
         ],
-        "short_label": "Power required per extra player",
-        "label_source": "id",
-        "scope_text": "Netracell",
+        "short_label": "Power per extra player",
+        "label_source": "player_text",
+        "scope_text": "Extra Netracell power needed per additional player (up to 3); stock 100 power",
         "aliases": [],
         "lane": "literal",
         "applies": "next_mission",
@@ -47111,7 +47182,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 0,
-        "max": 10000
+        "max": 10000,
+        "rank": 353
       }
     },
     {
@@ -47783,9 +47855,9 @@
           "MT_SURVIVAL",
           "MT_RAILJACK"
         ],
-        "short_label": "Sortie Orphix Venom round count",
-        "label_source": "prose",
-        "scope_text": "Orphix Venom. Case: isSortie",
+        "short_label": "Sortie: rounds to finish",
+        "label_source": "player_text",
+        "scope_text": "Orphix Venom rounds in Sorties (the single reward comes at the last round); stock 12 rounds",
         "aliases": [
           "Sortie"
         ],
@@ -47795,7 +47867,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 344
       }
     },
     {
@@ -48463,9 +48536,9 @@
       "ui": {
         "group": "purgatory",
         "mt_codes": [],
-        "short_label": "Enemy cap",
-        "label_source": "prose",
-        "scope_text": "Purgatory",
+        "short_label": "Max enemies at once",
+        "label_source": "player_text",
+        "scope_text": "Purgatory enemies alive at once (Protea quest stages lower it); stock 10 enemies",
         "aliases": [],
         "lane": "literal",
         "applies": "next_mission",
@@ -48473,7 +48546,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 338
       }
     },
     {
@@ -48611,8 +48685,8 @@
         "group": "purgatory",
         "mt_codes": [],
         "short_label": "Starting time",
-        "label_source": "prose",
-        "scope_text": "Purgatory",
+        "label_source": "player_text",
+        "scope_text": "Seconds on the Purgatory timer at the start; stock 60 s",
         "aliases": [],
         "lane": "literal",
         "applies": "next_mission",
@@ -48620,7 +48694,8 @@
         "editor": "INPUTCOUNT",
         "unit": "s",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 336
       }
     },
     {
@@ -48764,9 +48839,9 @@
       "ui": {
         "group": "purgatory",
         "mt_codes": [],
-        "short_label": "Seconds added per time pickup",
-        "label_source": "prose",
-        "scope_text": "Purgatory",
+        "short_label": "Time per pickup",
+        "label_source": "player_text",
+        "scope_text": "Seconds a time pickup adds in Purgatory; stock 5 s",
         "aliases": [],
         "lane": "literal",
         "applies": "next_mission",
@@ -48774,7 +48849,8 @@
         "editor": "INPUTBOX",
         "unit": "s",
         "min": 0,
-        "max": 1000
+        "max": 1000,
+        "rank": 337
       }
     },
     {
@@ -49581,11 +49657,11 @@
       "backend_note": "1 exact site(s) patched together: root frame_40[94] = Range(3, 5) maximum",
       "addon_gate": "FAIL: root instruction 96 is not stored into a table field or array element (root local or call argument); it stays on the literal lane",
       "ui": {
-        "group": "purgatory",
+        "group": "purgatory_advanced",
         "mt_codes": [],
-        "short_label": "Spawn interval maximum",
-        "label_source": "prose",
-        "scope_text": "Purgatory",
+        "short_label": "Longest time between spawns",
+        "label_source": "player_text",
+        "scope_text": "High end of the random time between Purgatory spawn batches; wins over the main knob; stock 5 s",
         "aliases": [],
         "lane": "literal",
         "applies": "next_mission",
@@ -49593,7 +49669,8 @@
         "editor": "INPUTCOUNT",
         "unit": "s",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 340
       }
     },
     {
@@ -49656,11 +49733,11 @@
       "backend_note": "1 exact site(s) patched together: root frame_40[94] = Range(3, 5) minimum",
       "addon_gate": "FAIL: root instruction 95 is not stored into a table field or array element (root local or call argument); it stays on the literal lane",
       "ui": {
-        "group": "purgatory",
+        "group": "purgatory_advanced",
         "mt_codes": [],
-        "short_label": "Spawn interval minimum",
-        "label_source": "prose",
-        "scope_text": "Purgatory",
+        "short_label": "Shortest time between spawns",
+        "label_source": "player_text",
+        "scope_text": "Low end of the random time between Purgatory spawn batches; wins over the main knob; stock 3 s",
         "aliases": [],
         "lane": "literal",
         "applies": "next_mission",
@@ -49668,7 +49745,8 @@
         "editor": "INPUTCOUNT",
         "unit": "s",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 339
       }
     },
     {
@@ -50205,9 +50283,9 @@
         "mt_codes": [
           "MT_PURGE"
         ],
-        "short_label": "Total enemy population to kill",
-        "label_source": "prose",
-        "scope_text": "Purge. Case: GetMissionType()==19",
+        "short_label": "Enemies to kill",
+        "label_source": "player_text",
+        "scope_text": "Enemy population to kill in a Purge mission; stock 50 enemies",
         "aliases": [],
         "lane": "literal",
         "applies": "next_mission",
@@ -50215,7 +50293,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 372
       }
     },
     {
@@ -50703,9 +50782,9 @@
         "mt_codes": [
           "MT_PURSUIT"
         ],
-        "short_label": "Defend-ship phase duration",
-        "label_source": "prose",
-        "scope_text": "Nodes: Pandora. Case: final defend-ship phase",
+        "short_label": "Defend-ship phase time",
+        "label_source": "player_text",
+        "scope_text": "Seconds of the defend-the-ship phase in Pursuit; it succeeds at 0; stock 60 s",
         "aliases": [],
         "lane": "literal",
         "applies": "next_mission",
@@ -50713,7 +50792,8 @@
         "editor": "INPUTCOUNT",
         "unit": "s",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 360
       }
     },
     {
@@ -52171,8 +52251,8 @@
           "MT_MOBILE_DEFENSE"
         ],
         "short_label": "Areas to complete",
-        "label_source": "prose",
-        "scope_text": "Sentient Mobile Defense",
+        "label_source": "player_text",
+        "scope_text": "Areas to complete in Sentient Mobile Defense; stock 3 areas",
         "aliases": [
           "Sentient"
         ],
@@ -52182,7 +52262,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 346
       }
     },
     {
@@ -52247,9 +52328,9 @@
         "mt_codes": [
           "MT_MOBILE_DEFENSE"
         ],
-        "short_label": "Defend-the-drone timer",
-        "label_source": "prose",
-        "scope_text": "Sentient Mobile Defense",
+        "short_label": "Defend time per area",
+        "label_source": "player_text",
+        "scope_text": "Seconds to defend the drone in each Sentient Defense area; stock 120 s",
         "aliases": [
           "Sentient"
         ],
@@ -52259,7 +52340,8 @@
         "editor": "INPUTCOUNT",
         "unit": "s",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 345
       }
     },
     {
@@ -59146,9 +59228,9 @@
         "mt_codes": [
           "MT_SURVIVAL"
         ],
-        "short_label": "Duviri fixed length (Survival)",
-        "label_source": "override",
-        "scope_text": "All Survival nodes (30) incl. Conjunction Survival, Hell-Scrub. Case: _T.EndlessDuviri (Duviri / Circuit Survival)",
+        "short_label": "Duviri: Survival length",
+        "label_source": "player_text",
+        "scope_text": "Length of endless Duviri Survival (missions flagged EndlessDuviri, The Circuit); stock 300 s",
         "aliases": [
           "Duviri",
           "Circuit"
@@ -59159,7 +59241,8 @@
         "editor": "INPUTCOUNT",
         "unit": "s",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 291
       }
     },
     {
@@ -62397,9 +62480,9 @@
         "mt_codes": [
           "MT_CORRUPTION"
         ],
-        "short_label": "Fractures per round Duviri",
-        "label_source": "id",
-        "scope_text": "Nodes: Everview Arc. Case: Duviri",
+        "short_label": "Duviri: fractures per round",
+        "label_source": "player_text",
+        "scope_text": "Void fractures opened per round in Duviri Void Flood; stock 5 fractures",
         "aliases": [
           "Duviri"
         ],
@@ -62409,7 +62492,8 @@
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 326
       }
     },
     {
@@ -62715,9 +62799,9 @@
         "mt_codes": [
           "MT_DEFENSE"
         ],
-        "short_label": "Drone count spawn interval",
-        "label_source": "id",
-        "scope_text": "Nodes: Solstice Square. Case: Deep Archimedea ChemicalNoise. Also: 1999",
+        "short_label": "Time between drone spawns",
+        "label_source": "player_text",
+        "scope_text": "Seconds between chemical-noise drone launches in 1999 Defense; stock 5 s",
         "aliases": [
           "Archimedea",
           "1999"
@@ -62728,7 +62812,8 @@
         "editor": "INPUTCOUNT",
         "unit": "s",
         "min": 1,
-        "max": 32767
+        "max": 32767,
+        "rank": 343
       }
     },
     {
@@ -64958,6 +65043,125 @@
       "special_nodes": [],
       "includes_descendia": true
     },
+    "defense_advanced": {
+      "label": "Defense: advanced",
+      "order": 135,
+      "mt_codes": [
+        "MT_DEFENSE",
+        "MT_DESCENT"
+      ],
+      "aliases": [
+        "Descendia",
+        "MT_DEFENSE",
+        "MT_DESCENT",
+        "The Descendia",
+        "Romula",
+        "Sangeru",
+        "Akkad",
+        "Coba",
+        "Seimeni",
+        "Sechura",
+        "Sinai",
+        "Larzac",
+        "Kadesh",
+        "Gulliver",
+        "Stephano",
+        "Io",
+        "Lares",
+        "Casta",
+        "Kala-azar",
+        "Proteus",
+        "Hydron",
+        "Paimon",
+        "Tessera",
+        "Descend",
+        "Descend from Marie's Sanctuary",
+        "Descend from Lyon's Sanctuary",
+        "Roathe's Oblivion",
+        "Lith",
+        "Stofler",
+        "Taranis",
+        "Belenus",
+        "Helene",
+        "Spear",
+        "Hyf",
+        "Outer Terminus",
+        "Nabuk",
+        "Solstice Square",
+        "Defense"
+      ],
+      "nodes": [
+        "ClanNode0",
+        "ClanNode15",
+        "ClanNode18",
+        "ClanNode2",
+        "ClanNode22",
+        "ClanNode24",
+        "ClanNode4",
+        "ClanNode6",
+        "ClanNode8",
+        "SettlementNode11",
+        "SolNode122",
+        "SolNode125",
+        "SolNode130",
+        "SolNode149",
+        "SolNode164",
+        "SolNode17",
+        "SolNode195",
+        "SolNode212",
+        "SolNode22",
+        "SolNode253",
+        "SolNode254",
+        "SolNode255",
+        "SolNode256",
+        "SolNode26",
+        "SolNode305",
+        "SolNode402",
+        "SolNode408",
+        "SolNode42",
+        "SolNode46",
+        "SolNode707",
+        "SolNode72",
+        "SolNode742",
+        "SolNode858"
+      ],
+      "node_names": [
+        "Romula",
+        "Sangeru",
+        "Akkad",
+        "Coba",
+        "Seimeni",
+        "Sechura",
+        "Sinai",
+        "Larzac",
+        "Kadesh",
+        "Gulliver",
+        "Stephano",
+        "Io",
+        "Lares",
+        "Casta",
+        "Kala-azar",
+        "Proteus",
+        "Hydron",
+        "Paimon",
+        "Tessera",
+        "Lith",
+        "Stofler",
+        "Taranis",
+        "Belenus",
+        "Helene",
+        "Spear",
+        "Hyf",
+        "Outer Terminus",
+        "Nabuk",
+        "Solstice Square"
+      ],
+      "node_count": 29,
+      "common_mission_name": "Defense",
+      "special_nodes": [],
+      "includes_descendia": true,
+      "advanced_of": "defense"
+    },
     "wf1999def": {
       "label": "Defense (1999)",
       "order": 140,
@@ -65477,6 +65681,22 @@
       "common_mission_name": "",
       "special_nodes": [],
       "includes_descendia": false
+    },
+    "multidefend_advanced": {
+      "label": "Hack-Station Defense: advanced",
+      "order": 265,
+      "mt_codes": [],
+      "aliases": [
+        "MultiDefend",
+        "Hack-Station Defense"
+      ],
+      "nodes": [],
+      "node_names": [],
+      "node_count": 0,
+      "common_mission_name": "",
+      "special_nodes": [],
+      "includes_descendia": false,
+      "advanced_of": "multidefend"
     },
     "hijack": {
       "label": "Hijack",
@@ -66603,7 +66823,7 @@
       "short_label": "Max enemies at once (solo)",
       "label_source": "player_text",
       "scope_text": "Defection enemies alive at once with 1 player, easy and hard nodes; a ticked Advanced row wins; stock 10 enemies",
-      "rank": -28,
+      "rank": -38,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -66629,7 +66849,7 @@
       "short_label": "Max enemies at once (duo)",
       "label_source": "player_text",
       "scope_text": "Defection enemies alive at once with 2 players, easy and hard nodes; a ticked Advanced row wins; stock 16 enemies",
-      "rank": -27,
+      "rank": -37,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -66655,7 +66875,7 @@
       "short_label": "Max enemies at once (trio)",
       "label_source": "player_text",
       "scope_text": "Defection enemies alive at once with 3 players, easy and hard nodes; a ticked Advanced row wins; stock 22 enemies",
-      "rank": -26,
+      "rank": -36,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -66681,7 +66901,7 @@
       "short_label": "Max enemies at once (squad)",
       "label_source": "player_text",
       "scope_text": "Defection enemies alive at once with 4 players, easy and hard nodes; a ticked Advanced row wins; stock 28 enemies",
-      "rank": -25,
+      "rank": -35,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -66707,7 +66927,7 @@
       "short_label": "Exterminate: kills needed",
       "label_source": "player_text",
       "scope_text": "Kills to finish the Faceoff Exterminate objective (sets the random range to this value); stock 160 kills (random 130 to 160)",
-      "rank": -24,
+      "rank": -34,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -66733,7 +66953,7 @@
       "short_label": "Max enemies at once (solo)",
       "label_source": "player_text",
       "scope_text": "Faceoff enemies alive at once with 1 player, all enemy levels; a ticked Advanced row wins; stock 13 enemies",
-      "rank": -23,
+      "rank": -33,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -66759,7 +66979,7 @@
       "short_label": "Max enemies at once (duo)",
       "label_source": "player_text",
       "scope_text": "Faceoff enemies alive at once with 2 players, all enemy levels; a ticked Advanced row wins; stock 25 enemies",
-      "rank": -22,
+      "rank": -32,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -66785,7 +67005,7 @@
       "short_label": "Max enemies at once (trio)",
       "label_source": "player_text",
       "scope_text": "Faceoff enemies alive at once with 3 players, all enemy levels; a ticked Advanced row wins; stock 30 enemies",
-      "rank": -21,
+      "rank": -31,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -66811,7 +67031,7 @@
       "short_label": "Max enemies at once (squad)",
       "label_source": "player_text",
       "scope_text": "Faceoff enemies alive at once with 4 players, all enemy levels; a ticked Advanced row wins; stock 35 enemies",
-      "rank": -20,
+      "rank": -30,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -66837,7 +67057,7 @@
       "short_label": "Max enemies at once (solo)",
       "label_source": "player_text",
       "scope_text": "Mirror Defense enemies alive at once with 1 player, regular and Infested; a ticked Advanced row wins; stock 18 enemies",
-      "rank": -19,
+      "rank": -29,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -66871,7 +67091,7 @@
       "short_label": "Max enemies at once (duo)",
       "label_source": "player_text",
       "scope_text": "Mirror Defense enemies alive at once with 2 players, regular and Infested; a ticked Advanced row wins; stock 22 enemies",
-      "rank": -18,
+      "rank": -28,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -66905,7 +67125,7 @@
       "short_label": "Max enemies at once (trio)",
       "label_source": "player_text",
       "scope_text": "Mirror Defense enemies alive at once with 3 players, regular and Infested; a ticked Advanced row wins; stock 28 enemies",
-      "rank": -17,
+      "rank": -27,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -66939,7 +67159,7 @@
       "short_label": "Max enemies at once (squad)",
       "label_source": "player_text",
       "scope_text": "Mirror Defense enemies alive at once with 4 players, regular and Infested; a ticked Advanced row wins; stock 33 enemies",
-      "rank": -16,
+      "rank": -26,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -66973,7 +67193,7 @@
       "short_label": "Time per terminal",
       "label_source": "player_text",
       "scope_text": "Defense time of each Mobile Defense terminal, all node levels (total time = 3 x this, split over the terminals); stock 80 s (60 on easy nodes)",
-      "rank": -15,
+      "rank": -25,
       "lane": "literal",
       "applies": "next_mission",
       "type": "int",
@@ -66999,7 +67219,7 @@
       "short_label": "Max enemies at once (solo)",
       "label_source": "player_text",
       "scope_text": "Mobile Defense enemies alive at once with 1 player, easy and hard nodes; a ticked Advanced row wins; stock 10 enemies",
-      "rank": -14,
+      "rank": -24,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -67025,7 +67245,7 @@
       "short_label": "Max enemies at once (duo)",
       "label_source": "player_text",
       "scope_text": "Mobile Defense enemies alive at once with 2 players, easy and hard nodes; a ticked Advanced row wins; stock 16 enemies",
-      "rank": -13,
+      "rank": -23,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -67051,7 +67271,7 @@
       "short_label": "Max enemies at once (trio)",
       "label_source": "player_text",
       "scope_text": "Mobile Defense enemies alive at once with 3 players, easy and hard nodes; a ticked Advanced row wins; stock 22 enemies",
-      "rank": -12,
+      "rank": -22,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -67077,7 +67297,7 @@
       "short_label": "Max enemies at once (squad)",
       "label_source": "player_text",
       "scope_text": "Mobile Defense enemies alive at once with 4 players, easy and hard nodes; a ticked Advanced row wins; stock 28 enemies",
-      "rank": -11,
+      "rank": -21,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -67103,7 +67323,7 @@
       "short_label": "Time between Orphix spawns",
       "label_source": "player_text",
       "scope_text": "Seconds between Orphix spawns, normal and event; a ticked Advanced row wins; stock 50 s (event 90 s)",
-      "rank": -10,
+      "rank": -20,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -67129,7 +67349,7 @@
       "short_label": "Max enemies at once (solo)",
       "label_source": "player_text",
       "scope_text": "Shrine Defense enemies alive at once with 1 player, all stages and Steel Path; a ticked Advanced row wins; stock 10 enemies",
-      "rank": -9,
+      "rank": -19,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -67179,7 +67399,7 @@
       "short_label": "Max enemies at once (duo)",
       "label_source": "player_text",
       "scope_text": "Shrine Defense enemies alive at once with 2 players, all stages and Steel Path; a ticked Advanced row wins; stock 15 enemies",
-      "rank": -8,
+      "rank": -18,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -67229,7 +67449,7 @@
       "short_label": "Max enemies at once (trio)",
       "label_source": "player_text",
       "scope_text": "Shrine Defense enemies alive at once with 3 players, all stages and Steel Path; a ticked Advanced row wins; stock 20 enemies",
-      "rank": -7,
+      "rank": -17,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -67279,7 +67499,7 @@
       "short_label": "Max enemies at once (squad)",
       "label_source": "player_text",
       "scope_text": "Shrine Defense enemies alive at once with 4 players, all stages and Steel Path; a ticked Advanced row wins; stock 25 enemies",
-      "rank": -6,
+      "rank": -16,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -67329,7 +67549,7 @@
       "short_label": "Time between waves (solo)",
       "label_source": "player_text",
       "scope_text": "Shrine Defense seconds between enemy waves with 1 player, all stages and Steel Path; a ticked Advanced row wins; stock 15 s",
-      "rank": -5,
+      "rank": -15,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -67363,7 +67583,7 @@
       "short_label": "Time between waves (duo)",
       "label_source": "player_text",
       "scope_text": "Shrine Defense seconds between enemy waves with 2 players, all stages and Steel Path; a ticked Advanced row wins; stock 14 s",
-      "rank": -4,
+      "rank": -14,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -67397,7 +67617,7 @@
       "short_label": "Time between waves (trio)",
       "label_source": "player_text",
       "scope_text": "Shrine Defense seconds between enemy waves with 3 players, all stages and Steel Path; a ticked Advanced row wins; stock 13 s",
-      "rank": -3,
+      "rank": -13,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -67431,7 +67651,7 @@
       "short_label": "Time between waves (squad)",
       "label_source": "player_text",
       "scope_text": "Shrine Defense seconds between enemy waves with 4 players, all stages and Steel Path; a ticked Advanced row wins; stock 12 s",
-      "rank": -2,
+      "rank": -12,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -67465,7 +67685,7 @@
       "short_label": "Dig time per excavator",
       "label_source": "player_text",
       "scope_text": "Seconds each excavator digs, all Excavation variants (standard, Elite Alert, Old World Salvage); stock 100 s (Elite Alert 140, Old World 60)",
-      "rank": -1,
+      "rank": -11,
       "lane": "literal",
       "applies": "next_mission",
       "type": "int",
@@ -67489,12 +67709,376 @@
           "scale": 1
         }
       ]
+    },
+    "defense.max_enemies.p1": {
+      "group": "defense",
+      "short_label": "Max enemies at once (solo)",
+      "label_source": "player_text",
+      "scope_text": "Defense enemies alive at once with 1 player, regular and Infested, all levels; a ticked Advanced row wins; stock 10 enemies (fewer below level 30)",
+      "rank": -10,
+      "lane": "literal",
+      "applies": "next_mission",
+      "type": "int",
+      "editor": "INPUTCOUNT",
+      "unit": "",
+      "stock": 10,
+      "min": 1,
+      "max": 32767,
+      "body_key": "1a1354d153712f9d",
+      "drives": [
+        {
+          "tunable_id": "defense.simultaneous_enemies_max.p1",
+          "scale": 1
+        },
+        {
+          "tunable_id": "defense.simultaneous_enemies_min.p1",
+          "scale": 1
+        },
+        {
+          "tunable_id": "defense.simultaneous_enemies_infested.max.p1",
+          "scale": 1
+        },
+        {
+          "tunable_id": "defense.simultaneous_enemies_infested.min.p1",
+          "scale": 1
+        }
+      ]
+    },
+    "defense.max_enemies.p2": {
+      "group": "defense",
+      "short_label": "Max enemies at once (duo)",
+      "label_source": "player_text",
+      "scope_text": "Defense enemies alive at once with 2 players, regular and Infested, all levels; a ticked Advanced row wins; stock 20 enemies (fewer below level 30)",
+      "rank": -9,
+      "lane": "literal",
+      "applies": "next_mission",
+      "type": "int",
+      "editor": "INPUTCOUNT",
+      "unit": "",
+      "stock": 20,
+      "min": 1,
+      "max": 32767,
+      "body_key": "1a1354d153712f9d",
+      "drives": [
+        {
+          "tunable_id": "defense.simultaneous_enemies_max.p2",
+          "scale": 1
+        },
+        {
+          "tunable_id": "defense.simultaneous_enemies_min.p2",
+          "scale": 1
+        },
+        {
+          "tunable_id": "defense.simultaneous_enemies_infested.max.p2",
+          "scale": 1
+        },
+        {
+          "tunable_id": "defense.simultaneous_enemies_infested.min.p2",
+          "scale": 1
+        }
+      ]
+    },
+    "defense.max_enemies.p3": {
+      "group": "defense",
+      "short_label": "Max enemies at once (trio)",
+      "label_source": "player_text",
+      "scope_text": "Defense enemies alive at once with 3 players, regular and Infested, all levels; a ticked Advanced row wins; stock 26 enemies (fewer below level 30)",
+      "rank": -8,
+      "lane": "literal",
+      "applies": "next_mission",
+      "type": "int",
+      "editor": "INPUTCOUNT",
+      "unit": "",
+      "stock": 26,
+      "min": 1,
+      "max": 32767,
+      "body_key": "1a1354d153712f9d",
+      "drives": [
+        {
+          "tunable_id": "defense.simultaneous_enemies_max.p3",
+          "scale": 1
+        },
+        {
+          "tunable_id": "defense.simultaneous_enemies_min.p3",
+          "scale": 1
+        },
+        {
+          "tunable_id": "defense.simultaneous_enemies_infested.max.p3",
+          "scale": 1
+        },
+        {
+          "tunable_id": "defense.simultaneous_enemies_infested.min.p3",
+          "scale": 1
+        }
+      ]
+    },
+    "defense.max_enemies.p4": {
+      "group": "defense",
+      "short_label": "Max enemies at once (squad)",
+      "label_source": "player_text",
+      "scope_text": "Defense enemies alive at once with 4 players, regular and Infested, all levels; a ticked Advanced row wins; stock 29 enemies (fewer below level 30)",
+      "rank": -7,
+      "lane": "literal",
+      "applies": "next_mission",
+      "type": "int",
+      "editor": "INPUTCOUNT",
+      "unit": "",
+      "stock": 29,
+      "min": 1,
+      "max": 32767,
+      "body_key": "1a1354d153712f9d",
+      "drives": [
+        {
+          "tunable_id": "defense.simultaneous_enemies_max.p4",
+          "scale": 1
+        },
+        {
+          "tunable_id": "defense.simultaneous_enemies_min.p4",
+          "scale": 1
+        },
+        {
+          "tunable_id": "defense.simultaneous_enemies_infested.max.p4",
+          "scale": 1
+        },
+        {
+          "tunable_id": "defense.simultaneous_enemies_infested.min.p4",
+          "scale": 1
+        }
+      ]
+    },
+    "disruption.max_enemies.p1": {
+      "group": "disruption",
+      "short_label": "Max enemies at once (solo)",
+      "label_source": "player_text",
+      "scope_text": "Disruption enemies alive at once with 1 player, standard, Sentient and Entrati lab, both ends of the range; a ticked Advanced row wins; stock 10 enemies",
+      "rank": -6,
+      "lane": "literal",
+      "applies": "next_mission",
+      "type": "int",
+      "editor": "INPUTCOUNT",
+      "unit": "",
+      "stock": 10,
+      "min": 1,
+      "max": 32767,
+      "body_key": "b6d8c45f9424d376",
+      "drives": [
+        {
+          "tunable_id": "disruption.max_enemies_by_players.standard.p1",
+          "scale": 1
+        },
+        {
+          "tunable_id": "disruption.min_enemies_by_players.standard.p1",
+          "scale": 1
+        },
+        {
+          "tunable_id": "disruption.max_enemies_by_players.sentient.p1",
+          "scale": 1
+        },
+        {
+          "tunable_id": "disruption.min_enemies_by_players.sentient.p1",
+          "scale": 1
+        },
+        {
+          "tunable_id": "disruption.max_enemies_by_players.entrati_lab.p1",
+          "scale": 1
+        },
+        {
+          "tunable_id": "disruption.min_enemies_by_players.entrati_lab.p1",
+          "scale": 1
+        }
+      ]
+    },
+    "disruption.max_enemies.p2": {
+      "group": "disruption",
+      "short_label": "Max enemies at once (duo)",
+      "label_source": "player_text",
+      "scope_text": "Disruption enemies alive at once with 2 players, standard, Sentient and Entrati lab, both ends of the range; a ticked Advanced row wins; stock 25 enemies",
+      "rank": -5,
+      "lane": "literal",
+      "applies": "next_mission",
+      "type": "int",
+      "editor": "INPUTCOUNT",
+      "unit": "",
+      "stock": 25,
+      "min": 1,
+      "max": 32767,
+      "body_key": "b6d8c45f9424d376",
+      "drives": [
+        {
+          "tunable_id": "disruption.max_enemies_by_players.standard.p2",
+          "scale": 1
+        },
+        {
+          "tunable_id": "disruption.min_enemies_by_players.standard.p2",
+          "scale": 1
+        },
+        {
+          "tunable_id": "disruption.max_enemies_by_players.sentient.p2",
+          "scale": 1
+        },
+        {
+          "tunable_id": "disruption.min_enemies_by_players.sentient.p2",
+          "scale": 1
+        },
+        {
+          "tunable_id": "disruption.max_enemies_by_players.entrati_lab.p2",
+          "scale": 1
+        },
+        {
+          "tunable_id": "disruption.min_enemies_by_players.entrati_lab.p2",
+          "scale": 1
+        }
+      ]
+    },
+    "disruption.max_enemies.p3": {
+      "group": "disruption",
+      "short_label": "Max enemies at once (trio)",
+      "label_source": "player_text",
+      "scope_text": "Disruption enemies alive at once with 3 players, standard, Sentient and Entrati lab, both ends of the range; a ticked Advanced row wins; stock 30 enemies",
+      "rank": -4,
+      "lane": "literal",
+      "applies": "next_mission",
+      "type": "int",
+      "editor": "INPUTCOUNT",
+      "unit": "",
+      "stock": 30,
+      "min": 1,
+      "max": 32767,
+      "body_key": "b6d8c45f9424d376",
+      "drives": [
+        {
+          "tunable_id": "disruption.max_enemies_by_players.standard.p3",
+          "scale": 1
+        },
+        {
+          "tunable_id": "disruption.min_enemies_by_players.standard.p3",
+          "scale": 1
+        },
+        {
+          "tunable_id": "disruption.max_enemies_by_players.sentient.p3",
+          "scale": 1
+        },
+        {
+          "tunable_id": "disruption.min_enemies_by_players.sentient.p3",
+          "scale": 1
+        },
+        {
+          "tunable_id": "disruption.max_enemies_by_players.entrati_lab.p3",
+          "scale": 1
+        },
+        {
+          "tunable_id": "disruption.min_enemies_by_players.entrati_lab.p3",
+          "scale": 1
+        }
+      ]
+    },
+    "disruption.max_enemies.p4": {
+      "group": "disruption",
+      "short_label": "Max enemies at once (squad)",
+      "label_source": "player_text",
+      "scope_text": "Disruption enemies alive at once with 4 players, standard, Sentient and Entrati lab, both ends of the range; a ticked Advanced row wins; stock 35 enemies",
+      "rank": -3,
+      "lane": "literal",
+      "applies": "next_mission",
+      "type": "int",
+      "editor": "INPUTCOUNT",
+      "unit": "",
+      "stock": 35,
+      "min": 1,
+      "max": 32767,
+      "body_key": "b6d8c45f9424d376",
+      "drives": [
+        {
+          "tunable_id": "disruption.max_enemies_by_players.standard.p4",
+          "scale": 1
+        },
+        {
+          "tunable_id": "disruption.min_enemies_by_players.standard.p4",
+          "scale": 1
+        },
+        {
+          "tunable_id": "disruption.max_enemies_by_players.sentient.p4",
+          "scale": 1
+        },
+        {
+          "tunable_id": "disruption.min_enemies_by_players.sentient.p4",
+          "scale": 1
+        },
+        {
+          "tunable_id": "disruption.max_enemies_by_players.entrati_lab.p4",
+          "scale": 1
+        },
+        {
+          "tunable_id": "disruption.min_enemies_by_players.entrati_lab.p4",
+          "scale": 1
+        }
+      ]
+    },
+    "purgatory.spawn_interval": {
+      "group": "purgatory",
+      "short_label": "Time between spawns",
+      "label_source": "player_text",
+      "scope_text": "Seconds between Purgatory spawn batches (sets the random range to this value); a ticked Advanced row wins; stock 5 s (random 3 to 5)",
+      "rank": -2,
+      "lane": "literal",
+      "applies": "next_mission",
+      "type": "int",
+      "editor": "INPUTCOUNT",
+      "unit": "s",
+      "stock": 5,
+      "min": 1,
+      "max": 32767,
+      "body_key": "6fa60841c9e0f207",
+      "drives": [
+        {
+          "tunable_id": "purgatory.spawn_interval.max",
+          "scale": 1
+        },
+        {
+          "tunable_id": "purgatory.spawn_interval.min",
+          "scale": 1
+        }
+      ]
+    },
+    "multidefend.defend_time": {
+      "group": "multidefend",
+      "short_label": "Defend time per station",
+      "label_source": "player_text",
+      "scope_text": "Seconds to defend each hack station, all node levels (sets the random range); a ticked Advanced row wins; stock 240 s (random 30 to 240 by node level)",
+      "rank": -1,
+      "lane": "literal",
+      "applies": "next_mission",
+      "type": "int",
+      "editor": "INPUTCOUNT",
+      "unit": "s",
+      "stock": 240,
+      "min": 1,
+      "max": 32767,
+      "body_key": "fdd5982a4fce6847",
+      "drives": [
+        {
+          "tunable_id": "multidefend.defend_time.max_d1",
+          "scale": 1
+        },
+        {
+          "tunable_id": "multidefend.defend_time.min_d1",
+          "scale": 1
+        },
+        {
+          "tunable_id": "multidefend.defend_time.max_d0",
+          "scale": 1
+        },
+        {
+          "tunable_id": "multidefend.defend_time.min_d0",
+          "scale": 1
+        }
+      ]
     }
   },
   "ui_player_text": {
     "format": "RENOVICE_MISSION_PLAYER_TEXT_V1",
     "tool": "RESEARCH/UNIVERSAL_MISSION_REGISTRY_2026-09-29/tools/player_text.py",
-    "data_sha256": "83514CDC6C84E7EE7909A9372771B0406CAE25F3B13362A05EE1B28CC1A703BA",
+    "data_sha256": "002EC603D51549367407D52E69581F85239939386ED246DDE6D511A27331499C",
     "label_max": 33,
     "row_max": 40,
     "tooltip_max": 300,
@@ -67543,9 +68127,116 @@
       "NpcHardCap",
       "fixedLength"
     ],
-    "rows": 291,
-    "masters": 28,
+    "rows": 376,
+    "masters": 38,
     "hidden": 5,
-    "advanced_suffix": "_advanced"
+    "advanced_suffix": "_advanced",
+    "live_literal_headline": [
+      "mobiledefense.time_per_terminal",
+      "mobiledefense.total_time.maximum",
+      "mobiledefense.total_time.minimum",
+      "excavation.dig_time",
+      "excavation.dig_duration",
+      "excavation.dig_duration_elite_alert",
+      "excavation.dig_duration_old_world_salvage",
+      "control_area_plains.duration",
+      "control_area_deimos.duration",
+      "void_flood.fractures_per_round.normal",
+      "survival.duviri_fixed_length",
+      "defense.max_enemies.p1",
+      "defense.max_enemies.p2",
+      "defense.max_enemies.p3",
+      "defense.max_enemies.p4",
+      "defense.simultaneous_enemies_max.p1",
+      "defense.simultaneous_enemies_max.p2",
+      "defense.simultaneous_enemies_max.p3",
+      "defense.simultaneous_enemies_max.p4",
+      "defense.simultaneous_enemies_infested.max.p1",
+      "defense.simultaneous_enemies_infested.max.p2",
+      "defense.simultaneous_enemies_infested.max.p3",
+      "defense.simultaneous_enemies_infested.max.p4",
+      "defense.first_wave_delay",
+      "defense.inter_wave_sleep",
+      "defense.special_mission_default_waves",
+      "defense.nightmare_wave_count",
+      "defense.duviri_wave_count",
+      "defense.circle_wave_count",
+      "mobiledefense.console_count",
+      "escalation.crate_timer",
+      "excavation.duviri_excavation_count",
+      "disruption.default_round_count",
+      "disruption.sortie_round_count",
+      "disruption.round_timeout",
+      "disruption.interval_between_rounds",
+      "disruption.interval_between_rounds.relic",
+      "disruption.max_enemies.p1",
+      "disruption.max_enemies.p2",
+      "disruption.max_enemies.p3",
+      "disruption.max_enemies.p4",
+      "disruption.max_enemies_by_players.standard.p1",
+      "disruption.max_enemies_by_players.standard.p2",
+      "disruption.max_enemies_by_players.standard.p3",
+      "disruption.max_enemies_by_players.standard.p4",
+      "disruption.max_enemies_by_players.sentient.p1",
+      "disruption.max_enemies_by_players.sentient.p2",
+      "disruption.max_enemies_by_players.sentient.p3",
+      "disruption.max_enemies_by_players.sentient.p4",
+      "disruption.max_enemies_by_players.entrati_lab.p1",
+      "disruption.max_enemies_by_players.entrati_lab.p2",
+      "disruption.max_enemies_by_players.entrati_lab.p3",
+      "disruption.max_enemies_by_players.entrati_lab.p4",
+      "void_flood.fractures_per_round.duviri",
+      "capture.bleedout_timer.grace",
+      "capture.bleedout_timer.fail_timer",
+      "defection.squads_required",
+      "defection.squads_required.sortie",
+      "loopdefend.phase_duration",
+      "loopdefend.phase_duration_jade",
+      "lantern.min_score",
+      "lantern.extraction_limit",
+      "lantern.boss_spawn_time",
+      "purgatory.initial_time",
+      "purgatory.pickup_time_bonus",
+      "purgatory.enemy_cap",
+      "purgatory.spawn_interval",
+      "purgatory.spawn_interval.min",
+      "purgatory.spawn_interval.max",
+      "coh_excavation.dig_duration",
+      "coh_nemesis.spawn_interval",
+      "wf1999def.drone_count.spawn_interval",
+      "orphix.sortie_rounds",
+      "sentientmd.defend_time",
+      "sentientmd.area_count",
+      "multidefend.defend_time",
+      "multidefend.defend_time.min_d0",
+      "multidefend.defend_time.max_d0",
+      "multidefend.defend_time.min_d1",
+      "multidefend.defend_time.max_d1",
+      "multidefend.station_count",
+      "netracell.power_required.base",
+      "netracell.power_required.per_extra_player",
+      "archimedea.eda_survival_minutes",
+      "archimedea.eta_survival_minutes",
+      "archimedea.eta_defense_waves",
+      "archimedea.eda_alchemy",
+      "archimedea.eda_disruption",
+      "archimedea.eda_mirror_defense_waves",
+      "pursuit.phase_timer",
+      "archwing.fomorian_emp_timer",
+      "entrati_swarm.tears_per_stage.stage1",
+      "entrati_swarm.tears_per_stage.stage2",
+      "entrati_swarm.tears_per_stage.stage3",
+      "entrati_swarm.tears_per_stage.stage4",
+      "entrati_swarm.tears_per_stage.stage5",
+      "entrati_swarm.tears_per_stage_challenge.stage1",
+      "entrati_swarm.tears_per_stage_challenge.stage2",
+      "entrati_swarm.tears_per_stage_challenge.stage3",
+      "entrati_swarm.tears_per_stage_challenge.stage4",
+      "entrati_swarm.tears_per_stage_challenge.stage5",
+      "purge.max_enemy_count",
+      "arbitration.resurrection_score_cap",
+      "hijack.payload_health",
+      "hijack.payload_health.goal_mission"
+    ]
   }
 }
