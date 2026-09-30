@@ -1,0 +1,6 @@
+proto 8 HASH only-stock=[] only-candidate=[d4f2b58e]
+proto 8 KEYUSE only-stock=[] only-candidate=[FIELD H:d4f2b58e]
+BOOLEANS protos_with_boolean_constant_differences=0 (value constants; not part of the verdict)
+CLASS_SWAPS hash_string_class_swaps=0 other_keyuse_differences=1
+CODE_DIFF protos_code_equal=13 protos_code_size_differs=1 differing_bytes_by_canonical_op_field={}
+CONST_IDENTITY protos_stock=14 protos_candidate=14 hash_equal=13 string_equal=14 keyuse_equal=13 verdict=FAIL
