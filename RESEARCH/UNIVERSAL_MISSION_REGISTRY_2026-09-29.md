@@ -1163,3 +1163,49 @@ Gates: build zero warnings; `self-test` `passed=136 failed=0`; ctest 2/2; `verif
 registry SHA-256 `0BE2780B…D3BB97`. Rebuilding `phase2i-sample/mission_settings.json` gives byte-identical
 `package.json` (`7A0F60DD…07D2768`), addon (`0F309579…317B608`), replacement (`E979F5E7…FA9F6D2`), migration file
 (`22ECEDC5…A4D5E9`) and addon source (`61DDCC9D…DB905D`); `settings-declarations` PASS values=4 groups=4.
+
+## Phase 2j — short package member labels for SCRIPT SETTINGS (2026-09-30)
+
+Trigger: live feedback on bootstrapper DLL `ed2a996d` + bridge `9c1450ed`. The member switches read
+"Exact replacement:" and "Mission tunables: Purgatory,". SCRIPT SETTINGS shows a member label on one 40-character
+CHECKBOX row (`settings_ui_core.hpp` `maximum_row_label`). The generator wrote 71- and 83-character technical labels,
+which the loader accepts (up to 128). The bootstrapper side is R2 (`feat/ingame-settings-editor-2026-09-30` `fb9655e`).
+
+| ID | Hypothesis | Result | Evidence |
+|---|---|---|---|
+| 2j-1 | The truncation comes from the generator's member labels exceeding the 40-character row | TRUE | phase2i `package.json`: 71 and 83 characters; the bootstrapper cut them with `fit_words(…, 40)` |
+| 2j-2 | Short labels can be built from registry section labels without losing detail | TRUE | the runtime tooltip (R2) lists the file and the member's declared sections; the technical text is kept as `detail` in the MISSION_SET_MANIFEST member record |
+| 2j-3 | The Survival reward interval and Lantern tier-up should be INPUTCOUNT | FALSE | registry `limits.integer=false`, `ui.type=float` (engine seconds, fractional values valid). The design maps float → INPUTBOX (now a value page, R2), int ≥ 0 → INPUTCOUNT. The generator is consistent: 434 int/INPUTCOUNT, 157 float/INPUTBOX, 3 enum/TOGGLE. No change. |
+
+**Change (`src/mission_profiles.inl`).**
+- `package_member_label` tries candidates in order and takes the first that is ≤ 40 printable characters and unique
+  (case-insensitive) in the package. The section list is the member's ui-group labels in registry order.
+  - Target addon: `Mission values: <sections>`, `Values: <sections>`, then `Mission values: N sections`.
+  - Replacement: `<sections> (script replacement)`, `<sections> replacement`, `Script replacement: N sections`, then
+    `Script replacement <key8>`.
+  - If no candidate fits, the build fails closed.
+- The previous text is recorded as `detail` in each `package.members[]` record of `MISSION_SET_MANIFEST.json`.
+- New `package-folder` gate: every member label is ≤ 40 characters, printable, has no leading space, does not end in
+  `, ; : ( - /`, and is unique.
+- `package.json` stays schema-identical: no new field, so it runs on every settings DLL.
+
+**Results.**
+- phase2i settings rebuilt in `work/research/universal-mission-editor-2026-09-29/phase2j-sample/` (19 files,
+  `SHA256SUMS.json`).
+- Addon `Missions.targets.addon.lua_B` `0F309579…317B608` (7,280 B) and replacement `E979F5E7…FA9F6D2` (112,244 B) are
+  byte-identical to phase2i. The migration file `22ECEDC5…A4D5E9` is unchanged.
+- `package.json` `6E1FF228…513BD8` changes only the two labels:
+  - `Values: Lantern, Purgatory, Survival` (`Mission values: …` is 44 characters, over the budget);
+  - `Void Flood (script replacement)`.
+
+**Gates.**
+- Build: 0 warnings.
+- `self-test`: `passed=137 failed=0`. The package test pins the new labels and the `detail` records. A new check covers
+  the count fallback on every TARGET_ADDON section and the unique second replacement label (`Void Flood replacement`).
+- ctest: 2/2.
+- `verify-missions`: PASS 594/594.
+- Bootstrapper `verify_addon_settings.ps1 -Package … -Settings …` (R2) on phase2j: 163/163. The phase2i package fails
+  only the new member-label rule, as expected.
+
+**Limits.** Section-derived labels are generic. Two replacements in one section are told apart only by the
+`replacement` wording, then by key. The labels were not reviewed live.

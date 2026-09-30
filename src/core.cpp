@@ -4066,9 +4066,18 @@ namespace renovice
                                 && package_json.at("members").size() == 2
                                 && package_json.at("members").contains("Missions.targets.addon.lua_B")
                                 && package_json.at("members").at("Missions.targets.addon.lua_B").at("label")
-                                       == "Mission tunables: Purgatory, HalloweenLanternEndless, SurvivalMission"
+                                       == "Values: Lantern, Purgatory, Survival"
                                 && package_json.at("members").at("fc711ff621a75552 (missions_exact-replacement).lua_B").at("label")
-                                       == "Exact replacement: ZarimanCorruptionMission (void_flood.fractures_per_round.normal)"
+                                       == "Void Flood (script replacement)"
+                                && [&]() {
+                                       // The technical detail moved from the 40-character row label to the manifest record.
+                                       std::set<std::string> details;
+                                       for (const auto& member : set_manifest.at("package").at("members"))
+                                           details.insert(member.value("detail", std::string()));
+                                       return details == std::set<std::string>{
+                                                  "Mission tunables: Purgatory, HalloweenLanternEndless, SurvivalMission",
+                                                  "Exact replacement: ZarimanCorruptionMission (void_flood.fractures_per_round.normal)"};
+                                   }()
                                 && set_manifest.at("output_layout") == "package"
                                 && set_manifest.at("package").at("scripts_menu").at("policy_id") == "package:missions"
                                 && set_manifest.at("package").at("scripts_menu").at("row") == "[PACKAGE] Missions"
@@ -4088,6 +4097,27 @@ namespace renovice
                                           "replacement, one [PACKAGE] Missions row, policy package:missions) with one RENOVICE_SETTINGS_DECL_V1 "
                                           "declaration per member tunable, the Settings\\Missions.json migration file and a PASS "
                                           "settings-declarations gate; the loose build is unchanged");
+                        {
+                            // Member row labels (SCRIPT SETTINGS, 40 characters): many sections fall back to a count; a
+                            // replacement label is unique; every candidate is within the row budget.
+                            std::vector<std::string> many, one_group;
+                            std::set<std::string> seen_groups;
+                            for (const auto& row : registry.at("tunables")) {
+                                const auto group = row.at("ui").at("group").get<std::string>();
+                                if (row.at("backend") == "TARGET_ADDON" && seen_groups.insert(group).second)
+                                    many.push_back(row.at("tunable_id").get<std::string>());
+                            }
+                            one_group.push_back("void_flood.fractures_per_round.normal");
+                            const auto wide = package_member_label(registry, "TARGET_ADDON", many, "Missions.targets.addon.lua_B", {});
+                            const auto first = package_member_label(registry, "EXACT_LITERAL", one_group, "fc711ff621a75552", {});
+                            const auto second = package_member_label(registry, "EXACT_LITERAL", one_group, "0123456789abcdef",
+                                                                     {ascii_lower_text(first)});
+                            check(many.size() > 3 && wide == "Mission values: " + std::to_string(many.size()) + " sections"
+                                      && first == "Void Flood (script replacement)" && second == "Void Flood replacement"
+                                      && wide.size() <= 40 && second.size() <= 40,
+                                  "package member labels fit the 40-character SCRIPT SETTINGS row: section list, count fallback, "
+                                  "unique replacement label");
+                        }
 
                         // Phase 2i: the declaration schema check rejects every malformed shape the runtime parser must reject.
                         if (package_ok)

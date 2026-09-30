@@ -847,6 +847,53 @@ std::string module_short_name(const std::string& module_path) {
     const auto separator = module_path.find_last_of("./\\");
     return separator == std::string::npos || separator + 1 == module_path.size() ? module_path : module_path.substr(separator + 1);
 }
+
+// The in-game SCRIPT SETTINGS editor shows a member label on one CHECKBOX row of 40 characters (bootstrapper
+// renovice/settings_ui_core.hpp maximum_row_label); a longer label is cut there ("Mission tunables: Purgatory,", live
+// 2026-09-30). The label is therefore short and human-readable, built from the member's section labels; the technical
+// detail (modules, tunable ids) is kept as `detail` in the build manifest member record, and the runtime tooltip lists
+// the file and the declared values per section. The loader's own limit stays kPackageLabelMaximum.
+constexpr std::size_t kPackageMemberRowLabelBudget = 40;
+
+// Section (ui group) labels of the member's tunables, in registry group order.
+std::vector<std::string> member_section_labels(const Json& registry, const std::vector<std::string>& tunables) {
+    std::map<long long, std::string> ordered;
+    for (const auto& id : tunables) {
+        const auto group = mission_tunable(registry, id).at("ui").at("group").get<std::string>();
+        const Json& record = registry.at("ui_groups").at(group);
+        ordered[record.at("order").get<long long>()] = record.at("label").get<std::string>();
+    }
+    std::vector<std::string> labels;
+    for (const auto& [order, label] : ordered) {
+        static_cast<void>(order);
+        labels.push_back(label);
+    }
+    return labels;
+}
+
+// First candidate that fits the row budget and is unique (case-insensitive) among the package's member labels.
+std::string package_member_label(const Json& registry, const std::string& backend, const std::vector<std::string>& tunables,
+                                 const std::string& body_key, const std::set<std::string>& used_lower) {
+    const auto sections = member_section_labels(registry, tunables);
+    std::string list;
+    for (const auto& label : sections) list += (list.empty() ? "" : ", ") + label;
+    const std::string count = std::to_string(sections.size()) + (sections.size() == 1 ? " section" : " sections");
+    std::vector<std::string> candidates;
+    if (backend == "TARGET_ADDON") {
+        if (!list.empty()) candidates = {"Mission values: " + list, "Values: " + list};
+        candidates.push_back("Mission values: " + count);
+    } else {
+        if (!list.empty()) candidates = {list + " (script replacement)", list + " replacement"};
+        candidates.push_back("Script replacement: " + count);
+        candidates.push_back("Script replacement " + body_key.substr(0, std::min<std::size_t>(8, body_key.size())));
+    }
+    for (const auto& candidate : candidates)
+        if (candidate.size() <= kPackageMemberRowLabelBudget && settings_printable(candidate) &&
+            !used_lower.count(ascii_lower_text(candidate)))
+            return candidate;
+    throw std::runtime_error("no package member label within " + std::to_string(kPackageMemberRowLabelBudget) +
+                             " characters is unique for the " + backend + " member " + body_key);
+}
 constexpr std::size_t kMultiTargetMaximumKeys = 1024;          // bootstrapper maximum_multi_target_keys
 constexpr std::uintmax_t kMultiTargetMaximumBytes = 1024 * 1024;  // contract: smaller than 1 MiB
 
@@ -1437,24 +1484,26 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                 fs::create_directories(package_dir);
                 Json member_labels = Json::object();
                 Json member_records = Json::array();
-                std::set<std::string> replacement_keys, used_groups;
+                std::set<std::string> replacement_keys, used_groups, used_labels;
                 for (const MissionArtifact* item : members) {
                     const std::string file = item->artifact.filename().string();
-                    std::string label;
+                    std::string detail;
                     if (item->backend == "TARGET_ADDON") {
                         if (item->target_keys.empty()) throw std::runtime_error("Package member " + file + " is not the multi-target addon");
                         std::string modules;
                         for (const auto& key : item->target_keys)
                             modules += (modules.empty() ? "" : ", ") + module_short_name(mission_module(registry, key).at("module_path").get<std::string>());
-                        label = "Mission tunables: " + modules;
+                        detail = "Mission tunables: " + modules;
                     } else {
                         if (!replacement_keys.insert(item->body_key).second) throw std::runtime_error("Two package members replace " + item->body_key);
                         std::string tunables;
                         for (const auto& id : item->tunables) tunables += (tunables.empty() ? "" : ", ") + id;
-                        label = "Exact replacement: " + module_short_name(mission_module(registry, item->body_key).at("module_path").get<std::string>()) +
-                                " (" + tunables + ")";
+                        detail = "Exact replacement: " + module_short_name(mission_module(registry, item->body_key).at("module_path").get<std::string>()) +
+                                 " (" + tunables + ")";
                     }
-                    label = package_text(label, kPackageLabelMaximum);
+                    const std::string label = package_member_label(registry, item->backend, item->tunables,
+                                                                   item->backend == "TARGET_ADDON" ? file : item->body_key, used_labels);
+                    used_labels.insert(ascii_lower_text(label));
                     fs::copy_file(item->artifact, package_dir / file, fs::copy_options::overwrite_existing);
                     // Phase 2i: one declaration per tunable the member carries (design section 3.2), from the registry row.
                     Json member_values = Json::object();
@@ -1464,7 +1513,8 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                         used_groups.insert(row.at("ui").at("group").get<std::string>());
                     }
                     member_labels[file] = Json{{"label", label}, {"settings", Json{{"values", member_values}}}};
-                    member_records.push_back({{"file", file}, {"backend", item->backend}, {"label", label}, {"sha256", item->sha256},
+                    member_records.push_back({{"file", file}, {"backend", item->backend}, {"label", label}, {"detail", detail},
+                                              {"sha256", item->sha256},
                                               {"size", item->size}, {"intended_live_relative_path", item->intended_live_relative_path}});
                 }
                 const std::string description = package_text(
@@ -1507,6 +1557,16 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                     if (!bytecode || (!multi && !replacement)) problems += "member " + name + " is not a replacement or multi-target addon file; ";
                 }
                 if (Json::parse(read_text(package_dir / "package.json")) != package_json) problems += "package.json readback mismatch; ";
+                // Member-label gate (SCRIPT SETTINGS row): <= 40 printable characters, unique, no dangling list punctuation.
+                std::set<std::string> label_keys;
+                for (const auto& [name, member] : member_labels.items()) {
+                    const auto label = member.at("label").get<std::string>();
+                    if (label.empty() || label.size() > kPackageMemberRowLabelBudget || !settings_printable(label) ||
+                        std::string(" ,;:(-/").find(label.back()) != std::string::npos || label.front() == ' ')
+                        problems += "member " + name + " label is empty, over " + std::to_string(kPackageMemberRowLabelBudget) +
+                                    " characters or ends in list punctuation; ";
+                    if (!label_keys.insert(ascii_lower_text(label)).second) problems += "member " + name + " label is not unique; ";
+                }
                 result.gate_log += "package-folder\n" + (problems.empty() ? std::string("PASS") : problems) + " members=" +
                                    std::to_string(declared.size()) + "\n";
                 if (!problems.empty()) throw std::runtime_error("package-folder gate failed: " + problems);
