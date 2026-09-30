@@ -19,6 +19,7 @@ full registrar run reproduces the same fields. Nothing here reads or writes a ga
 """
 from pathlib import Path
 import hashlib, json, re, sys
+import player_layout as LAYOUT  # contract R7: page tree, rows, quick values, defaults, short descriptions
 
 FORMAT = 'RENOVICE_MISSION_PLAYER_TEXT_V1'
 LABEL_MAX = 33          # "Custom " + label <= 40 (bootstrapper settings_ui_core.hpp maximum_row_label)
@@ -684,6 +685,7 @@ def main():
     path = editor / 'REGISTRIES/mission_build_u44.json'
     registry = json.loads(path.read_text(encoding='utf-8'))
     masters, meta = apply(registry['tunables'], registry['ui_groups'])
+    registry['ui_layout'] = LAYOUT.apply(registry['tunables'], registry['ui_groups'], masters)
     registry['ui_groups'] = dict(sorted(registry['ui_groups'].items(), key=lambda kv: kv[1]['order']))
     registry['ui_masters'] = masters
     registry['ui_player_text'] = meta

@@ -1,0 +1,545 @@
+"""SCRIPT SETTINGS navigation for the Missions package (contract CONTRACT_PHASE1.md Revision R7, 2026-09-30).
+
+Live feedback on R5: the package page was a long flat list of sections ("Control Area: 1 value" twice, "Disruption::",
+"X: advanced" next to "X"), tooltips listed node names and MT codes, every value took two rows ("Custom X" and "X: value")
+and the page carried package and member switches. R7 replaces the section list with a page tree:
+
+    Missions -> mission type (variants and locations merged, alphabetical; Descendia modes under "Descendia")
+             -> category (Timers, Objectives, Enemies, Rewards / drops, Advanced; only those that exist, Advanced last;
+                the level is dropped by the generator when a page would hold one category only)
+             -> value rows, or a set page (per-player-count values: Solo, Duo, Trio, Squad; named variants after them)
+             -> value page (editor, "Reset to default")
+
+This module owns, for every registry row and master knob:
+  * ui.path: the pages below the package page (category included; the generator collapses single-category levels);
+  * ui.row: the row text on the last page ("Squad", "Time between rewards");
+  * ui.quick: the label on the Quick settings page (headline value per mission type, one on/off each);
+  * ui.default_label: the default as the player sees it when the game value is a range or formula ("60-80 s");
+  * ui.scope_text: one or two short plain sentences (no node lists, no MT_ codes, no internal ids);
+  * ui.group: `<family>` for every category except Advanced, `<family>_advanced` for Advanced (sort order only);
+  * ui.rank: the display order;
+  * ui_groups[*].order: mission types alphabetical (Capture and Sentient Swarm Capture together, and so on).
+
+Rows without an entry here (never shown in a full package) get [mission type, (sub-entry,) "Advanced"] and their label.
+Run through player_text.py (it calls apply() after the R5 text); nothing here reads or writes a game or server folder.
+"""
+import re
+
+LAYOUT_FORMAT = 'RENOVICE_MISSION_LAYOUT_V1'
+CATEGORIES = ['Timers', 'Objectives', 'Enemies', 'Rewards / drops', 'Advanced']
+PATH_MAX = 40
+ROW_MAX = 33
+QUICK_MAX = 40
+DEFAULT_LABEL_MAX = 20
+ROW_BUDGET = 40          # "<row>: <default> (default)" on the value row
+DESCRIPTION_MAX = 200
+PLAYERS = [('p1', 'Solo'), ('p2', 'Duo'), ('p3', 'Trio'), ('p4', 'Squad')]
+
+# family -> (mission type, sub-entry or None, merged rank). Player-facing names only (never module names).
+TYPES = {
+    'alchemy': ('Alchemy', None), 'arbitration': ('Arbitration', None), 'archimedea': ('Archimedea', None),
+    'archwing': ('Archwing', None), 'ascension': ('Ascension', None), 'capture': ('Capture', None),
+    'circuit': ('The Circuit', None), 'coh_destroy_targets': ('Descendia', 'Destroy Targets'),
+    'coh_excavation': ('Descendia', 'Excavation'), 'coh_nemesis': ('Descendia', 'Nemesis'),
+    'cohinterception': ('Descendia', 'Mobile Interception'), 'colonistdoor': ('Colonist Door Defense', None),
+    'control_area_plains': ('Control Area', 'Plains of Eidolon (Cetus)'),
+    'control_area_deimos': ('Control Area', 'Cambion Drift (Deimos)'),
+    'control_area_nokko': ('Control Area', 'Deepmines (below Fortuna)'),
+    'defection': ('Defection', None), 'defense': ('Defense', None), 'disruption': ('Disruption', None),
+    'entrati_swarm': ('Entrati Swarm', None), 'escalation': ('Exterminate', None), 'excavation': ('Excavation', None),
+    'faceoff': ('Faceoff', None), 'fivefates': ('Five Fates', None), 'gamerules': ('All missions', None),
+    'hijack': ('Hijack', None), 'infested_capture': ('Legacyte Harvest', None),
+    'infested_salvage': ('Infested Salvage', None), 'interception': ('Interception', None), 'lantern': ('Lantern', None),
+    'loopdefend': ('Mirror Defense', None), 'meltdown': ('Meltdown', None), 'mobiledefense': ('Mobile Defense', None),
+    'multidefend': ('Hack-Station Defense', None), 'netracell': ('Netracell', None), 'orphix': ('Orphix Venom', None),
+    'purgatory': ('Purgatory', None), 'purge': ('Purge', None), 'pursuit': ('Pursuit', None), 'raid': ('Raid', None),
+    'rescue': ('Rescue', None), 'sentientcapture': ('Capture', None), 'sentientmd': ('Mobile Defense', None),
+    'server': ('Server', None), 'shrine': ('Descendia', 'Shrine Defense'), 'spy': ('Spy', None),
+    'survival': ('Survival', None), 'void_cascade': ('Void Cascade', None), 'void_flood': ('Void Flood', None),
+    'wf1999def': ('Defense', None),
+}
+# Families merged into another family's mission type sort right after it.
+MERGED = {'sentientcapture', 'sentientmd', 'wf1999def'}
+
+L = {}        # id -> {'path': [...], 'row': str, 'quick': str|None}
+ORDER = []    # display order (rank)
+
+
+def put(tid, path, row, quick=None):
+    if tid in L:
+        raise SystemExit(f'player_layout: {tid} placed twice')
+    L[tid] = {'path': list(path), 'row': row, 'quick': quick}
+    ORDER.append(tid)
+
+
+def players(fmt, path, ids=None):
+    for key, name in PLAYERS:
+        put(ids[key] if ids else fmt.format(key), path, name)
+
+
+# ---- Capture (+ Sentient Swarm Capture)
+players('capture.target_health_player_mult.{}', ['Capture', 'Objectives', 'Target health'])
+put('sentientcapture.swarm.area_swarm_size', ['Capture', 'Enemies'], 'Sentient swarm per area')
+
+# ---- Colonist Door Defense
+for n in (1, 2, 3):
+    put(f'colonistdoor.navbridge_thresholds.b{n}', ['Colonist Door Defense', 'Advanced'], f'Bridge {n} trigger')
+
+# ---- Control Area, by location
+put('control_area_plains.duration', ['Control Area', 'Plains of Eidolon (Cetus)', 'Timers'], 'Hold-zone time',
+    quick='Control Area (Plains): hold time')
+put('control_area_deimos.duration', ['Control Area', 'Cambion Drift (Deimos)', 'Timers'], 'Hold-zone time',
+    quick='Control Area (Cambion): hold time')
+put('control_area_nokko.duration', ['Control Area', 'Deepmines (below Fortuna)', 'Timers'], 'Hold-zone time')
+
+# ---- Defection
+players('defection.max_enemies.{}', ['Defection', 'Enemies', 'Max enemies at once'])
+players('defection.max_sim_ai.max_{}', ['Defection', 'Enemies', 'Max enemies at once', 'Hard nodes'],
+        ids={k: f'defection.max_sim_ai.max_{k}' for k, _ in PLAYERS})
+players('defection.max_sim_ai.min_{}', ['Defection', 'Enemies', 'Max enemies at once', 'Easy nodes'],
+        ids={k: f'defection.max_sim_ai.min_{k}' for k, _ in PLAYERS})
+
+# ---- Defense
+players('defense.simultaneous_enemies_duviri.max.{}', ['Defense', 'Enemies', 'Duviri: max enemies at once'])
+
+# ---- Descendia: Destroy Targets, Shrine Defense
+players('coh_destroy_targets.required_by_players.{}', ['Descendia', 'Destroy Targets', 'Objectives', 'Targets to destroy'])
+put('shrine.stage_time.offering', ['Descendia', 'Shrine Defense', 'Timers'], 'Offering stage time')
+SHRINE_STAGES = (('normal', 'offering', 'Offering stage'), ('normal', 'boss_part_2', 'Boss stage'),
+                 ('sp', 'offering', 'Steel Path offering'), ('sp', 'boss_part_2', 'Steel Path boss'))
+players('shrine.max_enemies.{}', ['Descendia', 'Shrine Defense', 'Enemies', 'Max enemies at once'])
+for tier, stage, name in SHRINE_STAGES:
+    for key, short in PLAYERS:
+        put(f'shrine.max_enemies.{tier}.{stage}.{key}',
+            ['Descendia', 'Shrine Defense', 'Enemies', 'Max enemies at once', name], f'Most at once ({short.lower()})')
+    for key, short in PLAYERS:
+        put(f'shrine.min_enemies.{tier}.{stage}.{key}',
+            ['Descendia', 'Shrine Defense', 'Enemies', 'Max enemies at once', name], f'Refill below ({short.lower()})')
+players('shrine.respawn_delay.{}', ['Descendia', 'Shrine Defense', 'Enemies', 'Time between waves'])
+for tier, stage, name in SHRINE_STAGES:
+    players(f'shrine.respawn_delay.{tier}.{stage}.{{}}', ['Descendia', 'Shrine Defense', 'Enemies', 'Time between waves', name])
+
+# ---- Disruption
+put('disruption.initial_spawn_delay', ['Disruption', 'Enemies'], 'First spawn delay')
+put('disruption.boss_health_multiplier', ['Disruption', 'Advanced'], 'Boss health multiplier')
+put('disruption.treasure_goblin.tier', ['Disruption', 'Advanced'], 'Lab: Demolyst tier')  # hidden (HIDE)
+
+# ---- Entrati Swarm
+for i in (1, 2, 3, 4):
+    put(f'entrati_swarm.eximus_by_scale.cap.area{i}', ['Entrati Swarm', 'Advanced', 'Max Eximus at once'], f'Area {i}')
+for i in (1, 2, 3, 4):
+    put(f'entrati_swarm.eximus_by_scale.chance.area{i}', ['Entrati Swarm', 'Advanced', 'Eximus chance'], f'Area {i}')
+
+# ---- Excavation (the master drives the three variants; the literal rows are built from it, never declared)
+put('excavation.dig_time', ['Excavation', 'Timers'], 'Excavator dig time', quick='Excavation: dig time')
+put('excavation.dig_duration', ['Excavation', 'Timers', 'Dig time by variant'], 'Standard')
+put('excavation.dig_duration_elite_alert', ['Excavation', 'Timers', 'Dig time by variant'], 'Elite Alert')
+put('excavation.dig_duration_old_world_salvage', ['Excavation', 'Timers', 'Dig time by variant'], 'Old World Salvage')
+
+# ---- Exterminate (1999 Escalation)
+players('escalation.keys_per_players.{}', ['Exterminate', 'Objectives', '1999 Escalation: keys needed'])
+
+# ---- Faceoff
+put('faceoff.defense_escort.initial_defense_time', ['Faceoff', 'Timers'], 'Defense timer')
+put('faceoff.defense_escort.initial_escort_time', ['Faceoff', 'Timers'], 'Escort timer')
+put('faceoff.excavation.excavation_time', ['Faceoff', 'Timers'], 'Excavation timer')
+put('faceoff.exterminate_kills', ['Faceoff', 'Objectives', 'Exterminate: kills needed'], 'Fixed number')
+put('faceoff.exterminate_kill_goal.max', ['Faceoff', 'Objectives', 'Exterminate: kills needed'], 'Random range: highest')
+put('faceoff.exterminate_kill_goal.min', ['Faceoff', 'Objectives', 'Exterminate: kills needed'], 'Random range: lowest')
+put('faceoff.delivery.target_goal_keys', ['Faceoff', 'Objectives'], 'Delivery: keys to deliver')
+put('faceoff.delivery.enemy_kill_goal', ['Faceoff', 'Objectives'], 'Delivery: kills per key')
+put('faceoff.assassination.kill_goal', ['Faceoff', 'Objectives'], 'Assassination: targets')
+players('faceoff.max_enemies.{}', ['Faceoff', 'Enemies', 'Max enemies at once'])
+players('faceoff.spawn_params.maxenemies_{}', ['Faceoff', 'Enemies', 'Max enemies at once', 'Level 30 and up'],
+        ids={k: f'faceoff.spawn_params.maxenemies_{k}' for k, _ in PLAYERS})
+players('faceoff.spawn_params.minenemies_{}', ['Faceoff', 'Enemies', 'Max enemies at once', 'Lowest level'],
+        ids={k: f'faceoff.spawn_params.minenemies_{k}' for k, _ in PLAYERS})
+players('faceoff.assassination.enemy_health_mult_{}', ['Faceoff', 'Advanced', 'Assassination target health'],
+        ids={k: f'faceoff.assassination.enemy_health_mult_{k}' for k, _ in PLAYERS})
+for page, tid, row in (('Escort objective', 'faceoff.defense_escort.catalysts_spawn_time', 'Catalyst spawn time'),
+                       ('Escort objective', 'faceoff.defense_escort.min_catalysts', 'Fewest catalysts'),
+                       ('Escort objective', 'faceoff.defense_escort.max_catalysts', 'Most catalysts'),
+                       ('Escort objective', 'faceoff.defense_escort.catalyst_bonus_time_pct', 'Catalyst time bonus'),
+                       ('Delivery objective', 'faceoff.delivery.max_keys', 'Keys at once'),
+                       ('Delivery objective', 'faceoff.delivery.key_self_destruction_time', 'Key self-destruct time'),
+                       ('Delivery objective', 'faceoff.delivery.eximus_chance', 'Eximus chance'),
+                       ('Excavation objective', 'faceoff.excavation.carrier_spawn_time', 'Carrier spawn time'),
+                       ('Excavation objective', 'faceoff.excavation.decreased_time_per_cell', 'Time cut per cell'),
+                       ('Excavation objective', 'faceoff.excavation.max_num_cells_available', 'Cells at once'),
+                       ('Excavation objective', 'faceoff.excavation.max_power', 'Most power'),
+                       ('Excavation objective', 'faceoff.excavation.power_drain_rate', 'Power drain per second'),
+                       ('Excavation objective', 'faceoff.excavation.power_per_cell', 'Power per cell'),
+                       ('Enemy spawns', 'faceoff.spawn_params.tier_up_interval', 'Tiers per objective step'),
+                       ('Enemy spawns', 'faceoff.spawn_params.max_tier', 'Highest enemy tier'),
+                       ('Enemy spawns', 'faceoff.spawn_params.min_spawn_dist', 'Nearest spawn distance'),
+                       ('Enemy spawns', 'faceoff.spawn_params.max_spawn_dist', 'Farthest spawn distance')):
+    put(tid, ['Faceoff', 'Advanced', page], row)
+
+# ---- Five Fates (Cetus)
+for n, name in ((1, 'Offering'), (2, 'Defend huts'), (3, 'Swarm'), (4, 'Boss part 1'), (5, 'Boss part 2')):
+    put(f'fivefates.state_times.state{n}', ['Five Fates', 'Timers'], f'{name} stage time')
+
+# ---- Infested Salvage
+players('infested_salvage.spawn_caps_by_players.max_ai.{}', ['Infested Salvage', 'Enemies', 'Max enemies at once'])
+players('infested_salvage.spawn_caps_by_players.spawn_delay.{}', ['Infested Salvage', 'Enemies', 'Time between spawns'])
+players('infested_salvage.spawn_caps_by_players.max_source_ai.{}', ['Infested Salvage', 'Advanced', 'Enemies per spawn point'])
+
+# ---- Lantern
+put('lantern.tier_up_interval', ['Lantern', 'Timers'], 'Enemy tier-up time')
+players('lantern.num_enemies.{}', ['Lantern', 'Enemies', 'Max enemies at once'])
+players('lantern.radius_per_kill.{}', ['Lantern', 'Advanced', 'Lamp radius per kill'])
+put('lantern.max_tier', ['Lantern', 'Advanced'], 'Highest enemy tier')
+for c in ('b', 'm', 'p', 'v'):
+    put(f'lantern.lamp_decay.{c}', ['Lantern', 'Advanced', 'Lamp fade curve'], f'Value {c}')
+
+# ---- Mirror Defense
+players('loopdefend.max_enemies.{}', ['Mirror Defense', 'Enemies', 'Max enemies at once'])
+for key, name in (('maxNum', 'Most (regular)'), ('minNum', 'Fewest (regular)'), ('maxNumInfested', 'Most (Infested)'),
+                  ('minNumInfested', 'Fewest (Infested)')):
+    players(f'loopdefend.enemy_counts.{key}.{{}}', ['Mirror Defense', 'Enemies', 'Max enemies at once', name])
+CRYSTAL = ['Mirror Defense', 'Advanced', 'Crystal clusters']
+for key, short in PLAYERS:
+    put(f'loopdefend.crystal_cluster.enemyKillCountThreshold.{key}', CRYSTAL, f'Kills per cluster ({short.lower()})')
+for tid, row in (('groupsToSpawnAtWaveStart', 'Groups at phase start'), ('groupsToSpawnPerKillThreshold', 'Groups per kill goal'),
+                 ('clusterSpawnCooldown', 'Cluster cooldown'), ('flashingTimeBeforeDespawn', 'Flash before despawn'),
+                 ('enemyKillOnTunnelInterval', 'Tunnel kill interval')):
+    put(f'loopdefend.crystal_cluster.{tid}', CRYSTAL, row)
+TARGET = ['Mirror Defense', 'Advanced', 'Target damage and pickups']
+for tid, row in (('objectiveDamage', 'Base damage over time'), ('pauseDotTime', 'Pause after pickup'),
+                 ('damagePerPickup', 'Damage per pickup'), ('healPercentage', 'Pickup heal fraction'),
+                 ('pickupSpawnRateModifier', 'Pickup spawn rate'), ('pickupThresholdModifier', 'Pickup threshold')):
+    put(f'loopdefend.objective_dot.{tid}', TARGET, row)
+LEVEL = ['Mirror Defense', 'Advanced', 'Enemy level']
+for tid, row in (('levelUpTime', 'Time to reach max level'), ('enrageTime', 'Extra levels start at'),
+                 ('enrageInterval', 'Seconds per extra level'), ('enrageIntervalMin', 'Fastest seconds per level'),
+                 ('enrageIntervalScale', 'Extra level speed-up'), ('alertLevelMaxBoost', 'Alert missions: level boost'),
+                 ('sortieLevelMaxBoost', 'Sortie: level boost')):
+    put(f'loopdefend.level_and_enrage.{tid}', LEVEL, row)
+EXIMUS = ['Mirror Defense', 'Advanced', 'Eximus']
+for tid, row in (('exStartTime', 'Ramp start'), ('exPeakTime', 'Ramp peak'), ('exMinChance', 'Chance at start'),
+                 ('exMaxChance', 'Chance at peak'), ('override_exPeakTime', 'Event: ramp peak'),
+                 ('override_exMinChance', 'Event: chance at start'), ('override_exMaxChance', 'Event: chance at peak')):
+    put(f'loopdefend.eximus.{tid}', EXIMUS, row)
+players('loopdefend.eximus.override_ex_max_spawn.{}', EXIMUS + ['Event: max Eximus at once'])
+
+# ---- Mobile Defense (+ Sentient Mobile Defense)
+put('mobiledefense.time_per_terminal', ['Mobile Defense', 'Timers'], 'Time per terminal',
+    quick='Mobile Defense: time per terminal')
+put('mobiledefense.total_time.maximum', ['Mobile Defense', 'Timers', 'Total terminal time'], 'Hard nodes')
+put('mobiledefense.total_time.minimum', ['Mobile Defense', 'Timers', 'Total terminal time'], 'Easy nodes')
+players('mobiledefense.max_enemies.{}', ['Mobile Defense', 'Enemies', 'Max enemies at once'])
+players('mobiledefense.enemy_counts.max.{}', ['Mobile Defense', 'Enemies', 'Max enemies at once', 'Hard nodes'])
+players('mobiledefense.enemy_counts.min.{}', ['Mobile Defense', 'Enemies', 'Max enemies at once', 'Easy nodes'])
+players('sentientmd.max_sim_ai.{}', ['Mobile Defense', 'Enemies', 'Sentient Anomaly: max enemies'])
+
+# ---- Orphix Venom
+put('orphix.spawn_interval', ['Orphix Venom', 'Timers', 'Time between Orphix spawns'], 'All variants',
+    quick='Orphix Venom: time between spawns')
+put('orphix.orphix_interval.interval', ['Orphix Venom', 'Timers', 'Time between Orphix spawns'], 'Normal')
+put('orphix.orphix_interval.eventInterval', ['Orphix Venom', 'Timers', 'Time between Orphix spawns'], 'Orphix event')
+put('orphix.max_rounds_railjack', ['Orphix Venom', 'Objectives'], 'Railjack: round limit')
+put('orphix.orphix_interval.condrixCap', ['Orphix Venom', 'Enemies'], 'Max Orphix at once')
+put('orphix.reward_interval', ['Orphix Venom', 'Rewards / drops'], 'Rounds per reward')
+put('orphix.score_add_per_round', ['Orphix Venom', 'Advanced'], 'Score per round')
+
+# ---- Purgatory
+for i in range(1, 7):
+    put(f'purgatory.reward_kill_threshold.t{i}', ['Purgatory', 'Rewards / drops', 'Kills for reward tier'], f'Tier {i}')
+for i in (1, 2, 3):
+    for tid, row in (('warrior_level', 'Warrior level'), ('ghost_level', 'Ghost level'), ('damage_mult', 'Enemy damage')):
+        put(f'purgatory.difficulty{i}.{tid}', ['Purgatory', 'Advanced', f'Difficulty {i}'], row)
+
+# ---- Purge
+for i in (1, 2, 3):
+    put(f'purge.alert_tiers.tier{i}_multiplier', ['Purge', 'Advanced', 'Alert missions: spawn speed'], f'Tier {i}')
+
+# ---- Survival
+put('survival.reward_interval', ['Survival', 'Timers'], 'Time between rewards', quick='Survival: time between rewards')
+put('survival.alert_interval', ['Survival', 'Timers'], 'Alert mission length')
+LIFE = ['Survival', 'Timers', 'Life support']
+for tid, row in (('capsule_initial_time', 'At mission start'), ('capsule_max_time', 'Capacity at 100%'),
+                 ('capsule_time_added', 'Added per capsule'), ('pickup_time_added', 'Added per pickup'),
+                 ('capsule_interval', 'Time between capsules'), ('capsule_incoming_time', 'Capsule warning time'),
+                 ('player_damage_at_zero_ls.killPlayerTime', 'Time at 0% before death')):
+    put(f'survival.{tid}', LIFE, row)
+DROPS = ['Survival', 'Rewards / drops']
+for tid, row in (('pickup_drop_low_high_mult.lowDropMultiplier', 'Pickup drops when low'),
+                 ('pickup_drop_low_high_mult.lowSpawnThreshold', 'Low life support mark'),
+                 ('pickup_drop_low_high_mult.highDropMultiplier', 'Pickup drops when high'),
+                 ('pickup_drop_low_high_mult.highSpawnThreshold', 'High life support mark'),
+                 ('alert_ls_drop_mult', 'Alert: pickup drops'), ('duviri_drop_mults.duviriSurvivalMultiplier', 'Duviri: pickup drops'),
+                 ('duviri_drop_mults.duviriQuestMultiplier', 'Duviri quest: drops'),
+                 ('wf99_drop_mults.wf99SurvivalMultiplier', '1999: pickup drops'),
+                 ('wf99_drop_mults.wf99SurvivalQuestMultiplier', '1999 quest: pickup drops')):
+    put(f'survival.{tid}', DROPS, row)
+put('survival.pickup_reward_progress', ['Survival', 'Advanced'], 'Reward clock per pickup')
+put('survival.player_damage_at_zero_ls.playerDamagePercent', ['Survival', 'Advanced'], 'Damage at 0%')
+SLEVEL = ['Survival', 'Advanced', 'Enemy level']
+for tid, row in (('level_up_enrage.levelUpTime', 'Time to reach max level'),
+                 ('level_up_enrage.enrageTime', 'Extra levels start at'),
+                 ('level_up_enrage.enrageInterval', 'Seconds per extra level'),
+                 ('level_up_enrage.enrageIntervalMin', 'Fastest seconds per level'),
+                 ('level_up_enrage.enrageIntervalScale', 'Extra level speed-up'),
+                 ('kuva_level_enrage.levelUpTime', 'Kuva: time to max level'),
+                 ('kuva_level_enrage.enrageTime', 'Kuva: extra levels at'),
+                 ('level_max_boost.alertLevelMaxBoost', 'Alert missions: level boost'),
+                 ('level_max_boost.sortieLevelMaxBoost', 'Sortie: level boost')):
+    put(f'survival.{tid}', SLEVEL, row)
+
+# ---- Void Cascade
+put('void_cascade.pillar_duration', ['Void Cascade', 'Timers'], 'Exolizer defense time',
+    quick='Void Cascade: exolizer defense time')
+players('void_cascade.circle_fixed_length.{}', ['Void Cascade', 'Objectives', 'The Circuit: exolizers to finish'])
+put('void_cascade.alert_reward_interval', ['Void Cascade', 'Rewards / drops'], 'Alert: reward interval')
+
+# ---- Void Flood
+put('void_flood.fill_timer.timeToFillMax', ['Void Flood', 'Timers'], 'Tank fill time')
+put('void_flood.fill_timer.timeToFillMin', ['Void Flood', 'Timers'], 'Shortest tank fill time')
+put('void_flood.fractures_per_round.normal', ['Void Flood', 'Objectives'], 'Fractures per round',
+    quick='Void Flood: fractures per round')
+put('void_flood.fill_timer.curveScaleV', ['Void Flood', 'Advanced'], 'Fill time shrink')
+put('void_flood.curse_count.curseCountNormal', ['Void Flood', 'Advanced'], 'Curses')
+put('void_flood.curse_count.curseCountSteelPath', ['Void Flood', 'Advanced'], 'Steel Path: curses')
+put('void_flood.curse_count.playerCapacity', ['Void Flood', 'Advanced'], 'Void energy capacity')
+put('void_flood.fractures_per_round.shadowgrapher', ['Void Flood', 'Advanced'], 'Shadowgrapher: fractures')
+
+
+# ------------------------------------------------------------------------------------------------ descriptions
+# R7 tooltips: one or two short plain sentences; no stock number (the row shows the default), no precedence jargon, no
+# script constant names, node lists or MT codes. Built from the R5 text (player_text.py) with these rules, then OVERRIDE.
+MASTER_SENTENCE = 'the variants below override it'
+VARIANT_SENTENCE = 'overrides the value above for this case'
+UNTRACED = 'its exact effect is not confirmed in the game code'
+OVERRIDE = {    # id -> full description
+    'survival.pickup_reward_progress': 'Old preset option, not a game value: seconds added to the reward clock per pickup '
+                                       '(0 = off).',
+    'disruption.boss_health_multiplier': 'Health multiplier of the Disruption boss in the Double Trouble variant.',
+    'survival.reward_interval': 'Seconds between rewards in endless Survival, including Steel Path, Kuva and Void Eclipse. '
+                                'Alert missions end at the alert mission length instead.',
+    'faceoff.exterminate_kills': 'Kills to finish the Faceoff Exterminate objective (the game picks a random number between '
+                                 'the two ends below). This sets both ends; an end you change keeps its value.',
+    'mobiledefense.time_per_terminal': 'Upload time of each Mobile Defense terminal on every node. The default depends on node '
+                                       'difficulty (78-104 s on Archwing against Grineer).',
+    'excavation.dig_time': 'Seconds each excavator digs in every Excavation variant. The default is 100 s, 140 s on Elite '
+                           'Alerts and 60 s in Old World Salvage.',
+    'faceoff.spawn_params.tier_up_interval': 'Enemy tiers gained per Faceoff objective step (the highest tier is 5).',
+    'void_cascade.pillar_duration': 'Seconds each exolizer must be defended in Void Cascade. The Circuit uses its own timer.',
+    'purgatory.reward_kill_threshold.t1': 'Kills for reward tier 1 in the Granum Void. Solo earns at tiers 1 to 3; each extra '
+                                          'player moves the rewards up one tier.',
+}
+for _i in range(2, 7):
+    OVERRIDE[f'purgatory.reward_kill_threshold.t{_i}'] = OVERRIDE['purgatory.reward_kill_threshold.t1'].replace('tier 1 in', f'tier {_i} in')
+# Registry fields corrected by the 2026-09-30 defaults audit (meaning, unit).
+UNIT = {'faceoff.spawn_params.tier_up_interval': ''}
+# Values the audit found unsafe to offer: never declared (reason recorded in ui.hidden).
+HIDE = {'disruption.treasure_goblin.tier': 'defaults audit 2026-09-30: an id the game matches against the mission enemy list, '
+                                           'not a strength; any other value switches treasure Demolysts off'}
+# Defaults audit (2026-09-30, 294 values against the 44.0.2 decompile: 262 single numbers, 32 ranges or formulas, no
+# stock wrong). `label`: the default as the player sees it (the row shows it instead of the one stock number); `note`:
+# the phrase the tooltip adds.
+DEFAULTS = {}
+for _key, _label in (('p1', '7-10'), ('p2', '12-16'), ('p3', '17-22'), ('p4', '22-28')):
+    DEFAULTS[f'defection.max_enemies.{_key}'] = {'label': _label, 'note': 'Depends on node difficulty'}
+for _key in ('p1', 'p2', 'p3', 'p4'):
+    DEFAULTS[f'defense.simultaneous_enemies_duviri.max.{_key}'] = {
+        'label': None, 'note': 'Fewer below enemy level 30; Steel Path uses the squad value'}
+for _key, _label in (('p1', '7-20'), ('p2', '9-25'), ('p3', '14-30'), ('p4', '19-35')):
+    DEFAULTS[f'shrine.max_enemies.{_key}'] = {'label': _label, 'note': 'Depends on the stage and Steel Path'}
+for _key, _label in (('p1', '9-15 s'), ('p2', '9-14 s'), ('p3', '8-13 s'), ('p4', '7-12 s')):
+    DEFAULTS[f'shrine.respawn_delay.{_key}'] = {'label': _label, 'note': 'Depends on the stage and Steel Path'}
+DEFAULTS['excavation.dig_time'] = {'label': '60-140 s', 'note': '100 s normally, 140 s on Elite Alerts and 60 s in Old World Salvage'}
+DEFAULTS['faceoff.exterminate_kills'] = {'label': '130-160', 'note': 'The game picks a random number in this range'}
+for _key in ('p1', 'p2', 'p3'):
+    DEFAULTS[f'faceoff.max_enemies.{_key}'] = {'label': None, 'note': 'Steel Path uses the squad value'}
+for _key, _label in (('p1', '8-18'), ('p2', '15-25'), ('p3', '25-30'), ('p4', '30-35')):
+    DEFAULTS[f'loopdefend.max_enemies.{_key}'] = {'label': _label, 'note': 'Steel Path uses the squad value'}
+DEFAULTS['mobiledefense.time_per_terminal'] = {'label': '60-80 s', 'note': 'Depends on node difficulty (78-104 s on Archwing against Grineer)'}
+DEFAULTS['orphix.spawn_interval'] = {'label': None, 'note': 'The default is 50 s, 90 s during the Orphix Venom event'}
+DEFAULTS['survival.alert_interval'] = {'label': None, 'note': 'Used only when the mission sets no length (then mission minutes x 60)'}
+
+DEFAULTS['survival.capsule_interval'] = {'label': None, 'note': 'Duviri Survival likely uses its own value'}
+DEFAULTS['survival.pickup_time_added'] = {'label': None, 'note': 'Duviri Survival likely uses its own value'}
+DEFAULTS['void_flood.fractures_per_round.normal'] = {'label': None, 'note': 'Duviri Void Flood uses 5'}
+DEFAULTS['control_area_plains.duration'] = {'label': None, 'note': 'Cetus and Narmer bounties on the Plains'}
+DEFAULTS['control_area_deimos.duration'] = {'label': None, 'note': 'Necralisk bounties, including endless Area Defense'}
+
+
+def _strip(text):
+    text = re.sub(r'\s*\((script constant [A-Z_]+|constant name[^)]*)\)', '', text)
+    untraced = bool(re.search(r'not (fully )?traced|not decoded|inferred|exact use', text))
+    text = re.sub(r'\s*\((?:[^()]*?)(effect not traced|exact use not traced|use not traced|unit inferred from the code|'
+                  r'warning use inferred|constant name)[^()]*\)', '', text)
+    text = re.sub(r';\s*(effect of the trigger not traced|which boss types use it is not fully traced|'
+                  r'the exact formula is not decoded)', '', text)
+    for rule in ('a ticked Advanced row wins', 'wins over the main knob'):
+        text = text.replace('; ' + rule, '').replace(', ' + rule, '')
+    text = text.replace('; not Alert missions', ' (not Alert missions)')
+    text = text.replace(';', ',').strip().rstrip(',')
+    return text, untraced
+
+
+def describe(tid, r5_text, master=False, variant=False, has_variants=True):
+    if tid in OVERRIDE:
+        return OVERRIDE[tid]
+    text, untraced = _strip(r5_text)
+    first = text[0].upper() + text[1:]
+    extra = []
+    if tid in DEFAULTS and DEFAULTS[tid].get('note'):
+        extra.append(DEFAULTS[tid]['note'])
+    if master and has_variants:
+        extra.append(MASTER_SENTENCE)
+    elif variant:
+        extra.append(VARIANT_SENTENCE)
+    elif untraced:
+        extra.append(UNTRACED)
+    out = first.rstrip('.') + '.'
+    if extra:
+        second = '; '.join(extra)
+        out += ' ' + second[0].upper() + second[1:] + '.'
+    return out
+
+
+# ------------------------------------------------------------------------------------------------ gates
+BANNED_TOKENS = re.compile(r'\bMT_[A-Z_]+|\b[A-Z][A-Z0-9]*_[A-Z0-9_]+\b|\b[a-z0-9_]+\.[a-z0-9_]+\b|SolNode|frame_|proto')
+CAMEL = re.compile(r'\b[a-z]+[A-Z][A-Za-z]*\b')
+
+
+def text_ok(text, maximum, slash=True):
+    return bool(text) and len(text) <= maximum and all(0x20 <= ord(c) < 0x7f for c in text) and text == text.strip() \
+        and '::' not in text and (slash or '/' not in text) and not text.endswith(':')
+
+
+def safe_row(label):
+    label = ' '.join(label.split())
+    if len(label) <= ROW_MAX:
+        return label
+    cut = label[:ROW_MAX + 1].rsplit(' ', 1)[0].rstrip(' ,;:(-/')
+    return cut or label[:ROW_MAX]
+
+
+def description_problems(where, text):
+    problems = []
+    if not text or len(text) > DESCRIPTION_MAX or not all(0x20 <= ord(c) < 0x7f for c in text):
+        problems.append(f'{where}: description empty, not printable ASCII or over {DESCRIPTION_MAX} characters: {text!r}')
+    sentences = [s for s in re.split(r'(?<=[.!?])\s+', text.strip()) if s]
+    if len(sentences) > 2:
+        problems.append(f'{where}: description has {len(sentences)} sentences (at most 2): {text!r}')
+    if BANNED_TOKENS.search(text) or CAMEL.search(text):
+        problems.append(f'{where}: description carries an internal id, code token or MT code: {text!r}')
+    if text.count(',') > 3:
+        problems.append(f'{where}: description reads like a list ({text.count(",")} commas): {text!r}')
+    if 'stock' in text.lower():
+        problems.append(f'{where}: description says "stock" (the UI says Default): {text!r}')
+    return problems
+
+
+def fmt(x):
+    return str(int(x)) if float(x).is_integer() else f'{x:.6g}'
+
+
+def with_unit(value, unit):
+    return fmt(value) + (unit if unit == 'x' else (' ' + unit if unit else ''))
+
+
+def family_order(groups):
+    """Mission types alphabetical; merged families right after their host; advanced group = main + 5."""
+    families = sorted({gid[:-len('_advanced')] if gid.endswith('_advanced') else gid for gid in groups},
+                      key=lambda f: (TYPES.get(f, (groups.get(f, {}).get('label', f), None))[0].lower(),
+                                     (TYPES.get(f, (None, None))[1] or '').lower(), f in MERGED, f))
+    return {f: 10 * (i + 1) for i, f in enumerate(families)}
+
+
+def apply(rows, groups, masters):
+    """R7 layout onto registry rows (list), ui_groups (dict) and ui_masters (dict), in place. Returns meta."""
+    by_id = {r['tunable_id']: r for r in rows}
+    problems = []
+    shown = {r['tunable_id'] for r in rows if r['ui'].get('label_source') == 'player_text'} | set(masters)
+    for tid in shown:
+        if tid not in L:
+            problems.append(f'{tid}: shown value without an R7 layout entry')
+    for tid in L:
+        if tid not in by_id and tid not in masters:
+            problems.append(f'{tid}: layout entry for an unknown value')
+    orders = family_order(groups)
+    for gid, group in groups.items():
+        family = gid[:-len('_advanced')] if gid.endswith('_advanced') else gid
+        group['order'] = orders[family] + (5 if gid.endswith('_advanced') else 0)
+    rank = {tid: n for n, tid in enumerate(ORDER)}
+    uis = [(r['tunable_id'], r['ui'], r.get('stock'), False) for r in rows] + \
+          [(mid, m, m['stock'], True) for mid, m in masters.items()]
+    drivers = {d['tunable_id']: mid for mid, m in masters.items() for d in m['drives']}
+    for tid, ui, stock, is_master in uis:
+        family = tid.split('.')[0]
+        mission, sub = TYPES.get(family, (family, None))
+        entry = L.get(tid)
+        if entry is None:
+            # Never in a full package (player text only); a small build may still declare it.
+            path = [mission] + ([sub] if sub else []) + ['Advanced']
+            row, quick = safe_row(ui['short_label']), None
+        else:
+            path, row, quick = entry['path'], entry['row'], entry['quick']
+        category = next((p for p in path if p in CATEGORIES), 'Advanced')
+        ui['path'] = path
+        ui['row'] = row
+        if quick:
+            ui['quick'] = quick
+        else:
+            ui.pop('quick', None)
+        ui['rank'] = rank.get(tid, 100000 + (ui.get('rank') or 0))
+        base_group = ui['group'][:-len('_advanced')] if ui['group'].endswith('_advanced') else ui['group']
+        want = base_group + ('_advanced' if category == 'Advanced' and not is_master else '')
+        if want not in groups:
+            base = groups[base_group]
+            groups[want] = {k: v for k, v in base.items()}
+            groups[want].update({'label': base['label'] + ': advanced', 'order': base['order'] + 5, 'advanced_of': base_group})
+        ui['group'] = want
+        if DEFAULTS.get(tid, {}).get('label'):
+            ui['default_label'] = DEFAULTS[tid]['label']
+        else:
+            ui.pop('default_label', None)
+        if tid in UNIT:
+            ui['unit'] = UNIT[tid]
+        if tid in HIDE:
+            ui['hidden'] = HIDE[tid]
+        # player_text.apply() has just rewritten scope_text with the R5 sentence; keep it for the record.
+        if ui.get('label_source') == 'player_text':
+            ui['r5_scope_text'] = ui['scope_text']
+        r5 = ui.get('r5_scope_text', ui['scope_text'])
+        r5_text = r5[:r5.rfind('; stock ')] if '; stock ' in r5 else r5
+        if ui.get('label_source') == 'player_text':
+            ui['scope_text'] = describe(tid, r5_text, master=is_master, variant=tid in drivers,
+                                        has_variants=is_master and ui.get('lane') == 'addon')
+        # gates
+        where = tid
+        for i, element in enumerate(path):
+            if not text_ok(element, PATH_MAX, slash=element == 'Rewards / drops'):
+                problems.append(f'{where}: path element {element!r} is empty, padded, over {PATH_MAX}, has "::" or "/"')
+        if not text_ok(row, ROW_MAX):
+            problems.append(f'{where}: row {row!r} is empty, padded, over {ROW_MAX} or has "::"')
+        if quick and not text_ok(quick, QUICK_MAX):
+            problems.append(f'{where}: quick label {quick!r} over budget')
+        if ui.get('label_source') == 'player_text' and stock is not None:
+            shown_default = ui.get('default_label') or with_unit(stock, ui['unit'])
+            if len(f'{row}: {shown_default} (default)') > ROW_BUDGET:
+                problems.append(f'{where}: value row "{row}: {shown_default} (default)" is over {ROW_BUDGET} characters')
+            problems += description_problems(where, ui['scope_text'])
+        if ui.get('default_label') and not text_ok(ui['default_label'], DEFAULT_LABEL_MAX):
+            problems.append(f'{where}: default label over budget')
+    # (path, row) unique; a page never holds a value row and a page of the same name
+    seen = {}
+    for tid, ui, _, _ in uis:
+        if ui.get('label_source') != 'player_text' and tid not in masters:
+            continue
+        key = (tuple(ui['path']), ui['row'].lower())
+        if key in seen:
+            problems.append(f'{tid}: row {ui["row"]!r} on page {" > ".join(ui["path"])} also used by {seen[key]}')
+        seen[key] = tid
+    pages = {tuple(ui['path'][:i]) for tid, ui, _, _ in uis for i in range(1, len(ui['path']) + 1)}
+    for tid, ui, _, _ in uis:
+        if tuple(ui['path']) + (ui['row'],) in pages:
+            problems.append(f'{tid}: row {ui["row"]!r} has the same name as a page next to it')
+    if problems:
+        raise SystemExit('R7 layout gate failures:\n  ' + '\n  '.join(problems[:60]))
+    return {'format': LAYOUT_FORMAT, 'categories': CATEGORIES, 'path_max': PATH_MAX, 'row_max': ROW_MAX,
+            'quick_max': QUICK_MAX, 'default_label_max': DEFAULT_LABEL_MAX, 'row_budget': ROW_BUDGET,
+            'description_max': DESCRIPTION_MAX, 'placed': len(L), 'types': TYPES}

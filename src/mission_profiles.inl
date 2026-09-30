@@ -476,9 +476,14 @@ std::string settings_rendered_tooltip(const double stock, const std::string& uni
 
 bool player_text_word_char(const char c) { return std::isalnum(static_cast<unsigned char>(c)) || c == '_'; }
 
+std::vector<std::string> r7_description_problems(const std::string& where, const std::string& text);
+
+// R7 (`layout_r7`): the description is the short player sentence of the page tree (r7_description_problems) instead of
+// the R5 sentence that ends with the stock value; every other rule is unchanged.
 std::vector<std::string> player_text_problems(const std::string& where, const std::string& label, const std::string& unit,
                                               const double stock, const double low, const double high,
-                                              const std::string& description, const std::string& lane) {
+                                              const std::string& description, const std::string& lane,
+                                              const bool layout_r7 = false) {
     std::vector<std::string> problems;
     const auto token_problems = [&](const std::string& text, const std::string& what) {
         for (const auto& word : player_text_banned_words())
@@ -510,6 +515,10 @@ std::vector<std::string> player_text_problems(const std::string& where, const st
     if (description.empty() || description.size() > kSettingsScopeMaximum || !settings_printable(description))
         problems.push_back(where + ": description is empty, not printable ASCII or over 256 characters");
     token_problems(description, "description");
+    if (layout_r7) {
+        for (const auto& problem : r7_description_problems(where, description)) problems.push_back(problem);
+        return problems;
+    }
     const std::string head = "stock " + settings_display_number(stock);
     const auto at = description.find(head);
     if (at == std::string::npos) {
@@ -534,6 +543,95 @@ std::vector<std::string> player_text_problems(const std::string& where, const st
 const Json* mission_master(const Json& registry, const std::string& id) {
     if (!registry.contains("ui_masters") || !registry.at("ui_masters").contains(id)) return nullptr;
     return &registry.at("ui_masters").at(id);
+}
+
+// Contract R7 (CONTRACT_PHASE1.md, 2026-09-30): the SCRIPT SETTINGS page tree. Every declared value carries `path` (the
+// pages below the package page: mission type, optional location or mode, category, optional set) and `row` (its row
+// text on the last page); headline values carry `quick` (their Quick settings label) and range defaults
+// `default_label`. The registry holds the full path (RESEARCH/.../tools/player_layout.py); a package build drops a
+// category level whose parent page would hold that one category only (r7_collapse_paths). Descriptions (`scope`) are
+// one or two short plain sentences: no stock number (the row shows the default), no node lists, codes or ids.
+constexpr const char* kLayoutFormat = "RENOVICE_MISSION_LAYOUT_V1";
+constexpr std::size_t kPathDepthMaximum = 6;       // bootstrapper settings_core.hpp maximum_path_depth
+constexpr std::size_t kPathTextMaximum = 40;       // maximum_path_text
+constexpr std::size_t kRowTextMaximum = 33;        // maximum_row_text
+constexpr std::size_t kQuickLabelMaximum = 40;     // maximum_quick_label
+constexpr std::size_t kDefaultLabelMaximum = 20;   // maximum_default_label
+constexpr std::size_t kDescriptionMaximumR7 = 200;
+const std::vector<std::string>& r7_categories() {
+    static const std::vector<std::string> names{"Timers", "Objectives", "Enemies", "Rewards / drops", "Advanced"};
+    return names;
+}
+bool r7_category(const std::string& name) {
+    const auto& names = r7_categories();
+    return std::find(names.begin(), names.end(), name) != names.end();
+}
+
+// Layout text as the bootstrapper parses it (printable, not padded), plus the R7 producer rules: no "::" and no
+// dangling colon (the live R5 defects "Disruption::" and "Control Area: 1 value" came from cut labels).
+bool r7_text(const std::string& text, const std::size_t maximum) {
+    return !text.empty() && text.size() <= maximum && settings_printable(text) && text.front() != ' ' && text.back() != ' ' &&
+           text.find("::") == std::string::npos && text.back() != ':';
+}
+
+std::vector<std::string> r7_description_problems(const std::string& where, const std::string& text) {
+    std::vector<std::string> problems;
+    if (text.empty() || text.size() > kDescriptionMaximumR7 || !settings_printable(text))
+        problems.push_back(where + ": description is empty, not printable ASCII or over 200 characters");
+    std::size_t sentences = 0;
+    for (std::size_t at = 0; at < text.size(); ++at)
+        if ((text[at] == '.' || text[at] == '!' || text[at] == '?') && (at + 1 == text.size() || text[at + 1] == ' ')) ++sentences;
+    if (sentences == 0 || sentences > 2) problems.push_back(where + ": description is not one or two sentences");
+    static const std::regex internal("MT_[A-Z_]+|\\b[A-Z][A-Z0-9]*_[A-Z0-9_]+\\b|\\b[a-z0-9_]+\\.[a-z0-9_]+\\b|SolNode|frame_|proto");
+    static const std::regex camel("\\b[a-z]+[A-Z][A-Za-z]*\\b");
+    if (std::regex_search(text, internal) || std::regex_search(text, camel))
+        problems.push_back(where + ": description carries an internal id, code token or MT code");
+    if (std::count(text.begin(), text.end(), ',') > 3) problems.push_back(where + ": description reads like a list (more than 3 commas)");
+    std::string lower = text;
+    std::transform(lower.begin(), lower.end(), lower.begin(), [](const unsigned char c) { return static_cast<char>(std::tolower(c)); });
+    if (lower.find("stock") != std::string::npos) problems.push_back(where + ": description says \"stock\" (the menu says Default)");
+    return problems;
+}
+
+// Drops a category level whose parent page would hold that one category only (and no other page). Deterministic over
+// the declared set; the bootstrapper renders whatever paths it receives.
+std::map<std::string, std::vector<std::string>> r7_collapse_paths(std::map<std::string, std::vector<std::string>> paths) {
+    for (;;) {
+        std::map<std::vector<std::string>, std::set<std::string>> children;
+        for (const auto& [id, path] : paths)
+            for (std::size_t depth = 0; depth < path.size(); ++depth)
+                children[std::vector<std::string>(path.begin(), path.begin() + static_cast<std::ptrdiff_t>(depth))].insert(path[depth]);
+        // The shallowest page whose only child is one category page (never the package page: mission types stay).
+        const std::vector<std::string>* parent = nullptr;
+        for (const auto& [prefix, names] : children)
+            if (!prefix.empty() && names.size() == 1 && r7_category(*names.begin()) && (parent == nullptr || prefix.size() < parent->size()))
+                parent = &prefix;
+        if (parent == nullptr) return paths;
+        const auto cut = *parent;
+        for (auto& [id, path] : paths)
+            if (path.size() > cut.size() && std::equal(cut.begin(), cut.end(), path.begin()))
+                path.erase(path.begin() + static_cast<std::ptrdiff_t>(cut.size()));
+    }
+}
+
+std::vector<std::string> r7_layout_ui_problems(const std::string& where, const Json& ui) {
+    std::vector<std::string> problems;
+    if (!ui.contains("path") || !ui.at("path").is_array() || ui.at("path").empty() || ui.at("path").size() > kPathDepthMaximum) {
+        problems.push_back(where + ": ui path is missing or not 1 to 6 pages");
+    } else {
+        for (const auto& element : ui.at("path"))
+            if (!element.is_string() || !r7_text(element.get<std::string>(), kPathTextMaximum) ||
+                (element.get<std::string>().find('/') != std::string::npos && element.get<std::string>() != "Rewards / drops"))
+                problems.push_back(where + ": ui path element is empty, padded, over 40 characters, has \"::\", a slash or a trailing colon");
+    }
+    if (!ui.contains("row") || !ui.at("row").is_string() || !r7_text(ui.at("row").get<std::string>(), kRowTextMaximum))
+        problems.push_back(where + ": ui row is missing, padded, over 33 characters or has \"::\"");
+    if (ui.contains("quick") && (!ui.at("quick").is_string() || !r7_text(ui.at("quick").get<std::string>(), kQuickLabelMaximum)))
+        problems.push_back(where + ": ui quick label is invalid");
+    if (ui.contains("default_label") &&
+        (!ui.at("default_label").is_string() || !r7_text(ui.at("default_label").get<std::string>(), kDefaultLabelMaximum)))
+        problems.push_back(where + ": ui default_label is invalid");
+    return problems;
 }
 
 // Structural check of the registry `ui` fields; throws the first exact reason.
@@ -576,6 +674,9 @@ void verify_mission_ui(const Json& registry) {
                                      it->second + ")");
     };
     const bool player_text = registry.contains("ui_player_text");
+    const bool layout_r7 = registry.contains("ui_layout");
+    if (layout_r7 && registry.at("ui_layout").value("format", std::string()) != kLayoutFormat)
+        throw std::runtime_error("registry ui_layout is not RENOVICE_MISSION_LAYOUT_V1");
     if (player_text) {
         const Json& meta = registry.at("ui_player_text");
         if (meta.value("format", std::string()) != kPlayerTextFormat || meta.at("banned_abbreviations") != Json(player_text_banned_words()))
@@ -604,9 +705,11 @@ void verify_mission_ui(const Json& registry) {
             if (row.at("stock").is_number())
                 for (const auto& problem : player_text_problems(id, label, ui.at("unit").get<std::string>(), row.at("stock").get<double>(),
                                                                 ui.at("min").get<double>(), ui.at("max").get<double>(), scope,
-                                                                ui.at("lane").get<std::string>()))
+                                                                ui.at("lane").get<std::string>(), layout_r7))
                     throw std::runtime_error(problem);
         }
+        if (layout_r7)
+            for (const auto& problem : r7_layout_ui_problems(id, ui)) throw std::runtime_error(problem);
         const auto lane = settings_lane(row.at("backend").get<std::string>());
         if (ui.at("lane") != lane || ui.at("applies") != settings_applies(lane)) throw std::runtime_error(id + ": ui lane/applies disagree with the backend");
         const Json& limits = row.at("limits");
@@ -675,16 +778,26 @@ void verify_mission_ui(const Json& registry) {
         const auto label = master.at("short_label").get<std::string>();
         unique_label(id, group, label);
         for (const auto& problem : player_text_problems(id, label, master.at("unit").get<std::string>(), stock, low, high,
-                                                        master.at("scope_text").get<std::string>(), lane))
+                                                        master.at("scope_text").get<std::string>(), lane, layout_r7))
             throw std::runtime_error(problem);
+        if (layout_r7)
+            for (const auto& problem : r7_layout_ui_problems(id, master)) throw std::runtime_error(problem);
     }
 }
 
 // Declaration of one master knob (R5): the same fields as a row declaration.
+// R7 layout fields of a declaration (the registry path; a package build collapses single-category levels).
+void add_layout_fields(Json& declaration, const Json& ui) {
+    for (const char* key : {"path", "row", "quick", "default_label"})
+        if (ui.contains(key)) declaration[key] = ui.at(key);
+}
+
 Json mission_master_declaration(const Json& master) {
-    return Json{{"group", master.at("group")}, {"label", master.at("short_label")}, {"unit", master.at("unit")}, {"type", master.at("type")},
-                {"stock", master.at("stock")}, {"min", master.at("min")}, {"max", master.at("max")}, {"scope", master.at("scope_text")},
-                {"lane", master.at("lane")}, {"applies", master.at("applies")}};
+    Json declaration{{"group", master.at("group")}, {"label", master.at("short_label")}, {"unit", master.at("unit")}, {"type", master.at("type")},
+                     {"stock", master.at("stock")}, {"min", master.at("min")}, {"max", master.at("max")}, {"scope", master.at("scope_text")},
+                     {"lane", master.at("lane")}, {"applies", master.at("applies")}};
+    add_layout_fields(declaration, master);
+    return declaration;
 }
 
 // Declaration of one value (design section 3.2), copied from the registry row: stock is the registry stock.
@@ -694,6 +807,7 @@ Json mission_value_declaration(const Json& row) {
                      {"stock", row.at("stock")}, {"min", ui.at("min")}, {"max", ui.at("max")}, {"scope", ui.at("scope_text")},
                      {"lane", ui.at("lane")}, {"applies", ui.at("applies")}};
     if (ui.contains("options")) declaration["options"] = ui.at("options");
+    add_layout_fields(declaration, ui);
     return declaration;
 }
 
@@ -708,7 +822,9 @@ std::vector<std::string> validate_settings_declarations(const Json& package_json
     static const std::regex group_id("[a-z0-9_]{1,64}");
     static const std::regex value_id("[A-Za-z0-9_.]{1,128}");
     // "stock_check" is the optional R1 field (bootstrapper dd5414c): "live" (the default when absent) or "none", addon lane only.
-    static const std::set<std::string> value_fields{"group", "label", "unit", "type", "stock", "min", "max", "scope", "lane", "applies", "options", "stock_check"};
+    // R7 (bootstrapper feat/settings-r7-hierarchy-2026-09-30): "path", "row", "quick", "default_label" and "default".
+    static const std::set<std::string> value_fields{"group", "label", "unit", "type", "stock", "min", "max", "scope", "lane", "applies", "options", "stock_check",
+                                                    "path", "row", "quick", "default_label", "default"};
     static const std::set<std::string> types{"int", "float", "enum"}, lanes{"addon", "literal", "metadata"},
         applies{"live_next_read", "next_instance", "next_mission", "restart"};
     std::vector<std::string> problems;
@@ -792,6 +908,30 @@ std::vector<std::string> validate_settings_declarations(const Json& package_json
                 else if (!value.contains("lane") || !value.at("lane").is_string() || value.at("lane").get<std::string>() != "addon")
                     problems.push_back(where + ": stock_check is allowed only on the addon lane");
             }
+            if (value.contains("path")) {
+                const Json& path = value.at("path");
+                if (!path.is_array() || path.empty() || path.size() > kPathDepthMaximum) problems.push_back(where + ": path is not 1 to 6 pages");
+                else
+                    for (const auto& element : path)
+                        if (!element.is_string() || !r7_text(element.get<std::string>(), kPathTextMaximum) ||
+                            (element.get<std::string>().find('/') != std::string::npos && element.get<std::string>() != "Rewards / drops"))
+                            problems.push_back(where + ": path element is invalid");
+            }
+            if (value.contains("row") && (!value.at("row").is_string() || !r7_text(value.at("row").get<std::string>(), kRowTextMaximum)))
+                problems.push_back(where + ": row is invalid");
+            if (value.contains("quick") && (!value.at("quick").is_string() || !r7_text(value.at("quick").get<std::string>(), kQuickLabelMaximum)))
+                problems.push_back(where + ": quick is invalid");
+            if (value.contains("default_label") &&
+                (!value.at("default_label").is_string() || !r7_text(value.at("default_label").get<std::string>(), kDefaultLabelMaximum)))
+                problems.push_back(where + ": default_label is invalid");
+            if (value.contains("default")) {
+                if (!value.at("default").is_number() || value.value("lane", std::string("addon")) != "addon")
+                    problems.push_back(where + ": default must be a number on the addon lane");
+                else if (value.contains("min") && value.contains("max") && value.at("min").is_number() && value.at("max").is_number() &&
+                         (value.at("default").get<double>() < value.at("min").get<double>() ||
+                          value.at("default").get<double>() > value.at("max").get<double>()))
+                    problems.push_back(where + ": default is outside min..max");
+            }
             bool numbers = true;
             for (const char* key : {"stock", "min", "max"})
                 if (!value.contains(key) || !value.at(key).is_number() || !std::isfinite(value.at(key).get<double>())) numbers = false;
@@ -834,6 +974,19 @@ std::vector<std::string> settings_label_budget_problems(const std::string& id, c
     const auto label = declaration.at("label").get<std::string>();
     if (std::string(kSettingsCheckboxPrefix).size() + label.size() > kSettingsLabelBudget)
         problems.push_back(id + ": row label \"Custom " + label + "\" is over " + std::to_string(kSettingsLabelBudget) + " characters");
+    // R7: the value row "<row>: <default> (default)" (bootstrapper value_row_label) fits the 40-character row.
+    if (declaration.contains("row")) {
+        const std::string shown = declaration.contains("default_label") ? declaration.at("default_label").get<std::string>()
+                                  : declaration.at("type") == "enum"
+                                      ? [&]() {
+                                            for (const auto& option : declaration.at("options"))
+                                                if (option.at("value") == declaration.at("stock")) return option.at("label").get<std::string>();
+                                            return std::string();
+                                        }()
+                                      : settings_with_unit(declaration.at("stock").get<double>(), declaration.at("unit").get<std::string>());
+        const std::string row = declaration.at("row").get<std::string>() + ": " + shown + " (default)";
+        if (row.size() > kSettingsLabelBudget) problems.push_back(id + ": value row \"" + row + "\" is over 40 characters");
+    }
     const auto title = settings_upper(group.at("label").get<std::string>());
     if (title.size() > kSettingsTitleBudget) problems.push_back(id + ": group title " + title + " is over " + std::to_string(kSettingsTitleBudget) + " characters");
     return problems;
@@ -2238,9 +2391,38 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                     ids.insert(ids.end(), item.masters.begin(), item.masters.end());
                     return ids;
                 };
+                // R7: collapsed page paths of every declared value (a category level whose parent would hold that one
+                // category only is dropped), computed over the whole declared set before any declaration is written.
+                std::map<std::string, std::vector<std::string>> r7_paths;
+                for (const MissionArtifact* item : members)
+                    for (const auto& id : member_declared_ids(*item)) {
+                        const Json* master = mission_master(registry, id);
+                        const Json& ui = master != nullptr ? *master : mission_tunable(registry, id).at("ui");
+                        if (ui.contains("path")) r7_paths[id] = ui.at("path").get<std::vector<std::string>>();
+                    }
+                r7_paths = r7_collapse_paths(std::move(r7_paths));
                 const auto mission_declaration = [&](const std::string& id) -> Json {
-                    if (const Json* master = mission_master(registry, id)) return mission_master_declaration(*master);
-                    return mission_value_declaration(mission_tunable(registry, id));
+                    const Json* master = mission_master(registry, id);
+                    Json declaration = master != nullptr ? mission_master_declaration(*master)
+                                                         : mission_value_declaration(mission_tunable(registry, id));
+                    if (const auto found = r7_paths.find(id); found != r7_paths.end()) declaration["path"] = found->second;
+                    // R7: a literal value is a choice between the game default and the value the replacement was built
+                    // with (the menu offers exactly what the built script can do); the member applies when the built
+                    // value is chosen (enabled = value != default).
+                    if (declaration.at("lane") == "literal" && declaration.at("type") != "enum" &&
+                        (master_values.contains(id) || values.contains(id))) {
+                        const double stock = declaration.at("stock").get<double>();
+                        const double built = master_values.contains(id) ? master_values.at(id) : values.at(id);
+                        const auto unit = declaration.at("unit").get<std::string>();
+                        Json options = Json::array();
+                        options.push_back({{"label", declaration.contains("default_label") ? declaration.at("default_label").get<std::string>()
+                                                                                          : settings_with_unit(stock, unit)},
+                                           {"value", settings_number(stock, "int")}});
+                        if (built != stock) options.push_back({{"label", settings_with_unit(built, unit)}, {"value", settings_number(built, "int")}});
+                        declaration["type"] = "enum";
+                        declaration["options"] = options;
+                    }
+                    return declaration;
                 };
                 const auto declaration_order = [&](const std::string& id) {
                     const Json* master = mission_master(registry, id);
@@ -2436,7 +2618,8 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                             for (const auto& problem : player_text_problems(id, label, declaration.at("unit").get<std::string>(), stock,
                                                                             declaration.at("min").get<double>(), declaration.at("max").get<double>(),
                                                                             declaration.at("scope").get<std::string>(),
-                                                                            declaration.at("lane").get<std::string>()))
+                                                                            declaration.at("lane").get<std::string>(),
+                                                                            registry.contains("ui_layout")))
                                 settings_problems.push_back(problem);
                         } else if (naming.declare_all_addon_values) {
                             settings_problems.push_back(id + ": declared without player text (label_source " +
@@ -2445,6 +2628,52 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                         migration_groups[group] = true;
                         migration_values[id] = Json{{"enabled", on}, {"value", settings_number(chosen, declaration.at("type").get<std::string>())}};
                     }
+                }
+                // R7 layout gate: every value has a page path and a row; one row per (page, text); no row named like a
+                // page next to it; unique quick labels; no "::" or dangling colon anywhere; short plain descriptions
+                // without node lists, MT codes or internal ids.
+                std::size_t layout_pages = 0, layout_quick = 0;
+                if (registry.contains("ui_layout")) {
+                    std::map<std::pair<std::vector<std::string>, std::string>, std::string> rows_seen;
+                    std::set<std::vector<std::string>> pages;
+                    std::set<std::string> quick_seen;
+                    std::vector<std::tuple<std::vector<std::string>, std::string, std::string>> row_list;
+                    for (const auto& [file, member] : package_json.at("members").items()) {
+                        static_cast<void>(file);
+                        for (const auto& [id, declaration] : member.at("settings").at("values").items()) {
+                            if (!declaration.contains("path") || !declaration.contains("row")) {
+                                settings_problems.push_back(id + ": declared without an R7 page path and row");
+                                continue;
+                            }
+                            for (const auto& problem : r7_layout_ui_problems(id, declaration)) settings_problems.push_back(problem);
+                            const auto path = declaration.at("path").get<std::vector<std::string>>();
+                            for (std::size_t depth = 1; depth <= path.size(); ++depth)
+                                pages.insert(std::vector<std::string>(path.begin(), path.begin() + static_cast<std::ptrdiff_t>(depth)));
+                            const auto row = declaration.at("row").get<std::string>();
+                            row_list.emplace_back(path, row, id);
+                            if (const auto [it, inserted] = rows_seen.emplace(std::make_pair(path, ascii_lower_text(row)), id); !inserted)
+                                settings_problems.push_back(id + ": row \"" + row + "\" appears twice on its page (also " + it->second + ")");
+                            const auto label = declaration.at("label").get<std::string>();
+                            if (label.find("::") != std::string::npos) settings_problems.push_back(id + ": label has \"::\"");
+                            if (declaration.contains("quick") && !quick_seen.insert(ascii_lower_text(declaration.at("quick").get<std::string>())).second)
+                                settings_problems.push_back(id + ": quick label is not unique");
+                            const Json* master = mission_master(registry, id);
+                            const Json& ui = master != nullptr ? *master : mission_tunable(registry, id).at("ui");
+                            if (ui.value("label_source", std::string()) == "player_text")
+                                for (const auto& problem : r7_description_problems(id, declaration.at("scope").get<std::string>()))
+                                    settings_problems.push_back(problem);
+                        }
+                    }
+                    for (const auto& [path, row, id] : row_list) {
+                        auto page = path;
+                        page.push_back(row);
+                        if (pages.contains(page)) settings_problems.push_back(id + ": row has the same name as a page next to it");
+                    }
+                    layout_pages = pages.size();
+                    layout_quick = quick_seen.size();
+                    result.gate_log += "settings-layout\n" + std::string(settings_problems.empty() ? "PASS" : "FAIL") + " values=" +
+                                       std::to_string(declared_values) + " pages=" + std::to_string(layout_pages) + " quick=" +
+                                       std::to_string(layout_quick) + "\n";
                 }
                 std::string settings_text;
                 for (const auto& problem : settings_problems) settings_text += (settings_text.empty() ? "" : "; ") + problem;

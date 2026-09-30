@@ -719,7 +719,7 @@
       "intended_live_relative_path": "OpenWF/CustomScripts/Packages/Missions",
       "manifest": {
         "path": "Packages/Missions/package.json",
-        "sha256": "CF080B471A4D0F5EC84C223FF0FCB81E4332032C5360715250FDB31418841226"
+        "sha256": "934187A2AB15DA8A7A02C52E7B9893976523F1B367012A41B47B3C0A89FF3F4A"
       },
       "members": [
         {
@@ -794,7 +794,7 @@
       "intended_live_relative_path": "OpenWF/CustomScripts/Packages/Missions",
       "manifest": {
         "path": "Packages/Missions/package.json",
-        "sha256": "CF080B471A4D0F5EC84C223FF0FCB81E4332032C5360715250FDB31418841226"
+        "sha256": "934187A2AB15DA8A7A02C52E7B9893976523F1B367012A41B47B3C0A89FF3F4A"
       },
       "members": [
         {
@@ -897,12 +897,12 @@
       "full_capturer_hooks": 118,
       "gate": "ROOT_TABLE_MINIMAL_HOOKS_V1",
       "hooked_targets": 21,
-      "hooks": 63,
-      "idle_retire_hooks": 63,
-      "retire_all_hooks": 63,
+      "hooks": 62,
+      "idle_retire_hooks": 62,
+      "retire_all_hooks": 62,
       "retire_all_sentinel": "RENOVICE_RETIRE_ALL",
       "retire_sentinel": "RENOVICE_RETIRE",
-      "retiring_hooks": 63,
+      "retiring_hooks": 62,
       "targets": [
         {
           "body_key": "070fa0ad32d6da72",
@@ -1392,32 +1392,27 @@
           "body_key": "b6d8c45f9424d376",
           "full_capturer_prototypes": 3,
           "hooked_tables": [
-            "root:i421:R44",
             "root:i599:R46",
             "root:i613:R60"
           ],
           "idle_retire_prototypes": [
-            73,
             79,
             81
           ],
           "module_path": "Lotus.Scripts.Modes.SentientArtifactMission",
           "prototypes": [
-            73,
             79,
             81
           ],
           "retire_all_prototypes": [
-            73,
             79,
             81
           ],
           "retiring_prototypes": [
-            73,
             79,
             81
           ],
-          "tables": 3
+          "tables": 2
         },
         {
           "body_key": "caec63d8e739b693",
@@ -1567,11 +1562,15 @@
           "tables": 2
         }
       ],
-      "values": 267
+      "values": 266
     },
     "declarations": {
       "enabled_addon_values": 1,
       "excluded_values": [
+        {
+          "reason": "hidden: defaults audit 2026-09-30: an id the game matches against the mission enemy list, not a strength; any other value switches treasure Demolysts off",
+          "tunable_id": "disruption.treasure_goblin.tier"
+        },
         {
           "reason": "hidden: no reader in 44.0.2: the Five Fates script reads OverallStateTime only from the normal stage table (frame_84[114]); the Steel Path table (frame_84[195]) is read only for enemy counts, so this value has no effect",
           "tunable_id": "fivefates.state_times_sp.state1"
@@ -1678,10 +1677,10 @@
         }
       ],
       "format": "RENOVICE_SETTINGS_DECL_V1",
-      "groups": 37,
+      "groups": 34,
       "masters": 24,
       "scope": "all_addon_values",
-      "values": 294
+      "values": 293
     },
     "files": {
       "Packages/Missions/8a0b0819de60df01 (missions_exact-replacement).lua_B": "F0436757C021BDD7C9121DD57031791D0F8EB9AADA9939727E488C783C1E134B",
@@ -1689,9 +1688,9 @@
       "Packages/Missions/b3a5a18d68d61e16 (missions_exact-replacement).lua_B": "E2E8BB2F5B67AEC1540245B18AC1786A4AB3EBE485D51FAAFC27ECB6ADD27E57",
       "Packages/Missions/f7444e3c621ff018 (missions_exact-replacement).lua_B": "66B4F9349C0EC7FB45A457DFC2EED5D49C102C7B79E0C1183A6A874E8E7830E7",
       "Packages/Missions/fc711ff621a75552 (missions_exact-replacement).lua_B": "E979F5E7906F0D88E49C42B4191ECA6AFDC1237FDDD91D52CBF427DB3FA9F6D2",
-      "Packages/Missions/Missions.targets.addon.lua_B": "6730755FA7C5552FCDE4333F8F9BEEE0AA1C3368A986817F5D7F46FCF0B07EF8",
-      "Packages/Missions/package.json": "8121ED40B3580E549DE1D3EA4FA92E54871AA0A4470738093BCDA1E0B82542E7",
-      "Settings/Missions.json": "77538F69911FF7414254C046091310DB4CE271C9391A972A98DAC7A68301BCD7"
+      "Packages/Missions/Missions.targets.addon.lua_B": "4CB290F77FB0D68EA1F1B39F9CFAF9390C04A7FE90B5C10EE209A595FEE95CB1",
+      "Packages/Missions/package.json": "E3686251A028A14197DED2A58FF9C4A462430C4EF5CF8728545A5F56F310EDF2",
+      "Settings/Missions.json": "E3A1FDCA732CCCEA3C70772A1FEE2EA950436286AC03EBBE3355C7C20FC8B737"
     },
     "state": "identical to the staged install set (folder untouched)"
   },

@@ -893,6 +893,8 @@ for key, rec in modules.items():
 ui_groups, ui_sources, ui_rules = UI.apply(rows, ROOT, SERVER_REL, p1rows)
 # 2026-09-30 (contract R5): player-facing labels, descriptions, advanced sections and master knobs (player_text.py).
 ui_masters, ui_player_text = PT.apply(rows, ui_groups)
+# 2026-09-30 (contract R7): page tree, rows, quick values, defaults and short descriptions (player_layout.py).
+ui_layout = PT.LAYOUT.apply(rows, ui_groups, ui_masters)
 
 # ---------------------------------------------------------------- corpus
 CORPUS.mkdir(parents=True, exist_ok=True)
@@ -941,6 +943,7 @@ registry = {
     'ui_groups': dict(sorted(ui_groups.items(), key=lambda kv: kv[1]['order'])),
     'ui_masters': ui_masters,
     'ui_player_text': ui_player_text,
+    'ui_layout': ui_layout,
 }
 (EDITOR / 'REGISTRIES/mission_build_u44.json').write_text(json.dumps(registry, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
 

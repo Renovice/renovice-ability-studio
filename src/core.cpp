@@ -3976,7 +3976,13 @@ namespace renovice
                     bool ui_r5 = registry.contains("ui_masters") && registry.contains("ui_player_text")
                         && registry.at("ui_groups").contains("survival_advanced")
                         && registry.at("ui_groups").at("survival_advanced").at("advanced_of") == "survival"
-                        && mission_tunable(registry, "survival.alert_ls_drop_mult").at("ui").at("group") == "survival_advanced"
+                        && mission_tunable(registry, "survival.alert_ls_drop_mult").at("ui").at("group") == "survival"
+                        && mission_tunable(registry, "survival.level_up_enrage.levelUpTime").at("ui").at("group") == "survival_advanced"
+                        && registry.contains("ui_layout")
+                        && mission_tunable(registry, "survival.reward_interval").at("ui").at("path") == Json::array({"Survival", "Timers"})
+                        && mission_tunable(registry, "survival.reward_interval").at("ui").at("quick") == "Survival: time between rewards"
+                        && mission_master(registry, "mobiledefense.time_per_terminal")->at("default_label") == "60-80 s"
+                        && mission_tunable(registry, "disruption.treasure_goblin.tier").at("ui").contains("hidden")
                         && mission_tunable(registry, "survival.alert_ls_drop_mult").at("ui").at("short_label") == "Alert missions: pickup drop rate"
                         && mission_tunable(registry, "fivefates.state_times_sp.state1").at("ui").contains("hidden");
                     check(ui_r5
@@ -3985,11 +3991,20 @@ namespace renovice
                             && rejects_ui([&](Json& r) { ui_of(r, "survival.reward_interval")["short_label"] = "Reward mult"; }, "abbreviation")
                             && rejects_ui([&](Json& r) { ui_of(r, "survival.reward_interval")["short_label"] = "Reward interval (1P)"; }, "abbreviation")
                             && rejects_ui([&](Json& r) { ui_of(r, "survival.reward_interval")["short_label"] = "rewardInterval"; }, "code identifier")
-                            && rejects_ui([&](Json& r) { ui_of(r, "survival.reward_interval")["scope_text"] = "Seconds per reward rotation"; }, "stock value")
-                            && rejects_ui([&](Json& r) { ui_of(r, "survival.reward_interval")["scope_text"] = "Seconds per reward; stock 300 minutes"; },
-                                          "followed by its unit")
-                            && rejects_ui([&](Json& r) { ui_of(r, "survival.reward_interval")["scope_text"] = std::string(140, 'a') + "; stock 300 s"; },
-                                          "rendered tooltip")
+                            // R7 descriptions: one or two short sentences, no "stock", no node lists, MT codes or ids.
+                            && rejects_ui([&](Json& r) { ui_of(r, "survival.reward_interval")["scope_text"] = "Seconds per reward rotation"; },
+                                          "one or two sentences")
+                            && rejects_ui([&](Json& r) { ui_of(r, "survival.reward_interval")["scope_text"] = "One. Two. Three."; }, "one or two sentences")
+                            && rejects_ui([&](Json& r) { ui_of(r, "survival.reward_interval")["scope_text"] = "Seconds per reward; stock 300 s."; }, "stock")
+                            && rejects_ui([&](Json& r) { ui_of(r, "survival.reward_interval")["scope_text"] = "Reward timer on MT_SURVIVAL nodes."; },
+                                          "internal id")
+                            && rejects_ui([&](Json& r) { ui_of(r, "survival.reward_interval")["scope_text"] = "Nodes: Apollo, Ophelia, Olympus, Kiste, Zabala."; },
+                                          "reads like a list")
+                            && rejects_ui([&](Json& r) { ui_of(r, "survival.reward_interval")["scope_text"] = std::string(201, 'a') + "."; }, "200")
+                            && rejects_ui([&](Json& r) { ui_of(r, "survival.reward_interval").erase("path"); }, "ui path is missing")
+                            && rejects_ui([&](Json& r) { ui_of(r, "survival.reward_interval")["path"] = Json::array({"Survival", "Timers::"}); }, "ui path element")
+                            && rejects_ui([&](Json& r) { ui_of(r, "survival.reward_interval")["row"] = std::string(34, 'r'); }, "ui row")
+                            && rejects_ui([&](Json& r) { ui_of(r, "survival.reward_interval")["quick"] = "Survival:"; }, "quick label")
                             && rejects_ui([&](Json& r) { ui_of(r, "survival.reward_interval")["group"] = "defense_advanced"; }, "family")
                             && rejects_ui([&](Json& r) { r["ui_groups"]["survival_advanced"]["order"] = 1; }, "Advanced subsection")
                             && rejects_ui([&](Json& r) { master_of(r, "loopdefend.max_enemies.p1")["drives"][0]["scale"] = 1.5; }, "whole")
@@ -4000,9 +4015,10 @@ namespace renovice
                                                              {{"tunable_id", "loopdefend.enemy_counts.maxNum.p1"}, {"scale", 1}}); }, "already driven")
                             && rejects_ui([&](Json& r) { r["ui_masters"]["survival.reward_interval"] = master_of(r, "orphix.spawn_interval"); }, "collides")
                             && rejects_ui([&](Json& r) { r["ui_player_text"]["banned_abbreviations"] = Json::array({"LS"}); }, "banned-abbreviation"),
-                          "R5 player text: labels <= 33 without unexplained abbreviations or code identifiers, descriptions that state "
-                          "stock and unit, tooltips <= 300, Advanced subsections after their section, and master knobs (whole scales for "
-                          "int, stock from the first row, one module and lane, each row driven once, ids distinct from rows)");
+                          "R5 player text: labels <= 33 without unexplained abbreviations or code identifiers, Advanced subsections after "
+                          "their section, and master knobs (whole scales for int, stock from the first row, one module and lane, each row "
+                          "driven once, ids distinct from rows); R7: every row has a page path and row text without '::', and short plain "
+                          "descriptions (one or two sentences, no stock number, node list, MT code or id)");
                 }
 
                 // Phase 2g: a settings build emits ONE multi-target addon (Inject\Missions.targets.addon.lua_B) for every
@@ -4083,7 +4099,17 @@ namespace renovice
                                 && group_ids == std::set<std::string>{"lantern", "purgatory_advanced", "survival", "void_flood"}
                                 && validate_settings_declarations(package_json).empty()
                                 && addon_values.size() == 3 && flood_values.size() == 1
-                                && addon_values.at("survival.reward_interval") == mission_value_declaration(mission_tunable(registry, "survival.reward_interval"))
+                                && [&]() {
+                                       // R7: the declaration is the registry row with its page path collapsed for this build
+                                       // (Survival holds one category here, so the "Timers" level is dropped).
+                                       Json declared = addon_values.at("survival.reward_interval");
+                                       Json registry_row = mission_value_declaration(mission_tunable(registry, "survival.reward_interval"));
+                                       const bool path_ok = declared.at("path") == Json::array({"Survival"})
+                                           && registry_row.at("path") == Json::array({"Survival", "Timers"});
+                                       declared.erase("path");
+                                       registry_row.erase("path");
+                                       return path_ok && declared == registry_row;
+                                   }()
                                 && addon_values.at("survival.reward_interval").at("stock") == 300
                                 && addon_values.at("survival.reward_interval").at("lane") == "addon"
                                 && addon_values.at("survival.reward_interval").at("applies") == "live_next_read"
