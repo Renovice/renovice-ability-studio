@@ -211,6 +211,17 @@
     "literal_rows_new": 36,
     "gate_failures": []
   },
+  "phase2k": {
+    "tables": 83,
+    "tables_without_owned_fields": 0,
+    "hooks_full": 269,
+    "hooks_minimal": 129,
+    "downstream_after_escape": 1,
+    "by_method": {
+      "minimal-search": 83
+    },
+    "retire_safe_tables": 83
+  },
   "phase1_accounting": {
     "denominator": 387,
     "registered_fully": 195,
@@ -660,7 +671,7 @@
   "modules": 48,
   "corpus_files": 48,
   "metadata_snapshot_sha256": "49F042A0A8A4D5F84B4B37C02FA0EDED3B931B29EA78F2216E9B709096066BF9",
-  "registry_sha256": "0BE2780B2476644260021723E71B003D159D049CD294EEE1CB6B4F2C23D3BB97",
+  "registry_sha256": "6ED8C8AE8F8686DAF286749AB337F4E4EAFB5CFDD96724AF848960909204C358",
   "ui": {
     "groups": 49,
     "editors": {
@@ -669,10 +680,10 @@
       "TOGGLE": 3
     },
     "label_sources": {
-      "id": 263,
+      "id": 260,
       "id-leaf": 10,
-      "override": 98,
-      "prose": 197,
+      "override": 113,
+      "prose": 185,
       "variant-id": 16,
       "variant-prose": 10
     },

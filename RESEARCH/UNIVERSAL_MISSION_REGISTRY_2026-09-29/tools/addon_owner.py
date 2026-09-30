@@ -316,7 +316,10 @@ class RootTables(Analysis):
                 raise ValueError(f'container of the table (R{preg}) is not built once by NEWTABLE/DUPTABLE in the root')
             chain = chain + [{'instruction': pd, 'register': preg, 'store_instruction': i, 'key': child_key}]
             parent_hooks, chain = self._table(pd, preg, child_key, i, chain)
-            hooks += [dict(h, path=[child_key] + h['path']) for h in parent_hooks]
+            # `path` is the ACCESS order from the captured upvalue down to this table (outermost key first). Phase 2k fix:
+            # it was built innermost-first, which is the same for one container step but reversed for two (CoH Shrine
+            # Defense `upvalue[1].RespawnDelay` was recorded as ['RespawnDelay', 1]).
+            hooks += [dict(h, path=h['path'] + [child_key]) for h in parent_hooks]
         if not hooks:
             raise ValueError('the table is never captured by a closure; no consumer prototype to hook')
         return hooks, chain

@@ -312,8 +312,13 @@ if (SAMPLE2I / 'SHA256SUMS.json').exists():
     recorded = json.loads((SAMPLE2I / 'SHA256SUMS.json').read_text())
     recorded = {k.split('/')[-1]: v for k, v in recorded.items() if k.startswith('Packages/Missions/')}
     rebuilt = {n: hashlib.sha256((package2i / n).read_bytes()).hexdigest().upper() for n in package_files2i}
-    assert recorded == rebuilt, ('rebuilt package differs from the recorded Phase 2i sample', recorded, rebuilt)
-    state2i = 'identical to the recorded sample (folder untouched)'
+    # Phase 2j changed the member labels in package.json and Phase 2k the addon (minimal hooks, compiled enabled flag);
+    # every other file (the Void Flood replacement) must stay byte-identical.
+    assert sorted(recorded) == sorted(rebuilt), ('package file set changed', recorded, rebuilt)
+    changed2i = sorted(k for k in rebuilt if rebuilt[k] != recorded[k])
+    assert set(changed2i) <= INTENTIONAL_2I, ('rebuilt package differs from the recorded Phase 2i sample', changed2i)
+    state2i = ('identical except the intentional Phase 2j/2k change of ' + ', '.join(changed2i) if changed2i else 'identical') + \
+        ' to the recorded sample (folder untouched)'
 else:
     SAMPLE2I.mkdir(parents=True)
     (SAMPLE2I / 'mission_settings.json').write_text(json.dumps(settings2h, indent=2) + '\n')
@@ -329,6 +334,34 @@ results['phase2i_sample'] = {'values': PHASE2G_VALUES, 'allow_unproven_hook_bind
                              'package': manifest2i['package'], 'example_settings': EXAMPLE2I,
                              'location': SAMPLE2I.relative_to(ROOT).as_posix()}
 print(f"PASS phase2i sample: {len(decl2i)} declarations in {len(groups2i)} groups, migration + example settings ({state2i})")
+# Phase 2k: the FULL Missions package (package_scope all_addon_values) rebuilt from the installed live-test values file
+# (phase2i CustomScripts/Settings/Missions.json, ee4fa704) through missions_settings_to_build.py. Compared with the staged
+# install set when it exists (never rewritten here).
+import missions_settings_to_build as REBUILD  # noqa: E402
+STAGE2K = ROOT / 'work/staging/missions-full-package'
+settings2k = REBUILD.convert(SAMPLE2I / 'CustomScripts' / 'Settings' / 'Missions.json')
+assert settings2k['values'] == {'survival.reward_interval': 150, 'void_flood.fractures_per_round.normal': 4}, settings2k['values']
+generation2k, manifest2k = build(settings2k, 'sample2k')
+assert generation2k is not None, manifest2k
+package2k = generation2k / 'Packages' / 'Missions'
+addon2k = next(a for a in manifest2k['artifacts'] if a['backend'] == 'TARGET_ADDON')
+assert addon2k['hook_plan']['hooked_targets'] == 1 and addon2k['hook_plan']['hooks'] == 4, addon2k['hook_plan']
+assert (package2k / 'package.json').stat().st_size <= 512 * 1024
+files2k = {'Packages/Missions/' + p.name: p for p in package2k.iterdir()}
+files2k['Settings/Missions.json'] = generation2k / 'Settings' / 'Missions.json'
+hashes2k = {k: hashlib.sha256(p.read_bytes()).hexdigest().upper() for k, p in files2k.items()}
+if (STAGE2K / 'SHA256SUMS.json').exists():
+    staged = json.loads((STAGE2K / 'SHA256SUMS.json').read_text())
+    staged = {k: v for k, v in staged.items() if k in hashes2k}
+    assert staged == hashes2k, ('rebuilt full package differs from the staged install set', staged, hashes2k)
+    state2k = 'identical to the staged install set (folder untouched)'
+else:
+    state2k = 'no staged install set to compare'
+results['phase2k_full_package'] = {'settings': settings2k, 'hook_plan': addon2k['hook_plan'],
+                                   'declarations': manifest2k['package']['settings']['declarations'], 'files': hashes2k,
+                                   'state': state2k}
+print(f"PASS phase2k full package: {manifest2k['package']['settings']['declarations']['values']} declared values, "
+      f"{addon2k['hook_plan']['hooked_targets']} hooked target(s), {addon2k['hook_plan']['hooks']} hooks ({state2k})")
 results['phase2g_sample_state'] = state2g
 results['phase2h_sample_state'] = state2h
 (OUT / 'results.json').write_text(json.dumps(results, indent=2) + '\n')

@@ -34,6 +34,7 @@ import phase2e_specs as P2E  # noqa: E402
 import phase2d_lua_specs as P2D_LUA  # noqa: E402
 import phase2d_metadata_specs as P2D_META  # noqa: E402
 import editor_fields as UI  # noqa: E402
+import hook_plan as HOOK_PLAN  # noqa: E402
 
 BUILD = '2026.09.28.13.06'
 BUILD_LABEL = 'Hotfix 44.0.2'
@@ -849,6 +850,42 @@ for r in rows:
         addon_fields[k] = r['tunable_id']
 rows.sort(key=lambda r: r['tunable_id'])
 excluded.sort(key=lambda r: r['tunable_id'])
+# Phase 2k: minimal luaCalls hook set per root table (hook_plan.py, gate ROOT_TABLE_MINIMAL_HOOKS_V1). The generator
+# hooks only `minimal_hooks.prototypes` (a subset of `hooks`); the full capturer list stays as the owner evidence.
+report['phase2k'] = {'tables': 0, 'tables_without_owned_fields': 0, 'hooks_full': 0, 'hooks_minimal': 0,
+                     'downstream_after_escape': 0, 'by_method': {}}
+for key, rec in modules.items():
+    if 'root_tables' not in rec:
+        continue
+    owned = {}
+    for r in rows:
+        if r['backend'] == 'TARGET_ADDON' and r['owner'].get('body_key') == key:
+            for f in r['owner'].get('fields', []):
+                owned.setdefault(f['table_id'], set()).add(f['field'])
+    plans = HOOK_PLAN.plan_module(module(rec['file']), rec['root_tables'], owned)[0]
+    for tid, table in rec['root_tables'].items():
+        plan = plans[tid]
+        record = {'gate': plan['gate'], 'method': plan['method'], 'prototypes': plan['hooks'],
+                  'reaching_capturers': plan['reaching_capturers']}
+        if plan['method'] != 'no-owned-field':
+            record.update({'forced': plan['forced'], 'coverage': plan['coverage'],
+                           'escaping_capturers': plan['escaping_capturers'],
+                           'downstream_after_escape': plan['downstream_after_escape'],
+                           'reach_events': plan['reach_events'],
+                           'static_weight': {'chosen': plan['static_weight_chosen'], 'full': plan['static_weight_full']},
+                           # Contract R3: the generator may return "RENOVICE_RETIRE" from these hooks only when true.
+                           'root_children': plan['root_children'], 'retire_safe': plan['retire_safe'],
+                           'retire_blockers': plan['retire_blockers']})
+            report['phase2k']['retire_safe_tables'] = report['phase2k'].get('retire_safe_tables', 0) + (1 if plan['retire_safe'] else 0)
+            report['phase2k']['downstream_after_escape'] += len(plan['downstream_after_escape'])
+        else:
+            record['note'] = plan['note']
+            report['phase2k']['tables_without_owned_fields'] += 1
+        table['minimal_hooks'] = record
+        report['phase2k']['tables'] += 1
+        report['phase2k']['hooks_full'] += len(table['hooks'])
+        report['phase2k']['hooks_minimal'] += len(plan['hooks'])
+        report['phase2k']['by_method'][plan['method']] = report['phase2k']['by_method'].get(plan['method'], 0) + 1
 # Phase 2i: in-game settings editor fields (group, short label, scope, apply timing, editor, limits, search aliases).
 ui_groups, ui_sources, ui_rules = UI.apply(rows, ROOT, SERVER_REL, p1rows)
 
@@ -930,5 +967,5 @@ report['ui'] = {'groups': len(ui_groups), 'editors': {e: sum(1 for r in rows if 
                 'applies': {k: sum(1 for r in rows if r['ui']['applies'] == k) for k in sorted({r['ui']['applies'] for r in rows})},
                 'sources': ui_sources}
 REPORT.write_text(json.dumps(report, indent=2) + '\n')
-print(json.dumps({k: report[k] for k in ('ui', 'rows', 'rows_by_owner_kind', 'rows_by_backend', 'excluded', 'excluded_by_owner_kind', 'modules',
+print(json.dumps({k: report[k] for k in ('ui', 'rows', 'rows_by_owner_kind', 'rows_by_backend', 'excluded', 'excluded_by_owner_kind', 'modules', 'phase2k',
                                          'phase1_accounting', 'phase2d', 'phase2e')}, indent=1))

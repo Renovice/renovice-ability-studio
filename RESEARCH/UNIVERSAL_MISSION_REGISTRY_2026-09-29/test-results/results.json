@@ -139,7 +139,7 @@
         "backend_before": "TARGET_ADDON",
         "backend_now": "TARGET_ADDON",
         "identical": false,
-        "sha256_now": "9FB8A57D653EEC3E9533F94944D469659E314B0658A7A7BF102943877643C021",
+        "sha256_now": "047C3C29E9EAD7BC32ECB4DF99A77F63ABA657D508FC2A49F4D23BF6DFA75095",
         "multi_target_artifact": "artifacts/Missions.targets.addon.lua_B",
         "runtime_hook": {
           "binding": "renovice.target.lua_call",
@@ -376,7 +376,7 @@
         "backend_before": "EXACT_LITERAL",
         "backend_now": "TARGET_ADDON",
         "identical": false,
-        "sha256_now": "DB38B45BC232DFCFDF2A947D65E4B540460786D152EF87A2DE57F035730552A2",
+        "sha256_now": "48C1E30C1BB75C2A1419F706CDFE23AB4D970879D3075E4E4C16A47E9E8B5C97",
         "multi_target_artifact": "artifacts/Missions.targets.addon.lua_B",
         "runtime_hook": {
           "binding": "renovice.target.lua_call",
@@ -427,7 +427,7 @@
         "backend_before": "TARGET_ADDON",
         "backend_now": "TARGET_ADDON",
         "identical": false,
-        "sha256_now": "0F3095793C03F0D9E8DFEE8A23114981B0B7F45C5A3B46A312ACC8412317B608",
+        "sha256_now": "8C9F51E364E0029D6D06C9C9C66492F7D59D4473159076ED3C1905734EA95207",
         "multi_target_artifact": "artifacts/Missions.targets.addon.lua_B",
         "runtime_hook": {
           "binding": "renovice.target.lua_call",
@@ -444,7 +444,7 @@
         "backend_before": "TARGET_ADDON",
         "backend_now": "TARGET_ADDON",
         "identical": false,
-        "sha256_now": "0F3095793C03F0D9E8DFEE8A23114981B0B7F45C5A3B46A312ACC8412317B608",
+        "sha256_now": "8C9F51E364E0029D6D06C9C9C66492F7D59D4473159076ED3C1905734EA95207",
         "multi_target_artifact": "artifacts/Missions.targets.addon.lua_B",
         "runtime_hook": {
           "binding": "renovice.target.lua_call",
@@ -461,7 +461,7 @@
         "backend_before": "TARGET_ADDON",
         "backend_now": "TARGET_ADDON",
         "identical": false,
-        "sha256_now": "0F3095793C03F0D9E8DFEE8A23114981B0B7F45C5A3B46A312ACC8412317B608",
+        "sha256_now": "8C9F51E364E0029D6D06C9C9C66492F7D59D4473159076ED3C1905734EA95207",
         "multi_target_artifact": "artifacts/Missions.targets.addon.lua_B",
         "runtime_hook": {
           "binding": "renovice.target.lua_call",
@@ -535,6 +535,69 @@
       {
         "backend": "TARGET_ADDON",
         "body_key": "multi-target",
+        "hook_plan": {
+          "enabled": 3,
+          "full_capturer_hooks": 15,
+          "gate": "ROOT_TABLE_MINIMAL_HOOKS_V1",
+          "hooked_targets": 3,
+          "hooks": 6,
+          "retire_sentinel": "RENOVICE_RETIRE",
+          "retiring_hooks": 6,
+          "targets": [
+            {
+              "body_key": "6fa60841c9e0f207",
+              "full_capturer_prototypes": 1,
+              "hooked_tables": [
+                "root:i79:R28"
+              ],
+              "module_path": "Lotus.Scripts.Modes.Purgatory",
+              "prototypes": [
+                37
+              ],
+              "retiring_prototypes": [
+                37
+              ],
+              "tables": 1
+            },
+            {
+              "body_key": "caec63d8e739b693",
+              "full_capturer_prototypes": 4,
+              "hooked_tables": [
+                "root:i75:R36"
+              ],
+              "module_path": "Lotus.Scripts.Modes.HalloweenLanternEndless",
+              "prototypes": [
+                14
+              ],
+              "retiring_prototypes": [
+                14
+              ],
+              "tables": 1
+            },
+            {
+              "body_key": "f10a043e7f825db2",
+              "full_capturer_prototypes": 10,
+              "hooked_tables": [
+                "root:i19:R9"
+              ],
+              "module_path": "Lotus.Scripts.Modes.SurvivalMission",
+              "prototypes": [
+                31,
+                61,
+                67,
+                69
+              ],
+              "retiring_prototypes": [
+                31,
+                61,
+                67,
+                69
+              ],
+              "tables": 1
+            }
+          ],
+          "values": 3
+        },
         "intended_live_relative_path": "OpenWF/CustomScripts/Inject/Missions.targets.addon.lua_B",
         "manifest": "BUILD_MANIFEST.TARGET_ADDON_multi-target.json",
         "path": "artifacts/Missions.targets.addon.lua_B",
@@ -548,8 +611,8 @@
           "policy_id": "target-addon:missions.targets.addon.lua_b",
           "row": "[ADDON] Missions"
         },
-        "sha256": "0F3095793C03F0D9E8DFEE8A23114981B0B7F45C5A3B46A312ACC8412317B608",
-        "size": 7280,
+        "sha256": "8C9F51E364E0029D6D06C9C9C66492F7D59D4473159076ED3C1905734EA95207",
+        "size": 5228,
         "target_keys": [
           "6fa60841c9e0f207",
           "caec63d8e739b693",
@@ -629,24 +692,26 @@
       "intended_live_relative_path": "OpenWF/CustomScripts/Packages/Missions",
       "manifest": {
         "path": "Packages/Missions/package.json",
-        "sha256": "7A0F60DDE8592BDE2A22A175D4CAC54093C10BC75B3CE23824E37568207D2768"
+        "sha256": "6E1FF2281FB3F164C0BCDA64FC18AAF8A7DFAE7655BDDA025A3FC1C6FE513BD8"
       },
       "members": [
         {
           "backend": "EXACT_LITERAL",
+          "detail": "Exact replacement: ZarimanCorruptionMission (void_flood.fractures_per_round.normal)",
           "file": "fc711ff621a75552 (missions_exact-replacement).lua_B",
           "intended_live_relative_path": "OpenWF/CustomScripts/Packages/Missions/fc711ff621a75552 (missions_exact-replacement).lua_B",
-          "label": "Exact replacement: ZarimanCorruptionMission (void_flood.fractures_per_round.normal)",
+          "label": "Void Flood (script replacement)",
           "sha256": "E979F5E7906F0D88E49C42B4191ECA6AFDC1237FDDD91D52CBF427DB3FA9F6D2",
           "size": 112244
         },
         {
           "backend": "TARGET_ADDON",
+          "detail": "Mission tunables: Purgatory, HalloweenLanternEndless, SurvivalMission",
           "file": "Missions.targets.addon.lua_B",
           "intended_live_relative_path": "OpenWF/CustomScripts/Packages/Missions/Missions.targets.addon.lua_B",
-          "label": "Mission tunables: Purgatory, HalloweenLanternEndless, SurvivalMission",
-          "sha256": "0F3095793C03F0D9E8DFEE8A23114981B0B7F45C5A3B46A312ACC8412317B608",
-          "size": 7280
+          "label": "Values: Lantern, Purgatory, Survival",
+          "sha256": "8C9F51E364E0029D6D06C9C9C66492F7D59D4473159076ED3C1905734EA95207",
+          "size": 5228
         }
       ],
       "name": "Missions",
@@ -657,8 +722,11 @@
       },
       "settings": {
         "declarations": {
+          "enabled_addon_values": 3,
+          "excluded_values": [],
           "format": "RENOVICE_SETTINGS_DECL_V1",
           "groups": 4,
+          "scope": "built_values",
           "values": 4
         },
         "migration": {
@@ -698,24 +766,26 @@
       "intended_live_relative_path": "OpenWF/CustomScripts/Packages/Missions",
       "manifest": {
         "path": "Packages/Missions/package.json",
-        "sha256": "7A0F60DDE8592BDE2A22A175D4CAC54093C10BC75B3CE23824E37568207D2768"
+        "sha256": "6E1FF2281FB3F164C0BCDA64FC18AAF8A7DFAE7655BDDA025A3FC1C6FE513BD8"
       },
       "members": [
         {
           "backend": "EXACT_LITERAL",
+          "detail": "Exact replacement: ZarimanCorruptionMission (void_flood.fractures_per_round.normal)",
           "file": "fc711ff621a75552 (missions_exact-replacement).lua_B",
           "intended_live_relative_path": "OpenWF/CustomScripts/Packages/Missions/fc711ff621a75552 (missions_exact-replacement).lua_B",
-          "label": "Exact replacement: ZarimanCorruptionMission (void_flood.fractures_per_round.normal)",
+          "label": "Void Flood (script replacement)",
           "sha256": "E979F5E7906F0D88E49C42B4191ECA6AFDC1237FDDD91D52CBF427DB3FA9F6D2",
           "size": 112244
         },
         {
           "backend": "TARGET_ADDON",
+          "detail": "Mission tunables: Purgatory, HalloweenLanternEndless, SurvivalMission",
           "file": "Missions.targets.addon.lua_B",
           "intended_live_relative_path": "OpenWF/CustomScripts/Packages/Missions/Missions.targets.addon.lua_B",
-          "label": "Mission tunables: Purgatory, HalloweenLanternEndless, SurvivalMission",
-          "sha256": "0F3095793C03F0D9E8DFEE8A23114981B0B7F45C5A3B46A312ACC8412317B608",
-          "size": 7280
+          "label": "Values: Lantern, Purgatory, Survival",
+          "sha256": "8C9F51E364E0029D6D06C9C9C66492F7D59D4473159076ED3C1905734EA95207",
+          "size": 5228
         }
       ],
       "name": "Missions",
@@ -726,8 +796,11 @@
       },
       "settings": {
         "declarations": {
+          "enabled_addon_values": 3,
+          "excluded_values": [],
           "format": "RENOVICE_SETTINGS_DECL_V1",
           "groups": 4,
+          "scope": "built_values",
           "values": 4
         },
         "migration": {
@@ -765,6 +838,295 @@
       }
     },
     "location": "work/research/universal-mission-editor-2026-09-29/phase2i-sample"
+  },
+  "phase2k_full_package": {
+    "settings": {
+      "format": "RENOVICE_MISSION_SETTINGS_V1",
+      "build": "2026.09.28.13.06",
+      "values": {
+        "survival.reward_interval": 150,
+        "void_flood.fractures_per_round.normal": 4
+      },
+      "allow_unproven_hook_bindings": [
+        "renovice.target.lua_call"
+      ],
+      "output_layout": "package",
+      "package_scope": "all_addon_values"
+    },
+    "hook_plan": {
+      "enabled": 1,
+      "full_capturer_hooks": 119,
+      "gate": "ROOT_TABLE_MINIMAL_HOOKS_V1",
+      "hooked_targets": 1,
+      "hooks": 4,
+      "retire_sentinel": "RENOVICE_RETIRE",
+      "retiring_hooks": 4,
+      "targets": [
+        {
+          "body_key": "070fa0ad32d6da72",
+          "full_capturer_prototypes": 1,
+          "hooked_tables": [],
+          "module_path": "Lotus.Scripts.Modes.ColonistDoorDefenseMission",
+          "prototypes": [],
+          "retiring_prototypes": [],
+          "tables": 1
+        },
+        {
+          "body_key": "1002fa2aeb0ef437",
+          "full_capturer_prototypes": 1,
+          "hooked_tables": [],
+          "module_path": "Lotus.Scripts.CaptureNew",
+          "prototypes": [],
+          "retiring_prototypes": [],
+          "tables": 1
+        },
+        {
+          "body_key": "1a1354d153712f9d",
+          "full_capturer_prototypes": 1,
+          "hooked_tables": [],
+          "module_path": "Lotus.Scripts.WaveDefend",
+          "prototypes": [],
+          "retiring_prototypes": [],
+          "tables": 1
+        },
+        {
+          "body_key": "1ef96aede7fe612e",
+          "full_capturer_prototypes": 3,
+          "hooked_tables": [],
+          "module_path": "/Lotus/Types/Gameplay/DevilTower/LiteGameModes/CoHShrineDefenseLite.lua",
+          "prototypes": [],
+          "retiring_prototypes": [],
+          "tables": 13
+        },
+        {
+          "body_key": "1f41c5821d2c5240",
+          "full_capturer_prototypes": 2,
+          "hooked_tables": [],
+          "module_path": "Lotus.Scripts.Modes.SentientMobileDefense",
+          "prototypes": [],
+          "retiring_prototypes": [],
+          "tables": 1
+        },
+        {
+          "body_key": "32c344afa33be174",
+          "full_capturer_prototypes": 24,
+          "hooked_tables": [],
+          "module_path": "Lotus.Scripts.Modes.ZarimanSurvivalMission",
+          "prototypes": [],
+          "retiring_prototypes": [],
+          "tables": 2
+        },
+        {
+          "body_key": "4c0a341e89cab9ee",
+          "full_capturer_prototypes": 1,
+          "hooked_tables": [],
+          "module_path": "Lotus.Scripts.Modes.EscalationExtermination",
+          "prototypes": [],
+          "retiring_prototypes": [],
+          "tables": 1
+        },
+        {
+          "body_key": "4c2f0f786e4a8e58",
+          "full_capturer_prototypes": 15,
+          "hooked_tables": [],
+          "module_path": "Lotus.Scripts.LoopDefend",
+          "prototypes": [],
+          "retiring_prototypes": [],
+          "tables": 10
+        },
+        {
+          "body_key": "6fa60841c9e0f207",
+          "full_capturer_prototypes": 5,
+          "hooked_tables": [],
+          "module_path": "Lotus.Scripts.Modes.Purgatory",
+          "prototypes": [],
+          "retiring_prototypes": [],
+          "tables": 4
+        },
+        {
+          "body_key": "721710696afea305",
+          "full_capturer_prototypes": 7,
+          "hooked_tables": [],
+          "module_path": "Lotus.Scripts.Modes.MechSurvivalMission",
+          "prototypes": [],
+          "retiring_prototypes": [],
+          "tables": 3
+        },
+        {
+          "body_key": "7979bfde24ad1a51",
+          "full_capturer_prototypes": 3,
+          "hooked_tables": [],
+          "module_path": "Lotus.Scripts.Modes.FiveFatesMission",
+          "prototypes": [],
+          "retiring_prototypes": [],
+          "tables": 10
+        },
+        {
+          "body_key": "97ddf9f92301da45",
+          "full_capturer_prototypes": 16,
+          "hooked_tables": [],
+          "module_path": "Lotus.Scripts.Modes.WF99PvPvEMission",
+          "prototypes": [],
+          "retiring_prototypes": [],
+          "tables": 9
+        },
+        {
+          "body_key": "a807aae359ffc1eb",
+          "full_capturer_prototypes": 1,
+          "hooked_tables": [],
+          "module_path": "Lotus.Scripts.MobileDefense",
+          "prototypes": [],
+          "retiring_prototypes": [],
+          "tables": 2
+        },
+        {
+          "body_key": "ae99f8ae6c2eb271",
+          "full_capturer_prototypes": 1,
+          "hooked_tables": [],
+          "module_path": "Lotus.Scripts.Modes.PurgeMission",
+          "prototypes": [],
+          "retiring_prototypes": [],
+          "tables": 1
+        },
+        {
+          "body_key": "b35d715b0f5aa1c9",
+          "full_capturer_prototypes": 3,
+          "hooked_tables": [],
+          "module_path": "Lotus.Scripts.Modes.PurifyMission",
+          "prototypes": [],
+          "retiring_prototypes": [],
+          "tables": 3
+        },
+        {
+          "body_key": "b685d6398f60997c",
+          "full_capturer_prototypes": 2,
+          "hooked_tables": [],
+          "module_path": "Lotus.Scripts.Modes.SentientCapture",
+          "prototypes": [],
+          "retiring_prototypes": [],
+          "tables": 1
+        },
+        {
+          "body_key": "b6d8c45f9424d376",
+          "full_capturer_prototypes": 3,
+          "hooked_tables": [],
+          "module_path": "Lotus.Scripts.Modes.SentientArtifactMission",
+          "prototypes": [],
+          "retiring_prototypes": [],
+          "tables": 3
+        },
+        {
+          "body_key": "caec63d8e739b693",
+          "full_capturer_prototypes": 5,
+          "hooked_tables": [],
+          "module_path": "Lotus.Scripts.Modes.HalloweenLanternEndless",
+          "prototypes": [],
+          "retiring_prototypes": [],
+          "tables": 4
+        },
+        {
+          "body_key": "d21d8867b9549b2a",
+          "full_capturer_prototypes": 1,
+          "hooked_tables": [],
+          "module_path": "Lotus.Types.Gameplay.DevilTower.LiteGameModes.CoHDestroyTargets",
+          "prototypes": [],
+          "retiring_prototypes": [],
+          "tables": 1
+        },
+        {
+          "body_key": "eacd4629273a9981",
+          "full_capturer_prototypes": 1,
+          "hooked_tables": [],
+          "module_path": "Lotus.Scripts.Modes.EntratiSwarmMission",
+          "prototypes": [],
+          "retiring_prototypes": [],
+          "tables": 2
+        },
+        {
+          "body_key": "f10a043e7f825db2",
+          "full_capturer_prototypes": 22,
+          "hooked_tables": [
+            "root:i19:R9"
+          ],
+          "module_path": "Lotus.Scripts.Modes.SurvivalMission",
+          "prototypes": [
+            31,
+            61,
+            67,
+            69
+          ],
+          "retiring_prototypes": [
+            31,
+            61,
+            67,
+            69
+          ],
+          "tables": 6
+        },
+        {
+          "body_key": "fc9ba92edb027648",
+          "full_capturer_prototypes": 1,
+          "hooked_tables": [],
+          "module_path": "Lotus.Scripts.Modes.ColonistRescueMission",
+          "prototypes": [],
+          "retiring_prototypes": [],
+          "tables": 2
+        }
+      ],
+      "values": 280
+    },
+    "declarations": {
+      "enabled_addon_values": 1,
+      "excluded_values": [
+        {
+          "reason": "template-only row: its established MISSION_INTERCEPTION_SCORING_TARGET template binds one owner per activation and is not multi-instance safe; available through the 'interception' preset",
+          "tunable_id": "interception.score_rate"
+        },
+        {
+          "reason": "template-only row: its established MISSION_SURVIVAL_TIMERS_LUA_CALL template binds one owner per activation and is not multi-instance safe; available through the 'survival' preset",
+          "tunable_id": "survival.pickup_reward_progress"
+        },
+        {
+          "reason": "body key fc711ff621a75552 is built as an exact replacement (void_flood.fractures_per_round.normal) and one body key may own only one artifact; disable that replacement value and rebuild to declare this value",
+          "tunable_id": "void_flood.curse_count.curseCountNormal"
+        },
+        {
+          "reason": "body key fc711ff621a75552 is built as an exact replacement (void_flood.fractures_per_round.normal) and one body key may own only one artifact; disable that replacement value and rebuild to declare this value",
+          "tunable_id": "void_flood.curse_count.curseCountSteelPath"
+        },
+        {
+          "reason": "body key fc711ff621a75552 is built as an exact replacement (void_flood.fractures_per_round.normal) and one body key may own only one artifact; disable that replacement value and rebuild to declare this value",
+          "tunable_id": "void_flood.curse_count.playerCapacity"
+        },
+        {
+          "reason": "body key fc711ff621a75552 is built as an exact replacement (void_flood.fractures_per_round.normal) and one body key may own only one artifact; disable that replacement value and rebuild to declare this value",
+          "tunable_id": "void_flood.fill_timer.curveScaleV"
+        },
+        {
+          "reason": "body key fc711ff621a75552 is built as an exact replacement (void_flood.fractures_per_round.normal) and one body key may own only one artifact; disable that replacement value and rebuild to declare this value",
+          "tunable_id": "void_flood.fill_timer.timeToFillMax"
+        },
+        {
+          "reason": "body key fc711ff621a75552 is built as an exact replacement (void_flood.fractures_per_round.normal) and one body key may own only one artifact; disable that replacement value and rebuild to declare this value",
+          "tunable_id": "void_flood.fill_timer.timeToFillMin"
+        },
+        {
+          "reason": "body key fc711ff621a75552 is built as an exact replacement (void_flood.fractures_per_round.normal) and one body key may own only one artifact; disable that replacement value and rebuild to declare this value",
+          "tunable_id": "void_flood.fractures_per_round.shadowgrapher"
+        }
+      ],
+      "format": "RENOVICE_SETTINGS_DECL_V1",
+      "groups": 23,
+      "scope": "all_addon_values",
+      "values": 281
+    },
+    "files": {
+      "Packages/Missions/fc711ff621a75552 (missions_exact-replacement).lua_B": "E979F5E7906F0D88E49C42B4191ECA6AFDC1237FDDD91D52CBF427DB3FA9F6D2",
+      "Packages/Missions/Missions.targets.addon.lua_B": "DE4D7E008FCD041B77D648CF94A0D0F6C4DA3BC7497434A896478B49B5CA3BD4",
+      "Packages/Missions/package.json": "ABF627703C6977A02B93A22D714C3E193FFBC4367F57C37BBAF8BAE425AC32C9",
+      "Settings/Missions.json": "5DF49C67F025619AEA385EDEEFD1CBF081C3AD19C38DA88B020E16EF1F42775C"
+    },
+    "state": "identical to the staged install set (folder untouched)"
   },
   "phase2g_sample_state": "identical except the intentional Phase 2i change of Missions.targets.addon.lua_B (folder untouched)",
   "phase2h_sample_state": "identical except the intentional Phase 2i change of Missions.targets.addon.lua_B, package.json to the recorded sample (folder untouched)"

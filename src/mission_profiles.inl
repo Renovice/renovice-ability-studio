@@ -119,6 +119,11 @@ void verify_constant_exclusivity(const Json& site) {
 
 constexpr const char* kRootTableAddonTemplate = "ROOT_TABLE_FIELD";
 constexpr const char* kRootTableGate = "ROOT_TABLE_UPVALUE_V1";
+// Phase 2k: minimal luaCalls hook set per root table (registrar tools/hook_plan.py). Every prototype that can read, write
+// or leak an owned field runs either as a hooked prototype or only inside the dynamic extent of a call to one (nesting
+// rule; valid at the first bind and after every re-activation). The full ROOT_TABLE_UPVALUE_V1 capturer list stays the
+// owner evidence; the generator emits only `minimal_hooks.prototypes`.
+constexpr const char* kMinimalHooksGate = "ROOT_TABLE_MINIMAL_HOOKS_V1";
 
 // Every mission target addon (generic ROOT_TABLE_FIELD and the established Survival/Interception/timer templates) acts
 // only from hooks.luaCalls[P].before, i.e. hook binding renovice.target.lua_call. Its runtime status comes from
@@ -182,6 +187,24 @@ void verify_root_table_fields(const Json& row, const Json& module, const std::st
             for (const auto& key : hook.at("path"))
                 if (!key_ok(key)) throw std::runtime_error("root table " + table_id + " hook path is invalid");
         }
+        // Phase 2k: the generator hooks only the proven minimal subset (registrar tools/hook_plan.py, gate
+        // ROOT_TABLE_MINIMAL_HOOKS_V1). It must be a non-empty subset of the capturer hooks above.
+        if (!table.contains("minimal_hooks") || table.at("minimal_hooks").value("gate", std::string()) != kMinimalHooksGate)
+            throw std::runtime_error("root table " + table_id + " has no " + std::string(kMinimalHooksGate) + " hook plan");
+        const Json& minimal = table.at("minimal_hooks").at("prototypes");
+        std::set<int> chosen;
+        if (!minimal.is_array() || minimal.empty()) throw std::runtime_error("root table " + table_id + " hook plan is empty");
+        for (const auto& prototype : minimal)
+            if (!prototype.is_number_integer() || !prototypes.contains(prototype.get<int>()) || !chosen.insert(prototype.get<int>()).second)
+                throw std::runtime_error("root table " + table_id + " hook plan names a prototype that is not a unique capturer hook");
+        // Contract R3: retire evidence. `retire_safe` is a boolean; `root_children` names only planned prototypes.
+        const Json& plan = table.at("minimal_hooks");
+        if (!plan.contains("retire_safe") || !plan.at("retire_safe").is_boolean() || !plan.contains("root_children") ||
+            !plan.at("root_children").is_array())
+            throw std::runtime_error("root table " + table_id + " hook plan has no R3 retire evidence");
+        for (const auto& prototype : plan.at("root_children"))
+            if (!prototype.is_number_integer() || !chosen.contains(prototype.get<int>()))
+                throw std::runtime_error("root table " + table_id + " hook plan names a root child outside its prototypes");
         if (field.value("field_reads", 0) < 1) throw std::runtime_error("no consumer read recorded for " + table_id);
         const auto offset = field.at("value_offset").get<std::size_t>();
         const auto expected = field.at("expected").get<std::vector<unsigned int>>();
@@ -429,7 +452,9 @@ void verify_mission_ui(const Json& registry) {
                                      "-character row budget");
         std::string folded = label;
         std::transform(folded.begin(), folded.end(), folded.begin(), [](const unsigned char c) { return static_cast<char>(std::tolower(c)); });
-        if (!labels.insert(group + "|" + folded).second) throw std::runtime_error(id + ": short_label is not unique in group " + group);
+        // Phase 2k: unique across the registry, not only in the group (one SCRIPT SETTINGS page shows every section, and
+        // the stock search box matches labels only).
+        if (!labels.insert(folded).second) throw std::runtime_error(id + ": short_label is not unique in group " + group + " or in the registry");
         const auto scope = ui.at("scope_text").get<std::string>();
         if (scope.empty() || scope.size() > kSettingsScopeMaximum || !settings_printable(scope))
             throw std::runtime_error(id + ": scope_text is empty, not printable ASCII or over " + std::to_string(kSettingsScopeMaximum) + " characters");
@@ -610,12 +635,13 @@ std::vector<std::string> settings_label_budget_problems(const std::string& id, c
     return problems;
 }
 
-// Compiled values of a generated multi-target addon source: `[id] = { value = V, stock = S },` per value.
-std::map<std::string, std::pair<double, double>> multi_target_compiled_values(const std::string& source) {
-    static const std::regex entry("\\[\"([A-Za-z0-9_.]+)\"\\] = \\{ value = ([^,]+), stock = ([^ ]+) \\},");
-    std::map<std::string, std::pair<double, double>> values;
+// Compiled values of a generated multi-target addon source: `[id] = { value = V, stock = S, enabled = B },` per value.
+struct CompiledMissionValue { double value = 0; double stock = 0; bool enabled = false; };
+std::map<std::string, CompiledMissionValue> multi_target_compiled_values(const std::string& source) {
+    static const std::regex entry("\\[\"([A-Za-z0-9_.]+)\"\\] = \\{ value = ([^,]+), stock = ([^,]+), enabled = (true|false) \\},");
+    std::map<std::string, CompiledMissionValue> values;
     for (auto it = std::sregex_iterator(source.begin(), source.end(), entry); it != std::sregex_iterator(); ++it)
-        if (!values.emplace((*it)[1].str(), std::pair{std::stod((*it)[2].str()), std::stod((*it)[3].str())}).second)
+        if (!values.emplace((*it)[1].str(), CompiledMissionValue{std::stod((*it)[2].str()), std::stod((*it)[3].str()), (*it)[4].str() == "true"}).second)
             throw std::runtime_error("compiled value " + (*it)[1].str() + " appears twice");
     return values;
 }
@@ -688,8 +714,9 @@ void verify_mission_registry_structure(const Json& registry) {
     verify_mission_ui(registry);
 }
 
-std::map<std::string, double> validate_mission_values(const Json& registry, const Json& values) {
-    if (!values.is_object() || values.empty()) throw std::runtime_error("Mission settings must name at least one tunable_id");
+std::map<std::string, double> validate_mission_values(const Json& registry, const Json& values, const bool allow_empty = false) {
+    // A package that declares every addon value may enable none of them (everything stock, nothing hooked).
+    if (!values.is_object() || (values.empty() && !allow_empty)) throw std::runtime_error("Mission settings must name at least one tunable_id");
     std::map<std::string, double> result;
     for (const auto& [id, value] : values.items()) {
         const Json& row = mission_tunable(registry, id);
@@ -775,6 +802,11 @@ struct MissionNaming {
     // settings.output_layout == "package": also emit the Lua artifacts as ONE optional bootstrapper folder package,
     // Packages\Missions\ (bootstrapper feat/script-packages-2026-09-29). The default "loose" layout is unchanged.
     bool package_layout = false;
+    // Phase 2k, settings.package_scope == "all_addon_values" (package layout only): the Missions addon member declares
+    // EVERY multi-instance-safe TARGET_ADDON row of the registry so SCRIPT SETTINGS can edit any mission value. Rows named
+    // in `values` are enabled with that value; every other declared row is compiled as stock and disabled. luaCalls hooks
+    // are emitted only for root tables that hold at least one enabled value (a target without one declares no hook).
+    bool declare_all_addon_values = false;
 };
 
 std::string replace_all(std::string text, const std::string& from, const std::string& to) {
@@ -828,6 +860,7 @@ constexpr const char* kMultiTargetAddonName = "Missions";
 constexpr const char* kMissionPackageName = "Missions";
 constexpr std::size_t kPackageLabelMaximum = 128;
 constexpr std::size_t kPackageDescriptionMaximum = 1024;
+constexpr std::uintmax_t kPackageManifestMaximumBytes = 512u * 1024u;  // bootstrapper packages_core.hpp maximum_manifest_bytes
 
 std::string ascii_lower_text(std::string text) {
     std::transform(text.begin(), text.end(), text.begin(), [](const unsigned char c) { return static_cast<char>(std::tolower(c)); });
@@ -963,30 +996,63 @@ std::string lua_table_key(const Json& key) {
 // and reported once; cleanup restores every table it wrote whose field still holds the written value.
 //
 // Phase 2i (INGAME_EDITOR_DESIGN.md section 3.4, primitive ADDON_SETTINGS_V1): each entry keeps its compiled values in its
-// `settings` table (`[id] = { value, stock }`, stock equal to the registry stock). `activate(context)` derives the effective
-// settings of this generation: with `context.settings` (a generation-owned table `[id] = { enabled, value, stock }` built by
-// the host from package.json declarations and CustomScripts\Settings\<package>.json) only enabled values whose declared
-// stock equals the compiled stock are bound; a missing or disabled value keeps its field stock and is never written.
-// Without `context.settings` (loose layout, an older runtime, or an addon without declarations) the compiled values apply
-// exactly as before. The stock check runs only over the fields this generation writes.
+// `settings` table (`[id] = { value, stock, enabled }`, stock equal to the registry stock). `activate(context)` derives the
+// effective settings of this generation: with `context.settings` (a generation-owned table `[id] = { enabled, value, stock }`
+// built by the host from package.json declarations and CustomScripts\Settings\<package>.json) only enabled values whose
+// declared stock equals the compiled stock are bound; a missing or disabled value keeps its field stock and is never
+// written. Without `context.settings` (loose layout, an older runtime, or rejected declarations) the compiled values apply
+// where their compiled `enabled` flag is true. The stock check runs only over the fields this generation writes.
+//
+// Phase 2k (performance): a root table is hooked only when it holds at least one value enabled by the build, and then only
+// at its proven minimal prototypes (registry `minimal_hooks.prototypes`, gate ROOT_TABLE_MINIMAL_HOOKS_V1). A target with no
+// hooked table declares no `hooks` at all, so the runtime installs nothing for it (no identity, no luaCalls fast gate). A
+// value of an UNHOOKED table cannot be written by this build: if the host delivers it enabled, activate fails with an
+// exact rebuild instruction, the runtime rolls that target back to its previous generation and logs the text
+// (`RENOVICE addon lifecycle FAIL ... error="..."`, operational, bounded).
+constexpr const char* kMissionRebuildHint = "rebuild Packages/Missions from Settings/Missions.json";
+
+// R3 RETIRE POINT. Contract Revision R3 (CONTRACT_PHASE1.md; bootstrapper feat/lua-call-retire-2026-09-30 f3a3303): a
+// luaCalls[P].before callback that returns the exact string "RENOVICE_RETIRE" retires prototype P for the module instance
+// it saw; the runtime re-arms it at the next root entry (new instance), at every F9 commit and on rebind/enable/disable.
+// Pre-R3 DLLs ignore the return value. The generator emits the statement as the LAST statement of `before<P>`, i.e. only
+// after every table that hook binds is settled for this instance (bound and written, already bound, drifted = reported
+// by an error on its first call, or not live in this generation), and only when (a) P is a direct child of the module root
+// (registry minimal_hooks.root_children) and (b) every bound table is retire-safe (registry minimal_hooks.retire_safe: the
+// table cannot be replaced by another table during the instance). Otherwise the hook stays armed.
+constexpr const char* kLuaCallRetireSentinel = "RENOVICE_RETIRE";
+std::string hook_retire_statement() {
+    return std::string("return \"") + kLuaCallRetireSentinel + "\" -- R3: this hook's tables are settled for this instance";
+}
+
 std::string multi_target_addon_source(const Json& registry, const std::map<std::string, std::vector<const Json*>>& bodies,
-                                      const std::map<std::string, double>& values) {
+                                      const std::map<std::string, double>& values, const std::set<std::string>& enabled) {
     std::ostringstream out;
+    const std::string retire = hook_retire_statement();
+    bool any_unhooked = false;
+    for (const auto& [body, rows] : bodies) {
+        std::map<std::string, bool> table_enabled;
+        for (const Json* row : rows)
+            for (const auto& field : row->at("owner").at("fields"))
+                table_enabled[field.at("table_id").get<std::string>()] |= enabled.contains(row->at("tunable_id").get<std::string>());
+        for (const auto& [table_id, on] : table_enabled) any_unhooked = any_unhooked || !on;
+    }
     out << "-- Generated by RENOVICE Ability Editor from the mission registry. Do not hand-edit.\n"
         << "-- Build profile " << registry.at("build").get<std::string>() << ". Multi-target addon: one Scripts row, \"[ADDON] "
         << kMultiTargetAddonName << "\".\n"
         << "-- Target keys appear only as the keys of `targets` (every lowercase 16-hex string constant is a declared target).\n"
         << "-- Root-table fields (gate " << kRootTableGate << ") are bound per live table instance: stock checked once per\n"
         << "-- table, written once, restored in cleanup. No polling, no per-frame writes, no single-owner assumption.\n"
+        << "-- Hooks (gate " << kMinimalHooksGate << "): only tables with a value enabled by this build are hooked, at their\n"
+        << "-- proven minimal prototypes; a target without such a table declares no hooks.\n"
         << "-- Values: activate(context) reads context.settings (ADDON_SETTINGS_V1: [id] = { enabled, value, stock }); without\n"
-        << "-- it the compiled values below apply. A value that is not enabled is never written.\n\n"
+        << "-- it the compiled values below apply where enabled. A value that is not enabled is never written.\n\n"
         << "local function effectiveSettings(compiled, context)\n"
         << "    local provided = nil\n"
         << "    if type(context) == \"table\" and type(context.settings) == \"table\" then provided = context.settings end\n"
         << "    local result = {}\n"
         << "    for id, entry in pairs(compiled) do\n"
         << "        if provided == nil then\n"
-        << "            result[id] = { enabled = true, value = entry.value, stock = entry.stock }\n"
+        << "            result[id] = { enabled = entry.enabled, value = entry.value, stock = entry.stock }\n"
         << "        else\n"
         << "            local given = provided[id]\n"
         << "            local usable = type(given) == \"table\" and given.enabled == true and type(given.value) == \"number\"\n"
@@ -1005,12 +1071,22 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
         << "        if current[fields[i].setting].enabled then return true end\n"
         << "    end\n"
         << "    return false\n"
-        << "end\n\n"
-        << "local function ownedTable(tag, settings, fields)\n"
+        << "end\n\n";
+    // The runtime keeps 191 characters of a lifecycle error (injection_core.hpp lua_error_text_capacity 192): the id and the
+    // instruction come first, the (short) table tag last, so a cut never loses the instruction.
+    if (any_unhooked)
+        out << "local function requireHooked(current, fields, tag)\n"
+            << "    for i = 1, #fields do\n"
+            << "        if current[fields[i].setting].enabled then\n"
+            << "            error(fields[i].setting .. \": no hook in this build; " << kMissionRebuildHint << " [\" .. tag .. \"]\", 0)\n"
+            << "        end\n"
+            << "    end\n"
+            << "end\n\n";
+    out << "local function ownedTable(tag, settings, fields)\n"
         << "    local bound = setmetatable({}, { __mode = \"k\" }) -- live table -> written values, or false when drifted\n"
         << "    local function bind(owner, current)\n"
         << "        assert(type(owner) == \"table\", tag .. \" is not a table\")\n"
-        << "        if bound[owner] ~= nil then return end\n"
+        << "        if bound[owner] ~= nil then return true end\n"
         << "        for i = 1, #fields do\n"
         << "            local field = fields[i]\n"
         << "            if current[field.setting].enabled and owner[field.key] ~= settings[field.setting].stock then\n"
@@ -1028,6 +1104,7 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
         << "            end\n"
         << "        end\n"
         << "        bound[owner] = written\n"
+        << "        return true\n"
         << "    end\n"
         << "    local function restore()\n"
         << "        for owner, written in pairs(bound) do\n"
@@ -1048,39 +1125,60 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
         ++target;
         const Json& module = mission_module(registry, body);
         const auto module_path = module.at("module_path").get<std::string>();
-        struct Owned { std::string key; std::string setting; };
+        struct Owned { std::string key; std::string setting; bool enabled; };
         std::map<std::string, std::vector<Owned>> tables;
         std::map<std::string, const Json*> settings;
         for (const Json* row : rows) {
             const auto id = row->at("tunable_id").get<std::string>();
             settings.emplace(id, row);
             for (const auto& field : row->at("owner").at("fields"))
-                tables[field.at("table_id").get<std::string>()].push_back({lua_table_key(field.at("field")), lua_quote(id)});
+                tables[field.at("table_id").get<std::string>()].push_back({lua_table_key(field.at("field")), lua_quote(id), enabled.contains(id)});
         }
         out << "\n-- Target " << target << ": " << module_path << "\n"
             << "local function target" << target << "()\n"
-            << "    local settings = { -- compiled values (used without context.settings) and the registry stock\n";
+            << "    local settings = { -- compiled values (used without context.settings), the registry stock and the build's choice\n";
         for (const auto& [id, row] : settings)
             out << "        [" << lua_quote(id) << "] = { value = " << format_number(values.at(id)) << ", stock = "
-                << format_number(row->at("stock").get<double>()) << " },\n";
+                << format_number(row->at("stock").get<double>()) << ", enabled = " << (enabled.contains(id) ? "true" : "false") << " },\n";
         out << "    }\n"
             << "    local current = nil -- effective settings of the active generation; nil while inactive\n";
-        struct Bind { int upvalue; std::vector<std::string> steps; std::size_t slot; };
-        std::map<int, std::vector<Bind>> hooks;  // prototype -> tables its captures reach
+        struct Bind { int upvalue; std::vector<std::string> steps; std::size_t slot; bool retire_safe; };
+        std::map<int, std::vector<Bind>> hooks;  // prototype -> hooked tables it binds
+        std::vector<std::pair<std::size_t, std::string>> unhooked;  // slot, tag
+        std::vector<std::size_t> hooked_slots;
         std::size_t slot = 0;
         for (const auto& [table_id, fields] : tables) {
             ++slot;
+            const bool hooked = std::any_of(fields.begin(), fields.end(), [](const Owned& field) { return field.enabled; });
             out << "    local fields" << slot << " = {\n";
             for (const auto& field : fields) out << "        { key = " << field.key << ", setting = " << field.setting << " },\n";
-            out << "    }\n"
-                << "    local bind" << slot << ", restore" << slot << " = ownedTable(" << lua_quote(module_path + " " + table_id)
-                << ", settings, fields" << slot << ")\n"
+            out << "    }\n";
+            const std::string tag = module_path + " " + table_id;
+            if (!hooked) {
+                out << "    -- " << table_id << ": no value enabled by this build, so no hook (" << kMissionRebuildHint << " to enable one)\n";
+                std::string short_module = module_path.size() > 4 && module_path.ends_with(".lua") ? module_path.substr(0, module_path.size() - 4) : module_path;
+                short_module = module_short_name(short_module);
+                unhooked.emplace_back(slot, short_module + " " + table_id);
+                continue;
+            }
+            hooked_slots.push_back(slot);
+            out << "    local bind" << slot << ", restore" << slot << " = ownedTable(" << lua_quote(tag) << ", settings, fields" << slot << ")\n"
                 << "    local live" << slot << " = false\n";
-            for (const auto& hook : module.at("root_tables").at(table_id).at("hooks")) {
-                Bind bind{hook.at("upvalue").get<int>(), {}, slot};
+            const Json& table = module.at("root_tables").at(table_id);
+            std::set<int> minimal, root_children;
+            for (const auto& prototype : table.at("minimal_hooks").at("prototypes")) minimal.insert(prototype.get<int>());
+            for (const auto& prototype : table.at("minimal_hooks").value("root_children", Json::array())) root_children.insert(prototype.get<int>());
+            const bool table_retire_safe = table.at("minimal_hooks").value("retire_safe", false);
+            std::size_t emitted = 0;
+            for (const auto& hook : table.at("hooks")) {
+                if (!minimal.contains(hook.at("prototype").get<int>())) continue;
+                Bind bind{hook.at("upvalue").get<int>(), {}, slot,
+                          table_retire_safe && root_children.contains(hook.at("prototype").get<int>())};
                 for (const auto& key : hook.at("path")) bind.steps.push_back("[" + lua_table_key(key) + "]");
                 hooks[hook.at("prototype").get<int>()].push_back(std::move(bind));
+                ++emitted;
             }
+            if (emitted != minimal.size()) throw std::runtime_error("hook plan of " + tag + " names a prototype without a capturer hook");
         }
         for (const auto& [prototype, binds] : hooks) {
             out << "    local function before" << prototype << "(prototype, arguments, upvalues)\n"
@@ -1093,7 +1191,8 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
                     out << "        if live" << bind.slot << " then bind" << bind.slot << "(" << base << ", current) end\n";
                     continue;
                 }
-                // A nested table is reached through its root container(s) of this instance; every step must be a table.
+                // A nested table is reached through its root container(s) of this instance (outermost key first); every
+                // step must be a table.
                 out << "        if live" << bind.slot << " then\n"
                     << "            local container = " << base << "\n";
                 for (const auto& step : bind.steps)
@@ -1102,23 +1201,31 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
                 out << "            bind" << bind.slot << "(container, current)\n"
                     << "        end\n";
             }
+            // Every bind above returned or raised: reaching this line means each table of this hook is settled.
+            const bool retire_here = !retire.empty() &&
+                std::all_of(binds.begin(), binds.end(), [](const Bind& bind) { return bind.retire_safe; });
+            if (retire_here) out << "        " << retire << "\n";
             out << "    end\n";
         }
         out << "    return {\n"
             << "        label = " << lua_quote(module_path) << ", -- reserved for the settings editor; ignored by the runtime\n"
             << "        settings = settings, -- reserved for the settings editor; ignored by the runtime\n"
             << "        activate = function(context)\n"
-            << "            current = effectiveSettings(settings, context)\n";
-        for (std::size_t n = 1; n <= slot; ++n) out << "            live" << n << " = anyEnabled(current, fields" << n << ")\n";
+            << "            local effective = effectiveSettings(settings, context)\n";
+        for (const auto& [n, tag] : unhooked) out << "            requireHooked(effective, fields" << n << ", " << lua_quote(tag) << ")\n";
+        out << "            current = effective\n";
+        for (const auto n : hooked_slots) out << "            live" << n << " = anyEnabled(current, fields" << n << ")\n";
         out << "        end,\n"
             << "        cleanup = function()\n"
             << "            current = nil\n";
-        for (std::size_t n = 1; n <= slot; ++n) out << "            live" << n << " = false\n            restore" << n << "()\n";
-        out << "        end,\n"
-            << "        hooks = { luaCalls = {\n";
-        for (const auto& [prototype, binds] : hooks) out << "            [" << prototype << "] = { before = before" << prototype << " },\n";
-        out << "        } },\n"
-            << "    }\n"
+        for (const auto n : hooked_slots) out << "            live" << n << " = false\n            restore" << n << "()\n";
+        out << "        end,\n";
+        if (!hooks.empty()) {
+            out << "        hooks = { luaCalls = {\n";
+            for (const auto& [prototype, binds] : hooks) out << "            [" << prototype << "] = { before = before" << prototype << " },\n";
+            out << "        } },\n";
+        }
+        out << "    }\n"
             << "end\n";
     }
     out << "\nreturn {\n"
@@ -1131,6 +1238,56 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
     return out.str();
 }
 
+// Phase 2k gate `hook-retire` (contract R3): the before<P> functions of each target section that return the retire sentinel.
+std::map<std::string, std::set<int>> multi_target_source_retiring_hooks(const std::string& source) {
+    static const std::regex section("\n-- Target [0-9]+: ([^\n]+)\n");
+    static const std::regex function("\n    local function before([0-9]+)\\(prototype, arguments, upvalues\\)\n([\\s\\S]*?)\n    end(?=\n)");
+    std::map<std::string, std::set<int>> result;
+    std::vector<std::pair<std::size_t, std::string>> starts;
+    for (auto it = std::sregex_iterator(source.begin(), source.end(), section); it != std::sregex_iterator(); ++it)
+        starts.emplace_back(static_cast<std::size_t>(it->position()), (*it)[1].str());
+    const std::size_t tail = source.rfind("\nreturn {\n");
+    const std::string sentinel = std::string("return \"") + kLuaCallRetireSentinel + "\"";
+    for (std::size_t n = 0; n < starts.size(); ++n) {
+        const std::size_t end = n + 1 < starts.size() ? starts[n + 1].first : tail;
+        const std::string text = source.substr(starts[n].first, end - starts[n].first);
+        auto& set = result[starts[n].second];
+        for (auto it = std::sregex_iterator(text.begin(), text.end(), function); it != std::sregex_iterator(); ++it) {
+            const std::string body = (*it)[2].str();
+            const auto at = body.find(sentinel);
+            if (at == std::string::npos) continue;
+            // The sentinel must be the last statement (after every bind of the hook) and appear once.
+            if (body.find(sentinel, at + 1) != std::string::npos || body.find('\n', at) != std::string::npos)
+                throw std::runtime_error("before" + (*it)[1].str() + " returns the retire sentinel before its last statement");
+            set.insert(std::stoi((*it)[1].str()));
+        }
+    }
+    return result;
+}
+
+// Phase 2k gate `hook-plan`: the luaCalls prototypes the GENERATED SOURCE declares per target (read back from the
+// `hooks = { luaCalls = { [P] = ... } }` block of each `-- Target N: <module>` section). A target without the block maps
+// to an empty set.
+std::map<std::string, std::set<int>> multi_target_source_hooks(const std::string& source) {
+    static const std::regex section("\n-- Target [0-9]+: ([^\n]+)\n");
+    static const std::regex entry("\n            \\[([0-9]+)\\] = \\{ before = before([0-9]+) \\},");
+    std::map<std::string, std::set<int>> result;
+    std::vector<std::pair<std::size_t, std::string>> starts;
+    for (auto it = std::sregex_iterator(source.begin(), source.end(), section); it != std::sregex_iterator(); ++it)
+        starts.emplace_back(static_cast<std::size_t>(it->position()), (*it)[1].str());
+    const std::size_t tail = source.rfind("\nreturn {\n");
+    for (std::size_t n = 0; n < starts.size(); ++n) {
+        const std::size_t end = n + 1 < starts.size() ? starts[n + 1].first : tail;
+        const std::string text = source.substr(starts[n].first, end - starts[n].first);
+        auto& set = result[starts[n].second];
+        for (auto it = std::sregex_iterator(text.begin(), text.end(), entry); it != std::sregex_iterator(); ++it) {
+            if ((*it)[1].str() != (*it)[2].str()) throw std::runtime_error("hook entry names another prototype's function");
+            set.insert(std::stoi((*it)[1].str()));
+        }
+    }
+    return result;
+}
+
 MissionSetResult build_mission_set(const Json& registry, const Json& values_json, const MissionNaming& naming,
                                    const fs::path& editor_root, const fs::path& staging_root, bool run_external_gates,
                                    const Json& project_snapshot) {
@@ -1138,7 +1295,7 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
     try {
         if (!run_external_gates) throw std::runtime_error("Current-build mission export requires all verification gates");
         verify_mission_registry_structure(registry);
-        const auto values = validate_mission_values(registry, values_json);
+        const auto values = validate_mission_values(registry, values_json, naming.declare_all_addon_values);
         const MissionPaths paths = mission_paths(registry, editor_root);
 
         // Lua rows are grouped per body key and each body gets exactly one artifact. A body whose rows can all be written
@@ -1196,10 +1353,62 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                                          "); one body key may own only one artifact");
             }
         }
+        // Compiled addon values and the build's enabled set. Without package_scope every built addon row is enabled with its
+        // requested value (the Phase 2g-2j behaviour). With package_scope "all_addon_values" every other multi-instance-safe
+        // TARGET_ADDON row is declared too, compiled as its stock and disabled; rows that cannot join are listed with the
+        // exact reason.
+        std::map<std::string, double> compiled_values;
+        std::set<std::string> enabled_ids;
+        for (const auto& [body, rows] : addon)
+            for (const Json* row : rows) {
+                const auto id = row->at("tunable_id").get<std::string>();
+                compiled_values[id] = values.at(id);
+                enabled_ids.insert(id);
+            }
+        Json excluded_values = Json::array();
+        if (naming.declare_all_addon_values) {
+            if (!naming.package_layout) throw std::runtime_error("package_scope \"all_addon_values\" needs \"output_layout\": \"package\"");
+            if (!addon_lane_usable)
+                throw std::runtime_error(std::string("NEEDS_BINDING: package_scope \"all_addon_values\" declares target-addon values, whose hook binding ") +
+                                         kMissionAddonHookBinding + " is " + hook.status + "; add \"allow_unproven_hook_bindings\": [\"" +
+                                         kMissionAddonHookBinding + "\"] for a live acceptance build");
+            for (const auto& row : registry.at("tunables")) {
+                if (row.at("backend") != "TARGET_ADDON") continue;
+                const auto id = row.at("tunable_id").get<std::string>();
+                if (values.contains(id)) continue;
+                const auto body = row.at("owner").at("body_key").get<std::string>();
+                if (!row.at("owner").contains("fields")) {
+                    std::string presets;
+                    for (const auto& [preset_id, preset] : registry.at("missions").items())
+                        if (preset.at("body_key") == body) presets += (presets.empty() ? "" : ", ") + preset_id;
+                    excluded_values.push_back({{"tunable_id", id}, {"reason", "template-only row: its established " +
+                        row.at("owner").at("template").get<std::string>() + " template binds one owner per activation and is not "
+                        "multi-instance safe; available through the '" + presets + "' preset"}});
+                    continue;
+                }
+                if (literal.contains(body)) {
+                    excluded_values.push_back({{"tunable_id", id}, {"reason", "body key " + body + " is built as an exact replacement (" +
+                        id_list(literal.at(body)) + ") and one body key may own only one artifact; disable that replacement value and "
+                        "rebuild to declare this value"}});
+                    continue;
+                }
+                try { verify_mission_row(registry, row, paths); }
+                catch (const std::exception& e) { throw std::runtime_error(id + ": " + e.what()); }
+                addon[body].push_back(&row);
+                compiled_values[id] = row.at("stock").get<double>();
+            }
+            // Design section 5: a literal value is toggled through its member, so a replacement member may carry exactly one.
+            for (const auto& [body, rows] : literal)
+                if (rows.size() != 1)
+                    throw std::runtime_error("package_scope \"all_addon_values\": the exact replacement of body key " + body + " carries " +
+                                             std::to_string(rows.size()) + " literal values (" + id_list(rows) + "); a live-list literal value "
+                                             "must be the only value of its replacement member");
+        }
         const auto registry_sha = sha256_file(editor_root / kMissionRegistryPath);
         Json normalized = {{"format", "RENOVICE_MISSION_SETTINGS_V1"}, {"build", registry.at("build")}, {"values", Json::object()}};
         for (const auto& [id, value] : values) normalized["values"][id] = value;
         if (!naming.allow_unproven_hooks.empty()) normalized["allow_unproven_hook_bindings"] = naming.allow_unproven_hooks;
+        if (naming.declare_all_addon_values) normalized["package_scope"] = "all_addon_values";
         // Recorded only for the package layout, so every loose build keeps its exact settings bytes and build hash.
         if (naming.package_layout) normalized["output_layout"] = "package";
         const std::string package_live = std::string("OpenWF/CustomScripts/Packages/") + kMissionPackageName + "/";
@@ -1383,7 +1592,7 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
             }
             if (addon.size() > kMultiTargetMaximumKeys) throw std::runtime_error("Multi-target addon would declare more than 1024 targets");
             const std::string name = std::string(kMultiTargetAddonName) + ".targets.addon";
-            const std::string source_text = multi_target_addon_source(registry, addon, values);
+            const std::string source_text = multi_target_addon_source(registry, addon, compiled_values, enabled_ids);
             const fs::path source = result.directory / "source" / (name + ".luau");
             const fs::path artifact = result.directory / "artifacts" / (name + ".lua_B");
             write_text(source, source_text);
@@ -1405,6 +1614,76 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                                std::to_string(declared.size()) + " expected=" + std::to_string(expected.size()) + "\n";
             gates.push_back({{"name", "multi-target-declared-keys"}, {"pass", problems.empty()}, {"exit_code", problems.empty() ? 0 : 1}});
             if (!problems.empty()) throw std::runtime_error("multi-target-declared-keys failed: " + problems);
+            // Phase 2k gate hook-plan: the luaCalls prototypes the generated source declares per target equal the union of
+            // the registry minimal hook sets (ROOT_TABLE_MINIMAL_HOOKS_V1) of exactly the tables that hold an enabled value; a
+            // target without one declares no hooks.
+            const auto source_hooks = multi_target_source_hooks(source_text);
+            // Contract R3 gate hook-retire: a hook returns "RENOVICE_RETIRE" exactly when its prototype is a root child and
+            // every table it binds is retire-safe (registry minimal_hooks), and only as its last statement.
+            std::map<std::string, std::set<int>> source_retiring;
+            try { source_retiring = multi_target_source_retiring_hooks(source_text); }
+            catch (const std::exception& e) { problems += std::string(e.what()) + "; "; }
+            std::size_t hooked_targets = 0, hook_count = 0, hooked_tables = 0, table_count = 0, full_hooks = 0, retiring_hooks = 0;
+            Json hook_plan = Json::array();
+            for (const auto& [body, rows] : addon) {
+                const Json& module = mission_module(registry, body);
+                const auto module_path = module.at("module_path").get<std::string>();
+                std::map<std::string, bool> tables;
+                for (const Json* row : rows)
+                    for (const auto& field : row->at("owner").at("fields"))
+                        tables[field.at("table_id").get<std::string>()] |= enabled_ids.contains(row->at("tunable_id").get<std::string>());
+                // The unhooked-value error must keep its rebuild instruction inside the runtime's 191-character error text.
+                for (const Json* row : rows) {
+                    const auto id = row->at("tunable_id").get<std::string>();
+                    if (id.size() + std::string(": no hook in this build; ").size() + std::string(kMissionRebuildHint).size() > 191)
+                        problems += "the rebuild error of " + id + " would not fit the runtime error text; ";
+                }
+                std::set<int> want, full, not_retirable;
+                Json hooked = Json::array();
+                for (const auto& [table_id, on] : tables) {
+                    const Json& table = module.at("root_tables").at(table_id);
+                    for (const auto& hook_entry : table.at("hooks")) full.insert(hook_entry.at("prototype").get<int>());
+                    ++table_count;
+                    if (!on) continue;
+                    ++hooked_tables;
+                    hooked.push_back(table_id);
+                    const Json& plan = table.at("minimal_hooks");
+                    std::set<int> root_children;
+                    for (const auto& prototype : plan.value("root_children", Json::array())) root_children.insert(prototype.get<int>());
+                    for (const auto& prototype : plan.at("prototypes")) {
+                        want.insert(prototype.get<int>());
+                        if (!plan.value("retire_safe", false) || !root_children.contains(prototype.get<int>())) not_retirable.insert(prototype.get<int>());
+                    }
+                }
+                std::set<int> want_retiring;
+                for (const int prototype : want)
+                    if (!not_retirable.contains(prototype)) want_retiring.insert(prototype);
+                const auto retiring = source_retiring.find(module_path);
+                const std::set<int> have_retiring = retiring == source_retiring.end() ? std::set<int>{} : retiring->second;
+                if (have_retiring != want_retiring)
+                    problems += "target " + module_path + " returns the retire sentinel from hooks other than its retire-safe root-child hooks; ";
+                retiring_hooks += have_retiring.size();
+                const auto found = source_hooks.find(module_path);
+                const std::set<int> have = found == source_hooks.end() ? std::set<int>{} : found->second;
+                if (found == source_hooks.end()) problems += "target " + module_path + " is missing from the generated source; ";
+                else if (have != want) problems += "target " + module_path + " declares hooks that are not the minimal hook plan of its enabled tables; ";
+                if (!have.empty()) ++hooked_targets;
+                hook_count += have.size();
+                full_hooks += full.size();
+                hook_plan.push_back({{"body_key", body}, {"module_path", module_path}, {"hooked_tables", hooked},
+                                     {"tables", tables.size()}, {"prototypes", std::vector<int>(have.begin(), have.end())},
+                                     {"retiring_prototypes", std::vector<int>(have_retiring.begin(), have_retiring.end())},
+                                     {"full_capturer_prototypes", full.size()}});
+            }
+            if (source_hooks.size() != addon.size()) problems += "generated source target count differs from the addon targets; ";
+            result.gate_log += "hook-plan\n" + (problems.empty() ? std::string("PASS") : problems) + " targets=" + std::to_string(addon.size()) +
+                               " hooked_targets=" + std::to_string(hooked_targets) + " hooks=" + std::to_string(hook_count) +
+                               " full_capturer_hooks=" + std::to_string(full_hooks) + " tables=" + std::to_string(table_count) +
+                               " hooked_tables=" + std::to_string(hooked_tables) + " values=" + std::to_string(compiled_values.size()) +
+                               " enabled=" + std::to_string(enabled_ids.size()) + " retiring_hooks=" + std::to_string(retiring_hooks) + "\n";
+            gates.push_back({{"name", "hook-plan"}, {"pass", problems.empty()}, {"exit_code", problems.empty() ? 0 : 1}});
+            gates.push_back({{"name", "hook-retire"}, {"pass", problems.empty()}, {"exit_code", problems.empty() ? 0 : 1}});
+            if (!problems.empty()) throw std::runtime_error("hook-plan failed: " + problems);
             std::string policy = artifact.filename().string();
             std::transform(policy.begin(), policy.end(), policy.begin(), [](const unsigned char c) { return static_cast<char>(std::tolower(c)); });
             const Json scripts_menu = naming.package_layout
@@ -1414,7 +1693,11 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                 : Json{{"row", "[ADDON] " + std::string(kMultiTargetAddonName)}, {"policy_id", "target-addon:" + policy}};
             record("TARGET_ADDON", "TARGET_ADDON", "multi-target", all_rows, source, artifact, fs::path(), std::string(),
                    lua_live_path("OpenWF/CustomScripts/Inject/", artifact), gates,
-                   Json{{"target_keys", target_keys}, {"targets", targets}, {"scripts_menu", scripts_menu}});
+                   Json{{"target_keys", target_keys}, {"targets", targets}, {"scripts_menu", scripts_menu},
+                        {"hook_plan", {{"gate", kMinimalHooksGate}, {"targets", hook_plan}, {"hooked_targets", hooked_targets},
+                                       {"hooks", hook_count}, {"full_capturer_hooks", full_hooks}, {"values", compiled_values.size()},
+                                       {"enabled", enabled_ids.size()}, {"retiring_hooks", retiring_hooks},
+                                       {"retire_sentinel", kLuaCallRetireSentinel}}}});
         }
 
         if (!metadata.empty()) {
@@ -1557,6 +1840,11 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                     if (!bytecode || (!multi && !replacement)) problems += "member " + name + " is not a replacement or multi-target addon file; ";
                 }
                 if (Json::parse(read_text(package_dir / "package.json")) != package_json) problems += "package.json readback mismatch; ";
+                // Loader bound (bootstrapper renovice/packages_core.hpp maximum_manifest_bytes, 512 KiB since the settings editor).
+                const auto manifest_bytes = fs::file_size(package_dir / "package.json");
+                if (manifest_bytes > kPackageManifestMaximumBytes)
+                    problems += "package.json is " + std::to_string(manifest_bytes) + " bytes, over the loader bound of " +
+                                std::to_string(kPackageManifestMaximumBytes) + "; ";
                 // Member-label gate (SCRIPT SETTINGS row): <= 40 printable characters, unique, no dangling list punctuation.
                 std::set<std::string> label_keys;
                 for (const auto& [name, member] : member_labels.items()) {
@@ -1568,7 +1856,7 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                     if (!label_keys.insert(ascii_lower_text(label)).second) problems += "member " + name + " label is not unique; ";
                 }
                 result.gate_log += "package-folder\n" + (problems.empty() ? std::string("PASS") : problems) + " members=" +
-                                   std::to_string(declared.size()) + "\n";
+                                   std::to_string(declared.size()) + " package_json_bytes=" + std::to_string(manifest_bytes) + "\n";
                 if (!problems.empty()) throw std::runtime_error("package-folder gate failed: " + problems);
 
                 // Phase 2i gate settings-declarations: strict schema; exactly one declaration per member tunable and nothing
@@ -1578,6 +1866,7 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                 for (const auto& problem : validate_settings_declarations(package_json)) settings_problems.push_back("schema: " + problem);
                 std::size_t declared_values = 0;
                 Json migration_values = Json::object(), migration_groups = Json::object();
+                std::map<std::string, std::string> value_labels;  // folded label -> id (unique in the package)
                 for (const MissionArtifact* item : members) {
                     const std::string file = item->artifact.filename().string();
                     const Json& declared_member = package_json.at("members").at(file).at("settings").at("values");
@@ -1587,7 +1876,7 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                         have.insert(id);
                     }
                     if (want != have) settings_problems.push_back(file + ": declarations are not exactly the member tunables");
-                    std::map<std::string, std::pair<double, double>> compiled;
+                    std::map<std::string, CompiledMissionValue> compiled;
                     if (item->backend == "TARGET_ADDON") {
                         compiled = multi_target_compiled_values(read_text(item->source));
                         std::set<std::string> compiled_ids;
@@ -1605,18 +1894,31 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                             settings_problems.push_back(id + ": declared stock differs from the registry stock");
                         if (declaration.at("lane") != (item->backend == "TARGET_ADDON" ? "addon" : "literal"))
                             settings_problems.push_back(id + ": declared lane differs from the member kind");
+                        // The build's choice for this value: an addon value is enabled when the build names it (otherwise it
+                        // is declared at stock, package_scope "all_addon_values"); a replacement member exists only for values
+                        // the build names.
+                        const bool on = item->backend == "TARGET_ADDON" ? enabled_ids.contains(id) : values.contains(id);
+                        const double chosen = on ? values.at(id) : stock;
                         if (item->backend == "TARGET_ADDON") {
                             const auto found = compiled.find(id);
-                            if (found == compiled.end() || found->second.second != stock)
+                            if (found == compiled.end() || found->second.stock != stock)
                                 settings_problems.push_back(id + ": compiled stock constant differs from the registry stock");
-                            else if (found->second.first != values.at(id))
+                            else if (found->second.value != chosen)
                                 settings_problems.push_back(id + ": compiled value differs from the build value");
+                            else if (found->second.enabled != on)
+                                settings_problems.push_back(id + ": compiled enabled flag differs from the build's choice");
                         }
                         const auto group = declaration.at("group").get<std::string>();
                         for (const auto& problem : settings_label_budget_problems(id, declaration, registry.at("ui_groups").at(group)))
                             settings_problems.push_back(problem);
+                        // Phase 2k: value labels are unique in the package and end in no list punctuation.
+                        const auto label = declaration.at("label").get<std::string>();
+                        if (label.empty() || std::string(" ,;:(-/").find(label.back()) != std::string::npos || label.front() == ' ')
+                            settings_problems.push_back(id + ": label is empty or starts/ends with a space or list punctuation");
+                        if (const auto [it, inserted] = value_labels.emplace(ascii_lower_text(label), id); !inserted)
+                            settings_problems.push_back(id + ": label \"" + label + "\" is not unique in the package (also " + it->second + ")");
                         migration_groups[group] = true;
-                        migration_values[id] = Json{{"enabled", true}, {"value", settings_number(values.at(id), declaration.at("type").get<std::string>())}};
+                        migration_values[id] = Json{{"enabled", on}, {"value", settings_number(chosen, declaration.at("type").get<std::string>())}};
                     }
                 }
                 std::string settings_text;
@@ -1624,8 +1926,9 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                 result.gate_log += "settings-declarations\n" + (settings_text.empty() ? std::string("PASS") : settings_text) + " values=" +
                                    std::to_string(declared_values) + " groups=" + std::to_string(group_declarations.size()) + "\n";
                 if (!settings_text.empty()) throw std::runtime_error("settings-declarations gate failed: " + settings_text);
-                // Migration settings file (design section 3.3): the values this build applies, all enabled, so a runtime with
-                // ADDON_SETTINGS_V1 reproduces the loose behaviour. It is installed outside the package folder
+                // Migration settings file (design section 3.3): the values this build applies, enabled, so a runtime with
+                // ADDON_SETTINGS_V1 reproduces the loose behaviour; with package_scope "all_addon_values" every other declared
+                // value is listed disabled at its stock (the shipped defaults). It is installed outside the package folder
                 // (CustomScripts/Settings/<package>.json) because the package folder is replaced on redeploy.
                 const fs::path settings_file = result.directory / "Settings" / (std::string(kMissionPackageName) + ".json");
                 fs::create_directories(settings_file.parent_path());
@@ -1642,7 +1945,10 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                                                     {"policy_id", "package:" + ascii_lower_text(kMissionPackageName)}}},
                                   {"intended_live_relative_path", "OpenWF/CustomScripts/Packages/" + std::string(kMissionPackageName)},
                                   {"settings", {{"declarations", {{"format", kSettingsDeclarationFormat}, {"values", declared_values},
-                                                                  {"groups", group_declarations.size()}}},
+                                                                  {"groups", group_declarations.size()},
+                                                                  {"scope", naming.declare_all_addon_values ? "all_addon_values" : "built_values"},
+                                                                  {"enabled_addon_values", enabled_ids.size()},
+                                                                  {"excluded_values", excluded_values}}},
                                                 {"migration", {{"path", relative(settings_file)}, {"sha256", sha256_file(settings_file)},
                                                                {"format", kScriptSettingsFormat},
                                                                {"intended_live_relative_path", "OpenWF/CustomScripts/Settings/" +
@@ -1743,9 +2049,18 @@ MissionSetResult build_mission_settings(const Json& settings, const fs::path& ed
                 throw std::runtime_error("output_layout must be \"loose\" or \"package\"");
             package_layout = layout == "package";
         }
+        // Optional (Phase 2k): "package_scope": "built_values" (default: the package declares the values it builds) or
+        // "all_addon_values" (declare every multi-instance-safe addon value; `values` names the enabled ones).
+        bool declare_all = false;
+        if (settings.contains("package_scope")) {
+            const Json& scope = settings.at("package_scope");
+            if (!scope.is_string() || (scope != "built_values" && scope != "all_addon_values"))
+                throw std::runtime_error("package_scope must be \"built_values\" or \"all_addon_values\"");
+            declare_all = scope == "all_addon_values";
+        }
         return build_mission_set(registry, settings.at("values"),
                                  MissionNaming{"missions", "missions", "missions", "RENOVICE_Missions.txt", false, "", allow_unproven,
-                                               package_layout},
+                                               package_layout, declare_all},
                                  editor_root, staging_root, run_external_gates, nullptr);
     } catch (const std::exception& e) {
         MissionSetResult result;

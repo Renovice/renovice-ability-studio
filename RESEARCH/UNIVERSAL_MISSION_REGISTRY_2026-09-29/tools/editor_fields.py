@@ -30,6 +30,11 @@ import hashlib, json, re
 LABEL_BUDGET = 40
 TITLE_BUDGET = 48
 SCOPE_MAX = 256
+# Phase 2k: SCRIPT SETTINGS builds the value tooltip as 'Off: the stock value is used. Stock .. Range .. <scope>. Applies: ..'
+# plus the live-stock sentence and cuts it at 300 characters (bootstrapper settings_ui_core.hpp maximum_tooltip). An
+# addon row's scope therefore stays within this budget so the sentence is never cut (a longer scope is compacted by
+# dropping the parenthetical notes of its case text; the registrar fails if it is still too long).
+ADDON_SCOPE_TOOLTIP_MAX = 140
 VARIANT_MAX = 120
 
 EXPORT_PUBLIC_REL = 'work/research/U44.0.2-2026-09-29/public-export/ExportRegions_en.json'  # official 44.0.2 export
@@ -124,6 +129,23 @@ ACRONYMS = {'ai': 'AI', 'sp': 'SP', 'xp': 'XP', 'hp': 'HP', 'ls': 'LS', 'eda': '
 VARIANT_TAGS = {'descendia': 'Descendia', 'lab': 'Lab', 'wf1999': '1999'}
 
 OVERRIDES = {
+    # Phase 2k: labels are unique across the whole registry (a SCRIPT SETTINGS package shows many sections on one page and
+    # the stock search box matches labels only), so the rows below carry their mission or variant.
+    'mobiledefense.enemy_counts.max.p1': 'MD max sim. enemies, 1 player',
+    'mobiledefense.enemy_counts.max.p2': 'MD max sim. enemies, 2 players',
+    'mobiledefense.enemy_counts.max.p3': 'MD max sim. enemies, 3 players',
+    'mobiledefense.enemy_counts.max.p4': 'MD max sim. enemies, 4 players',
+    'mobiledefense.enemy_counts.min.p1': 'MD min sim. enemies, 1 player',
+    'mobiledefense.enemy_counts.min.p2': 'MD min sim. enemies, 2 players',
+    'mobiledefense.enemy_counts.min.p3': 'MD min sim. enemies, 3 players',
+    'mobiledefense.enemy_counts.min.p4': 'MD min sim. enemies, 4 players',
+    'loopdefend.level_and_enrage.alertLevelMaxBoost': 'Max alert level boost (Mirror)',
+    'control_area_deimos.duration': 'Control-area duration (Deimos)',
+    'control_area_nokko.duration': 'Control-area duration (Nokko)',
+    'control_area_plains.duration': 'Control-area duration (Plains)',
+    'purge.spawnlib_params.min_spawn_distance': 'Min enemy spawn distance',
+    'survival.duviri_fixed_length': 'Duviri fixed length (Survival)',
+    'void_flood.duviri_fixed_length': 'Duviri fixed length (Void Flood)',
     'alchemy.crucible_remind_countdown.descendia': 'Crucible reminder (Descendia)',
     'alchemy.crucible_remind_countdown.lab': 'Crucible reminder (Lab)',
     'alchemy.mixtures_required_default.descendia': 'Mixtures required (Descendia)',
@@ -674,6 +696,11 @@ def apply(rows, workspace, server_root, phase1_rows):
         missing = [k for k in kw if k.lower() not in scope.lower()]
         if missing:
             scope += '. Also: ' + ', '.join(missing)
+        if r['backend'] == 'TARGET_ADDON' and len(scope) > ADDON_SCOPE_TOOLTIP_MAX:
+            head, sep, case = scope.partition('. Case: ')
+            scope = head + sep + re.sub(r'\s*\([^()]*\)', '', case) if sep else scope
+            if len(scope) > ADDON_SCOPE_TOOLTIP_MAX:
+                problems.append(f'{r["tunable_id"]}: addon scope text is over {ADDON_SCOPE_TOOLTIP_MAX} characters after compaction')
         if len(scope) > SCOPE_MAX or not all(0x20 <= ord(c) < 0x7f for c in scope):
             problems.append(f'{r["tunable_id"]}: scope text is over {SCOPE_MAX} characters or not printable ASCII')
         ui = {'group': f, 'mt_codes': own_mt or g['mt_codes'], 'short_label': labels.get(r['tunable_id'], ''),
@@ -683,6 +710,12 @@ def apply(rows, workspace, server_root, phase1_rows):
         if enum:
             ui['options'] = [{'label': 'Off', 'value': 0}, {'label': 'On', 'value': 1}]
         r['ui'] = ui
+    registry_labels = {}
+    for r in rows:
+        registry_labels.setdefault(r['ui']['short_label'].lower(), []).append(r['tunable_id'])
+    for label, ids in sorted(registry_labels.items()):
+        if len(ids) > 1:
+            problems.append(f'short label {label!r} is not unique in the registry: {", ".join(ids)}')
     if problems:
         raise SystemExit('ui field gate failures:\n  ' + '\n  '.join(problems))
     fits = sum(1 for r in rows if len(composed(r['ui']['short_label'], r['stock'] if r['stock'] is not None else 0,

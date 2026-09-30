@@ -4188,92 +4188,150 @@ namespace renovice
                               "an unknown output_layout is rejected");
                     }
 
-                    // Per-instance binding, executed by the reference Luau VM on the generated source. The fixture requests one
-                    // root table per module, so the first hook of that table binds only it.
-                    bool harness_ok = false;
-                    std::string harness_output;
-                    if (unified_ok)
-                    {
-                        std::ostringstream harness;
-                        harness << "local function chunk()\n" << unified_source << "end\n\n"
-                                << "local EXPECTED_TARGETS = " << expected_keys.size() << "\nlocal cases = {\n";
-                        std::map<std::string, std::map<std::string, std::string>> owned;  // body -> table -> Lua field list
-                        for (const auto& [id, value] : values.items())
-                        {
-                            const Json& row = mission_tunable(registry, id);
-                            if (row.at("backend") != "TARGET_ADDON") continue;
-                            for (const auto& field : row.at("owner").at("fields"))
-                                owned[row.at("owner").at("body_key").get<std::string>()][field.at("table_id").get<std::string>()] +=
-                                    "{ id = " + lua_quote(id) + ", key = " + lua_table_key(field.at("field")) + ", stock = " + format_number(row.at("stock").get<double>()) +
-                                    ", value = " + format_number(value.get<double>()) + " }, ";
-                        }
-                        for (const auto& [body, tables] : owned)
-                            for (const auto& [table_id, fields] : tables)
-                            {
-                                const Json& hook = registry.at("modules").at(body).at("root_tables").at(table_id).at("hooks").at(0);
-                                std::string path;
-                                for (const auto& key : hook.at("path")) path += lua_table_key(key) + ", ";
-                                harness << "    { key = " << lua_quote(body) << ", prototype = " << hook.at("prototype").get<int>()
-                                        << ", upvalue = " << hook.at("upvalue").get<int>() << ", path = { " << path << "}, fields = { "
-                                        << fields << "} },\n";
+                    // Per-instance binding, executed by the reference Luau VM on the generated source. Phase 2k: one case per
+                    // (target, emitted hook prototype); the upvalue view holds every live table that prototype binds (its
+                    // minimal-hook tables with an enabled value), including nested container paths (outermost key first).
+                    const auto run_harness = [&](const std::string& source, const Json& manifest, const Json& build_values,
+                                                 const std::string& name) -> std::pair<bool, std::string> {
+                        std::set<std::string> enabled;
+                        for (const auto& [id, value] : build_values.items()) enabled.insert(id);
+                        std::ostringstream harness, unhooked;
+                        std::size_t case_count = 0, hookless = 0;
+                        harness << "local function chunk()\n" << source << "end\n\n"
+                                << "local EXPECTED_TARGETS = " << manifest.at("target_keys").size() << "\nlocal cases = {\n";
+                        for (const auto& target : manifest.at("targets")) {
+                            const auto body = target.at("body_key").get<std::string>();
+                            const Json& module = registry.at("modules").at(body);
+                            std::map<std::string, std::string> fields;  // hooked table -> enabled fields
+                            std::string unhooked_id;
+                            double unhooked_stock = 0;
+                            for (const auto& id_json : target.at("tunables")) {
+                                const auto id = id_json.get<std::string>();
+                                const Json& row = mission_tunable(registry, id);
+                                for (const auto& field : row.at("owner").at("fields")) {
+                                    const auto table_id = field.at("table_id").get<std::string>();
+                                    if (enabled.contains(id))
+                                        fields[table_id] += "{ id = " + lua_quote(id) + ", key = " + lua_table_key(field.at("field")) +
+                                                            ", stock = " + format_number(row.at("stock").get<double>()) + ", value = " +
+                                                            format_number(build_values.at(id).get<double>()) + " }, ";
+                                }
                             }
-                        harness << "}\n" << R"LUA(
+                            for (const auto& id_json : target.at("tunables")) {
+                                const auto id = id_json.get<std::string>();
+                                const Json& row = mission_tunable(registry, id);
+                                bool in_hooked = false;
+                                for (const auto& field : row.at("owner").at("fields")) in_hooked = in_hooked || fields.contains(field.at("table_id").get<std::string>());
+                                if (!in_hooked && unhooked_id.empty()) { unhooked_id = id; unhooked_stock = row.at("stock").get<double>(); }
+                            }
+                            std::map<int, std::string> prototypes;
+                            std::map<int, bool> retire;  // contract R3: root child and every bound table retire-safe
+                            for (const auto& [table_id, list] : fields) {
+                                const Json& table = module.at("root_tables").at(table_id);
+                                std::set<int> minimal, root_children;
+                                for (const auto& prototype : table.at("minimal_hooks").at("prototypes")) minimal.insert(prototype.get<int>());
+                                for (const auto& prototype : table.at("minimal_hooks").at("root_children")) root_children.insert(prototype.get<int>());
+                                for (const auto& hook : table.at("hooks")) {
+                                    if (!minimal.contains(hook.at("prototype").get<int>())) continue;
+                                    const int proto = hook.at("prototype").get<int>();
+                                    const bool safe = table.at("minimal_hooks").at("retire_safe").get<bool>() && root_children.contains(proto);
+                                    retire[proto] = (retire.contains(proto) ? retire[proto] : true) && safe;
+                                    std::string path;
+                                    for (const auto& key : hook.at("path")) path += lua_table_key(key) + ", ";
+                                    prototypes[hook.at("prototype").get<int>()] += "{ upvalue = " + std::to_string(hook.at("upvalue").get<int>()) +
+                                                                                   ", path = { " + path + "}, fields = { " + list + "} }, ";
+                                }
+                            }
+                            if (prototypes.empty()) ++hookless;
+                            for (const auto& [prototype, tables] : prototypes) {
+                                harness << "    { key = " << lua_quote(body) << ", prototype = " << prototype << ", retire = "
+                                        << (retire[prototype] ? "true" : "false") << ", tables = { " << tables << "} },\n";
+                                ++case_count;
+                            }
+                            if (!unhooked_id.empty())
+                                unhooked << "    { key = " << lua_quote(body) << ", id = " << lua_quote(unhooked_id) << ", stock = "
+                                         << format_number(unhooked_stock) << " },\n";
+                        }
+                        harness << "}\nlocal unhooked = {\n" << unhooked.str() << "}\nlocal EXPECTED_HOOKLESS = " << hookless << "\n" << R"LUA(
 local function check(condition, message)
     if not condition then error("MULTI-TARGET HARNESS FAIL: " .. message, 0) end
 end
 local function instance(case, offset)
-    local owner = {}
-    for _, field in ipairs(case.fields) do owner[field.key] = field.stock + offset end
-    local root = owner
-    for i = #case.path, 1, -1 do root = { [case.path[i]] = root } end
-    local upvalues = {}
-    upvalues[case.upvalue] = root
-    return owner, upvalues
+    local upvalues, owners = {}, {}
+    for t, tab in ipairs(case.tables) do
+        local owner = {}
+        for _, field in ipairs(tab.fields) do owner[field.key] = field.stock + offset end
+        owners[t] = owner
+        if #tab.path == 0 then
+            upvalues[tab.upvalue] = owner
+        else
+            local node = upvalues[tab.upvalue] or {}
+            upvalues[tab.upvalue] = node
+            for i = 1, #tab.path - 1 do
+                local k = tab.path[i]
+                node[k] = node[k] or {}
+                node = node[k]
+            end
+            local leaf = tab.path[#tab.path]
+            if node[leaf] ~= nil then for k, v in pairs(node[leaf]) do owner[k] = v end end
+            node[leaf] = owner
+        end
+    end
+    return owners, upvalues
 end
-local function holds(owner, case, name)
-    for _, field in ipairs(case.fields) do
-        if owner[field.key] ~= field[name] then return false end
+local function holds(owners, case, name)
+    for t, tab in ipairs(case.tables) do
+        for _, field in ipairs(tab.fields) do
+            if owners[t][field.key] ~= field[name] then return false end
+        end
     end
     return true
 end
 
 local container = chunk()
 check(type(container) == "table" and container.hooks == nil and type(container.targets) == "table", "container has targets and no top-level hooks")
-local count = 0
+local count, hookless = 0, 0
 for key, entry in pairs(container.targets) do
     count = count + 1
     check(type(entry) == "table" and type(entry.activate) == "function" and type(entry.cleanup) == "function"
-        and type(entry.hooks) == "table" and type(entry.hooks.luaCalls) == "table", key .. " entry shape")
+        and (entry.hooks == nil or (type(entry.hooks) == "table" and type(entry.hooks.luaCalls) == "table")), key .. " entry shape")
+    if entry.hooks == nil then hookless = hookless + 1 end
 end
 check(count == EXPECTED_TARGETS, "declared target count")
+check(hookless == EXPECTED_HOOKLESS, "targets without an enabled table declare no hooks")
 for _, case in ipairs(cases) do
     local entry = container.targets[case.key]
     local before = entry.hooks.luaCalls[case.prototype].before
     local tag = case.key .. "/" .. case.prototype
-    local first = case.fields[1]
+    local first = case.tables[1].fields[1]
+    local expected = case.retire and "RENOVICE_RETIRE" or nil
     local a, ua = instance(case, 0)
-    before(case.prototype, {}, ua)
+    check(before(case.prototype, {}, ua) == nil, tag .. " an inactive hook stays armed (returns nothing)")
     check(holds(a, case, "stock"), tag .. " inert before activate")
     entry.activate()
     entry.activate()
-    before(case.prototype, {}, ua)
+    -- Contract R3: once every table of this hook is settled for the instance it returns the retire sentinel (only
+    -- from a retire-safe root-child hook), on the first and on every later call.
+    check(before(case.prototype, {}, ua) == expected, tag .. " the hook returns the R3 retire sentinel after its write")
     local b, ub = instance(case, 0)
     before(case.prototype, {}, ub)
     before(case.prototype, {}, ub)
     check(holds(a, case, "value") and holds(b, case, "value"), tag .. " two live instances are both written")
-    a[first.key] = first.value + 1000
+    a[1][first.key] = first.value + 1000
     before(case.prototype, {}, ua)
-    check(a[first.key] == first.value + 1000, tag .. " each instance is written once")
+    check(a[1][first.key] == first.value + 1000, tag .. " each instance is written once")
     local d, ud = instance(case, 1)
     local ok, err = pcall(before, case.prototype, {}, ud)
     check(not ok and string.find(tostring(err), "drifted", 1, true) ~= nil, tag .. " a drifted instance reports an error")
-    check(d[first.key] == first.stock + 1, tag .. " a drifted instance is left unchanged")
-    ok = pcall(before, case.prototype, {}, ud)
-    check(ok and d[first.key] == first.stock + 1, tag .. " a drifted instance is reported once and never written")
+    check(d[1][first.key] == first.stock + 1, tag .. " a drifted instance is left unchanged")
+    for _ = 2, #case.tables do pcall(before, case.prototype, {}, ud) end
+    local result
+    ok, result = pcall(before, case.prototype, {}, ud)
+    check(ok and d[1][first.key] == first.stock + 1, tag .. " a drifted instance is reported once per table and never written")
+    check(result == expected, tag .. " a settled drifted instance retires the hook without an error")
     entry.cleanup()
     entry.cleanup()
     check(holds(b, case, "stock"), tag .. " cleanup restores every written instance")
-    check(a[first.key] == first.value + 1000, tag .. " cleanup keeps a value another owner changed")
+    check(a[1][first.key] == first.value + 1000, tag .. " cleanup keeps a value another owner changed")
     local c, uc = instance(case, 0)
     before(case.prototype, {}, uc)
     check(holds(c, case, "stock"), tag .. " inert after cleanup")
@@ -4287,44 +4345,69 @@ end
 -- Phase 2i: values delivered by the host as context.settings (ADDON_SETTINGS_V1); no context keeps the compiled values (above).
 for _, case in ipairs(cases) do
     local tag = case.key .. "/" .. case.prototype .. " settings"
-    local first = case.fields[1]
+    local first = case.tables[1].fields[1]
     local function run(settings, offset)
         local fresh = chunk()
         local entry = fresh.targets[case.key]
-        local owner, up = instance(case, offset or 0)
+        local owners, up = instance(case, offset or 0)
         entry.activate({ settings = settings })
         local ok = pcall(entry.hooks.luaCalls[case.prototype].before, case.prototype, {}, up)
-        return owner, entry, ok
+        return owners, entry, ok
     end
     local function given(enabled, delta, stockDelta)
         local result = {}
-        for _, field in ipairs(case.fields) do
-            result[field.id] = { enabled = enabled, value = field.value + delta, stock = field.stock + stockDelta }
+        for _, tab in ipairs(case.tables) do
+            for _, field in ipairs(tab.fields) do
+                result[field.id] = { enabled = enabled, value = field.value + delta, stock = field.stock + stockDelta }
+            end
         end
         return result
     end
     local empty = run({})
     check(holds(empty, case, "stock"), tag .. ": an empty settings table (no settings file) writes nothing")
     local custom, entry = run(given(true, 1, 0))
-    check(custom[first.key] == first.value + 1, tag .. ": an enabled value from context.settings is written")
+    check(custom[1][first.key] == first.value + 1, tag .. ": an enabled value from context.settings is written")
     entry.cleanup()
     check(holds(custom, case, "stock"), tag .. ": cleanup restores a value delivered by context.settings")
     check(holds((run(given(false, 1, 0))), case, "stock"), tag .. ": a disabled value is never written")
     check(holds((run(given(true, 1, 1))), case, "stock"), tag .. ": a value whose declared stock differs from the compiled stock is not written")
     local drifted, _, ok = run(given(false, 1, 0), 1)
-    check(ok and drifted[first.key] == first.stock + 1, tag .. ": a disabled value ignores a drifted table")
+    check(ok and drifted[1][first.key] == first.stock + 1, tag .. ": a disabled value ignores a drifted table")
     print("PASS " .. tag)
 end
+-- Phase 2k: a value of a table this build does not hook fails activation with the rebuild instruction; disabled, it is inert.
+for _, u in ipairs(unhooked) do
+    local entry = chunk().targets[u.key]
+    local ok, err = pcall(entry.activate, { settings = { [u.id] = { enabled = true, value = u.stock, stock = u.stock } } })
+    check(not ok and string.find(tostring(err), u.id .. ": no hook in this build; ", 1, true) == 1
+        and string.find(tostring(err), "rebuild Packages/Missions from Settings/Missions.json", 1, true) ~= nil, u.key .. " unhooked value fails loudly")
+    -- The runtime keeps 191 characters of a lifecycle error: the instruction must end inside them.
+    local _, hint_end = string.find(tostring(err), "Settings/Missions.json", 1, true)
+    check(hint_end ~= nil and hint_end <= 191, u.key .. " the rebuild instruction fits the runtime's error text")
+    ok = pcall(entry.activate, { settings = { [u.id] = { enabled = false, value = u.stock, stock = u.stock } } })
+    check(ok, u.key .. " a disabled unhooked value activates")
+    entry.cleanup()
+end
 local other = chunk()
-check(other.targets[cases[1].key] ~= container.targets[cases[1].key], "each binding runs its own chunk state")
-print("MULTI-TARGET HARNESS PASS cases=" .. #cases)
+check(#cases == 0 or other.targets[cases[1].key] ~= container.targets[cases[1].key], "each binding runs its own chunk state")
+print("MULTI-TARGET HARNESS PASS cases=" .. #cases .. " unhooked=" .. #unhooked)
 )LUA";
-                        const fs::path harness_path = mission_fixture / "multi_target_harness.luau";
+                        const fs::path harness_path = mission_fixture / (name + "_harness.luau");
                         write_text(harness_path, harness.str());
                         const fs::path luau = resolve_workspace_path(editor_root, "repos", "de_luau_toolchain") / "bin/luau.exe";
                         const ProcessResult run = run_process(quote_process_argument(luau) + " " + quote_process_argument(harness_path), mission_fixture);
-                        harness_ok = run.exit_code == 0 && contains_text(run.output, "MULTI-TARGET HARNESS PASS cases=3");
-                        if (!harness_ok) harness_output = run.output;
+                        const bool ok = run.exit_code == 0 && contains_text(run.output, "MULTI-TARGET HARNESS PASS cases=" + std::to_string(case_count) + " ");
+                        const auto summary = run.output.find("MULTI-TARGET HARNESS PASS");
+                        return {ok, ok ? " [" + name + ": " + run.output.substr(summary, run.output.find_first_of("\r\n", summary) - summary) + "]"
+                                       : run.output};
+                    };
+                    bool harness_ok = false;
+                    std::string harness_output;
+                    if (unified_ok)
+                    {
+                        const Json addon_values{{"survival.reward_interval", 150}, {"purgatory.difficulty1.warrior_level", 15},
+                                                {"lantern.tier_up_interval", 60}};
+                        std::tie(harness_ok, harness_output) = run_harness(unified_source, Json::parse(read_text(multi->manifest)), addon_values, "multi_target");
                     }
                     check(harness_ok, "the generated entries bind every live instance once (weak-keyed), skip a drifted instance with one error, "
                                       "restore every written instance in cleanup, and take enabled values from context.settings while "
@@ -4332,14 +4415,146 @@ print("MULTI-TARGET HARNESS PASS cases=" .. #cases)
 
                     // Phase 2i: the compiled settings table is read back exactly (value = build value, stock = registry stock).
                     {
-                        const auto compiled = unified_ok ? multi_target_compiled_values(unified_source) : std::map<std::string, std::pair<double, double>>{};
+                        const auto compiled = unified_ok ? multi_target_compiled_values(unified_source) : std::map<std::string, CompiledMissionValue>{};
                         bool compiled_ok = compiled.size() == 3;
-                        for (const auto& [id, pair] : compiled)
-                            compiled_ok = compiled_ok && pair.first == values.at(id).get<double>()
-                                && pair.second == mission_tunable(registry, id).at("stock").get<double>();
+                        for (const auto& [id, entry] : compiled)
+                            compiled_ok = compiled_ok && entry.value == values.at(id).get<double>() && entry.enabled
+                                && entry.stock == mission_tunable(registry, id).at("stock").get<double>();
                         check(compiled_ok && contains_text(unified_source, "activate = function(context)")
                                 && contains_text(unified_source, "effectiveSettings(settings, context)"),
                               "the multi-target addon compiles its build values with the registry stock and reads context.settings in activate");
+                    }
+
+                    // Phase 2k: minimal hooks. Survival reward interval (root:i19:R9) is hooked only at its proven minimal
+                    // prototypes; the full capturer list (10 prototypes, incl. the hot tick 68) is not emitted.
+                    {
+                        const auto hooks = unified_ok ? multi_target_source_hooks(unified_source) : std::map<std::string, std::set<int>>{};
+                        const Json& plan = registry.at("modules").at("f10a043e7f825db2").at("root_tables").at("root:i19:R9").at("minimal_hooks");
+                        std::set<int> minimal;
+                        for (const auto& prototype : plan.at("prototypes")) minimal.insert(prototype.get<int>());
+                        check(unified_ok && hooks.contains("Lotus.Scripts.Modes.SurvivalMission")
+                                && hooks.at("Lotus.Scripts.Modes.SurvivalMission") == minimal
+                                && minimal == std::set<int>{31, 61, 67, 69} && !minimal.contains(68)
+                                && plan.at("gate") == "ROOT_TABLE_MINIMAL_HOOKS_V1"
+                                && contains_text(unified.gate_log, "hook-plan\nPASS targets=3 hooked_targets=3"),
+                              "the Survival reward-interval table is hooked only at its ROOT_TABLE_MINIMAL_HOOKS_V1 prototypes 31/61/67/69 "
+                              "(hot tick 68 and the other capturers are not hooked); the hook-plan gate passes");
+                        // The gate reads the generated source back: a tampered hook block is detected.
+                        std::string tampered = unified_source;
+                        const std::string needle = "            [67] = { before = before67 },";
+                        const auto at = tampered.find(needle);
+                        if (at != std::string::npos) tampered.replace(at, needle.size(), "            [68] = { before = before67 },");
+                        bool tamper_detected = at == std::string::npos;
+                        try { tamper_detected = multi_target_source_hooks(tampered).at("Lotus.Scripts.Modes.SurvivalMission") != minimal; }
+                        catch (const std::exception&) { tamper_detected = true; }
+                        check(at != std::string::npos && tamper_detected, "the hook-plan read-back detects a hook entry that differs from the plan");
+                        // Contract R3: every Survival hook here is a retire-safe root child, so each returns the sentinel as its
+                        // last statement; a sentinel placed before a bind is rejected by the read-back.
+                        std::map<std::string, std::set<int>> retiring;
+                        try { if (unified_ok) retiring = multi_target_source_retiring_hooks(unified_source); } catch (const std::exception&) {}
+                        const std::string bind_line = "        if live1 then bind1(upvalues[70], current) end\n";
+                        const std::string retire_line = "        return \"RENOVICE_RETIRE\" -- R3: this hook's tables are settled for this instance\n";
+                        std::string early = unified_source;
+                        const auto bind_at = early.find(bind_line);
+                        bool early_rejected = false;
+                        if (bind_at != std::string::npos) {
+                            early.insert(bind_at, retire_line);
+                            try { static_cast<void>(multi_target_source_retiring_hooks(early)); } catch (const std::exception& e) {
+                                early_rejected = contains_text(e.what(), "before its last statement");
+                            }
+                        }
+                        check(retiring.contains("Lotus.Scripts.Modes.SurvivalMission")
+                                && retiring.at("Lotus.Scripts.Modes.SurvivalMission") == minimal
+                                && contains_text(unified.gate_log, " retiring_hooks=") && bind_at != std::string::npos && early_rejected,
+                              "R3: the retire-safe root-child hooks return \"RENOVICE_RETIRE\" as their last statement; an early sentinel is "
+                              "rejected by the hook-retire read-back");
+                        // Registry structure: a minimal hook outside the capturer list fails verify.
+                        Json bad = registry;
+                        bad["modules"]["f10a043e7f825db2"]["root_tables"]["root:i19:R9"]["minimal_hooks"]["prototypes"] = Json::array({68, 200});
+                        bool rejected = false;
+                        try { verify_root_table_fields(mission_tunable(bad, "survival.reward_interval"), bad.at("modules").at("f10a043e7f825db2"),
+                                                       read_text(mission_roots.corpus / bad.at("modules").at("f10a043e7f825db2").at("file").get<std::string>())); }
+                        catch (const std::exception& e) { rejected = contains_text(e.what(), "hook plan names a prototype"); }
+                        check(rejected, "a minimal hook plan naming a prototype that is not a capturer hook is rejected by verify-missions");
+                    }
+
+                    // Phase 2k: the FULL package (package_scope all_addon_values). Every multi-instance-safe addon value is
+                    // declared; only the build's values are enabled; only their tables are hooked; the rest of the targets
+                    // declare no hooks; Void Flood addon rows give way to the enabled Void Flood replacement member.
+                    {
+                        Json full_settings = probe_settings(Json{{"survival.reward_interval", 150}, {"void_flood.fractures_per_round.normal", 4}});
+                        full_settings["output_layout"] = "package";
+                        full_settings["package_scope"] = "all_addon_values";
+                        const MissionSetResult full = build_mission_settings(full_settings, editor_root, mission_fixture, true);
+                        bool full_ok = full.success && !full.package_directory.empty();
+                        std::string full_detail;
+                        if (!full_ok && !full.diagnostics.empty()) full_detail = " " + full.diagnostics.front().message;
+                        std::size_t addon_rows = 0, flood_rows = 0;
+                        for (const auto& row : registry.at("tunables"))
+                            if (row.at("backend") == "TARGET_ADDON" && row.at("owner").contains("fields")) {
+                                ++addon_rows;
+                                if (row.at("owner").at("body_key") == "fc711ff621a75552") ++flood_rows;
+                            }
+                        if (full_ok) {
+                            const Json package_json = Json::parse(read_text(full.package_directory / "package.json"));
+                            const Json& addon_member = package_json.at("members").at("Missions.targets.addon.lua_B").at("settings").at("values");
+                            const Json migration = Json::parse(read_text(full.directory / "Settings" / "Missions.json"));
+                            const Json set_manifest = Json::parse(read_text(full.manifest));
+                            const MissionArtifact* full_addon = nullptr;
+                            for (const auto& item : full.artifacts) if (item.backend == "TARGET_ADDON") full_addon = &item;
+                            const Json addon_manifest = full_addon ? Json::parse(read_text(full_addon->manifest)) : Json();
+                            std::size_t enabled_entries = 0;
+                            for (const auto& [id, entry] : migration.at("values").items()) enabled_entries += entry.at("enabled") == true ? 1 : 0;
+                            const auto source_hooks = full_addon ? multi_target_source_hooks(read_text(full_addon->source)) : std::map<std::string, std::set<int>>{};
+                            std::size_t hooked_targets = 0;
+                            for (const auto& [module_path, set] : source_hooks) hooked_targets += set.empty() ? 0 : 1;
+                            const auto& excluded = set_manifest.at("package").at("settings").at("declarations").at("excluded_values");
+                            full_ok = full_addon != nullptr && validate_settings_declarations(package_json).empty()
+                                && addon_member.size() == addon_rows - flood_rows
+                                && excluded.size() == flood_rows + 2
+                                && migration.at("values").size() == addon_rows - flood_rows + 1 && enabled_entries == 2
+                                && migration.at("values").at("survival.reward_interval") == Json{{"enabled", true}, {"value", 150}}
+                                && migration.at("values").at("void_flood.fractures_per_round.normal") == Json{{"enabled", true}, {"value", 4}}
+                                && migration.at("values").at("survival.pickup_time_added") == Json{{"enabled", false}, {"value", 7}}
+                                && hooked_targets == 1
+                                && source_hooks.at("Lotus.Scripts.Modes.SurvivalMission") == std::set<int>{31, 61, 67, 69}
+                                && fs::file_size(full.package_directory / "package.json") <= 512u * 1024u
+                                && addon_manifest.at("hook_plan").at("hooked_targets") == 1
+                                && contains_text(full.gate_log, "hook-plan\nPASS targets=" + std::to_string(addon_manifest.at("target_keys").size()) + " hooked_targets=1 hooks=4 ")
+                                && contains_text(full.gate_log, "settings-declarations\nPASS values=" + std::to_string(addon_rows - flood_rows + 1));
+                            if (full_ok) {
+                                // Two-instance harness over the full file plus a second build with nested (1- and 2-step
+                                // container) and shared-hook tables enabled.
+                                const auto [ok1, out1] = run_harness(read_text(full_addon->source), addon_manifest, Json{{"survival.reward_interval", 150}}, "full_package");
+                                Json wide_values{{"survival.reward_interval", 150}, {"survival.capsule_interval", 60},
+                                                 {"purgatory.difficulty2.ghost_level", 12},
+                                                 {"shrine.respawn_delay.normal.offering.p2", 9}, {"shrine.stage_time.offering", 300},
+                                                 {"loopdefend.enemy_counts.maxNum.p1", 9}};
+                                Json wide_settings = probe_settings(wide_values);
+                                wide_settings["output_layout"] = "package";
+                                wide_settings["package_scope"] = "all_addon_values";
+                                const MissionSetResult wide = build_mission_settings(wide_settings, editor_root, mission_fixture, true);
+                                const MissionArtifact* wide_addon = nullptr;
+                                for (const auto& item : wide.artifacts) if (item.backend == "TARGET_ADDON") wide_addon = &item;
+                                bool ok2 = wide.success && wide_addon != nullptr;
+                                std::string out2 = ok2 ? std::string() : (wide.diagnostics.empty() ? std::string(" wide build failed") : " " + wide.diagnostics.front().message);
+                                if (ok2) std::tie(ok2, out2) = run_harness(read_text(wide_addon->source), Json::parse(read_text(wide_addon->manifest)), wide_values, "wide_package");
+                                full_ok = ok1 && ok2;
+                                full_detail = out1 + out2;
+                            }
+                        }
+                        check(full_ok, "package_scope all_addon_values declares every multi-instance-safe addon value (Void Flood addon rows "
+                                       "and the 2 template-only rows excluded with reasons), ships them disabled except the build's values, hooks "
+                                       "only the enabled tables at their minimal prototypes (one hooked target), stays under 512 KiB, and passes "
+                                       "the two-instance harness incl. nested and shared-hook tables" + full_detail);
+                        Json loose_scope = probe_settings(Json{{"survival.reward_interval", 150}});
+                        loose_scope["package_scope"] = "all_addon_values";
+                        Json bad_scope = loose_scope;
+                        bad_scope["output_layout"] = "package";
+                        bad_scope["package_scope"] = "everything";
+                        check(!build_mission_settings(loose_scope, editor_root, mission_fixture, true).success
+                                && !build_mission_settings(bad_scope, editor_root, mission_fixture, true).success,
+                              "package_scope all_addon_values needs the package layout, and an unknown package_scope is rejected");
                     }
 
                     // No-stray-hex rule: the source check and the loader-equivalent pool reader.
