@@ -1,0 +1,140 @@
+{
+  "checks": [
+    {
+      "name": "baked build succeeds",
+      "pass": true
+    },
+    {
+      "name": "baked package members byte-identical to the staged set (7 files)",
+      "pass": true
+    },
+    {
+      "name": "baked package.json equals the staged one except the two R9 master descriptions",
+      "pass": true
+    },
+    {
+      "name": "baked values file byte-identical",
+      "pass": true
+    },
+    {
+      "name": "recipe build succeeds",
+      "pass": true
+    },
+    {
+      "name": "recipe package: addon + package.json + literals.json, no baked replacement member",
+      "pass": true
+    },
+    {
+      "name": "every registry headline literal value is declared (105)",
+      "pass": true
+    },
+    {
+      "name": "recipe declarations are literal lane, applies next_mission",
+      "pass": true
+    },
+    {
+      "name": "recipe synthesis of a807aae359ffc1eb equals the staged baked replacement",
+      "pass": true
+    },
+    {
+      "name": "recipe synthesis of fc711ff621a75552 equals the staged baked replacement",
+      "pass": true
+    },
+    {
+      "name": "recipe synthesis of f7444e3c621ff018 equals the staged baked replacement",
+      "pass": true
+    },
+    {
+      "name": "recipe synthesis of b3a5a18d68d61e16 equals the staged baked replacement",
+      "pass": true
+    },
+    {
+      "name": "recipe synthesis of 8a0b0819de60df01 equals the staged baked replacement",
+      "pass": true
+    },
+    {
+      "name": "R5-C: no addon value is excluded because its module carries a literal value",
+      "pass": true
+    },
+    {
+      "name": "R5-C: Mobile Defense enemy counts are declared next to its live literal timer",
+      "pass": true
+    },
+    {
+      "name": "values file: shipped choices unchanged (Survival 150 on, Void Flood 4 on, the other built literals off)",
+      "pass": true
+    },
+    {
+      "name": "generator gates live-literal-core and live-literal-recipe PASS",
+      "pass": true
+    },
+    {
+      "name": "package description names the requirement (older DLLs: those values stay stock)",
+      "pass": true
+    },
+    {
+      "name": "R9: every recipe value has an R7 path and row and no `default` (default = stock)",
+      "pass": true
+    },
+    {
+      "name": "R9: Mobile Defense time per terminal is a typeable int with the range default \"60-80 s\" and a Quick settings entry",
+      "pass": true
+    },
+    {
+      "name": "R9: Quick settings entries for MD terminal time, Excavation dig time, Control Area hold (2) and Void Flood fractures",
+      "pass": true
+    },
+    {
+      "name": "R9: recipe values are int or float (never the R7 two-choice enum)",
+      "pass": true
+    },
+    {
+      "name": "settings-layout gate covers the recipe values",
+      "pass": true
+    },
+    {
+      "name": "reject: recipe without package layout",
+      "pass": true
+    },
+    {
+      "name": "reject: headline scope without recipe mode",
+      "pass": true
+    },
+    {
+      "name": "reject: unknown literal_mode",
+      "pass": true
+    },
+    {
+      "name": "git archive 6227cc0",
+      "pass": true
+    },
+    {
+      "name": "6227cc0: verify_script_packages -AdmitPackage PACKAGE ACCEPT",
+      "pass": true
+    },
+    {
+      "name": "6227cc0: verify_addon_settings -Package/-Settings ADDON SETTINGS GATES PASS (literals.json ignored)",
+      "pass": true
+    }
+  ],
+  "recipe": {
+    "values": 105,
+    "modules": 28,
+    "masters": 12,
+    "literals_json_sha256": "3368af5641910dab6b5f191d5d5428d969722ff682c4daa26125aeb0d1482d57",
+    "package_json_sha256": "d20c5194226ee194aac4e0ec5349e53519eb573e698f36427734cb1624be5343",
+    "generation": "work/temp/live-literals-tests/recipe/missions/CA7C14197424"
+  },
+  "old_bootstrapper": {
+    "revision": "6227cc0",
+    "admit": [
+      "LOG\tRENOVICE PACKAGE ACCEPT trigger=startup package=Missions id=package:missions members=1 replacements=0 target_addons=1 target_keys=23 lanes=replacement+inject"
+    ],
+    "settings_tail": [
+      "PASS\tdeclaration rejects: settings-unknown-field=extra",
+      "PASS\tdeclaration rejects: member=M value=g.v unknown-field=enabled",
+      "PASS\tmalformed values file: values-file-unknown-field=extra",
+      "PASS\tper-value enable: an enabled valid value is effective, a disabled one stays stock, unknown ids are ignored"
+    ]
+  }
+}

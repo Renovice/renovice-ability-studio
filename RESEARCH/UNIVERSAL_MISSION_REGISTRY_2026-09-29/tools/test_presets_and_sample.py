@@ -365,8 +365,25 @@ hashes2k = {k: hashlib.sha256(p.read_bytes()).hexdigest().upper() for k, p in fi
 if (STAGE2K / 'SHA256SUMS.json').exists():
     staged = json.loads((STAGE2K / 'SHA256SUMS.json').read_text())
     staged = {k: v for k, v in staged.items() if k in hashes2k}
-    assert staged == hashes2k, ('rebuilt full package differs from the staged install set', staged, hashes2k)
-    state2k = 'identical to the staged install set (folder untouched)'
+    # Merged R7 + R8 (contract R9, 2026-09-30): the two literal masters with a range default say that a typed number
+    # replaces the whole range. That description is the only intentional change of the baked package.json.
+    R9_TEXT = {'mobiledefense.time_per_terminal', 'excavation.dig_time'}
+    differing = {k for k in hashes2k if staged.get(k) != hashes2k[k]}
+    if differing == {'Packages/Missions/package.json'}:
+        def _values(path):
+            manifest = json.loads(Path(path).read_text(encoding='utf-8'))
+            return manifest, {k: v for m in manifest['members'].values() for k, v in m.get('settings', {}).get('values', {}).items()}
+        old_manifest, old_values = _values(STAGE2K / 'Packages/Missions/package.json')
+        new_manifest, new_values = _values(package2k / 'package.json')
+        changed = {k for k in old_values if old_values[k] != new_values.get(k)}
+        assert old_values.keys() == new_values.keys() and changed == R9_TEXT and all(
+            {f: v for f, v in old_values[k].items() if f != 'scope'} == {f: v for f, v in new_values[k].items() if f != 'scope'}
+            for k in changed) and old_manifest['settings'] == new_manifest['settings'], \
+            ('rebuilt full package.json differs from the staged one beyond the R9 descriptions', changed)
+        state2k = 'identical to the staged install set except the intentional R9 description change of package.json (folder untouched)'
+    else:
+        assert staged == hashes2k, ('rebuilt full package differs from the staged install set', staged, hashes2k)
+        state2k = 'identical to the staged install set (folder untouched)'
 else:
     state2k = 'no staged install set to compare'
 results['phase2k_full_package'] = {'settings': settings2k, 'hook_plan': addon2k['hook_plan'],

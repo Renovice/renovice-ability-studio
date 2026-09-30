@@ -650,7 +650,7 @@
             "body_key": "6fa60841c9e0f207",
             "module_path": "Lotus.Scripts.Modes.Purgatory",
             "stock_artifact": {
-              "path": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared/corpus/de-luau-u44.0.2-authoring\\Lotus_Scripts_Modes_Purgatory.lua_B",
+              "path": "C:/Users/Bartek/OneDrive/Dokumenter/Warframe RE PROJECT RENOVICE\\shared/corpus/de-luau-u44.0.2-authoring\\Lotus_Scripts_Modes_Purgatory.lua_B",
               "sha256": "6B0ECD7C47B23A0C2C0A4598E4D9B044E070F51E76DAA149A14F0E12AA244FE9"
             },
             "supersedes": "6fa60841c9e0f207.missions.target.addon.lua_B",
@@ -662,7 +662,7 @@
             "body_key": "caec63d8e739b693",
             "module_path": "Lotus.Scripts.Modes.HalloweenLanternEndless",
             "stock_artifact": {
-              "path": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared/corpus/de-luau-u44.0.2-authoring\\Lotus_Scripts_Modes_HalloweenLanternEndless.lua_B",
+              "path": "C:/Users/Bartek/OneDrive/Dokumenter/Warframe RE PROJECT RENOVICE\\shared/corpus/de-luau-u44.0.2-authoring\\Lotus_Scripts_Modes_HalloweenLanternEndless.lua_B",
               "sha256": "1E5A6E3919A93D78521E2E2F59501DCC06DFA55B0673190450542DC00B3875E2"
             },
             "supersedes": "caec63d8e739b693.missions.target.addon.lua_B",
@@ -674,7 +674,7 @@
             "body_key": "f10a043e7f825db2",
             "module_path": "Lotus.Scripts.Modes.SurvivalMission",
             "stock_artifact": {
-              "path": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared/corpus/de-luau-u44.0.2-authoring\\Lotus_Scripts_Modes_SurvivalMission.lua_B",
+              "path": "C:/Users/Bartek/OneDrive/Dokumenter/Warframe RE PROJECT RENOVICE\\shared/corpus/de-luau-u44.0.2-authoring\\Lotus_Scripts_Modes_SurvivalMission.lua_B",
               "sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D"
             },
             "supersedes": "f10a043e7f825db2.missions.target.addon.lua_B",
@@ -1689,10 +1689,10 @@
       "Packages/Missions/f7444e3c621ff018 (missions_exact-replacement).lua_B": "66B4F9349C0EC7FB45A457DFC2EED5D49C102C7B79E0C1183A6A874E8E7830E7",
       "Packages/Missions/fc711ff621a75552 (missions_exact-replacement).lua_B": "E979F5E7906F0D88E49C42B4191ECA6AFDC1237FDDD91D52CBF427DB3FA9F6D2",
       "Packages/Missions/Missions.targets.addon.lua_B": "4CB290F77FB0D68EA1F1B39F9CFAF9390C04A7FE90B5C10EE209A595FEE95CB1",
-      "Packages/Missions/package.json": "E3686251A028A14197DED2A58FF9C4A462430C4EF5CF8728545A5F56F310EDF2",
+      "Packages/Missions/package.json": "CA581DD9F02E970073B8F34553847E9FA31528C62B163F0580AAE962F182E32A",
       "Settings/Missions.json": "E3A1FDCA732CCCEA3C70772A1FEE2EA950436286AC03EBBE3355C7C20FC8B737"
     },
-    "state": "identical to the staged install set (folder untouched)"
+    "state": "identical to the staged install set except the intentional R9 description change of package.json (folder untouched)"
   },
   "phase2g_sample_state": "identical except the intentional Phase 2i change of Missions.targets.addon.lua_B (folder untouched)",
   "phase2h_sample_state": "identical except the intentional Phase 2i change of Missions.targets.addon.lua_B, package.json to the recorded sample (folder untouched)"
