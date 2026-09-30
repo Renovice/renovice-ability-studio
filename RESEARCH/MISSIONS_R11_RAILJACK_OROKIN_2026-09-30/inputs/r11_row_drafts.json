@@ -1,0 +1,293 @@
+{
+ "schema": "RENOVICE_MISSION_TUNABLE_REGISTRY_V2 tunables[] drafts (contract R11)",
+ "build": "2026.09.28.13.06",
+ "rows": [
+  {
+   "tunable_id": "railjack.fighter_kills_scale",
+   "phase1_tunable_id": null,
+   "label": "Fighters to kill (scale)",
+   "mission_type": "Railjack",
+   "variant": "Grineer Railjack Exterminate objective",
+   "shared_with": "",
+   "owner_kind": "SCRIPT_PARAM_GLOBAL",
+   "backend": "TARGET_ADDON",
+   "owner": {
+    "body_key": "feb4ca192ef69f0a",
+    "stock_sha256": "870D531DF5117518E6A5D600D8C266BAE8EE3E61C0B03746A831580BFD69A2DE",
+    "file": "Lotus_Scripts_CrewShip_Encounters_KillFightersExterminateEncounter.lua_B",
+    "module_path": "Lotus.Scripts.CrewShip.Encounters.KillFightersExterminateEncounter",
+    "template": "SCRIPT_PARAM_GLOBAL_AT_ENTRY",
+    "gate": "CAPTURE_GRAPH_ENTRY_V1",
+    "entries": [
+     {
+      "prototype": 9,
+      "function": "KillFightersExterminateObjective"
+     }
+    ],
+    "globals": [
+     {
+      "name": "minorKillGoals",
+      "hash": "288044d3"
+     },
+     {
+      "name": "minorKillGoalsMax",
+      "hash": "e290a5e6"
+     },
+     {
+      "name": "kuvaLichKillGoalMin",
+      "hash": "d4a29101"
+     },
+     {
+      "name": "kuvaLichKillGoalMax",
+      "hash": "1026ad29"
+     }
+    ],
+    "readers": [
+     {
+      "key": "minorKillGoals",
+      "prototype": 6,
+      "instructions": [
+       37,
+       38,
+       60,
+       61
+      ]
+     },
+     {
+      "key": "minorKillGoalsMax",
+      "prototype": 6,
+      "instructions": [
+       45,
+       46,
+       64,
+       65
+      ]
+     },
+     {
+      "key": "kuvaLichKillGoalMin",
+      "prototype": 6,
+      "instructions": [
+       26
+      ]
+     },
+     {
+      "key": "kuvaLichKillGoalMax",
+      "prototype": 6,
+      "instructions": [
+       27
+      ]
+     }
+    ],
+    "mode": "scale_count",
+    "observed": {
+     "source": "H.Misc /Lotus/Types/Gameplay/CrewShip/Encounters/KillFightersExterminateSubObjective ExecuteScript",
+     "minorKillGoals": [
+      20,
+      35,
+      55,
+      85,
+      110
+     ],
+     "minorKillGoalsMax": [
+      35,
+      55,
+      85,
+      110,
+      130
+     ],
+     "kuvaLichKillGoalMin": 50,
+     "kuvaLichKillGoalMax": 60
+    },
+    "write_rule": {
+     "where": "the called closure environment (per module instance)",
+     "when": "at every hooked entry: value == recorded instance value -> write; value == written -> skip; anything else -> fail closed (drift)",
+     "cleanup": "restore the recorded value in every live instance whose value is still the written one",
+     "count": "scale_count: a number, or every number of a plain list (written as a new list), times the setting, rounded to the nearest whole number and at least 1"
+    }
+   },
+   "unit": "x",
+   "stock": 1,
+   "limits": {
+    "minimum": 0.1,
+    "maximum": 10,
+    "integer": false,
+    "basis": "operand domain guard only; gameplay-safe range not established offline"
+   },
+   "applies": "next_mission",
+   "confidence": "CONFIRMED_STATIC (needs the environment argument; live pending)",
+   "provenance": "research:railjack-kills-2026-09-30",
+   "evidence": "KillFightersExterminateEncounter proto 6 (readable L380-480): goal = netvar MinorKillGoal if set (host migration), else RandomInt(kuvaLichKillGoalMin, kuvaLichKillGoalMax) on a NemesisShowdown node, else RandomInt(minorKillGoals[i], minorKillGoalsMax[i]) for the first spaceLevelThresholds tier the space level reaches; published as netvar MinorKillGoal and _T.minorKillGoal. Proto 1 adds 1 per fighter kill; proto 9 completes the objective at kills/goal >= 1. The parameters come from the encounter type (H.Misc only; its Packages.bin text is empty). Capture graph: proto 6 <- proto 8 <- proto 9 (global KillFightersExterminateObjective)."
+  },
+  {
+   "tunable_id": "railjack.crewship_kills_scale",
+   "phase1_tunable_id": null,
+   "label": "Crewships to kill (scale)",
+   "mission_type": "Railjack",
+   "variant": "Grineer Railjack Exterminate objective",
+   "shared_with": "",
+   "owner_kind": "SCRIPT_PARAM_GLOBAL",
+   "backend": "TARGET_ADDON",
+   "owner": {
+    "body_key": "e773280ca7743441",
+    "stock_sha256": "741A81AD4B150ECDCE0507B4AB708FA09213B381836D03404740656AB2595DA6",
+    "file": "Lotus_Scripts_CrewShip_Encounters_KillCrewShipsExterminateObjective.lua_B",
+    "module_path": "Lotus.Scripts.CrewShip.Encounters.KillCrewShipsExterminateObjective",
+    "template": "SCRIPT_PARAM_GLOBAL_AT_ENTRY",
+    "gate": "CAPTURE_GRAPH_ENTRY_V1",
+    "entries": [
+     {
+      "prototype": 9,
+      "function": "KillCrewShipsExterminateObjective"
+     }
+    ],
+    "globals": [
+     {
+      "name": "majorKillGoals",
+      "hash": "8cf8f4a0"
+     },
+     {
+      "name": "kuvaLichKillGoal",
+      "hash": "240bcba8"
+     }
+    ],
+    "readers": [
+     {
+      "key": "majorKillGoals",
+      "prototype": 6,
+      "instructions": [
+       26,
+       27,
+       39,
+       40
+      ]
+     },
+     {
+      "key": "kuvaLichKillGoal",
+      "prototype": 6,
+      "instructions": [
+       18
+      ]
+     }
+    ],
+    "mode": "scale_count",
+    "observed": {
+     "source": "H.Misc /Lotus/Types/Gameplay/CrewShip/Encounters/KillCrewShipsExterminateSubObjective ExecuteScript",
+     "majorKillGoals": [
+      2,
+      4,
+      6,
+      8,
+      10
+     ],
+     "kuvaLichKillGoal": 3
+    },
+    "write_rule": {
+     "where": "the called closure environment (per module instance)",
+     "when": "at every hooked entry: value == recorded instance value -> write; value == written -> skip; anything else -> fail closed (drift)",
+     "cleanup": "restore the recorded value in every live instance whose value is still the written one",
+     "count": "scale_count: a number, or every number of a plain list (written as a new list), times the setting, rounded to the nearest whole number and at least 1"
+    }
+   },
+   "unit": "x",
+   "stock": 1,
+   "limits": {
+    "minimum": 0.1,
+    "maximum": 10,
+    "integer": false,
+    "basis": "operand domain guard only; gameplay-safe range not established offline"
+   },
+   "applies": "next_mission",
+   "confidence": "CONFIRMED_STATIC (needs the environment argument; live pending)",
+   "provenance": "research:railjack-kills-2026-09-30",
+   "evidence": "KillCrewShipsExterminateObjective proto 6 (readable L370-468): goal = kuvaLichKillGoal on a NemesisShowdown node, else majorKillGoals[i] for the first spaceLevelThresholds tier the space level reaches; _T.majorKillGoal. Capture graph: proto 6 <- proto 8 <- proto 9 (global KillCrewShipsExterminateObjective)."
+  },
+  {
+   "tunable_id": "railjack.corpus_fighter_limit_scale",
+   "phase1_tunable_id": null,
+   "label": "Corpus fighter limit (scale)",
+   "mission_type": "Railjack",
+   "variant": "Corpus Railjack fighter patrols",
+   "shared_with": "",
+   "owner_kind": "SCRIPT_PARAM_GLOBAL",
+   "backend": "TARGET_ADDON",
+   "owner": {
+    "body_key": "0a6394a10884c38a",
+    "stock_sha256": "FA1553B18402BECC5809523B25747599718E28D21CF7ABF69B19B0C15F059C0F",
+    "file": "Lotus_Scripts_CrewShip_Encounters_BasicRailJackPatrol.lua_B",
+    "module_path": "Lotus.Scripts.CrewShip.Encounters.BasicRailJackPatrol",
+    "template": "SCRIPT_PARAM_GLOBAL_AT_ENTRY",
+    "gate": "CAPTURE_GRAPH_ENTRY_V1",
+    "entries": [
+     {
+      "prototype": 15,
+      "function": "EnemyPatrol"
+     }
+    ],
+    "globals": [
+     {
+      "name": "minorKillGoals",
+      "hash": "288044d3"
+     },
+     {
+      "name": "minorKillGoalsMax",
+      "hash": "e290a5e6"
+     }
+    ],
+    "readers": [
+     {
+      "key": "minorKillGoals",
+      "prototype": 15,
+      "instructions": [
+       36,
+       37
+      ]
+     },
+     {
+      "key": "minorKillGoalsMax",
+      "prototype": 15,
+      "instructions": [
+       44,
+       45
+      ]
+     }
+    ],
+    "mode": "scale_count",
+    "observed": {
+     "source": "Packages.bin /Lotus/Types/Gameplay/CrewShip/Encounters/CorpusFighterPatrol and CorpusCrewShipPatrol ExecuteScript (_checkTotalKillLimit=1)",
+     "minorKillGoals": [
+      20,
+      35,
+      55,
+      85,
+      110
+     ],
+     "minorKillGoalsMax": [
+      35,
+      55,
+      85,
+      110,
+      130
+     ]
+    },
+    "write_rule": {
+     "where": "the called closure environment (per module instance)",
+     "when": "at every hooked entry: value == recorded instance value -> write; value == written -> skip; anything else -> fail closed (drift)",
+     "cleanup": "restore the recorded value in every live instance whose value is still the written one",
+     "count": "scale_count: a number, or every number of a plain list (written as a new list), times the setting, rounded to the nearest whole number and at least 1"
+    }
+   },
+   "unit": "x",
+   "stock": 1,
+   "limits": {
+    "minimum": 0.1,
+    "maximum": 10,
+    "integer": false,
+    "basis": "operand domain guard only; gameplay-safe range not established offline"
+   },
+   "applies": "next_mission",
+   "confidence": "CONFIRMED_STATIC (needs the environment argument; live pending)",
+   "provenance": "research:railjack-kills-2026-09-30",
+   "evidence": "BasicRailJackPatrol proto 15 EnemyPatrol (readable L2340-2420): with checkTotalKillLimit, the first patrol picks RandomInt(minorKillGoals[i], minorKillGoalsMax[i]) by space level and publishes netvar MinorKillGoal; proto 0 (fighter death) adds 1 to netvar NVMinorKillCount and at count >= goal tags NO_MORE_FIGHTERS, which CorpusFighterPatrol lists in DisallowedTags. No HUD counter reads these netvars."
+  }
+ ]
+}

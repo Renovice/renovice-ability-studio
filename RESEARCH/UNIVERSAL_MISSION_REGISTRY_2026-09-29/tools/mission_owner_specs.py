@@ -36,11 +36,19 @@ DRAFTS_SHA256 = '5C5470E04DAAE7BB4D505B9346867D5915613F194E18D5A80AF7B96AE0D3353
 METADATA_INPUTS = {'/Lotus/Types/LevelObjects/ExtractionTrigger': R10 / 'inputs/ExtractionTrigger.inspect-type.txt',
                    '/Lotus/Types/PickUps/DuviriArenaBoonPickup': R10 / 'inputs/DuviriArenaBoonPickup.inspect-type.txt'}
 PROVENANCE = 'research:mission-owners-2026-09-30 (contract R10)'
+# Contract R11 (2026-09-30): Railjack kill goals (research work/research/railjack-kills-2026-09-30). Same admission path; the
+# drafts are pinned by their LF content like the R10 drafts.
+R11 = EDITOR / 'RESEARCH/MISSIONS_R11_RAILJACK_OROKIN_2026-09-30'
+R11_DRAFTS = R11 / 'inputs/r11_row_drafts.json'
+R11_DRAFTS_SHA256 = 'B60EDD6E051D2A51D9AB6C95EB16BDD528A4E32B681A0C44AC64D47089A18544'  # LF-normalized content
+R11_PROVENANCE = 'research:railjack-kills-2026-09-30 (contract R11)'
 ENTRY_GATE = 'CAPTURE_GRAPH_ENTRY_V1'
 MISSION_INFO = 'MISSION_INFO_FIELD_AT_ENTRY'
 SCRIPT_PARAM = 'SCRIPT_PARAM_GLOBAL_AT_ENTRY'
 ENTRY_TEMPLATES = (MISSION_INFO, SCRIPT_PARAM)
-PARAM_MODES = ('scale', 'scale_inverse', 'absolute')
+# R11: scale_count = a whole-number count or a plain list of counts, each x value, rounded, at least 1.
+PARAM_MODES = ('scale', 'scale_inverse', 'absolute', 'scale_count')
+SCALE_MODES = ('scale', 'scale_inverse', 'scale_count')
 RAW_LOADN = 0x08
 GETTABLEKS, SETTABLEKS, GETGLOBAL, SETGLOBAL, NAMECALL, GETIMPORT = 0x3d, 0x15, 0x17, 0x02, 0x2d, 0x46
 
@@ -57,15 +65,12 @@ ID_MAP = {
     'extraction.countdown_endless': 'gamerules.extraction_countdown_endless',
     'extraction.countdown': 'gamerules.extraction_countdown',
     'mirror_defense.phases_to_finish': 'loopdefend.phases_to_finish',
+    'sabotage_orokin.escape_timer': 'sabotage.orokin_escape_timer',  # R11
 }
-EXCLUDED = {
-    'sabotage_orokin.escape_timer': (
-        'coupled site: SabotageOrokin prototype 17 holds the escape timer 30 (instruction 19) and the host-migration '
-        'restore threshold 27 = 30 - 3 (instruction 17, `saved <= 27 -> saved + 3`). Editing only the 30 would make the '
-        'restored timer after a host migration inconsistent with the edited value; a coupled edit needs a `value_offset` '
-        'site form in the shared live-literal patch core (live_literal_patch_core.hpp, pinned byte-identical in the '
-        'bootstrapper and the generator). Not added in R10; the row stays out until that site form exists.'),
-}
+# R11 (2026-09-30): the Orokin escape timer is admitted. Its coupled site (the host-migration restore threshold 27 = 30 - 3,
+# SabotageOrokin prototype 17 instruction 17) uses the `value_offset` site form of the shared live-literal patch core
+# (operand = row value + value_offset), so both literals move together and each keeps its own preimage check.
+EXCLUDED = {}
 # Registry units the player text and the settings editor know (the drafts used a few informal spellings).
 UNIT_MAP = {'lv': 'levels'}
 # Names the MissionInfo template calls; recorded with their U44 hashes (seed 768e5ed0) as evidence.
@@ -77,10 +82,10 @@ def sha256(data):
     return hashlib.sha256(data).hexdigest().upper()
 
 
-def load_drafts():
-    raw = DRAFTS.read_bytes().replace(b'\r\n', b'\n')
-    if sha256(raw) != DRAFTS_SHA256:
-        raise SystemExit(f'R10 drafts changed: {DRAFTS} SHA-256 {sha256(raw)} != pinned {DRAFTS_SHA256}')
+def load_drafts(path=DRAFTS, pinned=DRAFTS_SHA256, label='R10'):
+    raw = path.read_bytes().replace(b'\r\n', b'\n')
+    if sha256(raw) != pinned:
+        raise SystemExit(f'{label} drafts changed: {path} SHA-256 {sha256(raw)} != pinned {pinned}')
     return json.loads(raw.decode('utf-8'))
 
 
@@ -133,9 +138,11 @@ def root_child(m, prototype):
 def literal_site(m, site, stock, where):
     p, off = site['prototype'], site['offset']
     num_, den = site.get('numerator', 1), site.get('denominator', 1)
-    if 'value_offset' in site:
-        raise ValueError(f'{where}: coupled site with value_offset is not supported')
-    want = stock * num_ / den
+    # R11 coupled site: the operand is (row value + value_offset) x numerator / denominator (shared patch core).
+    offset = site.get('value_offset', 0)
+    if not isinstance(offset, (int, float)) or offset != offset:
+        raise ValueError(f'{where}: invalid value_offset {offset!r}')
+    want = (stock + offset) * num_ / den
     if site['kind'] == 'instruction':
         i = site['instruction']
         off_i, w = m.protos[p][0][i]
@@ -147,8 +154,11 @@ def literal_site(m, site, stock, where):
         imm = struct.unpack_from('<h', m.raw, off + 2)[0]
         if imm != want:
             raise ValueError(f'{where}: LOADN immediate {imm} != stock-derived {want}')
-        return {'kind': 'instruction', 'prototype': p, 'instruction': i, 'offset': off, 'expected': got,
-                'register': m.raw[off + 1], 'numerator': num_, 'denominator': den, 'owner': site.get('owner', '')}
+        out = {'kind': 'instruction', 'prototype': p, 'instruction': i, 'offset': off, 'expected': got,
+               'register': m.raw[off + 1], 'numerator': num_, 'denominator': den, 'owner': site.get('owner', '')}
+        if offset:
+            out['value_offset'] = offset
+        return out
     if site['kind'] != 'number_constant':
         raise ValueError(f'{where}: unknown site kind {site["kind"]}')
     k = site['constant']
@@ -158,8 +168,11 @@ def literal_site(m, site, stock, where):
         raise ValueError(f'{where}: constant {p}:{k} is at {m.constant_offset(p, k)}, not {off}')
     declared = [u['instruction'] for u in site['gate']['uses']]
     gate = m.exclusive_constant(p, k, declared)
-    return {'kind': 'number_constant', 'prototype': p, 'constant': k, 'offset': off, 'expected': list(m.raw[off:off + 8]),
-            'numerator': num_, 'denominator': den, 'owner': site.get('owner', ''), 'gate': gate}
+    out = {'kind': 'number_constant', 'prototype': p, 'constant': k, 'offset': off, 'expected': list(m.raw[off:off + 8]),
+           'numerator': num_, 'denominator': den, 'owner': site.get('owner', ''), 'gate': gate}
+    if offset:
+        out['value_offset'] = offset
+    return out
 
 
 def composed_blocks(text):
@@ -187,10 +200,11 @@ def rows(ctx):
     register_module(file, module_path) -> (key, rec), addon_field(m, key, ev), addon_owner(m, key, rec, fields),
     namehash(name), snapshot (dict, updated in place) and packages_sha."""
     drafts = load_drafts()
+    r11 = load_drafts(R11_DRAFTS, R11_DRAFTS_SHA256, 'R11')
     out, excluded = [], []
     report = {'drafts': len(drafts['rows']), 'drafts_rejected_by_research': len(drafts['rejected']), 'admitted': 0,
-              'excluded': [], 'renamed': {}, 'by_backend': {}, 'by_template': {}}
-    for d in drafts['rows']:
+              'excluded': [], 'renamed': {}, 'by_backend': {}, 'by_template': {}, 'r11_drafts': len(r11['rows'])}
+    for d in drafts['rows'] + [dict(x, _r11=True) for x in r11['rows']]:
         old = d['tunable_id']
         if old in EXCLUDED:
             excluded.append({'tunable_id': old, 'owner_kind': d['owner_kind'], 'confidence': d['confidence'],
@@ -205,8 +219,8 @@ def rows(ctx):
         base = {'tunable_id': tid, 'phase1_tunable_id': None, 'label': d['label'], 'mission_type': d['mission_type'],
                 'variant': d['variant'], 'shared_with': d.get('shared_with', ''), 'owner_kind': d['owner_kind'],
                 'backend': d['backend'], 'unit': UNIT_MAP.get(d['unit'], d['unit']), 'stock': num(d['stock']),
-                'confidence': d['confidence'], 'provenance': PROVENANCE, 'evidence': d.get('evidence', ''),
-                'research_draft_id': old}
+                'confidence': d['confidence'], 'provenance': R11_PROVENANCE if d.get('_r11') else PROVENANCE,
+                'evidence': d.get('evidence', ''), 'research_draft_id': old}
         lim = dict(d['limits'])
         if d['backend'] == 'METADATA_PATCH':
             row = metadata_row(ctx, d, base, lim, where)
@@ -306,7 +320,7 @@ def entry_row(ctx, m, key, rec, d, base, lim, where):
                 raise ValueError(f'{where}: reader of {r["key"]} is not one of the parameter globals')
             if not hashed_only(m, r['key'], ctx.namehash, r['prototype'], r['instructions']):
                 raise ValueError(f'{where}: a {r["key"]} reader is string-keyed; parameter globals are hashed')
-        if mode in ('scale', 'scale_inverse') and (d['stock'] != 1 or lim['minimum'] <= 0):
+        if mode in SCALE_MODES and (d['stock'] != 1 or lim['minimum'] <= 0):
             raise ValueError(f'{where}: a scale row must have stock 1 and a positive minimum')
         owner.update(globals=globals_, mode=mode, observed=o.get('observed', {}), write_rule=o['write_rule'])
     row = dict(base, owner=owner, limits=lim, applies='next_mission',

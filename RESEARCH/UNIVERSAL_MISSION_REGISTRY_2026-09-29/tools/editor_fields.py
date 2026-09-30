@@ -91,6 +91,8 @@ GROUPS = {
     'onslaught': {'label': 'Sanctuary Onslaught', 'aliases': ['Elite Onslaught']},  # R10 (no node in the public export join)
     'orphix': {'label': 'Orphix Venom', 'aliases': ['Orphix', 'Railjack']},
     'purgatory': {'label': 'Purgatory'},
+    # R11 (Railjack kill goals): Grineer Exterminate objectives and Corpus fighter patrols; no node selector.
+    'railjack': {'label': 'Railjack', 'aliases': ['Empyrean', 'Skirmish', 'Kuva Lich', 'Fighters', 'Crewships']},
     'purge': {'label': 'Purge', 'nodes': {'mt': ['MT_PURGE']}},
     'pursuit': {'label': 'Pursuit', 'nodes': {'mt': ['MT_PURSUIT']}},
     'raid': {'label': 'Raid'},

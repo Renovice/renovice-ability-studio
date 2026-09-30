@@ -15,7 +15,7 @@ namespace patch = live_literal_patch;
 constexpr const char* kLiveLiteralRecipeFormat = "RENOVICE_LIVE_LITERALS_V1";
 constexpr const char* kLiveLiteralRecipeFile = "literals.json";
 // Pinned SHA-256 of the shared core (gate `live-literal-core`); the bootstrapper pins the same value.
-constexpr const char* kLiveLiteralCoreSha256 = "b933c7c7ece076daadd008e702a00e572e63ca6fcdc6a568a4bbd1070b1b3761";
+constexpr const char* kLiveLiteralCoreSha256 = "2fdda7b84c966250d3718da4391a1145981734d6774cb62cce02e7e099ba9be8";
 
 // Registry literal site (EXACT_LITERAL owner or literal_owner) -> shared-core site.
 patch::Site mission_patch_site(const Json& site) {
@@ -30,6 +30,7 @@ patch::Site mission_patch_site(const Json& site) {
     out.inverse = site.value("inverse", false);
     out.numerator = site.at("numerator").get<double>();
     out.denominator = site.contains("denominator") ? site.at("denominator").get<double>() : 1.0;
+    out.value_offset = site.value("value_offset", 0.0);  // R11 coupled site (0 = plain site)
     return out;
 }
 
@@ -209,6 +210,8 @@ nlohmann::ordered_json live_literal_recipe(const Json& registry, const MissionPa
                 item["denominator"] = site.contains("denominator") ? nlohmann::ordered_json::parse(site.at("denominator").dump())
                                                                    : nlohmann::ordered_json(1);
                 if (core.inverse) item["inverse"] = true;
+                // R11 coupled site: emitted only when set, so every plain site keeps its R8 recipe form.
+                if (core.value_offset != 0.0) item["value_offset"] = nlohmann::ordered_json::parse(site.at("value_offset").dump());
                 sites.push_back(item);
             }
             drives.push_back(nlohmann::ordered_json{{"row", row->at("tunable_id").get<std::string>()},

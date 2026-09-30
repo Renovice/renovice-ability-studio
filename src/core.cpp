@@ -4873,7 +4873,8 @@ print("MASTER HARNESS PASS cases=" .. #cases)
                         // values (settled retire).
                         {
                             Json entry_values{{"defense.waves_to_finish", 3}, {"interception.score_goal_scale", 2},
-                                              {"spy.vault_alarm_scale", 0.5}, {"exterminate.kills_scale", 0.1}};
+                                              {"spy.vault_alarm_scale", 0.5}, {"exterminate.kills_scale", 0.1},
+                                              {"railjack.fighter_kills_scale", 0.5}, {"railjack.crewship_kills_scale", 0.1}};
                             Json entry_settings = probe_settings(entry_values);
                             entry_settings["output_layout"] = "package";
                             entry_settings["package_scope"] = "all_addon_values";
@@ -4904,13 +4905,17 @@ local defense = addon.targets["1a1354d153712f9d"]
 local territory = addon.targets["c9605470a8c47d8d"]
 local intel = addon.targets["ee15b583788c3e7d"]
 local alarm = addon.targets["c05987eccd08c1ca"]
+local fighters = addon.targets["feb4ca192ef69f0a"]
+local crewships = addon.targets["e773280ca7743441"]
 local context = { settings = {
+    ["railjack.fighter_kills_scale"] = { enabled = true, value = 0.5, stock = 1 },
+    ["railjack.crewship_kills_scale"] = { enabled = true, value = 0.1, stock = 1 },
     ["defense.waves_to_finish"] = { enabled = true, value = 3, stock = 0 },
     ["interception.score_goal_scale"] = { enabled = true, value = 2, stock = 1 },
     ["spy.vault_alarm_scale"] = { enabled = true, value = 0.5, stock = 1 },
     ["exterminate.kills_scale"] = { enabled = true, value = 0.1, stock = 1 },
 } }
-for _, t in ipairs({ defense, territory, intel, alarm }) do t.activate(context) end
+for _, t in ipairs({ defense, territory, intel, alarm, fighters, crewships }) do t.activate(context) end
 -- MissionInfo: host, normal node -> one SetMission with maxWaveNum 3; a second entry is a no-op.
 local r1, r2 = defense.hooks.luaCalls[50].before(50, {}, {})
 check(stored.maxWaveNum == 3 and sets == 1, "host normal node: maxWaveNum 0 -> 3 through SetMission")
@@ -4962,12 +4967,48 @@ check(old.metersPerEnemy == 15, "no environment (runtime before R10): nothing wr
 local missing = {}
 alarm.hooks.luaCalls[21].before(21, {}, {}, nil, missing)
 check(missing.metersPerEnemy == nil, "instance without the parameter: nothing written")
-for _, t in ipairs({ defense, territory, intel, alarm }) do t.cleanup() end
+-- R11 scale_count: a count or a plain list of counts, each x value, rounded to a whole number, at least 1; a list is
+-- written as a new list (the level's own table is untouched) and cleanup puts the original table back.
+local goals, goalsMax = { 20, 35, 55, 85, 110 }, { 35, 55, 85, 110, 130 }
+local objective = { minorKillGoals = goals, minorKillGoalsMax = goalsMax, kuvaLichKillGoalMin = 50, kuvaLichKillGoalMax = 60 }
+local fr1, fr2 = fighters.hooks.luaCalls[9].before(9, {}, {}, nil, objective)
+local g = objective.minorKillGoals
+check(g ~= goals and g[1] == 10 and g[2] == 18 and g[3] == 28 and g[4] == 43 and g[5] == 55 and #g == 5,
+      "scale_count list x0.5: {20,35,55,85,110} -> {10,18,28,43,55} as a new list")
+check(goals[1] == 20 and goals[5] == 110, "scale_count leaves the level's own list unchanged")
+check(objective.minorKillGoalsMax[5] == 65 and objective.kuvaLichKillGoalMin == 25 and objective.kuvaLichKillGoalMax == 30,
+      "scale_count: second list and both numbers of the row")
+check(fr1 == "RENOVICE_RETIRE" and fr2 == nil, "scale_count entry hook returns the settled retire")
+fighters.hooks.luaCalls[9].before(9, {}, {}, nil, objective)
+check(objective.minorKillGoals == g, "scale_count: a second entry skips (the written list is there)")
+objective.minorKillGoals = goals
+fighters.hooks.luaCalls[9].before(9, {}, {}, nil, objective)
+check(objective.minorKillGoals == g, "scale_count: the observed list back -> the written list again")
+local crew = { majorKillGoals = { 2, 4, 6, 8, 10 }, kuvaLichKillGoal = 3 }
+local crewGoals = crew.majorKillGoals
+crewships.hooks.luaCalls[9].before(9, {}, {}, nil, crew)
+check(crew.majorKillGoals[1] == 1 and crew.majorKillGoals[5] == 1 and crew.kuvaLichKillGoal == 1, "scale_count x0.1: at least 1")
+local odd = { majorKillGoals = { 2, "x" }, kuvaLichKillGoal = "3" }
+crewships.hooks.luaCalls[9].before(9, {}, {}, nil, odd)
+check(odd.majorKillGoals[2] == "x" and odd.kuvaLichKillGoal == "3", "scale_count: a list with a non-number or a string is left alone")
+local keyed = { majorKillGoals = { 2, 4, extra = 1 } }
+crewships.hooks.luaCalls[9].before(9, {}, {}, nil, keyed)
+check(keyed.majorKillGoals[1] == 2 and keyed.majorKillGoals.extra == 1, "scale_count: a table with a non-list key is left alone")
+local absent = {}
+crewships.hooks.luaCalls[9].before(9, {}, {}, nil, absent)
+check(absent.majorKillGoals == nil and absent.kuvaLichKillGoal == nil, "scale_count: an instance without the parameter is left alone")
+for _, t in ipairs({ defense, territory, intel, alarm, fighters, crewships }) do t.cleanup() end
+check(objective.minorKillGoals == goals and objective.minorKillGoalsMax == goalsMax and objective.kuvaLichKillGoalMin == 50,
+      "scale_count cleanup restores the original list and numbers")
+check(crew.majorKillGoals == crewGoals and crew.kuvaLichKillGoal == 3, "scale_count cleanup restores every environment")
 check(e1.scoreGoal == 1450 and e2.scoreGoal == 5, "cleanup restores the observed value, not a drifted one")
 check(vault.intelTimerDurationMax == 55 and vault.intelTimerDurationMin == 35 and killer.metersPerEnemy == 15, "cleanup restores every parameter")
 local written = 0
 for _, line in ipairs(lines) do if string.find(line, "RENOVICE Missions: ", 1, true) == 1 then written = written + 1 end end
-check(written >= 6, "one print line per write or refusal")
+check(written >= 12, "one print line per write or refusal")
+local listed = false
+for _, line in ipairs(lines) do if string.find(line, "minorKillGoals {20/35/55/85/110} -> {10/18/28/43/55}", 1, true) then listed = true end end
+check(listed, "scale_count prints the observed and written lists")
 print = base_print
 if failures == 0 then print("R10 ENTRY HARNESS PASS") else print("R10 ENTRY HARNESS FAIL failures=" .. failures) end
 )LUA";
@@ -4981,7 +5022,9 @@ if failures == 0 then print("R10 ENTRY HARNESS PASS") else print("R10 ENTRY HARN
                             check(entry_ok, "R10 entry templates (luau.exe): a MissionInfo count is written once, host only, on normal nodes, "
                                             "through the game's setter; script parameters are written once per called environment (scale, "
                                             "inverse scale, two globals), rewritten when the level value returns, left alone after drift or "
-                                            "without an environment, and restored by cleanup; the parameter names compile as hashed fields" +
+                                            "without an environment, and restored by cleanup; the parameter names compile as hashed fields; "
+                                            "R11 scale_count: counts and plain lists of counts rounded to whole numbers (at least 1), lists "
+                                            "written as new lists, malformed values left alone, originals restored" +
                                             entry_detail);
                         }
 

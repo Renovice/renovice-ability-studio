@@ -94,7 +94,9 @@ registry_rows = {r['tunable_id']: r for r in json.loads((EDITOR / 'REGISTRIES/mi
 # R10: the addon values the baked full package gains. A body built as a baked replacement here (the five staged exact
 # replacements) keeps one artifact per module, so its R10 entry rows are excluded like its other addon rows.
 REPLACED = {name[:16] for name in staged_members if name.endswith('(missions_exact-replacement).lua_B')}
-R10_ADDED = ({t for t, r in registry_rows.items() if r['provenance'].startswith('research:mission-owners-2026-09-30')
+# R11: the Railjack kill-goal rows (research:railjack-kills-2026-09-30) are addon values too.
+R10_ADDED = ({t for t, r in registry_rows.items() if r['provenance'].startswith(('research:mission-owners-2026-09-30',
+                                                                                'research:railjack-kills-2026-09-30'))
               and r['backend'] == 'TARGET_ADDON' and r['owner']['body_key'] not in REPLACED}
              | {f'defense.{n}.p{k}' for n in ('simultaneous_enemies_max', 'simultaneous_enemies_min', 'simultaneous_enemies_infested.max',
                                               'simultaneous_enemies_infested.min', 'simultaneous_enemies_duviri.min') for k in range(1, 5)}
@@ -103,7 +105,7 @@ R10_ADDED = ({t for t, r in registry_rows.items() if r['provenance'].startswith(
 R10_PATH = {f'defense.simultaneous_enemies_duviri.max.p{k}' for k in range(1, 5)} | {f'escalation.keys_per_players.p{k}' for k in range(1, 5)}
 changed = {k for k in staged_values if staged_values[k] != built_values.get(k)}
 check(set(built_values) - set(staged_values) == R10_ADDED and not set(staged_values) - set(built_values),
-      f'baked package.json declares every staged value plus exactly the {len(R10_ADDED)} R10 addon values')
+      f'baked package.json declares every staged value plus exactly the {len(R10_ADDED)} R10/R11 addon values')
 check(changed == R9_TEXT | R10_PATH
       and all({f: v for f, v in staged_values[k].items() if f != 'scope'} == {f: v for f, v in built_values[k].items() if f != 'scope'} for k in R9_TEXT)
       and all({f: v for f, v in staged_values[k].items() if f != 'path'} == {f: v for f, v in built_values[k].items() if f != 'path'}

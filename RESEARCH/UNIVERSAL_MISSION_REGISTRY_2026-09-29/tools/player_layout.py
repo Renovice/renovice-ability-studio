@@ -61,6 +61,8 @@ TYPES = {
     'exterminate': ('Exterminate', None), 'sabotage': ('Sabotage', None), 'rush': ('Rush', None),
     'void_armageddon': ('Void Armageddon', None), 'assassination': ('Assassination', None),
     'onslaught': ('Sanctuary Onslaught', None),
+    # Contract R11 (Railjack kill goals)
+    'railjack': ('Railjack', None),
 }
 # Families merged into another family's mission type sort right after it.
 # R10: the 1999 Escalation rows come first on the Exterminate page (its Timers category), the R10 kill-count rows follow.
@@ -415,6 +417,7 @@ for _tid, _row in (('high_scaling', 'High scaling'), ('mutated', 'Mutated enemie
 put('sabotage.reactor_extract_timer', ['Sabotage', 'Timers'], 'Ship escape timer')
 put('sabotage.gascity_hack_time', ['Sabotage', 'Timers'], 'Gas City: meltdown time')
 put('sabotage.orokin_charge_time', ['Sabotage', 'Timers'], 'Orokin: charge time')
+put('sabotage.orokin_escape_timer', ['Sabotage', 'Timers'], 'Orokin: escape timer')  # R11 coupled literal
 put('sabotage.forest_defend_time', ['Sabotage', 'Timers'], 'Forest: injector time')
 put('sabotage.trenchrun_timer', ['Sabotage', 'Timers'], 'Archwing: time limit')
 put('sabotage.trenchrun_enemy_cap', ['Sabotage', 'Enemies'], 'Archwing: enemies')
@@ -445,6 +448,11 @@ put('assassination.boss_level_bonus', ['Assassination', 'Enemies'], 'Boss level 
 put('assassination.hard_mode_level_base', ['Assassination', 'Advanced'], 'Hard-mode boss level')
 put('assassination.hard_mode_level_per_player', ['Assassination', 'Advanced'], 'Hard-mode level per player')
 put('assassination.ambulas_level_per_player', ['Assassination', 'Advanced'], 'Ambulas level per player')
+
+# ---- Contract R11 (2026-09-30): Railjack kill goals (encounter parameters scaled at the objective / patrol entry)
+put('railjack.fighter_kills_scale', ['Railjack', 'Objectives'], 'Fighters to kill', quick='Railjack: fighters to kill')
+put('railjack.crewship_kills_scale', ['Railjack', 'Objectives'], 'Crewships to kill')
+put('railjack.corpus_fighter_limit_scale', ['Railjack', 'Objectives'], 'Corpus fighters')
 
 # ------------------------------------------------------------------------------------------------ descriptions
 # R7 tooltips: one or two short plain sentences; no stock number (the row shows the default), no precedence jargon, no
@@ -527,6 +535,10 @@ DEFAULTS['exterminate.kills_scale'] = {'label': 'x1 (formula)', 'note': None}
 DEFAULTS['exterminate.archwing_kill_mult'] = {'label': '0.5-0.8x', 'note': 'A number you type applies on every Archwing map'}
 for _key, _label in (('p1', '7-10'), ('p2', '13-20'), ('p3', '22-26'), ('p4', '25-29')):
     DEFAULTS[f'defense.max_enemies.{_key}'] = {'label': _label, 'note': 'Depends on enemy level (fewer below level 30)'}
+# Contract R11: Railjack kill goals, x1 keeps the encounter's own numbers (picked by node level).
+DEFAULTS['railjack.fighter_kills_scale'] = {'label': 'x1 (20-130)', 'note': None}
+DEFAULTS['railjack.crewship_kills_scale'] = {'label': 'x1 (2-10)', 'note': None}
+DEFAULTS['railjack.corpus_fighter_limit_scale'] = {'label': 'x1 (20-130)', 'note': None}
 
 
 def _strip(text):

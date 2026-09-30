@@ -1,0 +1,157 @@
+# H.Misc.toc SHA-256 A4DEE44EA5740CDDABE9FC83E6B02CE6A0C9050657F679EF47B13F39387C2C9D
+# H.Misc.cache SHA-256 ED39340866E265F3D98703034C5AE591C919148BFEDB6FB06834E1F906949149
+##### H.Misc:/Lotus/Types/Gameplay/CrewShip/Encounters/KillFightersExterminateSubObjective toc(offset=49349115, compressed=459, size=883) header=612d8e06245b5612c159da6bb75a4a4b0000000052030000
+EncounterTags={
+    ExterminateSubObjective
+}
+DisallowedTags={
+    POI,
+    ExterminateObjective
+}
+IsGlobal=1
+IsUnique=1
+MinActivationRadius=0
+EncounterType=ET_NONE
+ExecuteScript={
+    Script=/Lotus/Scripts/CrewShip/Encounters/KillFightersExterminateEncounter.lua
+    Function=KillFightersExterminateObjective
+    _minorKillGoals={
+        20,
+        35,
+        55,
+        85,
+        110
+    }
+    _minorKillGoalsMax={
+        35,
+        55,
+        85,
+        110,
+        130
+    }
+    _spaceLevelThresholds={
+        15,
+        30,
+        45,
+        60,
+        100
+    }
+    _globalAlertLevelThresholds={
+        0.1,
+        0.2,
+        0.34999999,
+        0.55000001,
+        0.75
+    }
+    _kuvaLichKillGoalMin=50
+    _kuvaLichKillGoalMax=60
+}
+TransmissionSet=/Lotus/Sounds/Dialog/RailJack/CephalonCy/CephalonCySkirmishTransmissions
+??
+##### H.Misc:/Lotus/Types/Gameplay/CrewShip/Encounters/KillCrewShipsExterminateSubObjective toc(offset=49348679, compressed=436, size=756) header=b383ee913ebde3181fb636e23eb5bf4a00000000d3020000
+EncounterTags={
+    ExterminateSubObjective
+}
+DisallowedTags={
+    POI,
+    ExterminateObjective
+}
+IsGlobal=1
+IsUnique=1
+MinActivationRadius=0
+EncounterType=ET_NONE
+ExecuteScript={
+    Script=/Lotus/Scripts/CrewShip/Encounters/KillCrewShipsExterminateObjective.lua
+    Function=KillCrewShipsExterminateObjective
+    _majorKillGoals={
+        2,
+        4,
+        6,
+        8,
+        10
+    }
+    _spaceLevelThresholds={
+        15,
+        30,
+        45,
+        60,
+        100
+    }
+    _globalAlertLevelThresholds={
+        0.1,
+        0.2,
+        0.34999999,
+        0.55000001,
+        0.75
+    }
+    _kuvaLichKillGoal=3
+}
+TransmissionSet=/Lotus/Sounds/Dialog/RailJack/CephalonCy/CephalonCySkirmishTransmissions
+??
+##### H.Misc:/Lotus/Types/Gameplay/CrewShip/Encounters/ExterminateObjective toc(offset=49349574, compressed=446, size=817) header=ac4525e3c0fa0ba2cc49bb7489092dee0000000010030000
+EncounterTags={
+    MissionObjective
+}
+Faction=CrewShip
+DisallowedTags={
+    POI,
+    ExterminateObjective
+}
+IsGlobal=1
+IsUnique=1
+MinActivationRadius=0
+EncounterType=ET_NONE
+ExecuteScript={
+    Script=/Lotus/Scripts/CrewShip/Encounters/ExterminateEncounter.lua
+    Function=ExterminateObjective
+    _alwaysActivateSubObjectiveTypes={
+        KillFightersExterminateSubObjective,
+        KillCrewShipsExterminateSubObjective
+    }
+    _globalSubObjectiveEncounterTypes={}
+    _exterminateObjectiveEncounterHintType=/Lotus/Types/Gameplay/CrewShip/ExterminateSubObjectiveEncounterHint
+    _poiEncounterHintType=/Lotus/Types/Gameplay/CrewShip/POIEncounterHint
+    _numOfSubObjectivesToActivate=5
+}
+TransmissionSet=/Lotus/Sounds/Dialog/RailJack/CephalonCy/CephalonCySkirmishTransmissions
+??
+##### H.Misc:/Lotus/Types/Gameplay/CrewShip/Encounters/CorpusFighterPatrol toc(offset=55904592, compressed=32, size=32) header=4b7c88f87519fd1d548ea2fe799f3b6f0000000000000000
+?
+##### H.Misc:/Lotus/Types/Gameplay/CrewShip/Encounters/EliteCorpusFighterPatrol toc(offset=55853532, compressed=308, size=722) header=e69f6af7b2fe28254061508378450c0100000000b1020000
+AllowedEventTags={
+    EliteShipSquad
+}
+MaxSimultaneous=1
+EncounterType=ET_NONE
+ExecuteScript={
+    _InitialFighterCount={
+        3,
+        3,
+        3,
+        3,
+        3
+    }
+    _maxSimFighterCount={
+        3,
+        3,
+        3,
+        3,
+        3
+    }
+    _stopSpawningAtSpawnCount={
+        3,
+        3,
+        3,
+        3,
+        3
+    }
+    _explicitAgentTypes={
+        /Lotus/Types/Enemies/SpaceBattles/Corpus/Fighters/SpaceFighterChargeSpecOpAgent,
+        /Lotus/Types/Enemies/SpaceBattles/Corpus/Fighters/SpaceFighterPlasmaSpecOpAgent,
+        /Lotus/Types/Enemies/SpaceBattles/Corpus/Fighters/SpaceFighterLaserSpecOpAgent
+    }
+    _infiniteSpawnsAllowed=0
+}
+??
+##### H.Misc:/Lotus/Types/Gameplay/CrewShip/Encounters/CorpusCrewShipPatrol toc(offset=13335384, compressed=32, size=32) header=4b7c88f87519fd1d548ea2fe799f3b6f0000000000000000
+?

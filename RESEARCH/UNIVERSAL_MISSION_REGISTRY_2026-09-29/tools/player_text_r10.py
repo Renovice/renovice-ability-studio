@@ -92,6 +92,9 @@ def register(row, master, per_player, players):
     live('sabotage.trenchrun_enemy_cap', 'Archwing: enemies', 'Enemy population of the Archwing trench-run Sabotage')
     live('sabotage.orokin_charge_time', 'Orokin: portal charge time',
          'Seconds to charge each half of the portal power in Orokin Sabotage')
+    # R11: the escape timer and its host-migration restore threshold (timer - 3) are one coupled literal row.
+    live('sabotage.orokin_escape_timer', 'Orokin: escape timer',
+         'Escape countdown after the portal device is sabotaged in Orokin Sabotage')
     live('sabotage.forest_defend_time', 'Forest: injector defend time',
          'Seconds to defend each injector in Grineer Forest Sabotage')
     live('sabotage.gascity_meltdown_scale.easy', 'Gas City: easy-node factor',
@@ -127,3 +130,12 @@ def register(row, master, per_player, players):
          'Boss levels added per player in the hard-mode boss variant', 'adv', word=' levels')
     live('assassination.ambulas_level_per_player', 'Ambulas level per player',
          'Levels added to Ambulas units for each extra player', 'adv', word=' levels')
+
+    # ---- Contract R11 (2026-09-30): Railjack kill goals, encounter parameters scaled at the objective or patrol entry
+    # (SCRIPT_PARAM_GLOBAL_AT_ENTRY, mode scale_count: whole numbers, at least 1).
+    row('railjack.fighter_kills_scale', 'Fighters to kill',
+        'Multiplies the fighters to destroy in Grineer Railjack Exterminate (20 to 130 by node level)')
+    row('railjack.crewship_kills_scale', 'Crewships to kill',
+        'Multiplies the crewships to destroy in Grineer Railjack Exterminate (2 to 10 by node level)')
+    row('railjack.corpus_fighter_limit_scale', 'Corpus fighters',
+        'Multiplies the Corpus fighter kills after which no new fighter squadrons come (no on-screen counter)')

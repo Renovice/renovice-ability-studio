@@ -69,6 +69,7 @@ live_literal_patch::Site mission_operand_site(const Json& site) {
     core.inverse = site.value("inverse", false);
     core.numerator = site.at("numerator").get<double>();
     core.denominator = core.inverse ? 1.0 : site.at("denominator").get<double>();
+    core.value_offset = site.value("value_offset", 0.0);  // R11 coupled site (0 = plain site)
     return core;
 }
 
@@ -286,7 +287,7 @@ void verify_entry_owner(const Json& registry, const Json& row, const std::string
             if (reader.at("key") != field) throw std::runtime_error("a MissionInfo reader names another field");
         return;
     }
-    static const std::set<std::string> modes{"scale", "scale_inverse", "absolute"};
+    static const std::set<std::string> modes{"scale", "scale_inverse", "absolute", "scale_count"};  // R11: scale_count
     const auto mode = owner.at("mode").get<std::string>();
     if (!modes.contains(mode)) throw std::runtime_error("unknown script-parameter mode " + mode);
     if (mode != "absolute" && (row.at("stock").get<double>() != 1 || row.at("limits").at("minimum").get<double>() <= 0))
@@ -1578,6 +1579,74 @@ constexpr const char* kScriptParameterHelper =
     "    return enter, restore\n"
     "end\n";
 
+// Contract R11 (2026-09-30): scriptCountParameter(tag, read, write) is the scale_count form of scriptParameter, emitted only
+// when a row uses it. The parameter is a whole-number count or a plain list of counts (a level/encounter table such as the
+// Railjack kill goals {20,35,55,85,110}): every number n >= 1 becomes round(n x value), at least 1 (a number below 1 is
+// kept); a list is written as a NEW list, so the level's own table is never mutated and cleanup puts the original table
+// back. Anything else (nil, a string, a list with a non-number value or a non-list key) is left unchanged with one line.
+// Record, skip, rewrite, drift and restore rules are the scriptParameter rules (a list compares by identity).
+constexpr const char* kScriptCountParameterHelper =
+    "local function countText(v)\n"
+    "    if type(v) ~= \"table\" then return tostring(v) end\n"
+    "    local text = \"\"\n"
+    "    for i = 1, #v do text = text .. (i > 1 and \"/\" or \"\") .. tostring(v[i]) end\n"
+    "    return \"{\" .. text .. \"}\"\n"
+    "end\n"
+    "local function scaledCount(current, value)\n"
+    "    local function one(n)\n"
+    "        if n < 1 then return n end\n"
+    "        local r = n * value + 0.5\n"
+    "        r = r - r % 1\n"
+    "        if r < 1 then r = 1 end\n"
+    "        return r\n"
+    "    end\n"
+    "    if type(current) == \"number\" then return one(current) end\n"
+    "    if type(current) ~= \"table\" then return nil end\n"
+    "    local size, count = #current, 0\n"
+    "    for key, n in pairs(current) do\n"
+    "        if type(key) ~= \"number\" or type(n) ~= \"number\" then return nil end\n"
+    "        count = count + 1\n"
+    "    end\n"
+    "    if size == 0 or count ~= size then return nil end\n"
+    "    local copy = {}\n"
+    "    for i = 1, size do copy[i] = one(current[i]) end\n"
+    "    return copy\n"
+    "end\n"
+    "local function scriptCountParameter(tag, read, write)\n"
+    "    local records = setmetatable({}, { __mode = \"k\" }) -- environment -> { observed, written }, or false\n"
+    "    local function enter(environment, value)\n"
+    "        if type(environment) ~= \"table\" then return end\n"
+    "        local record = records[environment]\n"
+    "        local current = read(environment)\n"
+    "        if record == nil then\n"
+    "            local written = scaledCount(current, value)\n"
+    "            if written == nil then\n"
+    "                records[environment] = false\n"
+    "                print(\"RENOVICE Missions: \" .. tag .. \" is not a count or a list of counts in this instance; left unchanged\")\n"
+    "                return\n"
+    "            end\n"
+    "            write(environment, written)\n"
+    "            records[environment] = { observed = current, written = written }\n"
+    "            print(\"RENOVICE Missions: \" .. tag .. \" \" .. countText(current) .. \" -> \" .. countText(written))\n"
+    "            return\n"
+    "        end\n"
+    "        if record == false or current == record.written then return end\n"
+    "        if current == record.observed then\n"
+    "            write(environment, record.written)\n"
+    "            return\n"
+    "        end\n"
+    "        records[environment] = false\n"
+    "        print(\"RENOVICE Missions: \" .. tag .. \" was changed by another writer; left unchanged\")\n"
+    "    end\n"
+    "    local function restore()\n"
+    "        for environment, record in pairs(records) do\n"
+    "            if record and read(environment) == record.written then write(environment, record.observed) end\n"
+    "            records[environment] = nil\n"
+    "        end\n"
+    "    end\n"
+    "    return enter, restore\n"
+    "end\n";
+
 std::string multi_target_addon_source(const Json& registry, const std::map<std::string, std::vector<const Json*>>& bodies,
                                       const std::map<std::string, double>& values, const std::set<std::string>& enabled,
                                       const std::map<std::string, MasterBuild>& masters = {}) {
@@ -1587,12 +1656,14 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
     // table. The directive hashes EVERY field access with that name in this file, so the build gate
     // `entry-parameter-keys` checks that the names occur only in the generated accessors.
     std::set<std::string> parameter_names, info_fields;
+    bool count_parameters = false;  // R11: a scale_count row needs scriptCountParameter
     for (const auto& [body, rows] : bodies)
         for (const Json* row : rows) {
             if (!entry_template_row(*row)) continue;
-            if (row->at("owner").at("template") == kScriptParamTemplate)
+            if (row->at("owner").at("template") == kScriptParamTemplate) {
                 for (const auto& global : row->at("owner").at("globals")) parameter_names.insert(global.at("name").get<std::string>());
-            else
+                if (row->at("owner").at("mode") == "scale_count") count_parameters = true;
+            } else
                 info_fields.insert(row->at("owner").at("field").get<std::string>());
         }
     for (const auto& name : parameter_names) out << kHashedFieldDirective << name << "\n";
@@ -1714,6 +1785,7 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
         << "end\n";
     for (const auto& field : info_fields) out << "\n" << mission_info_helper(field);
     if (!parameter_names.empty()) out << "\n" << kScriptParameterHelper;
+    if (count_parameters) out << "\n" << kScriptCountParameterHelper;
     std::size_t target = 0;
     for (const auto& [body, rows] : bodies) {
         ++target;
@@ -1820,8 +1892,9 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
                 for (const auto& global : owner.at("globals")) {
                     ++k;
                     const auto name = global.at("name").get<std::string>();
-                    out << "    local enter" << slot << "_" << k << ", restore" << slot << "_" << k << " = scriptParameter("
-                        << lua_quote(id + " " + name) << ", " << lua_quote(mode) << ",\n"
+                    out << "    local enter" << slot << "_" << k << ", restore" << slot << "_" << k
+                        << (mode == "scale_count" ? " = scriptCountParameter(" : " = scriptParameter(")
+                        << lua_quote(id + " " + name) << (mode == "scale_count" ? std::string() : ", " + lua_quote(mode)) << ",\n"
                         << "        function(environment) return environment." << name << " end,\n"
                         << "        function(environment, value) environment." << name << " = value end)\n";
                     restores[slot] += "            restore" + std::to_string(slot) + "_" + std::to_string(k) + "()\n";

@@ -101,6 +101,12 @@
       "size": 12447,
       "module_path": "Lotus.Scripts.Duviri.Gameplay.DuviriEndless"
     },
+    "0a6394a10884c38a": {
+      "file": "Lotus_Scripts_CrewShip_Encounters_BasicRailJackPatrol.lua_B",
+      "sha256": "FA1553B18402BECC5809523B25747599718E28D21CF7ABF69B19B0C15F059C0F",
+      "size": 22529,
+      "module_path": "Lotus.Scripts.CrewShip.Encounters.BasicRailJackPatrol"
+    },
     "0c498e078835f9fe": {
       "file": "Lotus_Scripts_Modes_EntratiVoidVaults.lua_B",
       "sha256": "036522B0202AB810737F23C765E45050CB02F87B10F9C293932B3BE8DA24F85F",
@@ -6519,6 +6525,12 @@
       "size": 15692,
       "module_path": "Lotus.Scripts.Venus.NokkoColony.Encounters.AreaDefense"
     },
+    "e773280ca7743441": {
+      "file": "Lotus_Scripts_CrewShip_Encounters_KillCrewShipsExterminateObjective.lua_B",
+      "sha256": "741A81AD4B150ECDCE0507B4AB708FA09213B381836D03404740656AB2595DA6",
+      "size": 4570,
+      "module_path": "Lotus.Scripts.CrewShip.Encounters.KillCrewShipsExterminateObjective"
+    },
     "ea590b792c6a689a": {
       "file": "Lotus_Scripts_Rescue.lua_B",
       "sha256": "2A768C7F6FAA32C8E567B0E256FDDC2427023040A78F03BE41C3F4BC09CDCE33",
@@ -7568,6 +7580,12 @@
       "sha256": "616DCC530651EE9B24FD24B7D139A7ACE4D40DE8FE428DCCEE6FBE05F1F53AA6",
       "size": 24133,
       "module_path": "Lotus.Scripts.MultiDefend"
+    },
+    "feb4ca192ef69f0a": {
+      "file": "Lotus_Scripts_CrewShip_Encounters_KillFightersExterminateEncounter.lua_B",
+      "sha256": "870D531DF5117518E6A5D600D8C266BAE8EE3E61C0B03746A831580BFD69A2DE",
+      "size": 5098,
+      "module_path": "Lotus.Scripts.CrewShip.Encounters.KillFightersExterminateEncounter"
     }
   },
   "tunables": [
@@ -9873,7 +9891,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 487,
+        "rank": 488,
         "path": [
           "Assassination",
           "Advanced"
@@ -9960,7 +9978,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 484,
+        "rank": 485,
         "path": [
           "Assassination",
           "Enemies"
@@ -10034,7 +10052,7 @@
         "unit": "",
         "min": 1,
         "max": 9999,
-        "rank": 485,
+        "rank": 486,
         "path": [
           "Assassination",
           "Advanced"
@@ -10123,7 +10141,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 486,
+        "rank": 487,
         "path": [
           "Assassination",
           "Advanced"
@@ -10210,7 +10228,7 @@
         "unit": "x",
         "min": 0.01,
         "max": 100,
-        "rank": 481,
+        "rank": 482,
         "path": [
           "Assassination",
           "Enemies",
@@ -10298,7 +10316,7 @@
         "unit": "x",
         "min": 0.01,
         "max": 100,
-        "rank": 482,
+        "rank": 483,
         "path": [
           "Assassination",
           "Enemies",
@@ -10386,7 +10404,7 @@
         "unit": "x",
         "min": 0.01,
         "max": 100,
-        "rank": 483,
+        "rank": 484,
         "path": [
           "Assassination",
           "Enemies",
@@ -36866,7 +36884,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 474,
+        "rank": 475,
         "path": [
           "All missions",
           "Timers"
@@ -54133,7 +54151,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 480,
+        "rank": 481,
         "path": [
           "Sanctuary Onslaught",
           "Advanced"
@@ -54203,7 +54221,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 476,
+        "rank": 477,
         "path": [
           "Sanctuary Onslaught",
           "Objectives",
@@ -54274,7 +54292,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 478,
+        "rank": 479,
         "path": [
           "Sanctuary Onslaught",
           "Objectives",
@@ -54345,7 +54363,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 477,
+        "rank": 478,
         "path": [
           "Sanctuary Onslaught",
           "Objectives",
@@ -54448,7 +54466,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 475,
+        "rank": 476,
         "path": [
           "Sanctuary Onslaught",
           "Timers"
@@ -54533,7 +54551,7 @@
         "unit": "",
         "min": 1,
         "max": 100,
-        "rank": 479,
+        "rank": 480,
         "path": [
           "Sanctuary Onslaught",
           "Rewards / drops"
@@ -59304,6 +59322,393 @@
       }
     },
     {
+      "tunable_id": "railjack.corpus_fighter_limit_scale",
+      "phase1_tunable_id": null,
+      "label": "Corpus fighter limit (scale)",
+      "mission_type": "Railjack",
+      "variant": "Corpus Railjack fighter patrols",
+      "shared_with": "",
+      "owner_kind": "SCRIPT_PARAM_GLOBAL",
+      "backend": "TARGET_ADDON",
+      "unit": "x",
+      "stock": 1,
+      "confidence": "CONFIRMED_STATIC (needs the environment argument; live pending)",
+      "provenance": "research:railjack-kills-2026-09-30 (contract R11)",
+      "evidence": "BasicRailJackPatrol proto 15 EnemyPatrol (readable L2340-2420): with checkTotalKillLimit, the first patrol picks RandomInt(minorKillGoals[i], minorKillGoalsMax[i]) by space level and publishes netvar MinorKillGoal; proto 0 (fighter death) adds 1 to netvar NVMinorKillCount and at count >= goal tags NO_MORE_FIGHTERS, which CorpusFighterPatrol lists in DisallowedTags. No HUD counter reads these netvars.",
+      "research_draft_id": "railjack.corpus_fighter_limit_scale",
+      "owner": {
+        "body_key": "0a6394a10884c38a",
+        "stock_sha256": "FA1553B18402BECC5809523B25747599718E28D21CF7ABF69B19B0C15F059C0F",
+        "file": "Lotus_Scripts_CrewShip_Encounters_BasicRailJackPatrol.lua_B",
+        "module_path": "Lotus.Scripts.CrewShip.Encounters.BasicRailJackPatrol",
+        "template": "SCRIPT_PARAM_GLOBAL_AT_ENTRY",
+        "gate": "CAPTURE_GRAPH_ENTRY_V1",
+        "entries": [
+          {
+            "prototype": 15,
+            "created_by": "root",
+            "closure_instruction": 185,
+            "root_child": true,
+            "function": "EnemyPatrol",
+            "role": ""
+          }
+        ],
+        "readers": [
+          {
+            "key": "minorKillGoals",
+            "prototype": 15,
+            "instructions": [
+              36,
+              37
+            ]
+          },
+          {
+            "key": "minorKillGoalsMax",
+            "prototype": 15,
+            "instructions": [
+              44,
+              45
+            ]
+          }
+        ],
+        "dead_readers": [],
+        "globals": [
+          {
+            "name": "minorKillGoals",
+            "hash": "288044d3"
+          },
+          {
+            "name": "minorKillGoalsMax",
+            "hash": "e290a5e6"
+          }
+        ],
+        "mode": "scale_count",
+        "observed": {
+          "source": "Packages.bin /Lotus/Types/Gameplay/CrewShip/Encounters/CorpusFighterPatrol and CorpusCrewShipPatrol ExecuteScript (_checkTotalKillLimit=1)",
+          "minorKillGoals": [
+            20,
+            35,
+            55,
+            85,
+            110
+          ],
+          "minorKillGoalsMax": [
+            35,
+            55,
+            85,
+            110,
+            130
+          ]
+        },
+        "write_rule": {
+          "where": "the called closure environment (per module instance)",
+          "when": "at every hooked entry: value == recorded instance value -> write; value == written -> skip; anything else -> fail closed (drift)",
+          "cleanup": "restore the recorded value in every live instance whose value is still the written one",
+          "count": "scale_count: a number, or every number of a plain list (written as a new list), times the setting, rounded to the nearest whole number and at least 1"
+        }
+      },
+      "limits": {
+        "minimum": 0.1,
+        "maximum": 10,
+        "integer": false,
+        "basis": "operand domain guard only; gameplay-safe range not established offline"
+      },
+      "applies": "next_mission",
+      "backend_note": "SCRIPT_PARAM_GLOBAL_AT_ENTRY: written at the entry of prototype(s) 15 (gate CAPTURE_GRAPH_ENTRY_V1).",
+      "ui": {
+        "group": "railjack",
+        "mt_codes": [],
+        "short_label": "Corpus fighters",
+        "label_source": "player_text",
+        "scope_text": "Multiplies the Corpus fighter kills after which no new fighter squadrons come (no on-screen counter).",
+        "aliases": [
+          "Railjack"
+        ],
+        "lane": "addon",
+        "applies": "next_mission",
+        "type": "float",
+        "editor": "INPUTBOX",
+        "unit": "x",
+        "min": 0.1,
+        "max": 10,
+        "stock_check": "none",
+        "rank": 491,
+        "path": [
+          "Railjack",
+          "Objectives"
+        ],
+        "row": "Corpus fighters",
+        "default_label": "x1 (20-130)",
+        "r5_scope_text": "Multiplies the Corpus fighter kills after which no new fighter squadrons come (no on-screen counter); stock 1x"
+      }
+    },
+    {
+      "tunable_id": "railjack.crewship_kills_scale",
+      "phase1_tunable_id": null,
+      "label": "Crewships to kill (scale)",
+      "mission_type": "Railjack",
+      "variant": "Grineer Railjack Exterminate objective",
+      "shared_with": "",
+      "owner_kind": "SCRIPT_PARAM_GLOBAL",
+      "backend": "TARGET_ADDON",
+      "unit": "x",
+      "stock": 1,
+      "confidence": "CONFIRMED_STATIC (needs the environment argument; live pending)",
+      "provenance": "research:railjack-kills-2026-09-30 (contract R11)",
+      "evidence": "KillCrewShipsExterminateObjective proto 6 (readable L370-468): goal = kuvaLichKillGoal on a NemesisShowdown node, else majorKillGoals[i] for the first spaceLevelThresholds tier the space level reaches; _T.majorKillGoal. Capture graph: proto 6 <- proto 8 <- proto 9 (global KillCrewShipsExterminateObjective).",
+      "research_draft_id": "railjack.crewship_kills_scale",
+      "owner": {
+        "body_key": "e773280ca7743441",
+        "stock_sha256": "741A81AD4B150ECDCE0507B4AB708FA09213B381836D03404740656AB2595DA6",
+        "file": "Lotus_Scripts_CrewShip_Encounters_KillCrewShipsExterminateObjective.lua_B",
+        "module_path": "Lotus.Scripts.CrewShip.Encounters.KillCrewShipsExterminateObjective",
+        "template": "SCRIPT_PARAM_GLOBAL_AT_ENTRY",
+        "gate": "CAPTURE_GRAPH_ENTRY_V1",
+        "entries": [
+          {
+            "prototype": 9,
+            "created_by": "root",
+            "closure_instruction": 84,
+            "root_child": true,
+            "function": "KillCrewShipsExterminateObjective",
+            "role": ""
+          }
+        ],
+        "readers": [
+          {
+            "key": "majorKillGoals",
+            "prototype": 6,
+            "instructions": [
+              26,
+              27,
+              39,
+              40
+            ]
+          },
+          {
+            "key": "kuvaLichKillGoal",
+            "prototype": 6,
+            "instructions": [
+              18
+            ]
+          }
+        ],
+        "dead_readers": [],
+        "globals": [
+          {
+            "name": "majorKillGoals",
+            "hash": "8cf8f4a0"
+          },
+          {
+            "name": "kuvaLichKillGoal",
+            "hash": "240bcba8"
+          }
+        ],
+        "mode": "scale_count",
+        "observed": {
+          "source": "H.Misc /Lotus/Types/Gameplay/CrewShip/Encounters/KillCrewShipsExterminateSubObjective ExecuteScript",
+          "majorKillGoals": [
+            2,
+            4,
+            6,
+            8,
+            10
+          ],
+          "kuvaLichKillGoal": 3
+        },
+        "write_rule": {
+          "where": "the called closure environment (per module instance)",
+          "when": "at every hooked entry: value == recorded instance value -> write; value == written -> skip; anything else -> fail closed (drift)",
+          "cleanup": "restore the recorded value in every live instance whose value is still the written one",
+          "count": "scale_count: a number, or every number of a plain list (written as a new list), times the setting, rounded to the nearest whole number and at least 1"
+        }
+      },
+      "limits": {
+        "minimum": 0.1,
+        "maximum": 10,
+        "integer": false,
+        "basis": "operand domain guard only; gameplay-safe range not established offline"
+      },
+      "applies": "next_mission",
+      "backend_note": "SCRIPT_PARAM_GLOBAL_AT_ENTRY: written at the entry of prototype(s) 9 (gate CAPTURE_GRAPH_ENTRY_V1).",
+      "ui": {
+        "group": "railjack",
+        "mt_codes": [],
+        "short_label": "Crewships to kill",
+        "label_source": "player_text",
+        "scope_text": "Multiplies the crewships to destroy in Grineer Railjack Exterminate (2 to 10 by node level).",
+        "aliases": [
+          "Railjack"
+        ],
+        "lane": "addon",
+        "applies": "next_mission",
+        "type": "float",
+        "editor": "INPUTBOX",
+        "unit": "x",
+        "min": 0.1,
+        "max": 10,
+        "stock_check": "none",
+        "rank": 490,
+        "path": [
+          "Railjack",
+          "Objectives"
+        ],
+        "row": "Crewships to kill",
+        "default_label": "x1 (2-10)",
+        "r5_scope_text": "Multiplies the crewships to destroy in Grineer Railjack Exterminate (2 to 10 by node level); stock 1x"
+      }
+    },
+    {
+      "tunable_id": "railjack.fighter_kills_scale",
+      "phase1_tunable_id": null,
+      "label": "Fighters to kill (scale)",
+      "mission_type": "Railjack",
+      "variant": "Grineer Railjack Exterminate objective",
+      "shared_with": "",
+      "owner_kind": "SCRIPT_PARAM_GLOBAL",
+      "backend": "TARGET_ADDON",
+      "unit": "x",
+      "stock": 1,
+      "confidence": "CONFIRMED_STATIC (needs the environment argument; live pending)",
+      "provenance": "research:railjack-kills-2026-09-30 (contract R11)",
+      "evidence": "KillFightersExterminateEncounter proto 6 (readable L380-480): goal = netvar MinorKillGoal if set (host migration), else RandomInt(kuvaLichKillGoalMin, kuvaLichKillGoalMax) on a NemesisShowdown node, else RandomInt(minorKillGoals[i], minorKillGoalsMax[i]) for the first spaceLevelThresholds tier the space level reaches; published as netvar MinorKillGoal and _T.minorKillGoal. Proto 1 adds 1 per fighter kill; proto 9 completes the objective at kills/goal >= 1. The parameters come from the encounter type (H.Misc only; its Packages.bin text is empty). Capture graph: proto 6 <- proto 8 <- proto 9 (global KillFightersExterminateObjective).",
+      "research_draft_id": "railjack.fighter_kills_scale",
+      "owner": {
+        "body_key": "feb4ca192ef69f0a",
+        "stock_sha256": "870D531DF5117518E6A5D600D8C266BAE8EE3E61C0B03746A831580BFD69A2DE",
+        "file": "Lotus_Scripts_CrewShip_Encounters_KillFightersExterminateEncounter.lua_B",
+        "module_path": "Lotus.Scripts.CrewShip.Encounters.KillFightersExterminateEncounter",
+        "template": "SCRIPT_PARAM_GLOBAL_AT_ENTRY",
+        "gate": "CAPTURE_GRAPH_ENTRY_V1",
+        "entries": [
+          {
+            "prototype": 9,
+            "created_by": "root",
+            "closure_instruction": 89,
+            "root_child": true,
+            "function": "KillFightersExterminateObjective",
+            "role": ""
+          }
+        ],
+        "readers": [
+          {
+            "key": "minorKillGoals",
+            "prototype": 6,
+            "instructions": [
+              37,
+              38,
+              60,
+              61
+            ]
+          },
+          {
+            "key": "minorKillGoalsMax",
+            "prototype": 6,
+            "instructions": [
+              45,
+              46,
+              64,
+              65
+            ]
+          },
+          {
+            "key": "kuvaLichKillGoalMin",
+            "prototype": 6,
+            "instructions": [
+              26
+            ]
+          },
+          {
+            "key": "kuvaLichKillGoalMax",
+            "prototype": 6,
+            "instructions": [
+              27
+            ]
+          }
+        ],
+        "dead_readers": [],
+        "globals": [
+          {
+            "name": "minorKillGoals",
+            "hash": "288044d3"
+          },
+          {
+            "name": "minorKillGoalsMax",
+            "hash": "e290a5e6"
+          },
+          {
+            "name": "kuvaLichKillGoalMin",
+            "hash": "d4a29101"
+          },
+          {
+            "name": "kuvaLichKillGoalMax",
+            "hash": "1026ad29"
+          }
+        ],
+        "mode": "scale_count",
+        "observed": {
+          "source": "H.Misc /Lotus/Types/Gameplay/CrewShip/Encounters/KillFightersExterminateSubObjective ExecuteScript",
+          "minorKillGoals": [
+            20,
+            35,
+            55,
+            85,
+            110
+          ],
+          "minorKillGoalsMax": [
+            35,
+            55,
+            85,
+            110,
+            130
+          ],
+          "kuvaLichKillGoalMin": 50,
+          "kuvaLichKillGoalMax": 60
+        },
+        "write_rule": {
+          "where": "the called closure environment (per module instance)",
+          "when": "at every hooked entry: value == recorded instance value -> write; value == written -> skip; anything else -> fail closed (drift)",
+          "cleanup": "restore the recorded value in every live instance whose value is still the written one",
+          "count": "scale_count: a number, or every number of a plain list (written as a new list), times the setting, rounded to the nearest whole number and at least 1"
+        }
+      },
+      "limits": {
+        "minimum": 0.1,
+        "maximum": 10,
+        "integer": false,
+        "basis": "operand domain guard only; gameplay-safe range not established offline"
+      },
+      "applies": "next_mission",
+      "backend_note": "SCRIPT_PARAM_GLOBAL_AT_ENTRY: written at the entry of prototype(s) 9 (gate CAPTURE_GRAPH_ENTRY_V1).",
+      "ui": {
+        "group": "railjack",
+        "mt_codes": [],
+        "short_label": "Fighters to kill",
+        "label_source": "player_text",
+        "scope_text": "Multiplies the fighters to destroy in Grineer Railjack Exterminate (20 to 130 by node level).",
+        "aliases": [
+          "Railjack"
+        ],
+        "lane": "addon",
+        "applies": "next_mission",
+        "type": "float",
+        "editor": "INPUTBOX",
+        "unit": "x",
+        "min": 0.1,
+        "max": 10,
+        "stock_check": "none",
+        "rank": 489,
+        "path": [
+          "Railjack",
+          "Objectives"
+        ],
+        "row": "Fighters to kill",
+        "quick": "Railjack: fighters to kill",
+        "default_label": "x1 (20-130)",
+        "r5_scope_text": "Multiplies the fighters to destroy in Grineer Railjack Exterminate (20 to 130 by node level); stock 1x"
+      }
+    },
+    {
       "tunable_id": "rescue.hostage_health_cap",
       "phase1_tunable_id": "rescue.hostage_health_cap",
       "label": "Hostage max health/shield cap",
@@ -59891,7 +60296,7 @@
         "unit": "m/s",
         "min": 0.1,
         "max": 1000,
-        "rank": 457,
+        "rank": 458,
         "path": [
           "Rush",
           "Timers"
@@ -59963,7 +60368,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 451,
+        "rank": 452,
         "path": [
           "Sabotage",
           "Timers"
@@ -60153,7 +60558,7 @@
         "unit": "x",
         "min": 0.01,
         "max": 100,
-        "rank": 454,
+        "rank": 455,
         "path": [
           "Sabotage",
           "Advanced",
@@ -60241,7 +60646,7 @@
         "unit": "x",
         "min": 0.01,
         "max": 100,
-        "rank": 455,
+        "rank": 456,
         "path": [
           "Sabotage",
           "Advanced",
@@ -60321,6 +60726,95 @@
         ],
         "row": "Orokin: charge time",
         "r5_scope_text": "Seconds to charge each half of the portal power in Orokin Sabotage; stock 40 s"
+      }
+    },
+    {
+      "tunable_id": "sabotage.orokin_escape_timer",
+      "phase1_tunable_id": null,
+      "label": "Orokin Sabotage: escape timer",
+      "mission_type": "Sabotage (Orokin)",
+      "variant": "all",
+      "shared_with": "",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "backend": "EXACT_LITERAL",
+      "unit": "s",
+      "stock": 30,
+      "confidence": "CONFIRMED_STATIC",
+      "provenance": "research:mission-owners-2026-09-30 (contract R10)",
+      "evidence": "SabotageOrokin proto 17 readable L1917-1926; 27 and +3 are coupled to 30. NOTE: the literal generator has no value_offset site form today (only numerator/denominator); needs that small generator field or the 27 stays stock (then a restored timer after host migration keeps the stock rule).",
+      "research_draft_id": "sabotage_orokin.escape_timer",
+      "owner": {
+        "body_key": "a0cea91cc0ac3b31",
+        "stock_sha256": "51228E84F40269DD2EDE7026076ABDC326CDAEF510D396A4CE4D47DBA2F48883",
+        "file": "Lotus_Scripts_SabotageOrokin.lua_B",
+        "module_path": "Lotus.Scripts.SabotageOrokin",
+        "sites": [
+          {
+            "kind": "instruction",
+            "prototype": 17,
+            "instruction": 19,
+            "offset": 14959,
+            "expected": [
+              8,
+              3,
+              30,
+              0
+            ],
+            "register": 3,
+            "numerator": 1,
+            "denominator": 1,
+            "owner": "escape timer 30 s (SabotageGatewayDevice)"
+          },
+          {
+            "kind": "instruction",
+            "prototype": 17,
+            "instruction": 17,
+            "offset": 14947,
+            "expected": [
+              8,
+              4,
+              27,
+              0
+            ],
+            "register": 4,
+            "numerator": 1,
+            "denominator": 1,
+            "owner": "saved GateCloseTime <= 27 -> saved + 3; coupled to the 30 (write value - 3)",
+            "value_offset": -3
+          }
+        ]
+      },
+      "limits": {
+        "minimum": 4,
+        "maximum": 32767,
+        "integer": true,
+        "basis": "operand domain guard only; gameplay-safe range not established offline"
+      },
+      "applies": "next_mission",
+      "backend_note": "2 exact site(s) patched together: escape timer 30 s (SabotageGatewayDevice); saved GateCloseTime <= 27 -> saved + 3; coupled to the 30 (write value - 3)",
+      "ui": {
+        "group": "sabotage",
+        "mt_codes": [
+          "MT_SABOTAGE"
+        ],
+        "short_label": "Orokin: escape timer",
+        "label_source": "player_text",
+        "scope_text": "Escape countdown after the portal device is sabotaged in Orokin Sabotage.",
+        "aliases": [],
+        "lane": "literal",
+        "applies": "next_mission",
+        "type": "int",
+        "editor": "INPUTCOUNT",
+        "unit": "s",
+        "min": 4,
+        "max": 32767,
+        "rank": 451,
+        "path": [
+          "Sabotage",
+          "Timers"
+        ],
+        "row": "Orokin: escape timer",
+        "r5_scope_text": "Escape countdown after the portal device is sabotaged in Orokin Sabotage; stock 30 s"
       }
     },
     {
@@ -60408,7 +60902,7 @@
         "min": 1,
         "max": 3600,
         "stock_check": "none",
-        "rank": 456,
+        "rank": 457,
         "path": [
           "Sabotage",
           "Advanced"
@@ -60552,7 +61046,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 453,
+        "rank": 454,
         "path": [
           "Sabotage",
           "Enemies"
@@ -60624,7 +61118,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 452,
+        "rank": 453,
         "path": [
           "Sabotage",
           "Timers"
@@ -70943,7 +71437,7 @@
         "unit": "s",
         "min": 0.5,
         "max": 32767,
-        "rank": 473,
+        "rank": 474,
         "path": [
           "Void Armageddon",
           "Advanced"
@@ -71015,7 +71509,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 464,
+        "rank": 465,
         "path": [
           "Void Armageddon",
           "Objectives",
@@ -71088,7 +71582,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 465,
+        "rank": 466,
         "path": [
           "Void Armageddon",
           "Objectives",
@@ -71161,7 +71655,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 466,
+        "rank": 467,
         "path": [
           "Void Armageddon",
           "Objectives",
@@ -71234,7 +71728,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 467,
+        "rank": 468,
         "path": [
           "Void Armageddon",
           "Objectives",
@@ -71307,7 +71801,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 468,
+        "rank": 469,
         "path": [
           "Void Armageddon",
           "Enemies",
@@ -71380,7 +71874,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 469,
+        "rank": 470,
         "path": [
           "Void Armageddon",
           "Enemies",
@@ -71453,7 +71947,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 470,
+        "rank": 471,
         "path": [
           "Void Armageddon",
           "Enemies",
@@ -71526,7 +72020,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 471,
+        "rank": 472,
         "path": [
           "Void Armageddon",
           "Enemies",
@@ -71604,7 +72098,7 @@
         "unit": "s",
         "min": 0.5,
         "max": 32767,
-        "rank": 460,
+        "rank": 461,
         "path": [
           "Void Armageddon",
           "Timers"
@@ -71681,7 +72175,7 @@
         "unit": "s",
         "min": 0.5,
         "max": 32767,
-        "rank": 459,
+        "rank": 460,
         "path": [
           "Void Armageddon",
           "Timers"
@@ -71758,7 +72252,7 @@
         "unit": "s",
         "min": 0.5,
         "max": 32767,
-        "rank": 461,
+        "rank": 462,
         "path": [
           "Void Armageddon",
           "Timers"
@@ -71835,7 +72329,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 472,
+        "rank": 473,
         "path": [
           "Void Armageddon",
           "Rewards / drops"
@@ -71912,7 +72406,7 @@
         "unit": "s",
         "min": 0.5,
         "max": 32767,
-        "rank": 462,
+        "rank": 463,
         "path": [
           "Void Armageddon",
           "Timers"
@@ -71989,7 +72483,7 @@
         "unit": "s",
         "min": 0.5,
         "max": 32767,
-        "rank": 458,
+        "rank": 459,
         "path": [
           "Void Armageddon",
           "Timers"
@@ -72067,7 +72561,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 463,
+        "rank": 464,
         "path": [
           "Void Armageddon",
           "Objectives"
@@ -75457,12 +75951,6 @@
       "reason": "Phase 2d: prong count is coupled to the 5-entry root heading table {0,72,144,216,288} indexed by the spawn loop (proto 1 L175-185); changing the count alone indexes nil"
     },
     {
-      "tunable_id": "sabotage_orokin.escape_timer",
-      "owner_kind": "LUA_PROTO_LITERAL",
-      "confidence": "CONFIRMED_STATIC",
-      "reason": "R10: coupled site: SabotageOrokin prototype 17 holds the escape timer 30 (instruction 19) and the host-migration restore threshold 27 = 30 - 3 (instruction 17, `saved <= 27 -> saved + 3`). Editing only the 30 would make the restored timer after a host migration inconsistent with the edited value; a coupled edit needs a `value_offset` site form in the shared live-literal patch core (live_literal_patch_core.hpp, pinned byte-identical in the bootstrapper and the generator). Not added in R10; the row stays out until that site form exists."
-    },
-    {
       "tunable_id": "sentientmd.reinforcements",
       "owner_kind": "LUA_PROTO_LITERAL",
       "confidence": "PARTIAL",
@@ -75885,7 +76373,7 @@
     "title_label": "group label upper-cased, <= title_budget",
     "editor_rule": "TOGGLE for enum; INPUTCOUNT for int with min >= 0 (max always set); INPUTBOX otherwise",
     "applies_rule": "addon live_next_read; literal next_mission; metadata restart; server server_reload",
-    "editor_label_with_stock_rows": 506
+    "editor_label_with_stock_rows": 510
   },
   "ui_sources": {
     "public_export_regions": {
@@ -78560,9 +79048,27 @@
       "includes_descendia": false,
       "advanced_of": "raid"
     },
+    "railjack": {
+      "label": "Railjack",
+      "order": 450,
+      "mt_codes": [],
+      "aliases": [
+        "Empyrean",
+        "Skirmish",
+        "Kuva Lich",
+        "Fighters",
+        "Crewships"
+      ],
+      "nodes": [],
+      "node_names": [],
+      "node_count": 0,
+      "common_mission_name": "",
+      "special_nodes": [],
+      "includes_descendia": false
+    },
     "rescue": {
       "label": "Rescue",
-      "order": 450,
+      "order": 460,
       "mt_codes": [
         "MT_RESCUE"
       ],
@@ -78631,7 +79137,7 @@
     },
     "rescue_advanced": {
       "label": "Rescue: advanced",
-      "order": 455,
+      "order": 465,
       "mt_codes": [
         "MT_RESCUE"
       ],
@@ -78702,7 +79208,7 @@
     },
     "rush": {
       "label": "Rush",
-      "order": 460,
+      "order": 470,
       "mt_codes": [
         "MT_RACE"
       ],
@@ -78724,7 +79230,7 @@
     },
     "sabotage": {
       "label": "Sabotage",
-      "order": 470,
+      "order": 480,
       "mt_codes": [
         "MT_SABOTAGE"
       ],
@@ -78805,7 +79311,7 @@
     },
     "sabotage_advanced": {
       "label": "Sabotage: advanced",
-      "order": 475,
+      "order": 485,
       "mt_codes": [
         "MT_SABOTAGE"
       ],
@@ -78888,7 +79394,7 @@
     },
     "onslaught": {
       "label": "Sanctuary Onslaught",
-      "order": 480,
+      "order": 490,
       "mt_codes": [],
       "aliases": [
         "Elite Onslaught"
@@ -78902,7 +79408,7 @@
     },
     "onslaught_advanced": {
       "label": "Sanctuary Onslaught: advanced",
-      "order": 485,
+      "order": 495,
       "mt_codes": [],
       "aliases": [
         "Elite Onslaught",
@@ -78918,7 +79424,7 @@
     },
     "server": {
       "label": "Server",
-      "order": 490,
+      "order": 500,
       "mt_codes": [],
       "aliases": [
         "Server config"
@@ -78932,7 +79438,7 @@
     },
     "server_advanced": {
       "label": "Server: advanced",
-      "order": 495,
+      "order": 505,
       "mt_codes": [],
       "aliases": [
         "Server config",
@@ -78948,7 +79454,7 @@
     },
     "spy": {
       "label": "Spy",
-      "order": 500,
+      "order": 510,
       "mt_codes": [
         "MT_INTEL"
       ],
@@ -79011,7 +79517,7 @@
     },
     "spy_advanced": {
       "label": "Spy: advanced",
-      "order": 505,
+      "order": 515,
       "mt_codes": [
         "MT_INTEL"
       ],
@@ -79076,7 +79582,7 @@
     },
     "survival": {
       "label": "Survival",
-      "order": 510,
+      "order": 520,
       "mt_codes": [
         "MT_SURVIVAL"
       ],
@@ -79190,7 +79696,7 @@
     },
     "survival_advanced": {
       "label": "Survival: advanced",
-      "order": 515,
+      "order": 525,
       "mt_codes": [
         "MT_SURVIVAL"
       ],
@@ -79306,7 +79812,7 @@
     },
     "circuit": {
       "label": "The Circuit",
-      "order": 520,
+      "order": 530,
       "mt_codes": [
         "MT_ENDLESS_DUVIRI"
       ],
@@ -79327,7 +79833,7 @@
     },
     "circuit_advanced": {
       "label": "The Circuit: advanced",
-      "order": 525,
+      "order": 535,
       "mt_codes": [
         "MT_ENDLESS_DUVIRI"
       ],
@@ -79350,7 +79856,7 @@
     },
     "void_armageddon": {
       "label": "Void Armageddon",
-      "order": 530,
+      "order": 540,
       "mt_codes": [
         "MT_ARMAGEDDON"
       ],
@@ -79372,7 +79878,7 @@
     },
     "void_armageddon_advanced": {
       "label": "Void Armageddon: advanced",
-      "order": 535,
+      "order": 545,
       "mt_codes": [
         "MT_ARMAGEDDON"
       ],
@@ -79396,7 +79902,7 @@
     },
     "void_cascade": {
       "label": "Void Cascade",
-      "order": 540,
+      "order": 550,
       "mt_codes": [
         "MT_VOID_CASCADE"
       ],
@@ -79419,7 +79925,7 @@
     },
     "void_cascade_advanced": {
       "label": "Void Cascade: advanced",
-      "order": 545,
+      "order": 555,
       "mt_codes": [
         "MT_VOID_CASCADE"
       ],
@@ -79444,7 +79950,7 @@
     },
     "void_flood": {
       "label": "Void Flood",
-      "order": 550,
+      "order": 560,
       "mt_codes": [
         "MT_CORRUPTION"
       ],
@@ -79466,7 +79972,7 @@
     },
     "void_flood_advanced": {
       "label": "Void Flood: advanced",
-      "order": 555,
+      "order": 565,
       "mt_codes": [
         "MT_CORRUPTION"
       ],
@@ -81052,7 +81558,7 @@
   "ui_player_text": {
     "format": "RENOVICE_MISSION_PLAYER_TEXT_V1",
     "tool": "RESEARCH/UNIVERSAL_MISSION_REGISTRY_2026-09-29/tools/player_text.py",
-    "data_sha256": "01ED58558433CE217547F0F8F940BCB0FF33D9896C12B5849AC4ECFDDBF95155",
+    "data_sha256": "CE900EDAB45139DF029EFB5857369D8FE2FBCB81E406A9B7E196B53CA4445435",
     "label_max": 33,
     "row_max": 40,
     "tooltip_max": 300,
@@ -81101,7 +81607,7 @@
       "NpcHardCap",
       "fixedLength"
     ],
-    "rows": 450,
+    "rows": 454,
     "masters": 38,
     "hidden": 5,
     "advanced_suffix": "_advanced",
@@ -81209,6 +81715,7 @@
       "sabotage.trenchrun_timer",
       "sabotage.trenchrun_enemy_cap",
       "sabotage.orokin_charge_time",
+      "sabotage.orokin_escape_timer",
       "sabotage.forest_defend_time",
       "sabotage.gascity_meltdown_scale.easy",
       "sabotage.gascity_meltdown_scale.hard",
@@ -81244,7 +81751,7 @@
     "default_label_max": 20,
     "row_budget": 40,
     "description_max": 200,
-    "placed": 488,
+    "placed": 492,
     "types": {
       "alchemy": [
         "Alchemy",
@@ -81464,6 +81971,10 @@
       ],
       "onslaught": [
         "Sanctuary Onslaught",
+        null
+      ],
+      "railjack": [
+        "Railjack",
         null
       ]
     }

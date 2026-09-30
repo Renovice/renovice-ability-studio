@@ -214,16 +214,15 @@
   "r10": {
     "drafts": 65,
     "drafts_rejected_by_research": 8,
-    "admitted": 64,
-    "excluded": [
-      "sabotage_orokin.escape_timer"
-    ],
+    "admitted": 68,
+    "excluded": [],
     "renamed": {
       "legacyte_harvest.required_captures.high_scaling": "infested_capture.required_captures.high_scaling",
       "legacyte_harvest.required_captures.mutated": "infested_capture.required_captures.mutated",
       "legacyte_harvest.required_captures.double": "infested_capture.required_captures.double",
       "legacyte_harvest.required_captures.descendia": "infested_capture.required_captures.descendia",
       "sabotage_orokin.portal_charge_time": "sabotage.orokin_charge_time",
+      "sabotage_orokin.escape_timer": "sabotage.orokin_escape_timer",
       "sabotage_forest.defend_time": "sabotage.forest_defend_time",
       "gascity.meltdown_scale_easy": "sabotage.gascity_meltdown_scale.easy",
       "gascity.meltdown_scale_hard": "sabotage.gascity_meltdown_scale.hard",
@@ -233,17 +232,18 @@
       "extraction.countdown": "gamerules.extraction_countdown"
     },
     "by_backend": {
-      "EXACT_LITERAL": 28,
-      "TARGET_ADDON": 34,
+      "EXACT_LITERAL": 29,
+      "TARGET_ADDON": 37,
       "METADATA_PATCH": 2
     },
     "by_template": {
-      "EXACT_LITERAL": 28,
+      "EXACT_LITERAL": 29,
       "ROOT_TABLE_FIELD": 16,
       "MISSION_INFO_FIELD_AT_ENTRY": 8,
-      "SCRIPT_PARAM_GLOBAL_AT_ENTRY": 10,
+      "SCRIPT_PARAM_GLOBAL_AT_ENTRY": 13,
       "METADATA_PATCH": 2
-    }
+    },
+    "r11_drafts": 3
   },
   "phase2k": {
     "tables": 91,
@@ -430,6 +430,9 @@
     "Raid": {
       "LUA_PROTO_LITERAL": 11
     },
+    "Railjack": {
+      "SCRIPT_PARAM_GLOBAL": 3
+    },
     "Rescue": {
       "LUA_ROOT_TABLE": 1,
       "LUA_PROTO_LITERAL": 5
@@ -451,7 +454,7 @@
       "LUA_PROTO_LITERAL": 1
     },
     "Sabotage (Orokin)": {
-      "LUA_PROTO_LITERAL": 1
+      "LUA_PROTO_LITERAL": 2
     },
     "Sabotage (ships)": {
       "SCRIPT_PARAM_GLOBAL": 1
@@ -499,17 +502,17 @@
   },
   "rows_by_backend": {
     "METADATA_PATCH": 64,
-    "EXACT_LITERAL": 250,
-    "TARGET_ADDON": 343,
+    "EXACT_LITERAL": 251,
+    "TARGET_ADDON": 346,
     "SERVER_CONFIG": 1
   },
   "build": "2026.09.28.13.06",
-  "rows": 658,
+  "rows": 662,
   "rows_by_owner_kind": {
     "METADATA_PARAM": 65,
-    "LUA_PROTO_LITERAL": 166,
+    "LUA_PROTO_LITERAL": 167,
     "LUA_ROOT_TABLE": 407,
-    "SCRIPT_PARAM_GLOBAL": 10,
+    "SCRIPT_PARAM_GLOBAL": 13,
     "MISSION_INFO_FIELD": 8,
     "SERVER": 1,
     "ADDON_EXTENSION": 1
@@ -752,28 +755,28 @@
     "void_flood.is_duviri_flag",
     "wf1999def.drone_count"
   ],
-  "modules": 62,
-  "corpus_files": 62,
+  "modules": 65,
+  "corpus_files": 65,
   "metadata_snapshot_sha256": "33D3D0EA8ED3FB4E4FB54A6101683701C353CA909D597C60EC2D7ADF1212A7D2",
-  "registry_sha256": "9E4451701DB27607D61BB2092A6607B44864E4941BF4A0254E01FB4A6CE235FF",
+  "registry_sha256": "5E5CACE7ED34DD88E2ADC2FACFBE09CC5B1675AF585ACBDBD1F367DC9FB527D2",
   "ui": {
-    "groups": 102,
+    "groups": 103,
     "editors": {
-      "INPUTCOUNT": 480,
-      "INPUTBOX": 175,
+      "INPUTCOUNT": 481,
+      "INPUTBOX": 178,
       "TOGGLE": 3
     },
     "label_sources": {
       "id": 66,
       "override": 62,
-      "player_text": 450,
+      "player_text": 454,
       "prose": 54,
       "variant-id": 16,
       "variant-prose": 10
     },
     "applies": {
       "live_next_read": 325,
-      "next_mission": 268,
+      "next_mission": 272,
       "restart": 64,
       "server_reload": 1
     },

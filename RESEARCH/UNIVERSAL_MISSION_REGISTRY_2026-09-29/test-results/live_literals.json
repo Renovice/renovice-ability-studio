@@ -9,7 +9,7 @@
       "pass": true
     },
     {
-      "name": "baked package.json declares every staged value plus exactly the 56 R10 addon values",
+      "name": "baked package.json declares every staged value plus exactly the 59 R10/R11 addon values",
       "pass": true
     },
     {
@@ -29,7 +29,7 @@
       "pass": true
     },
     {
-      "name": "every registry headline literal value is declared (121)",
+      "name": "every registry headline literal value is declared (122)",
       "pass": true
     },
     {
@@ -118,17 +118,17 @@
     }
   ],
   "recipe": {
-    "values": 121,
+    "values": 122,
     "modules": 42,
     "masters": 8,
-    "literals_json_sha256": "05393c3aaa8f6b6665267b21f8a9308574256c56946b808dc6504c846ba0b8b9",
-    "package_json_sha256": "cf40478788a5a0209a1b1ea0b544069d23d9b03ecb2707e3485ab9a80106da82",
-    "generation": "work\\temp\\live-literals-tests\\recipe\\missions\\9CFD707393CB"
+    "literals_json_sha256": "d9b3a76481e3999d46b7571ff23073c525fd8e71cdef5e8748c4197de39aabdd",
+    "package_json_sha256": "29e03fe732d0eb345dd99db52a37c3db369dddcc8de097ee871b110e916224fe",
+    "generation": "work\\temp\\live-literals-tests\\recipe\\missions\\345B65350EDD"
   },
   "old_bootstrapper": {
     "revision": "6227cc0",
     "admit": [
-      "LOG\tRENOVICE PACKAGE ACCEPT trigger=startup package=Missions id=package:missions members=1 replacements=0 target_addons=1 target_keys=31 lanes=replacement+inject"
+      "LOG\tRENOVICE PACKAGE ACCEPT trigger=startup package=Missions id=package:missions members=1 replacements=0 target_addons=1 target_keys=34 lanes=replacement+inject"
     ],
     "settings_tail": [
       "PASS\tdeclaration rejects: settings-unknown-field=extra",

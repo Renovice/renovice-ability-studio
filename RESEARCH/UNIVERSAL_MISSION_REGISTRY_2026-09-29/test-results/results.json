@@ -719,7 +719,7 @@
       "intended_live_relative_path": "OpenWF/CustomScripts/Packages/Missions",
       "manifest": {
         "path": "Packages/Missions/package.json",
-        "sha256": "7A4E2FDCFE4E8552F4D1B4E3713565A8350315C4004BF7648167574959D1459B"
+        "sha256": "640D4F353B56995221A894E5214D4A975189E5D67A121BCD8C4D2C1B58A726A2"
       },
       "members": [
         {
@@ -794,7 +794,7 @@
       "intended_live_relative_path": "OpenWF/CustomScripts/Packages/Missions",
       "manifest": {
         "path": "Packages/Missions/package.json",
-        "sha256": "7A4E2FDCFE4E8552F4D1B4E3713565A8350315C4004BF7648167574959D1459B"
+        "sha256": "640D4F353B56995221A894E5214D4A975189E5D67A121BCD8C4D2C1B58A726A2"
       },
       "members": [
         {
@@ -896,13 +896,13 @@
       "enabled": 1,
       "full_capturer_hooks": 137,
       "gate": "ROOT_TABLE_MINIMAL_HOOKS_V1",
-      "hooked_targets": 28,
-      "hooks": 88,
-      "idle_retire_hooks": 88,
-      "retire_all_hooks": 88,
+      "hooked_targets": 31,
+      "hooks": 91,
+      "idle_retire_hooks": 91,
+      "retire_all_hooks": 91,
       "retire_all_sentinel": "RENOVICE_RETIRE_ALL",
       "retire_sentinel": "RENOVICE_RETIRE",
-      "retiring_hooks": 88,
+      "retiring_hooks": 91,
       "targets": [
         {
           "body_key": "070fa0ad32d6da72",
@@ -924,6 +924,25 @@
             21
           ],
           "tables": 1
+        },
+        {
+          "body_key": "0a6394a10884c38a",
+          "full_capturer_prototypes": 0,
+          "hooked_tables": [],
+          "idle_retire_prototypes": [
+            15
+          ],
+          "module_path": "Lotus.Scripts.CrewShip.Encounters.BasicRailJackPatrol",
+          "prototypes": [
+            15
+          ],
+          "retire_all_prototypes": [
+            15
+          ],
+          "retiring_prototypes": [
+            15
+          ],
+          "tables": 0
         },
         {
           "body_key": "1002fa2aeb0ef437",
@@ -1651,6 +1670,25 @@
           "tables": 0
         },
         {
+          "body_key": "e773280ca7743441",
+          "full_capturer_prototypes": 0,
+          "hooked_tables": [],
+          "idle_retire_prototypes": [
+            9
+          ],
+          "module_path": "Lotus.Scripts.CrewShip.Encounters.KillCrewShipsExterminateObjective",
+          "prototypes": [
+            9
+          ],
+          "retire_all_prototypes": [
+            9
+          ],
+          "retiring_prototypes": [
+            9
+          ],
+          "tables": 0
+        },
+        {
           "body_key": "eacd4629273a9981",
           "full_capturer_prototypes": 1,
           "hooked_tables": [
@@ -1778,9 +1816,28 @@
             25
           ],
           "tables": 2
+        },
+        {
+          "body_key": "feb4ca192ef69f0a",
+          "full_capturer_prototypes": 0,
+          "hooked_tables": [],
+          "idle_retire_prototypes": [
+            9
+          ],
+          "module_path": "Lotus.Scripts.CrewShip.Encounters.KillFightersExterminateEncounter",
+          "prototypes": [
+            9
+          ],
+          "retire_all_prototypes": [
+            9
+          ],
+          "retiring_prototypes": [
+            9
+          ],
+          "tables": 0
         }
       ],
-      "values": 318
+      "values": 321
     },
     "declarations": {
       "enabled_addon_values": 1,
@@ -1903,10 +1960,10 @@
         }
       ],
       "format": "RENOVICE_SETTINGS_DECL_V1",
-      "groups": 46,
+      "groups": 47,
       "masters": 28,
       "scope": "all_addon_values",
-      "values": 349
+      "values": 352
     },
     "files": {
       "Packages/Missions/8a0b0819de60df01 (missions_exact-replacement).lua_B": "F0436757C021BDD7C9121DD57031791D0F8EB9AADA9939727E488C783C1E134B",
@@ -1914,11 +1971,11 @@
       "Packages/Missions/b3a5a18d68d61e16 (missions_exact-replacement).lua_B": "E2E8BB2F5B67AEC1540245B18AC1786A4AB3EBE485D51FAAFC27ECB6ADD27E57",
       "Packages/Missions/f7444e3c621ff018 (missions_exact-replacement).lua_B": "66B4F9349C0EC7FB45A457DFC2EED5D49C102C7B79E0C1183A6A874E8E7830E7",
       "Packages/Missions/fc711ff621a75552 (missions_exact-replacement).lua_B": "E979F5E7906F0D88E49C42B4191ECA6AFDC1237FDDD91D52CBF427DB3FA9F6D2",
-      "Packages/Missions/Missions.targets.addon.lua_B": "D2CCE207F99870E475DF46946D73AF2AB96B31FC9E0E35E399618569F1E41A48",
-      "Packages/Missions/package.json": "C828F7A5245414F77ABBAFDCF573C301F953B2530577E3B7279CF917A62506E6",
-      "Settings/Missions.json": "EFD966E12884EA26C82C235209C7BD0887E122EA0EB4EE7CB6AAA3C4E4479D27"
+      "Packages/Missions/Missions.targets.addon.lua_B": "5527CE86E197F019C4FC1B8C871E1B843AD95A4BBD99E5174F1BF621A8689BF9",
+      "Packages/Missions/package.json": "5EC467E424F68F2705B658EECBAA064733D51D36DBC2BE08E75440AC1C08219D",
+      "Settings/Missions.json": "DF09630ABD4F29BA9B14AC2A3C8A5E739E1C5C4DE8C409F74CF405A2DE83006E"
     },
-    "state": "staged exact replacements identical; R10 adds 56 addon values (all off); R9/R10 description and category-level changes only (folder untouched)"
+    "state": "staged exact replacements identical; R10 adds 59 addon values (all off); R9/R10 description and category-level changes only (folder untouched)"
   },
   "phase2g_sample_state": "identical except the intentional Phase 2i change of Missions.targets.addon.lua_B (folder untouched)",
   "phase2h_sample_state": "identical except the intentional Phase 2i change of Missions.targets.addon.lua_B, package.json to the recorded sample (folder untouched)"
