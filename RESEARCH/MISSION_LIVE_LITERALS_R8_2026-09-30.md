@@ -97,7 +97,7 @@ module loads.
 | Baked rebuild of the staged full package | package (7 files) and values file byte-identical |
 | Recipe build (`literal_mode` recipe, `literal_scope` headline, staged build values) | live-literal-core PASS; live-literal-recipe PASS values=105 masters=12 modules=28 extreme_syntheses=210 shipped_modules=5 recipe_groups=18; 5 x live-literal-roundtrip FULL BODY identical; hook-plan PASS targets=23 hooks=69; package-folder PASS members=1; settings-declarations PASS values=308 groups=36 masters=26 |
 | `test_live_literals.py` | 22/22 (baked identity, recipe shape, 105 headline values, 5 byte-exact syntheses, R5-C declarations, values file, 3 rejections, old bootstrapper `b5a120b` admit + settings) |
-| Bootstrapper `verify_live_literals.ps1` on the same recipe | see the bootstrapper record (121 checks) |
+| Bootstrapper `verify_live_literals.ps1` on the same recipe | 124 checks PASS, zero-warning private build `e19adfb5…` (bootstrapper record) |
 
 Not rerun here: `test_presets_and_sample.py`, `test_phase2d/2e/2k` (they hard-code the main checkout
 `repos/apps/ability-editor` and its `current` build). Baked mode is proven unchanged by the byte-identical full package and the
