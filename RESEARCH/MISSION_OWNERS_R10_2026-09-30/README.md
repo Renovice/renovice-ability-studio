@@ -5,8 +5,10 @@
 - **Runtime:** bootstrapper `feat/settings-r10-param-env-2026-09-30` from `c2909f2`
   (`RESEARCH/LUA_CALL_ENVIRONMENT_R10_2026-09-30/README.md` there).
 - **Contract:** `work/research/universal-mission-editor-2026-09-29/CONTRACT_PHASE1.md`, Revision R10.
-- **Research input:** `work/research/mission-owners-2026-09-30/README.md` (rounds 1 and 2). The drafts are copied byte for
-  byte to `inputs/row_drafts.json` (SHA-256 `8b94d678…12e8a4dd`, pinned in `tools/mission_owner_specs.py`).
+- **Research input:** `work/research/mission-owners-2026-09-30/README.md` (rounds 1 and 2). The drafts
+  (`row_drafts.json`, SHA-256 `8b94d678…12e8a4dd` with CRLF line ends) are copied with LF line ends to
+  `inputs/row_drafts.json`; `tools/mission_owner_specs.py` pins the LF content (`5c5470e0…e0d33531`), so every checkout
+  verifies.
 - **Scope:** repository and `work/` only. The installed game was read only (two `inspect-type` captures, the installed
   `Settings\*.json` hashes). Nothing was deployed or pushed.
 - **Status:** every offline gate PASS. **Nothing here is live-tested.**

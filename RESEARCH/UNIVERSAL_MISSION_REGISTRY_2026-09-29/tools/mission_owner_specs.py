@@ -1,7 +1,9 @@
 """Contract R10 (2026-09-30): registry rows admitted from the mission-owner research.
 
-Input: RESEARCH/MISSION_OWNERS_R10_2026-09-30/inputs/row_drafts.json, a byte copy (SHA-256 pinned below) of
-work/research/mission-owners-2026-09-30/row_drafts.json (65 verified drafts, 8 rejected). The drafts are proposals: nothing
+Input: RESEARCH/MISSION_OWNERS_R10_2026-09-30/inputs/row_drafts.json, a copy of
+work/research/mission-owners-2026-09-30/row_drafts.json (65 verified drafts, 8 rejected; the research file has CRLF line
+ends, SHA-256 8b94d678...12e8a4dd; the copy is LF). The pin below is the SHA-256 of the content with LF line ends, so any
+checkout verifies whatever its line-end setting. The drafts are proposals: nothing
 is copied into the registry on trust. register_registry.py calls rows() and every row is re-derived from the pinned 44.0.2
 stock bytes here:
 
@@ -30,7 +32,7 @@ HERE = Path(__file__).resolve().parent
 EDITOR = HERE.parents[2]
 R10 = EDITOR / 'RESEARCH/MISSION_OWNERS_R10_2026-09-30'
 DRAFTS = R10 / 'inputs/row_drafts.json'
-DRAFTS_SHA256 = '8B94D67890C0A72DE5AC48BB2C5278FBBCF9105019974FC5FFAAC9CD12E8A4DD'
+DRAFTS_SHA256 = '5C5470E04DAAE7BB4D505B9346867D5915613F194E18D5A80AF7B96AE0D33531'  # LF-normalized content
 METADATA_INPUTS = {'/Lotus/Types/LevelObjects/ExtractionTrigger': R10 / 'inputs/ExtractionTrigger.inspect-type.txt',
                    '/Lotus/Types/PickUps/DuviriArenaBoonPickup': R10 / 'inputs/DuviriArenaBoonPickup.inspect-type.txt'}
 PROVENANCE = 'research:mission-owners-2026-09-30 (contract R10)'
@@ -76,7 +78,7 @@ def sha256(data):
 
 
 def load_drafts():
-    raw = DRAFTS.read_bytes()
+    raw = DRAFTS.read_bytes().replace(b'\r\n', b'\n')
     if sha256(raw) != DRAFTS_SHA256:
         raise SystemExit(f'R10 drafts changed: {DRAFTS} SHA-256 {sha256(raw)} != pinned {DRAFTS_SHA256}')
     return json.loads(raw.decode('utf-8'))
