@@ -348,6 +348,9 @@ addon2k = next(a for a in manifest2k['artifacts'] if a['backend'] == 'TARGET_ADD
 # Every declared table is hooked (idle hooks retire at once under R3): every target is hooked, every hook has the idle path.
 assert addon2k['hook_plan']['hooked_targets'] == len(addon2k['target_keys']), addon2k['hook_plan']
 assert addon2k['hook_plan']['idle_retire_hooks'] == addon2k['hook_plan']['hooks'] == addon2k['hook_plan']['retiring_hooks'], addon2k['hook_plan']
+# Contract R4 / S5: every hook also opens with retire-all (no enabled value of its target -> retire every hook of it).
+assert addon2k['hook_plan']['retire_all_hooks'] == addon2k['hook_plan']['hooks'], addon2k['hook_plan']
+assert addon2k['hook_plan']['retire_all_sentinel'] == 'RENOVICE_RETIRE_ALL', addon2k['hook_plan']
 assert (package2k / 'package.json').stat().st_size <= 512 * 1024
 files2k = {'Packages/Missions/' + p.name: p for p in package2k.iterdir()}
 files2k['Settings/Missions.json'] = generation2k / 'Settings' / 'Missions.json'

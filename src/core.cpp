@@ -4196,7 +4196,7 @@ namespace renovice
                         std::set<std::string> enabled;
                         for (const auto& [id, value] : build_values.items()) enabled.insert(id);
                         std::ostringstream harness, idle;
-                        std::size_t case_count = 0, hookless = 0, idle_count = 0;
+                        std::size_t case_count = 0, hookless = 0, idle_count = 0, all_count = 0, other_count = 0;
                         harness << "local function chunk()\n" << source << "end\n\n"
                                 << "local EXPECTED_TARGETS = " << manifest.at("target_keys").size() << "\nlocal cases = {\n";
                         for (const auto& target : manifest.at("targets")) {
@@ -4233,12 +4233,35 @@ namespace renovice
                                 }
                             }
                             // Phase 2k: every emitted hook of the target (manifest hook plan) gets an idle-retire case.
+                            // Contract R4: `all` = the hook opens with retire-all (manifest retire_all_prototypes); `other` =
+                            // a declared value of the same target none of whose tables this hook binds (enabling it must
+                            // turn retire-all into the plain R3 idle retire).
                             for (const auto& plan : manifest.at("hook_plan").at("targets")) {
                                 if (plan.at("body_key") != body) continue;
                                 if (plan.at("prototypes").empty()) ++hookless;
+                                std::set<int> retire_all;
+                                for (const auto& prototype : plan.value("retire_all_prototypes", Json::array())) retire_all.insert(prototype.get<int>());
                                 for (const auto& prototype : plan.at("prototypes")) {
-                                    idle << "    { key = " << lua_quote(body) << ", prototype = " << prototype.get<int>() << " },\n";
+                                    const int proto = prototype.get<int>();
+                                    std::string other = "nil";
+                                    for (const auto& id_json : target.at("tunables")) {
+                                        const auto other_id = id_json.get<std::string>();
+                                        const Json& row = mission_tunable(registry, other_id);
+                                        bool bound_here = false;
+                                        for (const auto& field : row.at("owner").at("fields"))
+                                            for (const auto& hooked : module.at("root_tables").at(field.at("table_id").get<std::string>())
+                                                                          .at("minimal_hooks").at("prototypes"))
+                                                bound_here = bound_here || hooked.get<int>() == proto;
+                                        if (bound_here) continue;
+                                        other = "{ id = " + lua_quote(other_id) + ", stock = " +
+                                                format_number(row.at("stock").get<double>()) + " }";
+                                        ++other_count;
+                                        break;
+                                    }
+                                    idle << "    { key = " << lua_quote(body) << ", prototype = " << proto << ", all = "
+                                         << (retire_all.contains(proto) ? "true" : "false") << ", other = " << other << " },\n";
                                     ++idle_count;
+                                    all_count += retire_all.contains(proto) ? 1 : 0;
                                 }
                             }
                             for (const auto& [prototype, tables] : prototypes) {
@@ -4307,7 +4330,9 @@ for _, case in ipairs(cases) do
     entry.activate()
     -- Contract R3: once every table of this hook is settled for the instance it returns the retire sentinel (only
     -- from a retire-safe root-child hook), on the first and on every later call.
-    check(before(case.prototype, {}, ua) == expected, tag .. " the hook returns the R3 retire sentinel after its write")
+    -- Contract R4: a value of this target is enabled, so the hook never returns retire-all (exactly one value, or none).
+    local settled = table.pack(before(case.prototype, {}, ua))
+    check(settled[1] == expected and settled.n == (expected and 1 or 0), tag .. " the hook returns the R3 retire sentinel after its write (no retire-all)")
     local b, ub = instance(case, 0)
     before(case.prototype, {}, ub)
     before(case.prototype, {}, ub)
@@ -4373,24 +4398,47 @@ for _, case in ipairs(cases) do
 end
 -- Phase 2k + R3: every emitted hook has an idle retire path. With no enabled value for its tables it returns the sentinel
 -- on its first call without touching the upvalue view; before activation it stays armed (returns nothing).
+-- Contract R4 / S5: with an empty context.settings no value of the target is enabled, so a retire-all hook returns
+-- "RENOVICE_RETIRE", "RENOVICE_RETIRE_ALL" (both values) as its first statement; with an enabled value in another table of
+-- the same target it returns only the plain R3 retire (another hook of the target still has work for this instance).
+local all_count, other_count = 0, 0
 for _, h in ipairs(idle) do
+    local tag = h.key .. "/" .. h.prototype
     local entry = chunk().targets[h.key]
     local before = entry.hooks.luaCalls[h.prototype].before
-    check(before(h.prototype, {}, {}) == nil, h.key .. "/" .. h.prototype .. " idle hook stays armed before activate")
+    check(select("#", before(h.prototype, {}, {})) == 0, tag .. " idle hook stays armed before activate")
     entry.activate({ settings = {} })
-    check(before(h.prototype, {}, nil) == "RENOVICE_RETIRE", h.key .. "/" .. h.prototype .. " idle hook retires on its first call, writing nothing")
+    local r = table.pack(before(h.prototype, {}, nil))
+    if h.all then
+        check(r.n == 2 and r[1] == "RENOVICE_RETIRE" and r[2] == "RENOVICE_RETIRE_ALL",
+            tag .. " R4: empty context.settings returns both retire values, writing nothing")
+        all_count = all_count + 1
+    else
+        check(r.n == 1 and r[1] == "RENOVICE_RETIRE", tag .. " idle hook retires on its first call, writing nothing")
+    end
     entry.cleanup()
+    check(select("#", before(h.prototype, {}, {})) == 0, tag .. " idle hook stays armed after cleanup")
+    if h.other then
+        entry.activate({ settings = { [h.other.id] = { enabled = true, value = h.other.stock, stock = h.other.stock } } })
+        r = table.pack(before(h.prototype, {}, nil))
+        check(r.n == 1 and r[1] == "RENOVICE_RETIRE",
+            tag .. " R4: an enabled value in another table of the target (" .. h.other.id .. ") returns only the plain retire")
+        entry.cleanup()
+        other_count = other_count + 1
+    end
 end
 local other = chunk()
 check(#cases == 0 or other.targets[cases[1].key] ~= container.targets[cases[1].key], "each binding runs its own chunk state")
-print("MULTI-TARGET HARNESS PASS cases=" .. #cases .. " idle=" .. #idle)
+print("MULTI-TARGET HARNESS PASS cases=" .. #cases .. " idle=" .. #idle .. " retire_all=" .. all_count .. " other=" .. other_count)
 )LUA";
                         const fs::path harness_path = mission_fixture / (name + "_harness.luau");
                         write_text(harness_path, harness.str());
                         const fs::path luau = resolve_workspace_path(editor_root, "repos", "de_luau_toolchain") / "bin/luau.exe";
                         const ProcessResult run = run_process(quote_process_argument(luau) + " " + quote_process_argument(harness_path), mission_fixture);
                         const bool ok = run.exit_code == 0 && contains_text(run.output, "MULTI-TARGET HARNESS PASS cases=" + std::to_string(case_count) +
-                                                                                            " idle=" + std::to_string(idle_count));
+                                                                                            " idle=" + std::to_string(idle_count) +
+                                                                                            " retire_all=" + std::to_string(all_count) +
+                                                                                            " other=" + std::to_string(other_count));
                         const auto summary = run.output.find("MULTI-TARGET HARNESS PASS");
                         return {ok, ok ? " [" + name + ": " + run.output.substr(summary, run.output.find_first_of("\r\n", summary) - summary) + "]"
                                        : run.output};
@@ -4475,6 +4523,44 @@ print("MULTI-TARGET HARNESS PASS cases=" .. #cases .. " idle=" .. #idle)
                                 && contains_text(unified.gate_log, " idle_retire_hooks="),
                               "R3 idle path: every emitted hook retires at once when its tables hold no enabled value; a hook without the "
                               "idle path is detected by the hook-retire read-back");
+                        // Contract R4 / S5: every retire-safe root-child hook opens with retire-all over the target-wide flag;
+                        // the read-back rejects a flag that is not the OR of every table flag of the target, a retire-all
+                        // statement anywhere but first, and misses a hook whose retire-all statement was removed.
+                        const std::string all_line = "        if not liveTarget then return \"RENOVICE_RETIRE\", \"RENOVICE_RETIRE_ALL\" end -- R4: no enabled value of this target\n";
+                        const auto section_at = unified_source.find("\n-- Target ");
+                        const auto survival_at = unified_source.find(": Lotus.Scripts.Modes.SurvivalMission\n");
+                        const auto flag_at = survival_at == std::string::npos ? std::string::npos : unified_source.find("            liveTarget = live", survival_at);
+                        const auto flag_end = flag_at == std::string::npos ? std::string::npos : unified_source.find('\n', flag_at);
+                        bool narrowed_rejected = false;
+                        if (flag_end != std::string::npos) {
+                            std::string narrowed = unified_source;
+                            narrowed.replace(flag_at, flag_end - flag_at, "            liveTarget = false");
+                            try { static_cast<void>(multi_target_source_retire_paths(narrowed)); }
+                            catch (const std::exception& e) { narrowed_rejected = contains_text(e.what(), "is not the OR of every table flag"); }
+                        }
+                        const auto before67_at = unified_source.find("    local function before67(");
+                        const auto all_at = before67_at == std::string::npos ? std::string::npos : unified_source.find(all_line, before67_at);
+                        std::string no_all = unified_source, late_all = unified_source;
+                        std::map<std::string, SourceRetirePaths> no_all_paths;
+                        bool late_rejected = false;
+                        if (all_at != std::string::npos) {
+                            no_all.erase(all_at, all_line.size());
+                            try { no_all_paths = multi_target_source_retire_paths(no_all); } catch (const std::exception&) {}
+                            const auto bind67 = late_all.find("        if live", all_at + all_line.size());
+                            late_all.erase(all_at, all_line.size());
+                            if (bind67 != std::string::npos) late_all.insert(bind67 - all_line.size(), all_line);
+                            try { static_cast<void>(multi_target_source_retire_paths(late_all)); }
+                            catch (const std::exception& e) { late_rejected = contains_text(e.what(), "retire-all outside its first statement"); }
+                        }
+                        check(section_at != std::string::npos && paths.contains("Lotus.Scripts.Modes.SurvivalMission")
+                                && paths.at("Lotus.Scripts.Modes.SurvivalMission").retire_all == minimal
+                                && narrowed_rejected && all_at != std::string::npos && late_rejected
+                                && no_all_paths.contains("Lotus.Scripts.Modes.SurvivalMission")
+                                && !no_all_paths.at("Lotus.Scripts.Modes.SurvivalMission").retire_all.contains(67)
+                                && contains_text(unified.gate_log, " retire_all_hooks="),
+                              "R4 retire-all: every retire-safe root-child hook returns \"RENOVICE_RETIRE\", \"RENOVICE_RETIRE_ALL\" as its first "
+                              "statement when no value of its target is enabled; a target flag narrower than every table flag, a late "
+                              "retire-all and a missing one are detected by the hook-retire read-back");
                         check(retiring.contains("Lotus.Scripts.Modes.SurvivalMission")
                                 && retiring.at("Lotus.Scripts.Modes.SurvivalMission") == minimal
                                 && contains_text(unified.gate_log, " retiring_hooks=") && bind_at != std::string::npos && early_rejected,
@@ -4533,6 +4619,8 @@ print("MULTI-TARGET HARNESS PASS cases=" .. #cases .. " idle=" .. #idle)
                                 && fs::file_size(full.package_directory / "package.json") <= 512u * 1024u
                                 && addon_manifest.at("hook_plan").at("hooked_targets") == addon_manifest.at("target_keys").size()
                                 && addon_manifest.at("hook_plan").at("idle_retire_hooks") == addon_manifest.at("hook_plan").at("hooks")
+                                && addon_manifest.at("hook_plan").at("retire_all_hooks") == addon_manifest.at("hook_plan").at("hooks")
+                                && addon_manifest.at("hook_plan").at("retire_all_sentinel") == "RENOVICE_RETIRE_ALL"
                                 && contains_text(full.gate_log, "hook-plan\nPASS targets=" + std::to_string(addon_manifest.at("target_keys").size()) + " hooked_targets=" + std::to_string(addon_manifest.at("target_keys").size()) + " ")
                                 && contains_text(full.gate_log, "settings-declarations\nPASS values=" + std::to_string(addon_rows - flood_rows + 1));
                             if (full_ok) {
@@ -4552,13 +4640,15 @@ print("MULTI-TARGET HARNESS PASS cases=" .. #cases .. " idle=" .. #idle)
                                 bool ok2 = wide.success && wide_addon != nullptr;
                                 std::string out2 = ok2 ? std::string() : (wide.diagnostics.empty() ? std::string(" wide build failed") : " " + wide.diagnostics.front().message);
                                 if (ok2) std::tie(ok2, out2) = run_harness(read_text(wide_addon->source), Json::parse(read_text(wide_addon->manifest)), wide_values, "wide_package");
-                                full_ok = ok1 && ok2;
+                                // R4: the full package must exercise the "enabled value in another table" case.
+                                full_ok = ok1 && ok2 && !contains_text(out1, " other=0]");
                                 full_detail = out1 + out2;
                             }
                         }
                         check(full_ok, "package_scope all_addon_values declares every multi-instance-safe addon value (Void Flood addon rows "
                                        "and the 2 template-only rows excluded with reasons), ships them disabled except the build's values, hooks "
-                                       "every declared table at its minimal prototypes (every target hooked, every hook with an idle R3 retire path), "
+                                       "every declared table at its minimal prototypes (every target hooked, every hook with an idle R3 retire path "
+                                       "and an R4 retire-all path), "
                                        "stays under 512 KiB, and passes "
                                        "the two-instance harness incl. nested and shared-hook tables" + full_detail);
                         Json loose_scope = probe_settings(Json{{"survival.reward_interval", 150}});

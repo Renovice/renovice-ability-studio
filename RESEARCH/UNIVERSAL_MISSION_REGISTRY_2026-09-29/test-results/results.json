@@ -139,7 +139,7 @@
         "backend_before": "TARGET_ADDON",
         "backend_now": "TARGET_ADDON",
         "identical": false,
-        "sha256_now": "EA577C49ED8815858E0003721B8FC58E9DF3FEE57929C0CB580DBE19EE777193",
+        "sha256_now": "2EA1A8D892FB7814ACBBF9504C1882AAFD5E28C8FFD1408FBC835CA41BD888DC",
         "multi_target_artifact": "artifacts/Missions.targets.addon.lua_B",
         "runtime_hook": {
           "binding": "renovice.target.lua_call",
@@ -376,7 +376,7 @@
         "backend_before": "EXACT_LITERAL",
         "backend_now": "TARGET_ADDON",
         "identical": false,
-        "sha256_now": "04598C21D786D7B8FA9C61B9B72AE3CEA6D99B34425D48666DCE849AF44CB1E3",
+        "sha256_now": "2AC8431895B6581F6409A34182DE5342EDC2A80C1C734B74D86433418C87B63D",
         "multi_target_artifact": "artifacts/Missions.targets.addon.lua_B",
         "runtime_hook": {
           "binding": "renovice.target.lua_call",
@@ -427,7 +427,7 @@
         "backend_before": "TARGET_ADDON",
         "backend_now": "TARGET_ADDON",
         "identical": false,
-        "sha256_now": "2794A95A9E720E011CE8A2CF04333F92F1463267B97463D1BC35AEF1A56472F5",
+        "sha256_now": "E77C1BE47829BB9543DDDE4ABD5442EE117EB6228F2A88D4341E3348B9813B9B",
         "multi_target_artifact": "artifacts/Missions.targets.addon.lua_B",
         "runtime_hook": {
           "binding": "renovice.target.lua_call",
@@ -444,7 +444,7 @@
         "backend_before": "TARGET_ADDON",
         "backend_now": "TARGET_ADDON",
         "identical": false,
-        "sha256_now": "2794A95A9E720E011CE8A2CF04333F92F1463267B97463D1BC35AEF1A56472F5",
+        "sha256_now": "E77C1BE47829BB9543DDDE4ABD5442EE117EB6228F2A88D4341E3348B9813B9B",
         "multi_target_artifact": "artifacts/Missions.targets.addon.lua_B",
         "runtime_hook": {
           "binding": "renovice.target.lua_call",
@@ -461,7 +461,7 @@
         "backend_before": "TARGET_ADDON",
         "backend_now": "TARGET_ADDON",
         "identical": false,
-        "sha256_now": "2794A95A9E720E011CE8A2CF04333F92F1463267B97463D1BC35AEF1A56472F5",
+        "sha256_now": "E77C1BE47829BB9543DDDE4ABD5442EE117EB6228F2A88D4341E3348B9813B9B",
         "multi_target_artifact": "artifacts/Missions.targets.addon.lua_B",
         "runtime_hook": {
           "binding": "renovice.target.lua_call",
@@ -542,6 +542,8 @@
           "hooked_targets": 3,
           "hooks": 6,
           "idle_retire_hooks": 6,
+          "retire_all_hooks": 6,
+          "retire_all_sentinel": "RENOVICE_RETIRE_ALL",
           "retire_sentinel": "RENOVICE_RETIRE",
           "retiring_hooks": 6,
           "targets": [
@@ -556,6 +558,9 @@
               ],
               "module_path": "Lotus.Scripts.Modes.Purgatory",
               "prototypes": [
+                37
+              ],
+              "retire_all_prototypes": [
                 37
               ],
               "retiring_prototypes": [
@@ -574,6 +579,9 @@
               ],
               "module_path": "Lotus.Scripts.Modes.HalloweenLanternEndless",
               "prototypes": [
+                14
+              ],
+              "retire_all_prototypes": [
                 14
               ],
               "retiring_prototypes": [
@@ -595,6 +603,12 @@
               ],
               "module_path": "Lotus.Scripts.Modes.SurvivalMission",
               "prototypes": [
+                31,
+                61,
+                67,
+                69
+              ],
+              "retire_all_prototypes": [
                 31,
                 61,
                 67,
@@ -624,8 +638,8 @@
           "policy_id": "target-addon:missions.targets.addon.lua_b",
           "row": "[ADDON] Missions"
         },
-        "sha256": "2794A95A9E720E011CE8A2CF04333F92F1463267B97463D1BC35AEF1A56472F5",
-        "size": 5324,
+        "sha256": "E77C1BE47829BB9543DDDE4ABD5442EE117EB6228F2A88D4341E3348B9813B9B",
+        "size": 5584,
         "target_keys": [
           "6fa60841c9e0f207",
           "caec63d8e739b693",
@@ -723,8 +737,8 @@
           "file": "Missions.targets.addon.lua_B",
           "intended_live_relative_path": "OpenWF/CustomScripts/Packages/Missions/Missions.targets.addon.lua_B",
           "label": "Values: Lantern, Purgatory, Survival",
-          "sha256": "2794A95A9E720E011CE8A2CF04333F92F1463267B97463D1BC35AEF1A56472F5",
-          "size": 5324
+          "sha256": "E77C1BE47829BB9543DDDE4ABD5442EE117EB6228F2A88D4341E3348B9813B9B",
+          "size": 5584
         }
       ],
       "name": "Missions",
@@ -797,8 +811,8 @@
           "file": "Missions.targets.addon.lua_B",
           "intended_live_relative_path": "OpenWF/CustomScripts/Packages/Missions/Missions.targets.addon.lua_B",
           "label": "Values: Lantern, Purgatory, Survival",
-          "sha256": "2794A95A9E720E011CE8A2CF04333F92F1463267B97463D1BC35AEF1A56472F5",
-          "size": 5324
+          "sha256": "E77C1BE47829BB9543DDDE4ABD5442EE117EB6228F2A88D4341E3348B9813B9B",
+          "size": 5584
         }
       ],
       "name": "Missions",
@@ -873,6 +887,8 @@
       "hooked_targets": 22,
       "hooks": 64,
       "idle_retire_hooks": 64,
+      "retire_all_hooks": 64,
+      "retire_all_sentinel": "RENOVICE_RETIRE_ALL",
       "retire_sentinel": "RENOVICE_RETIRE",
       "retiring_hooks": 64,
       "targets": [
@@ -887,6 +903,9 @@
           ],
           "module_path": "Lotus.Scripts.Modes.ColonistDoorDefenseMission",
           "prototypes": [
+            21
+          ],
+          "retire_all_prototypes": [
             21
           ],
           "retiring_prototypes": [
@@ -907,6 +926,9 @@
           "prototypes": [
             17
           ],
+          "retire_all_prototypes": [
+            17
+          ],
           "retiring_prototypes": [
             17
           ],
@@ -923,6 +945,9 @@
           ],
           "module_path": "Lotus.Scripts.WaveDefend",
           "prototypes": [
+            26
+          ],
+          "retire_all_prototypes": [
             26
           ],
           "retiring_prototypes": [
@@ -957,6 +982,10 @@
             20,
             69
           ],
+          "retire_all_prototypes": [
+            20,
+            69
+          ],
           "retiring_prototypes": [
             20,
             69
@@ -974,6 +1003,9 @@
           ],
           "module_path": "Lotus.Scripts.Modes.SentientMobileDefense",
           "prototypes": [
+            8
+          ],
+          "retire_all_prototypes": [
             8
           ],
           "retiring_prototypes": [
@@ -1009,6 +1041,16 @@
             74,
             79
           ],
+          "retire_all_prototypes": [
+            2,
+            9,
+            20,
+            42,
+            46,
+            73,
+            74,
+            79
+          ],
           "retiring_prototypes": [
             2,
             9,
@@ -1032,6 +1074,9 @@
           ],
           "module_path": "Lotus.Scripts.Modes.EscalationExtermination",
           "prototypes": [
+            7
+          ],
+          "retire_all_prototypes": [
             7
           ],
           "retiring_prototypes": [
@@ -1077,6 +1122,17 @@
             53,
             59
           ],
+          "retire_all_prototypes": [
+            1,
+            14,
+            22,
+            23,
+            34,
+            50,
+            51,
+            53,
+            59
+          ],
           "retiring_prototypes": [
             1,
             14,
@@ -1110,6 +1166,11 @@
             31,
             37
           ],
+          "retire_all_prototypes": [
+            2,
+            31,
+            37
+          ],
           "retiring_prototypes": [
             2,
             31,
@@ -1131,6 +1192,10 @@
           ],
           "module_path": "Lotus.Scripts.Modes.MechSurvivalMission",
           "prototypes": [
+            29,
+            31
+          ],
+          "retire_all_prototypes": [
             29,
             31
           ],
@@ -1162,6 +1227,11 @@
           ],
           "module_path": "Lotus.Scripts.Modes.FiveFatesMission",
           "prototypes": [
+            19,
+            52,
+            77
+          ],
+          "retire_all_prototypes": [
             19,
             52,
             77
@@ -1212,6 +1282,18 @@
             128,
             170
           ],
+          "retire_all_prototypes": [
+            29,
+            31,
+            69,
+            81,
+            97,
+            107,
+            110,
+            121,
+            128,
+            170
+          ],
           "retiring_prototypes": [
             29,
             31,
@@ -1240,6 +1322,9 @@
           "prototypes": [
             19
           ],
+          "retire_all_prototypes": [
+            19
+          ],
           "retiring_prototypes": [
             19
           ],
@@ -1256,6 +1341,9 @@
           ],
           "module_path": "Lotus.Scripts.Modes.PurgeMission",
           "prototypes": [
+            10
+          ],
+          "retire_all_prototypes": [
             10
           ],
           "retiring_prototypes": [
@@ -1280,6 +1368,10 @@
             35,
             44
           ],
+          "retire_all_prototypes": [
+            35,
+            44
+          ],
           "retiring_prototypes": [
             35,
             44
@@ -1298,6 +1390,10 @@
           ],
           "module_path": "Lotus.Scripts.Modes.SentientCapture",
           "prototypes": [
+            4,
+            8
+          ],
+          "retire_all_prototypes": [
             4,
             8
           ],
@@ -1322,6 +1418,11 @@
           ],
           "module_path": "Lotus.Scripts.Modes.SentientArtifactMission",
           "prototypes": [
+            73,
+            79,
+            81
+          ],
+          "retire_all_prototypes": [
             73,
             79,
             81
@@ -1351,6 +1452,10 @@
             14,
             23
           ],
+          "retire_all_prototypes": [
+            14,
+            23
+          ],
           "retiring_prototypes": [
             14,
             23
@@ -1370,6 +1475,9 @@
           "prototypes": [
             4
           ],
+          "retire_all_prototypes": [
+            4
+          ],
           "retiring_prototypes": [
             4
           ],
@@ -1387,6 +1495,9 @@
           ],
           "module_path": "Lotus.Scripts.Modes.EntratiSwarmMission",
           "prototypes": [
+            17
+          ],
+          "retire_all_prototypes": [
             17
           ],
           "retiring_prototypes": [
@@ -1426,6 +1537,16 @@
             69,
             72
           ],
+          "retire_all_prototypes": [
+            23,
+            31,
+            34,
+            59,
+            61,
+            67,
+            69,
+            72
+          ],
           "retiring_prototypes": [
             23,
             31,
@@ -1450,6 +1571,9 @@
           ],
           "module_path": "Lotus.Scripts.Modes.ColonistRescueMission",
           "prototypes": [
+            25
+          ],
+          "retire_all_prototypes": [
             25
           ],
           "retiring_prototypes": [
@@ -1507,7 +1631,7 @@
     },
     "files": {
       "Packages/Missions/fc711ff621a75552 (missions_exact-replacement).lua_B": "E979F5E7906F0D88E49C42B4191ECA6AFDC1237FDDD91D52CBF427DB3FA9F6D2",
-      "Packages/Missions/Missions.targets.addon.lua_B": "BE75266DF3547D0B8A25F3D43A0E3A60A7EBABF6C8735526424F3CED7F61F169",
+      "Packages/Missions/Missions.targets.addon.lua_B": "E05F498072C3E03B05470D52366494F274EAB34261DA31431032A4B73743D4BD",
       "Packages/Missions/package.json": "ABF627703C6977A02B93A22D714C3E193FFBC4367F57C37BBAF8BAE425AC32C9",
       "Settings/Missions.json": "5DF49C67F025619AEA385EDEEFD1CBF081C3AD19C38DA88B020E16EF1F42775C"
     },

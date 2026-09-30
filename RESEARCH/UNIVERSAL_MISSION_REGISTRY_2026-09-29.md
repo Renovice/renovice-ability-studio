@@ -1357,3 +1357,53 @@ hooks, 64 idle + 64 settled retire paths, 281 declared values; addon 73,345 B `B
 Gates: build 0 warnings; verify-missions 594/594; self-test 144/144; ctest 2/2; hook-plan cases 6/6; presets byte-identical,
 samples as before, full package identical to the staged set; bootstrapper `verify_addon_settings -Package -Settings`
 163/0 and `verify_script_packages -AdmitPackage` PASS (`f3a3303` copy).
+
+## Phase 2k-R4 — retire-all for idle targets (contract Revision R4 / S5, 2026-09-30)
+
+Contract: `work/research/universal-mission-editor-2026-09-29/CONTRACT_PHASE1.md` Revision R4; bootstrapper
+`feat/lua-call-retire-r4-2026-09-30` `e935739` (`RESEARCH/LUA_CALL_RETIRE_R4_2026-09-30/README.md`). Client 44.0.2
+(`2026.09.28.13.06`), registry `6ED8C8AE…9204C358` (unchanged). Offline only: no game-folder write, no deploy, no push.
+
+| # | Hypothesis | Result | Evidence |
+|---|---|---|---|
+| 2k-12 | A target-wide flag set in `activate` is exactly "no declared value of this target is enabled". | **TRUE (static + harness).** | Every declared value of a target belongs to at least one of its root tables (`owner.fields`), every table has a flag `liveN = anyEnabled(current, fieldsN)` over the effective settings, and `liveTarget = live1 or ... or liveN` names every table flag of the section (gate read-back). A value that `effectiveSettings` rejects (disabled, missing, stock mismatch) is written by no hook, so it gives no hook work. |
+| 2k-13 | Returning retire-all only when `liveTarget` is false never retires a hook that still has work (R4 obligation 1). | **TRUE (static + harness).** | With `liveTarget` false every `liveN` is false, so every hook of the target would take its R3 idle path. With one value enabled, `liveTarget` is true and no hook of the target returns retire-all; the idle and settled R3 paths are unchanged (obligations 2 and 3). Harness: 46 (full package) / 51 (wide build) hooks return exactly one value when a value of another table of the same target is enabled. |
+| 2k-14 | Every hook of the full package may emit retire-all (obligation 4). | **TRUE.** | Retire-all is emitted only where the settled R3 retire is (root child, every bound table retire-safe); that is all 64 hooks. The gate requires the retire-all set to equal the settled set per target. |
+| 2k-15 | The two-value form is safe on the installed R3 DLL `372a9eea`. | **TRUE (contract R4-5, not re-measured here).** | R3 reads one result (`protected_call(state, 4, 1, 0)`), so it sees the plain `"RENOVICE_RETIRE"`; pre-R3 DLLs ignore both. |
+
+What changed (`src/mission_profiles.inl`):
+
+- `hook_retire_all_statement()` (single R4 retire point): `if not liveTarget then return "RENOVICE_RETIRE",
+  "RENOVICE_RETIRE_ALL" end -- R4: no enabled value of this target`, the first statement after the activation guard,
+  before the R3 idle line. `local liveTarget = false` per target; `activate` sets it after the table flags
+  (`target_live_assignment`), `cleanup` clears it.
+- Gate `hook-retire` (`multi_target_source_retire_paths`): new `retire_all` set. It fails a retire-all statement that is not
+  the first statement, and a section whose `liveTarget` is not declared, set to the OR of every `local liveN` of the section
+  and cleared in cleanup. `hook-plan` log and manifest gain `retire_all_hooks`, `retire_all_prototypes`,
+  `retire_all_sentinel`.
+- luau harness: with `context.settings = {}` a retire-all hook returns exactly `"RENOVICE_RETIRE", "RENOVICE_RETIRE_ALL"`
+  (two values, `upvalues = nil`, nothing written); with an enabled value in another table of the same target it returns
+  exactly one value, `"RENOVICE_RETIRE"`; a hook with its own value enabled returns exactly the settled sentinel. Before
+  activation and after cleanup it returns nothing.
+- Self-test (145, +1): Survival hooks 31/61/67/69 carry retire-all; a narrowed target flag, a late retire-all and a removed
+  retire-all are detected by the read-back. The full-package check also requires `retire_all_hooks == hooks` and at least
+  one "other table" case.
+
+Package (`work/staging/missions-full-package/`, previous set in `older/r3-idle-retire-be75266d/`): 22 targets, 64 hooks,
+64 retire-all + 64 idle + 64 settled retire paths, 281 declared values; addon 76,118 B `E05F4980…3743D4BD`; replacement
+`E979F5E7…`, `package.json` `ABF62770…25AC32C9` and Settings `5DF49C67…1F42775C` unchanged.
+
+| Gate | Result |
+|---|---|
+| Build (`-Werror`) | 0 warnings, 0 errors |
+| `verify-missions` | 594/594 PASS, structure PASS |
+| C++ self-test / ctest | 145/145 / 2/2 |
+| luau harness | 3-module `cases=6 idle=6 retire_all=6 other=0`; full package `cases=4 idle=64 retire_all=64 other=46`; wide `cases=11 idle=69 retire_all=69 other=51` |
+| Build gates of the staged set | de-roundtrip (136/136, FULL BODY identical), multi-target-declared-keys 22/22, hook-plan/hook-retire `retiring_hooks=64 idle_retire_hooks=64 retire_all_hooks=64`, package-folder, settings-declarations 281/23 |
+| `test_presets_and_sample.py` | 12 presets byte-identical, 36 rejections; samples as before; full package identical to the staged set |
+| Bootstrapper `verify_addon_settings.ps1 -Package -Settings` (`git archive` of `e935739`) | 163 PASS / 0 FAIL, ADDON SETTINGS GATES PASS |
+| Bootstrapper `verify_script_packages.ps1 -AdmitPackage` (same copy) | `PACKAGE ACCEPT … target_keys=22`, SCRIPT PACKAGES GATES PASS |
+
+Limitations: offline only. Whether the runtime retires the not-yet-called hooks (for example Survival 31/69/72) on the
+first idle dispatch is the bootstrapper's R4 behaviour. It needs the R4 DLL (`731fdb11…`, staged in
+`work/staging/editor-phase2-3/`) and a live run. On `372a9eea` the package behaves exactly like the R3b set.

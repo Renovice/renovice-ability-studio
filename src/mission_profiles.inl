@@ -1019,13 +1019,33 @@ std::string lua_table_key(const Json& key) {
 //  - SETTLED: as the LAST statement, after every bind of the hook returned (bound and written, already bound, or drifted and
 //    reported by an error on its first call), and only when every bound table is retire-safe (registry
 //    minimal_hooks.retire_safe: the table cannot be replaced by another table during the instance).
+// R4 RETIRE-ALL POINT. Contract Revision R4 / S5 (CONTRACT_PHASE1.md; bootstrapper feat/lua-call-retire-r4-2026-09-30
+// e935739): a callback returning "RENOVICE_RETIRE", "RENOVICE_RETIRE_ALL" retires this hook and every other retirable hook
+// the addon declares for the same target key, for the current module instance (hooks not called yet included). The
+// two-value form is a plain R3 retire on R3 DLLs (one result read) and ignored by pre-R3 DLLs. The generator emits it as
+// the FIRST statement after the activation guard, only when NO declared value of the target is enabled in the active
+// generation (`liveTarget`, the OR of every table flag of the target, set in activate), so no hook of the target can
+// have work for this instance (R4 obligation 1). Otherwise the R3 idle path and the settled path run unchanged
+// (obligations 2 and 3). It is emitted only from hooks that carry the settled R3 retire, i.e. root children whose bound
+// tables are all retire-safe (obligation 4).
 constexpr const char* kLuaCallRetireSentinel = "RENOVICE_RETIRE";
+constexpr const char* kLuaCallRetireAllSentinel = "RENOVICE_RETIRE_ALL";
+constexpr const char* kTargetLiveFlag = "liveTarget";
 std::string hook_retire_statement() {
     return std::string("return \"") + kLuaCallRetireSentinel + "\" -- R3: this hook's tables are settled for this instance";
 }
 std::string hook_idle_retire_statement(const std::string& condition) {
     return "if not (" + condition + ") then return \"" + kLuaCallRetireSentinel +
            "\" end -- R3: no enabled value for this hook's tables";
+}
+std::string hook_retire_all_statement() {
+    return std::string("if not ") + kTargetLiveFlag + " then return \"" + kLuaCallRetireSentinel + "\", \"" +
+           kLuaCallRetireAllSentinel + "\" end -- R4: no enabled value of this target";
+}
+std::string target_live_assignment(const std::vector<std::size_t>& slots) {
+    std::string condition;
+    for (const auto n : slots) condition += (condition.empty() ? "live" : " or live") + std::to_string(n);
+    return std::string(kTargetLiveFlag) + " = " + (condition.empty() ? std::string("false") : condition);
 }
 
 std::string multi_target_addon_source(const Json& registry, const std::map<std::string, std::vector<const Json*>>& bodies,
@@ -1040,6 +1060,7 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
         << "-- table, written once, restored in cleanup. No polling, no per-frame writes, no single-owner assumption.\n"
         << "-- Hooks (gate " << kMinimalHooksGate << "): every table with a declared value is hooked at its proven minimal\n"
         << "-- prototypes. A hook with no enabled value retires at once (R3); one with a value binds, writes, then retires.\n"
+        << "-- A target with no enabled value at all retires every hook of the target at its first hooked call (R4 retire-all).\n"
         << "-- Values: activate(context) reads context.settings (ADDON_SETTINGS_V1: [id] = { enabled, value, stock }); without\n"
         << "-- it the compiled values below apply where enabled. A value that is not enabled is never written.\n\n"
         << "local function effectiveSettings(compiled, context)\n"
@@ -1127,7 +1148,8 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
             out << "        [" << lua_quote(id) << "] = { value = " << format_number(values.at(id)) << ", stock = "
                 << format_number(row->at("stock").get<double>()) << ", enabled = " << (enabled.contains(id) ? "true" : "false") << " },\n";
         out << "    }\n"
-            << "    local current = nil -- effective settings of the active generation; nil while inactive\n";
+            << "    local current = nil -- effective settings of the active generation; nil while inactive\n"
+            << "    local " << kTargetLiveFlag << " = false -- any enabled value of this target in the active generation (R4)\n";
         struct Bind { int upvalue; std::vector<std::string> steps; std::size_t slot; bool retire_safe; bool root_child; };
         std::map<int, std::vector<Bind>> hooks;  // prototype -> hooked tables it binds
         std::vector<std::size_t> hooked_slots;
@@ -1165,9 +1187,14 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
             for (const auto& bind : binds) slots.insert(bind.slot);
             std::string condition;
             for (const auto n : slots) condition += (condition.empty() ? "live" : " or live") + std::to_string(n);
+            // R3 obligations 1 and 2 hold for this hook exactly when it carries the settled retire (below); R4 obligation 4
+            // admits the retire-all statement only there.
+            const bool retire_here = !retire.empty() &&
+                std::all_of(binds.begin(), binds.end(), [](const Bind& bind) { return bind.retire_safe; });
             out << "    local function before" << prototype << "(prototype, arguments, upvalues)\n"
-                << "        if current == nil then return end\n"
-                << "        " << hook_idle_retire_statement(condition) << "\n"
+                << "        if current == nil then return end\n";
+            if (retire_here) out << "        " << hook_retire_all_statement() << "\n";
+            out << "        " << hook_idle_retire_statement(condition) << "\n"
                 << "        assert(prototype == " << prototype << ", " << lua_quote(module_path + " hook received the wrong prototype") << ")\n"
                 << "        assert(type(upvalues) == \"table\", \"upvalue view is unavailable\")\n";
             for (const auto& bind : binds) {
@@ -1187,8 +1214,6 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
                     << "        end\n";
             }
             // Every bind above returned or raised: reaching this line means each table of this hook is settled.
-            const bool retire_here = !retire.empty() &&
-                std::all_of(binds.begin(), binds.end(), [](const Bind& bind) { return bind.retire_safe; });
             if (retire_here) out << "        " << retire << "\n";
             out << "    end\n";
         }
@@ -1199,9 +1224,11 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
             << "            local effective = effectiveSettings(settings, context)\n";
         out << "            current = effective\n";
         for (const auto n : hooked_slots) out << "            live" << n << " = anyEnabled(current, fields" << n << ")\n";
-        out << "        end,\n"
+        out << "            " << target_live_assignment(hooked_slots) << "\n"
+            << "        end,\n"
             << "        cleanup = function()\n"
-            << "            current = nil\n";
+            << "            current = nil\n"
+            << "            " << kTargetLiveFlag << " = false\n";
         for (const auto n : hooked_slots) out << "            live" << n << " = false\n            restore" << n << "()\n";
         out << "        end,\n";
         if (!hooks.empty()) {
@@ -1225,27 +1252,50 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
 // Phase 2k gate `hook-retire` (contract R3), read back from the generated source per target section:
 //  - `idle`: hooks whose first statement after the activation guard is the idle retire over EXACTLY the live flags the
 //    hook binds (every table of the hook without an enabled value -> retire before touching anything);
-//  - `settled`: hooks whose LAST statement returns the sentinel (after every bind).
-// Any other occurrence of the sentinel is an error.
-struct SourceRetirePaths { std::set<int> idle; std::set<int> settled; };
+//  - `settled`: hooks whose LAST statement returns the sentinel (after every bind);
+//  - `retire_all` (contract R4 / S5): hooks whose FIRST statement after the activation guard is the retire-all statement
+//    over the target-wide flag, in a target whose activate sets that flag to the OR of EVERY table flag of the target
+//    (so retire-all is returned only when no hook of the target has work for this instance).
+// Any other occurrence of either sentinel is an error.
+struct SourceRetirePaths { std::set<int> idle; std::set<int> settled; std::set<int> retire_all; };
 std::map<std::string, SourceRetirePaths> multi_target_source_retire_paths(const std::string& source) {
     static const std::regex section("\n-- Target [0-9]+: ([^\n]+)\n");
     static const std::regex function("\n    local function before([0-9]+)\\(prototype, arguments, upvalues\\)\n([\\s\\S]*?)\n    end(?=\n)");
     static const std::regex live_use("\n        if (live[0-9]+) then");
+    static const std::regex live_declaration("\n    local live([0-9]+) = false\n");
     std::map<std::string, SourceRetirePaths> result;
     std::vector<std::pair<std::size_t, std::string>> starts;
     for (auto it = std::sregex_iterator(source.begin(), source.end(), section); it != std::sregex_iterator(); ++it)
         starts.emplace_back(static_cast<std::size_t>(it->position()), (*it)[1].str());
     const std::size_t tail = source.rfind("\nreturn {\n");
     const std::string sentinel = std::string("return \"") + kLuaCallRetireSentinel + "\"";
+    const std::string all_sentinel = std::string("\"") + kLuaCallRetireAllSentinel + "\"";
     const std::string guard = "        if current == nil then return end\n";
+    const std::string retire_all = guard + "        " + hook_retire_all_statement() + "\n";
     for (std::size_t n = 0; n < starts.size(); ++n) {
         const std::size_t end = n + 1 < starts.size() ? starts[n + 1].first : tail;
         const std::string text = source.substr(starts[n].first, end - starts[n].first);
         auto& paths = result[starts[n].second];
+        // Target-wide flag: declared once, set in activate to the OR of every table flag of the section, cleared in cleanup.
+        std::vector<std::size_t> slots;
+        for (auto it = std::sregex_iterator(text.begin(), text.end(), live_declaration); it != std::sregex_iterator(); ++it)
+            slots.push_back(std::stoul((*it)[1].str()));
+        const bool flag_ok = contains_text(text, std::string("\n    local ") + kTargetLiveFlag + " = false ")
+            && contains_text(text, "\n            " + target_live_assignment(slots) + "\n        end,\n        cleanup = function()\n")
+            && contains_text(text, std::string("\n            current = nil\n            ") + kTargetLiveFlag + " = false\n");
         for (auto it = std::sregex_iterator(text.begin(), text.end(), function); it != std::sregex_iterator(); ++it) {
             const int prototype = std::stoi((*it)[1].str());
             std::string body = (*it)[2].str();
+            // Retire-all path: the first statement after the guard, and only over a well-formed target-wide flag.
+            if (body.rfind(retire_all, 0) == 0) {
+                if (!flag_ok)
+                    throw std::runtime_error("before" + (*it)[1].str() + " returns retire-all but the target flag " + kTargetLiveFlag +
+                                             " is not the OR of every table flag of " + starts[n].second);
+                paths.retire_all.insert(prototype);
+                body = guard + body.substr(retire_all.size());
+            }
+            if (body.find(all_sentinel) != std::string::npos)
+                throw std::runtime_error("before" + (*it)[1].str() + " returns retire-all outside its first statement");
             // Idle path: guard, then the idle line naming exactly the live flags used by the binds below it.
             std::set<std::string> flags;
             const std::string scan = "\n" + body;
@@ -1632,12 +1682,13 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
             // the registry minimal hook sets (ROOT_TABLE_MINIMAL_HOOKS_V1) of every table that holds a declared value.
             const auto source_hooks = multi_target_source_hooks(source_text);
             // Contract R3 gate hook-retire: a hook returns "RENOVICE_RETIRE" exactly when its prototype is a root child and
-            // every table it binds is retire-safe (registry minimal_hooks), and only as its last statement.
+            // every table it binds is retire-safe (registry minimal_hooks), and only as its last statement. Contract R4: the
+            // same hooks, and only they, open with retire-all over the target-wide flag.
             std::map<std::string, SourceRetirePaths> source_retiring;
             try { source_retiring = multi_target_source_retire_paths(source_text); }
             catch (const std::exception& e) { problems += std::string(e.what()) + "; "; }
             std::size_t hooked_targets = 0, hook_count = 0, hooked_tables = 0, table_count = 0, full_hooks = 0, retiring_hooks = 0,
-                        idle_hooks = 0, enabled_tables = 0;
+                        idle_hooks = 0, enabled_tables = 0, retire_all_hooks = 0;
             Json hook_plan = Json::array();
             for (const auto& [body, rows] : addon) {
                 const Json& module = mission_module(registry, body);
@@ -1670,6 +1721,7 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                 const auto retiring = source_retiring.find(module_path);
                 const std::set<int> have_retiring = retiring == source_retiring.end() ? std::set<int>{} : retiring->second.settled;
                 const std::set<int> have_idle = retiring == source_retiring.end() ? std::set<int>{} : retiring->second.idle;
+                const std::set<int> have_retire_all = retiring == source_retiring.end() ? std::set<int>{} : retiring->second.retire_all;
                 if (have_retiring != want_retiring)
                     problems += "target " + module_path + " returns the retire sentinel from hooks other than its retire-safe root-child hooks; ";
                 retiring_hooks += have_retiring.size();
@@ -1681,6 +1733,11 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                 if (have_idle != have)
                     problems += "target " + module_path + " has a hook without an idle R3 retire path; ";
                 idle_hooks += have_idle.size();
+                // Contract R4 / S5: exactly the hooks that satisfy R3 obligations 1 and 2 (the settled-retire hooks) open with
+                // retire-all over the target-wide flag (the read-back checks the flag is the OR of every table flag).
+                if (have_retire_all != want_retiring)
+                    problems += "target " + module_path + " returns retire-all from hooks other than its retire-safe root-child hooks; ";
+                retire_all_hooks += have_retire_all.size();
                 if (!have.empty()) ++hooked_targets;
                 hook_count += have.size();
                 full_hooks += full.size();
@@ -1688,6 +1745,7 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                                      {"tables", tables.size()}, {"prototypes", std::vector<int>(have.begin(), have.end())},
                                      {"retiring_prototypes", std::vector<int>(have_retiring.begin(), have_retiring.end())},
                                      {"idle_retire_prototypes", std::vector<int>(have_idle.begin(), have_idle.end())},
+                                     {"retire_all_prototypes", std::vector<int>(have_retire_all.begin(), have_retire_all.end())},
                                      {"full_capturer_prototypes", full.size()}});
             }
             if (source_hooks.size() != addon.size()) problems += "generated source target count differs from the addon targets; ";
@@ -1695,7 +1753,8 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                                " hooked_targets=" + std::to_string(hooked_targets) + " hooks=" + std::to_string(hook_count) +
                                " full_capturer_hooks=" + std::to_string(full_hooks) + " tables=" + std::to_string(table_count) +
                                " hooked_tables=" + std::to_string(hooked_tables) + " enabled_tables=" + std::to_string(enabled_tables) + " values=" + std::to_string(compiled_values.size()) +
-                               " enabled=" + std::to_string(enabled_ids.size()) + " retiring_hooks=" + std::to_string(retiring_hooks) + " idle_retire_hooks=" + std::to_string(idle_hooks) + "\n";
+                               " enabled=" + std::to_string(enabled_ids.size()) + " retiring_hooks=" + std::to_string(retiring_hooks) + " idle_retire_hooks=" + std::to_string(idle_hooks) +
+                               " retire_all_hooks=" + std::to_string(retire_all_hooks) + "\n";
             gates.push_back({{"name", "hook-plan"}, {"pass", problems.empty()}, {"exit_code", problems.empty() ? 0 : 1}});
             gates.push_back({{"name", "hook-retire"}, {"pass", problems.empty()}, {"exit_code", problems.empty() ? 0 : 1}});
             if (!problems.empty()) throw std::runtime_error("hook-plan failed: " + problems);
@@ -1712,7 +1771,8 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                         {"hook_plan", {{"gate", kMinimalHooksGate}, {"targets", hook_plan}, {"hooked_targets", hooked_targets},
                                        {"hooks", hook_count}, {"full_capturer_hooks", full_hooks}, {"values", compiled_values.size()},
                                        {"enabled", enabled_ids.size()}, {"retiring_hooks", retiring_hooks}, {"idle_retire_hooks", idle_hooks},
-                                       {"retire_sentinel", kLuaCallRetireSentinel}}}});
+                                       {"retire_all_hooks", retire_all_hooks}, {"retire_sentinel", kLuaCallRetireSentinel},
+                                       {"retire_all_sentinel", kLuaCallRetireAllSentinel}}}});
         }
 
         if (!metadata.empty()) {
