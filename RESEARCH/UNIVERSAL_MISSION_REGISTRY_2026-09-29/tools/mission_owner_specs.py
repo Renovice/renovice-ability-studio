@@ -42,6 +42,12 @@ R11 = EDITOR / 'RESEARCH/MISSIONS_R11_RAILJACK_OROKIN_2026-09-30'
 R11_DRAFTS = R11 / 'inputs/r11_row_drafts.json'
 R11_DRAFTS_SHA256 = 'B60EDD6E051D2A51D9AB6C95EB16BDD528A4E32B681A0C44AC64D47089A18544'  # LF-normalized content
 R11_PROVENANCE = 'research:railjack-kills-2026-09-30 (contract R11)'
+# Contract R12 (2026-10-01): Defense waves per reward, the trigger parameter `_minWavesToComplete` read as the hashed global
+# minWavesToComplete by WaveDefend (research record RESEARCH/MISSIONS_R12_DEFENSE_REWARD_2026-10-01). Same admission path.
+R12 = EDITOR / 'RESEARCH/MISSIONS_R12_DEFENSE_REWARD_2026-10-01'
+R12_DRAFTS = R12 / 'inputs/r12_row_drafts.json'
+R12_DRAFTS_SHA256 = 'B6410C68BBC946019DE2C863F6AEADC9DD69C43133E73203EEA0C57F055EF4C4'  # LF-normalized content
+R12_PROVENANCE = 'research:defense-reward-interval-2026-10-01 (contract R12)'
 ENTRY_GATE = 'CAPTURE_GRAPH_ENTRY_V1'
 MISSION_INFO = 'MISSION_INFO_FIELD_AT_ENTRY'
 SCRIPT_PARAM = 'SCRIPT_PARAM_GLOBAL_AT_ENTRY'
@@ -201,10 +207,13 @@ def rows(ctx):
     namehash(name), snapshot (dict, updated in place) and packages_sha."""
     drafts = load_drafts()
     r11 = load_drafts(R11_DRAFTS, R11_DRAFTS_SHA256, 'R11')
+    r12 = load_drafts(R12_DRAFTS, R12_DRAFTS_SHA256, 'R12')
     out, excluded = [], []
     report = {'drafts': len(drafts['rows']), 'drafts_rejected_by_research': len(drafts['rejected']), 'admitted': 0,
-              'excluded': [], 'renamed': {}, 'by_backend': {}, 'by_template': {}, 'r11_drafts': len(r11['rows'])}
-    for d in drafts['rows'] + [dict(x, _r11=True) for x in r11['rows']]:
+              'excluded': [], 'renamed': {}, 'by_backend': {}, 'by_template': {}, 'r11_drafts': len(r11['rows']),
+              'r12_drafts': len(r12['rows'])}
+    for d in (drafts['rows'] + [dict(x, _provenance=R11_PROVENANCE) for x in r11['rows']]
+              + [dict(x, _provenance=R12_PROVENANCE) for x in r12['rows']]):
         old = d['tunable_id']
         if old in EXCLUDED:
             excluded.append({'tunable_id': old, 'owner_kind': d['owner_kind'], 'confidence': d['confidence'],
@@ -219,7 +228,7 @@ def rows(ctx):
         base = {'tunable_id': tid, 'phase1_tunable_id': None, 'label': d['label'], 'mission_type': d['mission_type'],
                 'variant': d['variant'], 'shared_with': d.get('shared_with', ''), 'owner_kind': d['owner_kind'],
                 'backend': d['backend'], 'unit': UNIT_MAP.get(d['unit'], d['unit']), 'stock': num(d['stock']),
-                'confidence': d['confidence'], 'provenance': R11_PROVENANCE if d.get('_r11') else PROVENANCE,
+                'confidence': d['confidence'], 'provenance': d.get('_provenance', PROVENANCE),
                 'evidence': d.get('evidence', ''), 'research_draft_id': old}
         lim = dict(d['limits'])
         if d['backend'] == 'METADATA_PATCH':

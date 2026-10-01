@@ -9,7 +9,7 @@
       "pass": true
     },
     {
-      "name": "baked package.json declares every staged value plus exactly the 59 R10/R11 addon values",
+      "name": "baked package.json declares every staged value plus exactly the 60 R10/R11 addon values",
       "pass": true
     },
     {
@@ -122,8 +122,8 @@
     "modules": 42,
     "masters": 8,
     "literals_json_sha256": "d9b3a76481e3999d46b7571ff23073c525fd8e71cdef5e8748c4197de39aabdd",
-    "package_json_sha256": "29e03fe732d0eb345dd99db52a37c3db369dddcc8de097ee871b110e916224fe",
-    "generation": "work\\temp\\live-literals-tests\\recipe\\missions\\345B65350EDD"
+    "package_json_sha256": "465c72be3b3c7b740c149b812369f257f2e9553ebf1380c8105ef77d01864807",
+    "generation": "work\\temp\\live-literals-tests\\recipe\\missions\\B11EB7C4138C"
   },
   "old_bootstrapper": {
     "revision": "6227cc0",

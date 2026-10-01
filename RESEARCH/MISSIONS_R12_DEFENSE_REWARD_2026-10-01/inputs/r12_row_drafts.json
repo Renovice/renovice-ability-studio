@@ -1,0 +1,92 @@
+{
+ "schema": "RENOVICE_MISSION_TUNABLE_REGISTRY_V2 tunables[] drafts (contract R12)",
+ "build": "2026.09.28.13.06",
+ "rows": [
+  {
+   "tunable_id": "defense.waves_per_reward",
+   "phase1_tunable_id": null,
+   "label": "Waves per reward (Defense rotation checkpoint)",
+   "mission_type": "Defense",
+   "variant": "every WaveDefense trigger (regular, Infested, Orokin, 1999 Hollvania, Kahl); Duviri and Descendia circle arenas skip the rotation code",
+   "shared_with": "",
+   "owner_kind": "SCRIPT_PARAM_GLOBAL",
+   "backend": "TARGET_ADDON",
+   "owner": {
+    "body_key": "1a1354d153712f9d",
+    "stock_sha256": "0FB53A2C0946ACC3476DF7E16C5A3AAEEA1B6384A2D4EFA2D7360F4C155DBF10",
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "module_path": "Lotus.Scripts.WaveDefend",
+    "template": "SCRIPT_PARAM_GLOBAL_AT_ENTRY",
+    "gate": "CAPTURE_GRAPH_ENTRY_V1",
+    "entries": [
+     {
+      "prototype": 50,
+      "function": "WaveDefense"
+     }
+    ],
+    "globals": [
+     {
+      "name": "minWavesToComplete",
+      "hash": "69d6d911"
+     }
+    ],
+    "readers": [
+     {
+      "key": "minWavesToComplete",
+      "prototype": 36,
+      "instructions": [
+       238,
+       307
+      ]
+     },
+     {
+      "key": "minWavesToComplete",
+      "prototype": 48,
+      "instructions": [
+       960,
+       1122
+      ]
+     }
+    ],
+    "mode": "absolute",
+    "observed": {
+     "source": "level ScriptTrigger structs (Script=/Lotus/Scripts/WaveDefend.lua Function=WaveDefense) in the 4,599 installed 44.0.2 .level files",
+     "WaveDefense": {
+      "3": 37,
+      "2": 13
+     },
+     "by_variant": {
+      "regular (isCircle=0, isDuviriDefense=0)": {
+       "3": 28
+      },
+      "Duviri (isDuviriDefense=1)": {
+       "3": 9
+      },
+      "Descendia circle arena (isCircle=1)": {
+       "2": 13
+      }
+     },
+     "packages_bin": "/Lotus/Types/Friendly/Agents/DefenseAvatar and DefenseChallengeAvatar (ScriptInstance, Function=MonitorDefenseAvatarHealth) and /Lotus/Types/Gameplay/DevilTower/LiteGameModes/HellDefenseTrigger (Function=HellWaveDefense) also carry _minWavesToComplete=3; neither function reaches a reader",
+     "research": "work/research/defense-reward-interval-2026-10-01 (tools/scan_defense_reward_owner.py, outputs/)"
+    },
+    "write_rule": {
+     "where": "the called closure environment (per module instance)",
+     "when": "at every hooked entry: value == recorded instance value -> write; value == written -> skip; anything else -> fail closed (drift)",
+     "cleanup": "restore the recorded value in every live instance whose value is still the written one"
+    }
+   },
+   "unit": "waves",
+   "stock": 3,
+   "limits": {
+    "minimum": 1,
+    "maximum": 1000,
+    "integer": true,
+    "basis": "operand domain guard only (0 would make the checkpoint test x % 0, which never matches); gameplay-safe range not established offline"
+   },
+   "applies": "next_mission",
+   "confidence": "CONFIRMED_STATIC (needs the environment argument; live pending)",
+   "provenance": "research:defense-reward-interval-2026-10-01",
+   "evidence": "WaveDefend 44.0.2 (body 1a1354d153712f9d): the trigger parameter _minWavesToComplete is read as hashed global minWavesToComplete (69d6d911; the only module of 5,473 that references the hash) at 4 sites: proto 48 i1122 (readable L9236: after each wave, (wave - 1) % minWavesToComplete == 0 opens the rotation checkpoint unless isDuviriDefense or isCircle; endless: proto 46 resource reward with floor((wave - 1) / minWavesToComplete) and proto 36; fixed length: the per-rotation reward call), proto 48 i960 (L8934: fixed length, hide the session in the last rotation when count - minWavesToComplete <= waves done), proto 36 i238 (L5690: PromptContinueFirst transmission when the wave equals minWavesToComplete, else PromptContinue) and proto 36 i307 (L5803: OpenVoidProjectionRewardScreen(wave / minWavesToComplete)); proto 36 then opens the continue-or-extract dialog. Capture graph: proto 36 <- proto 48 <- proto 50 (global WaveDefense); no other entry reaches a reader. The literal MODK 3 at proto 48 i455 (L8055, K104, exclusive) is not this owner: it skips the StartedDefenseWave transmission on every third wave only when the VIP agent is a TempleDefenseAgent; it is left stock."
+  }
+ ]
+}

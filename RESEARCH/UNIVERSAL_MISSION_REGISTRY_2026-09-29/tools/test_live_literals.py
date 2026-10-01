@@ -94,9 +94,10 @@ registry_rows = {r['tunable_id']: r for r in json.loads((EDITOR / 'REGISTRIES/mi
 # R10: the addon values the baked full package gains. A body built as a baked replacement here (the five staged exact
 # replacements) keeps one artifact per module, so its R10 entry rows are excluded like its other addon rows.
 REPLACED = {name[:16] for name in staged_members if name.endswith('(missions_exact-replacement).lua_B')}
-# R11: the Railjack kill-goal rows (research:railjack-kills-2026-09-30) are addon values too.
+# R11: the Railjack kill-goal rows (research:railjack-kills-2026-09-30) are addon values too; R12: Defense waves per reward.
 R10_ADDED = ({t for t, r in registry_rows.items() if r['provenance'].startswith(('research:mission-owners-2026-09-30',
-                                                                                'research:railjack-kills-2026-09-30'))
+                                                                                'research:railjack-kills-2026-09-30',
+                                                                                'research:defense-reward-interval-2026-10-01'))
               and r['backend'] == 'TARGET_ADDON' and r['owner']['body_key'] not in REPLACED}
              | {f'defense.{n}.p{k}' for n in ('simultaneous_enemies_max', 'simultaneous_enemies_min', 'simultaneous_enemies_infested.max',
                                               'simultaneous_enemies_infested.min', 'simultaneous_enemies_duviri.min') for k in range(1, 5)}

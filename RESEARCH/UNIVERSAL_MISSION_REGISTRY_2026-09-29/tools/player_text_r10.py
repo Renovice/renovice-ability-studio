@@ -139,3 +139,8 @@ def register(row, master, per_player, players):
         'Multiplies the crewships to destroy in Grineer Railjack Exterminate (2 to 10 by node level)')
     row('railjack.corpus_fighter_limit_scale', 'Corpus fighters',
         'Multiplies the Corpus fighter kills after which no new fighter squadrons come (no on-screen counter)')
+
+    # ---- Contract R12 (2026-10-01): Defense waves per reward, the level parameter minWavesToComplete written at the
+    # WaveDefense entry (SCRIPT_PARAM_GLOBAL_AT_ENTRY, mode absolute).
+    row('defense.waves_per_reward', 'Waves per reward',
+        'Defense waves between each reward and extraction choice', word=' waves')

@@ -124,6 +124,8 @@ put('wf1999def.drone_count.spawn_interval', ['Defense', 'Timers'], '1999: time b
 # R10: "Waves to finish" is the normal-node count (MissionInfo, written at mission start); the special-mission counts
 # (fixed numbers in the Defense script) sit on their own page next to it.
 put('defense.waves_to_finish', ['Defense', 'Objectives'], 'Waves to finish', quick='Defense: waves to finish')
+# R12: the reward / extraction checkpoint interval (level parameter minWavesToComplete, written at the WaveDefense entry).
+put('defense.waves_per_reward', ['Defense', 'Rewards / drops'], 'Waves per reward', quick='Defense: waves per reward')
 for _tid, _row in (('special_mission_default_waves', 'Alert missions'), ('nightmare_wave_count', 'Nightmare'),
                    ('duviri_wave_count', 'Duviri'), ('circle_wave_count', 'Descendia')):
     put(f'defense.{_tid}', ['Defense', 'Objectives', 'Special-mission waves'], _row)
@@ -480,6 +482,10 @@ OVERRIDE = {    # id -> full description
     'void_cascade.pillar_duration': 'Seconds each exolizer must be defended in Void Cascade. The Circuit uses its own timer.',
     'purgatory.reward_kill_threshold.t1': 'Kills for reward tier 1 in the Granum Void. Solo earns at tiers 1 to 3; each extra '
                                           'player moves the rewards up one tier.',
+    # R12 (user wording, 2026-10-01). The editor tooltip adds "Default 3." itself, so the description does not repeat it.
+    'defense.waves_to_finish': '0 / Endless = keep going as long as you like; a number ends the mission after that wave. '
+                               'Alerts, sorties and other special missions keep their own count.',
+    'defense.waves_per_reward': 'Waves between each reward and extraction choice.',
 }
 for _i in range(2, 7):
     OVERRIDE[f'purgatory.reward_kill_threshold.t{_i}'] = OVERRIDE['purgatory.reward_kill_threshold.t1'].replace('tier 1 in', f'tier {_i} in')

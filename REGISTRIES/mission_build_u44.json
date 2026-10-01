@@ -8303,7 +8303,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 417,
+        "rank": 418,
         "path": [
           "Arbitration",
           "Advanced"
@@ -8373,7 +8373,7 @@
         "unit": "",
         "min": 1,
         "max": 2,
-        "rank": 419,
+        "rank": 420,
         "path": [
           "Archimedea",
           "Objectives",
@@ -8444,7 +8444,7 @@
         "unit": "",
         "min": 1,
         "max": 8,
-        "rank": 420,
+        "rank": 421,
         "path": [
           "Archimedea",
           "Objectives",
@@ -8800,7 +8800,7 @@
         "unit": "",
         "min": 1,
         "max": 4,
-        "rank": 421,
+        "rank": 422,
         "path": [
           "Archimedea",
           "Objectives",
@@ -8871,7 +8871,7 @@
         "unit": "min",
         "min": 1,
         "max": 60,
-        "rank": 418,
+        "rank": 419,
         "path": [
           "Archimedea",
           "Objectives",
@@ -8942,7 +8942,7 @@
         "unit": "",
         "min": 1,
         "max": 6,
-        "rank": 423,
+        "rank": 424,
         "path": [
           "Archimedea",
           "Objectives",
@@ -9298,7 +9298,7 @@
         "unit": "min",
         "min": 1,
         "max": 60,
-        "rank": 422,
+        "rank": 423,
         "path": [
           "Archimedea",
           "Objectives",
@@ -9407,7 +9407,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 424,
+        "rank": 425,
         "path": [
           "Archwing",
           "Timers"
@@ -9891,7 +9891,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 488,
+        "rank": 489,
         "path": [
           "Assassination",
           "Advanced"
@@ -9978,7 +9978,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 485,
+        "rank": 486,
         "path": [
           "Assassination",
           "Enemies"
@@ -10052,7 +10052,7 @@
         "unit": "",
         "min": 1,
         "max": 9999,
-        "rank": 486,
+        "rank": 487,
         "path": [
           "Assassination",
           "Advanced"
@@ -10141,7 +10141,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 487,
+        "rank": 488,
         "path": [
           "Assassination",
           "Advanced"
@@ -10228,7 +10228,7 @@
         "unit": "x",
         "min": 0.01,
         "max": 100,
-        "rank": 482,
+        "rank": 483,
         "path": [
           "Assassination",
           "Enemies",
@@ -10316,7 +10316,7 @@
         "unit": "x",
         "min": 0.01,
         "max": 100,
-        "rank": 483,
+        "rank": 484,
         "path": [
           "Assassination",
           "Enemies",
@@ -10404,7 +10404,7 @@
         "unit": "x",
         "min": 0.01,
         "max": 100,
-        "rank": 484,
+        "rank": 485,
         "path": [
           "Assassination",
           "Enemies",
@@ -11839,7 +11839,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 64,
+        "rank": 65,
         "path": [
           "Descendia",
           "Destroy Targets",
@@ -11953,7 +11953,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 65,
+        "rank": 66,
         "path": [
           "Descendia",
           "Destroy Targets",
@@ -12067,7 +12067,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 66,
+        "rank": 67,
         "path": [
           "Descendia",
           "Destroy Targets",
@@ -12181,7 +12181,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 67,
+        "rank": 68,
         "path": [
           "Descendia",
           "Destroy Targets",
@@ -12440,7 +12440,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 68,
+        "rank": 69,
         "path": [
           "Descendia",
           "Excavation",
@@ -12902,7 +12902,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 69,
+        "rank": 70,
         "path": [
           "Descendia",
           "Nemesis",
@@ -15990,7 +15990,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 35,
+        "rank": 36,
         "path": [
           "Defense",
           "Objectives",
@@ -16483,7 +16483,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 34,
+        "rank": 35,
         "path": [
           "Defense",
           "Objectives",
@@ -18100,7 +18100,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 33,
+        "rank": 34,
         "path": [
           "Defense",
           "Objectives",
@@ -18245,7 +18245,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 56,
+        "rank": 57,
         "path": [
           "Defense",
           "Enemies",
@@ -18390,7 +18390,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 57,
+        "rank": 58,
         "path": [
           "Defense",
           "Enemies",
@@ -18535,7 +18535,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 58,
+        "rank": 59,
         "path": [
           "Defense",
           "Enemies",
@@ -18681,7 +18681,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 59,
+        "rank": 60,
         "path": [
           "Defense",
           "Enemies",
@@ -18825,7 +18825,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 60,
+        "rank": 61,
         "path": [
           "Defense",
           "Enemies",
@@ -18970,7 +18970,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 61,
+        "rank": 62,
         "path": [
           "Defense",
           "Enemies",
@@ -19115,7 +19115,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 62,
+        "rank": 63,
         "path": [
           "Defense",
           "Enemies",
@@ -19261,7 +19261,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 63,
+        "rank": 64,
         "path": [
           "Defense",
           "Enemies",
@@ -19406,7 +19406,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 48,
+        "rank": 49,
         "path": [
           "Defense",
           "Enemies",
@@ -19551,7 +19551,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 49,
+        "rank": 50,
         "path": [
           "Defense",
           "Enemies",
@@ -19696,7 +19696,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 50,
+        "rank": 51,
         "path": [
           "Defense",
           "Enemies",
@@ -19842,7 +19842,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 51,
+        "rank": 52,
         "path": [
           "Defense",
           "Enemies",
@@ -19987,7 +19987,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 52,
+        "rank": 53,
         "path": [
           "Defense",
           "Enemies",
@@ -20132,7 +20132,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 53,
+        "rank": 54,
         "path": [
           "Defense",
           "Enemies",
@@ -20277,7 +20277,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 54,
+        "rank": 55,
         "path": [
           "Defense",
           "Enemies",
@@ -20423,7 +20423,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 55,
+        "rank": 56,
         "path": [
           "Defense",
           "Enemies",
@@ -20566,7 +20566,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 40,
+        "rank": 41,
         "path": [
           "Defense",
           "Enemies",
@@ -20709,7 +20709,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 41,
+        "rank": 42,
         "path": [
           "Defense",
           "Enemies",
@@ -20852,7 +20852,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 42,
+        "rank": 43,
         "path": [
           "Defense",
           "Enemies",
@@ -20997,7 +20997,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 43,
+        "rank": 44,
         "path": [
           "Defense",
           "Enemies",
@@ -21140,7 +21140,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 44,
+        "rank": 45,
         "path": [
           "Defense",
           "Enemies",
@@ -21283,7 +21283,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 45,
+        "rank": 46,
         "path": [
           "Defense",
           "Enemies",
@@ -21426,7 +21426,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 46,
+        "rank": 47,
         "path": [
           "Defense",
           "Enemies",
@@ -21571,7 +21571,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 47,
+        "rank": 48,
         "path": [
           "Defense",
           "Enemies",
@@ -22066,7 +22066,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 32,
+        "rank": 33,
         "path": [
           "Defense",
           "Objectives",
@@ -22525,6 +22525,132 @@
       }
     },
     {
+      "tunable_id": "defense.waves_per_reward",
+      "phase1_tunable_id": null,
+      "label": "Waves per reward (Defense rotation checkpoint)",
+      "mission_type": "Defense",
+      "variant": "every WaveDefense trigger (regular, Infested, Orokin, 1999 Hollvania, Kahl); Duviri and Descendia circle arenas skip the rotation code",
+      "shared_with": "",
+      "owner_kind": "SCRIPT_PARAM_GLOBAL",
+      "backend": "TARGET_ADDON",
+      "unit": "waves",
+      "stock": 3,
+      "confidence": "CONFIRMED_STATIC (needs the environment argument; live pending)",
+      "provenance": "research:defense-reward-interval-2026-10-01 (contract R12)",
+      "evidence": "WaveDefend 44.0.2 (body 1a1354d153712f9d): the trigger parameter _minWavesToComplete is read as hashed global minWavesToComplete (69d6d911; the only module of 5,473 that references the hash) at 4 sites: proto 48 i1122 (readable L9236: after each wave, (wave - 1) % minWavesToComplete == 0 opens the rotation checkpoint unless isDuviriDefense or isCircle; endless: proto 46 resource reward with floor((wave - 1) / minWavesToComplete) and proto 36; fixed length: the per-rotation reward call), proto 48 i960 (L8934: fixed length, hide the session in the last rotation when count - minWavesToComplete <= waves done), proto 36 i238 (L5690: PromptContinueFirst transmission when the wave equals minWavesToComplete, else PromptContinue) and proto 36 i307 (L5803: OpenVoidProjectionRewardScreen(wave / minWavesToComplete)); proto 36 then opens the continue-or-extract dialog. Capture graph: proto 36 <- proto 48 <- proto 50 (global WaveDefense); no other entry reaches a reader. The literal MODK 3 at proto 48 i455 (L8055, K104, exclusive) is not this owner: it skips the StartedDefenseWave transmission on every third wave only when the VIP agent is a TempleDefenseAgent; it is left stock.",
+      "research_draft_id": "defense.waves_per_reward",
+      "owner": {
+        "body_key": "1a1354d153712f9d",
+        "stock_sha256": "0FB53A2C0946ACC3476DF7E16C5A3AAEEA1B6384A2D4EFA2D7360F4C155DBF10",
+        "file": "Lotus_Scripts_WaveDefend.lua_B",
+        "module_path": "Lotus.Scripts.WaveDefend",
+        "template": "SCRIPT_PARAM_GLOBAL_AT_ENTRY",
+        "gate": "CAPTURE_GRAPH_ENTRY_V1",
+        "entries": [
+          {
+            "prototype": 50,
+            "created_by": "root",
+            "closure_instruction": 360,
+            "root_child": true,
+            "function": "WaveDefense",
+            "role": ""
+          }
+        ],
+        "readers": [
+          {
+            "key": "minWavesToComplete",
+            "prototype": 36,
+            "instructions": [
+              238,
+              307
+            ]
+          },
+          {
+            "key": "minWavesToComplete",
+            "prototype": 48,
+            "instructions": [
+              960,
+              1122
+            ]
+          }
+        ],
+        "dead_readers": [],
+        "globals": [
+          {
+            "name": "minWavesToComplete",
+            "hash": "69d6d911"
+          }
+        ],
+        "mode": "absolute",
+        "observed": {
+          "source": "level ScriptTrigger structs (Script=/Lotus/Scripts/WaveDefend.lua Function=WaveDefense) in the 4,599 installed 44.0.2 .level files",
+          "WaveDefense": {
+            "3": 37,
+            "2": 13
+          },
+          "by_variant": {
+            "regular (isCircle=0, isDuviriDefense=0)": {
+              "3": 28
+            },
+            "Duviri (isDuviriDefense=1)": {
+              "3": 9
+            },
+            "Descendia circle arena (isCircle=1)": {
+              "2": 13
+            }
+          },
+          "packages_bin": "/Lotus/Types/Friendly/Agents/DefenseAvatar and DefenseChallengeAvatar (ScriptInstance, Function=MonitorDefenseAvatarHealth) and /Lotus/Types/Gameplay/DevilTower/LiteGameModes/HellDefenseTrigger (Function=HellWaveDefense) also carry _minWavesToComplete=3; neither function reaches a reader",
+          "research": "work/research/defense-reward-interval-2026-10-01 (tools/scan_defense_reward_owner.py, outputs/)"
+        },
+        "write_rule": {
+          "where": "the called closure environment (per module instance)",
+          "when": "at every hooked entry: value == recorded instance value -> write; value == written -> skip; anything else -> fail closed (drift)",
+          "cleanup": "restore the recorded value in every live instance whose value is still the written one"
+        }
+      },
+      "limits": {
+        "minimum": 1,
+        "maximum": 1000,
+        "integer": true,
+        "basis": "operand domain guard only (0 would make the checkpoint test x % 0, which never matches); gameplay-safe range not established offline"
+      },
+      "applies": "next_mission",
+      "backend_note": "SCRIPT_PARAM_GLOBAL_AT_ENTRY: written at the entry of prototype(s) 50 (gate CAPTURE_GRAPH_ENTRY_V1).",
+      "ui": {
+        "group": "defense",
+        "mt_codes": [
+          "MT_DEFENSE",
+          "MT_DESCENT"
+        ],
+        "short_label": "Waves per reward",
+        "label_source": "player_text",
+        "scope_text": "Waves between each reward and extraction choice.",
+        "aliases": [
+          "Duviri",
+          "Circuit",
+          "Descendia",
+          "1999",
+          "Infested"
+        ],
+        "lane": "addon",
+        "applies": "next_mission",
+        "type": "int",
+        "editor": "INPUTCOUNT",
+        "unit": "",
+        "min": 1,
+        "max": 1000,
+        "stock_check": "none",
+        "rank": 32,
+        "path": [
+          "Defense",
+          "Rewards / drops"
+        ],
+        "row": "Waves per reward",
+        "quick": "Defense: waves per reward",
+        "r5_scope_text": "Defense waves between each reward and extraction choice; stock 3 waves"
+      }
+    },
+    {
       "tunable_id": "defense.waves_to_finish",
       "phase1_tunable_id": null,
       "label": "Waves to finish (normal nodes)",
@@ -22649,7 +22775,7 @@
         ],
         "short_label": "Waves to finish",
         "label_source": "player_text",
-        "scope_text": "Waves on normal Defense nodes, the mission ends after the last wave instead of offering rotations. Alerts, sorties and other special missions keep their own count.",
+        "scope_text": "0 / Endless = keep going as long as you like; a number ends the mission after that wave. Alerts, sorties and other special missions keep their own count.",
         "aliases": [],
         "lane": "addon",
         "applies": "next_mission",
@@ -22784,7 +22910,7 @@
         "unit": "x",
         "min": 0,
         "max": 1000,
-        "rank": 149,
+        "rank": 150,
         "path": [
           "Disruption",
           "Advanced"
@@ -23363,7 +23489,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 130,
+        "rank": 131,
         "path": [
           "Disruption",
           "Objectives"
@@ -24579,7 +24705,7 @@
         "unit": "s",
         "min": 0,
         "max": 1000,
-        "rank": 148,
+        "rank": 149,
         "path": [
           "Disruption",
           "Enemies"
@@ -24692,7 +24818,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 128,
+        "rank": 129,
         "path": [
           "Disruption",
           "Timers"
@@ -24803,7 +24929,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 129,
+        "rank": 130,
         "path": [
           "Disruption",
           "Timers"
@@ -24894,7 +25020,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 144,
+        "rank": 145,
         "path": [
           "Disruption",
           "Enemies",
@@ -24987,7 +25113,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 145,
+        "rank": 146,
         "path": [
           "Disruption",
           "Enemies",
@@ -25080,7 +25206,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 146,
+        "rank": 147,
         "path": [
           "Disruption",
           "Enemies",
@@ -25173,7 +25299,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 147,
+        "rank": 148,
         "path": [
           "Disruption",
           "Enemies",
@@ -25266,7 +25392,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 140,
+        "rank": 141,
         "path": [
           "Disruption",
           "Enemies",
@@ -25359,7 +25485,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 141,
+        "rank": 142,
         "path": [
           "Disruption",
           "Enemies",
@@ -25452,7 +25578,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 142,
+        "rank": 143,
         "path": [
           "Disruption",
           "Enemies",
@@ -25545,7 +25671,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 143,
+        "rank": 144,
         "path": [
           "Disruption",
           "Enemies",
@@ -25636,7 +25762,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 136,
+        "rank": 137,
         "path": [
           "Disruption",
           "Enemies",
@@ -25727,7 +25853,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 137,
+        "rank": 138,
         "path": [
           "Disruption",
           "Enemies",
@@ -25818,7 +25944,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 138,
+        "rank": 139,
         "path": [
           "Disruption",
           "Enemies",
@@ -25909,7 +26035,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 139,
+        "rank": 140,
         "path": [
           "Disruption",
           "Enemies",
@@ -27067,7 +27193,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 127,
+        "rank": 128,
         "path": [
           "Disruption",
           "Timers"
@@ -27224,7 +27350,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 131,
+        "rank": 132,
         "path": [
           "Disruption",
           "Objectives"
@@ -27614,7 +27740,7 @@
         "unit": "",
         "min": 0,
         "max": 8000,
-        "rank": 150,
+        "rank": 151,
         "path": [
           "Disruption",
           "Advanced"
@@ -27725,7 +27851,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 161,
+        "rank": 162,
         "path": [
           "Entrati Swarm",
           "Advanced",
@@ -27836,7 +27962,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 162,
+        "rank": 163,
         "path": [
           "Entrati Swarm",
           "Advanced",
@@ -27947,7 +28073,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 163,
+        "rank": 164,
         "path": [
           "Entrati Swarm",
           "Advanced",
@@ -28058,7 +28184,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 164,
+        "rank": 165,
         "path": [
           "Entrati Swarm",
           "Advanced",
@@ -28172,7 +28298,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 165,
+        "rank": 166,
         "path": [
           "Entrati Swarm",
           "Advanced",
@@ -28286,7 +28412,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 166,
+        "rank": 167,
         "path": [
           "Entrati Swarm",
           "Advanced",
@@ -28400,7 +28526,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 167,
+        "rank": 168,
         "path": [
           "Entrati Swarm",
           "Advanced",
@@ -28514,7 +28640,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 168,
+        "rank": 169,
         "path": [
           "Entrati Swarm",
           "Advanced",
@@ -28741,7 +28867,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 151,
+        "rank": 152,
         "path": [
           "Entrati Swarm",
           "Objectives",
@@ -28830,7 +28956,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 152,
+        "rank": 153,
         "path": [
           "Entrati Swarm",
           "Objectives",
@@ -28919,7 +29045,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 153,
+        "rank": 154,
         "path": [
           "Entrati Swarm",
           "Objectives",
@@ -29008,7 +29134,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 154,
+        "rank": 155,
         "path": [
           "Entrati Swarm",
           "Objectives",
@@ -29097,7 +29223,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 155,
+        "rank": 156,
         "path": [
           "Entrati Swarm",
           "Objectives",
@@ -29188,7 +29314,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 156,
+        "rank": 157,
         "path": [
           "Entrati Swarm",
           "Objectives",
@@ -29279,7 +29405,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 157,
+        "rank": 158,
         "path": [
           "Entrati Swarm",
           "Objectives",
@@ -29370,7 +29496,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 158,
+        "rank": 159,
         "path": [
           "Entrati Swarm",
           "Objectives",
@@ -29461,7 +29587,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 159,
+        "rank": 160,
         "path": [
           "Entrati Swarm",
           "Objectives",
@@ -29552,7 +29678,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 160,
+        "rank": 161,
         "path": [
           "Entrati Swarm",
           "Objectives",
@@ -29840,7 +29966,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 177,
+        "rank": 178,
         "path": [
           "Exterminate",
           "Timers"
@@ -30065,7 +30191,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 178,
+        "rank": 179,
         "path": [
           "Exterminate",
           "Objectives",
@@ -30175,7 +30301,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 179,
+        "rank": 180,
         "path": [
           "Exterminate",
           "Objectives",
@@ -30285,7 +30411,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 180,
+        "rank": 181,
         "path": [
           "Exterminate",
           "Objectives",
@@ -30395,7 +30521,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 181,
+        "rank": 182,
         "path": [
           "Exterminate",
           "Objectives",
@@ -30970,7 +31096,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 171,
+        "rank": 172,
         "path": [
           "Excavation",
           "Timers",
@@ -31040,7 +31166,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 172,
+        "rank": 173,
         "path": [
           "Excavation",
           "Timers",
@@ -31110,7 +31236,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 173,
+        "rank": 174,
         "path": [
           "Excavation",
           "Timers",
@@ -31197,7 +31323,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 174,
+        "rank": 175,
         "path": [
           "Excavation",
           "Objectives"
@@ -31337,7 +31463,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 170,
+        "rank": 171,
         "path": [
           "Excavation",
           "Objectives"
@@ -31574,7 +31700,7 @@
         "min": 0.01,
         "max": 10,
         "stock_check": "none",
-        "rank": 176,
+        "rank": 177,
         "path": [
           "Exterminate",
           "Advanced"
@@ -31672,7 +31798,7 @@
         "min": 0.1,
         "max": 10,
         "stock_check": "none",
-        "rank": 175,
+        "rank": 176,
         "path": [
           "Exterminate",
           "Objectives"
@@ -31784,7 +31910,7 @@
         "unit": "x",
         "min": 1,
         "max": 32767,
-        "rank": 203,
+        "rank": 204,
         "path": [
           "Faceoff",
           "Advanced",
@@ -31895,7 +32021,7 @@
         "unit": "x",
         "min": 1,
         "max": 32767,
-        "rank": 204,
+        "rank": 205,
         "path": [
           "Faceoff",
           "Advanced",
@@ -32006,7 +32132,7 @@
         "unit": "x",
         "min": 1,
         "max": 32767,
-        "rank": 205,
+        "rank": 206,
         "path": [
           "Faceoff",
           "Advanced",
@@ -32117,7 +32243,7 @@
         "unit": "x",
         "min": 1,
         "max": 32767,
-        "rank": 206,
+        "rank": 207,
         "path": [
           "Faceoff",
           "Advanced",
@@ -32193,7 +32319,7 @@
         "unit": "",
         "min": 1,
         "max": 1000,
-        "rank": 190,
+        "rank": 191,
         "path": [
           "Faceoff",
           "Objectives"
@@ -32338,7 +32464,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 210,
+        "rank": 211,
         "path": [
           "Faceoff",
           "Advanced",
@@ -32414,7 +32540,7 @@
         "unit": "s",
         "min": 1,
         "max": 1500,
-        "rank": 207,
+        "rank": 208,
         "path": [
           "Faceoff",
           "Advanced",
@@ -32539,7 +32665,7 @@
         "unit": "s",
         "min": 0,
         "max": 30000,
-        "rank": 182,
+        "rank": 183,
         "path": [
           "Faceoff",
           "Timers"
@@ -32614,7 +32740,7 @@
         "unit": "s",
         "min": 1,
         "max": 15000,
-        "rank": 183,
+        "rank": 184,
         "path": [
           "Faceoff",
           "Timers"
@@ -32689,7 +32815,7 @@
         "unit": "",
         "min": 1,
         "max": 1000,
-        "rank": 209,
+        "rank": 210,
         "path": [
           "Faceoff",
           "Advanced",
@@ -32765,7 +32891,7 @@
         "unit": "",
         "min": 1,
         "max": 1000,
-        "rank": 208,
+        "rank": 209,
         "path": [
           "Faceoff",
           "Advanced",
@@ -32890,7 +33016,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 189,
+        "rank": 190,
         "path": [
           "Faceoff",
           "Objectives"
@@ -32965,7 +33091,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 213,
+        "rank": 214,
         "path": [
           "Faceoff",
           "Advanced",
@@ -33041,7 +33167,7 @@
         "unit": "s",
         "min": 1,
         "max": 1500,
-        "rank": 212,
+        "rank": 213,
         "path": [
           "Faceoff",
           "Advanced",
@@ -33166,7 +33292,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 211,
+        "rank": 212,
         "path": [
           "Faceoff",
           "Advanced",
@@ -33242,7 +33368,7 @@
         "unit": "",
         "min": 1,
         "max": 1000,
-        "rank": 188,
+        "rank": 189,
         "path": [
           "Faceoff",
           "Objectives"
@@ -33317,7 +33443,7 @@
         "unit": "s",
         "min": 1,
         "max": 2000,
-        "rank": 214,
+        "rank": 215,
         "path": [
           "Faceoff",
           "Advanced",
@@ -33393,7 +33519,7 @@
         "unit": "s",
         "min": 1,
         "max": 1000,
-        "rank": 215,
+        "rank": 216,
         "path": [
           "Faceoff",
           "Advanced",
@@ -33469,7 +33595,7 @@
         "unit": "s",
         "min": 1,
         "max": 15000,
-        "rank": 184,
+        "rank": 185,
         "path": [
           "Faceoff",
           "Timers"
@@ -33544,7 +33670,7 @@
         "unit": "",
         "min": 1,
         "max": 1000,
-        "rank": 216,
+        "rank": 217,
         "path": [
           "Faceoff",
           "Advanced",
@@ -33620,7 +33746,7 @@
         "unit": "",
         "min": 1,
         "max": 10000,
-        "rank": 217,
+        "rank": 218,
         "path": [
           "Faceoff",
           "Advanced",
@@ -33696,7 +33822,7 @@
         "unit": "",
         "min": 1,
         "max": 1000,
-        "rank": 218,
+        "rank": 219,
         "path": [
           "Faceoff",
           "Advanced",
@@ -33772,7 +33898,7 @@
         "unit": "",
         "min": 1,
         "max": 1500,
-        "rank": 219,
+        "rank": 220,
         "path": [
           "Faceoff",
           "Advanced",
@@ -33897,7 +34023,7 @@
         "unit": "",
         "min": 0,
         "max": 16000,
-        "rank": 186,
+        "rank": 187,
         "path": [
           "Faceoff",
           "Objectives",
@@ -34022,7 +34148,7 @@
         "unit": "",
         "min": 0,
         "max": 13000,
-        "rank": 187,
+        "rank": 188,
         "path": [
           "Faceoff",
           "Objectives",
@@ -34098,7 +34224,7 @@
         "unit": "m",
         "min": 1,
         "max": 10000,
-        "rank": 223,
+        "rank": 224,
         "path": [
           "Faceoff",
           "Advanced",
@@ -34174,7 +34300,7 @@
         "unit": "",
         "min": 1,
         "max": 1000,
-        "rank": 221,
+        "rank": 222,
         "path": [
           "Faceoff",
           "Advanced",
@@ -34285,7 +34411,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 195,
+        "rank": 196,
         "path": [
           "Faceoff",
           "Enemies",
@@ -34397,7 +34523,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 196,
+        "rank": 197,
         "path": [
           "Faceoff",
           "Enemies",
@@ -34509,7 +34635,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 197,
+        "rank": 198,
         "path": [
           "Faceoff",
           "Enemies",
@@ -34621,7 +34747,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 198,
+        "rank": 199,
         "path": [
           "Faceoff",
           "Enemies",
@@ -34747,7 +34873,7 @@
         "unit": "m",
         "min": 0,
         "max": 2500,
-        "rank": 222,
+        "rank": 223,
         "path": [
           "Faceoff",
           "Advanced",
@@ -34858,7 +34984,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 199,
+        "rank": 200,
         "path": [
           "Faceoff",
           "Enemies",
@@ -34970,7 +35096,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 200,
+        "rank": 201,
         "path": [
           "Faceoff",
           "Enemies",
@@ -35082,7 +35208,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 201,
+        "rank": 202,
         "path": [
           "Faceoff",
           "Enemies",
@@ -35194,7 +35320,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 202,
+        "rank": 203,
         "path": [
           "Faceoff",
           "Enemies",
@@ -35271,7 +35397,7 @@
         "unit": "",
         "min": 1,
         "max": 1000,
-        "rank": 220,
+        "rank": 221,
         "path": [
           "Faceoff",
           "Advanced",
@@ -35726,7 +35852,7 @@
         "unit": "s",
         "min": 0,
         "max": 42000,
-        "rank": 224,
+        "rank": 225,
         "path": [
           "Five Fates",
           "Timers"
@@ -35799,7 +35925,7 @@
         "unit": "s",
         "min": 1,
         "max": 360000,
-        "rank": 225,
+        "rank": 226,
         "path": [
           "Five Fates",
           "Timers"
@@ -35872,7 +35998,7 @@
         "unit": "s",
         "min": 1,
         "max": 18000,
-        "rank": 226,
+        "rank": 227,
         "path": [
           "Five Fates",
           "Timers"
@@ -35994,7 +36120,7 @@
         "unit": "s",
         "min": 0,
         "max": 24000,
-        "rank": 227,
+        "rank": 228,
         "path": [
           "Five Fates",
           "Timers"
@@ -36067,7 +36193,7 @@
         "unit": "s",
         "min": 1,
         "max": 18000,
-        "rank": 228,
+        "rank": 229,
         "path": [
           "Five Fates",
           "Timers"
@@ -36884,7 +37010,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 475,
+        "rank": 476,
         "path": [
           "All missions",
           "Timers"
@@ -37367,7 +37493,7 @@
         "unit": "HP",
         "min": 1,
         "max": 32767,
-        "rank": 431,
+        "rank": 432,
         "path": [
           "Hijack",
           "Objectives"
@@ -37450,7 +37576,7 @@
         "unit": "HP",
         "min": 1,
         "max": 32767,
-        "rank": 432,
+        "rank": 433,
         "path": [
           "Hijack",
           "Objectives"
@@ -37656,7 +37782,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 447,
+        "rank": 448,
         "path": [
           "Legacyte Harvest",
           "Objectives",
@@ -37732,7 +37858,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 446,
+        "rank": 447,
         "path": [
           "Legacyte Harvest",
           "Objectives",
@@ -37808,7 +37934,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 444,
+        "rank": 445,
         "path": [
           "Legacyte Harvest",
           "Objectives",
@@ -37884,7 +38010,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 445,
+        "rank": 446,
         "path": [
           "Legacyte Harvest",
           "Objectives",
@@ -38779,7 +38905,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 229,
+        "rank": 230,
         "path": [
           "Infested Salvage",
           "Enemies",
@@ -38894,7 +39020,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 230,
+        "rank": 231,
         "path": [
           "Infested Salvage",
           "Enemies",
@@ -39009,7 +39135,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 231,
+        "rank": 232,
         "path": [
           "Infested Salvage",
           "Enemies",
@@ -39124,7 +39250,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 232,
+        "rank": 233,
         "path": [
           "Infested Salvage",
           "Enemies",
@@ -39240,7 +39366,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 237,
+        "rank": 238,
         "path": [
           "Infested Salvage",
           "Advanced",
@@ -39356,7 +39482,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 238,
+        "rank": 239,
         "path": [
           "Infested Salvage",
           "Advanced",
@@ -39472,7 +39598,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 239,
+        "rank": 240,
         "path": [
           "Infested Salvage",
           "Advanced",
@@ -39588,7 +39714,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 240,
+        "rank": 241,
         "path": [
           "Infested Salvage",
           "Advanced",
@@ -39703,7 +39829,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 233,
+        "rank": 234,
         "path": [
           "Infested Salvage",
           "Enemies",
@@ -39818,7 +39944,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 234,
+        "rank": 235,
         "path": [
           "Infested Salvage",
           "Enemies",
@@ -39933,7 +40059,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 235,
+        "rank": 236,
         "path": [
           "Infested Salvage",
           "Enemies",
@@ -40048,7 +40174,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 236,
+        "rank": 237,
         "path": [
           "Infested Salvage",
           "Enemies",
@@ -40560,7 +40686,7 @@
         "min": 1,
         "max": 3600,
         "stock_check": "none",
-        "rank": 436,
+        "rank": 437,
         "path": [
           "Interception",
           "Timers"
@@ -40696,7 +40822,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 438,
+        "rank": 439,
         "path": [
           "Interception",
           "Objectives"
@@ -40841,7 +40967,7 @@
         "min": 0.05,
         "max": 20,
         "stock_check": "none",
-        "rank": 437,
+        "rank": 438,
         "path": [
           "Interception",
           "Objectives"
@@ -40999,7 +41125,7 @@
         "min": 0.05,
         "max": 20,
         "stock_check": "none",
-        "rank": 439,
+        "rank": 440,
         "path": [
           "Interception",
           "Advanced"
@@ -41076,7 +41202,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 243,
+        "rank": 244,
         "path": [
           "Lantern",
           "Timers"
@@ -41175,7 +41301,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 242,
+        "rank": 243,
         "path": [
           "Lantern",
           "Timers"
@@ -41297,7 +41423,7 @@
         "unit": "x",
         "min": 0,
         "max": 1000,
-        "rank": 254,
+        "rank": 255,
         "path": [
           "Lantern",
           "Advanced",
@@ -41420,7 +41546,7 @@
         "unit": "x",
         "min": 0,
         "max": 1000,
-        "rank": 255,
+        "rank": 256,
         "path": [
           "Lantern",
           "Advanced",
@@ -41543,7 +41669,7 @@
         "unit": "x",
         "min": 0,
         "max": 1000,
-        "rank": 256,
+        "rank": 257,
         "path": [
           "Lantern",
           "Advanced",
@@ -41666,7 +41792,7 @@
         "unit": "x",
         "min": 0,
         "max": 1000,
-        "rank": 257,
+        "rank": 258,
         "path": [
           "Lantern",
           "Advanced",
@@ -42160,7 +42286,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 253,
+        "rank": 254,
         "path": [
           "Lantern",
           "Advanced"
@@ -42265,7 +42391,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 244,
+        "rank": 245,
         "path": [
           "Lantern",
           "Objectives"
@@ -42370,7 +42496,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 245,
+        "rank": 246,
         "path": [
           "Lantern",
           "Enemies",
@@ -42476,7 +42602,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 246,
+        "rank": 247,
         "path": [
           "Lantern",
           "Enemies",
@@ -42582,7 +42708,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 247,
+        "rank": 248,
         "path": [
           "Lantern",
           "Enemies",
@@ -42688,7 +42814,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 248,
+        "rank": 249,
         "path": [
           "Lantern",
           "Enemies",
@@ -42802,7 +42928,7 @@
         "unit": "m",
         "min": 0,
         "max": 1000,
-        "rank": 249,
+        "rank": 250,
         "path": [
           "Lantern",
           "Advanced",
@@ -42908,7 +43034,7 @@
         "unit": "m",
         "min": 1,
         "max": 32767,
-        "rank": 250,
+        "rank": 251,
         "path": [
           "Lantern",
           "Advanced",
@@ -43022,7 +43148,7 @@
         "unit": "m",
         "min": 0,
         "max": 1000,
-        "rank": 251,
+        "rank": 252,
         "path": [
           "Lantern",
           "Advanced",
@@ -43136,7 +43262,7 @@
         "unit": "m",
         "min": 0,
         "max": 1000,
-        "rank": 252,
+        "rank": 253,
         "path": [
           "Lantern",
           "Advanced",
@@ -43259,7 +43385,7 @@
         "unit": "s",
         "min": 0,
         "max": 9000,
-        "rank": 241,
+        "rank": 242,
         "path": [
           "Lantern",
           "Timers"
@@ -43383,7 +43509,7 @@
         "unit": "s",
         "min": 0,
         "max": 1000,
-        "rank": 287,
+        "rank": 288,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -43495,7 +43621,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 281,
+        "rank": 282,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -43607,7 +43733,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 282,
+        "rank": 283,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -43719,7 +43845,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 283,
+        "rank": 284,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -43833,7 +43959,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 284,
+        "rank": 285,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -43909,7 +44035,7 @@
         "unit": "s",
         "min": 1,
         "max": 1000,
-        "rank": 289,
+        "rank": 290,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -43985,7 +44111,7 @@
         "unit": "s",
         "min": 1,
         "max": 1000,
-        "rank": 288,
+        "rank": 289,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -44061,7 +44187,7 @@
         "unit": "",
         "min": 1,
         "max": 1000,
-        "rank": 285,
+        "rank": 286,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -44137,7 +44263,7 @@
         "unit": "",
         "min": 1,
         "max": 1000,
-        "rank": 286,
+        "rank": 287,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -44278,7 +44404,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 265,
+        "rank": 266,
         "path": [
           "Mirror Defense",
           "Enemies",
@@ -44420,7 +44546,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 266,
+        "rank": 267,
         "path": [
           "Mirror Defense",
           "Enemies",
@@ -44562,7 +44688,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 267,
+        "rank": 268,
         "path": [
           "Mirror Defense",
           "Enemies",
@@ -44706,7 +44832,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 268,
+        "rank": 269,
         "path": [
           "Mirror Defense",
           "Enemies",
@@ -44850,7 +44976,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 273,
+        "rank": 274,
         "path": [
           "Mirror Defense",
           "Enemies",
@@ -44994,7 +45120,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 274,
+        "rank": 275,
         "path": [
           "Mirror Defense",
           "Enemies",
@@ -45138,7 +45264,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 275,
+        "rank": 276,
         "path": [
           "Mirror Defense",
           "Enemies",
@@ -45283,7 +45409,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 276,
+        "rank": 277,
         "path": [
           "Mirror Defense",
           "Enemies",
@@ -45425,7 +45551,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 269,
+        "rank": 270,
         "path": [
           "Mirror Defense",
           "Enemies",
@@ -45567,7 +45693,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 270,
+        "rank": 271,
         "path": [
           "Mirror Defense",
           "Enemies",
@@ -45709,7 +45835,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 271,
+        "rank": 272,
         "path": [
           "Mirror Defense",
           "Enemies",
@@ -45853,7 +45979,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 272,
+        "rank": 273,
         "path": [
           "Mirror Defense",
           "Enemies",
@@ -45997,7 +46123,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 277,
+        "rank": 278,
         "path": [
           "Mirror Defense",
           "Enemies",
@@ -46141,7 +46267,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 278,
+        "rank": 279,
         "path": [
           "Mirror Defense",
           "Enemies",
@@ -46285,7 +46411,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 279,
+        "rank": 280,
         "path": [
           "Mirror Defense",
           "Enemies",
@@ -46430,7 +46556,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 280,
+        "rank": 281,
         "path": [
           "Mirror Defense",
           "Enemies",
@@ -46806,7 +46932,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 306,
+        "rank": 307,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -46931,7 +47057,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 305,
+        "rank": 306,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -47056,7 +47182,7 @@
         "unit": "s",
         "min": 0,
         "max": 300000,
-        "rank": 304,
+        "rank": 305,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -47181,7 +47307,7 @@
         "unit": "s",
         "min": 0,
         "max": 6000,
-        "rank": 303,
+        "rank": 304,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -47308,7 +47434,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 309,
+        "rank": 310,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -47435,7 +47561,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 308,
+        "rank": 309,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -47562,7 +47688,7 @@
         "unit": "s",
         "min": 0,
         "max": 4500,
-        "rank": 307,
+        "rank": 308,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -47705,7 +47831,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 310,
+        "rank": 311,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -47849,7 +47975,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 311,
+        "rank": 312,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -47993,7 +48119,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 312,
+        "rank": 313,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -48138,7 +48264,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 313,
+        "rank": 314,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -48495,7 +48621,7 @@
         "unit": "",
         "min": 1,
         "max": 1000,
-        "rank": 301,
+        "rank": 302,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -48620,7 +48746,7 @@
         "unit": "s",
         "min": 0,
         "max": 4000,
-        "rank": 298,
+        "rank": 299,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -48745,7 +48871,7 @@
         "unit": "s",
         "min": 0,
         "max": 1000,
-        "rank": 299,
+        "rank": 300,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -48870,7 +48996,7 @@
         "unit": "s",
         "min": 0,
         "max": 1000,
-        "rank": 300,
+        "rank": 301,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -48995,7 +49121,7 @@
         "unit": "s",
         "min": 0,
         "max": 102000,
-        "rank": 297,
+        "rank": 298,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -49120,7 +49246,7 @@
         "unit": "s",
         "min": 0,
         "max": 90000,
-        "rank": 296,
+        "rank": 297,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -49247,7 +49373,7 @@
         "unit": "",
         "min": 0,
         "max": 1500,
-        "rank": 302,
+        "rank": 303,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -49372,7 +49498,7 @@
         "unit": "HP",
         "min": 0,
         "max": 20000,
-        "rank": 292,
+        "rank": 293,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -49497,7 +49623,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 293,
+        "rank": 294,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -49622,7 +49748,7 @@
         "unit": "HP",
         "min": 0,
         "max": 10000,
-        "rank": 290,
+        "rank": 291,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -49747,7 +49873,7 @@
         "unit": "s",
         "min": 0,
         "max": 2000,
-        "rank": 291,
+        "rank": 292,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -49823,7 +49949,7 @@
         "unit": "x",
         "min": 0,
         "max": 1000,
-        "rank": 294,
+        "rank": 295,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -49899,7 +50025,7 @@
         "unit": "x",
         "min": 0,
         "max": 1000,
-        "rank": 295,
+        "rank": 296,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -50009,7 +50135,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 258,
+        "rank": 259,
         "path": [
           "Mirror Defense",
           "Timers"
@@ -50118,7 +50244,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 259,
+        "rank": 260,
         "path": [
           "Mirror Defense",
           "Timers"
@@ -50334,7 +50460,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 260,
+        "rank": 261,
         "path": [
           "Mirror Defense",
           "Objectives"
@@ -51488,7 +51614,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 318,
+        "rank": 319,
         "path": [
           "Mobile Defense",
           "Objectives"
@@ -51687,7 +51813,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 324,
+        "rank": 325,
         "path": [
           "Mobile Defense",
           "Enemies",
@@ -51806,7 +51932,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 325,
+        "rank": 326,
         "path": [
           "Mobile Defense",
           "Enemies",
@@ -51925,7 +52051,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 326,
+        "rank": 327,
         "path": [
           "Mobile Defense",
           "Enemies",
@@ -52046,7 +52172,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 327,
+        "rank": 328,
         "path": [
           "Mobile Defense",
           "Enemies",
@@ -52165,7 +52291,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 328,
+        "rank": 329,
         "path": [
           "Mobile Defense",
           "Enemies",
@@ -52284,7 +52410,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 329,
+        "rank": 330,
         "path": [
           "Mobile Defense",
           "Enemies",
@@ -52403,7 +52529,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 330,
+        "rank": 331,
         "path": [
           "Mobile Defense",
           "Enemies",
@@ -52524,7 +52650,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 331,
+        "rank": 332,
         "path": [
           "Mobile Defense",
           "Enemies",
@@ -52761,7 +52887,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 315,
+        "rank": 316,
         "path": [
           "Mobile Defense",
           "Timers",
@@ -52829,7 +52955,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 316,
+        "rank": 317,
         "path": [
           "Mobile Defense",
           "Timers",
@@ -52911,7 +53037,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 427,
+        "rank": 428,
         "path": [
           "Hack-Station Defense",
           "Timers",
@@ -52993,7 +53119,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 429,
+        "rank": 430,
         "path": [
           "Hack-Station Defense",
           "Timers",
@@ -53075,7 +53201,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 426,
+        "rank": 427,
         "path": [
           "Hack-Station Defense",
           "Timers",
@@ -53157,7 +53283,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 428,
+        "rank": 429,
         "path": [
           "Hack-Station Defense",
           "Timers",
@@ -53319,7 +53445,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 430,
+        "rank": 431,
         "path": [
           "Hack-Station Defense",
           "Objectives"
@@ -53781,7 +53907,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 433,
+        "rank": 434,
         "path": [
           "Netracell",
           "Objectives"
@@ -53957,7 +54083,7 @@
         "unit": "",
         "min": 0,
         "max": 10000,
-        "rank": 434,
+        "rank": 435,
         "path": [
           "Netracell",
           "Objectives"
@@ -54151,7 +54277,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 481,
+        "rank": 482,
         "path": [
           "Sanctuary Onslaught",
           "Advanced"
@@ -54221,7 +54347,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 477,
+        "rank": 478,
         "path": [
           "Sanctuary Onslaught",
           "Objectives",
@@ -54292,7 +54418,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 479,
+        "rank": 480,
         "path": [
           "Sanctuary Onslaught",
           "Objectives",
@@ -54363,7 +54489,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 478,
+        "rank": 479,
         "path": [
           "Sanctuary Onslaught",
           "Objectives",
@@ -54466,7 +54592,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 476,
+        "rank": 477,
         "path": [
           "Sanctuary Onslaught",
           "Timers"
@@ -54551,7 +54677,7 @@
         "unit": "",
         "min": 1,
         "max": 100,
-        "rank": 480,
+        "rank": 481,
         "path": [
           "Sanctuary Onslaught",
           "Rewards / drops"
@@ -54678,7 +54804,7 @@
         "unit": "",
         "min": 0,
         "max": 3600,
-        "rank": 339,
+        "rank": 340,
         "path": [
           "Orphix Venom",
           "Objectives"
@@ -54754,7 +54880,7 @@
         "unit": "",
         "min": 1,
         "max": 1000,
-        "rank": 341,
+        "rank": 342,
         "path": [
           "Orphix Venom",
           "Enemies"
@@ -54879,7 +55005,7 @@
         "unit": "s",
         "min": 0,
         "max": 9000,
-        "rank": 338,
+        "rank": 339,
         "path": [
           "Orphix Venom",
           "Timers",
@@ -54956,7 +55082,7 @@
         "unit": "s",
         "min": 1,
         "max": 5000,
-        "rank": 337,
+        "rank": 338,
         "path": [
           "Orphix Venom",
           "Timers",
@@ -55033,7 +55159,7 @@
         "unit": "",
         "min": 1,
         "max": 1000,
-        "rank": 342,
+        "rank": 343,
         "path": [
           "Orphix Venom",
           "Rewards / drops"
@@ -55109,7 +55235,7 @@
         "unit": "",
         "min": 1,
         "max": 5000,
-        "rank": 343,
+        "rank": 344,
         "path": [
           "Orphix Venom",
           "Advanced"
@@ -55224,7 +55350,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 340,
+        "rank": 341,
         "path": [
           "Orphix Venom",
           "Objectives"
@@ -55297,7 +55423,7 @@
         "unit": "x",
         "min": 0,
         "max": 1000,
-        "rank": 358,
+        "rank": 359,
         "path": [
           "Purgatory",
           "Advanced",
@@ -55371,7 +55497,7 @@
         "unit": "",
         "min": 1,
         "max": 1000,
-        "rank": 357,
+        "rank": 358,
         "path": [
           "Purgatory",
           "Advanced",
@@ -55445,7 +55571,7 @@
         "unit": "",
         "min": 1,
         "max": 1000,
-        "rank": 356,
+        "rank": 357,
         "path": [
           "Purgatory",
           "Advanced",
@@ -55519,7 +55645,7 @@
         "unit": "x",
         "min": 0,
         "max": 1000,
-        "rank": 361,
+        "rank": 362,
         "path": [
           "Purgatory",
           "Advanced",
@@ -55593,7 +55719,7 @@
         "unit": "",
         "min": 1,
         "max": 1000,
-        "rank": 360,
+        "rank": 361,
         "path": [
           "Purgatory",
           "Advanced",
@@ -55667,7 +55793,7 @@
         "unit": "",
         "min": 1,
         "max": 2500,
-        "rank": 359,
+        "rank": 360,
         "path": [
           "Purgatory",
           "Advanced",
@@ -55741,7 +55867,7 @@
         "unit": "x",
         "min": 0,
         "max": 1000,
-        "rank": 364,
+        "rank": 365,
         "path": [
           "Purgatory",
           "Advanced",
@@ -55815,7 +55941,7 @@
         "unit": "",
         "min": 1,
         "max": 1500,
-        "rank": 363,
+        "rank": 364,
         "path": [
           "Purgatory",
           "Advanced",
@@ -55889,7 +56015,7 @@
         "unit": "",
         "min": 1,
         "max": 5000,
-        "rank": 362,
+        "rank": 363,
         "path": [
           "Purgatory",
           "Advanced",
@@ -55972,7 +56098,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 346,
+        "rank": 347,
         "path": [
           "Purgatory",
           "Enemies"
@@ -56132,7 +56258,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 344,
+        "rank": 345,
         "path": [
           "Purgatory",
           "Timers"
@@ -56299,7 +56425,7 @@
         "unit": "s",
         "min": 0,
         "max": 1000,
-        "rank": 345,
+        "rank": 346,
         "path": [
           "Purgatory",
           "Timers"
@@ -56404,7 +56530,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 350,
+        "rank": 351,
         "path": [
           "Purgatory",
           "Rewards / drops",
@@ -56510,7 +56636,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 351,
+        "rank": 352,
         "path": [
           "Purgatory",
           "Rewards / drops",
@@ -56616,7 +56742,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 352,
+        "rank": 353,
         "path": [
           "Purgatory",
           "Rewards / drops",
@@ -56722,7 +56848,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 353,
+        "rank": 354,
         "path": [
           "Purgatory",
           "Rewards / drops",
@@ -56828,7 +56954,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 354,
+        "rank": 355,
         "path": [
           "Purgatory",
           "Rewards / drops",
@@ -56934,7 +57060,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 355,
+        "rank": 356,
         "path": [
           "Purgatory",
           "Rewards / drops",
@@ -57179,7 +57305,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 349,
+        "rank": 350,
         "path": [
           "Purgatory",
           "Enemies",
@@ -57262,7 +57388,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 348,
+        "rank": 349,
         "path": [
           "Purgatory",
           "Enemies",
@@ -57373,7 +57499,7 @@
         "unit": "x",
         "min": 1,
         "max": 32767,
-        "rank": 366,
+        "rank": 367,
         "path": [
           "Purge",
           "Advanced",
@@ -57484,7 +57610,7 @@
         "unit": "x",
         "min": 1,
         "max": 32767,
-        "rank": 367,
+        "rank": 368,
         "path": [
           "Purge",
           "Advanced",
@@ -57682,7 +57808,7 @@
         "unit": "x",
         "min": 1,
         "max": 32767,
-        "rank": 368,
+        "rank": 369,
         "path": [
           "Purge",
           "Advanced",
@@ -57850,7 +57976,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 365,
+        "rank": 366,
         "path": [
           "Purge",
           "Objectives"
@@ -58385,7 +58511,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 435,
+        "rank": 436,
         "path": [
           "Pursuit",
           "Timers"
@@ -59432,7 +59558,7 @@
         "min": 0.1,
         "max": 10,
         "stock_check": "none",
-        "rank": 491,
+        "rank": 492,
         "path": [
           "Railjack",
           "Objectives"
@@ -59548,7 +59674,7 @@
         "min": 0.1,
         "max": 10,
         "stock_check": "none",
-        "rank": 490,
+        "rank": 491,
         "path": [
           "Railjack",
           "Objectives"
@@ -59697,7 +59823,7 @@
         "min": 0.1,
         "max": 10,
         "stock_check": "none",
-        "rank": 489,
+        "rank": 490,
         "path": [
           "Railjack",
           "Objectives"
@@ -59849,7 +59975,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 442,
+        "rank": 443,
         "path": [
           "Rescue",
           "Timers",
@@ -59922,7 +60048,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 443,
+        "rank": 444,
         "path": [
           "Rescue",
           "Timers",
@@ -60296,7 +60422,7 @@
         "unit": "m/s",
         "min": 0.1,
         "max": 1000,
-        "rank": 458,
+        "rank": 459,
         "path": [
           "Rush",
           "Timers"
@@ -60368,7 +60494,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 452,
+        "rank": 453,
         "path": [
           "Sabotage",
           "Timers"
@@ -60471,7 +60597,7 @@
         "min": 1,
         "max": 3600,
         "stock_check": "none",
-        "rank": 449,
+        "rank": 450,
         "path": [
           "Sabotage",
           "Timers"
@@ -60558,7 +60684,7 @@
         "unit": "x",
         "min": 0.01,
         "max": 100,
-        "rank": 455,
+        "rank": 456,
         "path": [
           "Sabotage",
           "Advanced",
@@ -60646,7 +60772,7 @@
         "unit": "x",
         "min": 0.01,
         "max": 100,
-        "rank": 456,
+        "rank": 457,
         "path": [
           "Sabotage",
           "Advanced",
@@ -60719,7 +60845,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 450,
+        "rank": 451,
         "path": [
           "Sabotage",
           "Timers"
@@ -60808,7 +60934,7 @@
         "unit": "s",
         "min": 4,
         "max": 32767,
-        "rank": 451,
+        "rank": 452,
         "path": [
           "Sabotage",
           "Timers"
@@ -60902,7 +61028,7 @@
         "min": 1,
         "max": 3600,
         "stock_check": "none",
-        "rank": 457,
+        "rank": 458,
         "path": [
           "Sabotage",
           "Advanced"
@@ -60974,7 +61100,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 448,
+        "rank": 449,
         "path": [
           "Sabotage",
           "Timers"
@@ -61046,7 +61172,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 454,
+        "rank": 455,
         "path": [
           "Sabotage",
           "Enemies"
@@ -61118,7 +61244,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 453,
+        "rank": 454,
         "path": [
           "Sabotage",
           "Timers"
@@ -61399,7 +61525,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 319,
+        "rank": 320,
         "path": [
           "Mobile Defense",
           "Objectives"
@@ -61483,7 +61609,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 317,
+        "rank": 318,
         "path": [
           "Mobile Defense",
           "Timers"
@@ -61596,7 +61722,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 332,
+        "rank": 333,
         "path": [
           "Mobile Defense",
           "Enemies",
@@ -61710,7 +61836,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 333,
+        "rank": 334,
         "path": [
           "Mobile Defense",
           "Enemies",
@@ -61824,7 +61950,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 334,
+        "rank": 335,
         "path": [
           "Mobile Defense",
           "Enemies",
@@ -61939,7 +62065,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 335,
+        "rank": 336,
         "path": [
           "Mobile Defense",
           "Enemies",
@@ -62104,7 +62230,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 83,
+        "rank": 84,
         "path": [
           "Descendia",
           "Shrine Defense",
@@ -62219,7 +62345,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 84,
+        "rank": 85,
         "path": [
           "Descendia",
           "Shrine Defense",
@@ -62334,7 +62460,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 85,
+        "rank": 86,
         "path": [
           "Descendia",
           "Shrine Defense",
@@ -62449,7 +62575,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 86,
+        "rank": 87,
         "path": [
           "Descendia",
           "Shrine Defense",
@@ -62564,7 +62690,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 75,
+        "rank": 76,
         "path": [
           "Descendia",
           "Shrine Defense",
@@ -62679,7 +62805,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 76,
+        "rank": 77,
         "path": [
           "Descendia",
           "Shrine Defense",
@@ -62794,7 +62920,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 77,
+        "rank": 78,
         "path": [
           "Descendia",
           "Shrine Defense",
@@ -62909,7 +63035,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 78,
+        "rank": 79,
         "path": [
           "Descendia",
           "Shrine Defense",
@@ -63026,7 +63152,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 99,
+        "rank": 100,
         "path": [
           "Descendia",
           "Shrine Defense",
@@ -63143,7 +63269,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 100,
+        "rank": 101,
         "path": [
           "Descendia",
           "Shrine Defense",
@@ -63260,7 +63386,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 101,
+        "rank": 102,
         "path": [
           "Descendia",
           "Shrine Defense",
@@ -63377,7 +63503,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 102,
+        "rank": 103,
         "path": [
           "Descendia",
           "Shrine Defense",
@@ -63494,7 +63620,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 91,
+        "rank": 92,
         "path": [
           "Descendia",
           "Shrine Defense",
@@ -63611,7 +63737,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 92,
+        "rank": 93,
         "path": [
           "Descendia",
           "Shrine Defense",
@@ -63728,7 +63854,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 93,
+        "rank": 94,
         "path": [
           "Descendia",
           "Shrine Defense",
@@ -63845,7 +63971,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 94,
+        "rank": 95,
         "path": [
           "Descendia",
           "Shrine Defense",
@@ -63960,7 +64086,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 87,
+        "rank": 88,
         "path": [
           "Descendia",
           "Shrine Defense",
@@ -64075,7 +64201,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 88,
+        "rank": 89,
         "path": [
           "Descendia",
           "Shrine Defense",
@@ -64190,7 +64316,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 89,
+        "rank": 90,
         "path": [
           "Descendia",
           "Shrine Defense",
@@ -64305,7 +64431,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 90,
+        "rank": 91,
         "path": [
           "Descendia",
           "Shrine Defense",
@@ -64420,7 +64546,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 79,
+        "rank": 80,
         "path": [
           "Descendia",
           "Shrine Defense",
@@ -64535,7 +64661,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 80,
+        "rank": 81,
         "path": [
           "Descendia",
           "Shrine Defense",
@@ -64650,7 +64776,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 81,
+        "rank": 82,
         "path": [
           "Descendia",
           "Shrine Defense",
@@ -64765,7 +64891,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 82,
+        "rank": 83,
         "path": [
           "Descendia",
           "Shrine Defense",
@@ -64882,7 +65008,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 103,
+        "rank": 104,
         "path": [
           "Descendia",
           "Shrine Defense",
@@ -64999,7 +65125,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 104,
+        "rank": 105,
         "path": [
           "Descendia",
           "Shrine Defense",
@@ -65116,7 +65242,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 105,
+        "rank": 106,
         "path": [
           "Descendia",
           "Shrine Defense",
@@ -65233,7 +65359,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 106,
+        "rank": 107,
         "path": [
           "Descendia",
           "Shrine Defense",
@@ -65350,7 +65476,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 95,
+        "rank": 96,
         "path": [
           "Descendia",
           "Shrine Defense",
@@ -65467,7 +65593,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 96,
+        "rank": 97,
         "path": [
           "Descendia",
           "Shrine Defense",
@@ -65584,7 +65710,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 97,
+        "rank": 98,
         "path": [
           "Descendia",
           "Shrine Defense",
@@ -65701,7 +65827,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 98,
+        "rank": 99,
         "path": [
           "Descendia",
           "Shrine Defense",
@@ -66186,7 +66312,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 115,
+        "rank": 116,
         "path": [
           "Descendia",
           "Shrine Defense",
@@ -66301,7 +66427,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 116,
+        "rank": 117,
         "path": [
           "Descendia",
           "Shrine Defense",
@@ -66416,7 +66542,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 117,
+        "rank": 118,
         "path": [
           "Descendia",
           "Shrine Defense",
@@ -66531,7 +66657,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 118,
+        "rank": 119,
         "path": [
           "Descendia",
           "Shrine Defense",
@@ -66646,7 +66772,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 111,
+        "rank": 112,
         "path": [
           "Descendia",
           "Shrine Defense",
@@ -66761,7 +66887,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 112,
+        "rank": 113,
         "path": [
           "Descendia",
           "Shrine Defense",
@@ -66876,7 +67002,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 113,
+        "rank": 114,
         "path": [
           "Descendia",
           "Shrine Defense",
@@ -66991,7 +67117,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 114,
+        "rank": 115,
         "path": [
           "Descendia",
           "Shrine Defense",
@@ -67108,7 +67234,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 123,
+        "rank": 124,
         "path": [
           "Descendia",
           "Shrine Defense",
@@ -67225,7 +67351,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 124,
+        "rank": 125,
         "path": [
           "Descendia",
           "Shrine Defense",
@@ -67342,7 +67468,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 125,
+        "rank": 126,
         "path": [
           "Descendia",
           "Shrine Defense",
@@ -67459,7 +67585,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 126,
+        "rank": 127,
         "path": [
           "Descendia",
           "Shrine Defense",
@@ -67576,7 +67702,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 119,
+        "rank": 120,
         "path": [
           "Descendia",
           "Shrine Defense",
@@ -67693,7 +67819,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 120,
+        "rank": 121,
         "path": [
           "Descendia",
           "Shrine Defense",
@@ -67810,7 +67936,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 121,
+        "rank": 122,
         "path": [
           "Descendia",
           "Shrine Defense",
@@ -67927,7 +68053,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 122,
+        "rank": 123,
         "path": [
           "Descendia",
           "Shrine Defense",
@@ -68056,7 +68182,7 @@
         "unit": "s",
         "min": 0,
         "max": 42000,
-        "rank": 70,
+        "rank": 71,
         "path": [
           "Descendia",
           "Shrine Defense",
@@ -68160,7 +68286,7 @@
         "min": 0.05,
         "max": 20,
         "stock_check": "none",
-        "rank": 440,
+        "rank": 441,
         "path": [
           "Spy",
           "Timers"
@@ -68402,7 +68528,7 @@
         "unit": "",
         "min": 0,
         "max": 5,
-        "rank": 441,
+        "rank": 442,
         "path": [
           "Spy",
           "Advanced"
@@ -68480,7 +68606,7 @@
         "unit": "s",
         "min": 1,
         "max": 60000,
-        "rank": 370,
+        "rank": 371,
         "path": [
           "Survival",
           "Timers"
@@ -68606,7 +68732,7 @@
         "unit": "x",
         "min": 0,
         "max": 1000,
-        "rank": 384,
+        "rank": 385,
         "path": [
           "Survival",
           "Rewards / drops"
@@ -68681,7 +68807,7 @@
         "unit": "s",
         "min": 1,
         "max": 3000,
-        "rank": 378,
+        "rank": 379,
         "path": [
           "Survival",
           "Timers",
@@ -68757,7 +68883,7 @@
         "unit": "s",
         "min": 1,
         "max": 15000,
-        "rank": 373,
+        "rank": 374,
         "path": [
           "Survival",
           "Timers",
@@ -68833,7 +68959,7 @@
         "unit": "s",
         "min": 1,
         "max": 9000,
-        "rank": 377,
+        "rank": 378,
         "path": [
           "Survival",
           "Timers",
@@ -68909,7 +69035,7 @@
         "unit": "s",
         "min": 1,
         "max": 15000,
-        "rank": 374,
+        "rank": 375,
         "path": [
           "Survival",
           "Timers",
@@ -68985,7 +69111,7 @@
         "unit": "s",
         "min": 1,
         "max": 4500,
-        "rank": 375,
+        "rank": 376,
         "path": [
           "Survival",
           "Timers",
@@ -69064,7 +69190,7 @@
         "unit": "x",
         "min": 0,
         "max": 1000,
-        "rank": 386,
+        "rank": 387,
         "path": [
           "Survival",
           "Rewards / drops"
@@ -69141,7 +69267,7 @@
         "unit": "x",
         "min": 0,
         "max": 1000,
-        "rank": 385,
+        "rank": 386,
         "path": [
           "Survival",
           "Rewards / drops"
@@ -69228,7 +69354,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 372,
+        "rank": 373,
         "path": [
           "Survival",
           "Timers"
@@ -69427,7 +69553,7 @@
         "unit": "min",
         "min": 0,
         "max": 60,
-        "rank": 371,
+        "rank": 372,
         "path": [
           "Survival",
           "Timers"
@@ -69505,7 +69631,7 @@
         "unit": "s",
         "min": 1,
         "max": 60000,
-        "rank": 397,
+        "rank": 398,
         "path": [
           "Survival",
           "Advanced",
@@ -69583,7 +69709,7 @@
         "unit": "s",
         "min": 1,
         "max": 60000,
-        "rank": 396,
+        "rank": 397,
         "path": [
           "Survival",
           "Advanced",
@@ -69661,7 +69787,7 @@
         "unit": "",
         "min": 1,
         "max": 1000,
-        "rank": 398,
+        "rank": 399,
         "path": [
           "Survival",
           "Advanced",
@@ -69739,7 +69865,7 @@
         "unit": "",
         "min": 1,
         "max": 1500,
-        "rank": 399,
+        "rank": 400,
         "path": [
           "Survival",
           "Advanced",
@@ -69864,7 +69990,7 @@
         "unit": "s",
         "min": 0,
         "max": 4000,
-        "rank": 393,
+        "rank": 394,
         "path": [
           "Survival",
           "Advanced",
@@ -69940,7 +70066,7 @@
         "unit": "s",
         "min": 1,
         "max": 1000,
-        "rank": 394,
+        "rank": 395,
         "path": [
           "Survival",
           "Advanced",
@@ -70065,7 +70191,7 @@
         "unit": "x",
         "min": 0,
         "max": 1000,
-        "rank": 395,
+        "rank": 396,
         "path": [
           "Survival",
           "Advanced",
@@ -70192,7 +70318,7 @@
         "unit": "s",
         "min": 0,
         "max": 102000,
-        "rank": 392,
+        "rank": 393,
         "path": [
           "Survival",
           "Advanced",
@@ -70319,7 +70445,7 @@
         "unit": "s",
         "min": 0,
         "max": 90000,
-        "rank": 391,
+        "rank": 392,
         "path": [
           "Survival",
           "Advanced",
@@ -70444,7 +70570,7 @@
         "unit": "x",
         "min": 0,
         "max": 1000,
-        "rank": 382,
+        "rank": 383,
         "path": [
           "Survival",
           "Rewards / drops"
@@ -70568,7 +70694,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 383,
+        "rank": 384,
         "path": [
           "Survival",
           "Rewards / drops"
@@ -70692,7 +70818,7 @@
         "unit": "x",
         "min": 0,
         "max": 1000,
-        "rank": 380,
+        "rank": 381,
         "path": [
           "Survival",
           "Rewards / drops"
@@ -70767,7 +70893,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 381,
+        "rank": 382,
         "path": [
           "Survival",
           "Rewards / drops"
@@ -70828,7 +70954,7 @@
         "unit": "s",
         "min": 0,
         "max": 32767,
-        "rank": 389,
+        "rank": 390,
         "path": [
           "Survival",
           "Advanced"
@@ -70915,7 +71041,7 @@
         "unit": "s",
         "min": 0,
         "max": 32767,
-        "rank": 376,
+        "rank": 377,
         "path": [
           "Survival",
           "Timers",
@@ -70991,7 +71117,7 @@
         "unit": "s",
         "min": 1,
         "max": 30000,
-        "rank": 379,
+        "rank": 380,
         "path": [
           "Survival",
           "Timers",
@@ -71067,7 +71193,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 390,
+        "rank": 391,
         "path": [
           "Survival",
           "Advanced"
@@ -71154,7 +71280,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 369,
+        "rank": 370,
         "path": [
           "Survival",
           "Timers"
@@ -71282,7 +71408,7 @@
         "unit": "x",
         "min": 0,
         "max": 1000,
-        "rank": 387,
+        "rank": 388,
         "path": [
           "Survival",
           "Rewards / drops"
@@ -71360,7 +71486,7 @@
         "unit": "x",
         "min": 0,
         "max": 1000,
-        "rank": 388,
+        "rank": 389,
         "path": [
           "Survival",
           "Rewards / drops"
@@ -71437,7 +71563,7 @@
         "unit": "s",
         "min": 0.5,
         "max": 32767,
-        "rank": 474,
+        "rank": 475,
         "path": [
           "Void Armageddon",
           "Advanced"
@@ -71509,7 +71635,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 465,
+        "rank": 466,
         "path": [
           "Void Armageddon",
           "Objectives",
@@ -71582,7 +71708,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 466,
+        "rank": 467,
         "path": [
           "Void Armageddon",
           "Objectives",
@@ -71655,7 +71781,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 467,
+        "rank": 468,
         "path": [
           "Void Armageddon",
           "Objectives",
@@ -71728,7 +71854,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 468,
+        "rank": 469,
         "path": [
           "Void Armageddon",
           "Objectives",
@@ -71801,7 +71927,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 469,
+        "rank": 470,
         "path": [
           "Void Armageddon",
           "Enemies",
@@ -71874,7 +72000,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 470,
+        "rank": 471,
         "path": [
           "Void Armageddon",
           "Enemies",
@@ -71947,7 +72073,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 471,
+        "rank": 472,
         "path": [
           "Void Armageddon",
           "Enemies",
@@ -72020,7 +72146,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 472,
+        "rank": 473,
         "path": [
           "Void Armageddon",
           "Enemies",
@@ -72098,7 +72224,7 @@
         "unit": "s",
         "min": 0.5,
         "max": 32767,
-        "rank": 461,
+        "rank": 462,
         "path": [
           "Void Armageddon",
           "Timers"
@@ -72175,7 +72301,7 @@
         "unit": "s",
         "min": 0.5,
         "max": 32767,
-        "rank": 460,
+        "rank": 461,
         "path": [
           "Void Armageddon",
           "Timers"
@@ -72252,7 +72378,7 @@
         "unit": "s",
         "min": 0.5,
         "max": 32767,
-        "rank": 462,
+        "rank": 463,
         "path": [
           "Void Armageddon",
           "Timers"
@@ -72329,7 +72455,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 473,
+        "rank": 474,
         "path": [
           "Void Armageddon",
           "Rewards / drops"
@@ -72406,7 +72532,7 @@
         "unit": "s",
         "min": 0.5,
         "max": 32767,
-        "rank": 463,
+        "rank": 464,
         "path": [
           "Void Armageddon",
           "Timers"
@@ -72483,7 +72609,7 @@
         "unit": "s",
         "min": 0.5,
         "max": 32767,
-        "rank": 459,
+        "rank": 460,
         "path": [
           "Void Armageddon",
           "Timers"
@@ -72561,7 +72687,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 464,
+        "rank": 465,
         "path": [
           "Void Armageddon",
           "Objectives"
@@ -72656,7 +72782,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 406,
+        "rank": 407,
         "path": [
           "Void Cascade",
           "Rewards / drops"
@@ -72770,7 +72896,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 402,
+        "rank": 403,
         "path": [
           "Void Cascade",
           "Objectives",
@@ -72885,7 +73011,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 403,
+        "rank": 404,
         "path": [
           "Void Cascade",
           "Objectives",
@@ -73000,7 +73126,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 404,
+        "rank": 405,
         "path": [
           "Void Cascade",
           "Objectives",
@@ -73115,7 +73241,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 405,
+        "rank": 406,
         "path": [
           "Void Cascade",
           "Objectives",
@@ -73226,7 +73352,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 401,
+        "rank": 402,
         "path": [
           "Void Cascade",
           "Objectives"
@@ -73352,7 +73478,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 400,
+        "rank": 401,
         "path": [
           "Void Cascade",
           "Timers"
@@ -73428,7 +73554,7 @@
         "unit": "",
         "min": 1,
         "max": 1000,
-        "rank": 412,
+        "rank": 413,
         "path": [
           "Void Flood",
           "Advanced"
@@ -73505,7 +73631,7 @@
         "unit": "",
         "min": 1,
         "max": 1000,
-        "rank": 413,
+        "rank": 414,
         "path": [
           "Void Flood",
           "Advanced"
@@ -73580,7 +73706,7 @@
         "unit": "",
         "min": 1,
         "max": 10000,
-        "rank": 414,
+        "rank": 415,
         "path": [
           "Void Flood",
           "Advanced"
@@ -73819,7 +73945,7 @@
         "unit": "x",
         "min": 0,
         "max": 1000,
-        "rank": 411,
+        "rank": 412,
         "path": [
           "Void Flood",
           "Advanced"
@@ -73943,7 +74069,7 @@
         "unit": "s",
         "min": 0,
         "max": 20000,
-        "rank": 407,
+        "rank": 408,
         "path": [
           "Void Flood",
           "Timers"
@@ -74018,7 +74144,7 @@
         "unit": "s",
         "min": 1,
         "max": 6000,
-        "rank": 408,
+        "rank": 409,
         "path": [
           "Void Flood",
           "Timers"
@@ -74131,7 +74257,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 416,
+        "rank": 417,
         "path": [
           "Void Flood",
           "Objectives"
@@ -74214,7 +74340,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 409,
+        "rank": 410,
         "path": [
           "Void Flood",
           "Objectives"
@@ -74292,7 +74418,7 @@
         "unit": "",
         "min": 1,
         "max": 1000,
-        "rank": 415,
+        "rank": 416,
         "path": [
           "Void Flood",
           "Advanced"
@@ -74474,7 +74600,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 410,
+        "rank": 411,
         "path": [
           "Void Flood",
           "Objectives"
@@ -76373,7 +76499,7 @@
     "title_label": "group label upper-cased, <= title_budget",
     "editor_rule": "TOGGLE for enum; INPUTCOUNT for int with min >= 0 (max always set); INPUTBOX otherwise",
     "applies_rule": "addon live_next_read; literal next_mission; metadata restart; server server_reload",
-    "editor_label_with_stock_rows": 510
+    "editor_label_with_stock_rows": 511
   },
   "ui_sources": {
     "public_export_regions": {
@@ -80137,7 +80263,7 @@
       "short_label": "Exterminate: kills needed",
       "label_source": "player_text",
       "scope_text": "Kills to finish the Faceoff Exterminate objective (the game picks a random number between the two ends below). This sets both ends; an end you change keeps its value.",
-      "rank": 185,
+      "rank": 186,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -80171,7 +80297,7 @@
       "short_label": "Max enemies at once (solo)",
       "label_source": "player_text",
       "scope_text": "Faceoff enemies alive at once with 1 player, all enemy levels. Steel Path uses the squad value; the variants below override it.",
-      "rank": 191,
+      "rank": 192,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -80204,7 +80330,7 @@
       "short_label": "Max enemies at once (duo)",
       "label_source": "player_text",
       "scope_text": "Faceoff enemies alive at once with 2 players, all enemy levels. Steel Path uses the squad value; the variants below override it.",
-      "rank": 192,
+      "rank": 193,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -80237,7 +80363,7 @@
       "short_label": "Max enemies at once (trio)",
       "label_source": "player_text",
       "scope_text": "Faceoff enemies alive at once with 3 players, all enemy levels. Steel Path uses the squad value; the variants below override it.",
-      "rank": 193,
+      "rank": 194,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -80270,7 +80396,7 @@
       "short_label": "Max enemies at once (squad)",
       "label_source": "player_text",
       "scope_text": "Faceoff enemies alive at once with 4 players, all enemy levels. The variants below override it.",
-      "rank": 194,
+      "rank": 195,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -80303,7 +80429,7 @@
       "short_label": "Max enemies at once (solo)",
       "label_source": "player_text",
       "scope_text": "Mirror Defense enemies alive at once with 1 player, regular and Infested. Steel Path uses the squad value; the variants below override it.",
-      "rank": 261,
+      "rank": 262,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -80345,7 +80471,7 @@
       "short_label": "Max enemies at once (duo)",
       "label_source": "player_text",
       "scope_text": "Mirror Defense enemies alive at once with 2 players, regular and Infested. Steel Path uses the squad value; the variants below override it.",
-      "rank": 262,
+      "rank": 263,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -80387,7 +80513,7 @@
       "short_label": "Max enemies at once (trio)",
       "label_source": "player_text",
       "scope_text": "Mirror Defense enemies alive at once with 3 players, regular and Infested. Steel Path uses the squad value; the variants below override it.",
-      "rank": 263,
+      "rank": 264,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -80429,7 +80555,7 @@
       "short_label": "Max enemies at once (squad)",
       "label_source": "player_text",
       "scope_text": "Mirror Defense enemies alive at once with 4 players, regular and Infested. Steel Path uses the squad value; the variants below override it.",
-      "rank": 264,
+      "rank": 265,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -80471,7 +80597,7 @@
       "short_label": "Time per terminal",
       "label_source": "player_text",
       "scope_text": "Upload time of each Mobile Defense terminal. The default depends on node difficulty (78-104 s on Archwing against Grineer); a number you type applies on every node.",
-      "rank": 314,
+      "rank": 315,
       "lane": "literal",
       "applies": "next_mission",
       "type": "int",
@@ -80505,7 +80631,7 @@
       "short_label": "Max enemies at once (solo)",
       "label_source": "player_text",
       "scope_text": "Mobile Defense enemies alive at once with 1 player, easy and hard nodes. The variants below override it.",
-      "rank": 320,
+      "rank": 321,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -80538,7 +80664,7 @@
       "short_label": "Max enemies at once (duo)",
       "label_source": "player_text",
       "scope_text": "Mobile Defense enemies alive at once with 2 players, easy and hard nodes. The variants below override it.",
-      "rank": 321,
+      "rank": 322,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -80571,7 +80697,7 @@
       "short_label": "Max enemies at once (trio)",
       "label_source": "player_text",
       "scope_text": "Mobile Defense enemies alive at once with 3 players, easy and hard nodes. The variants below override it.",
-      "rank": 322,
+      "rank": 323,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -80604,7 +80730,7 @@
       "short_label": "Max enemies at once (squad)",
       "label_source": "player_text",
       "scope_text": "Mobile Defense enemies alive at once with 4 players, easy and hard nodes. The variants below override it.",
-      "rank": 323,
+      "rank": 324,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -80637,7 +80763,7 @@
       "short_label": "Time between Orphix spawns",
       "label_source": "player_text",
       "scope_text": "Seconds between Orphix spawns, normal and event. The default is 50 s, 90 s during the Orphix Venom event; the variants below override it.",
-      "rank": 336,
+      "rank": 337,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -80671,7 +80797,7 @@
       "short_label": "Max enemies at once (solo)",
       "label_source": "player_text",
       "scope_text": "Shrine Defense enemies alive at once with 1 player, all stages and Steel Path. Depends on the stage and Steel Path; the variants below override it.",
-      "rank": 71,
+      "rank": 72,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -80730,7 +80856,7 @@
       "short_label": "Max enemies at once (duo)",
       "label_source": "player_text",
       "scope_text": "Shrine Defense enemies alive at once with 2 players, all stages and Steel Path. Depends on the stage and Steel Path; the variants below override it.",
-      "rank": 72,
+      "rank": 73,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -80789,7 +80915,7 @@
       "short_label": "Max enemies at once (trio)",
       "label_source": "player_text",
       "scope_text": "Shrine Defense enemies alive at once with 3 players, all stages and Steel Path. Depends on the stage and Steel Path; the variants below override it.",
-      "rank": 73,
+      "rank": 74,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -80848,7 +80974,7 @@
       "short_label": "Max enemies at once (squad)",
       "label_source": "player_text",
       "scope_text": "Shrine Defense enemies alive at once with 4 players, all stages and Steel Path. Depends on the stage and Steel Path; the variants below override it.",
-      "rank": 74,
+      "rank": 75,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -80907,7 +81033,7 @@
       "short_label": "Time between waves (solo)",
       "label_source": "player_text",
       "scope_text": "Shrine Defense seconds between enemy waves with 1 player, all stages and Steel Path. Depends on the stage and Steel Path; the variants below override it.",
-      "rank": 107,
+      "rank": 108,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -80950,7 +81076,7 @@
       "short_label": "Time between waves (duo)",
       "label_source": "player_text",
       "scope_text": "Shrine Defense seconds between enemy waves with 2 players, all stages and Steel Path. Depends on the stage and Steel Path; the variants below override it.",
-      "rank": 108,
+      "rank": 109,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -80993,7 +81119,7 @@
       "short_label": "Time between waves (trio)",
       "label_source": "player_text",
       "scope_text": "Shrine Defense seconds between enemy waves with 3 players, all stages and Steel Path. Depends on the stage and Steel Path; the variants below override it.",
-      "rank": 109,
+      "rank": 110,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -81036,7 +81162,7 @@
       "short_label": "Time between waves (squad)",
       "label_source": "player_text",
       "scope_text": "Shrine Defense seconds between enemy waves with 4 players, all stages and Steel Path. Depends on the stage and Steel Path; the variants below override it.",
-      "rank": 110,
+      "rank": 111,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -81079,7 +81205,7 @@
       "short_label": "Dig time per excavator",
       "label_source": "player_text",
       "scope_text": "Seconds each excavator digs in every Excavation variant. The default is 100 s (140 s on Elite Alerts and 60 s in Old World Salvage); a number you type applies to all three.",
-      "rank": 169,
+      "rank": 170,
       "lane": "literal",
       "applies": "next_mission",
       "type": "int",
@@ -81117,7 +81243,7 @@
       "short_label": "Max enemies at once (solo)",
       "label_source": "player_text",
       "scope_text": "Defense enemies alive at once with 1 player, regular and Infested, all levels. Depends on enemy level (fewer below level 30); the variants below override it.",
-      "rank": 36,
+      "rank": 37,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -81159,7 +81285,7 @@
       "short_label": "Max enemies at once (duo)",
       "label_source": "player_text",
       "scope_text": "Defense enemies alive at once with 2 players, regular and Infested, all levels. Depends on enemy level (fewer below level 30); the variants below override it.",
-      "rank": 37,
+      "rank": 38,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -81201,7 +81327,7 @@
       "short_label": "Max enemies at once (trio)",
       "label_source": "player_text",
       "scope_text": "Defense enemies alive at once with 3 players, regular and Infested, all levels. Depends on enemy level (fewer below level 30); the variants below override it.",
-      "rank": 38,
+      "rank": 39,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -81243,7 +81369,7 @@
       "short_label": "Max enemies at once (squad)",
       "label_source": "player_text",
       "scope_text": "Defense enemies alive at once with 4 players, regular and Infested, all levels. Depends on enemy level (fewer below level 30); the variants below override it.",
-      "rank": 39,
+      "rank": 40,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -81285,7 +81411,7 @@
       "short_label": "Max enemies at once (solo)",
       "label_source": "player_text",
       "scope_text": "Disruption enemies alive at once with 1 player, standard, Sentient and Entrati lab, both ends of the range. A number you type replaces the whole range; the variants below override it.",
-      "rank": 132,
+      "rank": 133,
       "lane": "literal",
       "applies": "next_mission",
       "type": "int",
@@ -81335,7 +81461,7 @@
       "short_label": "Max enemies at once (duo)",
       "label_source": "player_text",
       "scope_text": "Disruption enemies alive at once with 2 players, standard, Sentient and Entrati lab, both ends of the range. A number you type replaces the whole range; the variants below override it.",
-      "rank": 133,
+      "rank": 134,
       "lane": "literal",
       "applies": "next_mission",
       "type": "int",
@@ -81385,7 +81511,7 @@
       "short_label": "Max enemies at once (trio)",
       "label_source": "player_text",
       "scope_text": "Disruption enemies alive at once with 3 players, standard, Sentient and Entrati lab, both ends of the range. A number you type replaces the whole range; the variants below override it.",
-      "rank": 134,
+      "rank": 135,
       "lane": "literal",
       "applies": "next_mission",
       "type": "int",
@@ -81435,7 +81561,7 @@
       "short_label": "Max enemies at once (squad)",
       "label_source": "player_text",
       "scope_text": "Disruption enemies alive at once with 4 players, standard, Sentient and Entrati lab, both ends of the range. A number you type replaces the whole range; the variants below override it.",
-      "rank": 135,
+      "rank": 136,
       "lane": "literal",
       "applies": "next_mission",
       "type": "int",
@@ -81485,7 +81611,7 @@
       "short_label": "Time between spawns",
       "label_source": "player_text",
       "scope_text": "Seconds between Purgatory spawn batches (sets the random range to this value). A number you type replaces the whole range; the variants below override it.",
-      "rank": 347,
+      "rank": 348,
       "lane": "literal",
       "applies": "next_mission",
       "type": "int",
@@ -81518,7 +81644,7 @@
       "short_label": "Defend time per station",
       "label_source": "player_text",
       "scope_text": "Seconds to defend each hack station, all node levels (sets the random range). A number you type replaces the whole range; the variants below override it.",
-      "rank": 425,
+      "rank": 426,
       "lane": "literal",
       "applies": "next_mission",
       "type": "int",
@@ -81558,7 +81684,7 @@
   "ui_player_text": {
     "format": "RENOVICE_MISSION_PLAYER_TEXT_V1",
     "tool": "RESEARCH/UNIVERSAL_MISSION_REGISTRY_2026-09-29/tools/player_text.py",
-    "data_sha256": "CE900EDAB45139DF029EFB5857369D8FE2FBCB81E406A9B7E196B53CA4445435",
+    "data_sha256": "4A55ED105B322148DEB91777BE10056CE9CF114750478914853A5F247D32759D",
     "label_max": 33,
     "row_max": 40,
     "tooltip_max": 300,
@@ -81607,7 +81733,7 @@
       "NpcHardCap",
       "fixedLength"
     ],
-    "rows": 454,
+    "rows": 455,
     "masters": 38,
     "hidden": 5,
     "advanced_suffix": "_advanced",
@@ -81751,7 +81877,7 @@
     "default_label_max": 20,
     "row_budget": 40,
     "description_max": 200,
-    "placed": 492,
+    "placed": 493,
     "types": {
       "alchemy": [
         "Alchemy",

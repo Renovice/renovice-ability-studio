@@ -214,7 +214,7 @@
   "r10": {
     "drafts": 65,
     "drafts_rejected_by_research": 8,
-    "admitted": 68,
+    "admitted": 69,
     "excluded": [],
     "renamed": {
       "legacyte_harvest.required_captures.high_scaling": "infested_capture.required_captures.high_scaling",
@@ -233,17 +233,18 @@
     },
     "by_backend": {
       "EXACT_LITERAL": 29,
-      "TARGET_ADDON": 37,
+      "TARGET_ADDON": 38,
       "METADATA_PATCH": 2
     },
     "by_template": {
       "EXACT_LITERAL": 29,
       "ROOT_TABLE_FIELD": 16,
       "MISSION_INFO_FIELD_AT_ENTRY": 8,
-      "SCRIPT_PARAM_GLOBAL_AT_ENTRY": 13,
+      "SCRIPT_PARAM_GLOBAL_AT_ENTRY": 14,
       "METADATA_PATCH": 2
     },
-    "r11_drafts": 3
+    "r11_drafts": 3,
+    "r12_drafts": 1
   },
   "phase2k": {
     "tables": 91,
@@ -305,6 +306,7 @@
       "LUA_ROOT_TABLE": 26,
       "LUA_PROTO_LITERAL": 19,
       "METADATA_PARAM": 1,
+      "SCRIPT_PARAM_GLOBAL": 1,
       "MISSION_INFO_FIELD": 1
     },
     "Defense (1999 tile)": {
@@ -503,16 +505,16 @@
   "rows_by_backend": {
     "METADATA_PATCH": 64,
     "EXACT_LITERAL": 251,
-    "TARGET_ADDON": 346,
+    "TARGET_ADDON": 347,
     "SERVER_CONFIG": 1
   },
   "build": "2026.09.28.13.06",
-  "rows": 662,
+  "rows": 663,
   "rows_by_owner_kind": {
     "METADATA_PARAM": 65,
     "LUA_PROTO_LITERAL": 167,
     "LUA_ROOT_TABLE": 407,
-    "SCRIPT_PARAM_GLOBAL": 13,
+    "SCRIPT_PARAM_GLOBAL": 14,
     "MISSION_INFO_FIELD": 8,
     "SERVER": 1,
     "ADDON_EXTENSION": 1
@@ -758,25 +760,25 @@
   "modules": 65,
   "corpus_files": 65,
   "metadata_snapshot_sha256": "33D3D0EA8ED3FB4E4FB54A6101683701C353CA909D597C60EC2D7ADF1212A7D2",
-  "registry_sha256": "5E5CACE7ED34DD88E2ADC2FACFBE09CC5B1675AF585ACBDBD1F367DC9FB527D2",
+  "registry_sha256": "A3E049DF1EDAD86AF958A4CDA72669BBBF70E077C94E2E7E722CFC004C11A779",
   "ui": {
     "groups": 103,
     "editors": {
-      "INPUTCOUNT": 481,
+      "INPUTCOUNT": 482,
       "INPUTBOX": 178,
       "TOGGLE": 3
     },
     "label_sources": {
       "id": 66,
       "override": 62,
-      "player_text": 454,
+      "player_text": 455,
       "prose": 54,
       "variant-id": 16,
       "variant-prose": 10
     },
     "applies": {
       "live_next_read": 325,
-      "next_mission": 272,
+      "next_mission": 273,
       "restart": 64,
       "server_reload": 1
     },
