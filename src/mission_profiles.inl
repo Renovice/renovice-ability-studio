@@ -189,12 +189,33 @@ Json mission_hook_record(const MissionHookStatus& hook) {
 // prototype is hooked (luaCalls[P].before) and one of them reads the field. The addon writes the live table field, so a
 // shared bytecode constant does not matter. This check re-verifies the recorded evidence: the stock initialiser bytes
 // at the recorded offset encode the registered stock value, and the table record names hooks with valid access paths.
+// Contract R14 (2026-10-01): an optional owner `mode` makes the row a multiplier over its fields. `scale`: every field gets
+// (its own registered stock) x (row value); `scale_count`: the same, rounded half up and at least 1 (the R11 count rule).
+// Such a row has stock 1, a minimum >= 0 and a fractional value; each field carries its own `stock`, which its initialiser
+// bytes must encode. Without `mode` (every row before R14) the row value is written as is and a field carries no stock.
+constexpr const char* kRootFieldScale = "scale";
+constexpr const char* kRootFieldScaleCount = "scale_count";
+
+std::string root_field_mode(const Json& row) {
+    const Json& owner = row.at("owner");
+    if (!owner.contains("mode")) return std::string();
+    if (!owner.at("mode").is_string()) throw std::runtime_error(row.at("tunable_id").get<std::string>() + ": root-table mode is not a string");
+    const auto mode = owner.at("mode").get<std::string>();
+    if (mode != kRootFieldScale && mode != kRootFieldScaleCount)
+        throw std::runtime_error(row.at("tunable_id").get<std::string>() + ": unknown root-table field mode " + mode);
+    return mode;
+}
+
 void verify_root_table_fields(const Json& row, const Json& module, const std::string& bytes) {
     static const std::regex field_name("[A-Za-z_][A-Za-z0-9_]*");
     const Json& owner = row.at("owner");
     if (owner.value("gate", std::string()) != kRootTableGate) throw std::runtime_error("root-table addon row has no ROOT_TABLE_UPVALUE_V1 gate");
     if (!owner.at("fields").is_array() || owner.at("fields").empty()) throw std::runtime_error("root-table addon row owns no field");
     if (!row.at("stock").is_number()) throw std::runtime_error("root-table addon row has no numeric stock value");
+    const auto mode = root_field_mode(row);
+    if (!mode.empty() && (row.at("stock").get<double>() != 1 || row.at("limits").at("minimum").get<double>() < 0 ||
+                          row.at("limits").value("integer", false)))
+        throw std::runtime_error("a scaled root-table row needs stock 1, a minimum >= 0 and a fractional value");
     const auto key_ok = [&](const Json& key) {
         return (key.is_string() && std::regex_match(key.get<std::string>(), field_name)) || (key.is_number_integer() && key.get<long long>() >= 1);
     };
@@ -253,8 +274,15 @@ void verify_root_table_fields(const Json& row, const Json& module, const std::st
             if (expected[0] != 0x08u) throw std::runtime_error("root-table initialiser is not a LOADN");
             stock = static_cast<double>(static_cast<std::int16_t>(expected[2] | (expected[3] << 8)));
         }
-        if (stock != row.at("stock").get<double>())
+        // R14: a scaled row's field keeps its own stock; an unscaled row's field holds the row stock and carries none.
+        if (mode.empty() == field.contains("stock"))
+            throw std::runtime_error(mode.empty() ? "a field stock is allowed only on a scaled root-table row"
+                                                  : "a field of a scaled root-table row has no stock");
+        const double registered = mode.empty() ? row.at("stock").get<double>() : field.at("stock").get<double>();
+        if (stock != registered)
             throw std::runtime_error("root-table initialiser at offset " + std::to_string(offset) + " disagrees with the registered stock value");
+        if (mode == kRootFieldScaleCount && (stock < 1 || std::floor(stock) != stock))
+            throw std::runtime_error("a scale_count field must hold a whole number >= 1");
     }
 }
 
@@ -1647,6 +1675,69 @@ constexpr const char* kScriptCountParameterHelper =
     "    return enter, restore\n"
     "end\n";
 
+// Contract R14 (2026-10-01): ownedTable with scaled root-table fields, emitted instead of the plain form only when a build
+// declares a scaled row (packages without one keep the earlier text byte for byte). A field entry of a scaled row carries
+// its own `stock` and `scale` ("scale" or "scale_count"): the stock check compares the live field with that stock, the
+// write is stock x value (scale_count: rounded half up, at least 1, the R11 count rule) computed from the REGISTERED
+// stock, never from the live number, so a value is never compounded; restore puts that stock back where the written number
+// is still there. Plain fields keep the Phase 2i rules (the setting's stock, the value as is). Arrays are bound per live
+// instance like any other root table (the array is the owner reached through its container path) and mutated in place:
+// each mission instance builds its own arrays in the module root.
+constexpr const char* kScaledOwnedTableHelper =
+    "local function fieldStock(settings, field)\n"
+    "    if field.scale ~= nil then return field.stock end\n"
+    "    return settings[field.setting].stock\n"
+    "end\n"
+    "local function fieldValue(current, field)\n"
+    "    local value = current[field.setting].value\n"
+    "    if field.scale == nil then return value end\n"
+    "    local written = field.stock * value\n"
+    "    if field.scale == \"scale_count\" then\n"
+    "        written = written + 0.5\n"
+    "        written = written - written % 1\n"
+    "        if written < 1 then written = 1 end\n"
+    "    end\n"
+    "    return written\n"
+    "end\n"
+    "local function ownedTable(tag, settings, fields)\n"
+    "    local bound = setmetatable({}, { __mode = \"k\" }) -- live table -> written values, or false when drifted\n"
+    "    local function bind(owner, current)\n"
+    "        assert(type(owner) == \"table\", tag .. \" is not a table\")\n"
+    "        if bound[owner] ~= nil then return true end\n"
+    "        for i = 1, #fields do\n"
+    "            local field = fields[i]\n"
+    "            if current[field.setting].enabled and owner[field.key] ~= fieldStock(settings, field) then\n"
+    "                bound[owner] = false\n"
+    "                assert(false, tag .. \" stock values drifted; this instance is left unchanged\")\n"
+    "            end\n"
+    "        end\n"
+    "        local written = {}\n"
+    "        for i = 1, #fields do\n"
+    "            local field = fields[i]\n"
+    "            if current[field.setting].enabled then\n"
+    "                local value = fieldValue(current, field)\n"
+    "                owner[field.key] = value\n"
+    "                written[i] = value\n"
+    "            end\n"
+    "        end\n"
+    "        bound[owner] = written\n"
+    "        return true\n"
+    "    end\n"
+    "    local function restore()\n"
+    "        for owner, written in pairs(bound) do\n"
+    "            if written then\n"
+    "                for i = 1, #fields do\n"
+    "                    local field = fields[i]\n"
+    "                    local value = written[i]\n"
+    "                    if value ~= nil and owner[field.key] == value then owner[field.key] = fieldStock(settings, field) end\n"
+    "                end\n"
+    "            end\n"
+    "            bound[owner] = nil\n"
+    "        end\n"
+    "    end\n"
+    "    return bind, restore\n"
+    "end\n";
+
 std::string multi_target_addon_source(const Json& registry, const std::map<std::string, std::vector<const Json*>>& bodies,
                                       const std::map<std::string, double>& values, const std::set<std::string>& enabled,
                                       const std::map<std::string, MasterBuild>& masters = {}) {
@@ -1657,8 +1748,10 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
     // `entry-parameter-keys` checks that the names occur only in the generated accessors.
     std::set<std::string> parameter_names, info_fields;
     bool count_parameters = false;  // R11: a scale_count row needs scriptCountParameter
+    bool scaled_fields = false;     // R14: a scaled root-table row needs the per-field stock form of ownedTable
     for (const auto& [body, rows] : bodies)
         for (const Json* row : rows) {
+            if (!entry_template_row(*row) && row->at("owner").contains("fields") && !root_field_mode(*row).empty()) scaled_fields = true;
             if (!entry_template_row(*row)) continue;
             if (row->at("owner").at("template") == kScriptParamTemplate) {
                 for (const auto& global : row->at("owner").at("globals")) parameter_names.insert(global.at("name").get<std::string>());
@@ -1745,7 +1838,10 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
         << "    end\n"
         << "    return false\n"
         << "end\n\n";
-    out << "local function ownedTable(tag, settings, fields)\n"
+    if (scaled_fields)
+        out << kScaledOwnedTableHelper;
+    else
+        out << "local function ownedTable(tag, settings, fields)\n"
         << "    local bound = setmetatable({}, { __mode = \"k\" }) -- live table -> written values, or false when drifted\n"
         << "    local function bind(owner, current)\n"
         << "        assert(type(owner) == \"table\", tag .. \" is not a table\")\n"
@@ -1791,7 +1887,8 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
         ++target;
         const Json& module = mission_module(registry, body);
         const auto module_path = module.at("module_path").get<std::string>();
-        struct Owned { std::string key; std::string setting; bool enabled; };
+        // R14: `scaled` is ", stock = S, scale = \"mode\"" for a field of a scaled row (empty otherwise).
+        struct Owned { std::string key; std::string setting; bool enabled; std::string scaled; };
         std::map<std::string, std::vector<Owned>> tables;
         std::map<std::string, const Json*> settings;
         std::vector<const Json*> entry_rows;  // R10 entry templates
@@ -1802,8 +1899,12 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
                 entry_rows.push_back(row);
                 continue;
             }
+            const auto mode = root_field_mode(*row);
             for (const auto& field : row->at("owner").at("fields"))
-                tables[field.at("table_id").get<std::string>()].push_back({lua_table_key(field.at("field")), lua_quote(id), enabled.contains(id)});
+                tables[field.at("table_id").get<std::string>()].push_back(
+                    {lua_table_key(field.at("field")), lua_quote(id), enabled.contains(id),
+                     mode.empty() ? std::string()
+                                  : ", stock = " + format_number(field.at("stock").get<double>()) + ", scale = " + lua_quote(mode)});
         }
         out << "\n-- Target " << target << ": " << module_path << "\n"
             << "local function target" << target << "()\n"
@@ -1852,7 +1953,8 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
         for (const auto& [table_id, fields] : tables) {
             ++slot;
             out << "    local fields" << slot << " = {\n";
-            for (const auto& field : fields) out << "        { key = " << field.key << ", setting = " << field.setting << " },\n";
+            for (const auto& field : fields)
+                out << "        { key = " << field.key << ", setting = " << field.setting << field.scaled << " },\n";
             out << "    }\n";
             const std::string tag = module_path + " " + table_id;
             hooked_slots.push_back(slot);

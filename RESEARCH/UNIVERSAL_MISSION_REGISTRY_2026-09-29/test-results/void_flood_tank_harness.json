@@ -1,0 +1,48 @@
+{
+  "checks": [
+    {
+      "name": "pinned full-package build input (LF content)",
+      "pass": true
+    },
+    {
+      "name": "full package build succeeds",
+      "pass": true
+    },
+    {
+      "name": "the built addon is the pinned R14 addon (4c70b5ec)",
+      "pass": true
+    },
+    {
+      "name": "literals.json is unchanged (d9b3a764)",
+      "pass": true
+    },
+    {
+      "name": "package.json declares the four multipliers (stock 1, float, unit x)",
+      "pass": true
+    },
+    {
+      "name": "registry: 4 scaled root-table rows (mode, row stock 1, a stock per field)",
+      "pass": true
+    },
+    {
+      "name": "every hooked prototype has registry capture evidence for its upvalue view",
+      "pass": true
+    },
+    {
+      "name": "toolchain luau.exe present",
+      "pass": true
+    },
+    {
+      "name": "harness: 37 checks (generated addon, hooked prototypes [2, 12, 26, 28, 33, 34, 39, 41, 43, 48, 60, 68, 69])",
+      "pass": true
+    },
+    {
+      "name": "R5-C: 3 recipe sites of the Void Flood module and 12 scaled-field initialisers do not overlap",
+      "pass": true
+    },
+    {
+      "name": "R5-C: the module synthesized with fractures per round 4 still encodes every scaled-field stock (the addon stock check holds)",
+      "pass": true
+    }
+  ]
+}

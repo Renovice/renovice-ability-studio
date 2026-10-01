@@ -214,7 +214,7 @@
   "r10": {
     "drafts": 65,
     "drafts_rejected_by_research": 8,
-    "admitted": 69,
+    "admitted": 73,
     "excluded": [],
     "renamed": {
       "legacyte_harvest.required_captures.high_scaling": "infested_capture.required_captures.high_scaling",
@@ -233,36 +233,37 @@
     },
     "by_backend": {
       "EXACT_LITERAL": 29,
-      "TARGET_ADDON": 38,
+      "TARGET_ADDON": 42,
       "METADATA_PATCH": 2
     },
     "by_template": {
       "EXACT_LITERAL": 29,
-      "ROOT_TABLE_FIELD": 16,
+      "ROOT_TABLE_FIELD": 20,
       "MISSION_INFO_FIELD_AT_ENTRY": 8,
       "SCRIPT_PARAM_GLOBAL_AT_ENTRY": 14,
       "METADATA_PATCH": 2
     },
     "r11_drafts": 3,
-    "r12_drafts": 1
+    "r12_drafts": 1,
+    "r14_drafts": 4
   },
   "phase2k": {
-    "tables": 91,
+    "tables": 95,
     "tables_without_owned_fields": 0,
-    "hooks_full": 331,
-    "hooks_minimal": 149,
+    "hooks_full": 368,
+    "hooks_minimal": 160,
     "downstream_after_escape": 1,
     "by_method": {
-      "minimal-search": 91
+      "minimal-search": 95
     },
-    "retire_safe_tables": 91
+    "retire_safe_tables": 95
   },
   "phase1_accounting": {
     "denominator": 387,
-    "registered_fully": 195,
-    "registered_partially": 23,
-    "excluded": 169,
-    "excluded_parts": 24
+    "registered_fully": 196,
+    "registered_partially": 25,
+    "excluded": 166,
+    "excluded_parts": 26
   },
   "rows_by_mode": {
     "Alchemy (Entrati lab)": {
@@ -496,7 +497,7 @@
       "MISSION_INFO_FIELD": 1
     },
     "Void Flood": {
-      "LUA_ROOT_TABLE": 8,
+      "LUA_ROOT_TABLE": 12,
       "LUA_PROTO_LITERAL": 2,
       "METADATA_PARAM": 1,
       "MISSION_INFO_FIELD": 1
@@ -505,25 +506,25 @@
   "rows_by_backend": {
     "METADATA_PATCH": 64,
     "EXACT_LITERAL": 251,
-    "TARGET_ADDON": 347,
+    "TARGET_ADDON": 351,
     "SERVER_CONFIG": 1
   },
   "build": "2026.09.28.13.06",
-  "rows": 663,
+  "rows": 667,
   "rows_by_owner_kind": {
     "METADATA_PARAM": 65,
     "LUA_PROTO_LITERAL": 167,
-    "LUA_ROOT_TABLE": 407,
+    "LUA_ROOT_TABLE": 411,
     "SCRIPT_PARAM_GLOBAL": 14,
     "MISSION_INFO_FIELD": 8,
     "SERVER": 1,
     "ADDON_EXTENSION": 1
   },
-  "excluded": 169,
+  "excluded": 166,
   "excluded_by_owner_kind": {
     "METADATA_PARAM": 30,
     "MISSIONINFO": 20,
-    "LUA_ROOT_TABLE": 38,
+    "LUA_ROOT_TABLE": 35,
     "LUA_PROTO_LITERAL": 47,
     "NATIVE_OR_UNKNOWN": 23,
     "SERVER": 11
@@ -751,33 +752,36 @@
     "void_cascade.circle_fixed_length",
     "void_cascade.pillar_duration",
     "void_flood.curse_count",
+    "void_flood.deposit_and_drain",
     "void_flood.duviri_fixed_length",
     "void_flood.fill_timer",
     "void_flood.fractures_per_round",
     "void_flood.is_duviri_flag",
+    "void_flood.pickup_amounts",
+    "void_flood.tank_capacity",
     "wf1999def.drone_count"
   ],
   "modules": 65,
   "corpus_files": 65,
   "metadata_snapshot_sha256": "33D3D0EA8ED3FB4E4FB54A6101683701C353CA909D597C60EC2D7ADF1212A7D2",
-  "registry_sha256": "A3E049DF1EDAD86AF958A4CDA72669BBBF70E077C94E2E7E722CFC004C11A779",
+  "registry_sha256": "3C3D4E8AAF1FD4E8B4BA9950DB05C12678B7F49A0E86A951405B9B52DFD8341F",
   "ui": {
     "groups": 103,
     "editors": {
       "INPUTCOUNT": 482,
-      "INPUTBOX": 178,
+      "INPUTBOX": 182,
       "TOGGLE": 3
     },
     "label_sources": {
       "id": 66,
       "override": 62,
-      "player_text": 455,
+      "player_text": 459,
       "prose": 54,
       "variant-id": 16,
       "variant-prose": 10
     },
     "applies": {
-      "live_next_read": 325,
+      "live_next_read": 329,
       "next_mission": 273,
       "restart": 64,
       "server_reload": 1

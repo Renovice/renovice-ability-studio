@@ -36,7 +36,9 @@ CLI = Path(os.environ.get('RENOVICE_EDITOR_CLI', ROOT / 'work/builds/ability-edi
 LUAU = ROOT / 'repos/toolchains/de-luau-toolchain/bin/luau.exe'
 INPUT = EDITOR / 'RESEARCH/MISSIONS_R13_NATIVE_ENTRY_2026-10-01/inputs/rebuild_input.r12.json'
 INPUT_LF_SHA = 'dccde5fddf2649c2be4c93789cecab4cc1d1759dc9d01d0117cba25f5a7ca4b6'  # LF content (checkout-independent)
-R12_ADDON_SHA = '8e0e187124379d78ab039bc283eb9963d9696d6f1d7c4a420af5a3d96c1ebb07'  # installed 2026-10-01
+# R14 (2026-10-01): the same input now also declares the four Void Flood tank multipliers (scaled root-table rows);
+# the R12 build of this input was 8e0e187124379d78ab039bc283eb9963d9696d6f1d7c4a420af5a3d96c1ebb07 (installed 2026-10-01).
+R12_ADDON_SHA = '4c70b5ec200f9409ca034546aea37555c8f6081cd6661978c3a41e347b7ccbba'  # R14 build of the pinned input
 WORK = ROOT / 'work/temp/entry-native-harness'
 OUT = Path(__file__).resolve().parents[1] / 'test-results'
 results = {'checks': []}
@@ -90,7 +92,7 @@ generations = list((WORK / 'build').glob('missions/*/MISSION_SET_MANIFEST.json')
 check(run.returncode == 0 and len(generations) == 1, 'R12 build succeeds')
 generation = generations[0].parent
 check(sha(generation / 'Packages/Missions/Missions.targets.addon.lua_B') == R12_ADDON_SHA,
-      'the built addon is byte-identical to the installed R12 addon (8e0e1871)')
+      'the built addon is the pinned R14 addon (4c70b5ec; R12 was 8e0e1871)')
 source = (generation / 'source/Missions.targets.addon.luau').read_text(encoding='utf-8')
 
 # 2. One case per entry-template row of the registry.

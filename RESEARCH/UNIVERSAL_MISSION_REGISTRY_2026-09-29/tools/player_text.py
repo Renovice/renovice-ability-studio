@@ -467,15 +467,19 @@ per_player('void_cascade.circle_fixed_length', 'Circuit: exolizers',
 # of the same module, so they are declared only in builds without the Void Flood replacement (one artifact per module).
 row('void_flood.fractures_per_round.normal', 'Fractures per round',
     'Void fractures opened per round in Void Flood (not Duviri)')
-row('void_flood.fill_timer.timeToFillMax', 'Tank fill time',
-    'Starting seconds to fill a Void Flood tank; it shrinks every 3 fractures down to the shortest fill time')
-row('void_flood.fill_timer.timeToFillMin', 'Shortest tank fill time', 'Shortest seconds to fill a Void Flood tank')
-row('void_flood.fill_timer.curveScaleV', 'Fill time shrink', 'Multiplier applied to the Void Flood fill time every 3 fractures',
-    'adv')
+# R14 (2026-10-01): these three values time the Void corruption meter (netvar CorruptionMeterLevel: it rises while a tank is
+# open and starts the eruption countdown when full, ZarimanCorruptionMission prototypes 26/44/45), not how fast a tank fills.
+# The tank fill speed is void_flood.deposit_speed_scale (player_text_r10.py).
+row('void_flood.fill_timer.timeToFillMax', 'Corruption meter time',
+    'Seconds for the Void Flood corruption meter to fill while a tank is open; shrinks every 3 fractures')
+row('void_flood.fill_timer.timeToFillMin', 'Shortest meter time', 'Shortest seconds for the Void Flood corruption meter to fill')
+row('void_flood.fill_timer.curveScaleV', 'Meter time shrink',
+    'Multiplier applied to the Void Flood corruption meter time every 3 fractures', 'adv')
 row('void_flood.curse_count.curseCountNormal', 'Curses', 'Curses in Void Flood', 'adv', word=' curses')
 row('void_flood.curse_count.curseCountSteelPath', 'Steel Path: curses', 'Curses in Steel Path Void Flood', 'adv', word=' curses')
 row('void_flood.curse_count.playerCapacity', 'Player Void energy capacity',
-    'Void energy a player can carry in Void Flood (unit from the script name)', 'adv', word=' energy')
+    'Void energy a player can carry in the Shadowgrapher variant of Void Flood (normal Void Flood uses the tank capacity)',
+    'adv', word=' energy')
 row('void_flood.fractures_per_round.shadowgrapher', 'Shadowgrapher: fractures at once',
     'Most fractures open at once in the Shadowgrapher variant of Void Flood', 'adv')
 

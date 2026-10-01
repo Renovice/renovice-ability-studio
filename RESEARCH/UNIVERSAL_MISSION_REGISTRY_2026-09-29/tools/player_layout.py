@@ -371,12 +371,18 @@ players('void_cascade.circle_fixed_length.{}', ['Void Cascade', 'Objectives', 'T
 put('void_cascade.alert_reward_interval', ['Void Cascade', 'Rewards / drops'], 'Alert: reward interval')
 
 # ---- Void Flood
-put('void_flood.fill_timer.timeToFillMax', ['Void Flood', 'Timers'], 'Tank fill time')
-put('void_flood.fill_timer.timeToFillMin', ['Void Flood', 'Timers'], 'Shortest tank fill time')
+# R14: the fill_timer values time the corruption meter, not the tanks (rows renamed; ids unchanged).
+put('void_flood.fill_timer.timeToFillMax', ['Void Flood', 'Timers'], 'Corruption meter time')
+put('void_flood.fill_timer.timeToFillMin', ['Void Flood', 'Timers'], 'Shortest meter time')
 put('void_flood.fractures_per_round.normal', ['Void Flood', 'Objectives'], 'Fractures per round',
     quick='Void Flood: fractures per round')
 put('void_flood.tanks_to_finish', ['Void Flood', 'Objectives'], 'Tanks to finish')  # R10
-put('void_flood.fill_timer.curveScaleV', ['Void Flood', 'Advanced'], 'Fill time shrink')
+# R14: tank multipliers (scaled root-table fields of the Void Flood config tables).
+put('void_flood.deposit_speed_scale', ['Void Flood', 'Objectives'], 'Tank fill speed', quick='Void Flood: tank fill speed')
+put('void_flood.tank_capacity_scale', ['Void Flood', 'Objectives'], 'Tank capacity')
+put('void_flood.orb_value_scale', ['Void Flood', 'Objectives'], 'Void orb value')
+put('void_flood.drain_speed_scale', ['Void Flood', 'Objectives'], 'Tank drain speed')
+put('void_flood.fill_timer.curveScaleV', ['Void Flood', 'Advanced'], 'Meter time shrink')
 put('void_flood.curse_count.curseCountNormal', ['Void Flood', 'Advanced'], 'Curses')
 put('void_flood.curse_count.curseCountSteelPath', ['Void Flood', 'Advanced'], 'Steel Path: curses')
 put('void_flood.curse_count.playerCapacity', ['Void Flood', 'Advanced'], 'Void energy capacity')
@@ -486,6 +492,23 @@ OVERRIDE = {    # id -> full description
     'defense.waves_to_finish': '0 / Endless = keep going as long as you like; a number ends the mission after that wave. '
                                'Alerts, sorties and other special missions keep their own count.',
     'defense.waves_per_reward': 'Waves between each reward and extraction choice.',
+    # R14 (2026-10-01): Void Flood tanks. The editor tooltip adds "Default x1 (...)." itself.
+    'void_flood.deposit_speed_scale': 'How fast a tank fills while a player stands at it with Void energy: x2 fills it twice '
+                                      'as fast. One player fills an empty tank in 8 to 14 s at the default (longer in bigger squads).',
+    'void_flood.tank_capacity_scale': 'Void energy each tank needs and the most energy a player can carry (125 solo up to 350 '
+                                      'in a squad). The standing time per tank stays the same.',
+    'void_flood.orb_value_scale': 'Void energy each small, medium and large Void orb gives (5 to 60 at the default). Applies '
+                                  'from the next mission.',
+    'void_flood.drain_speed_scale': 'Energy a partly filled tank loses every 10 s while nobody is at it, only under the '
+                                    'Decaying curse (8% of the tank at the default). 0 = no drain.',
+    # R14: these time the corruption meter (it rises while a tank is open; full = eruption countdown), not the tanks.
+    'void_flood.fill_timer.timeToFillMax': 'Seconds for the corruption meter to fill while a tank is open; when it is full '
+                                           'the eruption countdown starts. It shrinks every 3 fractures down to the shortest '
+                                           'meter time.',
+    'void_flood.fill_timer.timeToFillMin': 'Shortest time the corruption meter can take to fill.',
+    'void_flood.fill_timer.curveScaleV': 'Factor applied to the corruption meter time every 3 fractures.',
+    'void_flood.curse_count.playerCapacity': 'Void energy a player can carry in the Shadowgrapher variant. Normal Void Flood '
+                                             'uses the tank capacity instead.',
 }
 for _i in range(2, 7):
     OVERRIDE[f'purgatory.reward_kill_threshold.t{_i}'] = OVERRIDE['purgatory.reward_kill_threshold.t1'].replace('tier 1 in', f'tier {_i} in')
@@ -545,6 +568,11 @@ for _key, _label in (('p1', '7-10'), ('p2', '13-20'), ('p3', '22-26'), ('p4', '2
 DEFAULTS['railjack.fighter_kills_scale'] = {'label': 'x1 (20-130)', 'note': None}
 DEFAULTS['railjack.crewship_kills_scale'] = {'label': 'x1 (2-10)', 'note': None}
 DEFAULTS['railjack.corpus_fighter_limit_scale'] = {'label': 'x1 (20-130)', 'note': None}
+# Contract R14: Void Flood tank multipliers; x1 keeps the game's numbers (per squad size).
+DEFAULTS['void_flood.deposit_speed_scale'] = {'label': 'x1 (8-14 s)', 'note': None}
+DEFAULTS['void_flood.tank_capacity_scale'] = {'label': 'x1 (125-350)', 'note': None}
+DEFAULTS['void_flood.orb_value_scale'] = {'label': 'x1 (5-60)', 'note': None}
+DEFAULTS['void_flood.drain_speed_scale'] = {'label': 'x1', 'note': None}
 
 
 def _strip(text):

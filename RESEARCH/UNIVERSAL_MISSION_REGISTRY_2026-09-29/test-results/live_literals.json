@@ -122,8 +122,8 @@
     "modules": 42,
     "masters": 8,
     "literals_json_sha256": "d9b3a76481e3999d46b7571ff23073c525fd8e71cdef5e8748c4197de39aabdd",
-    "package_json_sha256": "465c72be3b3c7b740c149b812369f257f2e9553ebf1380c8105ef77d01864807",
-    "generation": "work\\temp\\live-literals-tests\\recipe\\missions\\B11EB7C4138C"
+    "package_json_sha256": "65714ffb0af4a435848563e7bf42d25ad72cf16f5bceb6099bb6a88a3d543b21",
+    "generation": "work/temp/live-literals-tests/recipe/missions/2382831F7345"
   },
   "old_bootstrapper": {
     "revision": "6227cc0",

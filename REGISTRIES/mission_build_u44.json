@@ -7291,6 +7291,512 @@
       "size": 112244,
       "module_path": "Lotus.Scripts.Modes.ZarimanCorruptionMission",
       "root_tables": {
+        "root:i25:R3": {
+          "gate": "ROOT_TABLE_UPVALUE_V1",
+          "prototype": 83,
+          "instruction": 25,
+          "register": 3,
+          "op": "DUPTABLE",
+          "containers": [],
+          "hooks": [
+            {
+              "prototype": 2,
+              "upvalue": 3,
+              "path": [],
+              "capture": "VAL:R3",
+              "closure_instruction": 320
+            },
+            {
+              "prototype": 12,
+              "upvalue": 20,
+              "path": [],
+              "capture": "VAL:R3",
+              "closure_instruction": 367
+            },
+            {
+              "prototype": 26,
+              "upvalue": 4,
+              "path": [],
+              "capture": "VAL:R3",
+              "closure_instruction": 482
+            },
+            {
+              "prototype": 33,
+              "upvalue": 4,
+              "path": [],
+              "capture": "VAL:R3",
+              "closure_instruction": 515
+            },
+            {
+              "prototype": 34,
+              "upvalue": 8,
+              "path": [],
+              "capture": "VAL:R3",
+              "closure_instruction": 529
+            },
+            {
+              "prototype": 39,
+              "upvalue": 9,
+              "path": [],
+              "capture": "VAL:R3",
+              "closure_instruction": 579
+            },
+            {
+              "prototype": 40,
+              "upvalue": 20,
+              "path": [],
+              "capture": "VAL:R3",
+              "closure_instruction": 600
+            },
+            {
+              "prototype": 41,
+              "upvalue": 7,
+              "path": [],
+              "capture": "VAL:R3",
+              "closure_instruction": 630
+            },
+            {
+              "prototype": 43,
+              "upvalue": 9,
+              "path": [],
+              "capture": "VAL:R3",
+              "closure_instruction": 653
+            },
+            {
+              "prototype": 48,
+              "upvalue": 7,
+              "path": [],
+              "capture": "VAL:R3",
+              "closure_instruction": 712
+            },
+            {
+              "prototype": 68,
+              "upvalue": 6,
+              "path": [],
+              "capture": "VAL:R3",
+              "closure_instruction": 853
+            }
+          ],
+          "minimal_hooks": {
+            "gate": "ROOT_TABLE_MINIMAL_HOOKS_V1",
+            "method": "minimal-search",
+            "prototypes": [
+              41
+            ],
+            "reaching_capturers": [
+              41
+            ],
+            "forced": [],
+            "coverage": {
+              "41": "hooked"
+            },
+            "escaping_capturers": [],
+            "downstream_after_escape": [],
+            "reach_events": [
+              "41:read"
+            ],
+            "static_weight": {
+              "chosen": 100,
+              "full": 11805
+            },
+            "root_children": [
+              41
+            ],
+            "retire_safe": true,
+            "retire_blockers": []
+          }
+        },
+        "root:i26:R4": {
+          "gate": "ROOT_TABLE_UPVALUE_V1",
+          "prototype": 83,
+          "instruction": 26,
+          "register": 4,
+          "op": "NEWTABLE",
+          "containers": [
+            {
+              "instruction": 25,
+              "register": 3,
+              "store_instruction": 32,
+              "key": "depositPctPerSecond"
+            }
+          ],
+          "hooks": [
+            {
+              "prototype": 2,
+              "upvalue": 3,
+              "path": [
+                "depositPctPerSecond"
+              ],
+              "capture": "VAL:R3",
+              "closure_instruction": 320
+            },
+            {
+              "prototype": 12,
+              "upvalue": 20,
+              "path": [
+                "depositPctPerSecond"
+              ],
+              "capture": "VAL:R3",
+              "closure_instruction": 367
+            },
+            {
+              "prototype": 26,
+              "upvalue": 4,
+              "path": [
+                "depositPctPerSecond"
+              ],
+              "capture": "VAL:R3",
+              "closure_instruction": 482
+            },
+            {
+              "prototype": 33,
+              "upvalue": 4,
+              "path": [
+                "depositPctPerSecond"
+              ],
+              "capture": "VAL:R3",
+              "closure_instruction": 515
+            },
+            {
+              "prototype": 34,
+              "upvalue": 8,
+              "path": [
+                "depositPctPerSecond"
+              ],
+              "capture": "VAL:R3",
+              "closure_instruction": 529
+            },
+            {
+              "prototype": 39,
+              "upvalue": 9,
+              "path": [
+                "depositPctPerSecond"
+              ],
+              "capture": "VAL:R3",
+              "closure_instruction": 579
+            },
+            {
+              "prototype": 40,
+              "upvalue": 20,
+              "path": [
+                "depositPctPerSecond"
+              ],
+              "capture": "VAL:R3",
+              "closure_instruction": 600
+            },
+            {
+              "prototype": 41,
+              "upvalue": 7,
+              "path": [
+                "depositPctPerSecond"
+              ],
+              "capture": "VAL:R3",
+              "closure_instruction": 630
+            },
+            {
+              "prototype": 43,
+              "upvalue": 9,
+              "path": [
+                "depositPctPerSecond"
+              ],
+              "capture": "VAL:R3",
+              "closure_instruction": 653
+            },
+            {
+              "prototype": 48,
+              "upvalue": 7,
+              "path": [
+                "depositPctPerSecond"
+              ],
+              "capture": "VAL:R3",
+              "closure_instruction": 712
+            },
+            {
+              "prototype": 68,
+              "upvalue": 6,
+              "path": [
+                "depositPctPerSecond"
+              ],
+              "capture": "VAL:R3",
+              "closure_instruction": 853
+            }
+          ],
+          "minimal_hooks": {
+            "gate": "ROOT_TABLE_MINIMAL_HOOKS_V1",
+            "method": "minimal-search",
+            "prototypes": [
+              48
+            ],
+            "reaching_capturers": [
+              48
+            ],
+            "forced": [],
+            "coverage": {
+              "48": "hooked"
+            },
+            "escaping_capturers": [],
+            "downstream_after_escape": [],
+            "reach_events": [
+              "48:dynamic-key",
+              "83:container:replace-entry"
+            ],
+            "static_weight": {
+              "chosen": 300,
+              "full": 11805
+            },
+            "root_children": [
+              48
+            ],
+            "retire_safe": true,
+            "retire_blockers": []
+          }
+        },
+        "root:i39:R4": {
+          "gate": "ROOT_TABLE_UPVALUE_V1",
+          "prototype": 83,
+          "instruction": 39,
+          "register": 4,
+          "op": "NEWTABLE",
+          "containers": [
+            {
+              "instruction": 25,
+              "register": 3,
+              "store_instruction": 45,
+              "key": "capacity"
+            }
+          ],
+          "hooks": [
+            {
+              "prototype": 2,
+              "upvalue": 3,
+              "path": [
+                "capacity"
+              ],
+              "capture": "VAL:R3",
+              "closure_instruction": 320
+            },
+            {
+              "prototype": 12,
+              "upvalue": 20,
+              "path": [
+                "capacity"
+              ],
+              "capture": "VAL:R3",
+              "closure_instruction": 367
+            },
+            {
+              "prototype": 26,
+              "upvalue": 4,
+              "path": [
+                "capacity"
+              ],
+              "capture": "VAL:R3",
+              "closure_instruction": 482
+            },
+            {
+              "prototype": 33,
+              "upvalue": 4,
+              "path": [
+                "capacity"
+              ],
+              "capture": "VAL:R3",
+              "closure_instruction": 515
+            },
+            {
+              "prototype": 34,
+              "upvalue": 8,
+              "path": [
+                "capacity"
+              ],
+              "capture": "VAL:R3",
+              "closure_instruction": 529
+            },
+            {
+              "prototype": 39,
+              "upvalue": 9,
+              "path": [
+                "capacity"
+              ],
+              "capture": "VAL:R3",
+              "closure_instruction": 579
+            },
+            {
+              "prototype": 40,
+              "upvalue": 20,
+              "path": [
+                "capacity"
+              ],
+              "capture": "VAL:R3",
+              "closure_instruction": 600
+            },
+            {
+              "prototype": 41,
+              "upvalue": 7,
+              "path": [
+                "capacity"
+              ],
+              "capture": "VAL:R3",
+              "closure_instruction": 630
+            },
+            {
+              "prototype": 43,
+              "upvalue": 9,
+              "path": [
+                "capacity"
+              ],
+              "capture": "VAL:R3",
+              "closure_instruction": 653
+            },
+            {
+              "prototype": 48,
+              "upvalue": 7,
+              "path": [
+                "capacity"
+              ],
+              "capture": "VAL:R3",
+              "closure_instruction": 712
+            },
+            {
+              "prototype": 68,
+              "upvalue": 6,
+              "path": [
+                "capacity"
+              ],
+              "capture": "VAL:R3",
+              "closure_instruction": 853
+            }
+          ],
+          "minimal_hooks": {
+            "gate": "ROOT_TABLE_MINIMAL_HOOKS_V1",
+            "method": "minimal-search",
+            "prototypes": [
+              2,
+              12,
+              33,
+              34,
+              39,
+              43
+            ],
+            "reaching_capturers": [
+              2,
+              12,
+              33,
+              34,
+              39,
+              43
+            ],
+            "forced": [],
+            "coverage": {
+              "2": "hooked",
+              "12": "hooked",
+              "33": "hooked",
+              "34": "hooked",
+              "39": "hooked",
+              "43": "hooked"
+            },
+            "escaping_capturers": [],
+            "downstream_after_escape": [],
+            "reach_events": [
+              "12:dynamic-key",
+              "2:dynamic-key",
+              "33:dynamic-key",
+              "34:dynamic-key",
+              "39:dynamic-key",
+              "43:dynamic-key",
+              "83:container:replace-entry"
+            ],
+            "static_weight": {
+              "chosen": 1102,
+              "full": 11805
+            },
+            "root_children": [
+              2,
+              12,
+              33,
+              34,
+              39,
+              43
+            ],
+            "retire_safe": true,
+            "retire_blockers": []
+          }
+        },
+        "root:i47:R5": {
+          "gate": "ROOT_TABLE_UPVALUE_V1",
+          "prototype": 83,
+          "instruction": 47,
+          "register": 5,
+          "op": "DUPTABLE",
+          "containers": [],
+          "hooks": [
+            {
+              "prototype": 8,
+              "upvalue": 8,
+              "path": [],
+              "capture": "VAL:R5",
+              "closure_instruction": 344
+            },
+            {
+              "prototype": 28,
+              "upvalue": 2,
+              "path": [],
+              "capture": "VAL:R5",
+              "closure_instruction": 493
+            },
+            {
+              "prototype": 34,
+              "upvalue": 3,
+              "path": [],
+              "capture": "VAL:R5",
+              "closure_instruction": 529
+            },
+            {
+              "prototype": 68,
+              "upvalue": 36,
+              "path": [],
+              "capture": "VAL:R5",
+              "closure_instruction": 853
+            }
+          ],
+          "minimal_hooks": {
+            "gate": "ROOT_TABLE_MINIMAL_HOOKS_V1",
+            "method": "minimal-search",
+            "prototypes": [
+              28,
+              34,
+              68
+            ],
+            "reaching_capturers": [
+              28,
+              34,
+              68
+            ],
+            "forced": [],
+            "coverage": {
+              "28": "hooked",
+              "34": "hooked",
+              "68": "hooked"
+            },
+            "escaping_capturers": [],
+            "downstream_after_escape": [],
+            "reach_events": [
+              "28:read",
+              "34:read",
+              "68:read"
+            ],
+            "static_weight": {
+              "chosen": 30201,
+              "full": 151305
+            },
+            "root_children": [
+              28,
+              34,
+              68
+            ],
+            "retire_safe": true,
+            "retire_blockers": []
+          }
+        },
         "root:i62:R6": {
           "gate": "ROOT_TABLE_UPVALUE_V1",
           "prototype": 83,
@@ -8303,7 +8809,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 418,
+        "rank": 422,
         "path": [
           "Arbitration",
           "Advanced"
@@ -8373,7 +8879,7 @@
         "unit": "",
         "min": 1,
         "max": 2,
-        "rank": 420,
+        "rank": 424,
         "path": [
           "Archimedea",
           "Objectives",
@@ -8444,7 +8950,7 @@
         "unit": "",
         "min": 1,
         "max": 8,
-        "rank": 421,
+        "rank": 425,
         "path": [
           "Archimedea",
           "Objectives",
@@ -8800,7 +9306,7 @@
         "unit": "",
         "min": 1,
         "max": 4,
-        "rank": 422,
+        "rank": 426,
         "path": [
           "Archimedea",
           "Objectives",
@@ -8871,7 +9377,7 @@
         "unit": "min",
         "min": 1,
         "max": 60,
-        "rank": 419,
+        "rank": 423,
         "path": [
           "Archimedea",
           "Objectives",
@@ -8942,7 +9448,7 @@
         "unit": "",
         "min": 1,
         "max": 6,
-        "rank": 424,
+        "rank": 428,
         "path": [
           "Archimedea",
           "Objectives",
@@ -9298,7 +9804,7 @@
         "unit": "min",
         "min": 1,
         "max": 60,
-        "rank": 423,
+        "rank": 427,
         "path": [
           "Archimedea",
           "Objectives",
@@ -9407,7 +9913,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 425,
+        "rank": 429,
         "path": [
           "Archwing",
           "Timers"
@@ -9891,7 +10397,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 489,
+        "rank": 493,
         "path": [
           "Assassination",
           "Advanced"
@@ -9978,7 +10484,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 486,
+        "rank": 490,
         "path": [
           "Assassination",
           "Enemies"
@@ -10052,7 +10558,7 @@
         "unit": "",
         "min": 1,
         "max": 9999,
-        "rank": 487,
+        "rank": 491,
         "path": [
           "Assassination",
           "Advanced"
@@ -10141,7 +10647,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 488,
+        "rank": 492,
         "path": [
           "Assassination",
           "Advanced"
@@ -10228,7 +10734,7 @@
         "unit": "x",
         "min": 0.01,
         "max": 100,
-        "rank": 483,
+        "rank": 487,
         "path": [
           "Assassination",
           "Enemies",
@@ -10316,7 +10822,7 @@
         "unit": "x",
         "min": 0.01,
         "max": 100,
-        "rank": 484,
+        "rank": 488,
         "path": [
           "Assassination",
           "Enemies",
@@ -10404,7 +10910,7 @@
         "unit": "x",
         "min": 0.01,
         "max": 100,
-        "rank": 485,
+        "rank": 489,
         "path": [
           "Assassination",
           "Enemies",
@@ -37010,7 +37516,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 476,
+        "rank": 480,
         "path": [
           "All missions",
           "Timers"
@@ -37493,7 +37999,7 @@
         "unit": "HP",
         "min": 1,
         "max": 32767,
-        "rank": 432,
+        "rank": 436,
         "path": [
           "Hijack",
           "Objectives"
@@ -37576,7 +38082,7 @@
         "unit": "HP",
         "min": 1,
         "max": 32767,
-        "rank": 433,
+        "rank": 437,
         "path": [
           "Hijack",
           "Objectives"
@@ -37782,7 +38288,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 448,
+        "rank": 452,
         "path": [
           "Legacyte Harvest",
           "Objectives",
@@ -37858,7 +38364,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 447,
+        "rank": 451,
         "path": [
           "Legacyte Harvest",
           "Objectives",
@@ -37934,7 +38440,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 445,
+        "rank": 449,
         "path": [
           "Legacyte Harvest",
           "Objectives",
@@ -38010,7 +38516,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 446,
+        "rank": 450,
         "path": [
           "Legacyte Harvest",
           "Objectives",
@@ -40686,7 +41192,7 @@
         "min": 1,
         "max": 3600,
         "stock_check": "none",
-        "rank": 437,
+        "rank": 441,
         "path": [
           "Interception",
           "Timers"
@@ -40822,7 +41328,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 439,
+        "rank": 443,
         "path": [
           "Interception",
           "Objectives"
@@ -40967,7 +41473,7 @@
         "min": 0.05,
         "max": 20,
         "stock_check": "none",
-        "rank": 438,
+        "rank": 442,
         "path": [
           "Interception",
           "Objectives"
@@ -41125,7 +41631,7 @@
         "min": 0.05,
         "max": 20,
         "stock_check": "none",
-        "rank": 440,
+        "rank": 444,
         "path": [
           "Interception",
           "Advanced"
@@ -53037,7 +53543,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 428,
+        "rank": 432,
         "path": [
           "Hack-Station Defense",
           "Timers",
@@ -53119,7 +53625,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 430,
+        "rank": 434,
         "path": [
           "Hack-Station Defense",
           "Timers",
@@ -53201,7 +53707,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 427,
+        "rank": 431,
         "path": [
           "Hack-Station Defense",
           "Timers",
@@ -53283,7 +53789,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 429,
+        "rank": 433,
         "path": [
           "Hack-Station Defense",
           "Timers",
@@ -53445,7 +53951,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 431,
+        "rank": 435,
         "path": [
           "Hack-Station Defense",
           "Objectives"
@@ -53907,7 +54413,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 434,
+        "rank": 438,
         "path": [
           "Netracell",
           "Objectives"
@@ -54083,7 +54589,7 @@
         "unit": "",
         "min": 0,
         "max": 10000,
-        "rank": 435,
+        "rank": 439,
         "path": [
           "Netracell",
           "Objectives"
@@ -54277,7 +54783,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 482,
+        "rank": 486,
         "path": [
           "Sanctuary Onslaught",
           "Advanced"
@@ -54347,7 +54853,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 478,
+        "rank": 482,
         "path": [
           "Sanctuary Onslaught",
           "Objectives",
@@ -54418,7 +54924,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 480,
+        "rank": 484,
         "path": [
           "Sanctuary Onslaught",
           "Objectives",
@@ -54489,7 +54995,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 479,
+        "rank": 483,
         "path": [
           "Sanctuary Onslaught",
           "Objectives",
@@ -54592,7 +55098,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 477,
+        "rank": 481,
         "path": [
           "Sanctuary Onslaught",
           "Timers"
@@ -54677,7 +55183,7 @@
         "unit": "",
         "min": 1,
         "max": 100,
-        "rank": 481,
+        "rank": 485,
         "path": [
           "Sanctuary Onslaught",
           "Rewards / drops"
@@ -58511,7 +59017,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 436,
+        "rank": 440,
         "path": [
           "Pursuit",
           "Timers"
@@ -59558,7 +60064,7 @@
         "min": 0.1,
         "max": 10,
         "stock_check": "none",
-        "rank": 492,
+        "rank": 496,
         "path": [
           "Railjack",
           "Objectives"
@@ -59674,7 +60180,7 @@
         "min": 0.1,
         "max": 10,
         "stock_check": "none",
-        "rank": 491,
+        "rank": 495,
         "path": [
           "Railjack",
           "Objectives"
@@ -59823,7 +60329,7 @@
         "min": 0.1,
         "max": 10,
         "stock_check": "none",
-        "rank": 490,
+        "rank": 494,
         "path": [
           "Railjack",
           "Objectives"
@@ -59975,7 +60481,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 443,
+        "rank": 447,
         "path": [
           "Rescue",
           "Timers",
@@ -60048,7 +60554,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 444,
+        "rank": 448,
         "path": [
           "Rescue",
           "Timers",
@@ -60422,7 +60928,7 @@
         "unit": "m/s",
         "min": 0.1,
         "max": 1000,
-        "rank": 459,
+        "rank": 463,
         "path": [
           "Rush",
           "Timers"
@@ -60494,7 +61000,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 453,
+        "rank": 457,
         "path": [
           "Sabotage",
           "Timers"
@@ -60597,7 +61103,7 @@
         "min": 1,
         "max": 3600,
         "stock_check": "none",
-        "rank": 450,
+        "rank": 454,
         "path": [
           "Sabotage",
           "Timers"
@@ -60684,7 +61190,7 @@
         "unit": "x",
         "min": 0.01,
         "max": 100,
-        "rank": 456,
+        "rank": 460,
         "path": [
           "Sabotage",
           "Advanced",
@@ -60772,7 +61278,7 @@
         "unit": "x",
         "min": 0.01,
         "max": 100,
-        "rank": 457,
+        "rank": 461,
         "path": [
           "Sabotage",
           "Advanced",
@@ -60845,7 +61351,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 451,
+        "rank": 455,
         "path": [
           "Sabotage",
           "Timers"
@@ -60934,7 +61440,7 @@
         "unit": "s",
         "min": 4,
         "max": 32767,
-        "rank": 452,
+        "rank": 456,
         "path": [
           "Sabotage",
           "Timers"
@@ -61028,7 +61534,7 @@
         "min": 1,
         "max": 3600,
         "stock_check": "none",
-        "rank": 458,
+        "rank": 462,
         "path": [
           "Sabotage",
           "Advanced"
@@ -61100,7 +61606,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 449,
+        "rank": 453,
         "path": [
           "Sabotage",
           "Timers"
@@ -61172,7 +61678,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 455,
+        "rank": 459,
         "path": [
           "Sabotage",
           "Enemies"
@@ -61244,7 +61750,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 454,
+        "rank": 458,
         "path": [
           "Sabotage",
           "Timers"
@@ -68286,7 +68792,7 @@
         "min": 0.05,
         "max": 20,
         "stock_check": "none",
-        "rank": 441,
+        "rank": 445,
         "path": [
           "Spy",
           "Timers"
@@ -68528,7 +69034,7 @@
         "unit": "",
         "min": 0,
         "max": 5,
-        "rank": 442,
+        "rank": 446,
         "path": [
           "Spy",
           "Advanced"
@@ -71563,7 +72069,7 @@
         "unit": "s",
         "min": 0.5,
         "max": 32767,
-        "rank": 475,
+        "rank": 479,
         "path": [
           "Void Armageddon",
           "Advanced"
@@ -71635,7 +72141,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 466,
+        "rank": 470,
         "path": [
           "Void Armageddon",
           "Objectives",
@@ -71708,7 +72214,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 467,
+        "rank": 471,
         "path": [
           "Void Armageddon",
           "Objectives",
@@ -71781,7 +72287,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 468,
+        "rank": 472,
         "path": [
           "Void Armageddon",
           "Objectives",
@@ -71854,7 +72360,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 469,
+        "rank": 473,
         "path": [
           "Void Armageddon",
           "Objectives",
@@ -71927,7 +72433,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 470,
+        "rank": 474,
         "path": [
           "Void Armageddon",
           "Enemies",
@@ -72000,7 +72506,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 471,
+        "rank": 475,
         "path": [
           "Void Armageddon",
           "Enemies",
@@ -72073,7 +72579,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 472,
+        "rank": 476,
         "path": [
           "Void Armageddon",
           "Enemies",
@@ -72146,7 +72652,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 473,
+        "rank": 477,
         "path": [
           "Void Armageddon",
           "Enemies",
@@ -72224,7 +72730,7 @@
         "unit": "s",
         "min": 0.5,
         "max": 32767,
-        "rank": 462,
+        "rank": 466,
         "path": [
           "Void Armageddon",
           "Timers"
@@ -72301,7 +72807,7 @@
         "unit": "s",
         "min": 0.5,
         "max": 32767,
-        "rank": 461,
+        "rank": 465,
         "path": [
           "Void Armageddon",
           "Timers"
@@ -72378,7 +72884,7 @@
         "unit": "s",
         "min": 0.5,
         "max": 32767,
-        "rank": 463,
+        "rank": 467,
         "path": [
           "Void Armageddon",
           "Timers"
@@ -72455,7 +72961,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 474,
+        "rank": 478,
         "path": [
           "Void Armageddon",
           "Rewards / drops"
@@ -72532,7 +73038,7 @@
         "unit": "s",
         "min": 0.5,
         "max": 32767,
-        "rank": 464,
+        "rank": 468,
         "path": [
           "Void Armageddon",
           "Timers"
@@ -72609,7 +73115,7 @@
         "unit": "s",
         "min": 0.5,
         "max": 32767,
-        "rank": 460,
+        "rank": 464,
         "path": [
           "Void Armageddon",
           "Timers"
@@ -72687,7 +73193,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 465,
+        "rank": 469,
         "path": [
           "Void Armageddon",
           "Objectives"
@@ -73554,7 +74060,7 @@
         "unit": "",
         "min": 1,
         "max": 1000,
-        "rank": 413,
+        "rank": 417,
         "path": [
           "Void Flood",
           "Advanced"
@@ -73631,7 +74137,7 @@
         "unit": "",
         "min": 1,
         "max": 1000,
-        "rank": 414,
+        "rank": 418,
         "path": [
           "Void Flood",
           "Advanced"
@@ -73697,7 +74203,7 @@
         ],
         "short_label": "Player Void energy capacity",
         "label_source": "player_text",
-        "scope_text": "Void energy a player can carry in Void Flood (unit from the script name).",
+        "scope_text": "Void energy a player can carry in the Shadowgrapher variant. Normal Void Flood uses the tank capacity instead.",
         "aliases": [],
         "lane": "addon",
         "applies": "live_next_read",
@@ -73706,13 +74212,236 @@
         "unit": "",
         "min": 1,
         "max": 10000,
-        "rank": 415,
+        "rank": 419,
         "path": [
           "Void Flood",
           "Advanced"
         ],
         "row": "Void energy capacity",
-        "r5_scope_text": "Void energy a player can carry in Void Flood (unit from the script name); stock 100 energy"
+        "r5_scope_text": "Void energy a player can carry in the Shadowgrapher variant of Void Flood (normal Void Flood uses the tank capacity); stock 100 energy"
+      }
+    },
+    {
+      "tunable_id": "void_flood.deposit_speed_scale",
+      "phase1_tunable_id": "void_flood.deposit_and_drain",
+      "label": "Tank fill speed (deposit rate multiplier)",
+      "mission_type": "Void Flood",
+      "variant": "normal Void Flood (the Shadowgrapher variant deposits all carried energy at once)",
+      "shared_with": "",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "backend": "TARGET_ADDON",
+      "unit": "x",
+      "stock": 1,
+      "confidence": "CONFIRMED_STATIC (R14 owner proof; live pending)",
+      "provenance": "research:void-flood-tanks-2026-10-01 (contract R14)",
+      "evidence": "Config table frame_83[18] (root DUPTABLE i25) field depositPctPerSecond = {0.12, 0.09, 0.08, 0.07} (NEWTABLE i26 + SETLIST i31, readable L94-100). Reader: deposit loop prototype 48 (readable L9618-9662): for each player within depositRadius of an unfilled tank, per frame amount = tank.capacity x depositPctPerSecond[frame_83[138]] x dt, limited by the player's carried void energy and by capacity - deposited; frame_83[138] = clamp(players + test clients, 1, 4) (L8325/L8334/L12999/L13684), so the index is the squad size, not the tank. Not read when the Shadowgrapher flag (unresolved global 3420abb0) is set: that variant deposits all carried energy at once (L9599-9616).",
+      "research_draft_id": "void_flood.deposit_speed_scale",
+      "owner": {
+        "body_key": "fc711ff621a75552",
+        "stock_sha256": "738AA59C66F935235C812CBA1AE6ECD361FDF700D5723C0928B88A2E11D89261",
+        "file": "Lotus_Scripts_Modes_ZarimanCorruptionMission.lua_B",
+        "module_path": "Lotus.Scripts.Modes.ZarimanCorruptionMission",
+        "template": "ROOT_TABLE_FIELD",
+        "gate": "ROOT_TABLE_UPVALUE_V1",
+        "fields": [
+          {
+            "field": 1,
+            "table_id": "root:i26:R4",
+            "value_kind": "number_constant",
+            "value_offset": 107757,
+            "expected": [
+              184,
+              30,
+              133,
+              235,
+              81,
+              184,
+              190,
+              63
+            ],
+            "construction": "NEWTABLE+SETLIST",
+            "field_reads": 1,
+            "value_constant": 37,
+            "stock": 0.12
+          },
+          {
+            "field": 2,
+            "table_id": "root:i26:R4",
+            "value_kind": "number_constant",
+            "value_offset": 107766,
+            "expected": [
+              10,
+              215,
+              163,
+              112,
+              61,
+              10,
+              183,
+              63
+            ],
+            "construction": "NEWTABLE+SETLIST",
+            "field_reads": 1,
+            "value_constant": 38,
+            "stock": 0.09
+          },
+          {
+            "field": 3,
+            "table_id": "root:i26:R4",
+            "value_kind": "number_constant",
+            "value_offset": 107691,
+            "expected": [
+              123,
+              20,
+              174,
+              71,
+              225,
+              122,
+              180,
+              63
+            ],
+            "construction": "NEWTABLE+SETLIST",
+            "field_reads": 1,
+            "value_constant": 33,
+            "stock": 0.08
+          },
+          {
+            "field": 4,
+            "table_id": "root:i26:R4",
+            "value_kind": "number_constant",
+            "value_offset": 107775,
+            "expected": [
+              236,
+              81,
+              184,
+              30,
+              133,
+              235,
+              177,
+              63
+            ],
+            "construction": "NEWTABLE+SETLIST",
+            "field_reads": 1,
+            "value_constant": 39,
+            "stock": 0.07
+          }
+        ],
+        "mode": "scale"
+      },
+      "limits": {
+        "minimum": 0.05,
+        "maximum": 100,
+        "integer": false,
+        "basis": "multiplier; 0 would stop every tank from filling (minimum 0.05 = 20 times slower); maximum is a numeric guard"
+      },
+      "applies": "F9",
+      "backend_note": "Root-table field(s) root:i26:R4.1, root:i26:R4.2, root:i26:R4.3, root:i26:R4.4 written through the target-addon lane (ROOT_TABLE_UPVALUE_V1); mode scale: each field = its stock x the row value.",
+      "ui": {
+        "group": "void_flood",
+        "mt_codes": [
+          "MT_CORRUPTION"
+        ],
+        "short_label": "Tank fill speed",
+        "label_source": "player_text",
+        "scope_text": "How fast a tank fills while a player stands at it with Void energy: x2 fills it twice as fast. One player fills an empty tank in 8 to 14 s at the default (longer in bigger squads).",
+        "aliases": [
+          "Shadowgrapher"
+        ],
+        "lane": "addon",
+        "applies": "live_next_read",
+        "type": "float",
+        "editor": "INPUTBOX",
+        "unit": "x",
+        "min": 0.05,
+        "max": 100,
+        "rank": 412,
+        "path": [
+          "Void Flood",
+          "Objectives"
+        ],
+        "row": "Tank fill speed",
+        "quick": "Void Flood: tank fill speed",
+        "default_label": "x1 (8-14 s)",
+        "r5_scope_text": "Multiplies how fast a Void Flood tank fills while a player stands at it with Void energy; stock 1x"
+      }
+    },
+    {
+      "tunable_id": "void_flood.drain_speed_scale",
+      "phase1_tunable_id": "void_flood.deposit_and_drain",
+      "label": "Tank drain speed (Decaying curse drain multiplier)",
+      "mission_type": "Void Flood",
+      "variant": "normal Void Flood while the Decaying curse is active",
+      "shared_with": "",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "backend": "TARGET_ADDON",
+      "unit": "x",
+      "stock": 1,
+      "confidence": "CONFIRMED_STATIC (R14 owner proof; live pending)",
+      "provenance": "research:void-flood-tanks-2026-10-01 (contract R14)",
+      "evidence": "Config table frame_83[18] field drainPercent 0.08 (readable L94). Reader: tank update prototype 41 (L7724-7840): for a partly filled tank in normal mode, only while curse 5 (frame_83[17][frame_83[190]] with frame_83[190] = 5, the Decaying curse, L10735-10736/L10786) is active and no player is at the tank, every drainInterval (10 s; the first drain 3 s after it starts, L7765) deposited = max(deposited - drainPercent x capacity, 0).",
+      "research_draft_id": "void_flood.drain_speed_scale",
+      "owner": {
+        "body_key": "fc711ff621a75552",
+        "stock_sha256": "738AA59C66F935235C812CBA1AE6ECD361FDF700D5723C0928B88A2E11D89261",
+        "file": "Lotus_Scripts_Modes_ZarimanCorruptionMission.lua_B",
+        "module_path": "Lotus.Scripts.Modes.ZarimanCorruptionMission",
+        "template": "ROOT_TABLE_FIELD",
+        "gate": "ROOT_TABLE_UPVALUE_V1",
+        "fields": [
+          {
+            "field": "drainPercent",
+            "table_id": "root:i25:R3",
+            "value_kind": "number_constant",
+            "value_offset": 107691,
+            "expected": [
+              123,
+              20,
+              174,
+              71,
+              225,
+              122,
+              180,
+              63
+            ],
+            "construction": "DUPTABLE",
+            "field_reads": 1,
+            "value_constant": 33,
+            "stock": 0.08
+          }
+        ],
+        "mode": "scale"
+      },
+      "limits": {
+        "minimum": 0,
+        "maximum": 100,
+        "integer": false,
+        "basis": "multiplier; 0 = no drain; maximum is a numeric guard (a tank never drains below 0)"
+      },
+      "applies": "F9",
+      "backend_note": "Root-table field(s) root:i25:R3.drainPercent written through the target-addon lane (ROOT_TABLE_UPVALUE_V1); mode scale: each field = its stock x the row value.",
+      "ui": {
+        "group": "void_flood",
+        "mt_codes": [
+          "MT_CORRUPTION"
+        ],
+        "short_label": "Tank drain speed",
+        "label_source": "player_text",
+        "scope_text": "Energy a partly filled tank loses every 10 s while nobody is at it, only under the Decaying curse (8% of the tank at the default). 0 = no drain.",
+        "aliases": [],
+        "lane": "addon",
+        "applies": "live_next_read",
+        "type": "float",
+        "editor": "INPUTBOX",
+        "unit": "x",
+        "min": 0,
+        "max": 100,
+        "rank": 415,
+        "path": [
+          "Void Flood",
+          "Objectives"
+        ],
+        "row": "Tank drain speed",
+        "default_label": "x1",
+        "r5_scope_text": "Multiplies the energy a Void Flood tank loses under the Decaying curse while nobody is at it; stock 1x"
       }
     },
     {
@@ -73934,9 +74663,9 @@
         "mt_codes": [
           "MT_CORRUPTION"
         ],
-        "short_label": "Fill time shrink",
+        "short_label": "Meter time shrink",
         "label_source": "player_text",
-        "scope_text": "Multiplier applied to the Void Flood fill time every 3 fractures.",
+        "scope_text": "Factor applied to the corruption meter time every 3 fractures.",
         "aliases": [],
         "lane": "addon",
         "applies": "live_next_read",
@@ -73945,13 +74674,13 @@
         "unit": "x",
         "min": 0,
         "max": 1000,
-        "rank": 412,
+        "rank": 416,
         "path": [
           "Void Flood",
           "Advanced"
         ],
-        "row": "Fill time shrink",
-        "r5_scope_text": "Multiplier applied to the Void Flood fill time every 3 fractures; stock 0.92x"
+        "row": "Meter time shrink",
+        "r5_scope_text": "Multiplier applied to the Void Flood corruption meter time every 3 fractures; stock 0.92x"
       }
     },
     {
@@ -74058,9 +74787,9 @@
         "mt_codes": [
           "MT_CORRUPTION"
         ],
-        "short_label": "Tank fill time",
+        "short_label": "Corruption meter time",
         "label_source": "player_text",
-        "scope_text": "Starting seconds to fill a Void Flood tank, it shrinks every 3 fractures down to the shortest fill time.",
+        "scope_text": "Seconds for the corruption meter to fill while a tank is open; when it is full the eruption countdown starts. It shrinks every 3 fractures down to the shortest meter time.",
         "aliases": [],
         "lane": "addon",
         "applies": "live_next_read",
@@ -74074,8 +74803,8 @@
           "Void Flood",
           "Timers"
         ],
-        "row": "Tank fill time",
-        "r5_scope_text": "Starting seconds to fill a Void Flood tank; it shrinks every 3 fractures down to the shortest fill time; stock 200 s"
+        "row": "Corruption meter time",
+        "r5_scope_text": "Seconds for the Void Flood corruption meter to fill while a tank is open; shrinks every 3 fractures; stock 200 s"
       }
     },
     {
@@ -74133,9 +74862,9 @@
         "mt_codes": [
           "MT_CORRUPTION"
         ],
-        "short_label": "Shortest tank fill time",
+        "short_label": "Shortest meter time",
         "label_source": "player_text",
-        "scope_text": "Shortest seconds to fill a Void Flood tank.",
+        "scope_text": "Shortest time the corruption meter can take to fill.",
         "aliases": [],
         "lane": "addon",
         "applies": "live_next_read",
@@ -74149,8 +74878,8 @@
           "Void Flood",
           "Timers"
         ],
-        "row": "Shortest tank fill time",
-        "r5_scope_text": "Shortest seconds to fill a Void Flood tank; stock 60 s"
+        "row": "Shortest meter time",
+        "r5_scope_text": "Shortest seconds for the Void Flood corruption meter to fill; stock 60 s"
       }
     },
     {
@@ -74257,7 +74986,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 417,
+        "rank": 421,
         "path": [
           "Void Flood",
           "Objectives"
@@ -74418,7 +75147,7 @@
         "unit": "",
         "min": 1,
         "max": 1000,
-        "rank": 416,
+        "rank": 420,
         "path": [
           "Void Flood",
           "Advanced"
@@ -74497,6 +75226,250 @@
         ],
         "row": "Duviri Void Flood switch",
         "rank": 100000
+      }
+    },
+    {
+      "tunable_id": "void_flood.orb_value_scale",
+      "phase1_tunable_id": "void_flood.pickup_amounts",
+      "label": "Void orb value (energy per orb multiplier)",
+      "mission_type": "Void Flood",
+      "variant": "normal Void Flood (the Shadowgrapher variant uses the Sg amounts)",
+      "shared_with": "",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "backend": "TARGET_ADDON",
+      "unit": "x",
+      "stock": 1,
+      "confidence": "CONFIRMED_STATIC (R14 owner proof; pickup-module use read from bytecode, decompile unavailable; live pending)",
+      "provenance": "research:void-flood-tanks-2026-10-01 (contract R14)",
+      "evidence": "Config table frame_83[34] (root DUPTABLE i47) fields smallAmt 5, mediumAmt 20, largeAmt 60 (readable L113). Mission start (prototype 68, L13336-13346, normal mode) copies them into _T.VoidPickupAmt = {small, medium, large}; ZarimanCorruptionPickups prototypes 4-7 read VoidPickupAmt (the four orb handlers differ only in one index operand 0/0/1/2) and prototype 0 adds to VoidEnergyCollection; the mission's deposit loop (prototype 48, L9498-9516) moves the collection into the player's carried energy, clamped to _T.PlayerEnergyCap. Prototype 28 (L4404-4425) also uses mediumAmt/smallAmt to split a downed player's dropped energy into orbs. The copy happens at mission start, so a change applies from the next mission.",
+      "research_draft_id": "void_flood.orb_value_scale",
+      "owner": {
+        "body_key": "fc711ff621a75552",
+        "stock_sha256": "738AA59C66F935235C812CBA1AE6ECD361FDF700D5723C0928B88A2E11D89261",
+        "file": "Lotus_Scripts_Modes_ZarimanCorruptionMission.lua_B",
+        "module_path": "Lotus.Scripts.Modes.ZarimanCorruptionMission",
+        "template": "ROOT_TABLE_FIELD",
+        "gate": "ROOT_TABLE_UPVALUE_V1",
+        "fields": [
+          {
+            "field": "smallAmt",
+            "table_id": "root:i47:R5",
+            "value_kind": "number_constant",
+            "value_offset": 107497,
+            "expected": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              20,
+              64
+            ],
+            "construction": "DUPTABLE",
+            "field_reads": 3,
+            "value_constant": 6,
+            "stock": 5
+          },
+          {
+            "field": "mediumAmt",
+            "table_id": "root:i47:R5",
+            "value_kind": "number_constant",
+            "value_offset": 107790,
+            "expected": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              52,
+              64
+            ],
+            "construction": "DUPTABLE",
+            "field_reads": 3,
+            "value_constant": 42,
+            "stock": 20
+          },
+          {
+            "field": "largeAmt",
+            "table_id": "root:i47:R5",
+            "value_kind": "number_constant",
+            "value_offset": 107802,
+            "expected": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              78,
+              64
+            ],
+            "construction": "DUPTABLE",
+            "field_reads": 2,
+            "value_constant": 44,
+            "stock": 60
+          }
+        ],
+        "mode": "scale"
+      },
+      "limits": {
+        "minimum": 0.05,
+        "maximum": 100,
+        "integer": false,
+        "basis": "multiplier; 0 would make orbs worthless; maximum is a numeric guard (carried energy is capped by the tank capacity)"
+      },
+      "applies": "F9",
+      "backend_note": "Root-table field(s) root:i47:R5.smallAmt, root:i47:R5.mediumAmt, root:i47:R5.largeAmt written through the target-addon lane (ROOT_TABLE_UPVALUE_V1); mode scale: each field = its stock x the row value.",
+      "ui": {
+        "group": "void_flood",
+        "mt_codes": [
+          "MT_CORRUPTION"
+        ],
+        "short_label": "Void orb value",
+        "label_source": "player_text",
+        "scope_text": "Void energy each small, medium and large Void orb gives (5 to 60 at the default). Applies from the next mission.",
+        "aliases": [
+          "Shadowgrapher"
+        ],
+        "lane": "addon",
+        "applies": "live_next_read",
+        "type": "float",
+        "editor": "INPUTBOX",
+        "unit": "x",
+        "min": 0.05,
+        "max": 100,
+        "rank": 414,
+        "path": [
+          "Void Flood",
+          "Objectives"
+        ],
+        "row": "Void orb value",
+        "default_label": "x1 (5-60)",
+        "r5_scope_text": "Multiplies the Void energy from small, medium and large Void orbs in Void Flood; stock 1x"
+      }
+    },
+    {
+      "tunable_id": "void_flood.tank_capacity_scale",
+      "phase1_tunable_id": "void_flood.tank_capacity",
+      "label": "Tank capacity (void energy per tank multiplier)",
+      "mission_type": "Void Flood",
+      "variant": "normal Void Flood (the Shadowgrapher variant uses fractureCapacity)",
+      "shared_with": "",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "backend": "TARGET_ADDON",
+      "unit": "x",
+      "stock": 1,
+      "confidence": "CONFIRMED_STATIC (R14 owner proof; live pending)",
+      "provenance": "research:void-flood-tanks-2026-10-01 (contract R14)",
+      "evidence": "Config table frame_83[18] field capacity = {125, 250, 300, 350} (NEWTABLE i39 + SETLIST i44, readable L106-111), indexed by the human player count (1 to 4). Readers: tank creation prototype 39 (L7095-7115: tank.capacity = capacity[#players]), prototype 2 (L440-455), prototype 43 (L8586-8604: _T.PlayerEnergyCap = capacity[#players], the most void energy a player can carry, in normal mode; the Shadowgrapher variant uses playerCapacity), prototypes 12/33/34. A tank is full at deposited >= capacity (prototype 41 L7712, prototype 48 L9747-9775); deposit per second is capacity x depositPctPerSecond, so the standing time per tank does not change with capacity.",
+      "research_draft_id": "void_flood.tank_capacity_scale",
+      "owner": {
+        "body_key": "fc711ff621a75552",
+        "stock_sha256": "738AA59C66F935235C812CBA1AE6ECD361FDF700D5723C0928B88A2E11D89261",
+        "file": "Lotus_Scripts_Modes_ZarimanCorruptionMission.lua_B",
+        "module_path": "Lotus.Scripts.Modes.ZarimanCorruptionMission",
+        "template": "ROOT_TABLE_FIELD",
+        "gate": "ROOT_TABLE_UPVALUE_V1",
+        "fields": [
+          {
+            "field": 1,
+            "table_id": "root:i39:R4",
+            "value_kind": "instruction",
+            "value_offset": 102937,
+            "expected": [
+              8,
+              5,
+              125,
+              0
+            ],
+            "construction": "NEWTABLE+SETLIST",
+            "field_reads": 7,
+            "stock": 125
+          },
+          {
+            "field": 2,
+            "table_id": "root:i39:R4",
+            "value_kind": "instruction",
+            "value_offset": 102941,
+            "expected": [
+              8,
+              6,
+              250,
+              0
+            ],
+            "construction": "NEWTABLE+SETLIST",
+            "field_reads": 7,
+            "stock": 250
+          },
+          {
+            "field": 3,
+            "table_id": "root:i39:R4",
+            "value_kind": "instruction",
+            "value_offset": 102945,
+            "expected": [
+              8,
+              7,
+              44,
+              1
+            ],
+            "construction": "NEWTABLE+SETLIST",
+            "field_reads": 7,
+            "stock": 300
+          },
+          {
+            "field": 4,
+            "table_id": "root:i39:R4",
+            "value_kind": "instruction",
+            "value_offset": 102949,
+            "expected": [
+              8,
+              8,
+              94,
+              1
+            ],
+            "construction": "NEWTABLE+SETLIST",
+            "field_reads": 7,
+            "stock": 350
+          }
+        ],
+        "mode": "scale_count"
+      },
+      "limits": {
+        "minimum": 0.05,
+        "maximum": 100,
+        "integer": false,
+        "basis": "multiplier; each capacity is rounded and at least 1; maximum is a numeric guard"
+      },
+      "applies": "F9",
+      "backend_note": "Root-table field(s) root:i39:R4.1, root:i39:R4.2, root:i39:R4.3, root:i39:R4.4 written through the target-addon lane (ROOT_TABLE_UPVALUE_V1); mode scale_count: each field = its stock x the row value, rounded, at least 1.",
+      "ui": {
+        "group": "void_flood",
+        "mt_codes": [
+          "MT_CORRUPTION"
+        ],
+        "short_label": "Tank capacity",
+        "label_source": "player_text",
+        "scope_text": "Void energy each tank needs and the most energy a player can carry (125 solo up to 350 in a squad). The standing time per tank stays the same.",
+        "aliases": [
+          "Shadowgrapher"
+        ],
+        "lane": "addon",
+        "applies": "live_next_read",
+        "type": "float",
+        "editor": "INPUTBOX",
+        "unit": "x",
+        "min": 0.05,
+        "max": 100,
+        "rank": 413,
+        "path": [
+          "Void Flood",
+          "Objectives"
+        ],
+        "row": "Tank capacity",
+        "default_label": "x1 (125-350)",
+        "r5_scope_text": "Multiplies the Void energy each Void Flood tank needs and the most a player can carry; stock 1x"
       }
     },
     {
@@ -76293,12 +77266,6 @@
       "reason": "Owner not established (native or level data); editor must stay read-only."
     },
     {
-      "tunable_id": "void_flood.deposit_and_drain",
-      "owner_kind": "LUA_ROOT_TABLE",
-      "confidence": "PARTIAL",
-      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
-    },
-    {
       "tunable_id": "void_flood.enemy_caps",
       "owner_kind": "LUA_ROOT_TABLE",
       "confidence": "PARTIAL",
@@ -76309,18 +77276,6 @@
       "owner_kind": "MISSIONINFO",
       "confidence": "CONFIRMED_STATIC",
       "reason": "MissionInfo producer: no generator back end in mission_profiles.inl (only the ConquestLib producer literals are registered, as archimedea.*)."
-    },
-    {
-      "tunable_id": "void_flood.pickup_amounts",
-      "owner_kind": "LUA_ROOT_TABLE",
-      "confidence": "PARTIAL",
-      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
-    },
-    {
-      "tunable_id": "void_flood.tank_capacity",
-      "owner_kind": "LUA_ROOT_TABLE",
-      "confidence": "PARTIAL",
-      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
     },
     {
       "tunable_id": "wf1999def.disruptive_sounds",
@@ -76485,6 +77440,18 @@
       "owner_kind": "LUA_ROOT_TABLE",
       "part": "playerDamageCurve, playerDamageMult",
       "reason": "addon gate FAIL: no capturer reads the field through the captured table upvalue (consumer not proven)"
+    },
+    {
+      "tunable_id": "void_flood.deposit_and_drain",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "part": "depositRadius, drainInterval, numForFullVoidIntensity, spawnDelay, xpAmount, xpDivisor, xpMultCap",
+      "reason": "R14: owner proven (ROOT_TABLE_UPVALUE_V1 PASS on root:i25:R3) but not admitted: not a tank-fill setting the player asked for; deposit rate and drain amount are registered as void_flood.deposit_speed_scale and void_flood.drain_speed_scale"
+    },
+    {
+      "tunable_id": "void_flood.pickup_amounts",
+      "owner_kind": "LUA_ROOT_TABLE",
+      "part": "SgBaseAmt, SgLargeAmt, SgMediumAmt, SgSmallAmt, groupSpawnInterval, groupSpawnPerInterval, groupSpawnRange, largeRespawnTime, lowEnemyRate, highEnemyRate, lowEnemyScale, highEnemyScale",
+      "reason": "R14: not admitted (Shadowgrapher amounts and orb/enemy spawning, not orb value in normal Void Flood); smallAmt, mediumAmt and largeAmt are registered as void_flood.orb_value_scale"
     }
   ],
   "ui_format": "RENOVICE_MISSION_UI_FIELDS_V1",
@@ -76499,7 +77466,7 @@
     "title_label": "group label upper-cased, <= title_budget",
     "editor_rule": "TOGGLE for enum; INPUTCOUNT for int with min >= 0 (max always set); INPUTBOX otherwise",
     "applies_rule": "addon live_next_read; literal next_mission; metadata restart; server server_reload",
-    "editor_label_with_stock_rows": 511
+    "editor_label_with_stock_rows": 515
   },
   "ui_sources": {
     "public_export_regions": {
@@ -81644,7 +82611,7 @@
       "short_label": "Defend time per station",
       "label_source": "player_text",
       "scope_text": "Seconds to defend each hack station, all node levels (sets the random range). A number you type replaces the whole range; the variants below override it.",
-      "rank": 426,
+      "rank": 430,
       "lane": "literal",
       "applies": "next_mission",
       "type": "int",
@@ -81684,7 +82651,7 @@
   "ui_player_text": {
     "format": "RENOVICE_MISSION_PLAYER_TEXT_V1",
     "tool": "RESEARCH/UNIVERSAL_MISSION_REGISTRY_2026-09-29/tools/player_text.py",
-    "data_sha256": "4A55ED105B322148DEB91777BE10056CE9CF114750478914853A5F247D32759D",
+    "data_sha256": "2B749E070291CBEF02684F6A8AE7734D4BA8D943FC32077D473069D7BF9868DD",
     "label_max": 33,
     "row_max": 40,
     "tooltip_max": 300,
@@ -81733,7 +82700,7 @@
       "NpcHardCap",
       "fixedLength"
     ],
-    "rows": 455,
+    "rows": 459,
     "masters": 38,
     "hidden": 5,
     "advanced_suffix": "_advanced",
@@ -81877,7 +82844,7 @@
     "default_label_max": 20,
     "row_budget": 40,
     "description_max": 200,
-    "placed": 493,
+    "placed": 497,
     "types": {
       "alchemy": [
         "Alchemy",

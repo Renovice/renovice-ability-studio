@@ -701,7 +701,7 @@ for e in p2d_lua_excluded:
     if e['phase1'] in P2E.ADDON_FAILED:
         e['reason'] += ' | ' + P2E.ADDON_FAILED[e['phase1']]
 phase2d_excluded = {}
-for e in p2d_lua_excluded + P2D_META.EXCLUDED + P2E.EXCLUDED_PARTS:
+for e in p2d_lua_excluded + P2D_META.EXCLUDED + P2E.EXCLUDED_PARTS + R10_SPECS.EXCLUDED_PARTS:  # R14 parts
     phase2d_excluded.setdefault(e['phase1'], []).append(e)
 excluded_parts = []
 

@@ -4269,12 +4269,20 @@ namespace renovice
                                 const auto id = id_json.get<std::string>();
                                 const Json& row = mission_tunable(registry, id);
                                 if (!row.at("owner").contains("fields")) continue;  // R10 entry row (own harness below)
+                                // R14: a scaled row's field holds its own stock and is written stock x value (scale_count:
+                                // rounded half up, at least 1); `sstock`/`svalue` are the setting's (row) numbers.
+                                const auto mode = root_field_mode(row);
                                 for (const auto& field : row.at("owner").at("fields")) {
                                     const auto table_id = field.at("table_id").get<std::string>();
-                                    if (enabled.contains(id))
-                                        fields[table_id] += "{ id = " + lua_quote(id) + ", key = " + lua_table_key(field.at("field")) +
-                                                            ", stock = " + format_number(row.at("stock").get<double>()) + ", value = " +
-                                                            format_number(build_values.at(id).get<double>()) + " }, ";
+                                    if (!enabled.contains(id)) continue;
+                                    const double row_stock = row.at("stock").get<double>(), row_value = build_values.at(id).get<double>();
+                                    const double field_stock = mode.empty() ? row_stock : field.at("stock").get<double>();
+                                    double written = mode.empty() ? row_value : field_stock * row_value;
+                                    if (mode == kRootFieldScaleCount) written = std::max(1.0, std::floor(written + 0.5));
+                                    fields[table_id] += "{ id = " + lua_quote(id) + ", key = " + lua_table_key(field.at("field")) +
+                                                        ", stock = " + format_number(field_stock) + ", value = " + format_number(written) +
+                                                        ", sstock = " + format_number(row_stock) + ", svalue = " + format_number(row_value) +
+                                                        (mode.empty() ? std::string() : ", scale = " + lua_quote(mode)) + " }, ";
                                 }
                             }
                             std::map<int, std::string> prototypes;
@@ -4372,6 +4380,17 @@ local function holds(owners, case, name)
     end
     return true
 end
+-- R14: the number a field holds after its setting is v (a scaled field: its stock x v; scale_count rounded, at least 1).
+local function expect(field, v)
+    if field.scale == nil then return v end
+    local w = field.stock * v
+    if field.scale == "scale_count" then
+        w = w + 0.5
+        w = w - w % 1
+        if w < 1 then w = 1 end
+    end
+    return w
+end
 
 local container = chunk()
 check(type(container) == "table" and container.hooks == nil and type(container.targets) == "table", "container has targets and no top-level hooks")
@@ -4446,7 +4465,7 @@ for _, case in ipairs(cases) do
         local result = {}
         for _, tab in ipairs(case.tables) do
             for _, field in ipairs(tab.fields) do
-                result[field.id] = { enabled = enabled, value = field.value + delta, stock = field.stock + stockDelta }
+                result[field.id] = { enabled = enabled, value = field.svalue + delta, stock = field.sstock + stockDelta }
             end
         end
         return result
@@ -4454,7 +4473,7 @@ for _, case in ipairs(cases) do
     local empty = run({})
     check(holds(empty, case, "stock"), tag .. ": an empty settings table (no settings file) writes nothing")
     local custom, entry = run(given(true, 1, 0))
-    check(custom[1][first.key] == first.value + 1, tag .. ": an enabled value from context.settings is written")
+    check(custom[1][first.key] == expect(first, first.svalue + 1), tag .. ": an enabled value from context.settings is written")
     entry.cleanup()
     check(holds(custom, case, "stock"), tag .. ": cleanup restores a value delivered by context.settings")
     check(holds((run(given(false, 1, 0))), case, "stock"), tag .. ": a disabled value is never written")
@@ -4641,6 +4660,36 @@ print("MULTI-TARGET HARNESS PASS cases=" .. #cases .. " idle=" .. #idle .. " ret
                                                        read_text(mission_roots.corpus / bad.at("modules").at("f10a043e7f825db2").at("file").get<std::string>())); }
                         catch (const std::exception& e) { rejected = contains_text(e.what(), "hook plan names a prototype"); }
                         check(rejected, "a minimal hook plan naming a prototype that is not a capturer hook is rejected by verify-missions");
+                        // Contract R14: scaled root-table rows. The registered rows verify; a field stock that its initialiser
+                        // does not encode, a scaled field without a stock, a field stock on an unscaled row, a row stock other
+                        // than 1, a scale_count field that is not a whole number and an unknown mode are rejected.
+                        {
+                            const auto flood_bytes = read_text(mission_roots.corpus / registry.at("modules").at("fc711ff621a75552").at("file").get<std::string>());
+                            const auto verify_flood = [&](const Json& row) -> std::string {
+                                try { verify_root_table_fields(row, registry.at("modules").at("fc711ff621a75552"), flood_bytes); }
+                                catch (const std::exception& e) { return e.what(); }
+                                return "PASS";
+                            };
+                            const Json speed = mission_tunable(registry, "void_flood.deposit_speed_scale");
+                            const Json capacity = mission_tunable(registry, "void_flood.tank_capacity_scale");
+                            Json wrong_stock = speed; wrong_stock["owner"]["fields"][0]["stock"] = 0.13;
+                            Json no_stock = speed; no_stock["owner"]["fields"][1].erase("stock");
+                            Json plain_with_stock = mission_tunable(registry, "void_flood.fill_timer.timeToFillMax");
+                            plain_with_stock["owner"]["fields"][0]["stock"] = 200;
+                            Json row_stock = speed; row_stock["stock"] = 2;
+                            Json count_fraction = speed; count_fraction["owner"]["mode"] = "scale_count";
+                            Json unknown_mode = speed; unknown_mode["owner"]["mode"] = "scale_inverse";
+                            check(verify_flood(speed) == "PASS" && verify_flood(capacity) == "PASS"
+                                    && contains_text(verify_flood(wrong_stock), "disagrees with the registered stock")
+                                    && contains_text(verify_flood(no_stock), "has no stock")
+                                    && contains_text(verify_flood(plain_with_stock), "allowed only on a scaled")
+                                    && contains_text(verify_flood(row_stock), "needs stock 1")
+                                    && contains_text(verify_flood(count_fraction), "whole number >= 1")
+                                    && contains_text(verify_flood(unknown_mode), "unknown root-table field mode"),
+                                  "R14 scaled root-table rows: Void Flood fill speed and capacity verify per field; a wrong or missing field "
+                                  "stock, a field stock on an unscaled row, a row stock other than 1, a fractional scale_count field and an "
+                                  "unknown mode are rejected");
+                        }
                     }
 
                     // Phase 2k: the FULL package (package_scope all_addon_values). Every multi-instance-safe addon value is
@@ -4703,7 +4752,11 @@ print("MULTI-TARGET HARNESS PASS cases=" .. #cases .. " idle=" .. #idle .. " ret
                                 Json wide_values{{"survival.reward_interval", 150}, {"survival.capsule_interval", 60},
                                                  {"purgatory.difficulty2.ghost_level", 12},
                                                  {"shrine.respawn_delay.normal.offering.p2", 9}, {"shrine.stage_time.offering", 300},
-                                                 {"loopdefend.enemy_counts.maxNum.p1", 9}};
+                                                 {"loopdefend.enemy_counts.maxNum.p1", 9},
+                                                 // R14: scaled root-table rows (array elements through a container path,
+                                                 // scale_count rounding, scalar fields, a 0 multiplier).
+                                                 {"void_flood.deposit_speed_scale", 2}, {"void_flood.tank_capacity_scale", 1.5},
+                                                 {"void_flood.orb_value_scale", 0.5}, {"void_flood.drain_speed_scale", 0}};
                                 Json wide_settings = probe_settings(wide_values);
                                 wide_settings["output_layout"] = "package";
                                 wide_settings["package_scope"] = "all_addon_values";

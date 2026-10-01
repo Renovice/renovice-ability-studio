@@ -1,0 +1,131 @@
+{
+ "schema": "RENOVICE_MISSION_TUNABLE_REGISTRY_V2 tunables[] drafts (contract R14: scaled root-table fields)",
+ "build": "2026.09.28.13.06",
+ "note": "Every field is re-proven by register_registry.py (mission_owner_specs.rows) with ROOT_TABLE_UPVALUE_V1 against its OWN stock on the pinned 44.0.2 bytes; the row stock is 1 (a multiplier). Array elements name their root LOADN/LOADK instruction (value_instruction); string fields name their table (table_id). Readable line numbers refer to work/research/universal-mission-editor-2026-09-29/decomp/Lotus_Scripts_Modes_ZarimanCorruptionMission.readable.luau.",
+ "rows": [
+  {
+   "tunable_id": "void_flood.deposit_speed_scale",
+   "phase1_tunable_id": "void_flood.deposit_and_drain",
+   "label": "Tank fill speed (deposit rate multiplier)",
+   "mission_type": "Void Flood",
+   "variant": "normal Void Flood (the Shadowgrapher variant deposits all carried energy at once)",
+   "shared_with": "",
+   "owner_kind": "LUA_ROOT_TABLE",
+   "backend": "TARGET_ADDON",
+   "owner": {
+    "body_key": "fc711ff621a75552",
+    "stock_sha256": "738AA59C66F935235C812CBA1AE6ECD361FDF700D5723C0928B88A2E11D89261",
+    "file": "Lotus_Scripts_Modes_ZarimanCorruptionMission.lua_B",
+    "module_path": "Lotus.Scripts.Modes.ZarimanCorruptionMission",
+    "template": "ROOT_TABLE_FIELD",
+    "gate": "ROOT_TABLE_UPVALUE_V1",
+    "mode": "scale",
+    "fields": [
+     {"field": 1, "table_id": "root:i26:R4", "value_instruction": 27, "stock": 0.12},
+     {"field": 2, "table_id": "root:i26:R4", "value_instruction": 28, "stock": 0.09},
+     {"field": 3, "table_id": "root:i26:R4", "value_instruction": 29, "stock": 0.08},
+     {"field": 4, "table_id": "root:i26:R4", "value_instruction": 30, "stock": 0.07}
+    ]
+   },
+   "unit": "x",
+   "stock": 1,
+   "limits": {"minimum": 0.05, "maximum": 100, "integer": false,
+              "basis": "multiplier; 0 would stop every tank from filling (minimum 0.05 = 20 times slower); maximum is a numeric guard"},
+   "applies": "F9",
+   "confidence": "CONFIRMED_STATIC (R14 owner proof; live pending)",
+   "evidence": "Config table frame_83[18] (root DUPTABLE i25) field depositPctPerSecond = {0.12, 0.09, 0.08, 0.07} (NEWTABLE i26 + SETLIST i31, readable L94-100). Reader: deposit loop prototype 48 (readable L9618-9662): for each player within depositRadius of an unfilled tank, per frame amount = tank.capacity x depositPctPerSecond[frame_83[138]] x dt, limited by the player's carried void energy and by capacity - deposited; frame_83[138] = clamp(players + test clients, 1, 4) (L8325/L8334/L12999/L13684), so the index is the squad size, not the tank. Not read when the Shadowgrapher flag (unresolved global 3420abb0) is set: that variant deposits all carried energy at once (L9599-9616)."
+  },
+  {
+   "tunable_id": "void_flood.tank_capacity_scale",
+   "phase1_tunable_id": "void_flood.tank_capacity",
+   "label": "Tank capacity (void energy per tank multiplier)",
+   "mission_type": "Void Flood",
+   "variant": "normal Void Flood (the Shadowgrapher variant uses fractureCapacity)",
+   "shared_with": "",
+   "owner_kind": "LUA_ROOT_TABLE",
+   "backend": "TARGET_ADDON",
+   "owner": {
+    "body_key": "fc711ff621a75552",
+    "stock_sha256": "738AA59C66F935235C812CBA1AE6ECD361FDF700D5723C0928B88A2E11D89261",
+    "file": "Lotus_Scripts_Modes_ZarimanCorruptionMission.lua_B",
+    "module_path": "Lotus.Scripts.Modes.ZarimanCorruptionMission",
+    "template": "ROOT_TABLE_FIELD",
+    "gate": "ROOT_TABLE_UPVALUE_V1",
+    "mode": "scale_count",
+    "fields": [
+     {"field": 1, "table_id": "root:i39:R4", "value_instruction": 40, "stock": 125},
+     {"field": 2, "table_id": "root:i39:R4", "value_instruction": 41, "stock": 250},
+     {"field": 3, "table_id": "root:i39:R4", "value_instruction": 42, "stock": 300},
+     {"field": 4, "table_id": "root:i39:R4", "value_instruction": 43, "stock": 350}
+    ]
+   },
+   "unit": "x",
+   "stock": 1,
+   "limits": {"minimum": 0.05, "maximum": 100, "integer": false,
+              "basis": "multiplier; each capacity is rounded and at least 1; maximum is a numeric guard"},
+   "applies": "F9",
+   "confidence": "CONFIRMED_STATIC (R14 owner proof; live pending)",
+   "evidence": "Config table frame_83[18] field capacity = {125, 250, 300, 350} (NEWTABLE i39 + SETLIST i44, readable L106-111), indexed by the human player count (1 to 4). Readers: tank creation prototype 39 (L7095-7115: tank.capacity = capacity[#players]), prototype 2 (L440-455), prototype 43 (L8586-8604: _T.PlayerEnergyCap = capacity[#players], the most void energy a player can carry, in normal mode; the Shadowgrapher variant uses playerCapacity), prototypes 12/33/34. A tank is full at deposited >= capacity (prototype 41 L7712, prototype 48 L9747-9775); deposit per second is capacity x depositPctPerSecond, so the standing time per tank does not change with capacity."
+  },
+  {
+   "tunable_id": "void_flood.orb_value_scale",
+   "phase1_tunable_id": "void_flood.pickup_amounts",
+   "label": "Void orb value (energy per orb multiplier)",
+   "mission_type": "Void Flood",
+   "variant": "normal Void Flood (the Shadowgrapher variant uses the Sg amounts)",
+   "shared_with": "",
+   "owner_kind": "LUA_ROOT_TABLE",
+   "backend": "TARGET_ADDON",
+   "owner": {
+    "body_key": "fc711ff621a75552",
+    "stock_sha256": "738AA59C66F935235C812CBA1AE6ECD361FDF700D5723C0928B88A2E11D89261",
+    "file": "Lotus_Scripts_Modes_ZarimanCorruptionMission.lua_B",
+    "module_path": "Lotus.Scripts.Modes.ZarimanCorruptionMission",
+    "template": "ROOT_TABLE_FIELD",
+    "gate": "ROOT_TABLE_UPVALUE_V1",
+    "mode": "scale",
+    "fields": [
+     {"field": "smallAmt", "table_id": "root:i47:R5", "stock": 5},
+     {"field": "mediumAmt", "table_id": "root:i47:R5", "stock": 20},
+     {"field": "largeAmt", "table_id": "root:i47:R5", "stock": 60}
+    ]
+   },
+   "unit": "x",
+   "stock": 1,
+   "limits": {"minimum": 0.05, "maximum": 100, "integer": false,
+              "basis": "multiplier; 0 would make orbs worthless; maximum is a numeric guard (carried energy is capped by the tank capacity)"},
+   "applies": "F9",
+   "confidence": "CONFIRMED_STATIC (R14 owner proof; pickup-module use read from bytecode, decompile unavailable; live pending)",
+   "evidence": "Config table frame_83[34] (root DUPTABLE i47) fields smallAmt 5, mediumAmt 20, largeAmt 60 (readable L113). Mission start (prototype 68, L13336-13346, normal mode) copies them into _T.VoidPickupAmt = {small, medium, large}; ZarimanCorruptionPickups prototypes 4-7 read VoidPickupAmt (the four orb handlers differ only in one index operand 0/0/1/2) and prototype 0 adds to VoidEnergyCollection; the mission's deposit loop (prototype 48, L9498-9516) moves the collection into the player's carried energy, clamped to _T.PlayerEnergyCap. Prototype 28 (L4404-4425) also uses mediumAmt/smallAmt to split a downed player's dropped energy into orbs. The copy happens at mission start, so a change applies from the next mission."
+  },
+  {
+   "tunable_id": "void_flood.drain_speed_scale",
+   "phase1_tunable_id": "void_flood.deposit_and_drain",
+   "label": "Tank drain speed (Decaying curse drain multiplier)",
+   "mission_type": "Void Flood",
+   "variant": "normal Void Flood while the Decaying curse is active",
+   "shared_with": "",
+   "owner_kind": "LUA_ROOT_TABLE",
+   "backend": "TARGET_ADDON",
+   "owner": {
+    "body_key": "fc711ff621a75552",
+    "stock_sha256": "738AA59C66F935235C812CBA1AE6ECD361FDF700D5723C0928B88A2E11D89261",
+    "file": "Lotus_Scripts_Modes_ZarimanCorruptionMission.lua_B",
+    "module_path": "Lotus.Scripts.Modes.ZarimanCorruptionMission",
+    "template": "ROOT_TABLE_FIELD",
+    "gate": "ROOT_TABLE_UPVALUE_V1",
+    "mode": "scale",
+    "fields": [
+     {"field": "drainPercent", "table_id": "root:i25:R3", "stock": 0.08}
+    ]
+   },
+   "unit": "x",
+   "stock": 1,
+   "limits": {"minimum": 0, "maximum": 100, "integer": false,
+              "basis": "multiplier; 0 = no drain; maximum is a numeric guard (a tank never drains below 0)"},
+   "applies": "F9",
+   "confidence": "CONFIRMED_STATIC (R14 owner proof; live pending)",
+   "evidence": "Config table frame_83[18] field drainPercent 0.08 (readable L94). Reader: tank update prototype 41 (L7724-7840): for a partly filled tank in normal mode, only while curse 5 (frame_83[17][frame_83[190]] with frame_83[190] = 5, the Decaying curse, L10735-10736/L10786) is active and no player is at the tank, every drainInterval (10 s; the first drain 3 s after it starts, L7765) deposited = max(deposited - drainPercent x capacity, 0)."
+  }
+ ]
+}

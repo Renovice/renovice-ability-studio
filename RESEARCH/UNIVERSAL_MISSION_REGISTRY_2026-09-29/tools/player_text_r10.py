@@ -144,3 +144,13 @@ def register(row, master, per_player, players):
     # WaveDefense entry (SCRIPT_PARAM_GLOBAL_AT_ENTRY, mode absolute).
     row('defense.waves_per_reward', 'Waves per reward',
         'Defense waves between each reward and extraction choice', word=' waves')
+
+    # ---- Contract R14 (2026-10-01): Void Flood tank multipliers, scaled root-table fields (mode scale / scale_count).
+    row('void_flood.deposit_speed_scale', 'Tank fill speed',
+        'Multiplies how fast a Void Flood tank fills while a player stands at it with Void energy')
+    row('void_flood.tank_capacity_scale', 'Tank capacity',
+        'Multiplies the Void energy each Void Flood tank needs and the most a player can carry')
+    row('void_flood.orb_value_scale', 'Void orb value',
+        'Multiplies the Void energy from small, medium and large Void orbs in Void Flood')
+    row('void_flood.drain_speed_scale', 'Tank drain speed',
+        'Multiplies the energy a Void Flood tank loses under the Decaying curse while nobody is at it')

@@ -9,7 +9,7 @@
       "pass": true
     },
     {
-      "name": "the built addon is byte-identical to the installed R12 addon (8e0e1871)",
+      "name": "the built addon is the pinned R14 addon (4c70b5ec; R12 was 8e0e1871)",
       "pass": true
     },
     {

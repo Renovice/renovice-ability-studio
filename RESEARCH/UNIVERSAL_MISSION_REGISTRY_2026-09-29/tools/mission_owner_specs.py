@@ -48,6 +48,30 @@ R12 = EDITOR / 'RESEARCH/MISSIONS_R12_DEFENSE_REWARD_2026-10-01'
 R12_DRAFTS = R12 / 'inputs/r12_row_drafts.json'
 R12_DRAFTS_SHA256 = 'B6410C68BBC946019DE2C863F6AEADC9DD69C43133E73203EEA0C57F055EF4C4'  # LF-normalized content
 R12_PROVENANCE = 'research:defense-reward-interval-2026-10-01 (contract R12)'
+# Contract R14 (2026-10-01): Void Flood tank multipliers (fill speed, capacity, orb value, drain). Scaled ROOT_TABLE_FIELD
+# rows: the row value is a multiplier (stock 1); every field keeps its own stock and is proven against it. Record
+# RESEARCH/MISSIONS_R14_VOID_FLOOD_TANKS_2026-10-01. Same admission path; drafts pinned by their LF content.
+R14 = EDITOR / 'RESEARCH/MISSIONS_R14_VOID_FLOOD_TANKS_2026-10-01'
+R14_DRAFTS = R14 / 'inputs/r14_row_drafts.json'
+R14_DRAFTS_SHA256 = 'CF23C919BFD7D6E8D8A364B742BA832722ABA81028F6E8B9C8AE367CF5C4E6E3'  # LF-normalized content
+R14_PROVENANCE = 'research:void-flood-tanks-2026-10-01 (contract R14)'
+# R14: a ROOT_TABLE_FIELD row with `mode` writes (field stock x row value) into every field; `scale_count` rounds each
+# result and keeps it at least 1 (the R11 count rule applied to root-table fields). Without `mode` the row value is
+# written as is (every row before R14).
+ROOT_FIELD_MODES = ('scale', 'scale_count')
+# R14: Phase 1 rows the R14 rows cover only in part; the remaining parts stay unregistered with this reason.
+EXCLUDED_PARTS = [
+    {'phase1': 'void_flood.deposit_and_drain',
+     'part': 'depositRadius, drainInterval, numForFullVoidIntensity, spawnDelay, xpAmount, xpDivisor, xpMultCap',
+     'reason': 'R14: owner proven (ROOT_TABLE_UPVALUE_V1 PASS on root:i25:R3) but not admitted: not a tank-fill setting the '
+               'player asked for; deposit rate and drain amount are registered as void_flood.deposit_speed_scale and '
+               'void_flood.drain_speed_scale'},
+    {'phase1': 'void_flood.pickup_amounts',
+     'part': 'SgBaseAmt, SgLargeAmt, SgMediumAmt, SgSmallAmt, groupSpawnInterval, groupSpawnPerInterval, groupSpawnRange, '
+             'largeRespawnTime, lowEnemyRate, highEnemyRate, lowEnemyScale, highEnemyScale',
+     'reason': 'R14: not admitted (Shadowgrapher amounts and orb/enemy spawning, not orb value in normal Void Flood); '
+               'smallAmt, mediumAmt and largeAmt are registered as void_flood.orb_value_scale'},
+]
 ENTRY_GATE = 'CAPTURE_GRAPH_ENTRY_V1'
 MISSION_INFO = 'MISSION_INFO_FIELD_AT_ENTRY'
 SCRIPT_PARAM = 'SCRIPT_PARAM_GLOBAL_AT_ENTRY'
@@ -208,12 +232,14 @@ def rows(ctx):
     drafts = load_drafts()
     r11 = load_drafts(R11_DRAFTS, R11_DRAFTS_SHA256, 'R11')
     r12 = load_drafts(R12_DRAFTS, R12_DRAFTS_SHA256, 'R12')
+    r14 = load_drafts(R14_DRAFTS, R14_DRAFTS_SHA256, 'R14')
     out, excluded = [], []
     report = {'drafts': len(drafts['rows']), 'drafts_rejected_by_research': len(drafts['rejected']), 'admitted': 0,
               'excluded': [], 'renamed': {}, 'by_backend': {}, 'by_template': {}, 'r11_drafts': len(r11['rows']),
-              'r12_drafts': len(r12['rows'])}
+              'r12_drafts': len(r12['rows']), 'r14_drafts': len(r14['rows'])}
     for d in (drafts['rows'] + [dict(x, _provenance=R11_PROVENANCE) for x in r11['rows']]
-              + [dict(x, _provenance=R12_PROVENANCE) for x in r12['rows']]):
+              + [dict(x, _provenance=R12_PROVENANCE) for x in r12['rows']]
+              + [dict(x, _provenance=R14_PROVENANCE) for x in r14['rows']]):
         old = d['tunable_id']
         if old in EXCLUDED:
             excluded.append({'tunable_id': old, 'owner_kind': d['owner_kind'], 'confidence': d['confidence'],
@@ -225,7 +251,8 @@ def rows(ctx):
             report['renamed'][old] = tid
         o = d['owner']
         where = f'{tid} (draft {old})' if tid != old else tid
-        base = {'tunable_id': tid, 'phase1_tunable_id': None, 'label': d['label'], 'mission_type': d['mission_type'],
+        # R14: a draft may cover a Phase 1 row (its Phase 1 exclusion is then resolved; uncovered parts: EXCLUDED_PARTS).
+        base = {'tunable_id': tid, 'phase1_tunable_id': d.get('phase1_tunable_id'), 'label': d['label'], 'mission_type': d['mission_type'],
                 'variant': d['variant'], 'shared_with': d.get('shared_with', ''), 'owner_kind': d['owner_kind'],
                 'backend': d['backend'], 'unit': UNIT_MAP.get(d['unit'], d['unit']), 'stock': num(d['stock']),
                 'confidence': d['confidence'], 'provenance': d.get('_provenance', PROVENANCE),
@@ -250,23 +277,48 @@ def rows(ctx):
                            limits=lim, applies='next_mission',
                            backend_note=f'{len(sites)} exact site(s) patched together: ' + '; '.join(s['owner'] for s in sites))
             elif o.get('template') == 'ROOT_TABLE_FIELD':
+                mode = o.get('mode')
+                if mode is not None:
+                    # R14: a scaled row is a multiplier; each field is proven against its own stock and keeps it.
+                    if mode not in ROOT_FIELD_MODES:
+                        raise ValueError(f'{where}: unknown root-table field mode {mode!r}')
+                    if d['stock'] != 1 or lim['minimum'] < 0 or lim.get('integer'):
+                        raise ValueError(f'{where}: a scaled root-table row needs stock 1, a minimum >= 0 and a fractional value')
                 fields = []
                 for f in o['fields']:
+                    stock = float(f['stock'] if mode is not None else d['stock'])
+                    if mode is None and 'stock' in f:
+                        raise ValueError(f'{where}: a field stock is allowed only on a scaled row')
+                    if mode == 'scale_count' and (stock < 1 or not stock.is_integer()):
+                        raise ValueError(f'{where}: a scale_count field must hold a whole number >= 1 (field {f["field"]!r})')
                     if isinstance(f['field'], int):
                         ins = m.protos[m.root][0]
-                        vi = [i for i, (off, _) in enumerate(ins) if off == f['value_offset']]
+                        if 'value_instruction' in f:  # R14: the element's root LOADN/LOADK instruction index
+                            vi = [f['value_instruction']] if 0 <= f['value_instruction'] < len(ins) else []
+                        else:
+                            vi = [i for i, (off, _) in enumerate(ins) if off == f['value_offset']]
                         if len(vi) != 1:
-                            raise ValueError(f'{where}: no root instruction at value offset {f["value_offset"]}')
-                        ev = m.element_owner(vi[0], float(d['stock']))
+                            raise ValueError(f'{where}: no root instruction for array element {f["field"]}')
+                        ev = m.element_owner(vi[0], stock)
+                        if ev['field'] != f['field']:
+                            raise ValueError(f'{where}: instruction {vi[0]} fills element {ev["field"]}, drafted {f["field"]}')
                     else:
                         table_instruction = int(f['table_id'].split(':')[1][1:])
-                        ev = m.owner(f['field'], float(d['stock']), table_instruction)
+                        ev = m.owner(f['field'], stock, table_instruction)
                     if ev['table_id'] != f['table_id']:
                         raise ValueError(f'{where}: field proves on {ev["table_id"]}, drafted {f["table_id"]}')
-                    fields.append(ctx.addon_field(m, key, ev))
-                row = dict(base, owner=ctx.addon_owner(m, key, rec, fields), limits=lim, applies='F9',
+                    entry = ctx.addon_field(m, key, ev)
+                    if mode is not None:
+                        entry['stock'] = num(stock)
+                    fields.append(entry)
+                owner = ctx.addon_owner(m, key, rec, fields)
+                if mode is not None:
+                    owner['mode'] = mode
+                row = dict(base, owner=owner, limits=lim, applies='F9',
                            backend_note='Root-table field(s) ' + ', '.join(f'{x["table_id"]}.{x["field"]}' for x in fields) +
-                                        ' written through the target-addon lane (ROOT_TABLE_UPVALUE_V1).')
+                                        ' written through the target-addon lane (ROOT_TABLE_UPVALUE_V1)' +
+                                        (f'; mode {mode}: each field = its stock x the row value' +
+                                         (', rounded, at least 1' if mode == 'scale_count' else '') if mode else '') + '.')
             elif o.get('template') in ENTRY_TEMPLATES:
                 row = entry_row(ctx, m, key, rec, d, base, lim, where)
             else:
