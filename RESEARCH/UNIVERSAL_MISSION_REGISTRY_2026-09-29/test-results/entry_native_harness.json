@@ -1,7 +1,7 @@
 {
   "checks": [
     {
-      "name": "pinned R12 build input (LF bytes)",
+      "name": "pinned R12 build input (LF content)",
       "pass": true
     },
     {

@@ -31,8 +31,8 @@ runtime enters it, and nothing replayed the installed ScriptStates.json.
 ## Files
 
 - `RESEARCH/UNIVERSAL_MISSION_REGISTRY_2026-09-29/tools/test_entry_native_harness.py` (new gate).
-- `RESEARCH/MISSIONS_R13_NATIVE_ENTRY_2026-10-01/inputs/rebuild_input.r12.json` (pinned R12 build input, SHA-256
-  `479e0a6b…a60203`, copied from `work/staging/combined-r12/evidence/generator/`).
+- `RESEARCH/MISSIONS_R13_NATIVE_ENTRY_2026-10-01/inputs/rebuild_input.r12.json` (pinned R12 build input, SHA-256 of
+  its LF content `dccde5fd…7ca4b6`, copied from `work/staging/combined-r12/evidence/generator/`).
 
 ## Limits
 

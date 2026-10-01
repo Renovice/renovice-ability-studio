@@ -35,7 +35,7 @@ while not (ROOT / 'WORKSPACE.json').exists():
 CLI = Path(os.environ.get('RENOVICE_EDITOR_CLI', ROOT / 'work/builds/ability-editor/current/bin/renovice_ability_editor_cli.exe'))
 LUAU = ROOT / 'repos/toolchains/de-luau-toolchain/bin/luau.exe'
 INPUT = EDITOR / 'RESEARCH/MISSIONS_R13_NATIVE_ENTRY_2026-10-01/inputs/rebuild_input.r12.json'
-INPUT_SHA = '479e0a6b3e14cdc171dd5a7f12befa8d462c6ee99721eb2b4da245e4d8f60203'
+INPUT_LF_SHA = 'dccde5fddf2649c2be4c93789cecab4cc1d1759dc9d01d0117cba25f5a7ca4b6'  # LF content (checkout-independent)
 R12_ADDON_SHA = '8e0e187124379d78ab039bc283eb9963d9696d6f1d7c4a420af5a3d96c1ebb07'  # installed 2026-10-01
 WORK = ROOT / 'work/temp/entry-native-harness'
 OUT = Path(__file__).resolve().parents[1] / 'test-results'
@@ -80,7 +80,8 @@ def scaled_count(current, value):
 
 
 # 1. Build the pinned R12 input; the addon must be the installed R12 addon.
-check(sha(INPUT) == INPUT_SHA, 'pinned R12 build input (LF bytes)')
+check(hashlib.sha256(INPUT.read_bytes().replace(b'\r\n', b'\n')).hexdigest() == INPUT_LF_SHA,
+      'pinned R12 build input (LF content)')
 shutil.rmtree(WORK, ignore_errors=True)
 WORK.mkdir(parents=True)
 run = subprocess.run([str(CLI), 'build-missions', str(INPUT), '--staging', str(WORK / 'build'), '--editor-root', str(EDITOR)],
