@@ -48,15 +48,20 @@ def register(row, master, per_player, players):
         'difficulty factors')
     row('exterminate.archwing_kill_mult', 'Archwing kill factor',
         'Extra factor on the Exterminate kill count on Archwing maps (higher on three space maps)', 'adv')
-    row('sabotage.gascity_hack_time', 'Gas City: meltdown time',
-        'Base time of the Gas City meltdown countdown; node difficulty stretches it by 20 to 80 percent')
+    # R17: the R10 row wrote hackTime, which the Gas City script recomputes from modeTimer before its first reader (wrong
+    # owner). The R17 row multiplies both level parameters at the engine writer (R16 gate), so the countdown scales in
+    # either engine write order.
+    row('sabotage.gascity_meltdown_time_scale', 'Gas City: meltdown time',
+        'Multiplies the Gas City meltdown countdown that the game sets from the map and the node difficulty')
     row('sabotage.random_extraction_timer', 'Surprise extraction timer',
         'Countdown of the occasional timed extraction after the reactor is destroyed (about 1 in 3 missions above level 10)',
         'adv')
-    row('control_area_nokko.hold_time', 'Hold-zone time',
-        'Seconds to hold the zone in Deepmines Control Area bounties below Fortuna')
-    row('control_area_nokko.bonus_threshold', 'Bonus control threshold',
-        'Control level the Deepmines bonus objective requires', 'adv', word=' percent')
+    # R17: the readers run after a yield of the encounter instance (EXPOSED); the five and six GETIMPORT reads are pinned
+    # to the value (IMPORT_READ_PIN_V1, live literals, next mission). The threshold's minimum is 1 (LOADN domain).
+    live('control_area_nokko.hold_time', 'Hold-zone time',
+         'Seconds to hold the zone in Deepmines Control Area bounties below Fortuna')
+    live('control_area_nokko.bonus_threshold', 'Bonus control threshold',
+         'Control level the Deepmines bonus objective requires', 'adv', word=' percent')
 
     # ---- Void Armageddon (root CFG table, target-addon lane, live).
     row('void_armageddon.wave_time', 'Wave time', 'Length of each Void Armageddon wave')

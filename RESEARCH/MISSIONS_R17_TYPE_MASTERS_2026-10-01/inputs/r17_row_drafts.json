@@ -1,0 +1,144 @@
+{
+ "schema": "RENOVICE_MISSION_TUNABLE_REGISTRY_V2 tunables[] drafts (contract R17)",
+ "build": "2026.09.28.13.06",
+ "supersedes": {
+  "control_area_nokko.hold_time": "R17 (R15 method): the R10 SCRIPT_PARAM_GLOBAL_AT_ENTRY owner wrote the encounter parameter defendTime into the AreaDefense instance environment at the DefendStart (P9) entry. Every reader runs after a yield of the same instance: P9 first calls P6, which busy-waits Sleep(1) until the area is ready (readable L683-690) before reading defendTime at i102/i105/i109/i110 (net-var default and the defendTime/2, defendTime/3 thresholds, L762-769); P5 i74 runs later as a registered callback (L598). An engine re-write of the parameter between the entry and these reads restores the template value (the R15 Defense failure shape: EXPOSED). The five reads are the only uses of the hash 1d1539a9 in the module (GETIMPORT, no write), so R17 pins them (IMPORT_READ_PIN_V1).",
+  "control_area_nokko.bonus_threshold": "R17 (R15 method): the R10 entry write of bonusControlLevelThreshold reaches no reader before a yield: P9 reads it at i172/i198 inside its main loop (states 31 and 34, after the Sleep loops at L1476/L1559 have run), P0 is a 1 s repeating timer callback (L602, readable L250-280) and P5 i68 a later callback. EXPOSED. The six reads are the only uses of the hash 186dbec4 (GETIMPORT, no write), so R17 pins them (IMPORT_READ_PIN_V1). The LOADN domain of the shared patch core is 1..32767, so the minimum moves from 0 to 1."
+ },
+ "rows": [
+  {
+   "tunable_id": "control_area_nokko.hold_time",
+   "phase1_tunable_id": null,
+   "label": "Hold-zone time",
+   "mission_type": "Free Roam bounty (Control Area)",
+   "variant": "every Deepmines (below Fortuna) Control Area encounter (H.Misc template AreaDefense, ExecuteScript DefendStart, _defendTime=90)",
+   "shared_with": "",
+   "owner_kind": "SCRIPT_PARAM_GLOBAL",
+   "backend": "EXACT_LITERAL",
+   "owner": {
+    "body_key": "e4bb611e00823d46",
+    "stock_sha256": "2C7BB67B50C245A0D9B10E680B18B54503ABDBF546EEEB2B85A3D98DE80AA4C6",
+    "file": "Lotus_Scripts_Venus_NokkoColony_Encounters_AreaDefense.lua_B",
+    "module_path": "Lotus.Scripts.Venus.NokkoColony.Encounters.AreaDefense",
+    "sites": [
+     {"kind": "import_pin", "global": "defendTime", "hash": "1d1539a9", "prototype": 5, "instruction": 74,
+      "owner": "P5 i74 GETIMPORT defendTime -> LOADN: default of the AreaDefenseTime net var (readable L598)"},
+     {"kind": "import_pin", "global": "defendTime", "hash": "1d1539a9", "prototype": 6, "instruction": 102,
+      "owner": "P6 i102 GETIMPORT defendTime -> LOADN: default of the hold-time net var after the readiness wait (L762)"},
+     {"kind": "import_pin", "global": "defendTime", "hash": "1d1539a9", "prototype": 6, "instruction": 105,
+      "owner": "P6 i105 GETIMPORT defendTime -> LOADN: first threshold, time - defendTime / 2 (L764)"},
+     {"kind": "import_pin", "global": "defendTime", "hash": "1d1539a9", "prototype": 6, "instruction": 109,
+      "owner": "P6 i109 GETIMPORT defendTime -> LOADN: second threshold, defendTime - defendTime / 3 (L768)"},
+     {"kind": "import_pin", "global": "defendTime", "hash": "1d1539a9", "prototype": 6, "instruction": 110,
+      "owner": "P6 i110 GETIMPORT defendTime -> LOADN: second threshold divisor operand (L769)"}
+    ]
+   },
+   "unit": "s",
+   "stock": 90,
+   "limits": {
+    "minimum": 1,
+    "maximum": 3600,
+    "integer": true,
+    "basis": "operand domain guard only; LOADN domain 1..32767; gameplay-safe range not established offline"
+   },
+   "applies": "next_mission",
+   "confidence": "CONFIRMED_STATIC (reader pin, IMPORT_READ_PIN_V1; live pending)",
+   "provenance": "research:mission-settings-r17-2026-10-01 (contract R17)",
+   "evidence": "AreaDefense 44.0.2 (body e4bb611e00823d46) reads the encounter parameter _defendTime only as the single-name import GETIMPORT #1d1539a9 at P5 i74 and P6 i102/i105/i109/i110 (U44 opcode 0x35, aux count 1, aux words not LOADN); no SETGLOBAL or string-keyed use. One encounter template carries the parameter (H.Misc AreaDefense, _defendTime=90), so a pin equals the old absolute row. With the row off the module is stock."
+  },
+  {
+   "tunable_id": "control_area_nokko.bonus_threshold",
+   "phase1_tunable_id": null,
+   "label": "Bonus control threshold",
+   "mission_type": "Free Roam bounty (Control Area)",
+   "variant": "every Deepmines (below Fortuna) Control Area encounter (H.Misc template AreaDefense, _bonusControlLevelThreshold=50)",
+   "shared_with": "",
+   "owner_kind": "SCRIPT_PARAM_GLOBAL",
+   "backend": "EXACT_LITERAL",
+   "owner": {
+    "body_key": "e4bb611e00823d46",
+    "stock_sha256": "2C7BB67B50C245A0D9B10E680B18B54503ABDBF546EEEB2B85A3D98DE80AA4C6",
+    "file": "Lotus_Scripts_Venus_NokkoColony_Encounters_AreaDefense.lua_B",
+    "module_path": "Lotus.Scripts.Venus.NokkoColony.Encounters.AreaDefense",
+    "sites": [
+     {"kind": "import_pin", "global": "bonusControlLevelThreshold", "hash": "186dbec4", "prototype": 0, "instruction": 43,
+      "owner": "P0 i43 GETIMPORT bonusControlLevelThreshold -> LOADN: control level above the threshold keeps the bonus (1 s timer, readable L252)"},
+     {"kind": "import_pin", "global": "bonusControlLevelThreshold", "hash": "186dbec4", "prototype": 0, "instruction": 54,
+      "owner": "P0 i54 GETIMPORT bonusControlLevelThreshold -> LOADN: bonus objective text value (L262)"},
+     {"kind": "import_pin", "global": "bonusControlLevelThreshold", "hash": "186dbec4", "prototype": 0, "instruction": 73,
+      "owner": "P0 i73 GETIMPORT bonusControlLevelThreshold -> LOADN: bonus objective text value when lost (L277)"},
+     {"kind": "import_pin", "global": "bonusControlLevelThreshold", "hash": "186dbec4", "prototype": 5, "instruction": 68,
+      "owner": "P5 i68 GETIMPORT bonusControlLevelThreshold -> LOADN: bonus objective text at wave start (L592)"},
+     {"kind": "import_pin", "global": "bonusControlLevelThreshold", "hash": "186dbec4", "prototype": 9, "instruction": 172,
+      "owner": "P9 i172 GETIMPORT bonusControlLevelThreshold -> LOADN: control below the threshold ends the bonus (state 31, L1264)"},
+     {"kind": "import_pin", "global": "bonusControlLevelThreshold", "hash": "186dbec4", "prototype": 9, "instruction": 198,
+      "owner": "P9 i198 GETIMPORT bonusControlLevelThreshold -> LOADN: final bonus check (state 34, L1292)"}
+    ]
+   },
+   "unit": "%",
+   "stock": 50,
+   "limits": {
+    "minimum": 1,
+    "maximum": 100,
+    "integer": true,
+    "basis": "operand domain guard only; LOADN domain 1..32767 (the R10 minimum 0 is not encodable); gameplay-safe range not established offline"
+   },
+   "applies": "next_mission",
+   "confidence": "CONFIRMED_STATIC (reader pin, IMPORT_READ_PIN_V1; live pending)",
+   "provenance": "research:mission-settings-r17-2026-10-01 (contract R17)",
+   "evidence": "AreaDefense 44.0.2 reads _bonusControlLevelThreshold only as GETIMPORT #186dbec4 at P0 i43/i54/i73, P5 i68 and P9 i172/i198 (single-name imports, aux words not LOADN); no write or string-keyed use. One encounter template carries it (50). With the row off the module is stock."
+  },
+  {
+   "tunable_id": "sabotage.gascity_meltdown_time_scale",
+   "phase1_tunable_id": null,
+   "label": "Gas City: meltdown time",
+   "mission_type": "Sabotage (Gas City)",
+   "variant": "every Gas City Sabotage (SabotageMission trigger)",
+   "shared_with": "",
+   "owner_kind": "SCRIPT_PARAM_GLOBAL",
+   "backend": "TARGET_ADDON",
+   "owner": {
+    "body_key": "5b59e2968c1ec7bf",
+    "stock_sha256": "64F1281D3C81EC76E5051406172C23BBBAB29D62D51697AD2666744628C13E08",
+    "file": "Lotus_Scripts_Modes_GasCitySabotage.lua_B",
+    "module_path": "Lotus.Scripts.Modes.GasCitySabotage",
+    "template": "SCRIPT_PARAM_GLOBAL_AT_ENTRY",
+    "gate": "CAPTURE_GRAPH_ENTRY_V1",
+    "entries": [
+     {"prototype": 15, "function": "SabotageMission"}
+    ],
+    "globals": [
+     {"name": "hackTime", "hash": "d37f0aaf"},
+     {"name": "modeTimer", "hash": "ac8ee271"}
+    ],
+    "readers": [
+     {"key": "hackTime", "prototype": 3, "instructions": [33, 36, 59]},
+     {"key": "hackTime", "prototype": 5, "instructions": [112]},
+     {"key": "modeTimer", "prototype": 5, "instructions": [105]}
+    ],
+    "mode": "scale",
+    "observed": {
+     "hackTime": {"10": 12},
+     "modeTimer": {"60": 1, "100": 11}
+    },
+    "write_rule": {
+     "where": "the called closure environment (per module instance)",
+     "when": "at every hooked entry: value == recorded instance value -> write; value == written -> skip; anything else -> fail closed (drift)",
+     "cleanup": "restore the recorded value in every live instance whose value is still the written one"
+    }
+   },
+   "unit": "x",
+   "stock": 1,
+   "limits": {
+    "minimum": 0.05,
+    "maximum": 20,
+    "integer": false,
+    "basis": "operand domain guard only (a positive multiplier); gameplay-safe range not established offline"
+   },
+   "applies": "next_mission",
+   "confidence": "CONFIRMED_STATIC (needs the R16 writer hook or the R10 entry write; live pending)",
+   "provenance": "research:mission-settings-r17-2026-10-01 (contract R17)",
+   "evidence": "GasCitySabotage 44.0.2: SabotageMission (P15, the only trigger whose code reaches the countdown) calls P5 in its first run slice (state 2, readable L2899-2903), and P5 SETGLOBALs hackTime = modeTimer x Lerp(1.8, 1.2, difficulty) (P5 i105 GETIMPORT modeTimer, i112 SETGLOBAL hackTime, L1088-1094). The countdown reader P3 (i59 SetObjTimer(hackTime), i33/i36 host-migration restore) runs at stage 5 through P12 or after a host migration through P4, after many yields. So the R10 row (entry write of hackTime) never reached a reader: P5 overwrites it first (WRONG OWNER). Two engine-write orders are possible and are not separated offline: without a later engine write the countdown is modeTimer x factor (SabotageMission trigger: _modeTimer=60); with an engine re-write of the parameters before stage 5 it is the level hackTime (10). Scaling both parameters by the same factor scales the countdown in both orders. Levels: 12 triggers carry _hackTime=10; _modeTimer is 60 on the one SabotageMission trigger and 100 on the 11 others (GasStormTarget, TurbineExplosion, ShutterDrop, Left/RightSideGasRoom), which never run P3 or P5."
+  }
+ ]
+}

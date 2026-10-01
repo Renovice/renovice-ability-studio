@@ -14,6 +14,8 @@ This module owns, for every registry row and master knob:
   * ui.path: the pages below the package page (category included; the generator collapses single-category levels);
   * ui.row: the row text on the last page ("Squad", "Time between rewards");
   * ui.quick: the label on the Quick settings page (headline value per mission type, one on/off each);
+  * ui.quick_on_page (contract R17): the type's "All <mission type> missions" master: the first entry of the mission type's
+    page, shown there as its Quick settings pair (on/off + kept value; one storage, the same value as Quick settings);
   * ui.default_label: the default as the player sees it when the game value is a range or formula ("60-80 s");
   * ui.scope_text: one or two short plain sentences (no node lists, no MT_ codes, no internal ids);
   * ui.group: `<family>` for every category except Advanced, `<family>_advanced` for Advanced (sort order only);
@@ -65,18 +67,25 @@ TYPES = {
     'railjack': ('Railjack', None),
 }
 # Families merged into another family's mission type sort right after it.
-# R10: the 1999 Escalation rows come first on the Exterminate page (its Timers category), the R10 kill-count rows follow.
-MERGED = {'sentientcapture', 'sentientmd', 'wf1999def', 'exterminate'}
+# R10: the 1999 Escalation rows came first on the Exterminate page. R17: the Exterminate kill count is the type's
+# "All Exterminate missions" master and must be the first entry of the page, so the 1999 Escalation family follows it.
+MERGED = {'sentientcapture', 'sentientmd', 'wf1999def', 'escalation'}
 
-L = {}        # id -> {'path': [...], 'row': str, 'quick': str|None}
+L = {}        # id -> {'path': [...], 'row': str, 'quick': str|None, 'on_page': bool}
 ORDER = []    # display order (rank)
+ON_PAGE_ROW = 'All {} missions'
 
 
-def put(tid, path, row, quick=None):
+def put(tid, path, row, quick=None, on_page=False):
     if tid in L:
         raise SystemExit(f'player_layout: {tid} placed twice')
-    L[tid] = {'path': list(path), 'row': row, 'quick': quick}
+    L[tid] = {'path': list(path), 'row': row, 'quick': quick, 'on_page': on_page}
     ORDER.append(tid)
+
+
+def master_row(tid, mission, quick):
+    """R17: the "All <mission> missions" master of a mission type: first on the type's page, its Quick settings pair."""
+    put(tid, [mission], ON_PAGE_ROW.format(mission), quick=quick, on_page=True)
 
 
 def players(fmt, path, ids=None):
@@ -94,19 +103,19 @@ put('sentientcapture.swarm.area_swarm_size', ['Capture', 'Enemies'], 'Sentient s
 for n in (1, 2, 3):
     put(f'colonistdoor.navbridge_thresholds.b{n}', ['Colonist Door Defense', 'Advanced'], f'Bridge {n} trigger')
 
-# ---- Control Area, by location
-put('control_area_plains.duration', ['Control Area', 'Plains of Eidolon (Cetus)', 'Timers'], 'Hold-zone time',
-    quick='Control Area (Plains): hold time')
-put('control_area_deimos.duration', ['Control Area', 'Cambion Drift (Deimos)', 'Timers'], 'Hold-zone time',
-    quick='Control Area (Cambion): hold time')
+# ---- Control Area, by location. R17: one "All Control Area missions" master over the three locations (several
+# modules); a location row wins over it where it is on.
+master_row('control_area.hold_time', 'Control Area', 'Control Area: hold time')
+put('control_area_plains.duration', ['Control Area', 'Plains of Eidolon (Cetus)', 'Timers'], 'Hold-zone time')
+put('control_area_deimos.duration', ['Control Area', 'Cambion Drift (Deimos)', 'Timers'], 'Hold-zone time')
 # R10: the Deepmines hold time is the encounter parameter `defendTime` (default 90 s); the old literal-rewrite row
 # control_area_nokko.duration has no stock and is never declared (it stays the preset owner). Orb Vallis has no Control Area
 # stage.
-put('control_area_nokko.hold_time', ['Control Area', 'Deepmines (below Fortuna)', 'Timers'], 'Hold-zone time',
-    quick='Control Area (Deepmines): hold time')
+put('control_area_nokko.hold_time', ['Control Area', 'Deepmines (below Fortuna)', 'Timers'], 'Hold-zone time')
 put('control_area_nokko.bonus_threshold', ['Control Area', 'Deepmines (below Fortuna)', 'Advanced'], 'Bonus control threshold')
 
 # ---- Defection
+master_row('defection.squads_to_rescue', 'Defection', 'Defection: squads to rescue')  # R17
 put('defection.squads_required', ['Defection', 'Objectives'], 'Squads to rescue')  # R8 live literal
 put('defection.squads_required.sortie', ['Defection', 'Objectives'], 'Sortie: squads to rescue')  # R8 live literal
 players('defection.max_enemies.{}', ['Defection', 'Enemies', 'Max enemies at once'])
@@ -116,6 +125,8 @@ players('defection.max_sim_ai.min_{}', ['Defection', 'Enemies', 'Max enemies at 
         ids={k: f'defection.max_sim_ai.min_{k}' for k, _ in PLAYERS})
 
 # ---- Defense
+# R17: "All Defense missions" = waves per reward (the four WaveDefend readers, R15), first on the Defense page.
+master_row('defense.waves_per_reward', 'Defense', 'Defense: waves per reward')
 # R8 live literals: timers, waves to finish, the enemy-count masters (regular and Infested, both level ends) and their
 # level 30+ rows; 1999 Defense drones (merged family).
 put('defense.first_wave_delay', ['Defense', 'Timers'], 'Delay before first wave')
@@ -125,8 +136,7 @@ put('wf1999def.drone_count.spawn_interval', ['Defense', 'Timers'], '1999: time b
 # (fixed numbers in the Defense script) sit on their own page next to it.
 put('defense.waves_to_finish', ['Defense', 'Objectives'], 'Waves to finish', quick='Defense: waves to finish')
 # R12: the reward / extraction checkpoint interval (level parameter minWavesToComplete). R15: the four readers are
-# pinned to the value (live literal, IMPORT_READ_PIN_V1); the entry-time environment write is gone.
-put('defense.waves_per_reward', ['Defense', 'Rewards / drops'], 'Waves per reward', quick='Defense: waves per reward')
+# pinned to the value (live literal, IMPORT_READ_PIN_V1); the entry-time environment write is gone. R17: placed above.
 for _tid, _row in (('special_mission_default_waves', 'Alert missions'), ('nightmare_wave_count', 'Nightmare'),
                    ('duviri_wave_count', 'Duviri'), ('circle_wave_count', 'Descendia')):
     put(f'defense.{_tid}', ['Defense', 'Objectives', 'Special-mission waves'], _row)
@@ -159,6 +169,7 @@ for tier, stage, name in SHRINE_STAGES:
     players(f'shrine.respawn_delay.{tier}.{stage}.{{}}', ['Descendia', 'Shrine Defense', 'Enemies', 'Time between waves', name])
 
 # ---- Disruption
+master_row('disruption.rounds_to_finish', 'Disruption', 'Disruption: rounds to finish')  # R17
 # R8 live literals: round timers and counts, the enemy-count masters and their per-variant upper counts.
 put('disruption.round_timeout', ['Disruption', 'Timers'], 'Round time-out timer')
 put('disruption.interval_between_rounds', ['Disruption', 'Timers'], 'Time between rounds')
@@ -184,7 +195,7 @@ for i in (1, 2, 3, 4):
     put(f'entrati_swarm.eximus_by_scale.chance.area{i}', ['Entrati Swarm', 'Advanced', 'Eximus chance'], f'Area {i}')
 
 # ---- Excavation (the master drives the three variants; the literal rows are built from it, never declared)
-put('excavation.dig_time', ['Excavation', 'Timers'], 'Excavator dig time', quick='Excavation: dig time')
+master_row('excavation.dig_time', 'Excavation', 'Excavation: dig time')  # R17: first on the page
 put('excavation.excavators_to_finish', ['Excavation', 'Objectives'], 'Excavators to finish')  # R10
 put('excavation.dig_duration', ['Excavation', 'Timers', 'Dig time by variant'], 'Standard')
 put('excavation.dig_duration_elite_alert', ['Excavation', 'Timers', 'Dig time by variant'], 'Elite Alert')
@@ -192,7 +203,7 @@ put('excavation.dig_duration_old_world_salvage', ['Excavation', 'Timers', 'Dig t
 put('excavation.duviri_excavation_count', ['Excavation', 'Objectives'], 'Duviri: excavations')  # R8 live literal
 
 # ---- Exterminate (R10 kill count parameters) and 1999 Escalation
-put('exterminate.kills_scale', ['Exterminate', 'Objectives'], 'Kills needed', quick='Exterminate: kills needed')
+master_row('exterminate.kills_scale', 'Exterminate', 'Exterminate: kills needed')  # R17: first on the page
 put('exterminate.archwing_kill_mult', ['Exterminate', 'Advanced'], 'Archwing kill factor')
 put('escalation.crate_timer', ['Exterminate', 'Timers'], 'Escalation: crate timer')  # R8 live literal
 players('escalation.keys_per_players.{}', ['Exterminate', 'Objectives', '1999 Escalation: keys needed'])
@@ -254,6 +265,7 @@ for c in ('b', 'm', 'p', 'v'):
     put(f'lantern.lamp_decay.{c}', ['Lantern', 'Advanced', 'Lamp fade curve'], f'Value {c}')
 
 # ---- Mirror Defense
+master_row('loopdefend.phase_time', 'Mirror Defense', 'Mirror Defense: time per phase')  # R17
 put('loopdefend.phase_duration', ['Mirror Defense', 'Timers'], 'Time per phase')  # R8 live literal
 put('loopdefend.phase_duration_jade', ['Mirror Defense', 'Timers'], 'Jade: time per phase')  # R8 live literal
 put('loopdefend.phases_to_finish', ['Mirror Defense', 'Objectives'], 'Phases to finish')  # R10
@@ -287,8 +299,7 @@ for tid, row in (('exStartTime', 'Ramp start'), ('exPeakTime', 'Ramp peak'), ('e
 players('loopdefend.eximus.override_ex_max_spawn.{}', EXIMUS + ['Event: max Eximus at once'])
 
 # ---- Mobile Defense (+ Sentient Mobile Defense)
-put('mobiledefense.time_per_terminal', ['Mobile Defense', 'Timers'], 'Time per terminal',
-    quick='Mobile Defense: time per terminal')
+master_row('mobiledefense.time_per_terminal', 'Mobile Defense', 'Mobile Defense: time per terminal')  # R17
 put('mobiledefense.total_time.maximum', ['Mobile Defense', 'Timers', 'Total terminal time'], 'Hard nodes')
 put('mobiledefense.total_time.minimum', ['Mobile Defense', 'Timers', 'Total terminal time'], 'Easy nodes')
 put('sentientmd.defend_time', ['Mobile Defense', 'Timers'], 'Sentient: time per area')  # R8 live literal
@@ -300,8 +311,7 @@ players('mobiledefense.enemy_counts.min.{}', ['Mobile Defense', 'Enemies', 'Max 
 players('sentientmd.max_sim_ai.{}', ['Mobile Defense', 'Enemies', 'Sentient Anomaly: max enemies'])
 
 # ---- Orphix Venom
-put('orphix.spawn_interval', ['Orphix Venom', 'Timers', 'Time between Orphix spawns'], 'All variants',
-    quick='Orphix Venom: time between spawns')
+master_row('orphix.spawn_interval', 'Orphix Venom', 'Orphix Venom: time between spawns')  # R17
 put('orphix.orphix_interval.interval', ['Orphix Venom', 'Timers', 'Time between Orphix spawns'], 'Normal')
 put('orphix.orphix_interval.eventInterval', ['Orphix Venom', 'Timers', 'Time between Orphix spawns'], 'Orphix event')
 put('orphix.max_rounds_railjack', ['Orphix Venom', 'Objectives'], 'Railjack: round limit')
@@ -330,7 +340,9 @@ for i in (1, 2, 3):
     put(f'purge.alert_tiers.tier{i}_multiplier', ['Purge', 'Advanced', 'Alert missions: spawn speed'], f'Tier {i}')
 
 # ---- Survival
-put('survival.reward_interval', ['Survival', 'Timers'], 'Time between rewards', quick='Survival: time between rewards')
+# R17: "All Survival missions" = time between rewards. Alert, invasion and syndicate Survival and Duviri Survival run for a
+# total length instead (their own rows below); the master does not drive them (user decision pending, 2026-10-01).
+master_row('survival.reward_interval', 'Survival', 'Survival: time between rewards')
 put('survival.alert_interval', ['Survival', 'Timers'], 'Alert mission length')
 put('survival.fixed_length_minutes', ['Survival', 'Timers'], 'Fixed length')  # R10
 put('survival.duviri_fixed_length', ['Survival', 'Timers'], 'Duviri: Survival length')  # R8 live literal
@@ -365,13 +377,14 @@ for tid, row in (('level_up_enrage.levelUpTime', 'Time to reach max level'),
     put(f'survival.{tid}', SLEVEL, row)
 
 # ---- Void Cascade
-put('void_cascade.pillar_duration', ['Void Cascade', 'Timers'], 'Exolizer defense time',
-    quick='Void Cascade: exolizer defense time')
+master_row('void_cascade.pillar_duration', 'Void Cascade', 'Void Cascade: exolizer defense time')  # R17
 put('void_cascade.exolizers_to_finish', ['Void Cascade', 'Objectives'], 'Exolizers to finish')  # R10
 players('void_cascade.circle_fixed_length.{}', ['Void Cascade', 'Objectives', 'The Circuit: exolizers to finish'])
 put('void_cascade.alert_reward_interval', ['Void Cascade', 'Rewards / drops'], 'Alert: reward interval')
 
 # ---- Void Flood
+# R17: "All Void Flood missions" = tank fill speed (R14), first on the page.
+master_row('void_flood.deposit_speed_scale', 'Void Flood', 'Void Flood: tank fill speed')
 # R14: the fill_timer values time the corruption meter, not the tanks (rows renamed; ids unchanged).
 put('void_flood.fill_timer.timeToFillMax', ['Void Flood', 'Timers'], 'Corruption meter time')
 put('void_flood.fill_timer.timeToFillMin', ['Void Flood', 'Timers'], 'Shortest meter time')
@@ -379,7 +392,6 @@ put('void_flood.fractures_per_round.normal', ['Void Flood', 'Objectives'], 'Frac
     quick='Void Flood: fractures per round')
 put('void_flood.tanks_to_finish', ['Void Flood', 'Objectives'], 'Tanks to finish')  # R10
 # R14: tank multipliers (scaled root-table fields of the Void Flood config tables).
-put('void_flood.deposit_speed_scale', ['Void Flood', 'Objectives'], 'Tank fill speed', quick='Void Flood: tank fill speed')
 put('void_flood.tank_capacity_scale', ['Void Flood', 'Objectives'], 'Tank capacity')
 put('void_flood.orb_value_scale', ['Void Flood', 'Objectives'], 'Void orb value')
 put('void_flood.drain_speed_scale', ['Void Flood', 'Objectives'], 'Tank drain speed')
@@ -393,17 +405,19 @@ put('void_flood.fractures_per_round.duviri', ['Void Flood', 'Objectives'], 'Duvi
 
 # ---- R8 live literals of mission types without an addon value (contract R8/R9, merged 2026-09-30)
 put('arbitration.resurrection_score_cap', ['Arbitration', 'Advanced'], 'Max resurrection score')
+master_row('archimedea.survival_minutes', 'Archimedea', 'Archimedea: Survival length')  # R17
 for _tid, _row in (('eda_survival_minutes', 'Survival length'), ('eda_alchemy', 'Alchemy mixtures'),
                    ('eda_disruption', 'Disruption conduits'), ('eda_mirror_defense_waves', 'Mirror Defense phases')):
     put(f'archimedea.{_tid}', ['Archimedea', 'Objectives', 'Deep Archimedea'], _row)
 for _tid, _row in (('eta_survival_minutes', 'Survival length'), ('eta_defense_waves', 'Defense waves')):
     put(f'archimedea.{_tid}', ['Archimedea', 'Objectives', 'Temporal Archimedea'], _row)
 put('archwing.fomorian_emp_timer', ['Archwing', 'Timers'], 'Fomorian EMP countdown')
-put('multidefend.defend_time', ['Hack-Station Defense', 'Timers'], 'Time per station')
+master_row('multidefend.defend_time', 'Hack-Station Defense', 'Hack-Station Defense: time per station')  # R17
 for _tid, _row in (('min_d0', 'Easy nodes: shortest'), ('max_d0', 'Easy nodes: longest'),
                    ('min_d1', 'Hard nodes: shortest'), ('max_d1', 'Hard nodes: longest')):
     put(f'multidefend.defend_time.{_tid}', ['Hack-Station Defense', 'Timers', 'Time per station by node'], _row)
 put('multidefend.station_count', ['Hack-Station Defense', 'Objectives'], 'Stations to defend')
+master_row('hijack.payload_health_all', 'Hijack', 'Hijack: payload health')  # R17
 put('hijack.payload_health', ['Hijack', 'Objectives'], 'Payload health')
 put('hijack.payload_health.goal_mission', ['Hijack', 'Objectives'], 'Goal missions: health')
 put('netracell.power_required.base', ['Netracell', 'Objectives'], 'Power required')
@@ -411,20 +425,21 @@ put('netracell.power_required.per_extra_player', ['Netracell', 'Objectives'], 'P
 put('pursuit.phase_timer', ['Pursuit', 'Timers'], 'Defend-ship phase time')
 
 # ---- Contract R10 (mission-owner research, 2026-09-30)
+master_row('interception.score_goal_scale', 'Interception', 'Interception: score to win')  # R17: first on the page
 put('interception.round_end_timer', ['Interception', 'Timers'], 'Time between rounds')
-put('interception.score_goal_scale', ['Interception', 'Objectives'], 'Score to win',
-    quick='Interception: score to win')
 put('interception.rounds_to_finish', ['Interception', 'Objectives'], 'Rounds to finish')
 put('interception.scoring_speed', ['Interception', 'Advanced'], 'Scoring speed')
-put('spy.vault_alarm_scale', ['Spy', 'Timers'], 'Alarm time', quick='Spy: vault alarm time')
+master_row('spy.vault_alarm_scale', 'Spy', 'Spy: alarm time')  # R17 (quick label shortened for the page pair)
 put('spy.vaults_required', ['Spy', 'Advanced'], 'Vaults required')
+master_row('rescue.hostage_timer', 'Rescue', 'Rescue: hostage timer')  # R17
 put('rescue.hostage_timer.easy', ['Rescue', 'Timers', 'Hostage timer'], 'Easiest nodes')
 put('rescue.hostage_timer.hard', ['Rescue', 'Timers', 'Hostage timer'], 'Hardest nodes')
+master_row('infested_capture.required_captures', 'Legacyte Harvest', 'Legacyte Harvest: captures')  # R17
 for _tid, _row in (('high_scaling', 'High scaling'), ('mutated', 'Mutated enemies'), ('double', 'Double trouble'),
                    ('descendia', 'Descendia')):
     put(f'infested_capture.required_captures.{_tid}', ['Legacyte Harvest', 'Objectives', 'Captures to finish'], _row)
 put('sabotage.reactor_extract_timer', ['Sabotage', 'Timers'], 'Ship escape timer')
-put('sabotage.gascity_hack_time', ['Sabotage', 'Timers'], 'Gas City: meltdown time')
+put('sabotage.gascity_meltdown_time_scale', ['Sabotage', 'Timers'], 'Gas City: meltdown time')  # R17 (replaces the R10 row)
 put('sabotage.orokin_charge_time', ['Sabotage', 'Timers'], 'Orokin: charge time')
 put('sabotage.orokin_escape_timer', ['Sabotage', 'Timers'], 'Orokin: escape timer')  # R11 coupled literal
 put('sabotage.forest_defend_time', ['Sabotage', 'Timers'], 'Forest: injector time')
@@ -434,7 +449,7 @@ put('sabotage.gascity_meltdown_scale.easy', ['Sabotage', 'Advanced', 'Gas City m
 put('sabotage.gascity_meltdown_scale.hard', ['Sabotage', 'Advanced', 'Gas City meltdown factor'], 'Hardest nodes')
 put('sabotage.random_extraction_timer', ['Sabotage', 'Advanced'], 'Surprise extraction')
 put('rush.pace_speed', ['Rush', 'Timers'], 'Pace speed')
-put('void_armageddon.wave_time', ['Void Armageddon', 'Timers'], 'Wave time', quick='Void Armageddon: wave time')
+master_row('void_armageddon.wave_time', 'Void Armageddon', 'Void Armageddon: wave time')  # R17
 put('void_armageddon.pre_wave_time', ['Void Armageddon', 'Timers'], 'Time before a wave')
 put('void_armageddon.post_wave_time', ['Void Armageddon', 'Timers'], 'Time after a wave')
 put('void_armageddon.prepare_time', ['Void Armageddon', 'Timers'], 'Round prepare time')
@@ -459,7 +474,10 @@ put('assassination.hard_mode_level_per_player', ['Assassination', 'Advanced'], '
 put('assassination.ambulas_level_per_player', ['Assassination', 'Advanced'], 'Ambulas level per player')
 
 # ---- Contract R11 (2026-09-30): Railjack kill goals (encounter parameters scaled at the objective / patrol entry)
-put('railjack.fighter_kills_scale', ['Railjack', 'Objectives'], 'Fighters to kill', quick='Railjack: fighters to kill')
+# R17: "All Railjack missions" = kill goals, a master over the three rows (several modules; the Corpus row is owned at
+# the engine writer and gets the master there).
+master_row('railjack.kill_goals_scale', 'Railjack', 'Railjack: kill goals')
+put('railjack.fighter_kills_scale', ['Railjack', 'Objectives'], 'Fighters to kill')
 put('railjack.crewship_kills_scale', ['Railjack', 'Objectives'], 'Crewships to kill')
 put('railjack.corpus_fighter_limit_scale', ['Railjack', 'Objectives'], 'Corpus fighters')
 
@@ -477,8 +495,10 @@ OVERRIDE = {    # id -> full description
     'survival.pickup_reward_progress': 'Old preset option, not a game value: seconds added to the reward clock per pickup '
                                        '(0 = off).',
     'disruption.boss_health_multiplier': 'Health multiplier of the Disruption boss in the Double Trouble variant.',
-    'survival.reward_interval': 'Seconds between rewards in endless Survival, including Steel Path, Kuva and Void Eclipse. '
-                                'Alert missions end at the alert mission length instead.',
+    # R17: the "All Survival missions" master. Alert, invasion, syndicate and Duviri Survival run for a total length
+    # (the script replaces the interval with it on the host); the master does not drive their rows.
+    'survival.reward_interval': 'Seconds between rewards in endless Survival (Steel Path, Kuva and Void Eclipse too). It '
+                                'leaves the total length of alert, invasion, syndicate and Duviri Survival alone.',
     'faceoff.exterminate_kills': 'Kills to finish the Faceoff Exterminate objective (the game picks a random number between '
                                  'the two ends below). This sets both ends; an end you change keeps its value.',
     'mobiledefense.time_per_terminal': 'Upload time of each Mobile Defense terminal. The default depends on node difficulty '
@@ -569,6 +589,8 @@ for _key, _label in (('p1', '7-10'), ('p2', '13-20'), ('p3', '22-26'), ('p4', '2
 DEFAULTS['railjack.fighter_kills_scale'] = {'label': 'x1 (20-130)', 'note': None}
 DEFAULTS['railjack.crewship_kills_scale'] = {'label': 'x1 (2-10)', 'note': None}
 DEFAULTS['railjack.corpus_fighter_limit_scale'] = {'label': 'x1 (20-130)', 'note': None}
+DEFAULTS['railjack.kill_goals_scale'] = {'label': 'x1', 'note': None}  # R17 master (addon lane)
+DEFAULTS['sabotage.gascity_meltdown_time_scale'] = {'label': 'x1', 'note': None}  # R17
 # Contract R14: Void Flood tank multipliers; x1 keeps the game's numbers (per squad size).
 DEFAULTS['void_flood.deposit_speed_scale'] = {'label': 'x1 (8-14 s)', 'note': None}
 DEFAULTS['void_flood.tank_capacity_scale'] = {'label': 'x1 (125-350)', 'note': None}
@@ -623,6 +645,12 @@ def text_ok(text, maximum, slash=True):
         and '::' not in text and (slash or '/' not in text) and not text.endswith(':')
 
 
+def pair_label(quick):
+    """R17: the BUTTON text of an "All <type> missions" pair: the Quick settings label after its colon, capitalised."""
+    what = quick.split(':', 1)[1].strip() if ':' in quick else quick
+    return what[:1].upper() + what[1:]
+
+
 def safe_row(label):
     label = ' '.join(label.split())
     if len(label) <= ROW_MAX:
@@ -675,9 +703,22 @@ def apply(rows, groups, masters):
         if tid not in by_id and tid not in masters:
             problems.append(f'{tid}: layout entry for an unknown value')
     orders = family_order(groups)
+    # R17: an Advanced section follows every section of its mission type (the Exterminate page lists the 1999 Escalation
+    # categories after the kill-count master, then Advanced last): order = the type's last family order + 5 + its index.
+    def type_key(family):
+        return TYPES.get(family, (groups.get(family, {}).get('label', family), None))
+    last_of_type = {}
+    for family, order in orders.items():
+        last_of_type[type_key(family)] = max(last_of_type.get(type_key(family), 0), order)
+    same_type = {}
+    for family in sorted(orders, key=orders.get):
+        same_type.setdefault(type_key(family), []).append(family)
     for gid, group in groups.items():
         family = gid[:-len('_advanced')] if gid.endswith('_advanced') else gid
-        group['order'] = orders[family] + (5 if gid.endswith('_advanced') else 0)
+        if gid.endswith('_advanced'):
+            group['order'] = last_of_type[type_key(family)] + 5 + same_type[type_key(family)].index(family)
+        else:
+            group['order'] = orders[family]
     rank = {tid: n for n, tid in enumerate(ORDER)}
     uis = [(r['tunable_id'], r['ui'], r.get('stock'), False) for r in rows] + \
           [(mid, m, m['stock'], True) for mid, m in masters.items()]
@@ -699,13 +740,19 @@ def apply(rows, groups, masters):
             row, quick = safe_row(ui['short_label']), None
         else:
             path, row, quick = entry['path'], entry['row'], entry['quick']
-        category = next((p for p in path if p in CATEGORIES), 'Advanced')
+        on_page = bool(entry and entry['on_page'])
+        # R17: an "All <type> missions" master sits on the type page itself, in the type's main section (never Advanced).
+        category = 'Main' if on_page else next((p for p in path if p in CATEGORIES), 'Advanced')
         ui['path'] = path
         ui['row'] = row
         if quick:
             ui['quick'] = quick
         else:
             ui.pop('quick', None)
+        if on_page:  # R17
+            ui['quick_on_page'] = True
+        else:
+            ui.pop('quick_on_page', None)
         # Rows without a layout entry sort after every placed row; idempotent over repeated runs (R10 fix: the offset was
         # added again on every run of player_text.py).
         ui['rank'] = rank.get(tid, 100000 + (ui.get('rank') or 0) % 100000)
@@ -755,8 +802,20 @@ def apply(rows, groups, masters):
             problems.append(f'{where}: quick label {quick!r} over budget')
         if ui.get('label_source') == 'player_text' and stock is not None:
             shown_default = ui.get('default_label') or with_unit(stock, ui['unit'])
-            if len(f'{row}: {shown_default} (default)') > ROW_BUDGET:
+            if on_page:
+                # R17: the page shows the Quick settings pair: CHECKBOX "<row>" and BUTTON "<quick after colon>: <kept>".
+                if not quick or len(path) != 1:
+                    problems.append(f'{where}: an "All <type> missions" master needs a quick label and the type page as path')
+                else:
+                    button = f'{pair_label(quick)}: {shown_default} (default)'
+                    if len(button) > ROW_BUDGET:
+                        problems.append(f'{where}: page pair "{button}" is over {ROW_BUDGET} characters')
+            elif len(f'{row}: {shown_default} (default)') > ROW_BUDGET:
                 problems.append(f'{where}: value row "{row}: {shown_default} (default)" is over {ROW_BUDGET} characters')
+            if quick:
+                owner = quick.split(':', 1)[0]
+                if len(f'{owner}: {shown_default} (default)') > ROW_BUDGET:
+                    problems.append(f'{where}: Quick settings row "{owner}: {shown_default} (default)" is over {ROW_BUDGET}')
             problems += description_problems(where, ui['scope_text'])
         if ui.get('default_label') and not text_ok(ui['default_label'], DEFAULT_LABEL_MAX):
             problems.append(f'{where}: default label over budget')
@@ -773,6 +832,22 @@ def apply(rows, groups, masters):
     for tid, ui, _, _ in uis:
         if tuple(ui['path']) + (ui['row'],) in pages:
             problems.append(f'{tid}: row {ui["row"]!r} has the same name as a page next to it')
+    # R17: an "All <type> missions" master is the first entry of its type page (declaration order: section order, rank, id;
+    # a page lists its entries in the order they first appear) and the only one there.
+    shown_ids = [(tid, ui) for tid, ui, _, _ in uis if ui.get('label_source') == 'player_text' or tid in masters]
+    shown_ids.sort(key=lambda item: (groups[item[1]['group']]['order'], item[1]['rank'], item[0]))
+    first_on = {}
+    for tid, ui in shown_ids:
+        first_on.setdefault(ui['path'][0], tid)
+    by_type = {}
+    for tid, ui in shown_ids:
+        if ui.get('quick_on_page'):
+            if ui['path'][0] in by_type:
+                problems.append(f'{tid}: a second "All {ui["path"][0]} missions" master (also {by_type[ui["path"][0]]})')
+            by_type[ui['path'][0]] = tid
+            if first_on[ui['path'][0]] != tid:
+                problems.append(f'{tid}: the "All {ui["path"][0]} missions" master is not the first entry of its page '
+                                f'({first_on[ui["path"][0]]} comes first)')
     if problems:
         raise SystemExit('R7 layout gate failures:\n  ' + '\n  '.join(problems[:60]))
     return {'format': LAYOUT_FORMAT, 'categories': CATEGORIES, 'path_max': PATH_MAX, 'row_max': ROW_MAX,

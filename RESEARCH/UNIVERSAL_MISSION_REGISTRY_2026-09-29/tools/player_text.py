@@ -90,8 +90,11 @@ def per_player(prefix, label, text, section='main', word=None, ids=None, note=No
 MASTERS = []  # {'id','group','label','text','drives':[(row, scale)],'note'}; stock = drives[0] stock / scale
 
 
-def master(mid, label, text, drives, note=None):
-    MASTERS.append({'id': mid, 'label': label, 'text': text, 'drives': drives, 'note': note})
+def master(mid, label, text, drives, note=None, group=None, word=None):
+    """`group`: contract R17, for a master whose id names no section of its own (a mission-type master over several
+    locations, "All Control Area missions"): the main section of its first driven row's family. Default: the id's family.
+    `word`: the unit words of the stock phrase when the registry unit has none (as for rows)."""
+    MASTERS.append({'id': mid, 'label': label, 'text': text, 'drives': drives, 'note': note, 'group': group, 'word': word})
 
 
 HIDDEN = {}  # tunable_id -> reason (never declared in the package; kept in the registry)
@@ -511,6 +514,11 @@ import player_text_r10  # noqa: E402  (same folder)
 player_text_r10.register(row, master, per_player, PLAYERS)
 LIVE_LITERAL_HEADLINE += player_text_r10.HEADLINE
 
+# ---- Contract R17 (2026-10-01): "All <mission type> missions" masters (player_text_r17.py).
+import player_text_r17  # noqa: E402  (same folder)
+player_text_r17.register(row, master)
+LIVE_LITERAL_HEADLINE += player_text_r17.HEADLINE
+
 # Group labels (sections). Existing ui_groups labels stay; advanced sections are "<label>: advanced" or the short form.
 ADVANCED_LABELS = {'escalation': '1999 Escalation: advanced', 'shrine': 'Shrine Defense: advanced',
                    'coh_destroy_targets': 'Destroy Targets: advanced', 'fivefates': 'Five Fates: advanced',
@@ -635,8 +643,16 @@ def apply(rows, groups):
         lanes = {r['backend'] for r, _ in driven}
         bodies = {r['owner']['body_key'] for r, _ in driven}
         types = {r['ui']['type'] for r, _ in driven}
-        if len(lanes) != 1 or len(bodies) != 1:
-            problems.append(f'master {mid}: drives rows of several lanes or modules')
+        if len(lanes) != 1:
+            problems.append(f'master {mid}: drives rows of several lanes')
+        # R17: a mission-type master may drive rows of several modules (Control Area: three location scripts; Railjack:
+        # three objective scripts). Its group is the main section of its first driven row's family.
+        if m['group'] is not None:
+            family = m['group']
+            if family != first['tunable_id'].split('.')[0] or family not in groups:
+                problems.append(f'master {mid}: group {family} is not the main section of its first driven row')
+        elif len(bodies) != 1:
+            problems.append(f'master {mid}: drives rows of several modules without naming its group (contract R17)')
         stock = first['stock'] / first_scale
         low = max(r['limits']['minimum'] / s for r, s in driven)
         high = min(r['limits']['maximum'] / s for r, s in driven)
@@ -645,7 +661,7 @@ def apply(rows, groups):
             low, high = float(int(-(-low // 1))), float(int(high // 1))
             if any(float(s) != int(s) for _, s in driven):
                 problems.append(f'master {mid}: an int master needs whole scales')
-        description = m['text'] + '; ' + stock_phrase(stock, first['unit'])
+        description = m['text'] + '; ' + stock_phrase(stock, first['unit'], m.get('word'))
         if m['note']:
             description += ' ' + m['note']
         number = (lambda v: int(v)) if kind == 'int' else (lambda v: int(v) if float(v).is_integer() else v)
@@ -655,6 +671,8 @@ def apply(rows, groups):
                         'unit': first['ui']['unit'], 'stock': number(stock), 'min': number(low), 'max': number(high),
                         'body_key': first['owner']['body_key'],
                         'drives': [{'tunable_id': r['tunable_id'], 'scale': int(s) if float(s).is_integer() else s} for r, s in driven]}
+        if len(bodies) > 1:  # R17 cross-module master: every module it drives, first driven row's module first
+            masters[mid]['body_keys'] = [first['owner']['body_key']] + sorted(bodies - {first['owner']['body_key']})
         if not (low <= stock <= high):
             problems.append(f'master {mid}: stock {stock} outside {low}..{high}')
     driven_by = {}

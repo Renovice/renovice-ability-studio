@@ -3980,7 +3980,10 @@ namespace renovice
                         && mission_tunable(registry, "survival.alert_ls_drop_mult").at("ui").at("group") == "survival"
                         && mission_tunable(registry, "survival.level_up_enrage.levelUpTime").at("ui").at("group") == "survival_advanced"
                         && registry.contains("ui_layout")
-                        && mission_tunable(registry, "survival.reward_interval").at("ui").at("path") == Json::array({"Survival", "Timers"})
+                        // R17: the "All Survival missions" master sits on the Survival page itself, shown as its Quick pair.
+                        && mission_tunable(registry, "survival.reward_interval").at("ui").at("path") == Json::array({"Survival"})
+                        && mission_tunable(registry, "survival.reward_interval").at("ui").at("row") == "All Survival missions"
+                        && mission_tunable(registry, "survival.reward_interval").at("ui").value("quick_on_page", false)
                         && mission_tunable(registry, "survival.reward_interval").at("ui").at("quick") == "Survival: time between rewards"
                         && mission_master(registry, "mobiledefense.time_per_terminal")->at("default_label") == "60-80 s"
                         && mission_tunable(registry, "disruption.treasure_goblin.tier").at("ui").contains("hidden")
@@ -4006,6 +4009,14 @@ namespace renovice
                             && rejects_ui([&](Json& r) { ui_of(r, "survival.reward_interval")["path"] = Json::array({"Survival", "Timers::"}); }, "ui path element")
                             && rejects_ui([&](Json& r) { ui_of(r, "survival.reward_interval")["row"] = std::string(34, 'r'); }, "ui row")
                             && rejects_ui([&](Json& r) { ui_of(r, "survival.reward_interval")["quick"] = "Survival:"; }, "quick label")
+                            // R17: a page master needs its quick label and the mission-type page as its path.
+                            && rejects_ui([&](Json& r) { ui_of(r, "survival.reward_interval").erase("quick"); }, "quick_on_page")
+                            && rejects_ui([&](Json& r) { ui_of(r, "survival.reward_interval")["path"] = Json::array({"Survival", "Timers"}); },
+                                          "quick_on_page")
+                            // R17 cross-module master: body_keys must be exactly the modules of its rows.
+                            && rejects_ui([&](Json& r) { master_of(r, "control_area.hold_time").erase("body_keys"); }, "is not a literal row of module")
+                            && rejects_ui([&](Json& r) { master_of(r, "control_area.hold_time")["body_keys"].push_back("0123456789abcdef"); },
+                                          "body_keys are not exactly")
                             && rejects_ui([&](Json& r) { ui_of(r, "survival.reward_interval")["group"] = "defense_advanced"; }, "family")
                             && rejects_ui([&](Json& r) { r["ui_groups"]["survival_advanced"]["order"] = 1; }, "Advanced subsection")
                             && rejects_ui([&](Json& r) { master_of(r, "loopdefend.max_enemies.p1")["drives"][0]["scale"] = 1.5; }, "whole")
@@ -4101,12 +4112,13 @@ namespace renovice
                                 && validate_settings_declarations(package_json).empty()
                                 && addon_values.size() == 3 && flood_values.size() == 1
                                 && [&]() {
-                                       // R7: the declaration is the registry row with its page path collapsed for this build
-                                       // (Survival holds one category here, so the "Timers" level is dropped).
+                                       // R7: the declaration is the registry row with its page path collapsed for this build.
+                                       // R17: the "All Survival missions" master already sits on the Survival page itself.
                                        Json declared = addon_values.at("survival.reward_interval");
                                        Json registry_row = mission_value_declaration(mission_tunable(registry, "survival.reward_interval"));
                                        const bool path_ok = declared.at("path") == Json::array({"Survival"})
-                                           && registry_row.at("path") == Json::array({"Survival", "Timers"});
+                                           && registry_row.at("path") == Json::array({"Survival"})
+                                           && declared.value("quick_on_page", false);
                                        declared.erase("path");
                                        registry_row.erase("path");
                                        return path_ok && declared == registry_row;
@@ -4792,6 +4804,12 @@ print("MULTI-TARGET HARNESS PASS cases=" .. #cases .. " idle=" .. #idle .. " ret
                                 harness << "local function chunk()\n" << read_text(master_addon->source) << "end\n\nlocal cases = {\n";
                                 for (const auto& id : master_addon->masters) {
                                     const Json& master = registry.at("ui_masters").at(id);
+                                    // R17: a master over entry-template rows (Railjack kill goals, several modules) has no
+                                    // root-table fields; its cases run in tools/test_r17_type_masters_harness.py.
+                                    bool table_rows = true;
+                                    for (const auto& drive : master.at("drives"))
+                                        table_rows = table_rows && mission_tunable(registry, drive.at("tunable_id").get<std::string>()).at("owner").contains("fields");
+                                    if (!table_rows) continue;
                                     const auto body = master.at("body_key").get<std::string>();
                                     const Json& module = registry.at("modules").at(body);
                                     const double value = master.at("stock").get<double>() + 1;

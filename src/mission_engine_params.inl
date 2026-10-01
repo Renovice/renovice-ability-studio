@@ -27,7 +27,9 @@ struct EngineParamsOutput {
 //     (verify_mission_row), admitted with gate ENGINE_PARAM_OVERRIDE_V1;
 //   * every parameter global of the row is declared (no partial override), each hash is the U44 name hash of its name;
 //   * the mode is the row's own mode (the same arithmetic as the addon's R10/R11 write);
-//   * no master knob drives the row (a master would keep driving the addon write the bootstrapper withholds);
+//   * a master knob that drives the row is an addon master of this member (R17): the override names it with its scale and
+//     the bootstrapper resolves it like the addon would (the row's own value when it applies, else master x scale); the
+//     generated addon leaves that row out of its master drives (no double application);
 //   * the value is declared by this member (type int or float).
 EngineParamsOutput emit_engine_param_recipe(const Json& registry, const MissionPaths& paths, const fs::path& package_dir,
                                             const std::string& member_file, const std::vector<std::string>& member_ids,
@@ -35,15 +37,15 @@ EngineParamsOutput emit_engine_param_recipe(const Json& registry, const MissionP
     EngineParamsOutput output;
     const auto seed = static_cast<std::uint32_t>(std::stoul(registry.at("name_hash_seed").get<std::string>(), nullptr, 16));
     static const std::set<std::string> modes{"scale", "scale_inverse", "absolute", "scale_count"};
-    std::set<std::string> driven;
+    std::map<std::string, std::pair<std::string, double>> driven;  // row -> (master, scale)
     if (registry.contains("ui_masters"))
         for (const auto& [master_id, master] : registry.at("ui_masters").items()) {
-            static_cast<void>(master_id);
             if (master.contains("drives"))
-                for (const auto& drive : master.at("drives")) driven.insert(drive.at("tunable_id").get<std::string>());
+                for (const auto& drive : master.at("drives"))
+                    driven[drive.at("tunable_id").get<std::string>()] = {master_id, drive.at("scale").get<double>()};
         }
     nlohmann::ordered_json overrides = nlohmann::ordered_json::array();
-    std::set<std::string> modules;
+    std::set<std::string> modules, masters_named;
     std::vector<std::string> rows;
     for (const auto& id : member_ids) {
         if (mission_master(registry, id) != nullptr) continue;
@@ -61,8 +63,15 @@ EngineParamsOutput emit_engine_param_recipe(const Json& registry, const MissionP
         const auto mode = owner.at("mode").get<std::string>();
         if (!modes.contains(mode) || engine.value("mode", std::string()) != mode)
             throw std::runtime_error("engine-param-overrides gate failed: " + where + "mode differs from the row's own mode");
-        if (driven.contains(id))
-            throw std::runtime_error("engine-param-overrides gate failed: " + where + "a master knob drives this row");
+        const auto master = driven.find(id);
+        if (master != driven.end()) {
+            const Json* knob = mission_master(registry, master->second.first);
+            if (knob == nullptr || knob->at("lane") != "addon" || !member_values.contains(master->second.first) ||
+                !(master->second.second > 0) ||
+                std::fabs(knob->at("stock").get<double>() * master->second.second - row.at("stock").get<double>()) > 1e-9)
+                throw std::runtime_error("engine-param-overrides gate failed: " + where + "its master knob " + master->second.first +
+                                         " is not an addon value of " + member_file + " with stock x scale = the row stock");
+        }
         if (!member_values.contains(id) || (member_values.at(id).value("type", std::string()) != "float" &&
                                             member_values.at(id).value("type", std::string()) != "int"))
             throw std::runtime_error("engine-param-overrides gate failed: " + where + "not an int/float value of " + member_file);
@@ -82,6 +91,11 @@ EngineParamsOutput emit_engine_param_recipe(const Json& registry, const MissionP
             item["parameter"] = name;
             item["hash"] = hex.str();
             item["mode"] = mode;
+            if (master != driven.end()) {  // R17: emitted only for a driven row, so R16 overrides keep their bytes
+                item["master"] = master->second.first;
+                item["scale"] = nlohmann::ordered_json::parse(settings_number(master->second.second, "int").dump());
+                masters_named.insert(master->second.first);
+            }
             overrides.push_back(item);
         }
         modules.insert(owner.at("body_key").get<std::string>());
@@ -98,9 +112,11 @@ EngineParamsOutput emit_engine_param_recipe(const Json& registry, const MissionP
     write_text(recipe_path, recipe.dump(2) + "\n");
     if (nlohmann::ordered_json::parse(read_text(recipe_path)) != recipe) throw std::runtime_error("engine_params.json readback mismatch");
     result.gate_log += "engine-param-overrides\nPASS rows=" + std::to_string(rows.size()) + " overrides=" +
-                       std::to_string(overrides.size()) + " modules=" + std::to_string(modules.size()) + " member=" + member_file + "\n";
+                       std::to_string(overrides.size()) + " modules=" + std::to_string(modules.size()) +
+                       (masters_named.empty() ? std::string() : " masters=" + std::to_string(masters_named.size())) + " member=" + member_file + "\n";
     output.record = {{"path", fs::relative(recipe_path, result.directory).generic_string()}, {"sha256", sha256_file(recipe_path)}, {"format", kEngineParamsFormat},
                      {"rows", rows}, {"overrides", overrides.size()}, {"modules", modules.size()},
+                     {"masters", std::vector<std::string>(masters_named.begin(), masters_named.end())},
                      {"note", "Needs the R16 ENGINE_PARAM_OVERRIDE bootstrapper; older DLLs ignore it and the addon keeps the value."}};
     return output;
 }

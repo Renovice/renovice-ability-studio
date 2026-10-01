@@ -1,0 +1,108 @@
+{
+  "checks": [
+    {
+      "name": "stock Lotus_Scripts_Modes_GasCitySabotage.lua_B is the 44.0.2 body (64f1281d)",
+      "pass": true
+    },
+    {
+      "name": "stock Lotus_Scripts_Sabotage.lua_B is the 44.0.2 body (0f1e3d2d)",
+      "pass": true
+    },
+    {
+      "name": "stock Lotus_Scripts_Venus_NokkoColony_Encounters_AreaDefense.lua_B is the 44.0.2 body (2c7bb67b)",
+      "pass": true
+    },
+    {
+      "name": "Gas City: hackTime is read only by P3 (i33 restore, i59 SetObjTimer) and written by P3 i36 and P5 i112; modeTimer is read only by P5 i105",
+      "pass": true
+    },
+    {
+      "name": "Sabotage: the surprise extraction `duration` has one reader, P11 i223",
+      "pass": true
+    },
+    {
+      "name": "Deepmines: defendTime (5 reads) and bonusControlLevelThreshold (6 reads) are single-name GETIMPORT reads, never written",
+      "pass": true
+    },
+    {
+      "name": "render gascity (derecomp 65c46572)",
+      "pass": true
+    },
+    {
+      "name": "Gas City: SabotageMission calls P5 (the hackTime computation) before its first Sleep (same entry call)",
+      "pass": true
+    },
+    {
+      "name": "Gas City: P5 sets hackTime from modeTimer x Lerp(1.8, 1.2, difficulty) (it replaces whatever the entry wrote)",
+      "pass": true
+    },
+    {
+      "name": "render sabotage (derecomp 65c46572)",
+      "pass": true
+    },
+    {
+      "name": "Sabotage: reactorDestroyedFunction reads duration before any Sleep of its body (the read runs in the entry call)",
+      "pass": true
+    },
+    {
+      "name": "render areadefense (derecomp 65c46572)",
+      "pass": true
+    },
+    {
+      "name": "Deepmines: the hold-time setup (P6) waits in its Sleep loop before its defendTime reads, in the same function (EXPOSED)",
+      "pass": true
+    },
+    {
+      "name": "Deepmines: DefendStart reads the bonus threshold inside its loop, which sleeps (EXPOSED)",
+      "pass": true
+    },
+    {
+      "name": "build with the R17 values succeeds",
+      "pass": true
+    },
+    {
+      "name": "Control Area master: one value, drives in the Cambion Drift, Deepmines and Plains scripts",
+      "pass": true
+    },
+    {
+      "name": "Control Area master 45 in 8a0b0819de60df01: 2 site(s) of control_area_deimos.duration are LOADN 45; 4 changed bytes, all inside recipe sites",
+      "pass": true
+    },
+    {
+      "name": "Control Area master 45 in e4bb611e00823d46: 10 site(s) of control_area_nokko.hold_time are LOADN 45; 66 changed bytes, all inside recipe sites",
+      "pass": true
+    },
+    {
+      "name": "Control Area master 45 in b3a5a18d68d61e16: 2 site(s) of control_area_plains.duration are LOADN 45; 3 changed bytes, all inside recipe sites",
+      "pass": true
+    },
+    {
+      "name": "Deepmines synthesized: no instruction names defendTime or the bonus threshold (no environment read is left)",
+      "pass": true
+    },
+    {
+      "name": "render areadefense_pinned (derecomp 65c46572)",
+      "pass": true
+    },
+    {
+      "name": "Deepmines synthesized render: the reads are constants (45 hold time, 25 bonus threshold)",
+      "pass": true
+    },
+    {
+      "name": "Deepmines synthesized: every defendTime read loads 45 and every threshold read loads 25 (master + own row)",
+      "pass": true
+    },
+    {
+      "name": "registry: the Gas City row is owned at the engine writer; the surprise extraction stays on the R10 entry lane",
+      "pass": true
+    },
+    {
+      "name": "toolchain luau.exe present",
+      "pass": true
+    },
+    {
+      "name": "harness: 6 Luau checks (Gas City in both engine orders and three runtimes, surprise extraction)",
+      "pass": true
+    }
+  ]
+}

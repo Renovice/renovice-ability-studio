@@ -1,0 +1,13 @@
+{
+ "schema": "RENOVICE mission registry: ENGINE_PARAM_OVERRIDE admissions (contract R17, same gate as R16)",
+ "build": "2026.09.28.13.06",
+ "gate": "ENGINE_PARAM_OVERRIDE_V1",
+ "source": "work/research/mission-settings-r17-2026-10-01/README.md (R15 classification method applied to the four remaining R10 entry rows)",
+ "rows": [
+  {
+   "tunable_id": "sabotage.gascity_meltdown_time_scale",
+   "exposure": "EXPOSED (and overwritten by the script before its first reader)",
+   "evidence": "GasCitySabotage P3 reads hackTime (i33/i36 host-migration restore, i59 SetObjTimer) only at stage 5 (via P12) or after a host migration (via P4), after many yields of the SabotageMission instance; P5 recomputes hackTime from modeTimer (i105) in the first run slice of the entry and again after a host migration (P15 state 12). Both parameters are written by the engine writer, which owns them on every write."
+  }
+ ]
+}

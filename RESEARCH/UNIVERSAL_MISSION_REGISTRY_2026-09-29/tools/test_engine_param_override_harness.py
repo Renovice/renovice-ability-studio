@@ -9,9 +9,13 @@ Packages/Missions/engine_params.json, and the bootstrapper's native hook replace
 fallback for older DLLs. The bootstrapper withholds the overridden values from the addon's context.settings when its hook
 is installed, so the addon writes nothing for them (no double application).
 
+R17 (2026-10-01): one more admitted row (Gas City meltdown time: hackTime and modeTimer scaled together) and a master on
+a natively owned row (Railjack kill goals over the Corpus fighter limit: engine_params.json names the master; the addon
+leaves that row out of its master drives, the bootstrapper withholds only the row, never the master).
+
 This gate:
-  1. builds the pinned build input with the generator CLI: the addon, package.json and literals.json are byte-identical
-     to R15; engine_params.json is new (pinned);
+  1. builds the pinned build input with the generator CLI: the addon, package.json, literals.json and engine_params.json
+     are the pinned R17 build;
   2. re-checks engine_params.json against the registry: every override is an admitted ENGINE_PARAM_OVERRIDE_V1 row, one
      entry per parameter global, the U44 name hash, the row's own mode, the row's stock module key; the bootstrapper's
      gate fixture is byte-identical (when the R16 worktree is present);
@@ -44,11 +48,13 @@ CLI = Path(os.environ.get('RENOVICE_EDITOR_CLI', ROOT / 'work/builds/ability-edi
 LUAU = ROOT / 'repos/toolchains/de-luau-toolchain/bin/luau.exe'
 INPUT = EDITOR / 'RESEARCH/MISSIONS_R13_NATIVE_ENTRY_2026-10-01/inputs/rebuild_input.r12.json'
 INPUT_LF_SHA = 'dccde5fddf2649c2be4c93789cecab4cc1d1759dc9d01d0117cba25f5a7ca4b6'  # LF content (checkout-independent)
-R15 = {'Missions.targets.addon.lua_B': '70fff0b6606e452edc0825b7c58e594505f71576b887ee5cef97064079dcc2ed',
-       'package.json': '44fc0b53d0b71887f8a4fc5e9de41da2e88264c4591779ef57ba2de5feba21be',
-       'literals.json': 'a16b2520ea2e5762057e96bcef3fe94ae30ff72b272cf8a14d69b2cddc8e3c01'}
-ENGINE_PARAMS_SHA = 'ae090c33d528e045b58f546cfe232daa21d724f3c3c49ee5b7af13878af053da'
-BOOTSTRAPPER_FIXTURE = ROOT / 'repos/runtime/bootstrapper-runtime-wt-r16/RENOVICE_TOOLCHAIN/engine_params/fixtures/Missions'
+# R17 build of the pinned input (R15/R16: addon 70fff0b6, package.json 44fc0b53, literals.json a16b2520, engine_params ae090c33).
+R15 = {'Missions.targets.addon.lua_B': 'daab653a2cdf17f5875c4e0f65f709b43f5998d2892058a2bd9692a60500d2ea',
+       'package.json': 'fb43906b7c6d1532fe550a4639bbcda85a0cd1c315996c3b3815be01a3cff9f3',
+       'literals.json': '028fdcd230e16410f4336a6c700e96cd594d59ff6518011e9ff41057da3ac572'}
+ENGINE_PARAMS_SHA = '26e56e26775dfec42b0ca3aa725a5b23163b4671b2fa1128abf43b1538e3bf7c'
+# The bootstrapper gate fixture of this build (R17; the R16 fixture stays in fixtures/Missions).
+BOOTSTRAPPER_FIXTURE = ROOT / 'repos/runtime/bootstrapper-runtime-wt-r16/RENOVICE_TOOLCHAIN/engine_params/fixtures/MissionsR17'
 WORK = ROOT / 'work/temp/engine-param-override-harness'
 OUT = Path(__file__).resolve().parents[1] / 'test-results'
 results = {'checks': []}
@@ -64,6 +70,9 @@ CASES = {
     'railjack.corpus_fighter_limit_scale': {'observed': {'minorKillGoals': [20, 35, 55, 85, 110], 'minorKillGoalsMax': [35, 55, 85, 110, 130]},
                                             'value': 0.5,
                                             'expect': {'minorKillGoals': [10, 18, 28, 43, 55], 'minorKillGoalsMax': [18, 28, 43, 55, 65]}},
+    # R17: both level parameters scaled (the countdown is hackTime, recomputed from modeTimer by the script).
+    'sabotage.gascity_meltdown_time_scale': {'observed': {'hackTime': 10, 'modeTimer': 60}, 'value': 2,
+                                             'expect': {'hackTime': 20, 'modeTimer': 120}},
 }
 
 
@@ -113,20 +122,21 @@ check(run.returncode == 0 and len(generations) == 1, 'build succeeds')
 generation = generations[0].parent
 package = generation / 'Packages/Missions'
 for name, digest in R15.items():
-    check(sha(package / name) == digest, f'{name} is byte-identical to R15 ({digest[:8]}): R16 adds a file, it changes none')
-check(sha(package / 'engine_params.json') == ENGINE_PARAMS_SHA, f'engine_params.json is the pinned R16 build ({ENGINE_PARAMS_SHA[:8]})')
+    check(sha(package / name) == digest, f'{name} is the pinned R17 build ({digest[:8]})')
+check(sha(package / 'engine_params.json') == ENGINE_PARAMS_SHA, f'engine_params.json is the pinned R17 build ({ENGINE_PARAMS_SHA[:8]})')
 manifest = json.loads(generations[0].read_text(encoding='utf-8'))
 record = manifest['package'].get('engine_params') or {}
-check(record.get('sha256', '').lower() == ENGINE_PARAMS_SHA and record.get('overrides') == 7 and record.get('modules') == 3
+check(record.get('sha256', '').lower() == ENGINE_PARAMS_SHA and record.get('overrides') == 9 and record.get('modules') == 4
+      and record.get('masters') == ['railjack.kill_goals_scale']
       and any(g['name'] == 'engine-param-overrides' and g['pass'] for g in manifest['package']['gates']),
-      'manifest records engine_params.json (7 overrides, 3 modules) and the engine-param-overrides gate')
+      'manifest records engine_params.json (9 overrides, 4 modules, master railjack.kill_goals_scale) and the engine-param-overrides gate')
 
 # 2. Re-check the declarations against the registry.
 recipe = json.loads((package / 'engine_params.json').read_text(encoding='utf-8'))
 registry = json.loads((EDITOR / 'REGISTRIES/mission_build_u44.json').read_text(encoding='utf-8'))
 rows = {r['tunable_id']: r for r in registry['tunables']}
 admitted = {tid for tid, r in rows.items() if isinstance(r.get('owner'), dict) and 'engine_override' in r['owner']}
-check(admitted == set(CASES), f'registry: the six R15 EXPOSED rows are admitted ENGINE_PARAM_OVERRIDE_V1 ({sorted(admitted)})')
+check(admitted == set(CASES), f'registry: the six R15 EXPOSED rows and the R17 Gas City row are admitted ENGINE_PARAM_OVERRIDE_V1 ({sorted(admitted)})')
 check(recipe['format'] == 'RENOVICE_ENGINE_PARAMS_V1' and recipe['package'] == 'package:missions'
       and recipe['build'] == registry['build'] and recipe['member'] == 'Missions.targets.addon.lua_B',
       'recipe header: format, package id, client build, addon member')
@@ -134,7 +144,10 @@ covered = {}
 for item in recipe['overrides']:
     row = rows[item['value']]
     owner = row['owner']
+    master = next((m for mid, m in registry['ui_masters'].items() if any(d['tunable_id'] == item['value'] for d in m['drives'])
+                   and mid == item.get('master')), None)
     ok = (item['value'] in admitted and owner['template'] == 'SCRIPT_PARAM_GLOBAL_AT_ENTRY' and item['module'] == owner['body_key']
+          and (('master' not in item and 'scale' not in item) or (master is not None and master['lane'] == 'addon' and item['scale'] == 1))
           and item['mode'] == owner['mode'] == owner['engine_override']['mode']
           and item['hash'] == f'{namehash(item["parameter"]):08x}'
           and {'name': item['parameter'], 'hash': item['hash']} in owner['globals'])
@@ -142,12 +155,15 @@ for item in recipe['overrides']:
     covered.setdefault(item['value'], set()).add(item['parameter'])
 check(all(covered.get(tid) == {g['name'] for g in rows[tid]['owner']['globals']} for tid in admitted),
       'every parameter global of every admitted row has exactly one override (no partial row)')
+check([(o['value'], o['parameter']) for o in recipe['overrides'] if 'master' in o]
+      == [('railjack.corpus_fighter_limit_scale', 'minorKillGoals'), ('railjack.corpus_fighter_limit_scale', 'minorKillGoalsMax')],
+      'R17: only the Corpus fighter row (natively owned, driven by the Railjack master) names a master, on both its parameters')
 if BOOTSTRAPPER_FIXTURE.is_dir():
     check(sha(BOOTSTRAPPER_FIXTURE / 'engine_params.json') == ENGINE_PARAMS_SHA
           and sha(BOOTSTRAPPER_FIXTURE / 'package.json') == R15['package.json'],
-          'the bootstrapper R16 gate fixture is this build (engine_params.json, package.json)')
+          'the bootstrapper R17 gate fixture (fixtures/MissionsR17) is this build (engine_params.json, package.json)')
 else:
-    print('INFO\tbootstrapper R16 worktree absent; fixture identity not compared')
+    print('INFO\tbootstrapper worktree absent; fixture identity not compared')
 
 # 3. The engine re-write order with the real addon.
 source = (generation / 'source/Missions.targets.addon.luau').read_text(encoding='utf-8')
@@ -266,10 +282,46 @@ for _, case in ipairs(CASES) do
         ok(not both[1], case.id .. ": native + addon on the same value compounds (" .. case.mode .. "): the withholding is required")
     end
 end
+-- R17: the Railjack master drives the Grineer rows in the addon and the Corpus row at the engine writer. With the hook
+-- installed the bootstrapper withholds only the Corpus row; the master is delivered. The addon must scale the Grineer
+-- fighters and write NOTHING for the Corpus row (else the native master value and the addon write would compound).
+do
+    local master = { ["railjack.kill_goals_scale"] = { enabled = true, value = 0.5, stock = 1 } }
+    local addon = ADDON_MODULE()
+    local corpus = addon.targets[CORPUS_KEY]
+    corpus.activate({ settings = master })
+    printed = {}
+    local env = { minorKillGoals = { 20, 35, 55, 85, 110 }, minorKillGoalsMax = { 35, 55, 85, 110, 130 } }
+    for _, prototype in ipairs(CORPUS_PROTOTYPES) do
+        local hook = corpus.hooks.luaCalls[prototype]
+        if hook ~= nil then hook.before(prototype, {}, {}, nil, env) end
+    end
+    ok(same(env.minorKillGoals, { 20, 35, 55, 85, 110 }) and prints_for("railjack.corpus_fighter_limit_scale") == 0,
+        "R17: the master alone writes nothing into the natively owned Corpus row from the addon (no double application)")
+    local native = { minorKillGoals = {}, minorKillGoalsMax = {} }
+    for i, n in ipairs({ 20, 35, 55, 85, 110 }) do native.minorKillGoals[i] = override("scale_count", n, 0.5) end
+    ok(same(native.minorKillGoals, { 10, 18, 28, 43, 55 }), "R17: the engine writer applies the master (0.5) to the Corpus row")
+    corpus.cleanup()
+    local fighters = addon.targets[FIGHTERS_KEY]
+    fighters.activate({ settings = master })
+    local fenv = { minorKillGoals = { 20, 35 }, minorKillGoalsMax = { 35, 55 }, kuvaLichKillGoalMin = 50, kuvaLichKillGoalMax = 60 }
+    for _, prototype in ipairs(FIGHTERS_PROTOTYPES) do
+        local hook = fighters.hooks.luaCalls[prototype]
+        if hook ~= nil then hook.before(prototype, {}, {}, nil, fenv) end
+    end
+    ok(same(fenv.minorKillGoals, { 10, 18 }) and fenv.kuvaLichKillGoalMin == 25,
+        "R17: the same master scales the Grineer fighter goals in the addon (another module)")
+    fighters.cleanup()
+end
 emit(failures == 0 and "ENGINE PARAM OVERRIDE HARNESS PASS" or "ENGINE PARAM OVERRIDE HARNESS FAIL")
 '''
 script = WORK / 'engine_param_override_harness.luau'
-script.write_text('ADDON_MODULE = function(...)\n' + source + '\nend\n' + 'CASES = ' + lua(cases) + '\n' + harness, encoding='utf-8')
+corpus_row, fighters_row = rows['railjack.corpus_fighter_limit_scale'], rows['railjack.fighter_kills_scale']
+extra = ('CORPUS_KEY = ' + lua(corpus_row['owner']['body_key']) + '\nCORPUS_PROTOTYPES = '
+         + lua([e['prototype'] for e in corpus_row['owner']['entries']]) + '\nFIGHTERS_KEY = ' + lua(fighters_row['owner']['body_key'])
+         + '\nFIGHTERS_PROTOTYPES = ' + lua([e['prototype'] for e in fighters_row['owner']['entries']]) + '\n')
+script.write_text('ADDON_MODULE = function(...)\n' + source + '\nend\n' + 'CASES = ' + lua(cases) + '\n' + extra + harness,
+                  encoding='utf-8')
 check(LUAU.is_file(), 'toolchain luau.exe present')
 run = subprocess.run([str(LUAU), str(script)], capture_output=True, text=True)
 lines = run.stdout.splitlines()
@@ -278,7 +330,7 @@ for line in lines:
 if run.stderr.strip():
     print('HARNESS-STDERR\t' + run.stderr.strip())
 check(run.returncode == 0 and 'ENGINE PARAM OVERRIDE HARNESS PASS' in lines and not any(l.startswith('FAIL') for l in lines),
-      f'harness: {sum(l.startswith("PASS") for l in lines)} Luau checks over the six R16 rows')
+      f'harness: {sum(l.startswith("PASS") for l in lines)} Luau checks over the six R16 rows, the R17 Gas City row and the R17 Railjack master')
 OUT.mkdir(parents=True, exist_ok=True)
 (OUT / 'engine_param_override_harness.json').write_text(json.dumps(results, indent=2) + '\n', encoding='utf-8')
 print('ENGINE PARAM OVERRIDE HARNESS GATE PASS')

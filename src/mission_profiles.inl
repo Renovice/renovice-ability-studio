@@ -737,6 +737,11 @@ std::vector<std::string> r7_layout_ui_problems(const std::string& where, const J
     if (ui.contains("default_label") &&
         (!ui.at("default_label").is_string() || !r7_text(ui.at("default_label").get<std::string>(), kDefaultLabelMaximum)))
         problems.push_back(where + ": ui default_label is invalid");
+    // R17: an "All <type> missions" master: a quick value on its mission-type page.
+    if (ui.contains("quick_on_page") &&
+        (!ui.at("quick_on_page").is_boolean() || !ui.contains("quick") || !ui.contains("path") || !ui.at("path").is_array() ||
+         ui.at("path").size() != 1))
+        problems.push_back(where + ": ui quick_on_page needs a quick label and the mission-type page as its path");
     return problems;
 }
 
@@ -844,7 +849,9 @@ void verify_mission_ui(const Json& registry) {
         if (unit.size() > kSettingsUnitMaximum || !settings_printable(unit)) throw std::runtime_error(id + ": ui unit is not a short printable text");
     }
     // R5 master knobs: one module, one lane, every driven row driven once, stock = first row stock / its scale, limits inside
-    // every driven row's limits after scaling, whole scales for int masters, the player-text gates.
+    // every driven row's limits after scaling, whole scales for int masters, the player-text gates. R17: a mission-type
+    // master may drive rows of several modules; it then lists them in `body_keys` (first driven row's module first) and its
+    // group may be the main section of its first driven row's family. Its `applies` is that of every driven row.
     if (!registry.contains("ui_masters")) return;
     static const std::regex master_id("[A-Za-z0-9_.]{1,128}");
     std::map<std::string, std::string> driven_by;
@@ -853,11 +860,16 @@ void verify_mission_ui(const Json& registry) {
         for (const auto& row : registry.at("tunables"))
             if (row.at("tunable_id") == id) throw std::runtime_error("ui master " + id + ": id collides with a tunable_id");
         const auto group = master.at("group").get<std::string>();
-        if (!groups.contains(group) || group != mission_family(id) || groups.at(group).contains("advanced_of"))
+        const auto first_row = master.at("drives").is_array() && !master.at("drives").empty()
+                                   ? master.at("drives").at(0).at("tunable_id").get<std::string>() : std::string();
+        if (!groups.contains(group) || (group != mission_family(id) && group != mission_family(first_row)) ||
+            groups.at(group).contains("advanced_of"))
             throw std::runtime_error("ui master " + id + ": group is not its family's main section");
         const auto lane = master.at("lane").get<std::string>();
-        if ((lane != "addon" && lane != "literal") || master.at("applies") != settings_applies(lane))
-            throw std::runtime_error("ui master " + id + ": lane/applies must be addon/live_next_read or literal/next_mission");
+        const auto master_applies = master.at("applies").get<std::string>();
+        if ((lane != "addon" && lane != "literal") ||
+            (master_applies != settings_applies(lane) && !(lane == "addon" && master_applies == "next_mission")))
+            throw std::runtime_error("ui master " + id + ": lane/applies must be addon/live_next_read, addon/next_mission or literal/next_mission");
         const auto type = master.at("type").get<std::string>();
         const double stock = master.at("stock").get<double>(), low = master.at("min").get<double>(), high = master.at("max").get<double>();
         if ((type != "int" && type != "float") || low > high || stock < low || stock > high ||
@@ -867,6 +879,13 @@ void verify_mission_ui(const Json& registry) {
         if (editor != (type == "int" && low >= 0 ? "INPUTCOUNT" : "INPUTBOX")) throw std::runtime_error("ui master " + id + ": editor/limits disagree");
         if (!master.at("drives").is_array() || master.at("drives").empty()) throw std::runtime_error("ui master " + id + ": drives no row");
         const auto body = master.at("body_key").get<std::string>();
+        std::set<std::string> bodies{body}, drive_bodies;
+        if (master.contains("body_keys")) {
+            const auto listed = master.at("body_keys").get<std::vector<std::string>>();
+            if (listed.size() < 2 || listed.front() != body) throw std::runtime_error("ui master " + id + ": body_keys must list several modules, body_key first");
+            bodies.insert(listed.begin(), listed.end());
+            if (bodies.size() != listed.size()) throw std::runtime_error("ui master " + id + ": body_keys lists a module twice");
+        }
         bool first = true;
         for (const auto& drive : master.at("drives")) {
             const auto row_id = drive.at("tunable_id").get<std::string>();
@@ -874,8 +893,12 @@ void verify_mission_ui(const Json& registry) {
             const double scale = drive.at("scale").get<double>();
             if (!(scale > 0) || (type == "int" && std::floor(scale) != scale))
                 throw std::runtime_error("ui master " + id + ": scale of " + row_id + " must be positive (whole for an int master)");
-            if (row.at("owner").at("body_key") != body || row.at("ui").at("lane") != lane)
+            if (!bodies.contains(row.at("owner").at("body_key").get<std::string>()) || row.at("ui").at("lane") != lane)
                 throw std::runtime_error("ui master " + id + ": " + row_id + " is not a " + lane + " row of module " + body);
+            if (row.at("ui").at("applies") != master_applies)
+                throw std::runtime_error("ui master " + id + ": " + row_id + " applies " + row.at("ui").at("applies").get<std::string>() +
+                                         ", the master " + master_applies);
+            drive_bodies.insert(row.at("owner").at("body_key").get<std::string>());
             if (!row.at("stock").is_number()) throw std::runtime_error("ui master " + id + ": " + row_id + " has no stock");
             if (first && std::fabs(row.at("stock").get<double>() / scale - stock) > 1e-9)
                 throw std::runtime_error("ui master " + id + ": stock is not the first driven row's stock divided by its scale");
@@ -885,6 +908,7 @@ void verify_mission_ui(const Json& registry) {
                 throw std::runtime_error("ui master " + id + ": " + row_id + " is already driven by " + it->second);
             first = false;
         }
+        if (drive_bodies != bodies) throw std::runtime_error("ui master " + id + ": body_keys are not exactly the modules of its driven rows");
         const auto label = master.at("short_label").get<std::string>();
         unique_label(id, group, label);
         for (const auto& problem : player_text_problems(id, label, master.at("unit").get<std::string>(), stock, low, high,
@@ -900,6 +924,19 @@ void verify_mission_ui(const Json& registry) {
 void add_layout_fields(Json& declaration, const Json& ui) {
     for (const char* key : {"path", "row", "quick", "default_label"})
         if (ui.contains(key)) declaration[key] = ui.at(key);
+    // R17: the "All <type> missions" master shows its Quick settings pair on its own page.
+    if (ui.value("quick_on_page", false)) declaration["quick_on_page"] = true;
+}
+
+// R17: the BUTTON text of a quick_on_page pair: the Quick settings label after its colon, first letter upper case
+// (bootstrapper settings_ui_core.hpp quick_pair_label).
+std::string quick_pair_label(const std::string& quick) {
+    const auto colon = quick.find(':');
+    std::string what = colon == std::string::npos ? quick : quick.substr(colon + 1);
+    const auto start = what.find_first_not_of(' ');
+    what = start == std::string::npos ? std::string() : what.substr(start);
+    if (!what.empty()) what[0] = static_cast<char>(std::toupper(static_cast<unsigned char>(what[0])));
+    return what;
 }
 
 Json mission_master_declaration(const Json& master) {
@@ -935,8 +972,9 @@ std::vector<std::string> validate_settings_declarations(const Json& package_json
     static const std::regex value_id("[A-Za-z0-9_.]{1,128}");
     // "stock_check" is the optional R1 field (bootstrapper dd5414c): "live" (the default when absent) or "none", addon lane only.
     // R7 (bootstrapper feat/settings-r7-hierarchy-2026-09-30): "path", "row", "quick", "default_label" and "default".
+    // R17 (bootstrapper feat/r17-type-masters-2026-10-01): "quick_on_page" (bool; needs "quick").
     static const std::set<std::string> value_fields{"group", "label", "unit", "type", "stock", "min", "max", "scope", "lane", "applies", "options", "stock_check",
-                                                    "path", "row", "quick", "default_label", "default"};
+                                                    "path", "row", "quick", "default_label", "default", "quick_on_page"};
     static const std::set<std::string> types{"int", "float", "enum"}, lanes{"addon", "literal", "metadata"},
         applies{"live_next_read", "next_instance", "next_mission", "restart"};
     std::vector<std::string> problems;
@@ -1036,6 +1074,8 @@ std::vector<std::string> validate_settings_declarations(const Json& package_json
             if (value.contains("default_label") &&
                 (!value.at("default_label").is_string() || !r7_text(value.at("default_label").get<std::string>(), kDefaultLabelMaximum)))
                 problems.push_back(where + ": default_label is invalid");
+            if (value.contains("quick_on_page") && (!value.at("quick_on_page").is_boolean() || !value.contains("quick")))
+                problems.push_back(where + ": quick_on_page must be a boolean of a value with a quick label");
             if (value.contains("default")) {
                 if (!value.at("default").is_number() || value.value("lane", std::string("addon")) != "addon")
                     problems.push_back(where + ": default must be a number on the addon lane");
@@ -1097,7 +1137,18 @@ std::vector<std::string> settings_label_budget_problems(const std::string& id, c
                                         }()
                                       : settings_with_unit(declaration.at("stock").get<double>(), declaration.at("unit").get<std::string>());
         const std::string row = declaration.at("row").get<std::string>() + ": " + shown + " (default)";
-        if (row.size() > kSettingsLabelBudget) problems.push_back(id + ": value row \"" + row + "\" is over 40 characters");
+        // R17: a quick_on_page value shows CHECKBOX "<row>" and BUTTON "<quick label after its colon>: <kept value>" there.
+        if (declaration.value("quick_on_page", false) && declaration.contains("quick")) {
+            const std::string pair = quick_pair_label(declaration.at("quick").get<std::string>()) + ": " + shown + " (default)";
+            if (pair.size() > kSettingsLabelBudget) problems.push_back(id + ": page pair \"" + pair + "\" is over 40 characters");
+        } else if (row.size() > kSettingsLabelBudget) {
+            problems.push_back(id + ": value row \"" + row + "\" is over 40 characters");
+        }
+        if (declaration.contains("quick")) {  // the Quick settings BUTTON "<quick label before its colon>: <kept value>"
+            const auto quick = declaration.at("quick").get<std::string>();
+            const std::string owner = quick.substr(0, quick.find(':')) + ": " + shown + " (default)";
+            if (owner.size() > kSettingsLabelBudget) problems.push_back(id + ": Quick settings row \"" + owner + "\" is over 40 characters");
+        }
     }
     const auto title = settings_upper(group.at("label").get<std::string>());
     if (title.size() > kSettingsTitleBudget) problems.push_back(id + ": group title " + title + " is over " + std::to_string(kSettingsTitleBudget) + " characters");
@@ -1109,9 +1160,13 @@ struct CompiledMissionValue { double value = 0; double stock = 0; bool enabled =
 std::map<std::string, CompiledMissionValue> multi_target_compiled_values(const std::string& source) {
     static const std::regex entry("\\[\"([A-Za-z0-9_.]+)\"\\] = \\{ value = ([^,]+), stock = ([^,]+), enabled = (true|false) \\},");
     std::map<std::string, CompiledMissionValue> values;
-    for (auto it = std::sregex_iterator(source.begin(), source.end(), entry); it != std::sregex_iterator(); ++it)
-        if (!values.emplace((*it)[1].str(), CompiledMissionValue{std::stod((*it)[2].str()), std::stod((*it)[3].str()), (*it)[4].str() == "true"}).second)
-            throw std::runtime_error("compiled value " + (*it)[1].str() + " appears twice");
+    for (auto it = std::sregex_iterator(source.begin(), source.end(), entry); it != std::sregex_iterator(); ++it) {
+        const CompiledMissionValue value{std::stod((*it)[2].str()), std::stod((*it)[3].str()), (*it)[4].str() == "true"};
+        const auto [slot, inserted] = values.emplace((*it)[1].str(), value);
+        // R17: a cross-module master knob is compiled into every target that holds one of its rows, identically.
+        if (!inserted && (slot->second.value != value.value || slot->second.stock != value.stock || slot->second.enabled != value.enabled))
+            throw std::runtime_error("compiled value " + (*it)[1].str() + " appears twice with different entries");
+    }
     return values;
 }
 
@@ -1738,9 +1793,12 @@ constexpr const char* kScaledOwnedTableHelper =
     "    return bind, restore\n"
     "end\n";
 
+// R17: `native_rows` are rows the engine writer owns (engine_params.json, contract R16) whose master is resolved there; the
+// addon never applies a master to them (no double application when the bootstrapper withholds the row itself).
 std::string multi_target_addon_source(const Json& registry, const std::map<std::string, std::vector<const Json*>>& bodies,
                                       const std::map<std::string, double>& values, const std::set<std::string>& enabled,
-                                      const std::map<std::string, MasterBuild>& masters = {}) {
+                                      const std::map<std::string, MasterBuild>& masters = {},
+                                      const std::set<std::string>& native_rows = {}) {
     std::ostringstream out;
     const std::string retire = hook_retire_statement();
     // R10: script-parameter globals of the called instance are read and written as hashed fields of its environment
@@ -1913,17 +1971,26 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
             out << "        [" << lua_quote(id) << "] = { value = " << format_number(values.at(id)) << ", stock = "
                 << format_number(row->at("stock").get<double>()) << ", enabled = " << (enabled.contains(id) ? "true" : "false") << " },\n";
         out << "    }\n";
-        // R5 master knobs whose driven rows belong to this target (every driven row is a declared row of the target).
+        // R5 master knobs whose driven rows belong to this target (every driven row of the target's module is a declared row
+        // of the target). R17: a cross-module master appears in every target that holds one of its rows, with only that
+        // target's drives; a row the engine writer owns gets the master there, not here.
         std::vector<std::string> target_masters;
+        std::map<std::string, std::vector<std::pair<std::string, double>>> target_drives;
         for (const auto& [id, build] : masters) {
             static_cast<void>(build);
             const Json* master = mission_master(registry, id);
             if (master == nullptr) throw std::runtime_error("unknown master knob " + id);
-            if (master->at("body_key") != body) continue;
-            for (const auto& drive : master->at("drives"))
-                if (!settings.contains(drive.at("tunable_id").get<std::string>()))
-                    throw std::runtime_error("master knob " + id + " drives " + drive.at("tunable_id").get<std::string>() +
-                                             ", which is not a declared row of its target");
+            std::vector<std::pair<std::string, double>> own;
+            for (const auto& drive : master->at("drives")) {
+                const auto row_id = drive.at("tunable_id").get<std::string>();
+                if (mission_tunable(registry, row_id).at("owner").at("body_key") != body) continue;
+                if (!settings.contains(row_id))
+                    throw std::runtime_error("master knob " + id + " drives " + row_id + ", which is not a declared row of its target");
+                if (native_rows.contains(row_id)) continue;
+                own.emplace_back(row_id, drive.at("scale").get<double>());
+            }
+            if (own.empty()) continue;
+            target_drives[id] = own;
             target_masters.push_back(id);
         }
         if (!target_masters.empty()) {
@@ -1936,10 +2003,9 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
                 << "    local drives = { -- row -> master knob that drives it (row value = master value x scale)\n";
             std::map<std::string, std::string> drive_lines;
             for (const auto& id : target_masters)
-                for (const auto& drive : mission_master(registry, id)->at("drives"))
-                    drive_lines[drive.at("tunable_id").get<std::string>()] =
-                        "        [" + lua_quote(drive.at("tunable_id").get<std::string>()) + "] = { master = " + lua_quote(id) +
-                        ", scale = " + format_number(drive.at("scale").get<double>()) + " },\n";
+                for (const auto& [row_id, scale] : target_drives.at(id))
+                    drive_lines[row_id] = "        [" + lua_quote(row_id) + "] = { master = " + lua_quote(id) +
+                                          ", scale = " + format_number(scale) + " },\n";
             for (const auto& [row_id, line] : drive_lines) out << line;
             out << "    }\n";
         }
@@ -2390,10 +2456,11 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
         if (naming.declare_all_addon_values && registry.contains("ui_masters")) {
             for (const auto& [id, master] : registry.at("ui_masters").items()) {
                 if (master.at("lane") != "addon") continue;
-                const auto body = master.at("body_key").get<std::string>();
                 std::string missing;
                 for (const auto& drive : master.at("drives")) {
                     const auto row = drive.at("tunable_id").get<std::string>();
+                    // R17: each driven row in its own module's target (a cross-module master spans several targets).
+                    const auto body = mission_tunable(registry, row).at("owner").at("body_key").get<std::string>();
                     bool present = false;
                     if (addon.contains(body))
                         for (const Json* declared : addon.at(body)) present = present || declared->at("tunable_id") == row;
@@ -2614,7 +2681,18 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
             }
             if (addon.size() > kMultiTargetMaximumKeys) throw std::runtime_error("Multi-target addon would declare more than 1024 targets");
             const std::string name = std::string(kMultiTargetAddonName) + ".targets.addon";
-            const std::string source_text = multi_target_addon_source(registry, addon, compiled_values, enabled_ids, addon_masters);
+            // R17: rows owned at the engine writer whose master the package's engine_params.json resolves (package layout).
+            std::set<std::string> native_master_rows;
+            if (naming.package_layout)
+                for (const auto& [id, build] : addon_masters) {
+                    static_cast<void>(build);
+                    for (const auto& drive : mission_master(registry, id)->at("drives")) {
+                        const auto row_id = drive.at("tunable_id").get<std::string>();
+                        if (mission_tunable(registry, row_id).at("owner").contains("engine_override")) native_master_rows.insert(row_id);
+                    }
+                }
+            const std::string source_text = multi_target_addon_source(registry, addon, compiled_values, enabled_ids, addon_masters,
+                                                                      native_master_rows);
             const fs::path source = result.directory / "source" / (name + ".luau");
             const fs::path artifact = result.directory / "artifacts" / (name + ".lua_B");
             write_text(source, source_text);

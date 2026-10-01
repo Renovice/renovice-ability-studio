@@ -73,6 +73,18 @@ R16 = EDITOR / 'RESEARCH/MISSIONS_R16_ENGINE_PARAM_OVERRIDE_2026-10-01'
 R16_OVERRIDES = R16 / 'inputs/r16_engine_overrides.json'
 R16_OVERRIDES_SHA256 = 'EF03BA27AE9D3B2B964BF1D9DD2F00FF74FF9D7E4B942220075B8AB59BDFEB14'  # LF-normalized content
 ENGINE_OVERRIDE_GATE = 'ENGINE_PARAM_OVERRIDE_V1'
+# Contract R17 (2026-10-01): the four R10 entry rows R15 did not classify, by the R15 method (does every reader run before
+# the engine can write the parameter again?). Deepmines hold time and bonus threshold: EXPOSED, pinned like R15 (their
+# drafts supersede the R10 drafts). Gas City: the R10 row wrote hackTime, which the script itself recomputes from modeTimer
+# before its first reader (WRONG OWNER); the R10 draft is excluded and a scaled row over both parameters, owned at the
+# engine writer (R16 gate), replaces it. Sabotage surprise extraction: REACHES (read in the entry call before any yield),
+# unchanged. Record RESEARCH/MISSIONS_R17_TYPE_MASTERS_2026-10-01; inputs pinned by their LF content.
+R17 = EDITOR / 'RESEARCH/MISSIONS_R17_TYPE_MASTERS_2026-10-01'
+R17_DRAFTS = R17 / 'inputs/r17_row_drafts.json'
+R17_DRAFTS_SHA256 = '653D94A864D7A32CE43AAA48A97F3377EC40BB06E9DFCDF8177AD956B7B7BFD3'  # LF-normalized content
+R17_PROVENANCE = 'research:mission-settings-r17-2026-10-01 (contract R17)'
+R17_OVERRIDES = R17 / 'inputs/r17_engine_overrides.json'
+R17_OVERRIDES_SHA256 = '4110FEA49865FE313122C8CE0F834AC1F4F69A61677D3BBB726F342A8E276CB4'  # LF-normalized content
 # R15 IMPORT_READ_PIN_V1: a single-name GETIMPORT of a hashed global (U44 dispatch byte 0x35, canonical 0x46) is rewritten
 # into `LOADN A, value` twice (the instruction word and its aux word), through two LIVE_LITERALS_V1 instruction sites flagged
 # `rewrites_instruction`. Admissible only when every instruction of the module that names the hash is one of the pinned
@@ -124,7 +136,15 @@ ID_MAP = {
 # R11 (2026-09-30): the Orokin escape timer is admitted. Its coupled site (the host-migration restore threshold 27 = 30 - 3,
 # SabotageOrokin prototype 17 instruction 17) uses the `value_offset` site form of the shared live-literal patch core
 # (operand = row value + value_offset), so both literals move together and each keeps its own preimage check.
-EXCLUDED = {}
+EXCLUDED = {
+    # R17 (2026-10-01): wrong owner. SabotageMission (P15) runs P5 in the first slice of its entry call, and P5 SETGLOBALs
+    # hackTime = modeTimer x Lerp(1.8, 1.2, difficulty) before any reader (P3 runs at stage 5 or after a host migration),
+    # so the entry write of hackTime never reached the countdown. Replaced by sabotage.gascity_meltdown_time_scale (R17
+    # drafts: hackTime and modeTimer scaled together, owned at the engine writer).
+    'gascity.hack_time': 'R17: wrong owner: the script recomputes hackTime from modeTimer (P5 i105/i112) before its first '
+                         'reader, so the entry write never reaches the countdown; replaced by '
+                         'sabotage.gascity_meltdown_time_scale',
+}
 # Registry units the player text and the settings editor know (the drafts used a few informal spellings).
 UNIT_MAP = {'lv': 'levels'}
 # Names the MissionInfo template calls; recorded with their U44 hashes (seed 768e5ed0) as evidence.
@@ -305,22 +325,32 @@ def rows(ctx):
     r12 = load_drafts(R12_DRAFTS, R12_DRAFTS_SHA256, 'R12')
     r14 = load_drafts(R14_DRAFTS, R14_DRAFTS_SHA256, 'R14')
     r15 = load_drafts(R15_DRAFTS, R15_DRAFTS_SHA256, 'R15')
+    r17 = load_drafts(R17_DRAFTS, R17_DRAFTS_SHA256, 'R17')
     out, excluded = [], []
     report = {'drafts': len(drafts['rows']), 'drafts_rejected_by_research': len(drafts['rejected']), 'admitted': 0,
               'excluded': [], 'renamed': {}, 'by_backend': {}, 'by_template': {}, 'r11_drafts': len(r11['rows']),
               'r12_drafts': len(r12['rows']), 'r14_drafts': len(r14['rows']), 'r15_drafts': len(r15['rows']),
-              'superseded': dict(r15['supersedes']), 'import_pins': {}}
-    # R15: a later draft with the same id replaces the earlier one (the reason is recorded in the report).
-    superseded = set(r15['supersedes'])
-    if superseded != {x['tunable_id'] for x in r15['rows']}:
-        raise ValueError('R15: every superseding draft needs a reason and every reason a draft')
+              'r17_drafts': len(r17['rows']),
+              'superseded': dict(r15['supersedes'], **r17['supersedes']), 'import_pins': {}}
+    # R15/R17: a later draft with the same id replaces the earlier one (the reason is recorded in the report). A later set
+    # may also add new ids (R17: the Gas City row); each reason must name one of its own drafts and an earlier draft.
     earlier = [d for d in (drafts['rows'] + [dict(x, _provenance=R11_PROVENANCE) for x in r11['rows']]
                            + [dict(x, _provenance=R12_PROVENANCE) for x in r12['rows']]
                            + [dict(x, _provenance=R14_PROVENANCE) for x in r14['rows']])]
-    if not superseded <= {d['tunable_id'] for d in earlier}:
-        raise ValueError('R15: a superseding draft names no earlier draft')
-    for d in ([d for d in earlier if d['tunable_id'] not in superseded]
-              + [dict(x, _provenance=R15_PROVENANCE) for x in r15['rows']]):
+    for label, later, provenance in (('R15', r15, R15_PROVENANCE), ('R17', r17, R17_PROVENANCE)):
+        superseded = set(later['supersedes'])
+        own = {x['tunable_id'] for x in later['rows']}
+        if label == 'R15' and superseded != own:
+            raise ValueError('R15: every superseding draft needs a reason and every reason a draft')
+        if not superseded <= own:
+            raise ValueError(f'{label}: a supersede reason names no draft of its own set')
+        if not superseded <= {d['tunable_id'] for d in earlier}:
+            raise ValueError(f'{label}: a superseding draft names no earlier draft')
+        if (own - superseded) & {d['tunable_id'] for d in earlier}:
+            raise ValueError(f'{label}: a draft repeats an earlier id without a supersede reason')
+        earlier = [d for d in earlier if d['tunable_id'] not in superseded] + [dict(x, _provenance=provenance)
+                                                                             for x in later['rows']]
+    for d in earlier:
         old = d['tunable_id']
         if old in EXCLUDED:
             excluded.append({'tunable_id': old, 'owner_kind': d['owner_kind'], 'confidence': d['confidence'],
@@ -422,16 +452,19 @@ def rows(ctx):
 
 def engine_overrides(out, report):
     """R16: marks the admitted EXPOSED script-parameter rows as natively owned (ENGINE_PARAM_OVERRIDE_V1)."""
-    spec = load_drafts(R16_OVERRIDES, R16_OVERRIDES_SHA256, 'R16')
-    if spec.get('gate') != ENGINE_OVERRIDE_GATE:
+    specs = [load_drafts(R16_OVERRIDES, R16_OVERRIDES_SHA256, 'R16'),
+             load_drafts(R17_OVERRIDES, R17_OVERRIDES_SHA256, 'R17')]  # R17: same gate, one more row
+    if any(spec.get('gate') != ENGINE_OVERRIDE_GATE for spec in specs):
         raise ValueError('R16: engine override input names another gate')
     by_id = {r['tunable_id']: r for r in out}
     report['engine_overrides'] = {}
-    for item in spec['rows']:
+    for item in [item for spec in specs for item in spec['rows']]:
         tid = item['tunable_id']
         row = by_id.get(tid)
         if row is None:
             raise ValueError(f'R16: {tid} is not an admitted row')
+        if tid in report['engine_overrides']:
+            raise ValueError(f'R16: {tid} is admitted twice')
         owner = row['owner']
         if row['backend'] != 'TARGET_ADDON' or owner.get('template') != SCRIPT_PARAM:
             raise ValueError(f'R16: {tid} is not a SCRIPT_PARAM_GLOBAL_AT_ENTRY row')

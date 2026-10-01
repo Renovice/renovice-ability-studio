@@ -13,11 +13,11 @@
       "pass": true
     },
     {
-      "name": "baked package.json declares every staged value plus exactly the 59 R10/R11 addon values",
+      "name": "baked package.json declares every staged value plus exactly the 58 R10/R11/R17 addon values",
       "pass": true
     },
     {
-      "name": "baked declarations equal the staged ones except the two R9 master descriptions and the R10 category levels",
+      "name": "baked declarations equal the staged ones except the two R9 master descriptions, the R10 category levels and the R17 layout (7 values changed by the R16 -> R17 registry layout, 4 collapsed under a type master)",
       "pass": true
     },
     {
@@ -33,7 +33,7 @@
       "pass": true
     },
     {
-      "name": "every registry headline literal value is declared (123)",
+      "name": "every registry headline literal value is declared (133)",
       "pass": true
     },
     {
@@ -85,11 +85,15 @@
       "pass": true
     },
     {
-      "name": "R9: Mobile Defense time per terminal is a typeable int with the range default \"60-80 s\" and a Quick settings entry",
+      "name": "R9/R17: Mobile Defense time per terminal is a typeable int with the range default \"60-80 s\", the \"All Mobile Defense missions\" master at the top of its page and its Quick settings entry",
       "pass": true
     },
     {
-      "name": "R9: Quick settings entries for MD terminal time, Excavation dig time, Control Area hold (2) and Void Flood fractures",
+      "name": "R9/R17: Quick settings entries for MD terminal time, Excavation dig time, the Control Area master (the location rows are its variants now) and Void Flood fractures",
+      "pass": true
+    },
+    {
+      "name": "R17: the Control Area master drives three modules (each drive outside the value module names its module)",
       "pass": true
     },
     {
@@ -117,22 +121,22 @@
       "pass": true
     },
     {
-      "name": "6227cc0: verify_addon_settings -Package/-Settings ADDON SETTINGS GATES PASS (literals.json ignored)",
+      "name": "6227cc0: the R17 package is admitted, its settings declarations are rejected fail closed (unknown-field=quick_on_page)",
       "pass": true
     }
   ],
   "recipe": {
-    "values": 123,
-    "modules": 42,
-    "masters": 8,
-    "literals_json_sha256": "a16b2520ea2e5762057e96bcef3fe94ae30ff72b272cf8a14d69b2cddc8e3c01",
-    "package_json_sha256": "44fc0b53d0b71887f8a4fc5e9de41da2e88264c4591779ef57ba2de5feba21be",
-    "generation": "work\\temp\\live-literals-tests\\recipe\\missions\\6241E0BEE662"
+    "values": 133,
+    "modules": 43,
+    "masters": 16,
+    "literals_json_sha256": "028fdcd230e16410f4336a6c700e96cd594d59ff6518011e9ff41057da3ac572",
+    "package_json_sha256": "fb43906b7c6d1532fe550a4639bbcda85a0cd1c315996c3b3815be01a3cff9f3",
+    "generation": "work/temp/live-literals-tests/recipe/missions/35034A12B20E"
   },
   "old_bootstrapper": {
     "revision": "6227cc0",
     "admit": [
-      "LOG\tRENOVICE PACKAGE ACCEPT trigger=startup package=Missions id=package:missions members=1 replacements=0 target_addons=1 target_keys=34 lanes=replacement+inject"
+      "LOG\tRENOVICE PACKAGE ACCEPT trigger=startup package=Missions id=package:missions members=1 replacements=0 target_addons=1 target_keys=33 lanes=replacement+inject"
     ],
     "settings_tail": [
       "PASS\tdeclaration rejects: settings-unknown-field=extra",

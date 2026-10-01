@@ -9,27 +9,27 @@
       "pass": true
     },
     {
-      "name": "Missions.targets.addon.lua_B is byte-identical to R15 (70fff0b6): R16 adds a file, it changes none",
+      "name": "Missions.targets.addon.lua_B is the pinned R17 build (daab653a)",
       "pass": true
     },
     {
-      "name": "package.json is byte-identical to R15 (44fc0b53): R16 adds a file, it changes none",
+      "name": "package.json is the pinned R17 build (fb43906b)",
       "pass": true
     },
     {
-      "name": "literals.json is byte-identical to R15 (a16b2520): R16 adds a file, it changes none",
+      "name": "literals.json is the pinned R17 build (028fdcd2)",
       "pass": true
     },
     {
-      "name": "engine_params.json is the pinned R16 build (ae090c33)",
+      "name": "engine_params.json is the pinned R17 build (26e56e26)",
       "pass": true
     },
     {
-      "name": "manifest records engine_params.json (7 overrides, 3 modules) and the engine-param-overrides gate",
+      "name": "manifest records engine_params.json (9 overrides, 4 modules, master railjack.kill_goals_scale) and the engine-param-overrides gate",
       "pass": true
     },
     {
-      "name": "registry: the six R15 EXPOSED rows are admitted ENGINE_PARAM_OVERRIDE_V1 (['exterminate.archwing_kill_mult', 'exterminate.kills_scale', 'interception.round_end_timer', 'interception.score_goal_scale', 'interception.scoring_speed', 'railjack.corpus_fighter_limit_scale'])",
+      "name": "registry: the six R15 EXPOSED rows and the R17 Gas City row are admitted ENGINE_PARAM_OVERRIDE_V1 (['exterminate.archwing_kill_mult', 'exterminate.kills_scale', 'interception.round_end_timer', 'interception.score_goal_scale', 'interception.scoring_speed', 'railjack.corpus_fighter_limit_scale', 'sabotage.gascity_meltdown_time_scale'])",
       "pass": true
     },
     {
@@ -42,6 +42,14 @@
     },
     {
       "name": "railjack.corpus_fighter_limit_scale minorKillGoalsMax: admitted row, module 0a6394a10884c38a, hash e290a5e6, mode scale_count",
+      "pass": true
+    },
+    {
+      "name": "sabotage.gascity_meltdown_time_scale hackTime: admitted row, module 5b59e2968c1ec7bf, hash d37f0aaf, mode scale",
+      "pass": true
+    },
+    {
+      "name": "sabotage.gascity_meltdown_time_scale modeTimer: admitted row, module 5b59e2968c1ec7bf, hash ac8ee271, mode scale",
       "pass": true
     },
     {
@@ -69,7 +77,11 @@
       "pass": true
     },
     {
-      "name": "the bootstrapper R16 gate fixture is this build (engine_params.json, package.json)",
+      "name": "R17: only the Corpus fighter row (natively owned, driven by the Railjack master) names a master, on both its parameters",
+      "pass": true
+    },
+    {
+      "name": "the bootstrapper R17 gate fixture (fixtures/MissionsR17) is this build (engine_params.json, package.json)",
       "pass": true
     },
     {
@@ -77,7 +89,7 @@
       "pass": true
     },
     {
-      "name": "harness: 30 Luau checks over the six R16 rows",
+      "name": "harness: 38 Luau checks over the six R16 rows, the R17 Gas City row and the R17 Railjack master",
       "pass": true
     }
   ]

@@ -338,6 +338,27 @@ print(f"PASS phase2i sample: {len(decl2i)} declarations in {len(groups2i)} group
 # (phase2i CustomScripts/Settings/Missions.json, ee4fa704) through missions_settings_to_build.py. Compared with the staged
 # install set when it exists (never rewritten here).
 import missions_settings_to_build as REBUILD  # noqa: E402
+ENGINE_PARAMS_R17 = '26E56E26775DFEC42B0CA3AA725A5B23163B4671B2FA1128ABF43B1538E3BF7C'
+# R17: the registry layout of R16 (c48c819) tells the R17 "All <type> missions" layout changes from anything else.
+R16_REGISTRY = json.loads(subprocess.run(['git', '-C', str(EDITOR), 'show', 'c48c819:REGISTRIES/mission_build_u44.json'],
+                                         capture_output=True, check=True).stdout.decode('utf-8'))
+CURRENT_REGISTRY = json.loads((EDITOR / 'REGISTRIES/mission_build_u44.json').read_text(encoding='utf-8'))
+
+
+def _layout(registry, tid):
+    ui = registry['ui_masters'].get(tid) or next((r['ui'] for r in registry['tunables'] if r['tunable_id'] == tid), {})
+    return {f: ui.get(f) for f in ('path', 'row', 'quick', 'quick_on_page', 'scope_text', 'default_label', 'short_label')}
+
+
+def _r17_explained(old_values, new_values, changed):
+    """R17 changes: a layout that differs between the R16 and the current registry, or a category level a type page drops
+    because it now holds its "All <type> missions" master (r7_collapse_paths)."""
+    layout = {k for k in changed if _layout(R16_REGISTRY, k) != _layout(CURRENT_REGISTRY, k)}
+    master_types = {d['path'][0] for d in new_values.values() if d.get('quick_on_page')}
+    collapse = {k for k in changed - layout if new_values[k]['path'][0] in master_types
+                and len(new_values[k]['path']) == len(old_values[k]['path']) - 1
+                and {f: v for f, v in old_values[k].items() if f != 'path'} == {f: v for f, v in new_values[k].items() if f != 'path'}}
+    return layout | collapse
 STAGE2K = ROOT / 'work/staging/missions-full-package'
 settings2k = REBUILD.convert(SAMPLE2I / 'CustomScripts' / 'Settings' / 'Missions.json')
 assert settings2k['values'] == {'survival.reward_interval': 150, 'void_flood.fractures_per_round.normal': 4}, settings2k['values']
@@ -363,9 +384,10 @@ files2k = {'Packages/Missions/' + p.name: p for p in package2k.iterdir()}
 files2k['Settings/Missions.json'] = generation2k / 'Settings' / 'Missions.json'
 hashes2k = {k: hashlib.sha256(p.read_bytes()).hexdigest().upper() for k, p in files2k.items()}
 # Contract R16 (2026-10-01): engine_params.json (ENGINE_PARAM_OVERRIDE declarations, not a member) is new; the staged install
-# set predates it. Its content is gated by test_engine_param_override_harness.py (same recipe as the R16 package).
+# set predates it. Its content is gated by test_engine_param_override_harness.py (same recipe as the package build).
+# R17 (2026-10-01): + the Gas City meltdown row (2 parameters) and the Railjack master on the Corpus row (R16 AE090C33).
 engine_params2k = hashes2k.pop('Packages/Missions/engine_params.json', None)
-assert engine_params2k == 'AE090C33D528E045B58F546CFE232DAA21D724F3C3C49EE5B7AF13878AF053DA', engine_params2k
+assert engine_params2k == ENGINE_PARAMS_R17, engine_params2k
 if (STAGE2K / 'SHA256SUMS.json').exists():
     staged = json.loads((STAGE2K / 'SHA256SUMS.json').read_text())
     staged = {k: v for k, v in staged.items() if k in hashes2k}
@@ -400,12 +422,13 @@ if (STAGE2K / 'SHA256SUMS.json').exists():
         added = set(new_values) - set(old_values)
         old_file = json.loads((STAGE2K / 'Settings/Missions.json').read_text(encoding='utf-8'))['values']
         new_file = json.loads((generation2k / 'Settings' / 'Missions.json').read_text(encoding='utf-8'))['values']
-        assert not set(old_values) - set(new_values) and changed == R9_TEXT | R10_PATH and all(
+        r17 = _r17_explained(old_values, new_values, changed)  # R17 (2026-10-01)
+        assert not set(old_values) - set(new_values) and changed <= R9_TEXT | R10_PATH | r17 and all(
             {f: v for f, v in old_values[k].items() if f not in ('scope', 'path')} ==
-            {f: v for f, v in new_values[k].items() if f not in ('scope', 'path')} for k in changed),             ('rebuilt full package.json differs from the staged one beyond R9 and R10', changed)
+            {f: v for f, v in new_values[k].items() if f not in ('scope', 'path')} for k in changed - r17),             ('rebuilt full package.json differs from the staged one beyond R9, R10 and R17', changed - r17)
         assert all(new_file.get(k) == v for k, v in old_file.items()) and set(new_file) - set(old_file) == added and             not any(new_file[k]['enabled'] for k in added), 'values file: staged entries changed or R10 entries enabled'
-        state2k = (f'staged exact replacements identical; R10 adds {len(added)} addon values (all off); R9/R10 description and '
-                   'category-level changes only (folder untouched)')
+        state2k = (f'staged exact replacements identical; R10/R17 add {len(added)} addon values (all off); R9/R10 description and '
+                   f'category-level changes and {len(r17)} R17 layout changes only (folder untouched)')
     else:
         assert staged == hashes2k, ('rebuilt full package differs from the staged install set', staged, hashes2k)
         state2k = 'identical to the staged install set (folder untouched)'

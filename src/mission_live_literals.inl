@@ -49,7 +49,8 @@ std::string patch_hex(const std::array<unsigned char, 8>& bytes, const std::size
     return text;
 }
 
-// One recipe value: a registry row declared directly, or a literal master knob (R5-3) with its driven rows.
+// One recipe value: a registry row declared directly, or a literal master knob (R5-3) with its driven rows. R17: a master's
+// driven rows may live in several modules (`body` is the first driven row's module; each drive names its own).
 struct LiveLiteralValue {
     std::string id;
     bool master = false;
@@ -81,11 +82,26 @@ LiveLiteralValue live_literal_value(const Json& registry, const std::string& id)
     }
     if (value.declaration.at("lane") != "literal" || value.declaration.at("applies") != "next_mission")
         throw std::runtime_error("live literal " + id + " is not declared on the literal lane (next_mission)");
+    const Json* master = mission_master(registry, id);
     for (const auto& [row, scale] : value.drives) {
         static_cast<void>(scale);
-        if (row->at("owner").at("body_key") != value.body) throw std::runtime_error("live literal " + id + " drives rows of several modules");
+        if (row->at("owner").at("body_key") != value.body && (master == nullptr || !master->contains("body_keys")))
+            throw std::runtime_error("live literal " + id + " drives rows of several modules without body_keys (contract R17)");
     }
     return value;
+}
+
+std::string live_literal_row_body(const Json& row) { return row.at("owner").at("body_key").get<std::string>(); }
+
+// R17: the modules a recipe value touches (its own first).
+std::vector<std::string> live_literal_bodies(const LiveLiteralValue& value) {
+    std::vector<std::string> bodies{value.body};
+    for (const auto& [row, scale] : value.drives) {
+        static_cast<void>(scale);
+        const auto body = live_literal_row_body(*row);
+        if (std::find(bodies.begin(), bodies.end(), body) == bodies.end()) bodies.push_back(body);
+    }
+    return bodies;
 }
 
 // Host resolution (bootstrapper live_literals_core.hpp resolve_plans), used by the generator's own gates: a row's own
@@ -97,10 +113,10 @@ std::vector<patch::Patch> resolve_live_literal_module(const std::vector<LiveLite
                     const Json* row = nullptr; };
     std::map<std::string, Choice> rows;
     for (const auto& value : values) {
-        if (value.body != body) continue;
         const auto chosen = on.find(value.id);
         if (chosen == on.end()) continue;
         for (const auto& [row, scale] : value.drives) {
+            if (live_literal_row_body(*row) != body) continue;  // R17: only this module's rows
             auto& choice = rows[row->at("tunable_id").get<std::string>()];
             choice.row = row;
             if (!value.master) {
@@ -156,7 +172,8 @@ nlohmann::ordered_json live_literal_recipe(const Json& registry, const MissionPa
     recipe["build"] = registry.at("build").get<std::string>();
     nlohmann::ordered_json modules = nlohmann::ordered_json::object();
     std::set<std::string> bodies;
-    for (const auto& value : values) bodies.insert(value.body);
+    for (const auto& value : values)
+        for (const auto& body : live_literal_bodies(value)) bodies.insert(body);
     for (const auto& body : bodies) {
         const Json& module = mission_module(registry, body);
         const fs::path stock = paths.corpus / module.at("file").get<std::string>();
@@ -181,7 +198,7 @@ nlohmann::ordered_json live_literal_recipe(const Json& registry, const MissionPa
             declaration[key] = nlohmann::ordered_json::parse(value.declaration.at(key).dump());
         // R7 layout fields (merged R7 + R8, contract R9): page path (collapsed with the package values), row, quick label and
         // the display text of a range default. `default` is addon-lane only: a live literal's default is its stock.
-        for (const char* key : {"path", "row", "quick", "default_label"})
+        for (const char* key : {"path", "row", "quick", "default_label", "quick_on_page"})  // R17: quick_on_page
             if (value.declaration.contains(key)) declaration[key] = nlohmann::ordered_json::parse(value.declaration.at(key).dump());
         entry["declaration"] = declaration;
         entry["module"] = value.body;
@@ -214,11 +231,16 @@ nlohmann::ordered_json live_literal_recipe(const Json& registry, const MissionPa
                 if (core.value_offset != 0.0) item["value_offset"] = nlohmann::ordered_json::parse(site.at("value_offset").dump());
                 sites.push_back(item);
             }
-            drives.push_back(nlohmann::ordered_json{{"row", row->at("tunable_id").get<std::string>()},
-                                                    {"scale", nlohmann::ordered_json::parse(settings_number(scale, "int").dump())},
-                                                    {"integer", row->at("limits").value("integer", false)},
-                                                    {"stock", nlohmann::ordered_json::parse(row->at("stock").dump())},
-                                                    {"sites", sites}});
+            nlohmann::ordered_json drive = nlohmann::ordered_json::object();
+            drive["row"] = row->at("tunable_id").get<std::string>();
+            // R17: a drive in another module than the value's names its module (bootstrapper live_literals_core.hpp); emitted
+            // only then, so every single-module value keeps its R8 recipe form.
+            if (live_literal_row_body(*row) != value.body) drive["module"] = live_literal_row_body(*row);
+            drive["scale"] = nlohmann::ordered_json::parse(settings_number(scale, "int").dump());
+            drive["integer"] = row->at("limits").value("integer", false);
+            drive["stock"] = nlohmann::ordered_json::parse(row->at("stock").dump());
+            drive["sites"] = sites;
+            drives.push_back(drive);
         }
         entry["drives"] = drives;
         entries[value.id] = entry;
@@ -257,7 +279,7 @@ std::set<std::string> live_literal_declared_ids(const Json& registry, const std:
 
 // Emits Packages/Missions/literals.json for a "literal_mode": "recipe" build and runs its gates:
 //   live-literal-core      the shared core is the pinned, byte-identical copy;
-//   live-literal-recipe    every value is a literal row or master of one module, declared with player text, unique in its
+//   live-literal-recipe    every value is a literal row or master (R17: of one module, or of the modules in its body_keys), declared with player text, unique in its
 //                          mission section, schema-valid; every site verified against the pinned stock bytes (constant
 //                          sites only with the exclusivity proof); each value alone at its min and its max synthesizes;
 //                          the shipped values synthesize and pass the DE container round trip.
@@ -348,17 +370,20 @@ LiveLiteralOutput emit_live_literal_recipe(const Json& registry, const MissionPa
 
     // Synthesis: each value alone at its min and its max, then the shipped values per module.
     std::map<std::string, std::string> stock_of;
-    for (const auto& value : values) {
-        if (stock_of.contains(value.body)) continue;
-        const Json& module = mission_module(registry, value.body);
-        stock_of[value.body] = read_text(paths.corpus / module.at("file").get<std::string>());
-    }
+    for (const auto& value : values)
+        for (const auto& body : live_literal_bodies(value)) {
+            if (stock_of.contains(body)) continue;
+            const Json& module = mission_module(registry, body);
+            stock_of[body] = read_text(paths.corpus / module.at("file").get<std::string>());
+        }
     std::size_t extreme_syntheses = 0;
     for (const auto& value : values) {
         for (const double end : {value.declaration.at("min").get<double>(), value.declaration.at("max").get<double>()}) {
-            const auto patches = resolve_live_literal_module(values, value.body, {{value.id, end}});
-            static_cast<void>(synthesize_live_literal_module(stock_of.at(value.body), patches, value.body));
-            ++extreme_syntheses;
+            for (const auto& body : live_literal_bodies(value)) {  // R17: every module the value touches
+                const auto patches = resolve_live_literal_module(values, body, {{value.id, end}});
+                static_cast<void>(synthesize_live_literal_module(stock_of.at(body), patches, body));
+                ++extreme_syntheses;
+            }
         }
     }
     std::map<std::string, double> shipped;

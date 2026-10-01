@@ -17,6 +17,12 @@
 5. R9 (merged R7 + R8): every recipe value carries its R7 page path and row, no `default` (a live literal's default is its
    stock); range defaults are shown through `default_label` (Mobile Defense "60-80 s"); the headline literal values have
    Quick settings entries.
+6. Contract R17 (2026-10-01): "All <mission type> missions" masters. The baked declarations may differ from the staged R7 set
+   only where the registry layout changed between R16 (c48c819) and now (a master moved to the top of its type page with
+   `quick_on_page`, a location row that lost its Quick settings entry, the master/variant tooltip sentences) or where a type
+   page that now holds its master value keeps one category less (r7_collapse_paths). The R17 package needs the R17
+   bootstrapper: the R7 bootstrapper 6227cc0 still admits the package but rejects its settings declarations
+   (`unknown-field=quick_on_page`, fail closed: the members keep their compiled values).
 
 Paths: the editor is this checkout; the CLI is RENOVICE_EDITOR_CLI or work/builds/ability-editor/current. Writes only to
 work/temp/live-literals-tests and this tool's test-results folder. No game or server folder is read or written.
@@ -97,6 +103,15 @@ registry_rows = {r['tunable_id']: r for r in json.loads((EDITOR / 'REGISTRIES/mi
 # R10: the addon values the baked full package gains. A body built as a baked replacement here (the five staged exact
 # replacements) keeps one artifact per module, so its R10 entry rows are excluded like its other addon rows.
 REPLACED = {name[:16] for name in staged_members if name.endswith('(missions_exact-replacement).lua_B')}
+# R17: the registry layout of R16 (c48c819), to tell the R17 layout changes from anything else.
+R16_REGISTRY = json.loads(subprocess.run(['git', '-C', str(EDITOR), 'show', 'c48c819:REGISTRIES/mission_build_u44.json'],
+                                         capture_output=True, check=True).stdout.decode('utf-8'))
+LAYOUT_FIELDS = ('path', 'row', 'quick', 'quick_on_page', 'scope_text', 'default_label', 'short_label')
+
+
+def layout_of(registry, tid):
+    ui = registry['ui_masters'].get(tid) or next((r['ui'] for r in registry['tunables'] if r['tunable_id'] == tid), {})
+    return {f: ui.get(f) for f in LAYOUT_FIELDS}
 # R11: the Railjack kill-goal rows (research:railjack-kills-2026-09-30) are addon values too; R12: Defense waves per reward.
 R10_ADDED = ({t for t, r in registry_rows.items() if r['provenance'].startswith(('research:mission-owners-2026-09-30',
                                                                                 'research:railjack-kills-2026-09-30',
@@ -104,18 +119,33 @@ R10_ADDED = ({t for t, r in registry_rows.items() if r['provenance'].startswith(
               and r['backend'] == 'TARGET_ADDON' and r['owner']['body_key'] not in REPLACED}
              | {f'defense.{n}.p{k}' for n in ('simultaneous_enemies_max', 'simultaneous_enemies_min', 'simultaneous_enemies_infested.max',
                                               'simultaneous_enemies_infested.min', 'simultaneous_enemies_duviri.min') for k in range(1, 5)}
-             | {f'defense.max_enemies.p{k}' for k in range(1, 5)})
+             | {f'defense.max_enemies.p{k}' for k in range(1, 5)}
+             # R17: the Gas City meltdown row (replaces the R10 hack-time row) and the cross-module Railjack master.
+             | {t for t, r in registry_rows.items() if r['provenance'].startswith('research:mission-settings-r17-2026-10-01')
+                and r['backend'] == 'TARGET_ADDON' and r['owner']['body_key'] not in REPLACED}
+             | {'railjack.kill_goals_scale'})
 # R10: page sets whose mission type now has more than one category keep their category level (r7_collapse_paths).
 R10_PATH = {f'defense.simultaneous_enemies_duviri.max.p{k}' for k in range(1, 5)} | {f'escalation.keys_per_players.p{k}' for k in range(1, 5)}
 changed = {k for k in staged_values if staged_values[k] != built_values.get(k)}
+current_registry = json.loads((EDITOR / 'REGISTRIES/mission_build_u44.json').read_text(encoding='utf-8'))
+R17_LAYOUT = {k for k in staged_values if layout_of(R16_REGISTRY, k) != layout_of(current_registry, k)}
+R17_MASTER_TYPES = {d['path'][0] for d in built_values.values() if d.get('quick_on_page')}
+R17_COLLAPSE = {k for k in changed - R17_LAYOUT - R10_PATH
+                if built_values[k]['path'][0] in R17_MASTER_TYPES and len(built_values[k]['path']) == len(staged_values[k]['path']) - 1
+                and {f: v for f, v in staged_values[k].items() if f != 'path'} == {f: v for f, v in built_values[k].items() if f != 'path'}
+                and staged_values[k]['path'][1] in ('Timers', 'Objectives', 'Enemies', 'Rewards / drops')
+                and [e for e in staged_values[k]['path'] if e != staged_values[k]['path'][1]] == built_values[k]['path']}
 check(set(built_values) - set(staged_values) == R10_ADDED and not set(staged_values) - set(built_values),
-      f'baked package.json declares every staged value plus exactly the {len(R10_ADDED)} R10/R11 addon values')
-check(changed == R9_TEXT | R10_PATH
-      and all({f: v for f, v in staged_values[k].items() if f != 'scope'} == {f: v for f, v in built_values[k].items() if f != 'scope'} for k in R9_TEXT)
+      f'baked package.json declares every staged value plus exactly the {len(R10_ADDED)} R10/R11/R17 addon values')
+check(changed <= R9_TEXT | R10_PATH | R17_LAYOUT | R17_COLLAPSE and R17_LAYOUT & changed
+      and all({f: v for f, v in staged_values[k].items() if f != 'scope'} == {f: v for f, v in built_values[k].items() if f != 'scope'}
+              for k in R9_TEXT - R17_LAYOUT)
       and all({f: v for f, v in staged_values[k].items() if f != 'path'} == {f: v for f, v in built_values[k].items() if f != 'path'}
               and built_values[k]['path'][1] in ('Enemies', 'Objectives') for k in R10_PATH)
       and staged_manifest['description'] == built_manifest['description'],
-      'baked declarations equal the staged ones except the two R9 master descriptions and the R10 category levels')
+      'baked declarations equal the staged ones except the two R9 master descriptions, the R10 category levels and the R17 '
+      f'layout ({len(R17_LAYOUT & changed)} values changed by the R16 -> R17 registry layout, {len(R17_COLLAPSE)} collapsed under a type '
+      'master)')
 staged_file = json.loads((STAGED / 'Settings/Missions.json').read_text(encoding='utf-8'))['values']
 built_file = json.loads((generation / 'Settings/Missions.json').read_text(encoding='utf-8'))['values']
 check(all(built_file.get(k) == v for k, v in staged_file.items()) and set(built_file) - set(staged_file) == R10_ADDED
@@ -159,13 +189,20 @@ decls = {k: v['declaration'] for k, v in recipe['values'].items()}
 check(all('path' in d and 'row' in d and 'default' not in d for d in decls.values()),
       'R9: every recipe value has an R7 path and row and no `default` (default = stock)')
 md = decls['mobiledefense.time_per_terminal']
-check(md['type'] == 'int' and md['path'] == ['Mobile Defense', 'Timers'] and md['row'] == 'Time per terminal'
+check(md['type'] == 'int' and md['path'] == ['Mobile Defense'] and md['row'] == 'All Mobile Defense missions'
+      and md.get('quick_on_page') is True
       and md['default_label'] == '60-80 s' and md['stock'] == 80 and md['quick'] == 'Mobile Defense: time per terminal',
-      'R9: Mobile Defense time per terminal is a typeable int with the range default "60-80 s" and a Quick settings entry')
+      'R9/R17: Mobile Defense time per terminal is a typeable int with the range default "60-80 s", the "All Mobile Defense '
+      'missions" master at the top of its page and its Quick settings entry')
 check({k for k, d in decls.items() if 'quick' in d} >= {'mobiledefense.time_per_terminal', 'excavation.dig_time',
-                                                        'control_area_plains.duration', 'control_area_deimos.duration',
-                                                        'void_flood.fractures_per_round.normal'},
-      'R9: Quick settings entries for MD terminal time, Excavation dig time, Control Area hold (2) and Void Flood fractures')
+                                                        'control_area.hold_time', 'void_flood.fractures_per_round.normal'}
+      and 'quick' not in decls['control_area_plains.duration'] and 'quick' not in decls['control_area_deimos.duration'],
+      'R9/R17: Quick settings entries for MD terminal time, Excavation dig time, the Control Area master (the location rows '
+      'are its variants now) and Void Flood fractures')
+ca = recipe['values']['control_area.hold_time']
+check(ca['module'] == '8a0b0819de60df01' and [d.get('module') for d in ca['drives']] == [None, 'e4bb611e00823d46', 'b3a5a18d68d61e16']
+      and [d['row'] for d in ca['drives']] == ['control_area_deimos.duration', 'control_area_nokko.hold_time', 'control_area_plains.duration'],
+      'R17: the Control Area master drives three modules (each drive outside the value module names its module)')
 check(all(d['type'] in ('int', 'float') for d in decls.values()), 'R9: recipe values are int or float (never the R7 two-choice enum)')
 check('settings-layout\nPASS' in gates and 'live_literals=' in gates, 'settings-layout gate covers the recipe values')
 results['recipe'] = {'values': len(recipe['values']), 'modules': len(recipe['modules']),
@@ -202,8 +239,10 @@ accept_line = [line for line in admit.stdout.splitlines() if 'PACKAGE ACCEPT' in
 settings = subprocess.run(['powershell', '-NoProfile', '-ExecutionPolicy', 'Bypass', '-File',
                            str(old / 'RENOVICE_TOOLCHAIN/settings/verify_addon_settings.ps1'), '-Package', str(package),
                            '-Settings', str(generation / 'Settings/Missions.json')], capture_output=True, text=True)
-check(settings.returncode == 0 and 'ADDON SETTINGS GATES PASS' in settings.stdout,
-      f'{OLD_REVISION}: verify_addon_settings -Package/-Settings ADDON SETTINGS GATES PASS (literals.json ignored)')
+# R17: the R7 bootstrapper does not know quick_on_page; it rejects the package's settings capability only (members keep their
+# compiled values) and still admits the package. The R17 package is installed together with the R17 DLL.
+check('unknown-field=quick_on_page' in settings.stdout and 'PACKAGE ACCEPT' in settings.stdout,
+      f'{OLD_REVISION}: the R17 package is admitted, its settings declarations are rejected fail closed (unknown-field=quick_on_page)')
 results['old_bootstrapper'] = {'revision': OLD_REVISION, 'admit': accept_line[:1],
                                'settings_tail': [l for l in settings.stdout.splitlines() if 'DELIVERY' in l or 'unknown' in l.lower()][:4]}
 OUT.mkdir(parents=True, exist_ok=True)
