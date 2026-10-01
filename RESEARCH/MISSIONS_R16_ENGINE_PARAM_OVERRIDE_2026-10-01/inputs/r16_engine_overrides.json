@@ -1,0 +1,38 @@
+{
+ "schema": "RENOVICE mission registry: ENGINE_PARAM_OVERRIDE admissions (contract R16)",
+ "build": "2026.09.28.13.06",
+ "gate": "ENGINE_PARAM_OVERRIDE_V1",
+ "source": "work/research/defense-reward-interval-2026-10-01/README.md, section 'Other parameter rows' (static classification of the 44.0.2 decompiles, R15)",
+ "rows": [
+  {
+   "tunable_id": "exterminate.kills_scale",
+   "exposure": "EXPOSED",
+   "evidence": "TriggerAlarm P21 (entry killCounter) reads metersPerEnemy at L2721/2785/2886 after Sleep(1) (L2700, switch path) or conditional waits (L2190/2268/2714/2865, P19 Sleep(0)); copied into a local, then _T.MaxEnemyCount."
+  },
+  {
+   "tunable_id": "exterminate.archwing_kill_mult",
+   "exposure": "EXPOSED (conditional)",
+   "evidence": "TriggerAlarm P21 L3136 reads spaceBattleKillCountMultiplier after the conditional yields of the same entry (P14 when promoted to host); copied into a local."
+  },
+  {
+   "tunable_id": "interception.score_goal_scale",
+   "exposure": "EXPOSED",
+   "evidence": "TerritoryMission P35 Territory re-reads scoreGoal every scoring tick after Sleep(0) (L7253; reads L6569..8781); P37 OnEnemyCaptured reads it without a yield (REACHES); P31 TerritoryHUD takes the goal from the net var ScoreGoal P35 publishes (L6569-6570)."
+  },
+  {
+   "tunable_id": "interception.scoring_speed",
+   "exposure": "EXPOSED",
+   "evidence": "TerritoryMission P35 reads scoreRatePerSecond in the scoring loop every tick (L6358/6370/7516/7615); stock also rewrites the global (x4, L6360) and copies x2.25 into an upvalue (L6370)."
+  },
+  {
+   "tunable_id": "interception.round_end_timer",
+   "exposure": "EXPOSED",
+   "evidence": "TerritoryMission P35 reads roundEndTimer at L8158, after the scoring loop (many yields)."
+  },
+  {
+   "tunable_id": "railjack.corpus_fighter_limit_scale",
+   "exposure": "EXPOSED (conditional)",
+   "evidence": "BasicRailJackPatrol P15 EnemyPatrol reads minorKillGoals / minorKillGoalsMax at L2370-2378 after P14 busy-waits Sleep(0) until the AI director is ready (L2012-2021)."
+  }
+ ]
+}

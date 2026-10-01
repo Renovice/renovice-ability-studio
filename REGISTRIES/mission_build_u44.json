@@ -32281,6 +32281,18 @@
           "where": "the called closure environment (per module instance)",
           "when": "at every hooked entry: value == recorded instance value -> write; value == written -> skip; anything else -> fail closed (drift)",
           "cleanup": "restore the recorded value in every live instance whose value is still the written one"
+        },
+        "engine_override": {
+          "gate": "ENGINE_PARAM_OVERRIDE_V1",
+          "exposure": "EXPOSED (conditional)",
+          "evidence": "TriggerAlarm P21 L3136 reads spaceBattleKillCountMultiplier after the conditional yields of the same entry (P14 when promoted to host); copied into a local.",
+          "parameters": [
+            {
+              "name": "spaceBattleKillCountMultiplier",
+              "hash": "e34f013b"
+            }
+          ],
+          "mode": "absolute"
         }
       },
       "limits": {
@@ -32379,6 +32391,18 @@
           "where": "the called closure environment (per module instance)",
           "when": "at every hooked entry: value == recorded instance value -> write; value == written -> skip; anything else -> fail closed (drift)",
           "cleanup": "restore the recorded value in every live instance whose value is still the written one"
+        },
+        "engine_override": {
+          "gate": "ENGINE_PARAM_OVERRIDE_V1",
+          "exposure": "EXPOSED",
+          "evidence": "TriggerAlarm P21 (entry killCounter) reads metersPerEnemy at L2721/2785/2886 after Sleep(1) (L2700, switch path) or conditional waits (L2190/2268/2714/2865, P19 Sleep(0)); copied into a local, then _T.MaxEnemyCount.",
+          "parameters": [
+            {
+              "name": "metersPerEnemy",
+              "hash": "baa888a8"
+            }
+          ],
+          "mode": "scale_inverse"
         }
       },
       "limits": {
@@ -41267,6 +41291,18 @@
           "where": "the called closure environment (per module instance)",
           "when": "at every hooked entry: value == recorded instance value -> write; value == written -> skip; anything else -> fail closed (drift)",
           "cleanup": "restore the recorded value in every live instance whose value is still the written one"
+        },
+        "engine_override": {
+          "gate": "ENGINE_PARAM_OVERRIDE_V1",
+          "exposure": "EXPOSED",
+          "evidence": "TerritoryMission P35 reads roundEndTimer at L8158, after the scoring loop (many yields).",
+          "parameters": [
+            {
+              "name": "roundEndTimer",
+              "hash": "b68a06b6"
+            }
+          ],
+          "mode": "absolute"
         }
       },
       "limits": {
@@ -41548,6 +41584,18 @@
           "where": "the called closure environment (per module instance)",
           "when": "at every hooked entry: value == recorded instance value -> write; value == written -> skip; anything else -> fail closed (drift)",
           "cleanup": "restore the recorded value in every live instance whose value is still the written one"
+        },
+        "engine_override": {
+          "gate": "ENGINE_PARAM_OVERRIDE_V1",
+          "exposure": "EXPOSED",
+          "evidence": "TerritoryMission P35 Territory re-reads scoreGoal every scoring tick after Sleep(0) (L7253; reads L6569..8781); P37 OnEnemyCaptured reads it without a yield (REACHES); P31 TerritoryHUD takes the goal from the net var ScoreGoal P35 publishes (L6569-6570).",
+          "parameters": [
+            {
+              "name": "scoreGoal",
+              "hash": "3a44eae1"
+            }
+          ],
+          "mode": "scale"
         }
       },
       "limits": {
@@ -41706,6 +41754,18 @@
           "where": "the called closure environment (per module instance)",
           "when": "at every hooked entry: value == recorded instance value -> write; value == written -> skip; anything else -> fail closed (drift)",
           "cleanup": "restore the recorded value in every live instance whose value is still the written one"
+        },
+        "engine_override": {
+          "gate": "ENGINE_PARAM_OVERRIDE_V1",
+          "exposure": "EXPOSED",
+          "evidence": "TerritoryMission P35 reads scoreRatePerSecond in the scoring loop every tick (L6358/6370/7516/7615); stock also rewrites the global (x4, L6360) and copies x2.25 into an upvalue (L6370).",
+          "parameters": [
+            {
+              "name": "scoreRatePerSecond",
+              "hash": "5241ca6c"
+            }
+          ],
+          "mode": "scale"
         }
       },
       "limits": {
@@ -60139,6 +60199,22 @@
           "when": "at every hooked entry: value == recorded instance value -> write; value == written -> skip; anything else -> fail closed (drift)",
           "cleanup": "restore the recorded value in every live instance whose value is still the written one",
           "count": "scale_count: a number, or every number of a plain list (written as a new list), times the setting, rounded to the nearest whole number and at least 1"
+        },
+        "engine_override": {
+          "gate": "ENGINE_PARAM_OVERRIDE_V1",
+          "exposure": "EXPOSED (conditional)",
+          "evidence": "BasicRailJackPatrol P15 EnemyPatrol reads minorKillGoals / minorKillGoalsMax at L2370-2378 after P14 busy-waits Sleep(0) until the AI director is ready (L2012-2021).",
+          "parameters": [
+            {
+              "name": "minorKillGoals",
+              "hash": "288044d3"
+            },
+            {
+              "name": "minorKillGoalsMax",
+              "hash": "e290a5e6"
+            }
+          ],
+          "mode": "scale_count"
         }
       },
       "limits": {

@@ -75,6 +75,9 @@ run, generation = build(base, 'baked')
 check(run.returncode == 0 and generation is not None, 'baked build succeeds')
 staged_members = {p.name: sha(p) for p in (STAGED / 'Packages/Missions').iterdir()}
 built_members = {p.name: sha(p) for p in (generation / 'Packages/Missions').iterdir()}
+# Contract R16 (2026-10-01): the package also carries engine_params.json (ENGINE_PARAM_OVERRIDE declarations of the EXPOSED
+# script-parameter rows; not a member, ignored by older DLLs). Its content is gated by test_engine_param_override_harness.py.
+check(built_members.pop('engine_params.json', None) is not None, 'R16: the baked package carries engine_params.json (not a member)')
 R9_TEXT = {'mobiledefense.time_per_terminal', 'excavation.dig_time'}  # contract R9: master descriptions (typed number replaces the range)
 ADDON = 'Missions.targets.addon.lua_B'
 check({k: v for k, v in staged_members.items() if k not in ('package.json', ADDON)} ==
@@ -124,8 +127,8 @@ recipe_input = dict(base, literal_mode='recipe', literal_scope='headline')
 run, generation = build(recipe_input, 'recipe')
 check(run.returncode == 0 and generation is not None, 'recipe build succeeds')
 package = generation / 'Packages/Missions'
-check(sorted(p.name for p in package.iterdir()) == ['Missions.targets.addon.lua_B', 'literals.json', 'package.json'],
-      'recipe package: addon + package.json + literals.json, no baked replacement member')
+check(sorted(p.name for p in package.iterdir()) == ['Missions.targets.addon.lua_B', 'engine_params.json', 'literals.json', 'package.json'],
+      'recipe package: addon + package.json + literals.json (+ R16 engine_params.json), no baked replacement member')
 recipe = json.loads((package / 'literals.json').read_text(encoding='utf-8'))
 registry = json.loads((EDITOR / 'REGISTRIES/mission_build_u44.json').read_text(encoding='utf-8'))
 headline = registry['ui_player_text']['live_literal_headline']

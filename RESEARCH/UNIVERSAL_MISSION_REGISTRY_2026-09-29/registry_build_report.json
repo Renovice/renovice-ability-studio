@@ -263,6 +263,27 @@
           ]
         }
       }
+    },
+    "engine_overrides": {
+      "exterminate.kills_scale": [
+        "metersPerEnemy"
+      ],
+      "exterminate.archwing_kill_mult": [
+        "spaceBattleKillCountMultiplier"
+      ],
+      "interception.score_goal_scale": [
+        "scoreGoal"
+      ],
+      "interception.scoring_speed": [
+        "scoreRatePerSecond"
+      ],
+      "interception.round_end_timer": [
+        "roundEndTimer"
+      ],
+      "railjack.corpus_fighter_limit_scale": [
+        "minorKillGoals",
+        "minorKillGoalsMax"
+      ]
     }
   },
   "phase2k": {
@@ -782,7 +803,7 @@
   "modules": 65,
   "corpus_files": 65,
   "metadata_snapshot_sha256": "33D3D0EA8ED3FB4E4FB54A6101683701C353CA909D597C60EC2D7ADF1212A7D2",
-  "registry_sha256": "98F446DDF6D2222B77BBA5005E690A8836186B27C32F9B3484B6FBE2B17619CB",
+  "registry_sha256": "B6EE7A8997AFFA9F3E7D86ECB0694EB28F50F9A980BF0D50D47AA5709AADD89D",
   "ui": {
     "groups": 103,
     "editors": {

@@ -362,6 +362,10 @@ assert (package2k / 'package.json').stat().st_size <= 512 * 1024
 files2k = {'Packages/Missions/' + p.name: p for p in package2k.iterdir()}
 files2k['Settings/Missions.json'] = generation2k / 'Settings' / 'Missions.json'
 hashes2k = {k: hashlib.sha256(p.read_bytes()).hexdigest().upper() for k, p in files2k.items()}
+# Contract R16 (2026-10-01): engine_params.json (ENGINE_PARAM_OVERRIDE declarations, not a member) is new; the staged install
+# set predates it. Its content is gated by test_engine_param_override_harness.py (same recipe as the R16 package).
+engine_params2k = hashes2k.pop('Packages/Missions/engine_params.json', None)
+assert engine_params2k == 'AE090C33D528E045B58F546CFE232DAA21D724F3C3C49EE5B7AF13878AF053DA', engine_params2k
 if (STAGE2K / 'SHA256SUMS.json').exists():
     staged = json.loads((STAGE2K / 'SHA256SUMS.json').read_text())
     staged = {k: v for k, v in staged.items() if k in hashes2k}

@@ -2210,6 +2210,7 @@ std::map<std::string, std::set<int>> multi_target_source_hooks(const std::string
 }
 
 #include "mission_live_literals.inl"
+#include "mission_engine_params.inl"
 
 MissionSetResult build_mission_set(const Json& registry, const Json& values_json, const MissionNaming& naming,
                                    const fs::path& editor_root, const fs::path& staging_root, bool run_external_gates,
@@ -2844,6 +2845,7 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
         // stay outside the package. Gates mirror the loader's static package rules.
         Json package_record = nullptr;
         LiveLiteralOutput live_literal_output;  // R8 recipe (literal_mode "recipe" only)
+        EngineParamsOutput engine_params_output;  // R16 engine_params.json (rows with an engine_override only)
         if (naming.package_layout) {
             if (naming.single_artifact) throw std::runtime_error("output_layout \"package\" applies to mission settings builds only");
             std::vector<const MissionArtifact*> members;
@@ -3002,11 +3004,20 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                         result);
                 }
 
+                // R16: native ENGINE_PARAM_OVERRIDE declarations for the addon member's EXPOSED script-parameter rows.
+                for (const MissionArtifact* item : members) {
+                    if (item->backend != "TARGET_ADDON") continue;
+                    const std::string file = item->artifact.filename().string();
+                    engine_params_output = emit_engine_param_recipe(registry, paths, package_dir, file, member_declared_ids(*item),
+                                                                    package_json.at("members").at(file).at("settings").at("values"),
+                                                                    result);
+                }
+
                 // Package gates (loader rules, bootstrapper renovice/packages_core.hpp).
                 std::set<std::string> on_disk, declared;
                 for (const auto& entry : fs::directory_iterator(package_dir)) {
                     const std::string name = entry.path().filename().string();
-                    if (name != "package.json" && name != kLiveLiteralRecipeFile) on_disk.insert(name);
+                    if (name != "package.json" && name != kLiveLiteralRecipeFile && name != kEngineParamsFile) on_disk.insert(name);
                 }
                 for (const auto& [name, value] : member_labels.items()) {
                     static_cast<void>(value);
@@ -3243,6 +3254,10 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                 if (naming.literal_recipes) {
                     package_record["live_literals"] = live_literal_output.record;
                     package_record["gates"].push_back({{"name", "live-literal-recipe"}, {"pass", true}, {"exit_code", 0}});
+                }
+                if (!engine_params_output.record.is_null()) {
+                    package_record["engine_params"] = engine_params_output.record;
+                    package_record["gates"].push_back({{"name", "engine-param-overrides"}, {"pass", true}, {"exit_code", 0}});
                 }
             }
         }

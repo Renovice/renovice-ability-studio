@@ -5,6 +5,10 @@
       "pass": true
     },
     {
+      "name": "R16: the baked package carries engine_params.json (not a member)",
+      "pass": true
+    },
+    {
       "name": "baked exact-replacement members byte-identical to the staged set (5 files; R10 changes only the addon member)",
       "pass": true
     },
@@ -25,7 +29,7 @@
       "pass": true
     },
     {
-      "name": "recipe package: addon + package.json + literals.json, no baked replacement member",
+      "name": "recipe package: addon + package.json + literals.json (+ R16 engine_params.json), no baked replacement member",
       "pass": true
     },
     {
@@ -123,7 +127,7 @@
     "masters": 8,
     "literals_json_sha256": "a16b2520ea2e5762057e96bcef3fe94ae30ff72b272cf8a14d69b2cddc8e3c01",
     "package_json_sha256": "44fc0b53d0b71887f8a4fc5e9de41da2e88264c4591779ef57ba2de5feba21be",
-    "generation": "work\\temp\\live-literals-tests\\recipe\\missions\\F3B9A2591C6C"
+    "generation": "work\\temp\\live-literals-tests\\recipe\\missions\\6241E0BEE662"
   },
   "old_bootstrapper": {
     "revision": "6227cc0",

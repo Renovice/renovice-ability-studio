@@ -63,6 +63,16 @@ R15 = EDITOR / 'RESEARCH/MISSIONS_R15_DEFENSE_READER_PIN_2026-10-01'
 R15_DRAFTS = R15 / 'inputs/r15_row_drafts.json'
 R15_DRAFTS_SHA256 = '56C3990CF62BC3A0FC81071A6585A759324FD2BEBDB0003460C61C677A3F8D99'  # LF-normalized content
 R15_PROVENANCE = 'research:defense-reward-interval-2026-10-01 (contract R15)'
+# Contract R16 (2026-10-01): ENGINE_PARAM_OVERRIDE. The SCRIPT_PARAM_GLOBAL_AT_ENTRY rows whose readers run after a yield of
+# the same instance (EXPOSED in the R15 classification) are also owned natively: the bootstrapper's ENGINE_PARAM_OVERRIDE
+# hook adjusts the value inside the engine's own parameter writer (44.0.2 push_value 0x191A010, called by apply_param
+# 0x181CAE0) on every write. The registrar records the admission on the row owner (`engine_override`); the generator
+# emits Packages/Missions/engine_params.json for it. The R10 entry write stays in the addon as the fallback (older DLLs).
+# Record RESEARCH/MISSIONS_R16_ENGINE_PARAM_OVERRIDE_2026-10-01. Input pinned by its LF content.
+R16 = EDITOR / 'RESEARCH/MISSIONS_R16_ENGINE_PARAM_OVERRIDE_2026-10-01'
+R16_OVERRIDES = R16 / 'inputs/r16_engine_overrides.json'
+R16_OVERRIDES_SHA256 = 'EF03BA27AE9D3B2B964BF1D9DD2F00FF74FF9D7E4B942220075B8AB59BDFEB14'  # LF-normalized content
+ENGINE_OVERRIDE_GATE = 'ENGINE_PARAM_OVERRIDE_V1'
 # R15 IMPORT_READ_PIN_V1: a single-name GETIMPORT of a hashed global (U44 dispatch byte 0x35, canonical 0x46) is rewritten
 # into `LOADN A, value` twice (the instruction word and its aux word), through two LIVE_LITERALS_V1 instruction sites flagged
 # `rewrites_instruction`. Admissible only when every instruction of the module that names the hash is one of the pinned
@@ -406,7 +416,31 @@ def rows(ctx):
         report['by_backend'][row['backend']] = report['by_backend'].get(row['backend'], 0) + 1
         template = row['owner'].get('template', row['backend'])
         report['by_template'][template] = report['by_template'].get(template, 0) + 1
+    engine_overrides(out, report)
     return out, excluded, report
+
+
+def engine_overrides(out, report):
+    """R16: marks the admitted EXPOSED script-parameter rows as natively owned (ENGINE_PARAM_OVERRIDE_V1)."""
+    spec = load_drafts(R16_OVERRIDES, R16_OVERRIDES_SHA256, 'R16')
+    if spec.get('gate') != ENGINE_OVERRIDE_GATE:
+        raise ValueError('R16: engine override input names another gate')
+    by_id = {r['tunable_id']: r for r in out}
+    report['engine_overrides'] = {}
+    for item in spec['rows']:
+        tid = item['tunable_id']
+        row = by_id.get(tid)
+        if row is None:
+            raise ValueError(f'R16: {tid} is not an admitted row')
+        owner = row['owner']
+        if row['backend'] != 'TARGET_ADDON' or owner.get('template') != SCRIPT_PARAM:
+            raise ValueError(f'R16: {tid} is not a SCRIPT_PARAM_GLOBAL_AT_ENTRY row')
+        if not item.get('exposure', '').startswith('EXPOSED') or not item.get('evidence'):
+            raise ValueError(f'R16: {tid} carries no EXPOSED classification with evidence')
+        owner['engine_override'] = {'gate': ENGINE_OVERRIDE_GATE, 'exposure': item['exposure'], 'evidence': item['evidence'],
+                                    'parameters': [{'name': g['name'], 'hash': g['hash']} for g in owner['globals']],
+                                    'mode': owner['mode']}
+        report['engine_overrides'][tid] = [g['name'] for g in owner['globals']]
 
 
 def entry_row(ctx, m, key, rec, d, base, lim, where):
