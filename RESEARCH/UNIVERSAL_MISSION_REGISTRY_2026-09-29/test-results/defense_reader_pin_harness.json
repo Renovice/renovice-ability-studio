@@ -1,0 +1,213 @@
+{
+  "checks": [
+    {
+      "name": "U44 name hash of minWavesToComplete is 69d6d911 (seed 768e5ed0)",
+      "pass": true
+    },
+    {
+      "name": "stock WaveDefend 44.0.2 body (SHA-256 0fb53a2c...)",
+      "pass": true
+    },
+    {
+      "name": "stock: the hash is named only by the four GETIMPORT readers [(36, 238), (36, 307), (48, 960), (48, 1122)]",
+      "pass": true
+    },
+    {
+      "name": "stock P48 i1122 at 63394 is U44 GETIMPORT (raw 0x35) into R28",
+      "pass": true
+    },
+    {
+      "name": "stock P48 i960 at 62498 is U44 GETIMPORT (raw 0x35) into R31",
+      "pass": true
+    },
+    {
+      "name": "stock P36 i238 at 42025 is U44 GETIMPORT (raw 0x35) into R7",
+      "pass": true
+    },
+    {
+      "name": "stock P36 i307 at 42401 is U44 GETIMPORT (raw 0x35) into R12",
+      "pass": true
+    },
+    {
+      "name": "N=1: build succeeds and synthesizes WaveDefend from the recipe",
+      "pass": true
+    },
+    {
+      "name": "N=1: synthesized body keeps the stock size (96329 bytes)",
+      "pass": true
+    },
+    {
+      "name": "N=1: P48 i1122 is LOADN R28, 1 twice (instruction word and former aux word)",
+      "pass": true
+    },
+    {
+      "name": "N=1: P48 i960 is LOADN R31, 1 twice (instruction word and former aux word)",
+      "pass": true
+    },
+    {
+      "name": "N=1: P36 i238 is LOADN R7, 1 twice (instruction word and former aux word)",
+      "pass": true
+    },
+    {
+      "name": "N=1: P36 i307 is LOADN R12, 1 twice (instruction word and former aux word)",
+      "pass": true
+    },
+    {
+      "name": "N=1: 24 changed bytes, all inside the 4 x 8 pinned bytes",
+      "pass": true
+    },
+    {
+      "name": "N=1: no instruction names the hash 69d6d911 (the decision never reads the environment)",
+      "pass": true
+    },
+    {
+      "name": "N=1: P36 code size unchanged (same instruction slots, same jump targets)",
+      "pass": true
+    },
+    {
+      "name": "N=1: P48 code size unchanged (same instruction slots, same jump targets)",
+      "pass": true
+    },
+    {
+      "name": "N=2: build succeeds and synthesizes WaveDefend from the recipe",
+      "pass": true
+    },
+    {
+      "name": "N=2: synthesized body keeps the stock size (96329 bytes)",
+      "pass": true
+    },
+    {
+      "name": "N=2: P48 i1122 is LOADN R28, 2 twice (instruction word and former aux word)",
+      "pass": true
+    },
+    {
+      "name": "N=2: P48 i960 is LOADN R31, 2 twice (instruction word and former aux word)",
+      "pass": true
+    },
+    {
+      "name": "N=2: P36 i238 is LOADN R7, 2 twice (instruction word and former aux word)",
+      "pass": true
+    },
+    {
+      "name": "N=2: P36 i307 is LOADN R12, 2 twice (instruction word and former aux word)",
+      "pass": true
+    },
+    {
+      "name": "N=2: 24 changed bytes, all inside the 4 x 8 pinned bytes",
+      "pass": true
+    },
+    {
+      "name": "N=2: no instruction names the hash 69d6d911 (the decision never reads the environment)",
+      "pass": true
+    },
+    {
+      "name": "N=2: P36 code size unchanged (same instruction slots, same jump targets)",
+      "pass": true
+    },
+    {
+      "name": "N=2: P48 code size unchanged (same instruction slots, same jump targets)",
+      "pass": true
+    },
+    {
+      "name": "N=5: build succeeds and synthesizes WaveDefend from the recipe",
+      "pass": true
+    },
+    {
+      "name": "N=5: synthesized body keeps the stock size (96329 bytes)",
+      "pass": true
+    },
+    {
+      "name": "N=5: P48 i1122 is LOADN R28, 5 twice (instruction word and former aux word)",
+      "pass": true
+    },
+    {
+      "name": "N=5: P48 i960 is LOADN R31, 5 twice (instruction word and former aux word)",
+      "pass": true
+    },
+    {
+      "name": "N=5: P36 i238 is LOADN R7, 5 twice (instruction word and former aux word)",
+      "pass": true
+    },
+    {
+      "name": "N=5: P36 i307 is LOADN R12, 5 twice (instruction word and former aux word)",
+      "pass": true
+    },
+    {
+      "name": "N=5: 24 changed bytes, all inside the 4 x 8 pinned bytes",
+      "pass": true
+    },
+    {
+      "name": "N=5: no instruction names the hash 69d6d911 (the decision never reads the environment)",
+      "pass": true
+    },
+    {
+      "name": "N=5: P36 code size unchanged (same instruction slots, same jump targets)",
+      "pass": true
+    },
+    {
+      "name": "N=5: P48 code size unchanged (same instruction slots, same jump targets)",
+      "pass": true
+    },
+    {
+      "name": "render stock (derecomp 65c46572)",
+      "pass": true
+    },
+    {
+      "name": "render pinned1 (derecomp 65c46572)",
+      "pass": true
+    },
+    {
+      "name": "stock render: 4 reads of the global 69d6d911",
+      "pass": true
+    },
+    {
+      "name": "pinned render: no read of the global 69d6d911",
+      "pass": true
+    },
+    {
+      "name": "pinned render: the checkpoint test (P48 state 299, stock L9236) is (wave - 1) % 1",
+      "pass": true
+    },
+    {
+      "name": "installed R14 addon source (staged evidence, LF content pinned)",
+      "pass": true
+    },
+    {
+      "name": "R14 addon writes environment.minWavesToComplete at the P50 entry",
+      "pass": true
+    },
+    {
+      "name": "R15 addon source built",
+      "pass": true
+    },
+    {
+      "name": "R15 addon no longer names minWavesToComplete",
+      "pass": true
+    },
+    {
+      "name": "toolchain luau.exe present",
+      "pass": true
+    },
+    {
+      "name": "harness: 7 Luau checks (R14 observed order reproduces live; R15 pinned reader)",
+      "pass": true
+    }
+  ],
+  "pinned_decision_block": [
+    "frame_48[915] = 1",
+    "frame_48[916] = 1",
+    "frame_48[917] = (frame_48[28] - 1)",
+    "frame_48[918] = (frame_48[917] % frame_48[916])",
+    "if frame_48[918] ~= 0 then"
+  ],
+  "pinned_values": {
+    "1": 1,
+    "2": 2,
+    "5": 5
+  },
+  "expected_checkpoints": {
+    "1": "1,2,3,4,5,6,7,8,9,10,11,12",
+    "2": "2,4,6,8,10,12",
+    "5": "5,10"
+  }
+}

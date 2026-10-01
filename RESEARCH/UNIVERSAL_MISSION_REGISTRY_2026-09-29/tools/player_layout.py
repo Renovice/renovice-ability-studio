@@ -124,7 +124,8 @@ put('wf1999def.drone_count.spawn_interval', ['Defense', 'Timers'], '1999: time b
 # R10: "Waves to finish" is the normal-node count (MissionInfo, written at mission start); the special-mission counts
 # (fixed numbers in the Defense script) sit on their own page next to it.
 put('defense.waves_to_finish', ['Defense', 'Objectives'], 'Waves to finish', quick='Defense: waves to finish')
-# R12: the reward / extraction checkpoint interval (level parameter minWavesToComplete, written at the WaveDefense entry).
+# R12: the reward / extraction checkpoint interval (level parameter minWavesToComplete). R15: the four readers are
+# pinned to the value (live literal, IMPORT_READ_PIN_V1); the entry-time environment write is gone.
 put('defense.waves_per_reward', ['Defense', 'Rewards / drops'], 'Waves per reward', quick='Defense: waves per reward')
 for _tid, _row in (('special_mission_default_waves', 'Alert missions'), ('nightmare_wave_count', 'Nightmare'),
                    ('duviri_wave_count', 'Duviri'), ('circle_wave_count', 'Descendia')):
@@ -491,7 +492,7 @@ OVERRIDE = {    # id -> full description
     # R12 (user wording, 2026-10-01). The editor tooltip adds "Default 3." itself, so the description does not repeat it.
     'defense.waves_to_finish': '0 / Endless = keep going as long as you like; a number ends the mission after that wave. '
                                'Alerts, sorties and other special missions keep their own count.',
-    'defense.waves_per_reward': 'Waves between each reward and extraction choice.',
+    'defense.waves_per_reward': 'Waves between each reward and extraction choice. Applies from the next mission.',
     # R14 (2026-10-01): Void Flood tanks. The editor tooltip adds "Default x1 (...)." itself.
     'void_flood.deposit_speed_scale': 'How fast a tank fills while a player stands at it with Void energy: x2 fills it twice '
                                       'as fast. One player fills an empty tank in 8 to 14 s at the default (longer in bigger squads).',

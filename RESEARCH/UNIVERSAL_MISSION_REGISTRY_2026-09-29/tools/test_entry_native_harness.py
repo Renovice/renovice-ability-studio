@@ -13,14 +13,14 @@ For every entry-template row of the registry it asserts the environment write (S
 scale, scale_inverse, scale_count) or the MissionInfo write (MISSION_INFO_FIELD_AT_ENTRY), the R3 retire signal, no
 compounding on a second entry, a fresh write for a second instance, and the cleanup restore.
 
-For Defense it also runs the stock checkpoint rule transcribed from WaveDefend P48 (readable L9060: the wave counter is
-incremented after a wave; L9228-9240: unless isDuviriDefense (b5fdc7ca) or isCircle (9dc69664), the rotation checkpoint
-opens when (counter - 1) % minWavesToComplete == 0) against the same environment table:
-  - stock, and the R11 boundary (no dispatch at a native entry): checkpoints after waves 3, 6, 9, 12 (the live symptom);
-  - R13 boundary, Waves per reward = 1: after every wave; = 2: after waves 2, 4, 6, ...
-Limit: the checkpoint rule is a transcription of the decompiled reader, not the DE bytecode running in the game VM, and
-the boundary itself (which native entries dispatch) is proven by the bootstrapper gate verify_lua_call_retirement.ps1
-section 15, not here.
+R15 (2026-10-01): the R13 version of this harness also ran the Defense checkpoint rule against an environment table only
+the addon writes, and passed; live, the same write had no effect because the engine re-applies the trigger's level
+parameters into that environment (wrong owner). Defense "Waves per reward" is now a reader pin (live literal) gated by
+test_defense_reader_pin_harness.py, which models the engine's re-application. Here only the remaining P50 hook is
+checked not to write minWavesToComplete. The same limit applies to every remaining SCRIPT_PARAM_GLOBAL_AT_ENTRY row:
+this harness proves the write at the entry, not that the value survives until its readers run.
+Limit: the boundary itself (which native entries dispatch) is proven by the bootstrapper gate
+verify_lua_call_retirement.ps1 section 15, not here.
 
 Paths: CLI = RENOVICE_EDITOR_CLI or work/builds/ability-editor/current; luau.exe from the DE Luau toolchain. Writes only
 to work/temp/entry-native-harness and this tool's test-results folder. Reads no game or server folder.
@@ -38,7 +38,9 @@ INPUT = EDITOR / 'RESEARCH/MISSIONS_R13_NATIVE_ENTRY_2026-10-01/inputs/rebuild_i
 INPUT_LF_SHA = 'dccde5fddf2649c2be4c93789cecab4cc1d1759dc9d01d0117cba25f5a7ca4b6'  # LF content (checkout-independent)
 # R14 (2026-10-01): the same input now also declares the four Void Flood tank multipliers (scaled root-table rows);
 # the R12 build of this input was 8e0e187124379d78ab039bc283eb9963d9696d6f1d7c4a420af5a3d96c1ebb07 (installed 2026-10-01).
-R12_ADDON_SHA = '4c70b5ec200f9409ca034546aea37555c8f6081cd6661978c3a41e347b7ccbba'  # R14 build of the pinned input
+# R15 (2026-10-01): defense.waves_per_reward left the addon (reader pin, live literal; test_defense_reader_pin_harness.py);
+# the R14 build of this input was 4c70b5ec200f9409ca034546aea37555c8f6081cd6661978c3a41e347b7ccbba (installed 2026-10-01).
+R12_ADDON_SHA = '70fff0b6606e452edc0825b7c58e594505f71576b887ee5cef97064079dcc2ed'  # R15 build of the pinned input
 WORK = ROOT / 'work/temp/entry-native-harness'
 OUT = Path(__file__).resolve().parents[1] / 'test-results'
 results = {'checks': []}
@@ -92,7 +94,7 @@ generations = list((WORK / 'build').glob('missions/*/MISSION_SET_MANIFEST.json')
 check(run.returncode == 0 and len(generations) == 1, 'R12 build succeeds')
 generation = generations[0].parent
 check(sha(generation / 'Packages/Missions/Missions.targets.addon.lua_B') == R12_ADDON_SHA,
-      'the built addon is the pinned R14 addon (4c70b5ec; R12 was 8e0e1871)')
+      'the built addon is the pinned R15 addon (70fff0b6; R14 4c70b5ec, R12 8e0e1871)')
 source = (generation / 'source/Missions.targets.addon.luau').read_text(encoding='utf-8')
 
 # 2. One case per entry-template row of the registry.
@@ -124,8 +126,8 @@ for row in registry['tunables']:
             raise SystemExit('unknown mode ' + mode)
         case.update(kind='param', mode=mode, globals=names, observed=observed, value=value, expect=expect)
     cases.append(case)
-check(len(cases) == 22 and sum(c['kind'] == 'param' for c in cases) == 14,
-      f'registry: 22 entry-template rows (14 script parameters, 8 MissionInfo fields); found {len(cases)}')
+check(len(cases) == 21 and sum(c['kind'] == 'param' for c in cases) == 13,
+      f'registry: 21 entry-template rows (13 script parameters, 8 MissionInfo fields; R15 moved Defense waves per reward to the reader pin); found {len(cases)}')
 
 harness = r'''
 local emit = print   -- Luau has no io library; the addon's own print is captured below
@@ -210,36 +212,17 @@ for _, case in ipairs(CASES) do
     end
 end
 
--- Defense: the stock checkpoint rule (WaveDefend P48 L9060 + L9228-9240) on the environment the entry hook wrote.
-local function checkpoints(env, waves)
-    local out, counter = {}, 1
-    for wave = 1, waves do
-        counter = counter + 1
-        if not env.isDuviriDefense and not env.isCircle and (counter - 1) % env.minWavesToComplete == 0 then
-            out[#out + 1] = wave
-        end
-    end
-    return table.concat(out, ",")
-end
-local function defense(value, dispatch_native_entry)
-    local addon = ADDON_MODULE()
-    local target = addon.targets["1a1354d153712f9d"]
-    local settings = {}
-    if value ~= nil then settings["defense.waves_per_reward"] = { enabled = true, value = value, stock = 3 } end
-    target.activate({ settings = settings })
+-- Defense (R15): Waves per reward is no longer an entry write. The WaveDefense hook (P50, kept for "Waves to finish")
+-- must leave the level parameter alone; the decision path and its owner are gated by test_defense_reader_pin_harness.py.
+do
+    local target = ADDON_MODULE().targets["1a1354d153712f9d"]
+    target.activate({ settings = { ["defense.waves_to_finish"] = { enabled = true, value = 5, stock = 0 } } })
     local env = { minWavesToComplete = 3, isDuviriDefense = false, isCircle = false }   -- level ScriptTrigger value
-    if dispatch_native_entry then native_entry(target, 50, env) end
-    local result = checkpoints(env, 12)
+    fresh_mission()
+    native_entry(target, 50, env)
+    ok(env.minWavesToComplete == 3, "Defense R15: the WaveDefense entry hook does not write minWavesToComplete")
     target.cleanup()
-    return result
 end
-ok(defense(nil, true) == "3,6,9,12", "Defense stock: rotation checkpoint after waves 3, 6, 9, 12")
-ok(defense(1, false) == "3,6,9,12", "Defense R11 boundary (P50 is entered by the trigger, no native-entry dispatch): Waves per reward 1 has no effect (the live symptom)")
-ok(defense(1, true) == "1,2,3,4,5,6,7,8,9,10,11,12", "Defense R13 boundary: Waves per reward 1 -> a checkpoint after every wave")
-ok(defense(2, true) == "2,4,6,8,10,12", "Defense R13 boundary: Waves per reward 2 -> after waves 2, 4, 6, ...")
-local line = false
-for _, text in ipairs(printed) do line = line or text == "RENOVICE Missions: defense.waves_per_reward minWavesToComplete 3 -> 1" end
-ok(line, "Defense: the addon prints the live-test line 'defense.waves_per_reward minWavesToComplete 3 -> 1'")
 emit(failures == 0 and "ENTRY NATIVE HARNESS PASS" or "ENTRY NATIVE HARNESS FAIL")
 '''
 
@@ -254,7 +237,7 @@ for line in lines:
 if run.stderr.strip():
     print('HARNESS-STDERR\t' + run.stderr.strip())
 check(run.returncode == 0 and 'ENTRY NATIVE HARNESS PASS' in lines and not any(l.startswith('FAIL') for l in lines),
-      f'harness: {sum(l.startswith("PASS") for l in lines)} checks over 22 entry rows + the Defense checkpoint rule')
+      f'harness: {sum(l.startswith("PASS") for l in lines)} checks over 21 entry rows + the R15 Defense entry check')
 OUT.mkdir(parents=True, exist_ok=True)
 (OUT / 'entry_native_harness.json').write_text(json.dumps(results, indent=2) + '\n', encoding='utf-8')
 print('ENTRY NATIVE HARNESS GATE PASS')

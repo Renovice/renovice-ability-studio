@@ -38,8 +38,11 @@ CLI = Path(os.environ.get('RENOVICE_EDITOR_CLI', ROOT / 'work/builds/ability-edi
 LUAU = ROOT / 'repos/toolchains/de-luau-toolchain/bin/luau.exe'
 INPUT = EDITOR / 'RESEARCH/MISSIONS_R13_NATIVE_ENTRY_2026-10-01/inputs/rebuild_input.r12.json'  # same input since R12
 INPUT_LF_SHA = 'dccde5fddf2649c2be4c93789cecab4cc1d1759dc9d01d0117cba25f5a7ca4b6'
-R14_ADDON_SHA = '4c70b5ec200f9409ca034546aea37555c8f6081cd6661978c3a41e347b7ccbba'
-LITERALS_SHA = 'd9b3a76481e3999d46b7571ff23073c525fd8e71cdef5e8748c4197de39aabdd'  # unchanged since R11
+# R15 (2026-10-01): the same input builds 70fff0b6 (defense.waves_per_reward left the addon for the reader pin);
+# R14 built 4c70b5ec200f9409ca034546aea37555c8f6081cd6661978c3a41e347b7ccbba.
+R14_ADDON_SHA = '70fff0b6606e452edc0825b7c58e594505f71576b887ee5cef97064079dcc2ed'
+# R15 adds the defense.waves_per_reward recipe (reader pin); R11-R14 shipped d9b3a764...
+LITERALS_SHA = 'a16b2520ea2e5762057e96bcef3fe94ae30ff72b272cf8a14d69b2cddc8e3c01'
 KEY = 'fc711ff621a75552'
 ROWS = {'void_flood.deposit_speed_scale': 'scale', 'void_flood.tank_capacity_scale': 'scale_count',
         'void_flood.orb_value_scale': 'scale', 'void_flood.drain_speed_scale': 'scale'}
@@ -85,8 +88,8 @@ generations = list((WORK / 'build').glob('missions/*/MISSION_SET_MANIFEST.json')
 check(run.returncode == 0 and len(generations) == 1, 'full package build succeeds')
 generation = generations[0].parent
 package = generation / 'Packages/Missions'
-check(sha(package / 'Missions.targets.addon.lua_B') == R14_ADDON_SHA, f'the built addon is the pinned R14 addon ({R14_ADDON_SHA[:8]})')
-check(sha(package / 'literals.json') == LITERALS_SHA, 'literals.json is unchanged (d9b3a764)')
+check(sha(package / 'Missions.targets.addon.lua_B') == R14_ADDON_SHA, f'the built addon is the pinned R15 addon ({R14_ADDON_SHA[:8]}; R14 4c70b5ec)')
+check(sha(package / 'literals.json') == LITERALS_SHA, 'literals.json is the pinned R15 recipe file (a16b2520; R11-R14 d9b3a764)')
 source = (generation / 'source/Missions.targets.addon.luau').read_text(encoding='utf-8')
 declared = json.loads((package / 'package.json').read_text(encoding='utf-8'))['members']['Missions.targets.addon.lua_B']['settings']['values']
 check(all(tid in declared and declared[tid]['stock'] == 1 and declared[tid]['type'] == 'float' and declared[tid]['unit'] == 'x'

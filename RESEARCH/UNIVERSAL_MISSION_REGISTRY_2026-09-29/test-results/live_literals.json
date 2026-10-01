@@ -9,7 +9,7 @@
       "pass": true
     },
     {
-      "name": "baked package.json declares every staged value plus exactly the 60 R10/R11 addon values",
+      "name": "baked package.json declares every staged value plus exactly the 59 R10/R11 addon values",
       "pass": true
     },
     {
@@ -29,7 +29,7 @@
       "pass": true
     },
     {
-      "name": "every registry headline literal value is declared (122)",
+      "name": "every registry headline literal value is declared (123)",
       "pass": true
     },
     {
@@ -118,12 +118,12 @@
     }
   ],
   "recipe": {
-    "values": 122,
+    "values": 123,
     "modules": 42,
     "masters": 8,
-    "literals_json_sha256": "d9b3a76481e3999d46b7571ff23073c525fd8e71cdef5e8748c4197de39aabdd",
-    "package_json_sha256": "65714ffb0af4a435848563e7bf42d25ad72cf16f5bceb6099bb6a88a3d543b21",
-    "generation": "work/temp/live-literals-tests/recipe/missions/2382831F7345"
+    "literals_json_sha256": "a16b2520ea2e5762057e96bcef3fe94ae30ff72b272cf8a14d69b2cddc8e3c01",
+    "package_json_sha256": "44fc0b53d0b71887f8a4fc5e9de41da2e88264c4591779ef57ba2de5feba21be",
+    "generation": "work\\temp\\live-literals-tests\\recipe\\missions\\F3B9A2591C6C"
   },
   "old_bootstrapper": {
     "revision": "6227cc0",

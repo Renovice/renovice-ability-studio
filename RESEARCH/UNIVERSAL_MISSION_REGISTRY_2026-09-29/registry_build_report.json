@@ -232,20 +232,38 @@
       "extraction.countdown": "gamerules.extraction_countdown"
     },
     "by_backend": {
-      "EXACT_LITERAL": 29,
-      "TARGET_ADDON": 42,
+      "EXACT_LITERAL": 30,
+      "TARGET_ADDON": 41,
       "METADATA_PATCH": 2
     },
     "by_template": {
-      "EXACT_LITERAL": 29,
+      "EXACT_LITERAL": 30,
       "ROOT_TABLE_FIELD": 20,
       "MISSION_INFO_FIELD_AT_ENTRY": 8,
-      "SCRIPT_PARAM_GLOBAL_AT_ENTRY": 14,
+      "SCRIPT_PARAM_GLOBAL_AT_ENTRY": 13,
       "METADATA_PATCH": 2
     },
     "r11_drafts": 3,
     "r12_drafts": 1,
-    "r14_drafts": 4
+    "r14_drafts": 4,
+    "r15_drafts": 1,
+    "superseded": {
+      "defense.waves_per_reward": "R15: the R12 SCRIPT_PARAM_GLOBAL_AT_ENTRY owner wrote the level parameter into the WaveDefense instance environment at the trigger entry. Live 2026-10-01 (DLL e5d9b61b, addon 4c70b5ec): the write ran (EE 581.400 'minWavesToComplete 3 -> 1') but the checkpoint after waves 1 and 2 did not open. The environment is not owned by the entry write: the engine's script-parameter applier writes the trigger's level values into the instance environment natively (44.0.2 RVA 0x181CAE0 via ApplyScriptParams 0x175C710 / 0x1280F60 / 0x0C6DD40) and the script-run loop at 0x0A77E90 re-applies them to an already existing instance before running it, without the busy check of the entity path 0x02EB8F0 (which call re-applied them in the live session is not identified offline). The four readers are the owner of the decision input; R15 pins them."
+    },
+    "import_pins": {
+      "defense.waves_per_reward": {
+        "minWavesToComplete": {
+          "36": [
+            238,
+            307
+          ],
+          "48": [
+            1122,
+            960
+          ]
+        }
+      }
+    }
   },
   "phase2k": {
     "tables": 95,
@@ -505,8 +523,8 @@
   },
   "rows_by_backend": {
     "METADATA_PATCH": 64,
-    "EXACT_LITERAL": 251,
-    "TARGET_ADDON": 351,
+    "EXACT_LITERAL": 252,
+    "TARGET_ADDON": 350,
     "SERVER_CONFIG": 1
   },
   "build": "2026.09.28.13.06",
@@ -764,7 +782,7 @@
   "modules": 65,
   "corpus_files": 65,
   "metadata_snapshot_sha256": "33D3D0EA8ED3FB4E4FB54A6101683701C353CA909D597C60EC2D7ADF1212A7D2",
-  "registry_sha256": "3C3D4E8AAF1FD4E8B4BA9950DB05C12678B7F49A0E86A951405B9B52DFD8341F",
+  "registry_sha256": "98F446DDF6D2222B77BBA5005E690A8836186B27C32F9B3484B6FBE2B17619CB",
   "ui": {
     "groups": 103,
     "editors": {

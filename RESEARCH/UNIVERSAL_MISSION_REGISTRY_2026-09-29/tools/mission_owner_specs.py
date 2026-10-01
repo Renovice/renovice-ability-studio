@@ -55,6 +55,20 @@ R14 = EDITOR / 'RESEARCH/MISSIONS_R14_VOID_FLOOD_TANKS_2026-10-01'
 R14_DRAFTS = R14 / 'inputs/r14_row_drafts.json'
 R14_DRAFTS_SHA256 = 'CF23C919BFD7D6E8D8A364B742BA832722ABA81028F6E8B9C8AE367CF5C4E6E3'  # LF-normalized content
 R14_PROVENANCE = 'research:void-flood-tanks-2026-10-01 (contract R14)'
+# Contract R15 (2026-10-01): live follow-up of R12/R13. The entry-time environment write of defense.waves_per_reward ran
+# live but did not reach the checkpoint reader: the WaveDefense instance environment is written natively by the engine's
+# script-parameter applier (record RESEARCH/MISSIONS_R15_DEFENSE_READER_PIN_2026-10-01). R15 drafts supersede R12 drafts
+# with the same id; the row pins the four readers (IMPORT_READ_PIN_V1) through the existing live-literal lane.
+R15 = EDITOR / 'RESEARCH/MISSIONS_R15_DEFENSE_READER_PIN_2026-10-01'
+R15_DRAFTS = R15 / 'inputs/r15_row_drafts.json'
+R15_DRAFTS_SHA256 = '56C3990CF62BC3A0FC81071A6585A759324FD2BEBDB0003460C61C677A3F8D99'  # LF-normalized content
+R15_PROVENANCE = 'research:defense-reward-interval-2026-10-01 (contract R15)'
+# R15 IMPORT_READ_PIN_V1: a single-name GETIMPORT of a hashed global (U44 dispatch byte 0x35, canonical 0x46) is rewritten
+# into `LOADN A, value` twice (the instruction word and its aux word), through two LIVE_LITERALS_V1 instruction sites flagged
+# `rewrites_instruction`. Admissible only when every instruction of the module that names the hash is one of the pinned
+# reads (no SETGLOBAL/GETGLOBAL/field use left), so the decision input never comes from the environment.
+RAW_GETIMPORT = 0x35
+IMPORT_PIN_GATE = 'IMPORT_READ_PIN_V1'
 # R14: a ROOT_TABLE_FIELD row with `mode` writes (field stock x row value) into every field; `scale_count` rounds each
 # result and keeps it at least 1 (the R11 count rule applied to root-table fields). Without `mode` the row value is
 # written as is (every row before R14).
@@ -205,6 +219,53 @@ def literal_site(m, site, stock, where):
     return out
 
 
+def import_pin_sites(m, site, namehash, where):
+    """R15 IMPORT_READ_PIN_V1: the two LIVE_LITERALS_V1 instruction sites that rewrite one single-name GETIMPORT of a
+    hashed global into `LOADN A, value` (instruction word, then its aux word). Every check is made on the pinned stock
+    bytes: raw U44 dispatch byte, canonical GETIMPORT, aux count 1, aux id0 -> tag-1 hashed name == namehash(global),
+    an aux word that is not itself a LOADN preimage (the shared core would then demand its register)."""
+    p, i, name = site['prototype'], site['instruction'], site['global']
+    h = namehash(name)
+    if f'{h:08x}' != site['hash']:
+        raise ValueError(f'{where}: hash of {name} is {h:08x}, drafted {site["hash"]}')
+    off, w = m.protos[p][0][i]
+    raw = m.raw[off:off + 8]
+    if len(w) != 8 or w[0] != GETIMPORT or raw[0] != RAW_GETIMPORT:
+        raise ValueError(f'{where}: {p}:{i} at {off} is not a U44 GETIMPORT ({raw.hex()})')
+    reg = w[1]
+    aux = struct.unpack_from('<I', w, 4)[0]
+    if aux >> 30 != 1:
+        raise ValueError(f'{where}: {p}:{i} imports a {aux >> 30}-level path; only a single global name can be pinned')
+    consts = m.protos[p][1]
+    k = (aux >> 20) & 1023
+    c = consts[k] if k < len(consts) else None
+    if not c or c[0] != 1 or struct.unpack('<I', c[1][:4])[0] != h:
+        raise ValueError(f'{where}: {p}:{i} aux id0 constant {k} is not the hashed name {name} ({h:08x})')
+    if raw[4] == RAW_LOADN:
+        raise ValueError(f'{where}: {p}:{i} aux word starts with the LOADN byte; the shared core would read it as a LOADN preimage')
+    common = {'kind': 'instruction', 'prototype': p, 'register': reg, 'rewrites_instruction': True,
+              'numerator': 1, 'denominator': 1, 'gate': IMPORT_PIN_GATE, 'global': name, 'hash': site['hash']}
+    return [dict(common, instruction=i, offset=off, expected=list(raw[:4]),
+                 owner=site['owner'] + ' (instruction word)'),
+            dict(common, instruction=i, aux_of=i, offset=off + 4, expected=list(raw[4:8]),
+                 owner=site['owner'] + ' (aux word)')]
+
+
+def import_pin_complete(m, sites, namehash, where):
+    """IMPORT_READ_PIN_V1 completeness: for every pinned global, the census of the hash in the whole module (reads and
+    writes, hashed and string keys) is exactly the pinned GETIMPORT set."""
+    pinned = {}
+    for s in sites:
+        if s.get('gate') == IMPORT_PIN_GATE and 'aux_of' not in s:
+            pinned.setdefault(s['global'], {}).setdefault(s['prototype'], []).append(s['instruction'])
+    for name, want in pinned.items():
+        got = census(m, name, namehash)
+        want = {p: sorted(v) for p, v in want.items()}
+        if {p: sorted(v) for p, v in got.items()} != want:
+            raise ValueError(f'{where}: census of {name} is {got}; the pin covers {want} (every use must be a pinned read)')
+    return {name: {str(p): v for p, v in sorted(w.items())} for name, w in pinned.items()}
+
+
 def composed_blocks(text):
     """{struct name: [lines]} of the top-level `Name={ ... }` blocks of an inspect-type composed dump."""
     body = text.split('[inspect-type] composed metadata:\n', 1)[1]
@@ -233,13 +294,23 @@ def rows(ctx):
     r11 = load_drafts(R11_DRAFTS, R11_DRAFTS_SHA256, 'R11')
     r12 = load_drafts(R12_DRAFTS, R12_DRAFTS_SHA256, 'R12')
     r14 = load_drafts(R14_DRAFTS, R14_DRAFTS_SHA256, 'R14')
+    r15 = load_drafts(R15_DRAFTS, R15_DRAFTS_SHA256, 'R15')
     out, excluded = [], []
     report = {'drafts': len(drafts['rows']), 'drafts_rejected_by_research': len(drafts['rejected']), 'admitted': 0,
               'excluded': [], 'renamed': {}, 'by_backend': {}, 'by_template': {}, 'r11_drafts': len(r11['rows']),
-              'r12_drafts': len(r12['rows']), 'r14_drafts': len(r14['rows'])}
-    for d in (drafts['rows'] + [dict(x, _provenance=R11_PROVENANCE) for x in r11['rows']]
-              + [dict(x, _provenance=R12_PROVENANCE) for x in r12['rows']]
-              + [dict(x, _provenance=R14_PROVENANCE) for x in r14['rows']]):
+              'r12_drafts': len(r12['rows']), 'r14_drafts': len(r14['rows']), 'r15_drafts': len(r15['rows']),
+              'superseded': dict(r15['supersedes']), 'import_pins': {}}
+    # R15: a later draft with the same id replaces the earlier one (the reason is recorded in the report).
+    superseded = set(r15['supersedes'])
+    if superseded != {x['tunable_id'] for x in r15['rows']}:
+        raise ValueError('R15: every superseding draft needs a reason and every reason a draft')
+    earlier = [d for d in (drafts['rows'] + [dict(x, _provenance=R11_PROVENANCE) for x in r11['rows']]
+                           + [dict(x, _provenance=R12_PROVENANCE) for x in r12['rows']]
+                           + [dict(x, _provenance=R14_PROVENANCE) for x in r14['rows']])]
+    if not superseded <= {d['tunable_id'] for d in earlier}:
+        raise ValueError('R15: a superseding draft names no earlier draft')
+    for d in ([d for d in earlier if d['tunable_id'] not in superseded]
+              + [dict(x, _provenance=R15_PROVENANCE) for x in r15['rows']]):
         old = d['tunable_id']
         if old in EXCLUDED:
             excluded.append({'tunable_id': old, 'owner_kind': d['owner_kind'], 'confidence': d['confidence'],
@@ -266,7 +337,14 @@ def rows(ctx):
             if key != o['body_key'] or rec['sha256'] != o['stock_sha256']:
                 raise ValueError(f'{where}: stock identity {key}/{rec["sha256"][:16]} != drafted {o["body_key"]}/{o["stock_sha256"][:16]}')
             if d['backend'] == 'EXACT_LITERAL':
-                sites = [literal_site(m, s, d['stock'], where) for s in o['sites']]
+                sites = []
+                for s in o['sites']:
+                    if s['kind'] == 'import_pin':
+                        sites += import_pin_sites(m, s, ctx.namehash, where)
+                    else:
+                        sites.append(literal_site(m, s, d['stock'], where))
+                if any(s.get('gate') == IMPORT_PIN_GATE for s in sites):
+                    report['import_pins'][tid] = import_pin_complete(m, sites, ctx.namehash, where)
                 if any(s['kind'] == 'instruction' for s in sites):
                     # A LOADN immediate holds a whole number in 1..32767 (shared live-literal patch core domain).
                     lim['minimum'] = max(1, lim['minimum'])

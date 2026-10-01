@@ -1,0 +1,71 @@
+{
+ "schema": "RENOVICE_MISSION_TUNABLE_REGISTRY_V2 tunables[] drafts (contract R15)",
+ "build": "2026.09.28.13.06",
+ "supersedes": {
+  "defense.waves_per_reward": "R15: the R12 SCRIPT_PARAM_GLOBAL_AT_ENTRY owner wrote the level parameter into the WaveDefense instance environment at the trigger entry. Live 2026-10-01 (DLL e5d9b61b, addon 4c70b5ec): the write ran (EE 581.400 'minWavesToComplete 3 -> 1') but the checkpoint after waves 1 and 2 did not open. The environment is not owned by the entry write: the engine's script-parameter applier writes the trigger's level values into the instance environment natively (44.0.2 RVA 0x181CAE0 via ApplyScriptParams 0x175C710 / 0x1280F60 / 0x0C6DD40) and the script-run loop at 0x0A77E90 re-applies them to an already existing instance before running it, without the busy check of the entity path 0x02EB8F0 (which call re-applied them in the live session is not identified offline). The four readers are the owner of the decision input; R15 pins them."
+ },
+ "rows": [
+  {
+   "tunable_id": "defense.waves_per_reward",
+   "phase1_tunable_id": null,
+   "label": "Waves per reward (Defense rotation checkpoint)",
+   "mission_type": "Defense",
+   "variant": "every WaveDefense trigger (regular, Infested, Orokin, 1999 Hollvania, Kahl); Duviri and Descendia circle arenas skip the rotation code (the value still feeds their fixed-length session-hide rule)",
+   "shared_with": "",
+   "owner_kind": "SCRIPT_PARAM_GLOBAL",
+   "backend": "EXACT_LITERAL",
+   "owner": {
+    "body_key": "1a1354d153712f9d",
+    "stock_sha256": "0FB53A2C0946ACC3476DF7E16C5A3AAEEA1B6384A2D4EFA2D7360F4C155DBF10",
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "module_path": "Lotus.Scripts.WaveDefend",
+    "sites": [
+     {
+      "kind": "import_pin",
+      "global": "minWavesToComplete",
+      "hash": "69d6d911",
+      "prototype": 48,
+      "instruction": 1122,
+      "owner": "P48 i1122 GETIMPORT minWavesToComplete -> LOADN: after each wave, (wave - 1) % N == 0 opens the rotation checkpoint (readable L9236; P46 resource reward and P36 continue/extract dialog)"
+     },
+     {
+      "kind": "import_pin",
+      "global": "minWavesToComplete",
+      "hash": "69d6d911",
+      "prototype": 48,
+      "instruction": 960,
+      "owner": "P48 i960 GETIMPORT minWavesToComplete -> LOADN: fixed length, hide the session in the last rotation when count - N <= waves done (L8934)"
+     },
+     {
+      "kind": "import_pin",
+      "global": "minWavesToComplete",
+      "hash": "69d6d911",
+      "prototype": 36,
+      "instruction": 238,
+      "owner": "P36 i238 GETIMPORT minWavesToComplete -> LOADN: PromptContinueFirst transmission when the wave equals N, else PromptContinue (L5690)"
+     },
+     {
+      "kind": "import_pin",
+      "global": "minWavesToComplete",
+      "hash": "69d6d911",
+      "prototype": 36,
+      "instruction": 307,
+      "owner": "P36 i307 GETIMPORT minWavesToComplete -> LOADN: OpenVoidProjectionRewardScreen(wave / N) (L5803)"
+     }
+    ]
+   },
+   "unit": "waves",
+   "stock": 3,
+   "limits": {
+    "minimum": 1,
+    "maximum": 1000,
+    "integer": true,
+    "basis": "operand domain guard only (0 would make the checkpoint test x % 0, which never matches); LOADN domain 1..32767; gameplay-safe range not established offline"
+   },
+   "applies": "next_mission",
+   "confidence": "CONFIRMED_STATIC (reader pin, IMPORT_READ_PIN_V1; live pending)",
+   "provenance": "research:defense-reward-interval-2026-10-01 (R15 live follow-up)",
+   "evidence": "WaveDefend 44.0.2 (body 1a1354d153712f9d) reads the trigger parameter _minWavesToComplete only as the single-name import GETIMPORT #69d6d911 at P48 i960/i1122 and P36 i238/i307 (U44 opcode 0x35, aux count 1, id0 -> hashed name 69d6d911); no other instruction of the 5,473 installed bodies names the hash. The import constant is never resolved at load (luau_load resolves imports only when the loader thread's globals are safeenv; lua_setsafeenv has two callers, both fresh instance environments, and lua_setreadonly is called only by table.freeze, so no sandbox marks the globals safe), so every read is the live instance-environment lookup at decision time. R15 rewrites each import (instruction word and aux word) into LOADN A, N twice: the same register, the same instruction count and jump targets, no environment read. With the row off the module is stock."
+  }
+ ]
+}

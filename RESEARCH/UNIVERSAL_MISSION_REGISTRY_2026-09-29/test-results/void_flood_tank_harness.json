@@ -9,11 +9,11 @@
       "pass": true
     },
     {
-      "name": "the built addon is the pinned R14 addon (4c70b5ec)",
+      "name": "the built addon is the pinned R15 addon (70fff0b6; R14 4c70b5ec)",
       "pass": true
     },
     {
-      "name": "literals.json is unchanged (d9b3a764)",
+      "name": "literals.json is the pinned R15 recipe file (a16b2520; R11-R14 d9b3a764)",
       "pass": true
     },
     {

@@ -9,11 +9,11 @@
       "pass": true
     },
     {
-      "name": "the built addon is the pinned R14 addon (4c70b5ec; R12 was 8e0e1871)",
+      "name": "the built addon is the pinned R15 addon (70fff0b6; R14 4c70b5ec, R12 8e0e1871)",
       "pass": true
     },
     {
-      "name": "registry: 22 entry-template rows (14 script parameters, 8 MissionInfo fields); found 22",
+      "name": "registry: 21 entry-template rows (13 script parameters, 8 MissionInfo fields; R15 moved Defense waves per reward to the reader pin); found 21",
       "pass": true
     },
     {
@@ -21,7 +21,7 @@
       "pass": true
     },
     {
-      "name": "harness: 113 checks over 22 entry rows + the Defense checkpoint rule",
+      "name": "harness: 103 checks over 21 entry rows + the R15 Defense entry check",
       "pass": true
     }
   ]

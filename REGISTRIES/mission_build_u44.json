@@ -23035,93 +23035,196 @@
       "phase1_tunable_id": null,
       "label": "Waves per reward (Defense rotation checkpoint)",
       "mission_type": "Defense",
-      "variant": "every WaveDefense trigger (regular, Infested, Orokin, 1999 Hollvania, Kahl); Duviri and Descendia circle arenas skip the rotation code",
+      "variant": "every WaveDefense trigger (regular, Infested, Orokin, 1999 Hollvania, Kahl); Duviri and Descendia circle arenas skip the rotation code (the value still feeds their fixed-length session-hide rule)",
       "shared_with": "",
       "owner_kind": "SCRIPT_PARAM_GLOBAL",
-      "backend": "TARGET_ADDON",
+      "backend": "EXACT_LITERAL",
       "unit": "waves",
       "stock": 3,
-      "confidence": "CONFIRMED_STATIC (needs the environment argument; live pending)",
-      "provenance": "research:defense-reward-interval-2026-10-01 (contract R12)",
-      "evidence": "WaveDefend 44.0.2 (body 1a1354d153712f9d): the trigger parameter _minWavesToComplete is read as hashed global minWavesToComplete (69d6d911; the only module of 5,473 that references the hash) at 4 sites: proto 48 i1122 (readable L9236: after each wave, (wave - 1) % minWavesToComplete == 0 opens the rotation checkpoint unless isDuviriDefense or isCircle; endless: proto 46 resource reward with floor((wave - 1) / minWavesToComplete) and proto 36; fixed length: the per-rotation reward call), proto 48 i960 (L8934: fixed length, hide the session in the last rotation when count - minWavesToComplete <= waves done), proto 36 i238 (L5690: PromptContinueFirst transmission when the wave equals minWavesToComplete, else PromptContinue) and proto 36 i307 (L5803: OpenVoidProjectionRewardScreen(wave / minWavesToComplete)); proto 36 then opens the continue-or-extract dialog. Capture graph: proto 36 <- proto 48 <- proto 50 (global WaveDefense); no other entry reaches a reader. The literal MODK 3 at proto 48 i455 (L8055, K104, exclusive) is not this owner: it skips the StartedDefenseWave transmission on every third wave only when the VIP agent is a TempleDefenseAgent; it is left stock.",
+      "confidence": "CONFIRMED_STATIC (reader pin, IMPORT_READ_PIN_V1; live pending)",
+      "provenance": "research:defense-reward-interval-2026-10-01 (contract R15)",
+      "evidence": "WaveDefend 44.0.2 (body 1a1354d153712f9d) reads the trigger parameter _minWavesToComplete only as the single-name import GETIMPORT #69d6d911 at P48 i960/i1122 and P36 i238/i307 (U44 opcode 0x35, aux count 1, id0 -> hashed name 69d6d911); no other instruction of the 5,473 installed bodies names the hash. The import constant is never resolved at load (luau_load resolves imports only when the loader thread's globals are safeenv; lua_setsafeenv has two callers, both fresh instance environments, and lua_setreadonly is called only by table.freeze, so no sandbox marks the globals safe), so every read is the live instance-environment lookup at decision time. R15 rewrites each import (instruction word and aux word) into LOADN A, N twice: the same register, the same instruction count and jump targets, no environment read. With the row off the module is stock.",
       "research_draft_id": "defense.waves_per_reward",
       "owner": {
         "body_key": "1a1354d153712f9d",
         "stock_sha256": "0FB53A2C0946ACC3476DF7E16C5A3AAEEA1B6384A2D4EFA2D7360F4C155DBF10",
         "file": "Lotus_Scripts_WaveDefend.lua_B",
         "module_path": "Lotus.Scripts.WaveDefend",
-        "template": "SCRIPT_PARAM_GLOBAL_AT_ENTRY",
-        "gate": "CAPTURE_GRAPH_ENTRY_V1",
-        "entries": [
+        "sites": [
           {
-            "prototype": 50,
-            "created_by": "root",
-            "closure_instruction": 360,
-            "root_child": true,
-            "function": "WaveDefense",
-            "role": ""
-          }
-        ],
-        "readers": [
-          {
-            "key": "minWavesToComplete",
-            "prototype": 36,
-            "instructions": [
-              238,
-              307
-            ]
-          },
-          {
-            "key": "minWavesToComplete",
+            "kind": "instruction",
             "prototype": 48,
-            "instructions": [
-              960,
-              1122
-            ]
-          }
-        ],
-        "dead_readers": [],
-        "globals": [
+            "register": 28,
+            "rewrites_instruction": true,
+            "numerator": 1,
+            "denominator": 1,
+            "gate": "IMPORT_READ_PIN_V1",
+            "global": "minWavesToComplete",
+            "hash": "69d6d911",
+            "instruction": 1122,
+            "offset": 63394,
+            "expected": [
+              53,
+              28,
+              166,
+              0
+            ],
+            "owner": "P48 i1122 GETIMPORT minWavesToComplete -> LOADN: after each wave, (wave - 1) % N == 0 opens the rotation checkpoint (readable L9236; P46 resource reward and P36 continue/extract dialog) (instruction word)"
+          },
           {
-            "name": "minWavesToComplete",
-            "hash": "69d6d911"
+            "kind": "instruction",
+            "prototype": 48,
+            "register": 28,
+            "rewrites_instruction": true,
+            "numerator": 1,
+            "denominator": 1,
+            "gate": "IMPORT_READ_PIN_V1",
+            "global": "minWavesToComplete",
+            "hash": "69d6d911",
+            "instruction": 1122,
+            "aux_of": 1122,
+            "offset": 63398,
+            "expected": [
+              0,
+              0,
+              80,
+              74
+            ],
+            "owner": "P48 i1122 GETIMPORT minWavesToComplete -> LOADN: after each wave, (wave - 1) % N == 0 opens the rotation checkpoint (readable L9236; P46 resource reward and P36 continue/extract dialog) (aux word)"
+          },
+          {
+            "kind": "instruction",
+            "prototype": 48,
+            "register": 31,
+            "rewrites_instruction": true,
+            "numerator": 1,
+            "denominator": 1,
+            "gate": "IMPORT_READ_PIN_V1",
+            "global": "minWavesToComplete",
+            "hash": "69d6d911",
+            "instruction": 960,
+            "offset": 62498,
+            "expected": [
+              53,
+              31,
+              166,
+              0
+            ],
+            "owner": "P48 i960 GETIMPORT minWavesToComplete -> LOADN: fixed length, hide the session in the last rotation when count - N <= waves done (L8934) (instruction word)"
+          },
+          {
+            "kind": "instruction",
+            "prototype": 48,
+            "register": 31,
+            "rewrites_instruction": true,
+            "numerator": 1,
+            "denominator": 1,
+            "gate": "IMPORT_READ_PIN_V1",
+            "global": "minWavesToComplete",
+            "hash": "69d6d911",
+            "instruction": 960,
+            "aux_of": 960,
+            "offset": 62502,
+            "expected": [
+              0,
+              0,
+              80,
+              74
+            ],
+            "owner": "P48 i960 GETIMPORT minWavesToComplete -> LOADN: fixed length, hide the session in the last rotation when count - N <= waves done (L8934) (aux word)"
+          },
+          {
+            "kind": "instruction",
+            "prototype": 36,
+            "register": 7,
+            "rewrites_instruction": true,
+            "numerator": 1,
+            "denominator": 1,
+            "gate": "IMPORT_READ_PIN_V1",
+            "global": "minWavesToComplete",
+            "hash": "69d6d911",
+            "instruction": 238,
+            "offset": 42025,
+            "expected": [
+              53,
+              7,
+              42,
+              0
+            ],
+            "owner": "P36 i238 GETIMPORT minWavesToComplete -> LOADN: PromptContinueFirst transmission when the wave equals N, else PromptContinue (L5690) (instruction word)"
+          },
+          {
+            "kind": "instruction",
+            "prototype": 36,
+            "register": 7,
+            "rewrites_instruction": true,
+            "numerator": 1,
+            "denominator": 1,
+            "gate": "IMPORT_READ_PIN_V1",
+            "global": "minWavesToComplete",
+            "hash": "69d6d911",
+            "instruction": 238,
+            "aux_of": 238,
+            "offset": 42029,
+            "expected": [
+              0,
+              0,
+              144,
+              66
+            ],
+            "owner": "P36 i238 GETIMPORT minWavesToComplete -> LOADN: PromptContinueFirst transmission when the wave equals N, else PromptContinue (L5690) (aux word)"
+          },
+          {
+            "kind": "instruction",
+            "prototype": 36,
+            "register": 12,
+            "rewrites_instruction": true,
+            "numerator": 1,
+            "denominator": 1,
+            "gate": "IMPORT_READ_PIN_V1",
+            "global": "minWavesToComplete",
+            "hash": "69d6d911",
+            "instruction": 307,
+            "offset": 42401,
+            "expected": [
+              53,
+              12,
+              42,
+              0
+            ],
+            "owner": "P36 i307 GETIMPORT minWavesToComplete -> LOADN: OpenVoidProjectionRewardScreen(wave / N) (L5803) (instruction word)"
+          },
+          {
+            "kind": "instruction",
+            "prototype": 36,
+            "register": 12,
+            "rewrites_instruction": true,
+            "numerator": 1,
+            "denominator": 1,
+            "gate": "IMPORT_READ_PIN_V1",
+            "global": "minWavesToComplete",
+            "hash": "69d6d911",
+            "instruction": 307,
+            "aux_of": 307,
+            "offset": 42405,
+            "expected": [
+              0,
+              0,
+              144,
+              66
+            ],
+            "owner": "P36 i307 GETIMPORT minWavesToComplete -> LOADN: OpenVoidProjectionRewardScreen(wave / N) (L5803) (aux word)"
           }
-        ],
-        "mode": "absolute",
-        "observed": {
-          "source": "level ScriptTrigger structs (Script=/Lotus/Scripts/WaveDefend.lua Function=WaveDefense) in the 4,599 installed 44.0.2 .level files",
-          "WaveDefense": {
-            "3": 37,
-            "2": 13
-          },
-          "by_variant": {
-            "regular (isCircle=0, isDuviriDefense=0)": {
-              "3": 28
-            },
-            "Duviri (isDuviriDefense=1)": {
-              "3": 9
-            },
-            "Descendia circle arena (isCircle=1)": {
-              "2": 13
-            }
-          },
-          "packages_bin": "/Lotus/Types/Friendly/Agents/DefenseAvatar and DefenseChallengeAvatar (ScriptInstance, Function=MonitorDefenseAvatarHealth) and /Lotus/Types/Gameplay/DevilTower/LiteGameModes/HellDefenseTrigger (Function=HellWaveDefense) also carry _minWavesToComplete=3; neither function reaches a reader",
-          "research": "work/research/defense-reward-interval-2026-10-01 (tools/scan_defense_reward_owner.py, outputs/)"
-        },
-        "write_rule": {
-          "where": "the called closure environment (per module instance)",
-          "when": "at every hooked entry: value == recorded instance value -> write; value == written -> skip; anything else -> fail closed (drift)",
-          "cleanup": "restore the recorded value in every live instance whose value is still the written one"
-        }
+        ]
       },
       "limits": {
         "minimum": 1,
         "maximum": 1000,
         "integer": true,
-        "basis": "operand domain guard only (0 would make the checkpoint test x % 0, which never matches); gameplay-safe range not established offline"
+        "basis": "operand domain guard only (0 would make the checkpoint test x % 0, which never matches); LOADN domain 1..32767; gameplay-safe range not established offline"
       },
       "applies": "next_mission",
-      "backend_note": "SCRIPT_PARAM_GLOBAL_AT_ENTRY: written at the entry of prototype(s) 50 (gate CAPTURE_GRAPH_ENTRY_V1).",
+      "backend_note": "8 exact site(s) patched together: P48 i1122 GETIMPORT minWavesToComplete -> LOADN: after each wave, (wave - 1) % N == 0 opens the rotation checkpoint (readable L9236; P46 resource reward and P36 continue/extract dialog) (instruction word); P48 i1122 GETIMPORT minWavesToComplete -> LOADN: after each wave, (wave - 1) % N == 0 opens the rotation checkpoint (readable L9236; P46 resource reward and P36 continue/extract dialog) (aux word); P48 i960 GETIMPORT minWavesToComplete -> LOADN: fixed length, hide the session in the last rotation when count - N <= waves done (L8934) (instruction word); P48 i960 GETIMPORT minWavesToComplete -> LOADN: fixed length, hide the session in the last rotation when count - N <= waves done (L8934) (aux word); P36 i238 GETIMPORT minWavesToComplete -> LOADN: PromptContinueFirst transmission when the wave equals N, else PromptContinue (L5690) (instruction word); P36 i238 GETIMPORT minWavesToComplete -> LOADN: PromptContinueFirst transmission when the wave equals N, else PromptContinue (L5690) (aux word); P36 i307 GETIMPORT minWavesToComplete -> LOADN: OpenVoidProjectionRewardScreen(wave / N) (L5803) (instruction word); P36 i307 GETIMPORT minWavesToComplete -> LOADN: OpenVoidProjectionRewardScreen(wave / N) (L5803) (aux word)",
       "ui": {
         "group": "defense",
         "mt_codes": [
@@ -23130,7 +23233,7 @@
         ],
         "short_label": "Waves per reward",
         "label_source": "player_text",
-        "scope_text": "Waves between each reward and extraction choice.",
+        "scope_text": "Waves between each reward and extraction choice. Applies from the next mission.",
         "aliases": [
           "Duviri",
           "Circuit",
@@ -23138,14 +23241,13 @@
           "1999",
           "Infested"
         ],
-        "lane": "addon",
+        "lane": "literal",
         "applies": "next_mission",
         "type": "int",
         "editor": "INPUTCOUNT",
         "unit": "",
         "min": 1,
         "max": 1000,
-        "stock_check": "none",
         "rank": 32,
         "path": [
           "Defense",
@@ -82651,7 +82753,7 @@
   "ui_player_text": {
     "format": "RENOVICE_MISSION_PLAYER_TEXT_V1",
     "tool": "RESEARCH/UNIVERSAL_MISSION_REGISTRY_2026-09-29/tools/player_text.py",
-    "data_sha256": "2B749E070291CBEF02684F6A8AE7734D4BA8D943FC32077D473069D7BF9868DD",
+    "data_sha256": "A9379C88E56065D181F24412D7501A3DE132CD88B61914F9B3975F5CB68BFCF9",
     "label_max": 33,
     "row_max": 40,
     "tooltip_max": 300,
@@ -82826,7 +82928,8 @@
       "assassination.boss_level_bonus",
       "assassination.hard_mode_level_base",
       "assassination.hard_mode_level_per_player",
-      "assassination.ambulas_level_per_player"
+      "assassination.ambulas_level_per_player",
+      "defense.waves_per_reward"
     ]
   },
   "ui_layout": {
