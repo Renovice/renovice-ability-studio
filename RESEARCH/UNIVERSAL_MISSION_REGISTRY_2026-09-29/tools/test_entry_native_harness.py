@@ -1,0 +1,257 @@
+"""Native-entry harness for the R10-R12 entry-template rows (2026-10-01, contract R13).
+
+Why: the live Defense "Waves per reward" test failed. Two causes (bootstrapper RESEARCH/NATIVE_ENTRY_AND_MEMBER_POLICY_R13):
+  1. the Missions addon member was never staged (stale `member:` false, retired in R13);
+  2. every entry prototype the R10 templates hook (WaveDefend `WaveDefense` P50 and the 21 other rows' entries) is a
+     level-trigger / encounter function that the engine enters directly. The R11 luaCalls.before observer saw only Lua
+     CALL instructions, so these hooks could never run. R13 dispatches the same hooks at the native VM-execute entry.
+
+This gate runs the REAL generated addon source (the build of the pinned R12 input, byte-identical to the installed R12
+addon 8e0e1871) in plain Luau, as the R13 runtime calls it at a native entry:
+  activate(context) -> hooks.luaCalls[P].before(P, arguments, upvalues, trace, environment) -> cleanup().
+For every entry-template row of the registry it asserts the environment write (SCRIPT_PARAM_GLOBAL_AT_ENTRY: absolute,
+scale, scale_inverse, scale_count) or the MissionInfo write (MISSION_INFO_FIELD_AT_ENTRY), the R3 retire signal, no
+compounding on a second entry, a fresh write for a second instance, and the cleanup restore.
+
+For Defense it also runs the stock checkpoint rule transcribed from WaveDefend P48 (readable L9060: the wave counter is
+incremented after a wave; L9228-9240: unless isDuviriDefense (b5fdc7ca) or isCircle (9dc69664), the rotation checkpoint
+opens when (counter - 1) % minWavesToComplete == 0) against the same environment table:
+  - stock, and the R11 boundary (no dispatch at a native entry): checkpoints after waves 3, 6, 9, 12 (the live symptom);
+  - R13 boundary, Waves per reward = 1: after every wave; = 2: after waves 2, 4, 6, ...
+Limit: the checkpoint rule is a transcription of the decompiled reader, not the DE bytecode running in the game VM, and
+the boundary itself (which native entries dispatch) is proven by the bootstrapper gate verify_lua_call_retirement.ps1
+section 15, not here.
+
+Paths: CLI = RENOVICE_EDITOR_CLI or work/builds/ability-editor/current; luau.exe from the DE Luau toolchain. Writes only
+to work/temp/entry-native-harness and this tool's test-results folder. Reads no game or server folder.
+"""
+from pathlib import Path
+import hashlib, json, os, shutil, subprocess, sys
+
+EDITOR = Path(__file__).resolve().parents[3]
+ROOT = EDITOR
+while not (ROOT / 'WORKSPACE.json').exists():
+    ROOT = ROOT.parent
+CLI = Path(os.environ.get('RENOVICE_EDITOR_CLI', ROOT / 'work/builds/ability-editor/current/bin/renovice_ability_editor_cli.exe'))
+LUAU = ROOT / 'repos/toolchains/de-luau-toolchain/bin/luau.exe'
+INPUT = EDITOR / 'RESEARCH/MISSIONS_R13_NATIVE_ENTRY_2026-10-01/inputs/rebuild_input.r12.json'
+INPUT_SHA = '479e0a6b3e14cdc171dd5a7f12befa8d462c6ee99721eb2b4da245e4d8f60203'
+R12_ADDON_SHA = '8e0e187124379d78ab039bc283eb9963d9696d6f1d7c4a420af5a3d96c1ebb07'  # installed 2026-10-01
+WORK = ROOT / 'work/temp/entry-native-harness'
+OUT = Path(__file__).resolve().parents[1] / 'test-results'
+results = {'checks': []}
+
+
+def check(ok, name):
+    results['checks'].append({'name': name, 'pass': bool(ok)})
+    print(('PASS' if ok else 'FAIL') + '\t' + name)
+    if not ok:
+        OUT.mkdir(parents=True, exist_ok=True)
+        (OUT / 'entry_native_harness.json').write_text(json.dumps(results, indent=2) + '\n', encoding='utf-8')
+        sys.exit(1)
+
+
+def sha(path):
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+
+def lua(value):
+    if isinstance(value, bool):
+        return 'true' if value else 'false'
+    if isinstance(value, (int, float)):
+        return repr(float(value)) if isinstance(value, float) and not float(value).is_integer() else str(int(value))
+    if isinstance(value, str):
+        return json.dumps(value)
+    if isinstance(value, list):
+        return '{' + ', '.join(lua(v) for v in value) + '}'
+    if isinstance(value, dict):
+        return '{' + ', '.join(f'[{json.dumps(k)}] = {lua(v)}' for k, v in value.items()) + '}'
+    raise TypeError(value)
+
+
+def scaled_count(current, value):
+    def one(n):
+        if n < 1:
+            return n
+        r = n * value + 0.5
+        r = r - r % 1
+        return max(r, 1)
+    return [one(n) for n in current] if isinstance(current, list) else one(current)
+
+
+# 1. Build the pinned R12 input; the addon must be the installed R12 addon.
+check(sha(INPUT) == INPUT_SHA, 'pinned R12 build input (LF bytes)')
+shutil.rmtree(WORK, ignore_errors=True)
+WORK.mkdir(parents=True)
+run = subprocess.run([str(CLI), 'build-missions', str(INPUT), '--staging', str(WORK / 'build'), '--editor-root', str(EDITOR)],
+                     capture_output=True, text=True)
+generations = list((WORK / 'build').glob('missions/*/MISSION_SET_MANIFEST.json'))
+check(run.returncode == 0 and len(generations) == 1, 'R12 build succeeds')
+generation = generations[0].parent
+check(sha(generation / 'Packages/Missions/Missions.targets.addon.lua_B') == R12_ADDON_SHA,
+      'the built addon is byte-identical to the installed R12 addon (8e0e1871)')
+source = (generation / 'source/Missions.targets.addon.luau').read_text(encoding='utf-8')
+
+# 2. One case per entry-template row of the registry.
+registry = json.loads((EDITOR / 'REGISTRIES/mission_build_u44.json').read_text(encoding='utf-8'))
+cases = []
+for row in registry['tunables']:
+    owner = row.get('owner') or {}
+    template = owner.get('template') if isinstance(owner, dict) else None
+    if template not in ('SCRIPT_PARAM_GLOBAL_AT_ENTRY', 'MISSION_INFO_FIELD_AT_ENTRY'):
+        continue
+    case = {'id': row['tunable_id'], 'key': owner['body_key'], 'stock': row['stock'],
+            'prototypes': [e['prototype'] for e in owner['entries']]}
+    if template == 'MISSION_INFO_FIELD_AT_ENTRY':
+        case.update(kind='info', field=owner['field'], value=5, expect=5)
+    else:
+        mode = owner['mode']
+        names = [g['name'] for g in owner['globals']]
+        if mode == 'absolute':
+            observed = row['stock']
+            value = 1 if row['tunable_id'] == 'defense.waves_per_reward' else row['stock'] + 1
+            expect = value
+        elif mode in ('scale', 'scale_inverse'):
+            observed, value = 100, 2
+            expect = observed * value if mode == 'scale' else observed / value
+        elif mode == 'scale_count':
+            observed, value = [20, 35, 55], 2
+            expect = scaled_count(observed, value)
+        else:
+            raise SystemExit('unknown mode ' + mode)
+        case.update(kind='param', mode=mode, globals=names, observed=observed, value=value, expect=expect)
+    cases.append(case)
+check(len(cases) == 22 and sum(c['kind'] == 'param' for c in cases) == 14,
+      f'registry: 22 entry-template rows (14 script parameters, 8 MissionInfo fields); found {len(cases)}')
+
+harness = r'''
+local emit = print   -- Luau has no io library; the addon's own print is captured below
+local printed = {}
+print = function(...)
+    local parts = {}
+    for i = 1, select("#", ...) do parts[#parts + 1] = tostring(select(i, ...)) end
+    printed[#printed + 1] = table.concat(parts, " ")
+end
+local mission
+local function fresh_mission()
+    mission = { maxWaveNum = 0, alertId = "", invasionId = "", goalId = "", sortieId = "", nightmare = false,
+        syndicateTag = { IsValid = function() return false end } }
+end
+gRegion = { IsMaster = function() return true end }
+gGameRules = {
+    GetMission = function() local copy = {} for k, v in pairs(mission) do copy[k] = v end return copy end,
+    SetMission = function(self, m) mission = m end,
+}
+local failures = 0
+local function ok(condition, name)
+    if condition then emit("PASS\t" .. name) else failures = failures + 1 emit("FAIL\t" .. name) end
+end
+local function same(a, b)
+    if type(a) == "table" and type(b) == "table" then
+        if #a ~= #b then return false end
+        for i = 1, #a do if math.abs(a[i] - b[i]) > 1e-6 then return false end end
+        return true
+    end
+    return type(a) == "number" and type(b) == "number" and math.abs(a - b) < 1e-6
+end
+local function copy(v)
+    if type(v) ~= "table" then return v end
+    local t = {} for i = 1, #v do t[i] = v[i] end return t
+end
+local function settings_for(case)
+    return { settings = { [case.id] = { enabled = true, value = case.value, stock = case.stock } } }
+end
+local function environment_for(case)
+    local env = { isDuviriDefense = false, isCircle = false }
+    for _, name in ipairs(case.globals or {}) do env[name] = copy(case.observed) end
+    return env
+end
+-- The R13 runtime call at a native entry of prototype P.
+local function native_entry(target, prototype, env)
+    local hook = target.hooks.luaCalls[prototype]
+    if hook == nil then return "NO-HOOK" end
+    local r1 = hook.before(prototype, {}, {}, nil, env)
+    return r1
+end
+
+for _, case in ipairs(CASES) do
+    local addon = ADDON_MODULE()
+    local target = addon.targets[case.key]
+    ok(target ~= nil and target.hooks ~= nil and target.hooks.luaCalls ~= nil, case.id .. ": target " .. case.key .. " declares luaCalls hooks")
+    fresh_mission()
+    target.activate(settings_for(case))
+    local env = environment_for(case)
+    local signals = {}
+    for _, prototype in ipairs(case.prototypes) do signals[#signals + 1] = native_entry(target, prototype, env) end
+    local retire = true
+    for _, s in ipairs(signals) do retire = retire and s == "RENOVICE_RETIRE" end
+    ok(retire, case.id .. ": every entry hook ran and returned the R3 retire signal")
+    if case.kind == "param" then
+        local written = true
+        for _, name in ipairs(case.globals) do written = written and same(env[name], case.expect) end
+        ok(written, case.id .. ": the native entry writes the parameter global(s) " .. case.mode)
+        native_entry(target, case.prototypes[1], env)
+        local stable = true
+        for _, name in ipairs(case.globals) do stable = stable and same(env[name], case.expect) end
+        ok(stable, case.id .. ": a second entry of the same instance does not compound")
+        local env2 = environment_for(case)
+        native_entry(target, case.prototypes[1], env2)
+        ok(same(env2[case.globals[1]], case.expect), case.id .. ": a new instance (environment) is written again")
+        target.cleanup()
+        local restored = true
+        for _, name in ipairs(case.globals) do restored = restored and same(env[name], case.observed) and same(env2[name], case.observed) end
+        ok(restored, case.id .. ": cleanup restores the level value in every instance")
+    else
+        ok(mission[case.field] == case.expect, case.id .. ": the native entry writes MissionInfo." .. case.field .. " through SetMission")
+        target.cleanup()
+    end
+end
+
+-- Defense: the stock checkpoint rule (WaveDefend P48 L9060 + L9228-9240) on the environment the entry hook wrote.
+local function checkpoints(env, waves)
+    local out, counter = {}, 1
+    for wave = 1, waves do
+        counter = counter + 1
+        if not env.isDuviriDefense and not env.isCircle and (counter - 1) % env.minWavesToComplete == 0 then
+            out[#out + 1] = wave
+        end
+    end
+    return table.concat(out, ",")
+end
+local function defense(value, dispatch_native_entry)
+    local addon = ADDON_MODULE()
+    local target = addon.targets["1a1354d153712f9d"]
+    local settings = {}
+    if value ~= nil then settings["defense.waves_per_reward"] = { enabled = true, value = value, stock = 3 } end
+    target.activate({ settings = settings })
+    local env = { minWavesToComplete = 3, isDuviriDefense = false, isCircle = false }   -- level ScriptTrigger value
+    if dispatch_native_entry then native_entry(target, 50, env) end
+    local result = checkpoints(env, 12)
+    target.cleanup()
+    return result
+end
+ok(defense(nil, true) == "3,6,9,12", "Defense stock: rotation checkpoint after waves 3, 6, 9, 12")
+ok(defense(1, false) == "3,6,9,12", "Defense R11 boundary (P50 is entered by the trigger, no native-entry dispatch): Waves per reward 1 has no effect (the live symptom)")
+ok(defense(1, true) == "1,2,3,4,5,6,7,8,9,10,11,12", "Defense R13 boundary: Waves per reward 1 -> a checkpoint after every wave")
+ok(defense(2, true) == "2,4,6,8,10,12", "Defense R13 boundary: Waves per reward 2 -> after waves 2, 4, 6, ...")
+local line = false
+for _, text in ipairs(printed) do line = line or text == "RENOVICE Missions: defense.waves_per_reward minWavesToComplete 3 -> 1" end
+ok(line, "Defense: the addon prints the live-test line 'defense.waves_per_reward minWavesToComplete 3 -> 1'")
+emit(failures == 0 and "ENTRY NATIVE HARNESS PASS" or "ENTRY NATIVE HARNESS FAIL")
+'''
+
+script = WORK / 'entry_native_harness.luau'
+script.write_text('ADDON_MODULE = function(...)\n' + source + '\nend\n' + 'CASES = ' + lua(cases) + '\n' + harness,
+                  encoding='utf-8')
+check(LUAU.is_file(), 'toolchain luau.exe present')
+run = subprocess.run([str(LUAU), str(script)], capture_output=True, text=True)
+lines = run.stdout.splitlines()
+for line in lines:
+    print('HARNESS\t' + line)
+if run.stderr.strip():
+    print('HARNESS-STDERR\t' + run.stderr.strip())
+check(run.returncode == 0 and 'ENTRY NATIVE HARNESS PASS' in lines and not any(l.startswith('FAIL') for l in lines),
+      f'harness: {sum(l.startswith("PASS") for l in lines)} checks over 22 entry rows + the Defense checkpoint rule')
+OUT.mkdir(parents=True, exist_ok=True)
+(OUT / 'entry_native_harness.json').write_text(json.dumps(results, indent=2) + '\n', encoding='utf-8')
+print('ENTRY NATIVE HARNESS GATE PASS')

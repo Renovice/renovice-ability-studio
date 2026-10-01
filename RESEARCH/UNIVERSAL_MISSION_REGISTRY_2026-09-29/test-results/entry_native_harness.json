@@ -1,0 +1,28 @@
+{
+  "checks": [
+    {
+      "name": "pinned R12 build input (LF bytes)",
+      "pass": true
+    },
+    {
+      "name": "R12 build succeeds",
+      "pass": true
+    },
+    {
+      "name": "the built addon is byte-identical to the installed R12 addon (8e0e1871)",
+      "pass": true
+    },
+    {
+      "name": "registry: 22 entry-template rows (14 script parameters, 8 MissionInfo fields); found 22",
+      "pass": true
+    },
+    {
+      "name": "toolchain luau.exe present",
+      "pass": true
+    },
+    {
+      "name": "harness: 113 checks over 22 entry rows + the Defense checkpoint rule",
+      "pass": true
+    }
+  ]
+}
