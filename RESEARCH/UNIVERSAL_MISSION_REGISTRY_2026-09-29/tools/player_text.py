@@ -318,9 +318,12 @@ per_player('loopdefend.eximus.override_ex_max_spawn', 'Event: max Eximus',
            'Most Eximus alive at once in Jade and event Mirror Defense', 'adv', word=' Eximus')
 
 # ---- Mobile Defense: terminal timer (literal lane, one knob for both ends of the level range); enemy caps (addon lane)
+# R18 (coverage audit 2026-10-02): the Sentient Anomaly area timer is the same "time per terminal" in another module
+# (SentientMobileDefense, literal lane): the type master drives it too (contract R17 cross-module literal drive).
 master('mobiledefense.time_per_terminal', 'Time per terminal',
-       'Defense time of each Mobile Defense terminal, all node levels (total time = 3 x this, split over the terminals)',
-       [('mobiledefense.total_time.maximum', 3), ('mobiledefense.total_time.minimum', 3)], note='(60 on easy nodes)')
+       'Defense time of each Mobile Defense terminal on every node (total = 3 x this) and Sentient Anomaly area',
+       [('mobiledefense.total_time.maximum', 3), ('mobiledefense.total_time.minimum', 3), ('sentientmd.defend_time', 1)],
+       note='(easy nodes 60, Sentient 120)', group='mobiledefense')
 for key, short, long in PLAYERS:
     master(f'mobiledefense.max_enemies.{key}', f'Max enemies at once ({short})',
            f'Mobile Defense enemies alive at once with {long}, easy and hard nodes; {MASTER_RULE}',
@@ -487,10 +490,13 @@ row('void_flood.fractures_per_round.shadowgrapher', 'Shadowgrapher: fractures at
     'Most fractures open at once in the Shadowgrapher variant of Void Flood', 'adv')
 
 # ---- Excavation (exact replacement member: one knob drives the standard, Elite Alert and Old World Salvage dig times)
+# R18 (coverage audit 2026-10-02): the Descendia Excavation floor digs with the same per-excavator time in its own module
+# (CoHExcavationLite, literal lane): the type master drives it too (contract R17 cross-module literal drive).
 master('excavation.dig_time', 'Dig time per excavator',
-       'Seconds each excavator digs, all Excavation variants (standard, Elite Alert, Old World Salvage)',
+       'Seconds each excavator digs in every Excavation variant, Descendia included',
        [('excavation.dig_duration', 1), ('excavation.dig_duration_elite_alert', 1),
-        ('excavation.dig_duration_old_world_salvage', 1)], note='(Elite Alert 140, Old World 60)')
+        ('excavation.dig_duration_old_world_salvage', 1), ('coh_excavation.dig_duration', 1)],
+       note='(Elite Alert 140, Old World 60, Descendia 45)', group='excavation')
 row('excavation.dig_duration', 'Standard dig time',
     'Seconds each excavator digs in standard Excavation', 'adv')
 row('excavation.dig_duration_elite_alert', 'Elite Alert: dig time',

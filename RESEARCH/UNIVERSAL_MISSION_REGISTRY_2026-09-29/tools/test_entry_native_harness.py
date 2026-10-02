@@ -42,7 +42,7 @@ INPUT_LF_SHA = 'dccde5fddf2649c2be4c93789cecab4cc1d1759dc9d01d0117cba25f5a7ca4b6
 # the R14 build of this input was 4c70b5ec200f9409ca034546aea37555c8f6081cd6661978c3a41e347b7ccbba (installed 2026-10-01).
 # R17 (2026-10-01): the Deepmines rows left the addon (reader pins, live literals) and the Gas City row was replaced by the
 # meltdown-time scale over hackTime and modeTimer; the R15/R16 build of this input was 70fff0b6606e452e... (installed).
-R12_ADDON_SHA = 'daab653a2cdf17f5875c4e0f65f709b43f5998d2892058a2bd9692a60500d2ea'  # R17 build of the pinned input
+R12_ADDON_SHA = '43cb89c3a3f230c75d9fdb665a57418023d54d2c4d5d555c9faf539a192ebba7'  # R18 build of the pinned input (R17 daab653a)
 WORK = ROOT / 'work/temp/entry-native-harness'
 OUT = Path(__file__).resolve().parents[1] / 'test-results'
 results = {'checks': []}
@@ -96,7 +96,7 @@ generations = list((WORK / 'build').glob('missions/*/MISSION_SET_MANIFEST.json')
 check(run.returncode == 0 and len(generations) == 1, 'R12 build succeeds')
 generation = generations[0].parent
 check(sha(generation / 'Packages/Missions/Missions.targets.addon.lua_B') == R12_ADDON_SHA,
-      'the built addon is the pinned R17 addon (daab653a; R15/R16 70fff0b6, R14 4c70b5ec, R12 8e0e1871)')
+      'the built addon is the pinned R18 addon (43cb89c3; R17 daab653a, R15/R16 70fff0b6, R14 4c70b5ec, R12 8e0e1871)')
 source = (generation / 'source/Missions.targets.addon.luau').read_text(encoding='utf-8')
 
 # 2. One case per entry-template row of the registry.
@@ -128,9 +128,9 @@ for row in registry['tunables']:
             raise SystemExit('unknown mode ' + mode)
         case.update(kind='param', mode=mode, globals=names, observed=observed, value=value, expect=expect)
     cases.append(case)
-check(len(cases) == 19 and sum(c['kind'] == 'param' for c in cases) == 11,
-      f'registry: 19 entry-template rows (11 script parameters, 8 MissionInfo fields; R15 moved Defense waves per reward and '
-      f'R17 the two Deepmines rows to reader pins); found {len(cases)}')
+check(len(cases) == 21 and sum(c['kind'] == 'param' for c in cases) == 13,
+      f'registry: 21 entry-template rows (13 script parameters, 8 MissionInfo fields; R15 moved Defense waves per reward and '
+      f'R17 the two Deepmines rows to reader pins, R18 added the two Pontis tower rows); found {len(cases)}')
 
 harness = r'''
 local emit = print   -- Luau has no io library; the addon's own print is captured below
@@ -242,7 +242,7 @@ for line in lines:
 if run.stderr.strip():
     print('HARNESS-STDERR\t' + run.stderr.strip())
 check(run.returncode == 0 and 'ENTRY NATIVE HARNESS PASS' in lines and not any(l.startswith('FAIL') for l in lines),
-      f'harness: {sum(l.startswith("PASS") for l in lines)} checks over 19 entry rows + the R15 Defense and R17 Deepmines checks')
+      f'harness: {sum(l.startswith("PASS") for l in lines)} checks over 21 entry rows + the R15 Defense and R17 Deepmines checks')
 OUT.mkdir(parents=True, exist_ok=True)
 (OUT / 'entry_native_harness.json').write_text(json.dumps(results, indent=2) + '\n', encoding='utf-8')
 print('ENTRY NATIVE HARNESS GATE PASS')

@@ -30,10 +30,13 @@ def register(row, master):
                 'Seconds to hold the zone in every Control Area bounty on the Plains, in Cambion Drift and in the Deepmines',
                 [('control_area_deimos.duration', 1), ('control_area_nokko.hold_time', 1), ('control_area_plains.duration', 1)],
                 group='control_area_deimos')
+    # R18 (coverage audit 2026-10-02): + the Pontis tower space-enemy goals (two more modules, owned at the engine writer).
     master('railjack.kill_goals_scale', 'Kill goals',
-           'Multiplies every Railjack kill goal: the Grineer fighters and crewships to destroy and the Corpus fighter limit',
+           'Multiplies every Railjack kill goal: Grineer fighters and crewships, the Corpus fighter limit and the Pontis '
+           'tower space enemies',
            [('railjack.fighter_kills_scale', 1), ('railjack.crewship_kills_scale', 1),
-            ('railjack.corpus_fighter_limit_scale', 1)], group='railjack')
+            ('railjack.corpus_fighter_limit_scale', 1), ('railjack.pontis_ash_enemies_scale', 1),
+            ('railjack.pontis_garuda_enemies_scale', 1)], group='railjack')
 
     # ---- One module, literal lane (R5/R9 masters).
     live_master('loopdefend.phase_time', 'Time per phase (all)',
@@ -60,3 +63,17 @@ def register(row, master):
     live_master('archimedea.survival_minutes', 'Survival length (all)',
                 'Minutes of the Survival stage in Deep and Temporal Archimedea',
                 [('archimedea.eda_survival_minutes', 1), ('archimedea.eta_survival_minutes', 1)])
+
+    # ---- R18 (coverage audit 2026-10-02): mission types whose headline has several rows of one meaning but had no master.
+    # Entrati Swarm: tears per stage, five stages, normal and collect-tears challenge (one module, literal lane).
+    live_master('entrati_swarm.tears_per_stage_all', 'Tears per stage (all)',
+                'Tears to collect in every Entrati Swarm stage, with or without the tears challenge',
+                [(f'entrati_swarm.tears_per_stage.stage{n}', 1) for n in range(1, 6)]
+                + [(f'entrati_swarm.tears_per_stage_challenge.stage{n}', 1) for n in range(1, 6)],
+                word=' tears', note='(stage 1; up to 20 later)')
+    # Sabotage: the escape countdown after the sabotage, Corpus/Grineer ships (SabotageModular) and Orokin (SabotageOrokin,
+    # coupled site): two modules, literal lane. The Gas City meltdown is a multiplier owned at the engine writer (its own row).
+    live_master('sabotage.escape_timer', 'Escape timer (all)',
+                'Escape countdown after the sabotage on Corpus and Grineer ships and in Orokin Sabotage',
+                [('sabotage.reactor_extract_timer', 1), ('sabotage.orokin_escape_timer', 1)],
+                group='sabotage', note='(Orokin 30)')

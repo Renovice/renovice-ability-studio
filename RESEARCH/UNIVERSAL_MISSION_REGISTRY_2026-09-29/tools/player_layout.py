@@ -183,7 +183,8 @@ put('disruption.initial_spawn_delay', ['Disruption', 'Enemies'], 'First spawn de
 put('disruption.boss_health_multiplier', ['Disruption', 'Advanced'], 'Boss health multiplier')
 put('disruption.treasure_goblin.tier', ['Disruption', 'Advanced'], 'Lab: Demolyst tier')  # hidden (HIDE)
 
-# ---- Entrati Swarm
+# ---- Entrati Swarm. R18: "All Entrati Swarm missions" = tears per stage over the ten stage rows (normal and challenge).
+master_row('entrati_swarm.tears_per_stage_all', 'Entrati Swarm', 'Entrati Swarm: tears per stage')  # R18
 for i in range(1, 6):  # R8 live literals
     put(f'entrati_swarm.tears_per_stage.stage{i}', ['Entrati Swarm', 'Objectives', 'Tears per stage'], f'Stage {i}')
 for i in range(1, 6):
@@ -438,6 +439,8 @@ master_row('infested_capture.required_captures', 'Legacyte Harvest', 'Legacyte H
 for _tid, _row in (('high_scaling', 'High scaling'), ('mutated', 'Mutated enemies'), ('double', 'Double trouble'),
                    ('descendia', 'Descendia')):
     put(f'infested_capture.required_captures.{_tid}', ['Legacyte Harvest', 'Objectives', 'Captures to finish'], _row)
+# R18: "All Sabotage missions" = the escape countdown after the sabotage (ships and Orokin; two modules, literal lane).
+master_row('sabotage.escape_timer', 'Sabotage', 'Sabotage: escape timer')  # R18
 put('sabotage.reactor_extract_timer', ['Sabotage', 'Timers'], 'Ship escape timer')
 put('sabotage.gascity_meltdown_time_scale', ['Sabotage', 'Timers'], 'Gas City: meltdown time')  # R17 (replaces the R10 row)
 put('sabotage.orokin_charge_time', ['Sabotage', 'Timers'], 'Orokin: charge time')
@@ -480,6 +483,9 @@ master_row('railjack.kill_goals_scale', 'Railjack', 'Railjack: kill goals')
 put('railjack.fighter_kills_scale', ['Railjack', 'Objectives'], 'Fighters to kill')
 put('railjack.crewship_kills_scale', ['Railjack', 'Objectives'], 'Crewships to kill')
 put('railjack.corpus_fighter_limit_scale', ['Railjack', 'Objectives'], 'Corpus fighters')
+# R18: the Jade Shadows "Pontis tower" missions (The Kuva Wytch, Scoria's Angel): stage-1 space enemies to defeat.
+put('railjack.pontis_ash_enemies_scale', ['Railjack', 'Objectives', 'Pontis tower: space enemies'], 'The Kuva Wytch')
+put('railjack.pontis_garuda_enemies_scale', ['Railjack', 'Objectives', 'Pontis tower: space enemies'], "Scoria's Angel")
 
 # ------------------------------------------------------------------------------------------------ descriptions
 # R7 tooltips: one or two short plain sentences; no stock number (the row shows the default), no precedence jargon, no
@@ -501,10 +507,33 @@ OVERRIDE = {    # id -> full description
                                 'leaves the total length of alert, invasion, syndicate and Duviri Survival alone.',
     'faceoff.exterminate_kills': 'Kills to finish the Faceoff Exterminate objective (the game picks a random number between '
                                  'the two ends below). This sets both ends; an end you change keeps its value.',
-    'mobiledefense.time_per_terminal': 'Upload time of each Mobile Defense terminal. The default depends on node difficulty '
-                                       '(78-104 s on Archwing against Grineer); a number you type applies on every node.',
-    'excavation.dig_time': 'Seconds each excavator digs in every Excavation variant. The default is 100 s (140 s on Elite '
-                           'Alerts and 60 s in Old World Salvage); a number you type applies to all three.',
+    'mobiledefense.time_per_terminal': 'Upload time of each Mobile Defense terminal and of each Sentient Anomaly area. '
+                                       'A number you type applies on every node and in the Sentient Anomaly.',
+    'excavation.dig_time': 'Seconds each excavator digs in every Excavation variant, Descendia Excavation floors included. '
+                           'A number you type applies to all four.',
+    # R18 (coverage audit 2026-10-02): which missions each Railjack kill-goal value reaches (static research,
+    # work/research/mission-coverage-audit-2026-10-02/railjack), and the Corpus Exterminate counter under Exterminate.
+    'railjack.kill_goals_scale': 'Multiplies every Railjack kill goal: Grineer fighters and crewships, the Corpus fighter '
+                                 'limit and the Pontis tower space enemies. A row below that is on wins for its missions.',
+    'railjack.fighter_kills_scale': 'Multiplies the fighters to destroy in Grineer Railjack Skirmish missions, Kuva Lich '
+                                    'showdowns included. Corpus and Pontis tower missions do not use this goal.',
+    'railjack.crewship_kills_scale': 'Multiplies the crewships to destroy in Grineer Railjack Skirmish missions, Kuva Lich '
+                                     'showdowns included. Corpus Railjack has no crewship goal, only spawn limits.',
+    'railjack.corpus_fighter_limit_scale': 'Multiplies the Corpus fighter kills after which no new squadrons come, on every '
+                                           'Corpus Proxima node (no counter on screen). The Corpus Exterminate counter is '
+                                           'under Exterminate.',
+    'railjack.pontis_ash_enemies_scale': 'Multiplies the space enemies to defeat in the first stage of The Kuva Wytch (Pontis '
+                                         'tower). The game also caps the goal at the squad it sends, so raising it may not show.',
+    'railjack.pontis_garuda_enemies_scale': "Multiplies the space enemies to defeat in the first stage of Scoria's Angel "
+                                            '(Pontis tower). The game also caps the goal at the squad it sends, so raising it '
+                                            'may not show.',
+    'exterminate.kills_scale': 'Multiplies the Exterminate kill count, also the one inside Corpus Railjack capital ships. '
+                               'The base is about one kill per 15 m of map path times faction and difficulty factors.',
+    # R18 (coverage audit 2026-10-02): new type masters.
+    'entrati_swarm.tears_per_stage_all': 'Tears to collect in every Entrati Swarm stage, with or without the collect-tears '
+                                         'challenge. A number you type applies to all five stages.',
+    'sabotage.escape_timer': 'Escape countdown after the sabotage on Corpus and Grineer ships and in Orokin Sabotage. The '
+                             'Gas City meltdown has its own row below.',
     'faceoff.spawn_params.tier_up_interval': 'Enemy tiers gained per Faceoff objective step (the highest tier is 5).',
     'void_cascade.pillar_duration': 'Seconds each exolizer must be defended in Void Cascade. The Circuit uses its own timer.',
     'purgatory.reward_kill_threshold.t1': 'Kills for reward tier 1 in the Granum Void. Solo earns at tiers 1 to 3; each extra '
@@ -554,13 +583,15 @@ for _key, _label in (('p1', '7-20'), ('p2', '9-25'), ('p3', '14-30'), ('p4', '19
     DEFAULTS[f'shrine.max_enemies.{_key}'] = {'label': _label, 'note': 'Depends on the stage and Steel Path'}
 for _key, _label in (('p1', '9-15 s'), ('p2', '9-14 s'), ('p3', '8-13 s'), ('p4', '7-12 s')):
     DEFAULTS[f'shrine.respawn_delay.{_key}'] = {'label': _label, 'note': 'Depends on the stage and Steel Path'}
-DEFAULTS['excavation.dig_time'] = {'label': '60-140 s', 'note': '100 s normally, 140 s on Elite Alerts and 60 s in Old World Salvage'}
+DEFAULTS['excavation.dig_time'] = {'label': '45-140 s', 'note': '100 s normally, 140 s on Elite Alerts, 60 s in Old World Salvage, 45 s in Descendia'}  # R18
 DEFAULTS['faceoff.exterminate_kills'] = {'label': '130-160', 'note': 'The game picks a random number in this range'}
 for _key in ('p1', 'p2', 'p3'):
     DEFAULTS[f'faceoff.max_enemies.{_key}'] = {'label': None, 'note': 'Steel Path uses the squad value'}
 for _key, _label in (('p1', '8-18'), ('p2', '15-25'), ('p3', '25-30'), ('p4', '30-35')):
     DEFAULTS[f'loopdefend.max_enemies.{_key}'] = {'label': _label, 'note': 'Steel Path uses the squad value'}
-DEFAULTS['mobiledefense.time_per_terminal'] = {'label': '60-80 s', 'note': 'Depends on node difficulty (78-104 s on Archwing against Grineer)'}
+DEFAULTS['mobiledefense.time_per_terminal'] = {'label': '60-120 s', 'note': 'Depends on node difficulty (78-104 s on Archwing against Grineer); 120 s per Sentient Anomaly area'}  # R18
+DEFAULTS['entrati_swarm.tears_per_stage_all'] = {'label': '8-20', 'note': 'Depends on the stage and the collect-tears challenge'}  # R18
+DEFAULTS['sabotage.escape_timer'] = {'label': '30-300 s', 'note': '300 s on ships, 30 s in Orokin Sabotage'}  # R18
 DEFAULTS['orphix.spawn_interval'] = {'label': None, 'note': 'The default is 50 s, 90 s during the Orphix Venom event'}
 DEFAULTS['survival.alert_interval'] = {'label': None, 'note': 'Used only when the mission sets no length (then mission minutes x 60)'}
 
@@ -590,6 +621,8 @@ DEFAULTS['railjack.fighter_kills_scale'] = {'label': 'x1 (20-130)', 'note': None
 DEFAULTS['railjack.crewship_kills_scale'] = {'label': 'x1 (2-10)', 'note': None}
 DEFAULTS['railjack.corpus_fighter_limit_scale'] = {'label': 'x1 (20-130)', 'note': None}
 DEFAULTS['railjack.kill_goals_scale'] = {'label': 'x1', 'note': None}  # R17 master (addon lane)
+DEFAULTS['railjack.pontis_ash_enemies_scale'] = {'label': 'x1 (4-6)', 'note': None}  # R18
+DEFAULTS['railjack.pontis_garuda_enemies_scale'] = {'label': 'x1 (4-7)', 'note': None}  # R18
 DEFAULTS['sabotage.gascity_meltdown_time_scale'] = {'label': 'x1', 'note': None}  # R17
 # Contract R14: Void Flood tank multipliers; x1 keeps the game's numbers (per squad size).
 DEFAULTS['void_flood.deposit_speed_scale'] = {'label': 'x1 (8-14 s)', 'note': None}

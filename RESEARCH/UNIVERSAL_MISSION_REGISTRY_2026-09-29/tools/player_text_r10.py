@@ -144,6 +144,12 @@ def register(row, master, per_player, players):
         'Multiplies the crewships to destroy in Grineer Railjack Exterminate (2 to 10 by node level)')
     row('railjack.corpus_fighter_limit_scale', 'Corpus fighters',
         'Multiplies the Corpus fighter kills after which no new fighter squadrons come (no on-screen counter)')
+    # Contract R18 (2026-10-02, coverage audit): the Jade Shadows "Pontis tower" missions count their stage-1 space enemies
+    # in their own modules (AS1Space / GS1Space); same lane and mode, owned at the engine writer (R16 gate).
+    row('railjack.pontis_ash_enemies_scale', 'Kuva Wytch: space enemies',
+        'Multiplies the space enemies to defeat in stage 1 of The Kuva Wytch (Pontis tower); capped by the squad size')
+    row('railjack.pontis_garuda_enemies_scale', "Scoria's Angel: space enemies",
+        "Multiplies the space enemies to defeat in stage 1 of Scoria's Angel (Pontis tower); capped by the squad size")
 
     # ---- Contract R12 (2026-10-01): Defense waves per reward, the level parameter minWavesToComplete. R15: a live
     # literal (the four WaveDefend readers are pinned to the value, IMPORT_READ_PIN_V1), no longer an entry write.

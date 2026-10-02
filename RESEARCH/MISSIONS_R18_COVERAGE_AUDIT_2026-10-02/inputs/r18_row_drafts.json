@@ -1,0 +1,145 @@
+{
+ "schema": "RENOVICE_MISSION_TUNABLE_REGISTRY_V2 tunables[] drafts (contract R18)",
+ "build": "2026.09.28.13.06",
+ "supersedes": {},
+ "rows": [
+  {
+   "tunable_id": "railjack.pontis_ash_enemies_scale",
+   "phase1_tunable_id": null,
+   "label": "Pontis tower: Kuva Wytch space enemies (scale)",
+   "mission_type": "Railjack (Jade Shadows: Pontis tower)",
+   "variant": "The Kuva Wytch (CrewBattleNode560, Uranus Proxima; Emerald Talent), stage 1 space fight, variants AS1V1..AS1V5",
+   "shared_with": "",
+   "owner_kind": "SCRIPT_PARAM_GLOBAL",
+   "backend": "TARGET_ADDON",
+   "owner": {
+    "body_key": "434d0132e720ed37",
+    "stock_sha256": "C5C0AE7FA7DB1C5C26A464E7ECC776A3F33F5D1567ABFD63A0BC1046FC44191C",
+    "file": "Lotus_Scripts_JadeShadowsPart2Mission_MissionEncounters_AS1Space.lua_B",
+    "module_path": "Lotus.Scripts.JadeShadowsPart2Mission.MissionEncounters.AS1Space",
+    "template": "SCRIPT_PARAM_GLOBAL_AT_ENTRY",
+    "gate": "CAPTURE_GRAPH_ENTRY_V1",
+    "entries": [
+     {
+      "prototype": 16,
+      "function": "Start"
+     }
+    ],
+    "globals": [
+     {
+      "name": "spaceEnemyCountPerVariant",
+      "hash": "833d05b3"
+     }
+    ],
+    "readers": [
+     {
+      "key": "spaceEnemyCountPerVariant",
+      "prototype": 14,
+      "instructions": [
+       130
+      ]
+     }
+    ],
+    "mode": "scale_count",
+    "observed": {
+     "source": "H.AnimRetarget /Lotus/Types/JadeShadowsPart2Mission/Encounters/MissionEncounters/AS1SpaceMission ExecuteScript (Packages.bin text empty)",
+     "spaceEnemyCountPerVariant": [
+      4,
+      4,
+      5,
+      5,
+      6
+     ]
+    },
+    "write_rule": {
+     "where": "the called closure environment (per module instance)",
+     "when": "at every hooked entry: value == recorded instance value -> write; value == written -> skip; anything else -> fail closed (drift)",
+     "cleanup": "restore the recorded value in every live instance whose value is still the written one",
+     "count": "scale_count: a number, or every number of a plain list (written as a new list), times the setting, rounded to the nearest whole number and at least 1"
+    }
+   },
+   "unit": "x",
+   "stock": 1,
+   "limits": {
+    "minimum": 0.1,
+    "maximum": 10,
+    "integer": false,
+    "basis": "operand domain guard only; gameplay-safe range not established offline"
+   },
+   "applies": "next_mission",
+   "confidence": "CONFIRMED_STATIC (needs the R16 writer hook or the R10 entry write; live pending)",
+   "provenance": "research:mission-coverage-audit-2026-10-02 (contract R18)",
+   "evidence": "AS1Space 44.0.2: Start (P16, root child, closure at root i198) calls P14, which waits `while not AiDirector:Name__aefbf866() do Sleep(0) end` (i1-i14), then sets the HUD goal of the tracker SpaceEnemiesTracker (AS1DefeatSpaceEnemies, ' killed / goal') to math.min(AiDirector:Name__3928559a(), spaceEnemyCountPerVariant[variant]) (P14 i130 GETIMPORT 833d05b3, i134 math.min; readable L1527-1546) unless the net var JS2MSpaceEnemySquadSize is already set (host migration), and stores it there. The only use of 833d05b3 in the module is P14 i130. Kills: P13 OnDeath of agents tagged JS2MSpaceEnemy. Research: work/research/mission-coverage-audit-2026-10-02 (railjack FINDINGS B-H2)."
+  },
+  {
+   "tunable_id": "railjack.pontis_garuda_enemies_scale",
+   "phase1_tunable_id": null,
+   "label": "Pontis tower: Scoria's Angel space enemies (scale)",
+   "mission_type": "Railjack (Jade Shadows: Pontis tower)",
+   "variant": "Scoria's Angel (CrewBattleNode561, Uranus Proxima; Crimson Talent), stage 1 space fight, variants GS1V1..GS1V7",
+   "shared_with": "",
+   "owner_kind": "SCRIPT_PARAM_GLOBAL",
+   "backend": "TARGET_ADDON",
+   "owner": {
+    "body_key": "52145531e84e69ca",
+    "stock_sha256": "E2A94D090512390C8A3226D74057891675819714575ED89854757E4AD767A4CF",
+    "file": "Lotus_Scripts_JadeShadowsPart2Mission_MissionEncounters_GS1Space.lua_B",
+    "module_path": "Lotus.Scripts.JadeShadowsPart2Mission.MissionEncounters.GS1Space",
+    "template": "SCRIPT_PARAM_GLOBAL_AT_ENTRY",
+    "gate": "CAPTURE_GRAPH_ENTRY_V1",
+    "entries": [
+     {
+      "prototype": 13,
+      "function": "Start"
+     }
+    ],
+    "globals": [
+     {
+      "name": "spaceEnemyCountPerVariant",
+      "hash": "833d05b3"
+     }
+    ],
+    "readers": [
+     {
+      "key": "spaceEnemyCountPerVariant",
+      "prototype": 11,
+      "instructions": [
+       83
+      ]
+     }
+    ],
+    "mode": "scale_count",
+    "observed": {
+     "source": "H.AnimRetarget /Lotus/Types/JadeShadowsPart2Mission/Encounters/MissionEncounters/GS1SpaceMission ExecuteScript (Packages.bin text empty)",
+     "spaceEnemyCountPerVariant": [
+      4,
+      4,
+      5,
+      5,
+      6,
+      6,
+      7
+     ]
+    },
+    "write_rule": {
+     "where": "the called closure environment (per module instance)",
+     "when": "at every hooked entry: value == recorded instance value -> write; value == written -> skip; anything else -> fail closed (drift)",
+     "cleanup": "restore the recorded value in every live instance whose value is still the written one",
+     "count": "scale_count: a number, or every number of a plain list (written as a new list), times the setting, rounded to the nearest whole number and at least 1"
+    }
+   },
+   "unit": "x",
+   "stock": 1,
+   "limits": {
+    "minimum": 0.1,
+    "maximum": 10,
+    "integer": false,
+    "basis": "operand domain guard only; gameplay-safe range not established offline"
+   },
+   "applies": "next_mission",
+   "confidence": "CONFIRMED_STATIC (needs the R16 writer hook or the R10 entry write; live pending)",
+   "provenance": "research:mission-coverage-audit-2026-10-02 (contract R18)",
+   "evidence": "GS1Space 44.0.2: Start (P13, root child, closure at root i178) calls P11, which waits `while not AiDirector:Name__aefbf866() do Sleep(0) end` (i1-i14), then sets the HUD goal of SpaceEnemiesTracker (GS1DefeatSpaceEnemies) to math.min(AiDirector:Name__3928559a(), spaceEnemyCountPerVariant[variant]) (P11 i83 GETIMPORT 833d05b3, i87 math.min; readable L1734-1756) unless the net var JS2MSpaceEnemySquadSize is already set, and stores it there. The only use of 833d05b3 in the module is P11 i83. Research: work/research/mission-coverage-audit-2026-10-02 (railjack FINDINGS B-H2)."
+  }
+ ]
+}

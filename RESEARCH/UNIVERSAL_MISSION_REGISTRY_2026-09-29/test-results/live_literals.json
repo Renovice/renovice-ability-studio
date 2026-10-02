@@ -13,7 +13,11 @@
       "pass": true
     },
     {
-      "name": "baked package.json declares every staged value plus exactly the 58 R10/R11/R17 addon values",
+      "name": "R18: the baked build leaves the cross-module rows of the Mobile Defense and Excavation masters stock and records them",
+      "pass": true
+    },
+    {
+      "name": "baked package.json declares every staged value plus exactly the 60 R10/R11/R17/R18 addon values",
       "pass": true
     },
     {
@@ -33,7 +37,7 @@
       "pass": true
     },
     {
-      "name": "every registry headline literal value is declared (133)",
+      "name": "every registry headline literal value is declared (135)",
       "pass": true
     },
     {
@@ -85,7 +89,11 @@
       "pass": true
     },
     {
-      "name": "R9/R17: Mobile Defense time per terminal is a typeable int with the range default \"60-80 s\", the \"All Mobile Defense missions\" master at the top of its page and its Quick settings entry",
+      "name": "R9/R17/R18: Mobile Defense time per terminal is a typeable int with the range default \"60-120 s\" (R18: Sentient Anomaly areas too), the \"All Mobile Defense missions\" master at the top of its page and its Quick settings entry",
+      "pass": true
+    },
+    {
+      "name": "R18: the Mobile Defense and Excavation masters drive the Sentient Anomaly and Descendia rows (other modules); new \"All Entrati Swarm missions\" (ten stage rows) and \"All Sabotage missions\" (ship and Orokin escape timers) masters",
       "pass": true
     },
     {
@@ -126,17 +134,17 @@
     }
   ],
   "recipe": {
-    "values": 133,
+    "values": 135,
     "modules": 43,
-    "masters": 16,
-    "literals_json_sha256": "028fdcd230e16410f4336a6c700e96cd594d59ff6518011e9ff41057da3ac572",
-    "package_json_sha256": "fb43906b7c6d1532fe550a4639bbcda85a0cd1c315996c3b3815be01a3cff9f3",
-    "generation": "work/temp/live-literals-tests/recipe/missions/35034A12B20E"
+    "masters": 18,
+    "literals_json_sha256": "786c7b94a7c296758b8c94d40c3fcd69cb1a5dcbcda661a2cc7f15093cc1cbe6",
+    "package_json_sha256": "150c0d1642d9208f97fc46df7a14ce411b60120cb4280d30f991aaf179978ff7",
+    "generation": "work/temp/live-literals-tests/recipe/missions/95B2C194326D"
   },
   "old_bootstrapper": {
     "revision": "6227cc0",
     "admit": [
-      "LOG\tRENOVICE PACKAGE ACCEPT trigger=startup package=Missions id=package:missions members=1 replacements=0 target_addons=1 target_keys=33 lanes=replacement+inject"
+      "LOG\tRENOVICE PACKAGE ACCEPT trigger=startup package=Missions id=package:missions members=1 replacements=0 target_addons=1 target_keys=35 lanes=replacement+inject"
     ],
     "settings_tail": [
       "PASS\tdeclaration rejects: settings-unknown-field=extra",

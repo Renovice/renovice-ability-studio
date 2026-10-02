@@ -2310,11 +2310,21 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
         }
         for (const auto& id : naming.disabled_values)
             if (!values_json.contains(id)) throw std::runtime_error("disabled_values names " + id + ", which values does not name");
+        // R18: a literal master whose drives span several modules (contract R17 cross-module drive) reaches the other modules
+        // only through a recipe (literals.json names a module per drive). A baked build gives each module its own exact
+        // replacement member with its own switch, which would split the master's one switch and displace the addon values of
+        // that module, so a baked build expands such a master in its own module only and records the rows it leaves stock.
+        std::vector<std::pair<std::string, std::string>> baked_cross_module;  // (driven row, master)
         for (const auto& [id, number] : master_values) {
             const Json& master = *mission_master(registry, id);
             if (master.at("lane") != "literal" || naming.literal_recipes) continue;  // R8: a recipe declares the master itself
+            const auto master_body = master.at("body_key").get<std::string>();
             for (const auto& drive : master.at("drives")) {
                 const auto row = drive.at("tunable_id").get<std::string>();
+                if (mission_tunable(registry, row).at("owner").at("body_key") != master_body) {
+                    baked_cross_module.emplace_back(row, id);
+                    continue;
+                }
                 if (row_values.contains(row)) throw std::runtime_error(row + " is named both directly and through master knob " + id);
                 const double scaled = number * drive.at("scale").get<double>();
                 row_values[row] = mission_tunable(registry, row).at("limits").value("integer", false) ? Json(static_cast<long long>(std::llround(scaled)))
@@ -2397,6 +2407,9 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                 if (!naming.disabled_values.contains(id)) enabled_ids.insert(id);  // R5: built but shipped off
             }
         Json excluded_values = Json::array();
+        for (const auto& [row, master] : baked_cross_module)  // R18
+            excluded_values.push_back({{"tunable_id", row}, {"reason", "driven by literal master " + master + " from another module; "
+                "a baked build (no \"literal_mode\": \"recipe\") builds a master in its own module only, so this row stays stock"}});
         if (naming.declare_all_addon_values) {
             if (!naming.package_layout) throw std::runtime_error("package_scope \"all_addon_values\" needs \"output_layout\": \"package\"");
             if (!addon_lane_usable)

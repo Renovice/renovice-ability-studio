@@ -1,0 +1,18 @@
+{
+ "schema": "RENOVICE mission registry: ENGINE_PARAM_OVERRIDE admissions (contract R18, same gate as R16)",
+ "build": "2026.09.28.13.06",
+ "gate": "ENGINE_PARAM_OVERRIDE_V1",
+ "source": "work/research/mission-coverage-audit-2026-10-02/README.md (R15 classification method)",
+ "rows": [
+  {
+   "tunable_id": "railjack.pontis_ash_enemies_scale",
+   "exposure": "EXPOSED (conditional): the reader waits in a Sleep(0) loop until the AI director is ready before its read",
+   "evidence": "AS1Space P14 (called synchronously from Start P16) runs `while not AiDirector:Name__aefbf866() do Sleep(0) end` (i11 GETIMPORT Sleep, i13 CALL, i14 JUMPBACK) before its only read of spaceEnemyCountPerVariant (i130). When the director is not ready at the entry, the read follows a yield of the instance and an engine re-write of the parameter would restore the template list (R15 F6); the engine writer owns it on every write. Same shape as railjack.corpus_fighter_limit_scale."
+  },
+  {
+   "tunable_id": "railjack.pontis_garuda_enemies_scale",
+   "exposure": "EXPOSED (conditional): the reader waits in a Sleep(0) loop until the AI director is ready before its read",
+   "evidence": "GS1Space P11 (called synchronously from Start P13) runs the same Sleep(0) wait (i11/i14) before its only read of spaceEnemyCountPerVariant (i83). Same classification and route as the Kuva Wytch row."
+  }
+ ]
+}

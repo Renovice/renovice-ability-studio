@@ -90,6 +90,13 @@ check({k: v for k, v in staged_members.items() if k not in ('package.json', ADDO
       {k: v for k, v in built_members.items() if k not in ('package.json', ADDON)}
       and staged_members.keys() == built_members.keys(),
       f'baked exact-replacement members byte-identical to the staged set ({len(built_members) - 2} files; R10 changes only the addon member)')
+# R18: a baked build expands a cross-module literal master in its own module only; the other modules' rows stay stock and are
+# recorded (no second switch, no displaced addon values of those modules).
+baked_excluded = {e['tunable_id']: e['reason'] for e in
+                  json.loads((generation / 'MISSION_SET_MANIFEST.json').read_text(encoding='utf-8'))['package']['settings']['declarations']['excluded_values']}
+check(all('a baked build' in baked_excluded.get(row, '') for row in ('sentientmd.defend_time', 'coh_excavation.dig_duration'))
+      and not any(name.startswith(('1f41c5821d2c5240', '415a57536412719f')) for name in built_members),
+      'R18: the baked build leaves the cross-module rows of the Mobile Defense and Excavation masters stock and records them')
 
 
 def declared_values(path):
@@ -121,7 +128,9 @@ R10_ADDED = ({t for t, r in registry_rows.items() if r['provenance'].startswith(
                                               'simultaneous_enemies_infested.min', 'simultaneous_enemies_duviri.min') for k in range(1, 5)}
              | {f'defense.max_enemies.p{k}' for k in range(1, 5)}
              # R17: the Gas City meltdown row (replaces the R10 hack-time row) and the cross-module Railjack master.
-             | {t for t, r in registry_rows.items() if r['provenance'].startswith('research:mission-settings-r17-2026-10-01')
+             | {t for t, r in registry_rows.items() if r['provenance'].startswith(('research:mission-settings-r17-2026-10-01',
+                                                                                  # R18: the two Pontis tower rows
+                                                                                  'research:mission-coverage-audit-2026-10-02'))
                 and r['backend'] == 'TARGET_ADDON' and r['owner']['body_key'] not in REPLACED}
              | {'railjack.kill_goals_scale'})
 # R10: page sets whose mission type now has more than one category keep their category level (r7_collapse_paths).
@@ -136,7 +145,7 @@ R17_COLLAPSE = {k for k in changed - R17_LAYOUT - R10_PATH
                 and staged_values[k]['path'][1] in ('Timers', 'Objectives', 'Enemies', 'Rewards / drops')
                 and [e for e in staged_values[k]['path'] if e != staged_values[k]['path'][1]] == built_values[k]['path']}
 check(set(built_values) - set(staged_values) == R10_ADDED and not set(staged_values) - set(built_values),
-      f'baked package.json declares every staged value plus exactly the {len(R10_ADDED)} R10/R11/R17 addon values')
+      f'baked package.json declares every staged value plus exactly the {len(R10_ADDED)} R10/R11/R17/R18 addon values')
 check(changed <= R9_TEXT | R10_PATH | R17_LAYOUT | R17_COLLAPSE and R17_LAYOUT & changed
       and all({f: v for f, v in staged_values[k].items() if f != 'scope'} == {f: v for f, v in built_values[k].items() if f != 'scope'}
               for k in R9_TEXT - R17_LAYOUT)
@@ -191,9 +200,23 @@ check(all('path' in d and 'row' in d and 'default' not in d for d in decls.value
 md = decls['mobiledefense.time_per_terminal']
 check(md['type'] == 'int' and md['path'] == ['Mobile Defense'] and md['row'] == 'All Mobile Defense missions'
       and md.get('quick_on_page') is True
-      and md['default_label'] == '60-80 s' and md['stock'] == 80 and md['quick'] == 'Mobile Defense: time per terminal',
-      'R9/R17: Mobile Defense time per terminal is a typeable int with the range default "60-80 s", the "All Mobile Defense '
-      'missions" master at the top of its page and its Quick settings entry')
+      and md['default_label'] == '60-120 s' and md['stock'] == 80 and md['quick'] == 'Mobile Defense: time per terminal',
+      'R9/R17/R18: Mobile Defense time per terminal is a typeable int with the range default "60-120 s" (R18: Sentient Anomaly '
+      'areas too), the "All Mobile Defense missions" master at the top of its page and its Quick settings entry')
+# R18 (coverage audit 2026-10-02): masters over every variant of their type, across modules where needed.
+r18_drives = {mid: [(d['row'], d.get('module')) for d in recipe['values'][mid]['drives']]
+              for mid in ('mobiledefense.time_per_terminal', 'excavation.dig_time', 'entrati_swarm.tears_per_stage_all',
+                          'sabotage.escape_timer')}
+check(r18_drives['mobiledefense.time_per_terminal'][-1] == ('sentientmd.defend_time', '1f41c5821d2c5240')
+      and r18_drives['excavation.dig_time'][-1] == ('coh_excavation.dig_duration', '415a57536412719f')
+      and len(r18_drives['entrati_swarm.tears_per_stage_all']) == 10
+      and all(module is None for _, module in r18_drives['entrati_swarm.tears_per_stage_all'])
+      and r18_drives['sabotage.escape_timer'] == [('sabotage.reactor_extract_timer', None),
+                                                   ('sabotage.orokin_escape_timer', 'a0cea91cc0ac3b31')]
+      and decls['entrati_swarm.tears_per_stage_all'].get('quick_on_page') is True
+      and decls['sabotage.escape_timer'].get('quick_on_page') is True,
+      'R18: the Mobile Defense and Excavation masters drive the Sentient Anomaly and Descendia rows (other modules); new '
+      '"All Entrati Swarm missions" (ten stage rows) and "All Sabotage missions" (ship and Orokin escape timers) masters')
 check({k for k, d in decls.items() if 'quick' in d} >= {'mobiledefense.time_per_terminal', 'excavation.dig_time',
                                                         'control_area.hold_time', 'void_flood.fractures_per_round.normal'}
       and 'quick' not in decls['control_area_plains.duration'] and 'quick' not in decls['control_area_deimos.duration'],

@@ -3985,7 +3985,8 @@ namespace renovice
                         && mission_tunable(registry, "survival.reward_interval").at("ui").at("row") == "All Survival missions"
                         && mission_tunable(registry, "survival.reward_interval").at("ui").value("quick_on_page", false)
                         && mission_tunable(registry, "survival.reward_interval").at("ui").at("quick") == "Survival: time between rewards"
-                        && mission_master(registry, "mobiledefense.time_per_terminal")->at("default_label") == "60-80 s"
+                        // R18: the master also drives the Sentient Anomaly area timer (120 s).
+                        && mission_master(registry, "mobiledefense.time_per_terminal")->at("default_label") == "60-120 s"
                         && mission_tunable(registry, "disruption.treasure_goblin.tier").at("ui").contains("hidden")
                         && mission_tunable(registry, "survival.alert_ls_drop_mult").at("ui").at("short_label") == "Alert missions: pickup drop rate"
                         && mission_tunable(registry, "fivefates.state_times_sp.state1").at("ui").contains("hidden");

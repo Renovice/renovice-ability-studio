@@ -48,12 +48,17 @@ CLI = Path(os.environ.get('RENOVICE_EDITOR_CLI', ROOT / 'work/builds/ability-edi
 LUAU = ROOT / 'repos/toolchains/de-luau-toolchain/bin/luau.exe'
 INPUT = EDITOR / 'RESEARCH/MISSIONS_R13_NATIVE_ENTRY_2026-10-01/inputs/rebuild_input.r12.json'
 INPUT_LF_SHA = 'dccde5fddf2649c2be4c93789cecab4cc1d1759dc9d01d0117cba25f5a7ca4b6'  # LF content (checkout-independent)
-# R17 build of the pinned input (R15/R16: addon 70fff0b6, package.json 44fc0b53, literals.json a16b2520, engine_params ae090c33).
-R15 = {'Missions.targets.addon.lua_B': 'daab653a2cdf17f5875c4e0f65f709b43f5998d2892058a2bd9692a60500d2ea',
-       'package.json': 'fb43906b7c6d1532fe550a4639bbcda85a0cd1c315996c3b3815be01a3cff9f3',
-       'literals.json': '028fdcd230e16410f4336a6c700e96cd594d59ff6518011e9ff41057da3ac572'}
-ENGINE_PARAMS_SHA = '26e56e26775dfec42b0ca3aa725a5b23163b4671b2fa1128abf43b1538e3bf7c'
-# The bootstrapper gate fixture of this build (R17; the R16 fixture stays in fixtures/Missions).
+# R18 build of the pinned input (R17: addon daab653a, package.json fb43906b, literals.json 028fdcd2, engine_params 26e56e26;
+# R15/R16: addon 70fff0b6, package.json 44fc0b53, literals.json a16b2520, engine_params ae090c33).
+R15 = {'Missions.targets.addon.lua_B': '43cb89c3a3f230c75d9fdb665a57418023d54d2c4d5d555c9faf539a192ebba7',
+       'package.json': '150c0d1642d9208f97fc46df7a14ce411b60120cb4280d30f991aaf179978ff7',
+       'literals.json': '786c7b94a7c296758b8c94d40c3fcd69cb1a5dcbcda661a2cc7f15093cc1cbe6'}
+ENGINE_PARAMS_SHA = '13cb029064ef4c29141a0bbec37e3daf5888a5271fae141bc9282db9c07c0341'
+# R18 needs no bootstrapper change: the bootstrapper's gate fixture stays the R17 build (its own gate runs on it); the R18
+# package itself goes through the bootstrapper scanner in verify_addon_settings.ps1 -Package (staging evidence).
+R17_FIXTURE = {'engine_params.json': '26e56e26775dfec42b0ca3aa725a5b23163b4671b2fa1128abf43b1538e3bf7c',
+               'package.json': 'fb43906b7c6d1532fe550a4639bbcda85a0cd1c315996c3b3815be01a3cff9f3'}
+# The bootstrapper gate fixture (R17; the R16 fixture stays in fixtures/Missions).
 BOOTSTRAPPER_FIXTURE = ROOT / 'repos/runtime/bootstrapper-runtime-wt-r16/RENOVICE_TOOLCHAIN/engine_params/fixtures/MissionsR17'
 WORK = ROOT / 'work/temp/engine-param-override-harness'
 OUT = Path(__file__).resolve().parents[1] / 'test-results'
@@ -73,6 +78,11 @@ CASES = {
     # R17: both level parameters scaled (the countdown is hackTime, recomputed from modeTimer by the script).
     'sabotage.gascity_meltdown_time_scale': {'observed': {'hackTime': 10, 'modeTimer': 60}, 'value': 2,
                                              'expect': {'hackTime': 20, 'modeTimer': 120}},
+    # R18: the Pontis tower stage-1 space-enemy goals (H.AnimRetarget encounter lists), scale_count.
+    'railjack.pontis_ash_enemies_scale': {'observed': {'spaceEnemyCountPerVariant': [4, 4, 5, 5, 6]}, 'value': 0.5,
+                                          'expect': {'spaceEnemyCountPerVariant': [2, 2, 3, 3, 3]}},
+    'railjack.pontis_garuda_enemies_scale': {'observed': {'spaceEnemyCountPerVariant': [4, 4, 5, 5, 6, 6, 7]}, 'value': 0.5,
+                                             'expect': {'spaceEnemyCountPerVariant': [2, 2, 3, 3, 3, 3, 4]}},
 }
 
 
@@ -122,21 +132,21 @@ check(run.returncode == 0 and len(generations) == 1, 'build succeeds')
 generation = generations[0].parent
 package = generation / 'Packages/Missions'
 for name, digest in R15.items():
-    check(sha(package / name) == digest, f'{name} is the pinned R17 build ({digest[:8]})')
-check(sha(package / 'engine_params.json') == ENGINE_PARAMS_SHA, f'engine_params.json is the pinned R17 build ({ENGINE_PARAMS_SHA[:8]})')
+    check(sha(package / name) == digest, f'{name} is the pinned R18 build ({digest[:8]})')
+check(sha(package / 'engine_params.json') == ENGINE_PARAMS_SHA, f'engine_params.json is the pinned R18 build ({ENGINE_PARAMS_SHA[:8]})')
 manifest = json.loads(generations[0].read_text(encoding='utf-8'))
 record = manifest['package'].get('engine_params') or {}
-check(record.get('sha256', '').lower() == ENGINE_PARAMS_SHA and record.get('overrides') == 9 and record.get('modules') == 4
+check(record.get('sha256', '').lower() == ENGINE_PARAMS_SHA and record.get('overrides') == 11 and record.get('modules') == 6
       and record.get('masters') == ['railjack.kill_goals_scale']
       and any(g['name'] == 'engine-param-overrides' and g['pass'] for g in manifest['package']['gates']),
-      'manifest records engine_params.json (9 overrides, 4 modules, master railjack.kill_goals_scale) and the engine-param-overrides gate')
+      'manifest records engine_params.json (11 overrides, 6 modules, master railjack.kill_goals_scale) and the engine-param-overrides gate')
 
 # 2. Re-check the declarations against the registry.
 recipe = json.loads((package / 'engine_params.json').read_text(encoding='utf-8'))
 registry = json.loads((EDITOR / 'REGISTRIES/mission_build_u44.json').read_text(encoding='utf-8'))
 rows = {r['tunable_id']: r for r in registry['tunables']}
 admitted = {tid for tid, r in rows.items() if isinstance(r.get('owner'), dict) and 'engine_override' in r['owner']}
-check(admitted == set(CASES), f'registry: the six R15 EXPOSED rows and the R17 Gas City row are admitted ENGINE_PARAM_OVERRIDE_V1 ({sorted(admitted)})')
+check(admitted == set(CASES), f'registry: the six R15 EXPOSED rows, the R17 Gas City row and the two R18 Pontis rows are admitted ENGINE_PARAM_OVERRIDE_V1 ({sorted(admitted)})')
 check(recipe['format'] == 'RENOVICE_ENGINE_PARAMS_V1' and recipe['package'] == 'package:missions'
       and recipe['build'] == registry['build'] and recipe['member'] == 'Missions.targets.addon.lua_B',
       'recipe header: format, package id, client build, addon member')
@@ -156,12 +166,14 @@ for item in recipe['overrides']:
 check(all(covered.get(tid) == {g['name'] for g in rows[tid]['owner']['globals']} for tid in admitted),
       'every parameter global of every admitted row has exactly one override (no partial row)')
 check([(o['value'], o['parameter']) for o in recipe['overrides'] if 'master' in o]
-      == [('railjack.corpus_fighter_limit_scale', 'minorKillGoals'), ('railjack.corpus_fighter_limit_scale', 'minorKillGoalsMax')],
-      'R17: only the Corpus fighter row (natively owned, driven by the Railjack master) names a master, on both its parameters')
+      == [('railjack.corpus_fighter_limit_scale', 'minorKillGoals'), ('railjack.corpus_fighter_limit_scale', 'minorKillGoalsMax'),
+          ('railjack.pontis_ash_enemies_scale', 'spaceEnemyCountPerVariant'),
+          ('railjack.pontis_garuda_enemies_scale', 'spaceEnemyCountPerVariant')],
+      'R17/R18: only the natively owned rows the Railjack master drives (Corpus fighters, both Pontis rows) name a master')
 if BOOTSTRAPPER_FIXTURE.is_dir():
-    check(sha(BOOTSTRAPPER_FIXTURE / 'engine_params.json') == ENGINE_PARAMS_SHA
-          and sha(BOOTSTRAPPER_FIXTURE / 'package.json') == R15['package.json'],
-          'the bootstrapper R17 gate fixture (fixtures/MissionsR17) is this build (engine_params.json, package.json)')
+    check(sha(BOOTSTRAPPER_FIXTURE / 'engine_params.json') == R17_FIXTURE['engine_params.json']
+          and sha(BOOTSTRAPPER_FIXTURE / 'package.json') == R17_FIXTURE['package.json'],
+          'the bootstrapper R17 gate fixture (fixtures/MissionsR17) is the R17 build (R18 adds no bootstrapper change)')
 else:
     print('INFO\tbootstrapper worktree absent; fixture identity not compared')
 

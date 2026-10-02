@@ -42,10 +42,11 @@ INPUT_LF_SHA = 'dccde5fddf2649c2be4c93789cecab4cc1d1759dc9d01d0117cba25f5a7ca4b6
 # R14 built 4c70b5ec200f9409ca034546aea37555c8f6081cd6661978c3a41e347b7ccbba.
 # R17 (2026-10-01): the same input builds daab653a (Deepmines rows left the addon for reader pins, the Gas City row became
 # the meltdown-time scale, the Railjack master was added); R15/R16 built 70fff0b6606e452e...
-R14_ADDON_SHA = 'daab653a2cdf17f5875c4e0f65f709b43f5998d2892058a2bd9692a60500d2ea'
+# R18 (2026-10-02): + the two Pontis tower entry rows (43cb89c3) and the R18 literal masters (786c7b94).
+R14_ADDON_SHA = '43cb89c3a3f230c75d9fdb665a57418023d54d2c4d5d555c9faf539a192ebba7'
 # R17 adds the Deepmines reader pins and the "All <type> missions" literal masters (028fdcd2); R15/R16 shipped a16b2520...,
 # R11-R14 d9b3a764...
-LITERALS_SHA = '028fdcd230e16410f4336a6c700e96cd594d59ff6518011e9ff41057da3ac572'
+LITERALS_SHA = '786c7b94a7c296758b8c94d40c3fcd69cb1a5dcbcda661a2cc7f15093cc1cbe6'
 KEY = 'fc711ff621a75552'
 ROWS = {'void_flood.deposit_speed_scale': 'scale', 'void_flood.tank_capacity_scale': 'scale_count',
         'void_flood.orb_value_scale': 'scale', 'void_flood.drain_speed_scale': 'scale'}
@@ -91,8 +92,8 @@ generations = list((WORK / 'build').glob('missions/*/MISSION_SET_MANIFEST.json')
 check(run.returncode == 0 and len(generations) == 1, 'full package build succeeds')
 generation = generations[0].parent
 package = generation / 'Packages/Missions'
-check(sha(package / 'Missions.targets.addon.lua_B') == R14_ADDON_SHA, f'the built addon is the pinned R17 addon ({R14_ADDON_SHA[:8]}; R15/R16 70fff0b6, R14 4c70b5ec)')
-check(sha(package / 'literals.json') == LITERALS_SHA, 'literals.json is the pinned R17 recipe file (028fdcd2; R15/R16 a16b2520, R11-R14 d9b3a764)')
+check(sha(package / 'Missions.targets.addon.lua_B') == R14_ADDON_SHA, f'the built addon is the pinned R18 addon ({R14_ADDON_SHA[:8]}; R17 daab653a, R15/R16 70fff0b6, R14 4c70b5ec)')
+check(sha(package / 'literals.json') == LITERALS_SHA, 'literals.json is the pinned R18 recipe file (786c7b94; R17 028fdcd2, R15/R16 a16b2520, R11-R14 d9b3a764)')
 source = (generation / 'source/Missions.targets.addon.luau').read_text(encoding='utf-8')
 declared = json.loads((package / 'package.json').read_text(encoding='utf-8'))['members']['Missions.targets.addon.lua_B']['settings']['values']
 check(all(tid in declared and declared[tid]['stock'] == 1 and declared[tid]['type'] == 'float' and declared[tid]['unit'] == 'x'

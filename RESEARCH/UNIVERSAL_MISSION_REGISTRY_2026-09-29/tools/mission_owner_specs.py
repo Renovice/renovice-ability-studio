@@ -85,6 +85,18 @@ R17_DRAFTS_SHA256 = '653D94A864D7A32CE43AAA48A97F3377EC40BB06E9DFCDF8177AD956B7B
 R17_PROVENANCE = 'research:mission-settings-r17-2026-10-01 (contract R17)'
 R17_OVERRIDES = R17 / 'inputs/r17_engine_overrides.json'
 R17_OVERRIDES_SHA256 = '4110FEA49865FE313122C8CE0F834AC1F4F69A61677D3BBB726F342A8E276CB4'  # LF-normalized content
+# Contract R18 (2026-10-02, mission coverage audit): the Jade Shadows "Pontis tower" Railjack missions (The Kuva Wytch, Scoria's
+# Angel) count their stage-1 space-enemy goal in their own modules (AS1Space / GS1Space, parameter spaceEnemyCountPerVariant from
+# H.AnimRetarget encounters), which no Railjack row reached. Two SCRIPT_PARAM_GLOBAL_AT_ENTRY rows (scale_count), EXPOSED
+# (the reader waits in a Sleep(0) loop first), so also owned at the engine writer (R16 gate). Record
+# RESEARCH/MISSIONS_R18_COVERAGE_AUDIT_2026-10-02; research work/research/mission-coverage-audit-2026-10-02; inputs pinned by
+# their LF content.
+R18 = EDITOR / 'RESEARCH/MISSIONS_R18_COVERAGE_AUDIT_2026-10-02'
+R18_DRAFTS = R18 / 'inputs/r18_row_drafts.json'
+R18_DRAFTS_SHA256 = '7CF89970AF76936B735306B13BB1EA028A97F574444EEB0230BC897D960BC7E8'  # LF-normalized content
+R18_PROVENANCE = 'research:mission-coverage-audit-2026-10-02 (contract R18)'
+R18_OVERRIDES = R18 / 'inputs/r18_engine_overrides.json'
+R18_OVERRIDES_SHA256 = '6BE472F4DA39F41A2DE09446E1B96E1FAC261D0132D1A547D1695E7BDE8BE773'  # LF-normalized content
 # R15 IMPORT_READ_PIN_V1: a single-name GETIMPORT of a hashed global (U44 dispatch byte 0x35, canonical 0x46) is rewritten
 # into `LOADN A, value` twice (the instruction word and its aux word), through two LIVE_LITERALS_V1 instruction sites flagged
 # `rewrites_instruction`. Admissible only when every instruction of the module that names the hash is one of the pinned
@@ -326,18 +338,19 @@ def rows(ctx):
     r14 = load_drafts(R14_DRAFTS, R14_DRAFTS_SHA256, 'R14')
     r15 = load_drafts(R15_DRAFTS, R15_DRAFTS_SHA256, 'R15')
     r17 = load_drafts(R17_DRAFTS, R17_DRAFTS_SHA256, 'R17')
+    r18 = load_drafts(R18_DRAFTS, R18_DRAFTS_SHA256, 'R18')
     out, excluded = [], []
     report = {'drafts': len(drafts['rows']), 'drafts_rejected_by_research': len(drafts['rejected']), 'admitted': 0,
               'excluded': [], 'renamed': {}, 'by_backend': {}, 'by_template': {}, 'r11_drafts': len(r11['rows']),
               'r12_drafts': len(r12['rows']), 'r14_drafts': len(r14['rows']), 'r15_drafts': len(r15['rows']),
-              'r17_drafts': len(r17['rows']),
-              'superseded': dict(r15['supersedes'], **r17['supersedes']), 'import_pins': {}}
+              'r17_drafts': len(r17['rows']), 'r18_drafts': len(r18['rows']),
+              'superseded': dict(r15['supersedes'], **r17['supersedes'], **r18['supersedes']), 'import_pins': {}}
     # R15/R17: a later draft with the same id replaces the earlier one (the reason is recorded in the report). A later set
     # may also add new ids (R17: the Gas City row); each reason must name one of its own drafts and an earlier draft.
     earlier = [d for d in (drafts['rows'] + [dict(x, _provenance=R11_PROVENANCE) for x in r11['rows']]
                            + [dict(x, _provenance=R12_PROVENANCE) for x in r12['rows']]
                            + [dict(x, _provenance=R14_PROVENANCE) for x in r14['rows']])]
-    for label, later, provenance in (('R15', r15, R15_PROVENANCE), ('R17', r17, R17_PROVENANCE)):
+    for label, later, provenance in (('R15', r15, R15_PROVENANCE), ('R17', r17, R17_PROVENANCE), ('R18', r18, R18_PROVENANCE)):
         superseded = set(later['supersedes'])
         own = {x['tunable_id'] for x in later['rows']}
         if label == 'R15' and superseded != own:
@@ -453,7 +466,8 @@ def rows(ctx):
 def engine_overrides(out, report):
     """R16: marks the admitted EXPOSED script-parameter rows as natively owned (ENGINE_PARAM_OVERRIDE_V1)."""
     specs = [load_drafts(R16_OVERRIDES, R16_OVERRIDES_SHA256, 'R16'),
-             load_drafts(R17_OVERRIDES, R17_OVERRIDES_SHA256, 'R17')]  # R17: same gate, one more row
+             load_drafts(R17_OVERRIDES, R17_OVERRIDES_SHA256, 'R17'),  # R17: same gate, one more row
+             load_drafts(R18_OVERRIDES, R18_OVERRIDES_SHA256, 'R18')]  # R18: the two Pontis tower rows
     if any(spec.get('gate') != ENGINE_OVERRIDE_GATE for spec in specs):
         raise ValueError('R16: engine override input names another gate')
     by_id = {r['tunable_id']: r for r in out}

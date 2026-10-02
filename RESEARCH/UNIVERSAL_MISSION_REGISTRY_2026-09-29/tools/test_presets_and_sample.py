@@ -338,7 +338,8 @@ print(f"PASS phase2i sample: {len(decl2i)} declarations in {len(groups2i)} group
 # (phase2i CustomScripts/Settings/Missions.json, ee4fa704) through missions_settings_to_build.py. Compared with the staged
 # install set when it exists (never rewritten here).
 import missions_settings_to_build as REBUILD  # noqa: E402
-ENGINE_PARAMS_R17 = '26E56E26775DFEC42B0CA3AA725A5B23163B4671B2FA1128ABF43B1538E3BF7C'
+# R18 (2026-10-02): + the two Pontis tower rows (R17 26E56E26).
+ENGINE_PARAMS_R17 = '13CB029064EF4C29141A0BBEC37E3DAF5888A5271FAE141BC9282DB9C07C0341'
 # R17: the registry layout of R16 (c48c819) tells the R17 "All <type> missions" layout changes from anything else.
 R16_REGISTRY = json.loads(subprocess.run(['git', '-C', str(EDITOR), 'show', 'c48c819:REGISTRIES/mission_build_u44.json'],
                                          capture_output=True, check=True).stdout.decode('utf-8'))
