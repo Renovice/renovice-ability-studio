@@ -395,7 +395,7 @@ namespace renovice
             return result;
         }
 
-        [[nodiscard]] std::string sha256_file(const fs::path& path)
+        [[nodiscard]] std::string sha256_stream(std::istream& input)
         {
             BCRYPT_ALG_HANDLE algorithm = nullptr;
             BCRYPT_HASH_HANDLE hash = nullptr;
@@ -439,11 +439,6 @@ namespace renovice
                     BCryptCreateHash(algorithm, &hash, object.data(), object_size, nullptr, 0, 0),
                     "create hash");
 
-                std::ifstream input(path, std::ios::binary);
-                if (!input)
-                {
-                    throw std::runtime_error("Unable to hash " + path.string());
-                }
                 std::array<char, 64 * 1024> buffer{};
                 while (input)
                 {
@@ -481,6 +476,35 @@ namespace renovice
                 BCryptCloseAlgorithmProvider(algorithm, 0);
                 throw;
             }
+        }
+
+        [[nodiscard]] std::string sha256_file(const fs::path& path)
+        {
+            std::ifstream input(path, std::ios::binary);
+            if (!input)
+            {
+                throw std::runtime_error("Unable to hash " + path.string());
+            }
+            return sha256_stream(input);
+        }
+
+        // SHA-256 (upper-case hex) of in-memory bytes.
+        [[nodiscard]] std::string sha256_bytes(const std::string& bytes)
+        {
+            std::istringstream input(bytes, std::ios::binary);
+            return sha256_stream(input);
+        }
+
+        // SHA-256 of a text file with CRLF line ends normalized to LF, so a pin survives a git checkout that rewrites line
+        // endings (update resilience 2026-10-02: the OpenWF server checkout switched missionInventoryUpdateService.ts to LF).
+        [[nodiscard]] std::string sha256_text_lf(const fs::path& path)
+        {
+            std::string text = read_text(path);
+            std::string normalized;
+            normalized.reserve(text.size());
+            for (std::size_t n = 0; n < text.size(); ++n)
+                if (!(text[n] == '\r' && n + 1 < text.size() && text[n + 1] == '\n')) normalized.push_back(text[n]);
+            return sha256_bytes(normalized);
         }
 
         [[nodiscard]] std::string sha256_text(const fs::path& directory, const std::string& value)

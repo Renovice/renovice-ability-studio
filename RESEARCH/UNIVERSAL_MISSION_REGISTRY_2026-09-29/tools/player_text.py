@@ -586,8 +586,13 @@ def data_digest():
     return hashlib.sha256(blob.encode()).hexdigest().upper()
 
 
-def apply(rows, groups):
-    """Applies the player text to registry rows (list) and ui_groups (dict, in place). Returns (masters, meta)."""
+def apply(rows, groups, absent=frozenset()):
+    """Applies the player text to registry rows (list) and ui_groups (dict, in place). Returns (masters, meta).
+
+    `absent` (update resilience 2026-10-02): value ids an update rebase left out of the registry (rows that need review
+    on the new build, and masters all of whose rows are out). Their player-text entries, hidden marks, master drives and
+    headline entries are skipped instead of failing; anything else that names a missing row still fails. Empty (the
+    default) is the registrar's normal run and changes nothing."""
     by_id = {r['tunable_id']: r for r in rows}
     problems = []
     seen = set()
@@ -598,7 +603,8 @@ def apply(rows, groups):
             problems.append(f'{tid}: listed twice')
         seen.add(tid)
         if tid not in by_id:
-            problems.append(f'{tid}: not a registry row')
+            if tid not in absent:
+                problems.append(f'{tid}: not a registry row')
             continue
         r = by_id[tid]
         ui = r['ui']
@@ -618,7 +624,8 @@ def apply(rows, groups):
             problems.append(f'{tid}: both hidden and shown')
     for tid, reason in HIDDEN.items():
         if tid not in by_id:
-            problems.append(f'{tid}: hidden row is not a registry row')
+            if tid not in absent:
+                problems.append(f'{tid}: hidden row is not a registry row')
             continue
         by_id[tid]['ui']['hidden'] = reason
     # Advanced sections
@@ -649,10 +656,12 @@ def apply(rows, groups):
                 if drive[2] != 'inverse':
                     problems.append(f'master {mid}: unknown drive form {drive[2]!r}')
                     continue
-                inverse.add(tid)
             if tid not in by_id:
-                problems.append(f'master {mid}: drives unknown row {tid}')
+                if tid not in absent:
+                    problems.append(f'master {mid}: drives unknown row {tid}')
                 continue
+            if len(drive) == 3:
+                inverse.add(tid)
             driven.append((by_id[tid], scale))
         if not driven:
             continue
@@ -746,6 +755,8 @@ def apply(rows, groups):
     # LIVE_LITERALS_V1: the headline literal values (rows and literal masters) a "literal_scope": "headline" build declares.
     shown_ids = {r['tunable_id'] for r in rows if r['ui'].get('label_source') == 'player_text'} | set(masters)
     for tid in LIVE_LITERAL_HEADLINE:
+        if tid in absent and tid not in by_id and tid not in masters:
+            continue
         lane = masters[tid]['lane'] if tid in masters else (by_id[tid]['ui']['lane'] if tid in by_id else None)
         if tid not in shown_ids or lane != 'literal':
             problems.append(f'live literal {tid}: not a literal row or master with player text')
@@ -753,7 +764,9 @@ def apply(rows, groups):
         problems.append('live literal headline list names a value twice')
     if problems:
         raise SystemExit('player text gate failures:\n  ' + '\n  '.join(problems))
-    meta['live_literal_headline'] = list(LIVE_LITERAL_HEADLINE)
+    meta['live_literal_headline'] = [t for t in LIVE_LITERAL_HEADLINE if t in by_id or t in masters or t not in absent]
+    if absent:
+        meta['absent'] = sorted(absent)
     return masters, meta
 
 

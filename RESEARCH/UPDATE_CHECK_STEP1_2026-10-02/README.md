@@ -126,3 +126,7 @@ The baseline (`baselines/<build>.json`) and the JSON report already hold the rem
 - `test_update_check_mutations.py`: MUTATION PROOF PASS 16/16.
 - Baseline written by `--write-baseline` (refused while any client-build item is BROKEN; the server row is not a client
   fact).
+
+## Follow-up
+
+Steps 2 and 3 (auto-remap and rebuild, one command `renovice_update.py`): [UPDATE_RESILIENCE_STEP2_3_2026-10-02](../UPDATE_RESILIENCE_STEP2_3_2026-10-02/README.md). The literal-site and initialiser context listed above as missing is in baseline V2; the server pin is LF-normalized.

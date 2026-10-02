@@ -1,0 +1,17 @@
+{
+ "format": "RENOVICE_AUTHORED_ADDONS_V1",
+ "note": "Installed authored artifacts and the sources the update tool rebuilds them from (update resilience step 3). Each source must rebuild the installed bytes exactly with derecomp recompile-u44 (identity gate). Paths of sources are relative to the ability editor repository; source projects are workspace-relative.",
+ "compiler": {"derecomp": "repos/toolchains/de-luau-toolchain/bin/derecomp.head.exe", "derecomp_sha256": "c1672d8d70e44bf7001a68f873f229714f5afdefb0b93c8558b6abb49e187c58", "name_map": "repos/toolchains/de-luau-toolchain/profiles/u44/name-map.tsv", "name_map_sha256": "d27c3a00d0693b7c86c97831de047f69115a17a1115f54556cdc3c8dcdde4f59"},
+ "addons": [
+  {"installed": "Packages/Octavia/ec368d4901690a15.MalletOverguardAndCard.target.addon.lua_B", "package": "Octavia", "source": "RESEARCH/MALLET_OVERGUARD_PROPORTIONALITY_2026-09-30/src/mallet-overguard-integer-cap.u44.luau", "alias_map": false, "installed_sha256": "95d26a914eae2749d8be579df1d09d9f69d34dbc7c1f68eab22e0b61218cb52d", "record": "RESEARCH/MALLET_OVERGUARD_PROPORTIONALITY_2026-09-30/README.md"},
+  {"installed": "Packages/Frost/8fba3a28f8fef624.IceWaveColdStackDamage.target.addon.lua_B", "package": "Frost", "source": "RESEARCH/SETTINGS_SECOND_CONSUMER_2026-09-30/src/ice-wave-settings.u44.luau", "alias_map": true, "installed_sha256": "f3ddb4336b13e321d236a5f543ce1e5122783b9f3b5e619604073f2db8ea5e71", "record": "RESEARCH/SETTINGS_SECOND_CONSUMER_2026-09-30/README.md"},
+  {"installed": "Inject/64d11e6973afa4b1.EliteSanctuaryNoRank.target.addon.lua_B", "package": "", "source": "RESEARCH/ELITE_SANCTUARY_NO_RANK_U44_2026-09-29/64d11e6973afa4b1.EliteSanctuaryNoRank.target.addon.luau", "alias_map": false, "installed_sha256": "4e6d5b7133017e6001c61d0f1e1f1b7d6878f6a9085ca570008fede6815b90e3", "record": "RESEARCH/ELITE_SANCTUARY_NO_RANK_U44_2026-09-29/README.md"}
+ ],
+ "replacements": [
+  {"installed": "477479ee5209dc94 (Riven Lock script).lua_B", "source_project": "work/research/riven-multilock-2026-09-29", "note": "full rewrite of OmegaRerollSelection (prototype structure differs from stock): rebuilt from its project when the target changes"},
+  {"installed": "5860ff99930a7b3e (Octavia Amp buff-no-distance).lua_B", "source_project": "", "note": "one branch edit in BardAmplify P11 (instruction-level, rebased automatically)"},
+  {"installed": "dcd6c9990e048c7d (Octavia Metrone allscript).lua_B", "source_project": "", "note": "LOADN and branch edits in BardJam P0/P9/P15/P22/P27 (instruction-level, rebased automatically)"},
+  {"installed": "ec368d4901690a15 (Octavia Mallet No Cover exact flags).lua_B", "source_project": "", "note": "two LOADB flag edits in BardMusic P16 (instruction-level, rebased automatically)"}
+ ],
+ "not_rebuilt": {"Inject/95ef5b82a8400944.CircuitProgressPreviewX5.target.addon.lua_B": "Circuit is dropped from the maintained set (user decision); listed by the check, not rebuilt"}
+}

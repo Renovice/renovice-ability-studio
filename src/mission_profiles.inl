@@ -463,10 +463,14 @@ void verify_mission_row(const Json& registry, const Json& row, const MissionPath
         if (!std::regex_match(owner.at("config_key").get<std::string>(), key_pattern))
             throw std::runtime_error("invalid server config key");
         if (!fs::exists(paths.server)) throw std::runtime_error("server source unavailable for read-only verification: " + paths.server.string());
+        // Update resilience (2026-10-02): a server source pin is the SHA-256 of the file with CRLF normalized to LF, so a git
+        // checkout that only rewrites line endings keeps the pin (the registrar records `sha256_text: "LF"`).
+        if (owner.value("sha256_text", std::string()) != "LF")
+            throw std::runtime_error("server source pin is not LF-normalized (re-pin with the registrar)");
         for (const auto& [file_key, sha_key, preimage_key] : {std::tuple{"schema_file", "schema_sha256", "schema_preimage"},
                                                               std::tuple{"consumer_file", "consumer_sha256", "consumer_preimage"}}) {
             const fs::path file = paths.server / owner.at(file_key).get<std::string>();
-            if (!fs::exists(file) || sha256_file(file) != owner.at(sha_key).get<std::string>())
+            if (!fs::exists(file) || sha256_text_lf(file) != owner.at(sha_key).get<std::string>())
                 throw std::runtime_error("server source changed or missing: " + owner.at(file_key).get<std::string>());
             if (read_text(file).find(owner.at(preimage_key).get<std::string>()) == std::string::npos)
                 throw std::runtime_error("server preimage missing: " + owner.at(preimage_key).get<std::string>());

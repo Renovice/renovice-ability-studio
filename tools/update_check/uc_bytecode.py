@@ -126,6 +126,7 @@ class Proto:
     kids_start: int            # offset of the nsub varint
     kids_end: int
     linedefined: int
+    debugname: int = 0         # string-pool index (1-based) of the function name, 0 = anonymous
     canonical_code: bytes = b''
     instructions: list[tuple[int, int, int]] = field(default_factory=list)  # (logical, byte offset in code, canonical op)
     walk_error: str = ''
@@ -247,7 +248,7 @@ class Module:
             kids.append(k)
         kids_end = o
         linedefined, o = _vi(b, o)
-        _, o = _vi(b, o)              # debug source name
+        debugname, o = _vi(b, o)      # debug function name (string-pool index, 0 = anonymous)
         g1 = b[o]
         o += 1
         if g1:
@@ -270,7 +271,7 @@ class Module:
         if o > len(b):
             raise ContainerError(f'prototype {index}: debug data past the end')
         return Proto(index, start, o, header, co, sizecode, raw_code, consts, cs, consts_end, kids, kids_start,
-                     kids_end, linedefined)
+                     kids_end, linedefined, debugname)
 
     def _walk(self, p: Proto) -> None:
         code = bytearray(p.raw_code)
@@ -353,6 +354,58 @@ class Module:
 
     def walk_errors(self) -> list[str]:
         return [f'prototype {p.index}: {p.walk_error}' for p in self.protos if p.walk_error]
+
+    # -- step 2 (auto-remap) helpers -------------------------------------------------------------------------------
+    def name(self, p: Proto) -> str:
+        """Debug function name ('' for an anonymous function)."""
+        return (self.string(p.debugname) or b'').decode('utf-8', 'replace') if p.debugname else ''
+
+    def parents(self) -> list[int | None]:
+        """Parent prototype of every prototype (from the child lists); None for the main prototype and orphans."""
+        out: list[int | None] = [None] * len(self.protos)
+        for p in self.protos:
+            for k in p.kids:
+                if 0 <= k < len(out) and out[k] is None:
+                    out[k] = p.index
+        return out
+
+    def word(self, p: Proto, logical: int) -> bytes:
+        """Canonical instruction bytes (4, or 8 with the AUX word) of one logical instruction."""
+        _, off, op = p.instructions[logical]
+        return p.canonical_code[off:off + (8 if op in CANONICAL_AUX else 4)]
+
+    def offset(self, p: Proto, logical: int) -> int:
+        """Absolute file offset of one logical instruction."""
+        return p.code_start + p.instructions[logical][1]
+
+    def logical_at(self, absolute: int) -> tuple[int, int] | None:
+        """(prototype, logical index) of the instruction starting at an absolute offset, or of the AUX word there
+        (returned as the owning instruction); None when no instruction covers the offset."""
+        for p in self.protos:
+            if p.code_start <= absolute < p.code_start + len(p.raw_code):
+                rel = absolute - p.code_start
+                for logical, off, op in p.instructions:
+                    if off == rel or (op in CANONICAL_AUX and off + 4 == rel):
+                        return p.index, logical
+                return None
+        return None
+
+    def constant_offset(self, p: Proto, k: int) -> int:
+        """Absolute offset of a native number constant's 8 payload bytes (after its tag byte)."""
+        c = p.consts[k]
+        if c.tag != 2:
+            raise ValueError(f'constant {k} of prototype {p.index} is not a number constant (tag {c.tag})')
+        return c.start + 1
+
+    def constant_at(self, absolute: int) -> tuple[int, int] | None:
+        """(prototype, constant index) of the number constant whose payload starts at `absolute`."""
+        for p in self.protos:
+            if p.consts_start <= absolute < p.consts_end:
+                for k, c in enumerate(p.consts):
+                    if c.tag == 2 and c.start + 1 == absolute:
+                        return p.index, k
+                return None
+        return None
 
 
 # -- synthetic mutation helpers (used only by the mutation proof, on copies) -------------------------------------

@@ -25,7 +25,7 @@
  },
  "exe_sha256": "0124f0b93516e60ae362c59090809de24a42551143a6adf84963bd2120ab7d33",
  "fingerprint": "uc_bytecode.Module.fingerprint (header, sizecode, child count, canonical code, constants with strings resolved and closures as a marker; SHA-256 first 16 hex)",
- "format": "RENOVICE_UPDATE_CHECK_BASELINE_V1",
+ "format": "RENOVICE_UPDATE_CHECK_BASELINE_V2",
  "hooks": {
   "Inject/64d11e6973afa4b1.EliteSanctuaryNoRank.target.addon.lua_B": {
    "sha256": "4e6d5b7133017e6001c61d0f1e1f1b7d6878f6a9085ca570008fede6815b90e3",
@@ -416,6 +416,3004 @@
     }
    }
   }
+ },
+ "literal_sites": {
+  "arbitration.resurrection_score_cap": [
+   {
+    "file": "Lotus_Scripts_Arbitration.lua_B",
+    "instruction": 23,
+    "kind": "loadn",
+    "module": "2c6c686109fb50ec",
+    "offset": 5970,
+    "prototype": 13
+   },
+   {
+    "file": "Lotus_Scripts_Arbitration.lua_B",
+    "instruction": 37,
+    "kind": "loadn",
+    "module": "2c6c686109fb50ec",
+    "offset": 6791,
+    "prototype": 15
+   },
+   {
+    "file": "Lotus_Scripts_Arbitration.lua_B",
+    "instruction": 58,
+    "kind": "loadn",
+    "module": "2c6c686109fb50ec",
+    "offset": 7274,
+    "prototype": 16
+   },
+   {
+    "file": "Lotus_Scripts_Arbitration.lua_B",
+    "instruction": 44,
+    "kind": "loadn",
+    "module": "2c6c686109fb50ec",
+    "offset": 11276,
+    "prototype": 25
+   },
+   {
+    "file": "Lotus_Scripts_Arbitration.lua_B",
+    "instruction": 105,
+    "kind": "loadn",
+    "module": "2c6c686109fb50ec",
+    "offset": 12593,
+    "prototype": 27
+   },
+   {
+    "file": "Lotus_Scripts_Arbitration.lua_B",
+    "instruction": 247,
+    "kind": "loadn",
+    "module": "2c6c686109fb50ec",
+    "offset": 13345,
+    "prototype": 27
+   },
+   {
+    "file": "Lotus_Scripts_Arbitration.lua_B",
+    "instruction": 321,
+    "kind": "loadn",
+    "module": "2c6c686109fb50ec",
+    "offset": 13725,
+    "prototype": 27
+   },
+   {
+    "file": "Lotus_Scripts_Arbitration.lua_B",
+    "instruction": 36,
+    "kind": "loadn",
+    "module": "2c6c686109fb50ec",
+    "offset": 4177,
+    "prototype": 9
+   },
+   {
+    "file": "Lotus_Scripts_Arbitration.lua_B",
+    "instruction": 41,
+    "kind": "loadn",
+    "module": "2c6c686109fb50ec",
+    "offset": 4205,
+    "prototype": 9
+   },
+   {
+    "file": "Lotus_Scripts_Arbitration.lua_B",
+    "instruction": 68,
+    "kind": "loadn",
+    "module": "2c6c686109fb50ec",
+    "offset": 18685,
+    "prototype": 31
+   }
+  ],
+  "archimedea.eda_alchemy": [
+   {
+    "file": "Lotus_Scripts_Libs_ConquestLib.lua_B",
+    "instruction": 1044,
+    "kind": "loadn",
+    "module": "076a7b443af7fdb8",
+    "offset": 46811,
+    "prototype": 43
+   }
+  ],
+  "archimedea.eda_disruption": [
+   {
+    "file": "Lotus_Scripts_Libs_ConquestLib.lua_B",
+    "instruction": 1047,
+    "kind": "loadn",
+    "module": "076a7b443af7fdb8",
+    "offset": 46823,
+    "prototype": 43
+   }
+  ],
+  "archimedea.eda_mirror_defense_waves": [
+   {
+    "file": "Lotus_Scripts_Libs_ConquestLib.lua_B",
+    "instruction": 1041,
+    "kind": "loadn",
+    "module": "076a7b443af7fdb8",
+    "offset": 46799,
+    "prototype": 43
+   }
+  ],
+  "archimedea.eda_survival_minutes": [
+   {
+    "file": "Lotus_Scripts_Libs_ConquestLib.lua_B",
+    "instruction": 1038,
+    "kind": "loadn",
+    "module": "076a7b443af7fdb8",
+    "offset": 46787,
+    "prototype": 43
+   }
+  ],
+  "archimedea.eta_defense_waves": [
+   {
+    "file": "Lotus_Scripts_Libs_ConquestLib.lua_B",
+    "instruction": 1013,
+    "kind": "loadn",
+    "module": "076a7b443af7fdb8",
+    "offset": 46643,
+    "prototype": 43
+   }
+  ],
+  "archimedea.eta_survival_minutes": [
+   {
+    "file": "Lotus_Scripts_Libs_ConquestLib.lua_B",
+    "instruction": 1010,
+    "kind": "loadn",
+    "module": "076a7b443af7fdb8",
+    "offset": 46631,
+    "prototype": 43
+   }
+  ],
+  "archimedea.survival_minutes": [
+   {
+    "file": "Lotus_Scripts_Libs_ConquestLib.lua_B",
+    "instruction": 1038,
+    "kind": "loadn",
+    "module": "076a7b443af7fdb8",
+    "offset": 46787,
+    "prototype": 43
+   },
+   {
+    "file": "Lotus_Scripts_Libs_ConquestLib.lua_B",
+    "instruction": 1010,
+    "kind": "loadn",
+    "module": "076a7b443af7fdb8",
+    "offset": 46631,
+    "prototype": 43
+   }
+  ],
+  "archwing.fomorian_emp_timer": [
+   {
+    "file": "Lotus_Scripts_Modes_ArchWingMissionScript.lua_B",
+    "instruction": 332,
+    "kind": "loadn",
+    "module": "9d034c7661ec61bf",
+    "offset": 5734,
+    "prototype": 7
+   },
+   {
+    "file": "Lotus_Scripts_Modes_ArchWingMissionScript.lua_B",
+    "instruction": 160,
+    "kind": "loadn",
+    "module": "9d034c7661ec61bf",
+    "offset": 13154,
+    "prototype": 13
+   }
+  ],
+  "assassination.ambulas_level_per_player": [
+   {
+    "constant": 5,
+    "file": "Lotus_Scripts_BossAmbulasArena.lua_B",
+    "kind": "number_constant",
+    "module": "6f52bba63392f5fa",
+    "offset": 4693,
+    "prototype": 3
+   },
+   {
+    "constant": 5,
+    "file": "Lotus_Scripts_BossAmbulasArena.lua_B",
+    "kind": "number_constant",
+    "module": "6f52bba63392f5fa",
+    "offset": 5338,
+    "prototype": 4
+   }
+  ],
+  "assassination.boss_level_bonus": [
+   {
+    "constant": 28,
+    "file": "Lotus_Types_Enemies_SimpleBossScaling.lua_B",
+    "kind": "number_constant",
+    "module": "14fb4ffa54cf4d4c",
+    "offset": 649,
+    "prototype": 0
+   }
+  ],
+  "assassination.hard_mode_level_base": [
+   {
+    "file": "Lotus_Scripts_Libs_HardModeBossUtil.lua_B",
+    "instruction": 0,
+    "kind": "loadn",
+    "module": "8dac738d9290da96",
+    "offset": 692,
+    "prototype": 3
+   }
+  ],
+  "assassination.hard_mode_level_per_player": [
+   {
+    "constant": 0,
+    "file": "Lotus_Scripts_Libs_HardModeBossUtil.lua_B",
+    "kind": "number_constant",
+    "module": "8dac738d9290da96",
+    "offset": 750,
+    "prototype": 3
+   }
+  ],
+  "assassination.kela_health.p2": [
+   {
+    "constant": 5,
+    "file": "Lotus_Scripts_BossKelaArena.lua_B",
+    "kind": "number_constant",
+    "module": "9ddf18235b5c4abb",
+    "offset": 11637,
+    "prototype": 15
+   }
+  ],
+  "assassination.kela_health.p3": [
+   {
+    "constant": 6,
+    "file": "Lotus_Scripts_BossKelaArena.lua_B",
+    "kind": "number_constant",
+    "module": "9ddf18235b5c4abb",
+    "offset": 11646,
+    "prototype": 15
+   }
+  ],
+  "assassination.kela_health.p4": [
+   {
+    "constant": 7,
+    "file": "Lotus_Scripts_BossKelaArena.lua_B",
+    "kind": "number_constant",
+    "module": "9ddf18235b5c4abb",
+    "offset": 11655,
+    "prototype": 15
+   }
+  ],
+  "capture.bleedout_timer.fail_timer": [
+   {
+    "constant": 17,
+    "file": "Lotus_Scripts_CaptureNew.lua_B",
+    "kind": "number_constant",
+    "module": "1002fa2aeb0ef437",
+    "offset": 43549,
+    "prototype": 43
+   }
+  ],
+  "capture.bleedout_timer.grace": [
+   {
+    "file": "Lotus_Scripts_CaptureNew.lua_B",
+    "instruction": 48,
+    "kind": "loadn",
+    "module": "1002fa2aeb0ef437",
+    "offset": 43178,
+    "prototype": 43
+   },
+   {
+    "constant": 18,
+    "file": "Lotus_Scripts_CaptureNew.lua_B",
+    "kind": "number_constant",
+    "module": "1002fa2aeb0ef437",
+    "offset": 43558,
+    "prototype": 43
+   }
+  ],
+  "coh_excavation.dig_duration": [
+   {
+    "constant": 90,
+    "file": "Lotus_Types_Gameplay_DevilTower_LiteGameModes_CoHExcavationLite.lua_B",
+    "kind": "number_constant",
+    "module": "415a57536412719f",
+    "offset": 22618,
+    "prototype": 23
+   },
+   {
+    "file": "Lotus_Types_Gameplay_DevilTower_LiteGameModes_CoHExcavationLite.lua_B",
+    "instruction": 535,
+    "kind": "loadn",
+    "module": "415a57536412719f",
+    "offset": 21000,
+    "prototype": 23
+   }
+  ],
+  "coh_nemesis.spawn_interval": [
+   {
+    "file": "Lotus_Types_Gameplay_DevilTower_LiteGameModes_CoHNemesis.lua_B",
+    "instruction": 34,
+    "kind": "loadn",
+    "module": "6ea7658224d2d3c3",
+    "offset": 4318,
+    "prototype": 7
+   }
+  ],
+  "control_area.hold_time": [
+   {
+    "file": "Lotus_Scripts_InfestedMicroplanet_Encounters_DynamicAreaDefense.lua_B",
+    "instruction": 56,
+    "kind": "loadn",
+    "module": "8a0b0819de60df01",
+    "offset": 10398,
+    "prototype": 15
+   },
+   {
+    "file": "Lotus_Scripts_InfestedMicroplanet_Encounters_DynamicAreaDefense.lua_B",
+    "instruction": 63,
+    "kind": "loadn",
+    "module": "8a0b0819de60df01",
+    "offset": 3318,
+    "prototype": 7
+   },
+   {
+    "file": "Lotus_Scripts_Venus_NokkoColony_Encounters_AreaDefense.lua_B",
+    "instruction": 74,
+    "kind": "loadn",
+    "module": "e4bb611e00823d46",
+    "offset": 3754,
+    "prototype": 5
+   },
+   {
+    "aux": true,
+    "file": "Lotus_Scripts_Venus_NokkoColony_Encounters_AreaDefense.lua_B",
+    "instruction": 74,
+    "kind": "loadn",
+    "module": "e4bb611e00823d46",
+    "offset": 3758,
+    "prototype": 5
+   },
+   {
+    "file": "Lotus_Scripts_Venus_NokkoColony_Encounters_AreaDefense.lua_B",
+    "instruction": 102,
+    "kind": "loadn",
+    "module": "e4bb611e00823d46",
+    "offset": 5449,
+    "prototype": 6
+   },
+   {
+    "aux": true,
+    "file": "Lotus_Scripts_Venus_NokkoColony_Encounters_AreaDefense.lua_B",
+    "instruction": 102,
+    "kind": "loadn",
+    "module": "e4bb611e00823d46",
+    "offset": 5453,
+    "prototype": 6
+   },
+   {
+    "file": "Lotus_Scripts_Venus_NokkoColony_Encounters_AreaDefense.lua_B",
+    "instruction": 105,
+    "kind": "loadn",
+    "module": "e4bb611e00823d46",
+    "offset": 5469,
+    "prototype": 6
+   },
+   {
+    "aux": true,
+    "file": "Lotus_Scripts_Venus_NokkoColony_Encounters_AreaDefense.lua_B",
+    "instruction": 105,
+    "kind": "loadn",
+    "module": "e4bb611e00823d46",
+    "offset": 5473,
+    "prototype": 6
+   },
+   {
+    "file": "Lotus_Scripts_Venus_NokkoColony_Encounters_AreaDefense.lua_B",
+    "instruction": 109,
+    "kind": "loadn",
+    "module": "e4bb611e00823d46",
+    "offset": 5489,
+    "prototype": 6
+   },
+   {
+    "aux": true,
+    "file": "Lotus_Scripts_Venus_NokkoColony_Encounters_AreaDefense.lua_B",
+    "instruction": 109,
+    "kind": "loadn",
+    "module": "e4bb611e00823d46",
+    "offset": 5493,
+    "prototype": 6
+   },
+   {
+    "file": "Lotus_Scripts_Venus_NokkoColony_Encounters_AreaDefense.lua_B",
+    "instruction": 110,
+    "kind": "loadn",
+    "module": "e4bb611e00823d46",
+    "offset": 5497,
+    "prototype": 6
+   },
+   {
+    "aux": true,
+    "file": "Lotus_Scripts_Venus_NokkoColony_Encounters_AreaDefense.lua_B",
+    "instruction": 110,
+    "kind": "loadn",
+    "module": "e4bb611e00823d46",
+    "offset": 5501,
+    "prototype": 6
+   },
+   {
+    "file": "Lotus_Scripts_Eidolon_Encounters_DynamicDefend.lua_B",
+    "instruction": 44,
+    "kind": "loadn",
+    "module": "b3a5a18d68d61e16",
+    "offset": 8701,
+    "prototype": 17
+   },
+   {
+    "file": "Lotus_Scripts_Eidolon_Encounters_DynamicDefend.lua_B",
+    "instruction": 100,
+    "kind": "loadn",
+    "module": "b3a5a18d68d61e16",
+    "offset": 4061,
+    "prototype": 8
+   }
+  ],
+  "control_area_deimos.duration": [
+   {
+    "file": "Lotus_Scripts_InfestedMicroplanet_Encounters_DynamicAreaDefense.lua_B",
+    "instruction": 56,
+    "kind": "loadn",
+    "module": "8a0b0819de60df01",
+    "offset": 10398,
+    "prototype": 15
+   },
+   {
+    "file": "Lotus_Scripts_InfestedMicroplanet_Encounters_DynamicAreaDefense.lua_B",
+    "instruction": 63,
+    "kind": "loadn",
+    "module": "8a0b0819de60df01",
+    "offset": 3318,
+    "prototype": 7
+   }
+  ],
+  "control_area_nokko.bonus_threshold": [
+   {
+    "file": "Lotus_Scripts_Venus_NokkoColony_Encounters_AreaDefense.lua_B",
+    "instruction": 43,
+    "kind": "loadn",
+    "module": "e4bb611e00823d46",
+    "offset": 1984,
+    "prototype": 0
+   },
+   {
+    "aux": true,
+    "file": "Lotus_Scripts_Venus_NokkoColony_Encounters_AreaDefense.lua_B",
+    "instruction": 43,
+    "kind": "loadn",
+    "module": "e4bb611e00823d46",
+    "offset": 1988,
+    "prototype": 0
+   },
+   {
+    "file": "Lotus_Scripts_Venus_NokkoColony_Encounters_AreaDefense.lua_B",
+    "instruction": 54,
+    "kind": "loadn",
+    "module": "e4bb611e00823d46",
+    "offset": 2048,
+    "prototype": 0
+   },
+   {
+    "aux": true,
+    "file": "Lotus_Scripts_Venus_NokkoColony_Encounters_AreaDefense.lua_B",
+    "instruction": 54,
+    "kind": "loadn",
+    "module": "e4bb611e00823d46",
+    "offset": 2052,
+    "prototype": 0
+   },
+   {
+    "file": "Lotus_Scripts_Venus_NokkoColony_Encounters_AreaDefense.lua_B",
+    "instruction": 73,
+    "kind": "loadn",
+    "module": "e4bb611e00823d46",
+    "offset": 2152,
+    "prototype": 0
+   },
+   {
+    "aux": true,
+    "file": "Lotus_Scripts_Venus_NokkoColony_Encounters_AreaDefense.lua_B",
+    "instruction": 73,
+    "kind": "loadn",
+    "module": "e4bb611e00823d46",
+    "offset": 2156,
+    "prototype": 0
+   },
+   {
+    "file": "Lotus_Scripts_Venus_NokkoColony_Encounters_AreaDefense.lua_B",
+    "instruction": 68,
+    "kind": "loadn",
+    "module": "e4bb611e00823d46",
+    "offset": 3722,
+    "prototype": 5
+   },
+   {
+    "aux": true,
+    "file": "Lotus_Scripts_Venus_NokkoColony_Encounters_AreaDefense.lua_B",
+    "instruction": 68,
+    "kind": "loadn",
+    "module": "e4bb611e00823d46",
+    "offset": 3726,
+    "prototype": 5
+   },
+   {
+    "file": "Lotus_Scripts_Venus_NokkoColony_Encounters_AreaDefense.lua_B",
+    "instruction": 172,
+    "kind": "loadn",
+    "module": "e4bb611e00823d46",
+    "offset": 8437,
+    "prototype": 9
+   },
+   {
+    "aux": true,
+    "file": "Lotus_Scripts_Venus_NokkoColony_Encounters_AreaDefense.lua_B",
+    "instruction": 172,
+    "kind": "loadn",
+    "module": "e4bb611e00823d46",
+    "offset": 8441,
+    "prototype": 9
+   },
+   {
+    "file": "Lotus_Scripts_Venus_NokkoColony_Encounters_AreaDefense.lua_B",
+    "instruction": 198,
+    "kind": "loadn",
+    "module": "e4bb611e00823d46",
+    "offset": 8581,
+    "prototype": 9
+   },
+   {
+    "aux": true,
+    "file": "Lotus_Scripts_Venus_NokkoColony_Encounters_AreaDefense.lua_B",
+    "instruction": 198,
+    "kind": "loadn",
+    "module": "e4bb611e00823d46",
+    "offset": 8585,
+    "prototype": 9
+   }
+  ],
+  "control_area_nokko.hold_time": [
+   {
+    "file": "Lotus_Scripts_Venus_NokkoColony_Encounters_AreaDefense.lua_B",
+    "instruction": 74,
+    "kind": "loadn",
+    "module": "e4bb611e00823d46",
+    "offset": 3754,
+    "prototype": 5
+   },
+   {
+    "aux": true,
+    "file": "Lotus_Scripts_Venus_NokkoColony_Encounters_AreaDefense.lua_B",
+    "instruction": 74,
+    "kind": "loadn",
+    "module": "e4bb611e00823d46",
+    "offset": 3758,
+    "prototype": 5
+   },
+   {
+    "file": "Lotus_Scripts_Venus_NokkoColony_Encounters_AreaDefense.lua_B",
+    "instruction": 102,
+    "kind": "loadn",
+    "module": "e4bb611e00823d46",
+    "offset": 5449,
+    "prototype": 6
+   },
+   {
+    "aux": true,
+    "file": "Lotus_Scripts_Venus_NokkoColony_Encounters_AreaDefense.lua_B",
+    "instruction": 102,
+    "kind": "loadn",
+    "module": "e4bb611e00823d46",
+    "offset": 5453,
+    "prototype": 6
+   },
+   {
+    "file": "Lotus_Scripts_Venus_NokkoColony_Encounters_AreaDefense.lua_B",
+    "instruction": 105,
+    "kind": "loadn",
+    "module": "e4bb611e00823d46",
+    "offset": 5469,
+    "prototype": 6
+   },
+   {
+    "aux": true,
+    "file": "Lotus_Scripts_Venus_NokkoColony_Encounters_AreaDefense.lua_B",
+    "instruction": 105,
+    "kind": "loadn",
+    "module": "e4bb611e00823d46",
+    "offset": 5473,
+    "prototype": 6
+   },
+   {
+    "file": "Lotus_Scripts_Venus_NokkoColony_Encounters_AreaDefense.lua_B",
+    "instruction": 109,
+    "kind": "loadn",
+    "module": "e4bb611e00823d46",
+    "offset": 5489,
+    "prototype": 6
+   },
+   {
+    "aux": true,
+    "file": "Lotus_Scripts_Venus_NokkoColony_Encounters_AreaDefense.lua_B",
+    "instruction": 109,
+    "kind": "loadn",
+    "module": "e4bb611e00823d46",
+    "offset": 5493,
+    "prototype": 6
+   },
+   {
+    "file": "Lotus_Scripts_Venus_NokkoColony_Encounters_AreaDefense.lua_B",
+    "instruction": 110,
+    "kind": "loadn",
+    "module": "e4bb611e00823d46",
+    "offset": 5497,
+    "prototype": 6
+   },
+   {
+    "aux": true,
+    "file": "Lotus_Scripts_Venus_NokkoColony_Encounters_AreaDefense.lua_B",
+    "instruction": 110,
+    "kind": "loadn",
+    "module": "e4bb611e00823d46",
+    "offset": 5501,
+    "prototype": 6
+   }
+  ],
+  "control_area_plains.duration": [
+   {
+    "file": "Lotus_Scripts_Eidolon_Encounters_DynamicDefend.lua_B",
+    "instruction": 44,
+    "kind": "loadn",
+    "module": "b3a5a18d68d61e16",
+    "offset": 8701,
+    "prototype": 17
+   },
+   {
+    "file": "Lotus_Scripts_Eidolon_Encounters_DynamicDefend.lua_B",
+    "instruction": 100,
+    "kind": "loadn",
+    "module": "b3a5a18d68d61e16",
+    "offset": 4061,
+    "prototype": 8
+   }
+  ],
+  "defection.squads_required": [
+   {
+    "file": "Lotus_Scripts_Modes_ColonistRescueMission.lua_B",
+    "instruction": 3,
+    "kind": "loadn",
+    "module": "fc9ba92edb027648",
+    "offset": 7772,
+    "prototype": 6
+   }
+  ],
+  "defection.squads_required.sortie": [
+   {
+    "file": "Lotus_Scripts_Modes_ColonistRescueMission.lua_B",
+    "instruction": 8,
+    "kind": "loadn",
+    "module": "fc9ba92edb027648",
+    "offset": 7796,
+    "prototype": 6
+   }
+  ],
+  "defection.squads_to_rescue": [
+   {
+    "file": "Lotus_Scripts_Modes_ColonistRescueMission.lua_B",
+    "instruction": 3,
+    "kind": "loadn",
+    "module": "fc9ba92edb027648",
+    "offset": 7772,
+    "prototype": 6
+   },
+   {
+    "file": "Lotus_Scripts_Modes_ColonistRescueMission.lua_B",
+    "instruction": 8,
+    "kind": "loadn",
+    "module": "fc9ba92edb027648",
+    "offset": 7796,
+    "prototype": 6
+   }
+  ],
+  "defense.circle_wave_count": [
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 6,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 6522,
+    "prototype": 4
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 6,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 6842,
+    "prototype": 5
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 197,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 23567,
+    "prototype": 26
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 255,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 23895,
+    "prototype": 26
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 296,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 24127,
+    "prototype": 26
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 175,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 58214,
+    "prototype": 48
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 352,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 59162,
+    "prototype": 48
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 406,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 59454,
+    "prototype": 48
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 538,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 60162,
+    "prototype": 48
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 576,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 60378,
+    "prototype": 48
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 737,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 61250,
+    "prototype": 48
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 774,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 61462,
+    "prototype": 48
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 1040,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 62938,
+    "prototype": 48
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 1132,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 63450,
+    "prototype": 48
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 448,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 76239,
+    "prototype": 50
+   }
+  ],
+  "defense.duviri_wave_count": [
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 2,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 6502,
+    "prototype": 4
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 2,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 6822,
+    "prototype": 5
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 193,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 23547,
+    "prototype": 26
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 251,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 23875,
+    "prototype": 26
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 292,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 24107,
+    "prototype": 26
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 171,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 58194,
+    "prototype": 48
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 348,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 59142,
+    "prototype": 48
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 402,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 59434,
+    "prototype": 48
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 534,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 60142,
+    "prototype": 48
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 572,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 60358,
+    "prototype": 48
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 733,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 61230,
+    "prototype": 48
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 770,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 61442,
+    "prototype": 48
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 1036,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 62918,
+    "prototype": 48
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 1128,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 63430,
+    "prototype": 48
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 444,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 76219,
+    "prototype": 50
+   }
+  ],
+  "defense.first_wave_delay": [
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 352,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 75731,
+    "prototype": 50
+   }
+  ],
+  "defense.inter_wave_sleep": [
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 1232,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 63986,
+    "prototype": 48
+   }
+  ],
+  "defense.nightmare_wave_count": [
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 31,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 6674,
+    "prototype": 4
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 31,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 6994,
+    "prototype": 5
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 222,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 23719,
+    "prototype": 26
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 280,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 24047,
+    "prototype": 26
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 321,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 24279,
+    "prototype": 26
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 200,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 58366,
+    "prototype": 48
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 377,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 59314,
+    "prototype": 48
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 431,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 59606,
+    "prototype": 48
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 563,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 60314,
+    "prototype": 48
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 601,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 60530,
+    "prototype": 48
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 762,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 61402,
+    "prototype": 48
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 799,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 61614,
+    "prototype": 48
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 1065,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 63090,
+    "prototype": 48
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 1157,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 63602,
+    "prototype": 48
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 473,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 76391,
+    "prototype": 50
+   }
+  ],
+  "defense.special_mission_default_waves": [
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 27,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 6654,
+    "prototype": 4
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 27,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 6974,
+    "prototype": 5
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 218,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 23699,
+    "prototype": 26
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 276,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 24027,
+    "prototype": 26
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 317,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 24259,
+    "prototype": 26
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 196,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 58346,
+    "prototype": 48
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 373,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 59294,
+    "prototype": 48
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 427,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 59586,
+    "prototype": 48
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 559,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 60294,
+    "prototype": 48
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 597,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 60510,
+    "prototype": 48
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 758,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 61382,
+    "prototype": 48
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 795,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 61594,
+    "prototype": 48
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 1061,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 63070,
+    "prototype": 48
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 1153,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 63582,
+    "prototype": 48
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 469,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 76371,
+    "prototype": 50
+   }
+  ],
+  "defense.waves_per_reward": [
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 1122,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 63394,
+    "prototype": 48
+   },
+   {
+    "aux": true,
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 1122,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 63398,
+    "prototype": 48
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 960,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 62498,
+    "prototype": 48
+   },
+   {
+    "aux": true,
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 960,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 62502,
+    "prototype": 48
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 238,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 42025,
+    "prototype": 36
+   },
+   {
+    "aux": true,
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 238,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 42029,
+    "prototype": 36
+   },
+   {
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 307,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 42401,
+    "prototype": 36
+   },
+   {
+    "aux": true,
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "instruction": 307,
+    "kind": "loadn",
+    "module": "1a1354d153712f9d",
+    "offset": 42405,
+    "prototype": 36
+   }
+  ],
+  "disruption.default_round_count": [
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 26,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 18573,
+    "prototype": 10
+   },
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 1254,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 88354,
+    "prototype": 81
+   },
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 78,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 101667,
+    "prototype": 82
+   },
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 377,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 104827,
+    "prototype": 84
+   },
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 12,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 17698,
+    "prototype": 8
+   },
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 77,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 57484,
+    "prototype": 55
+   },
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 555,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 105787,
+    "prototype": 84
+   }
+  ],
+  "disruption.interval_between_rounds": [
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 1437,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 89322,
+    "prototype": 81
+   },
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 475,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 105347,
+    "prototype": 84
+   }
+  ],
+  "disruption.interval_between_rounds.relic": [
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 1442,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 89346,
+    "prototype": 81
+   },
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 477,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 105355,
+    "prototype": 84
+   }
+  ],
+  "disruption.max_enemies.p1": [
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 372,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 122536,
+    "prototype": 95
+   },
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 365,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 122496,
+    "prototype": 95
+   },
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 401,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 122700,
+    "prototype": 95
+   },
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 394,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 122660,
+    "prototype": 95
+   },
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 430,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 122864,
+    "prototype": 95
+   },
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 423,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 122824,
+    "prototype": 95
+   }
+  ],
+  "disruption.max_enemies.p2": [
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 373,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 122540,
+    "prototype": 95
+   },
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 366,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 122500,
+    "prototype": 95
+   },
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 402,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 122704,
+    "prototype": 95
+   },
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 395,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 122664,
+    "prototype": 95
+   },
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 431,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 122868,
+    "prototype": 95
+   },
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 424,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 122828,
+    "prototype": 95
+   }
+  ],
+  "disruption.max_enemies.p3": [
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 374,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 122544,
+    "prototype": 95
+   },
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 367,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 122504,
+    "prototype": 95
+   },
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 403,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 122708,
+    "prototype": 95
+   },
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 396,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 122668,
+    "prototype": 95
+   },
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 432,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 122872,
+    "prototype": 95
+   },
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 425,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 122832,
+    "prototype": 95
+   }
+  ],
+  "disruption.max_enemies.p4": [
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 375,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 122548,
+    "prototype": 95
+   },
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 368,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 122508,
+    "prototype": 95
+   },
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 404,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 122712,
+    "prototype": 95
+   },
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 397,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 122672,
+    "prototype": 95
+   },
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 433,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 122876,
+    "prototype": 95
+   },
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 426,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 122836,
+    "prototype": 95
+   }
+  ],
+  "disruption.max_enemies_by_players.entrati_lab.p1": [
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 430,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 122864,
+    "prototype": 95
+   }
+  ],
+  "disruption.max_enemies_by_players.entrati_lab.p2": [
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 431,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 122868,
+    "prototype": 95
+   }
+  ],
+  "disruption.max_enemies_by_players.entrati_lab.p3": [
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 432,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 122872,
+    "prototype": 95
+   }
+  ],
+  "disruption.max_enemies_by_players.entrati_lab.p4": [
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 433,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 122876,
+    "prototype": 95
+   }
+  ],
+  "disruption.max_enemies_by_players.sentient.p1": [
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 401,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 122700,
+    "prototype": 95
+   }
+  ],
+  "disruption.max_enemies_by_players.sentient.p2": [
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 402,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 122704,
+    "prototype": 95
+   }
+  ],
+  "disruption.max_enemies_by_players.sentient.p3": [
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 403,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 122708,
+    "prototype": 95
+   }
+  ],
+  "disruption.max_enemies_by_players.sentient.p4": [
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 404,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 122712,
+    "prototype": 95
+   }
+  ],
+  "disruption.max_enemies_by_players.standard.p1": [
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 372,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 122536,
+    "prototype": 95
+   }
+  ],
+  "disruption.max_enemies_by_players.standard.p2": [
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 373,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 122540,
+    "prototype": 95
+   }
+  ],
+  "disruption.max_enemies_by_players.standard.p3": [
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 374,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 122544,
+    "prototype": 95
+   }
+  ],
+  "disruption.max_enemies_by_players.standard.p4": [
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 375,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 122548,
+    "prototype": 95
+   }
+  ],
+  "disruption.round_timeout": [
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 1312,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 88662,
+    "prototype": 81
+   }
+  ],
+  "disruption.rounds_to_finish": [
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 26,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 18573,
+    "prototype": 10
+   },
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 1254,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 88354,
+    "prototype": 81
+   },
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 78,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 101667,
+    "prototype": 82
+   },
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 377,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 104827,
+    "prototype": 84
+   },
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 12,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 17698,
+    "prototype": 8
+   },
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 77,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 57484,
+    "prototype": 55
+   },
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 555,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 105787,
+    "prototype": 84
+   },
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 22,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 18553,
+    "prototype": 10
+   },
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 1250,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 88334,
+    "prototype": 81
+   },
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 74,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 101647,
+    "prototype": 82
+   },
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 373,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 104807,
+    "prototype": 84
+   }
+  ],
+  "disruption.sortie_round_count": [
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 22,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 18553,
+    "prototype": 10
+   },
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 1250,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 88334,
+    "prototype": 81
+   },
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 74,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 101647,
+    "prototype": 82
+   },
+   {
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "instruction": 373,
+    "kind": "loadn",
+    "module": "b6d8c45f9424d376",
+    "offset": 104807,
+    "prototype": 84
+   }
+  ],
+  "entrati_swarm.tears_per_stage.stage1": [
+   {
+    "file": "Lotus_Scripts_Modes_EntratiSwarmMission.lua_B",
+    "instruction": 142,
+    "kind": "loadn",
+    "module": "eacd4629273a9981",
+    "offset": 94837,
+    "prototype": 87
+   }
+  ],
+  "entrati_swarm.tears_per_stage.stage2": [
+   {
+    "file": "Lotus_Scripts_Modes_EntratiSwarmMission.lua_B",
+    "instruction": 143,
+    "kind": "loadn",
+    "module": "eacd4629273a9981",
+    "offset": 94841,
+    "prototype": 87
+   }
+  ],
+  "entrati_swarm.tears_per_stage.stage3": [
+   {
+    "file": "Lotus_Scripts_Modes_EntratiSwarmMission.lua_B",
+    "instruction": 144,
+    "kind": "loadn",
+    "module": "eacd4629273a9981",
+    "offset": 94845,
+    "prototype": 87
+   }
+  ],
+  "entrati_swarm.tears_per_stage.stage4": [
+   {
+    "file": "Lotus_Scripts_Modes_EntratiSwarmMission.lua_B",
+    "instruction": 145,
+    "kind": "loadn",
+    "module": "eacd4629273a9981",
+    "offset": 94849,
+    "prototype": 87
+   }
+  ],
+  "entrati_swarm.tears_per_stage.stage5": [
+   {
+    "file": "Lotus_Scripts_Modes_EntratiSwarmMission.lua_B",
+    "instruction": 146,
+    "kind": "loadn",
+    "module": "eacd4629273a9981",
+    "offset": 94853,
+    "prototype": 87
+   }
+  ],
+  "entrati_swarm.tears_per_stage_all": [
+   {
+    "file": "Lotus_Scripts_Modes_EntratiSwarmMission.lua_B",
+    "instruction": 142,
+    "kind": "loadn",
+    "module": "eacd4629273a9981",
+    "offset": 94837,
+    "prototype": 87
+   },
+   {
+    "file": "Lotus_Scripts_Modes_EntratiSwarmMission.lua_B",
+    "instruction": 143,
+    "kind": "loadn",
+    "module": "eacd4629273a9981",
+    "offset": 94841,
+    "prototype": 87
+   },
+   {
+    "file": "Lotus_Scripts_Modes_EntratiSwarmMission.lua_B",
+    "instruction": 144,
+    "kind": "loadn",
+    "module": "eacd4629273a9981",
+    "offset": 94845,
+    "prototype": 87
+   },
+   {
+    "file": "Lotus_Scripts_Modes_EntratiSwarmMission.lua_B",
+    "instruction": 145,
+    "kind": "loadn",
+    "module": "eacd4629273a9981",
+    "offset": 94849,
+    "prototype": 87
+   },
+   {
+    "file": "Lotus_Scripts_Modes_EntratiSwarmMission.lua_B",
+    "instruction": 146,
+    "kind": "loadn",
+    "module": "eacd4629273a9981",
+    "offset": 94853,
+    "prototype": 87
+   },
+   {
+    "file": "Lotus_Scripts_Modes_EntratiSwarmMission.lua_B",
+    "instruction": 149,
+    "kind": "loadn",
+    "module": "eacd4629273a9981",
+    "offset": 94873,
+    "prototype": 87
+   },
+   {
+    "file": "Lotus_Scripts_Modes_EntratiSwarmMission.lua_B",
+    "instruction": 150,
+    "kind": "loadn",
+    "module": "eacd4629273a9981",
+    "offset": 94877,
+    "prototype": 87
+   },
+   {
+    "file": "Lotus_Scripts_Modes_EntratiSwarmMission.lua_B",
+    "instruction": 151,
+    "kind": "loadn",
+    "module": "eacd4629273a9981",
+    "offset": 94881,
+    "prototype": 87
+   },
+   {
+    "file": "Lotus_Scripts_Modes_EntratiSwarmMission.lua_B",
+    "instruction": 152,
+    "kind": "loadn",
+    "module": "eacd4629273a9981",
+    "offset": 94885,
+    "prototype": 87
+   },
+   {
+    "file": "Lotus_Scripts_Modes_EntratiSwarmMission.lua_B",
+    "instruction": 153,
+    "kind": "loadn",
+    "module": "eacd4629273a9981",
+    "offset": 94889,
+    "prototype": 87
+   }
+  ],
+  "entrati_swarm.tears_per_stage_challenge.stage1": [
+   {
+    "file": "Lotus_Scripts_Modes_EntratiSwarmMission.lua_B",
+    "instruction": 149,
+    "kind": "loadn",
+    "module": "eacd4629273a9981",
+    "offset": 94873,
+    "prototype": 87
+   }
+  ],
+  "entrati_swarm.tears_per_stage_challenge.stage2": [
+   {
+    "file": "Lotus_Scripts_Modes_EntratiSwarmMission.lua_B",
+    "instruction": 150,
+    "kind": "loadn",
+    "module": "eacd4629273a9981",
+    "offset": 94877,
+    "prototype": 87
+   }
+  ],
+  "entrati_swarm.tears_per_stage_challenge.stage3": [
+   {
+    "file": "Lotus_Scripts_Modes_EntratiSwarmMission.lua_B",
+    "instruction": 151,
+    "kind": "loadn",
+    "module": "eacd4629273a9981",
+    "offset": 94881,
+    "prototype": 87
+   }
+  ],
+  "entrati_swarm.tears_per_stage_challenge.stage4": [
+   {
+    "file": "Lotus_Scripts_Modes_EntratiSwarmMission.lua_B",
+    "instruction": 152,
+    "kind": "loadn",
+    "module": "eacd4629273a9981",
+    "offset": 94885,
+    "prototype": 87
+   }
+  ],
+  "entrati_swarm.tears_per_stage_challenge.stage5": [
+   {
+    "file": "Lotus_Scripts_Modes_EntratiSwarmMission.lua_B",
+    "instruction": 153,
+    "kind": "loadn",
+    "module": "eacd4629273a9981",
+    "offset": 94889,
+    "prototype": 87
+   }
+  ],
+  "escalation.crate_timer": [
+   {
+    "file": "Lotus_Scripts_Modes_EscalationExtermination.lua_B",
+    "instruction": 77,
+    "kind": "loadn",
+    "module": "4c0a341e89cab9ee",
+    "offset": 10159,
+    "prototype": 14
+   },
+   {
+    "file": "Lotus_Scripts_Modes_EscalationExtermination.lua_B",
+    "instruction": 76,
+    "kind": "loadn",
+    "module": "4c0a341e89cab9ee",
+    "offset": 11959,
+    "prototype": 18
+   }
+  ],
+  "excavation.dig_duration": [
+   {
+    "file": "Lotus_Scripts_Modes_ExcavationMission.lua_B",
+    "instruction": 76,
+    "kind": "loadn",
+    "module": "f7444e3c621ff018",
+    "offset": 71847,
+    "prototype": 49
+   }
+  ],
+  "excavation.dig_duration_elite_alert": [
+   {
+    "file": "Lotus_Scripts_Modes_ExcavationMission.lua_B",
+    "instruction": 102,
+    "kind": "loadn",
+    "module": "f7444e3c621ff018",
+    "offset": 29560,
+    "prototype": 32
+   }
+  ],
+  "excavation.dig_duration_old_world_salvage": [
+   {
+    "file": "Lotus_Scripts_Modes_ExcavationMission.lua_B",
+    "instruction": 81,
+    "kind": "loadn",
+    "module": "f7444e3c621ff018",
+    "offset": 29436,
+    "prototype": 32
+   }
+  ],
+  "excavation.dig_time": [
+   {
+    "file": "Lotus_Scripts_Modes_ExcavationMission.lua_B",
+    "instruction": 76,
+    "kind": "loadn",
+    "module": "f7444e3c621ff018",
+    "offset": 71847,
+    "prototype": 49
+   },
+   {
+    "file": "Lotus_Scripts_Modes_ExcavationMission.lua_B",
+    "instruction": 102,
+    "kind": "loadn",
+    "module": "f7444e3c621ff018",
+    "offset": 29560,
+    "prototype": 32
+   },
+   {
+    "file": "Lotus_Scripts_Modes_ExcavationMission.lua_B",
+    "instruction": 81,
+    "kind": "loadn",
+    "module": "f7444e3c621ff018",
+    "offset": 29436,
+    "prototype": 32
+   },
+   {
+    "constant": 90,
+    "file": "Lotus_Types_Gameplay_DevilTower_LiteGameModes_CoHExcavationLite.lua_B",
+    "kind": "number_constant",
+    "module": "415a57536412719f",
+    "offset": 22618,
+    "prototype": 23
+   },
+   {
+    "file": "Lotus_Types_Gameplay_DevilTower_LiteGameModes_CoHExcavationLite.lua_B",
+    "instruction": 535,
+    "kind": "loadn",
+    "module": "415a57536412719f",
+    "offset": 21000,
+    "prototype": 23
+   }
+  ],
+  "excavation.duviri_excavation_count": [
+   {
+    "file": "Lotus_Scripts_Modes_ExcavationMission.lua_B",
+    "instruction": 107,
+    "kind": "loadn",
+    "module": "f7444e3c621ff018",
+    "offset": 29580,
+    "prototype": 32
+   }
+  ],
+  "gamerules.extraction_countdown_endless": [
+   {
+    "file": "Lotus_Scripts_ExtractionTimer.lua_B",
+    "instruction": 526,
+    "kind": "loadn",
+    "module": "e3288fa4e8afbc06",
+    "offset": 6448,
+    "prototype": 11
+   }
+  ],
+  "hijack.payload_health": [
+   {
+    "file": "Lotus_Scripts_Modes_RetrievalMission.lua_B",
+    "instruction": 46,
+    "kind": "loadn",
+    "module": "fb346b59e2b7687a",
+    "offset": 31691,
+    "prototype": 20
+   }
+  ],
+  "hijack.payload_health.goal_mission": [
+   {
+    "file": "Lotus_Scripts_Modes_RetrievalMission.lua_B",
+    "instruction": 295,
+    "kind": "loadn",
+    "module": "fb346b59e2b7687a",
+    "offset": 24037,
+    "prototype": 11
+   }
+  ],
+  "hijack.payload_health_all": [
+   {
+    "file": "Lotus_Scripts_Modes_RetrievalMission.lua_B",
+    "instruction": 46,
+    "kind": "loadn",
+    "module": "fb346b59e2b7687a",
+    "offset": 31691,
+    "prototype": 20
+   },
+   {
+    "file": "Lotus_Scripts_Modes_RetrievalMission.lua_B",
+    "instruction": 295,
+    "kind": "loadn",
+    "module": "fb346b59e2b7687a",
+    "offset": 24037,
+    "prototype": 11
+   }
+  ],
+  "infested_capture.required_captures": [
+   {
+    "file": "Lotus_Scripts_Modes_InfestedCapture.lua_B",
+    "instruction": 202,
+    "kind": "loadn",
+    "module": "0f1c3a74c7c91fab",
+    "offset": 48393,
+    "prototype": 43
+   },
+   {
+    "file": "Lotus_Scripts_Modes_InfestedCapture.lua_B",
+    "instruction": 213,
+    "kind": "loadn",
+    "module": "0f1c3a74c7c91fab",
+    "offset": 48457,
+    "prototype": 43
+   },
+   {
+    "file": "Lotus_Scripts_Modes_InfestedCapture.lua_B",
+    "instruction": 220,
+    "kind": "loadn",
+    "module": "0f1c3a74c7c91fab",
+    "offset": 48493,
+    "prototype": 43
+   },
+   {
+    "file": "Lotus_Scripts_Modes_InfestedCapture.lua_B",
+    "instruction": 241,
+    "kind": "loadn",
+    "module": "0f1c3a74c7c91fab",
+    "offset": 48617,
+    "prototype": 43
+   }
+  ],
+  "infested_capture.required_captures.descendia": [
+   {
+    "file": "Lotus_Scripts_Modes_InfestedCapture.lua_B",
+    "instruction": 241,
+    "kind": "loadn",
+    "module": "0f1c3a74c7c91fab",
+    "offset": 48617,
+    "prototype": 43
+   }
+  ],
+  "infested_capture.required_captures.double": [
+   {
+    "file": "Lotus_Scripts_Modes_InfestedCapture.lua_B",
+    "instruction": 220,
+    "kind": "loadn",
+    "module": "0f1c3a74c7c91fab",
+    "offset": 48493,
+    "prototype": 43
+   }
+  ],
+  "infested_capture.required_captures.high_scaling": [
+   {
+    "file": "Lotus_Scripts_Modes_InfestedCapture.lua_B",
+    "instruction": 202,
+    "kind": "loadn",
+    "module": "0f1c3a74c7c91fab",
+    "offset": 48393,
+    "prototype": 43
+   }
+  ],
+  "infested_capture.required_captures.mutated": [
+   {
+    "file": "Lotus_Scripts_Modes_InfestedCapture.lua_B",
+    "instruction": 213,
+    "kind": "loadn",
+    "module": "0f1c3a74c7c91fab",
+    "offset": 48457,
+    "prototype": 43
+   }
+  ],
+  "lantern.boss_spawn_time": [
+   {
+    "file": "Lotus_Scripts_Modes_HalloweenLanternEndless.lua_B",
+    "instruction": 297,
+    "kind": "loadn",
+    "module": "caec63d8e739b693",
+    "offset": 33382,
+    "prototype": 32
+   }
+  ],
+  "lantern.extraction_limit": [
+   {
+    "file": "Lotus_Scripts_Modes_HalloweenLanternEndless.lua_B",
+    "instruction": 492,
+    "kind": "loadn",
+    "module": "caec63d8e739b693",
+    "offset": 34414,
+    "prototype": 32
+   },
+   {
+    "file": "Lotus_Scripts_Modes_HalloweenLanternEndless.lua_B",
+    "instruction": 502,
+    "kind": "loadn",
+    "module": "caec63d8e739b693",
+    "offset": 34458,
+    "prototype": 32
+   }
+  ],
+  "lantern.min_score": [
+   {
+    "file": "Lotus_Scripts_Modes_HalloweenLanternEndless.lua_B",
+    "instruction": 400,
+    "kind": "loadn",
+    "module": "caec63d8e739b693",
+    "offset": 33938,
+    "prototype": 32
+   },
+   {
+    "file": "Lotus_Scripts_Modes_HalloweenLanternEndless.lua_B",
+    "instruction": 197,
+    "kind": "loadn",
+    "module": "caec63d8e739b693",
+    "offset": 39859,
+    "prototype": 34
+   }
+  ],
+  "loopdefend.phase_duration": [
+   {
+    "file": "Lotus_Scripts_LoopDefend.lua_B",
+    "instruction": 1010,
+    "kind": "loadn",
+    "module": "4c2f0f786e4a8e58",
+    "offset": 63170,
+    "prototype": 59
+   },
+   {
+    "file": "Lotus_Scripts_LoopDefend.lua_B",
+    "instruction": 318,
+    "kind": "loadn",
+    "module": "4c2f0f786e4a8e58",
+    "offset": 73491,
+    "prototype": 60
+   }
+  ],
+  "loopdefend.phase_duration_jade": [
+   {
+    "file": "Lotus_Scripts_LoopDefend.lua_B",
+    "instruction": 1033,
+    "kind": "loadn",
+    "module": "4c2f0f786e4a8e58",
+    "offset": 63290,
+    "prototype": 59
+   },
+   {
+    "file": "Lotus_Scripts_LoopDefend.lua_B",
+    "instruction": 341,
+    "kind": "loadn",
+    "module": "4c2f0f786e4a8e58",
+    "offset": 73611,
+    "prototype": 60
+   }
+  ],
+  "loopdefend.phase_time": [
+   {
+    "file": "Lotus_Scripts_LoopDefend.lua_B",
+    "instruction": 1010,
+    "kind": "loadn",
+    "module": "4c2f0f786e4a8e58",
+    "offset": 63170,
+    "prototype": 59
+   },
+   {
+    "file": "Lotus_Scripts_LoopDefend.lua_B",
+    "instruction": 318,
+    "kind": "loadn",
+    "module": "4c2f0f786e4a8e58",
+    "offset": 73491,
+    "prototype": 60
+   },
+   {
+    "file": "Lotus_Scripts_LoopDefend.lua_B",
+    "instruction": 1033,
+    "kind": "loadn",
+    "module": "4c2f0f786e4a8e58",
+    "offset": 63290,
+    "prototype": 59
+   },
+   {
+    "file": "Lotus_Scripts_LoopDefend.lua_B",
+    "instruction": 341,
+    "kind": "loadn",
+    "module": "4c2f0f786e4a8e58",
+    "offset": 73611,
+    "prototype": 60
+   }
+  ],
+  "mobiledefense.console_count": [
+   {
+    "constant": 50,
+    "file": "Lotus_Scripts_MobileDefense.lua_B",
+    "kind": "number_constant",
+    "module": "a807aae359ffc1eb",
+    "offset": 7825,
+    "prototype": 13
+   }
+  ],
+  "mobiledefense.time_per_terminal": [
+   {
+    "file": "Lotus_Scripts_MobileDefense.lua_B",
+    "instruction": 121,
+    "kind": "loadn",
+    "module": "a807aae359ffc1eb",
+    "offset": 21642,
+    "prototype": 22
+   },
+   {
+    "file": "Lotus_Scripts_MobileDefense.lua_B",
+    "instruction": 120,
+    "kind": "loadn",
+    "module": "a807aae359ffc1eb",
+    "offset": 21638,
+    "prototype": 22
+   },
+   {
+    "file": "Lotus_Scripts_Modes_SentientMobileDefense.lua_B",
+    "instruction": 29,
+    "kind": "loadn",
+    "module": "1f41c5821d2c5240",
+    "offset": 8243,
+    "prototype": 16
+   }
+  ],
+  "mobiledefense.total_time.maximum": [
+   {
+    "file": "Lotus_Scripts_MobileDefense.lua_B",
+    "instruction": 121,
+    "kind": "loadn",
+    "module": "a807aae359ffc1eb",
+    "offset": 21642,
+    "prototype": 22
+   }
+  ],
+  "mobiledefense.total_time.minimum": [
+   {
+    "file": "Lotus_Scripts_MobileDefense.lua_B",
+    "instruction": 120,
+    "kind": "loadn",
+    "module": "a807aae359ffc1eb",
+    "offset": 21638,
+    "prototype": 22
+   }
+  ],
+  "multidefend.defend_time": [
+   {
+    "file": "Lotus_Scripts_MultiDefend.lua_B",
+    "instruction": 20,
+    "kind": "loadn",
+    "module": "fdd5982a4fce6847",
+    "offset": 13650,
+    "prototype": 9
+   },
+   {
+    "file": "Lotus_Scripts_MultiDefend.lua_B",
+    "instruction": 26,
+    "kind": "loadn",
+    "module": "fdd5982a4fce6847",
+    "offset": 13682,
+    "prototype": 9
+   },
+   {
+    "file": "Lotus_Scripts_MultiDefend.lua_B",
+    "instruction": 19,
+    "kind": "loadn",
+    "module": "fdd5982a4fce6847",
+    "offset": 13646,
+    "prototype": 9
+   },
+   {
+    "file": "Lotus_Scripts_MultiDefend.lua_B",
+    "instruction": 25,
+    "kind": "loadn",
+    "module": "fdd5982a4fce6847",
+    "offset": 13678,
+    "prototype": 9
+   }
+  ],
+  "multidefend.defend_time.max_d0": [
+   {
+    "file": "Lotus_Scripts_MultiDefend.lua_B",
+    "instruction": 19,
+    "kind": "loadn",
+    "module": "fdd5982a4fce6847",
+    "offset": 13646,
+    "prototype": 9
+   }
+  ],
+  "multidefend.defend_time.max_d1": [
+   {
+    "file": "Lotus_Scripts_MultiDefend.lua_B",
+    "instruction": 20,
+    "kind": "loadn",
+    "module": "fdd5982a4fce6847",
+    "offset": 13650,
+    "prototype": 9
+   }
+  ],
+  "multidefend.defend_time.min_d0": [
+   {
+    "file": "Lotus_Scripts_MultiDefend.lua_B",
+    "instruction": 25,
+    "kind": "loadn",
+    "module": "fdd5982a4fce6847",
+    "offset": 13678,
+    "prototype": 9
+   }
+  ],
+  "multidefend.defend_time.min_d1": [
+   {
+    "file": "Lotus_Scripts_MultiDefend.lua_B",
+    "instruction": 26,
+    "kind": "loadn",
+    "module": "fdd5982a4fce6847",
+    "offset": 13682,
+    "prototype": 9
+   }
+  ],
+  "multidefend.station_count": [
+   {
+    "file": "Lotus_Scripts_MultiDefend.lua_B",
+    "instruction": 35,
+    "kind": "loadn",
+    "module": "fdd5982a4fce6847",
+    "offset": 3168,
+    "prototype": 4
+   },
+   {
+    "file": "Lotus_Scripts_MultiDefend.lua_B",
+    "instruction": 43,
+    "kind": "loadn",
+    "module": "fdd5982a4fce6847",
+    "offset": 3212,
+    "prototype": 4
+   },
+   {
+    "file": "Lotus_Scripts_MultiDefend.lua_B",
+    "instruction": 134,
+    "kind": "loadn",
+    "module": "fdd5982a4fce6847",
+    "offset": 3664,
+    "prototype": 4
+   },
+   {
+    "file": "Lotus_Scripts_MultiDefend.lua_B",
+    "instruction": 220,
+    "kind": "loadn",
+    "module": "fdd5982a4fce6847",
+    "offset": 6509,
+    "prototype": 6
+   }
+  ],
+  "netracell.power_required.base": [
+   {
+    "file": "Lotus_Scripts_Modes_EntratiVoidVaults.lua_B",
+    "instruction": 109,
+    "kind": "loadn",
+    "module": "0c498e078835f9fe",
+    "offset": 58853,
+    "prototype": 52
+   }
+  ],
+  "netracell.power_required.per_extra_player": [
+   {
+    "constant": 20,
+    "file": "Lotus_Scripts_Modes_EntratiVoidVaults.lua_B",
+    "kind": "number_constant",
+    "module": "0c498e078835f9fe",
+    "offset": 38665,
+    "prototype": 41
+   }
+  ],
+  "onslaught.efficiency_max": [
+   {
+    "file": "Lotus_Scripts_DarkSectors_DarkSectors.lua_B",
+    "instruction": 17,
+    "kind": "loadn",
+    "module": "a7d46fb5b6bca6d7",
+    "offset": 17338,
+    "prototype": 29
+   },
+   {
+    "constant": 18,
+    "file": "Lotus_Scripts_DarkSectors_DarkSectors.lua_B",
+    "kind": "number_constant",
+    "module": "a7d46fb5b6bca6d7",
+    "offset": 17707,
+    "prototype": 29
+   },
+   {
+    "constant": 25,
+    "file": "Lotus_Scripts_DarkSectors_DarkSectors.lua_B",
+    "kind": "number_constant",
+    "module": "a7d46fb5b6bca6d7",
+    "offset": 7001,
+    "prototype": 11
+   }
+  ],
+  "onslaught.efficiency_per_kill": [
+   {
+    "file": "Lotus_Scripts_DarkSectors_DarkSectors.lua_B",
+    "instruction": 164,
+    "kind": "loadn",
+    "module": "a7d46fb5b6bca6d7",
+    "offset": 18762,
+    "prototype": 30
+   }
+  ],
+  "onslaught.efficiency_per_pickup": [
+   {
+    "file": "Lotus_Scripts_DarkSectors_DarkSectors.lua_B",
+    "instruction": 1,
+    "kind": "loadn",
+    "module": "a7d46fb5b6bca6d7",
+    "offset": 50135,
+    "prototype": 50
+   }
+  ],
+  "onslaught.efficiency_per_special_kill": [
+   {
+    "file": "Lotus_Scripts_DarkSectors_DarkSectors.lua_B",
+    "instruction": 122,
+    "kind": "loadn",
+    "module": "a7d46fb5b6bca6d7",
+    "offset": 18534,
+    "prototype": 30
+   }
+  ],
+  "onslaught.zone_time": [
+   {
+    "file": "Lotus_Scripts_DarkSectors_DarkSectors.lua_B",
+    "instruction": 1151,
+    "kind": "loadn",
+    "module": "a7d46fb5b6bca6d7",
+    "offset": 32401,
+    "prototype": 44
+   },
+   {
+    "file": "Lotus_Scripts_DarkSectors_DarkSectors.lua_B",
+    "instruction": 3,
+    "kind": "loadn",
+    "module": "a7d46fb5b6bca6d7",
+    "offset": 12988,
+    "prototype": 21
+   },
+   {
+    "file": "Lotus_Scripts_DarkSectors_DarkSectors.lua_B",
+    "instruction": 32,
+    "kind": "loadn",
+    "module": "a7d46fb5b6bca6d7",
+    "offset": 6669,
+    "prototype": 11
+   }
+  ],
+  "onslaught.zones_per_reward": [
+   {
+    "constant": 3,
+    "file": "Lotus_Scripts_DarkSectors_DarkSectors.lua_B",
+    "kind": "number_constant",
+    "module": "a7d46fb5b6bca6d7",
+    "offset": 20452,
+    "prototype": 33
+   }
+  ],
+  "orphix.sortie_rounds": [
+   {
+    "file": "Lotus_Scripts_Modes_MechSurvivalMission.lua_B",
+    "instruction": 271,
+    "kind": "loadn",
+    "module": "721710696afea305",
+    "offset": 26116,
+    "prototype": 29
+   },
+   {
+    "file": "Lotus_Scripts_Modes_MechSurvivalMission.lua_B",
+    "instruction": 273,
+    "kind": "loadn",
+    "module": "721710696afea305",
+    "offset": 26128,
+    "prototype": 29
+   }
+  ],
+  "purgatory.enemy_cap": [
+   {
+    "file": "Lotus_Scripts_Modes_Purgatory.lua_B",
+    "instruction": 100,
+    "kind": "loadn",
+    "module": "6fa60841c9e0f207",
+    "offset": 44956,
+    "prototype": 40
+   }
+  ],
+  "purgatory.initial_time": [
+   {
+    "file": "Lotus_Scripts_Modes_Purgatory.lua_B",
+    "instruction": 32,
+    "kind": "loadn",
+    "module": "6fa60841c9e0f207",
+    "offset": 25643,
+    "prototype": 27
+   }
+  ],
+  "purgatory.pickup_time_bonus": [
+   {
+    "constant": 8,
+    "file": "Lotus_Scripts_Modes_Purgatory.lua_B",
+    "kind": "number_constant",
+    "module": "6fa60841c9e0f207",
+    "offset": 3898,
+    "prototype": 0
+   }
+  ],
+  "purgatory.spawn_interval": [
+   {
+    "file": "Lotus_Scripts_Modes_Purgatory.lua_B",
+    "instruction": 96,
+    "kind": "loadn",
+    "module": "6fa60841c9e0f207",
+    "offset": 44940,
+    "prototype": 40
+   },
+   {
+    "file": "Lotus_Scripts_Modes_Purgatory.lua_B",
+    "instruction": 95,
+    "kind": "loadn",
+    "module": "6fa60841c9e0f207",
+    "offset": 44936,
+    "prototype": 40
+   }
+  ],
+  "purgatory.spawn_interval.max": [
+   {
+    "file": "Lotus_Scripts_Modes_Purgatory.lua_B",
+    "instruction": 96,
+    "kind": "loadn",
+    "module": "6fa60841c9e0f207",
+    "offset": 44940,
+    "prototype": 40
+   }
+  ],
+  "purgatory.spawn_interval.min": [
+   {
+    "file": "Lotus_Scripts_Modes_Purgatory.lua_B",
+    "instruction": 95,
+    "kind": "loadn",
+    "module": "6fa60841c9e0f207",
+    "offset": 44936,
+    "prototype": 40
+   }
+  ],
+  "purge.max_enemy_count": [
+   {
+    "file": "Lotus_Scripts_Modes_PurgeMission.lua_B",
+    "instruction": 80,
+    "kind": "loadn",
+    "module": "ae99f8ae6c2eb271",
+    "offset": 3061,
+    "prototype": 10
+   }
+  ],
+  "pursuit.phase_timer": [
+   {
+    "file": "Lotus_Scripts_Modes_ArchwingPursuitMode.lua_B",
+    "instruction": 467,
+    "kind": "loadn",
+    "module": "a6e6445b96dde942",
+    "offset": 4509,
+    "prototype": 6
+   }
+  ],
+  "rescue.hostage_timer": [
+   {
+    "file": "Lotus_Scripts_Rescue.lua_B",
+    "instruction": 20,
+    "kind": "loadn",
+    "module": "ea590b792c6a689a",
+    "offset": 7108,
+    "prototype": 8
+   },
+   {
+    "file": "Lotus_Scripts_Rescue.lua_B",
+    "instruction": 21,
+    "kind": "loadn",
+    "module": "ea590b792c6a689a",
+    "offset": 7112,
+    "prototype": 8
+   }
+  ],
+  "rescue.hostage_timer.easy": [
+   {
+    "file": "Lotus_Scripts_Rescue.lua_B",
+    "instruction": 20,
+    "kind": "loadn",
+    "module": "ea590b792c6a689a",
+    "offset": 7108,
+    "prototype": 8
+   }
+  ],
+  "rescue.hostage_timer.hard": [
+   {
+    "file": "Lotus_Scripts_Rescue.lua_B",
+    "instruction": 21,
+    "kind": "loadn",
+    "module": "ea590b792c6a689a",
+    "offset": 7112,
+    "prototype": 8
+   }
+  ],
+  "rush.pace_speed": [
+   {
+    "constant": 50,
+    "file": "Lotus_Scripts_Modes_RaceMission.lua_B",
+    "kind": "number_constant",
+    "module": "2162d41996f9f942",
+    "offset": 9139,
+    "prototype": 14
+   }
+  ],
+  "sabotage.escape_timer": [
+   {
+    "file": "Lotus_Scripts_SabotageModular.lua_B",
+    "instruction": 8,
+    "kind": "loadn",
+    "module": "d3b1322792d45f0e",
+    "offset": 30358,
+    "prototype": 32
+   },
+   {
+    "file": "Lotus_Scripts_SabotageOrokin.lua_B",
+    "instruction": 19,
+    "kind": "loadn",
+    "module": "a0cea91cc0ac3b31",
+    "offset": 14959,
+    "prototype": 17
+   },
+   {
+    "file": "Lotus_Scripts_SabotageOrokin.lua_B",
+    "instruction": 17,
+    "kind": "loadn",
+    "module": "a0cea91cc0ac3b31",
+    "offset": 14947,
+    "prototype": 17
+   }
+  ],
+  "sabotage.forest_defend_time": [
+   {
+    "file": "Lotus_Scripts_SabotageForest.lua_B",
+    "instruction": 1,
+    "kind": "loadn",
+    "module": "ddc55fa44c7a2531",
+    "offset": 8430,
+    "prototype": 13
+   }
+  ],
+  "sabotage.gascity_meltdown_scale.easy": [
+   {
+    "constant": 31,
+    "file": "Lotus_Scripts_Modes_GasCitySabotage.lua_B",
+    "kind": "number_constant",
+    "module": "5b59e2968c1ec7bf",
+    "offset": 8845,
+    "prototype": 5
+   }
+  ],
+  "sabotage.gascity_meltdown_scale.hard": [
+   {
+    "constant": 32,
+    "file": "Lotus_Scripts_Modes_GasCitySabotage.lua_B",
+    "kind": "number_constant",
+    "module": "5b59e2968c1ec7bf",
+    "offset": 8854,
+    "prototype": 5
+   }
+  ],
+  "sabotage.orokin_charge_time": [
+   {
+    "file": "Lotus_Scripts_SabotageOrokin.lua_B",
+    "instruction": 17,
+    "kind": "loadn",
+    "module": "a0cea91cc0ac3b31",
+    "offset": 29527,
+    "prototype": 31
+   }
+  ],
+  "sabotage.orokin_escape_timer": [
+   {
+    "file": "Lotus_Scripts_SabotageOrokin.lua_B",
+    "instruction": 19,
+    "kind": "loadn",
+    "module": "a0cea91cc0ac3b31",
+    "offset": 14959,
+    "prototype": 17
+   },
+   {
+    "file": "Lotus_Scripts_SabotageOrokin.lua_B",
+    "instruction": 17,
+    "kind": "loadn",
+    "module": "a0cea91cc0ac3b31",
+    "offset": 14947,
+    "prototype": 17
+   }
+  ],
+  "sabotage.reactor_extract_timer": [
+   {
+    "file": "Lotus_Scripts_SabotageModular.lua_B",
+    "instruction": 8,
+    "kind": "loadn",
+    "module": "d3b1322792d45f0e",
+    "offset": 30358,
+    "prototype": 32
+   }
+  ],
+  "sabotage.trenchrun_enemy_cap": [
+   {
+    "file": "Lotus_Scripts_Sabotage.lua_B",
+    "instruction": 17,
+    "kind": "loadn",
+    "module": "7e0adf2d83f7a086",
+    "offset": 9941,
+    "prototype": 15
+   }
+  ],
+  "sabotage.trenchrun_timer": [
+   {
+    "file": "Lotus_Scripts_Sabotage.lua_B",
+    "instruction": 36,
+    "kind": "loadn",
+    "module": "7e0adf2d83f7a086",
+    "offset": 10049,
+    "prototype": 15
+   }
+  ],
+  "sentientmd.area_count": [
+   {
+    "constant": 20,
+    "file": "Lotus_Scripts_Modes_SentientMobileDefense.lua_B",
+    "kind": "number_constant",
+    "module": "1f41c5821d2c5240",
+    "offset": 4655,
+    "prototype": 11
+   },
+   {
+    "file": "Lotus_Scripts_Modes_SentientMobileDefense.lua_B",
+    "instruction": 120,
+    "kind": "loadn",
+    "module": "1f41c5821d2c5240",
+    "offset": 5551,
+    "prototype": 13
+   },
+   {
+    "file": "Lotus_Scripts_Modes_SentientMobileDefense.lua_B",
+    "instruction": 202,
+    "kind": "loadn",
+    "module": "1f41c5821d2c5240",
+    "offset": 5971,
+    "prototype": 13
+   },
+   {
+    "file": "Lotus_Scripts_Modes_SentientMobileDefense.lua_B",
+    "instruction": 203,
+    "kind": "loadn",
+    "module": "1f41c5821d2c5240",
+    "offset": 5975,
+    "prototype": 13
+   }
+  ],
+  "sentientmd.defend_time": [
+   {
+    "file": "Lotus_Scripts_Modes_SentientMobileDefense.lua_B",
+    "instruction": 29,
+    "kind": "loadn",
+    "module": "1f41c5821d2c5240",
+    "offset": 8243,
+    "prototype": 16
+   }
+  ],
+  "survival.duviri_fixed_length": [
+   {
+    "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
+    "instruction": 172,
+    "kind": "loadn",
+    "module": "f10a043e7f825db2",
+    "offset": 75499,
+    "prototype": 61
+   }
+  ],
+  "void_cascade.reward_interval": [
+   {
+    "file": "Lotus_Scripts_Modes_ZarimanSurvivalMission.lua_B",
+    "instruction": 80,
+    "kind": "loadn",
+    "module": "32c344afa33be174",
+    "offset": 88710,
+    "prototype": 97
+   }
+  ],
+  "void_flood.fractures_per_round.duviri": [
+   {
+    "file": "Lotus_Scripts_Modes_ZarimanCorruptionMission.lua_B",
+    "instruction": 33,
+    "kind": "loadn",
+    "module": "fc711ff621a75552",
+    "offset": 81749,
+    "prototype": 68
+   },
+   {
+    "file": "Lotus_Scripts_Modes_ZarimanCorruptionMission.lua_B",
+    "instruction": 26,
+    "kind": "loadn",
+    "module": "fc711ff621a75552",
+    "offset": 87160,
+    "prototype": 69
+   }
+  ],
+  "void_flood.fractures_per_round.normal": [
+   {
+    "file": "Lotus_Scripts_Modes_ZarimanCorruptionMission.lua_B",
+    "instruction": 46,
+    "kind": "loadn",
+    "module": "fc711ff621a75552",
+    "offset": 102969,
+    "prototype": 83
+   }
+  ],
+  "wf1999def.drone_count.spawn_interval": [
+   {
+    "file": "Lotus_Scripts_Levels_1999Defense.lua_B",
+    "instruction": 59,
+    "kind": "loadn",
+    "module": "a775f43e3aaf24ee",
+    "offset": 16037,
+    "prototype": 24
+   },
+   {
+    "file": "Lotus_Scripts_Levels_1999Defense.lua_B",
+    "instruction": 48,
+    "kind": "loadn",
+    "module": "a775f43e3aaf24ee",
+    "offset": 17692,
+    "prototype": 26
+   }
+  ]
  },
  "modules": {
   "026200d9d8fd40a3": {
@@ -7160,6 +10158,3350 @@
   "_T": 0
  },
  "openwf_frame_profile": "current_u43",
+ "root_table_initialisers": {
+  "capture.target_health_player_mult.p1": [
+   {
+    "instruction": 17,
+    "module": "1002fa2aeb0ef437",
+    "prototype": 44,
+    "table_id": "root:i16:R5",
+    "value_kind": "instruction",
+    "value_offset": 43875
+   }
+  ],
+  "capture.target_health_player_mult.p2": [
+   {
+    "constant": 7,
+    "module": "1002fa2aeb0ef437",
+    "prototype": 44,
+    "table_id": "root:i16:R5",
+    "value_kind": "number_constant",
+    "value_offset": 45210
+   }
+  ],
+  "capture.target_health_player_mult.p3": [
+   {
+    "constant": 8,
+    "module": "1002fa2aeb0ef437",
+    "prototype": 44,
+    "table_id": "root:i16:R5",
+    "value_kind": "number_constant",
+    "value_offset": 45219
+   }
+  ],
+  "capture.target_health_player_mult.p4": [
+   {
+    "constant": 9,
+    "module": "1002fa2aeb0ef437",
+    "prototype": 44,
+    "table_id": "root:i16:R5",
+    "value_kind": "number_constant",
+    "value_offset": 45228
+   }
+  ],
+  "coh_destroy_targets.required_by_players.p1": [
+   {
+    "instruction": 30,
+    "module": "d21d8867b9549b2a",
+    "prototype": 12,
+    "table_id": "root:i29:R10",
+    "value_kind": "instruction",
+    "value_offset": 6540
+   }
+  ],
+  "coh_destroy_targets.required_by_players.p2": [
+   {
+    "instruction": 31,
+    "module": "d21d8867b9549b2a",
+    "prototype": 12,
+    "table_id": "root:i29:R10",
+    "value_kind": "instruction",
+    "value_offset": 6544
+   }
+  ],
+  "coh_destroy_targets.required_by_players.p3": [
+   {
+    "instruction": 32,
+    "module": "d21d8867b9549b2a",
+    "prototype": 12,
+    "table_id": "root:i29:R10",
+    "value_kind": "instruction",
+    "value_offset": 6548
+   }
+  ],
+  "coh_destroy_targets.required_by_players.p4": [
+   {
+    "instruction": 33,
+    "module": "d21d8867b9549b2a",
+    "prototype": 12,
+    "table_id": "root:i29:R10",
+    "value_kind": "instruction",
+    "value_offset": 6552
+   }
+  ],
+  "colonistdoor.navbridge_thresholds.b1": [
+   {
+    "constant": 7,
+    "module": "070fa0ad32d6da72",
+    "prototype": 32,
+    "table_id": "root:i17:R5",
+    "value_kind": "number_constant",
+    "value_offset": 28113
+   }
+  ],
+  "colonistdoor.navbridge_thresholds.b2": [
+   {
+    "constant": 8,
+    "module": "070fa0ad32d6da72",
+    "prototype": 32,
+    "table_id": "root:i17:R5",
+    "value_kind": "number_constant",
+    "value_offset": 28122
+   }
+  ],
+  "colonistdoor.navbridge_thresholds.b3": [
+   {
+    "constant": 9,
+    "module": "070fa0ad32d6da72",
+    "prototype": 32,
+    "table_id": "root:i17:R5",
+    "value_kind": "number_constant",
+    "value_offset": 28131
+   }
+  ],
+  "defection.max_sim_ai.max_p1": [
+   {
+    "instruction": 96,
+    "module": "fc9ba92edb027648",
+    "prototype": 59,
+    "table_id": "root:i95:R20",
+    "value_kind": "instruction",
+    "value_offset": 78758
+   }
+  ],
+  "defection.max_sim_ai.max_p2": [
+   {
+    "instruction": 97,
+    "module": "fc9ba92edb027648",
+    "prototype": 59,
+    "table_id": "root:i95:R20",
+    "value_kind": "instruction",
+    "value_offset": 78762
+   }
+  ],
+  "defection.max_sim_ai.max_p3": [
+   {
+    "instruction": 98,
+    "module": "fc9ba92edb027648",
+    "prototype": 59,
+    "table_id": "root:i95:R20",
+    "value_kind": "instruction",
+    "value_offset": 78766
+   }
+  ],
+  "defection.max_sim_ai.max_p4": [
+   {
+    "instruction": 99,
+    "module": "fc9ba92edb027648",
+    "prototype": 59,
+    "table_id": "root:i95:R20",
+    "value_kind": "instruction",
+    "value_offset": 78770
+   }
+  ],
+  "defection.max_sim_ai.min_p1": [
+   {
+    "instruction": 90,
+    "module": "fc9ba92edb027648",
+    "prototype": 59,
+    "table_id": "root:i89:R19",
+    "value_kind": "instruction",
+    "value_offset": 78726
+   }
+  ],
+  "defection.max_sim_ai.min_p2": [
+   {
+    "instruction": 91,
+    "module": "fc9ba92edb027648",
+    "prototype": 59,
+    "table_id": "root:i89:R19",
+    "value_kind": "instruction",
+    "value_offset": 78730
+   }
+  ],
+  "defection.max_sim_ai.min_p3": [
+   {
+    "instruction": 92,
+    "module": "fc9ba92edb027648",
+    "prototype": 59,
+    "table_id": "root:i89:R19",
+    "value_kind": "instruction",
+    "value_offset": 78734
+   }
+  ],
+  "defection.max_sim_ai.min_p4": [
+   {
+    "instruction": 93,
+    "module": "fc9ba92edb027648",
+    "prototype": 59,
+    "table_id": "root:i89:R19",
+    "value_kind": "instruction",
+    "value_offset": 78738
+   }
+  ],
+  "defense.simultaneous_enemies_duviri.max.p1": [
+   {
+    "instruction": 105,
+    "module": "1a1354d153712f9d",
+    "prototype": 61,
+    "table_id": "root:i104:R32",
+    "value_kind": "instruction",
+    "value_offset": 92115
+   }
+  ],
+  "defense.simultaneous_enemies_duviri.max.p2": [
+   {
+    "instruction": 106,
+    "module": "1a1354d153712f9d",
+    "prototype": 61,
+    "table_id": "root:i104:R32",
+    "value_kind": "instruction",
+    "value_offset": 92119
+   }
+  ],
+  "defense.simultaneous_enemies_duviri.max.p3": [
+   {
+    "instruction": 107,
+    "module": "1a1354d153712f9d",
+    "prototype": 61,
+    "table_id": "root:i104:R32",
+    "value_kind": "instruction",
+    "value_offset": 92123
+   }
+  ],
+  "defense.simultaneous_enemies_duviri.max.p4": [
+   {
+    "instruction": 108,
+    "module": "1a1354d153712f9d",
+    "prototype": 61,
+    "table_id": "root:i104:R32",
+    "value_kind": "instruction",
+    "value_offset": 92127
+   }
+  ],
+  "defense.simultaneous_enemies_duviri.min.p1": [
+   {
+    "instruction": 99,
+    "module": "1a1354d153712f9d",
+    "prototype": 61,
+    "table_id": "root:i98:R31",
+    "value_kind": "instruction",
+    "value_offset": 92083
+   }
+  ],
+  "defense.simultaneous_enemies_duviri.min.p2": [
+   {
+    "instruction": 100,
+    "module": "1a1354d153712f9d",
+    "prototype": 61,
+    "table_id": "root:i98:R31",
+    "value_kind": "instruction",
+    "value_offset": 92087
+   }
+  ],
+  "defense.simultaneous_enemies_duviri.min.p3": [
+   {
+    "instruction": 101,
+    "module": "1a1354d153712f9d",
+    "prototype": 61,
+    "table_id": "root:i98:R31",
+    "value_kind": "instruction",
+    "value_offset": 92091
+   }
+  ],
+  "defense.simultaneous_enemies_duviri.min.p4": [
+   {
+    "instruction": 102,
+    "module": "1a1354d153712f9d",
+    "prototype": 61,
+    "table_id": "root:i98:R31",
+    "value_kind": "instruction",
+    "value_offset": 92095
+   }
+  ],
+  "defense.simultaneous_enemies_infested.max.p1": [
+   {
+    "instruction": 93,
+    "module": "1a1354d153712f9d",
+    "prototype": 61,
+    "table_id": "root:i92:R30",
+    "value_kind": "instruction",
+    "value_offset": 92051
+   }
+  ],
+  "defense.simultaneous_enemies_infested.max.p2": [
+   {
+    "instruction": 94,
+    "module": "1a1354d153712f9d",
+    "prototype": 61,
+    "table_id": "root:i92:R30",
+    "value_kind": "instruction",
+    "value_offset": 92055
+   }
+  ],
+  "defense.simultaneous_enemies_infested.max.p3": [
+   {
+    "instruction": 95,
+    "module": "1a1354d153712f9d",
+    "prototype": 61,
+    "table_id": "root:i92:R30",
+    "value_kind": "instruction",
+    "value_offset": 92059
+   }
+  ],
+  "defense.simultaneous_enemies_infested.max.p4": [
+   {
+    "instruction": 96,
+    "module": "1a1354d153712f9d",
+    "prototype": 61,
+    "table_id": "root:i92:R30",
+    "value_kind": "instruction",
+    "value_offset": 92063
+   }
+  ],
+  "defense.simultaneous_enemies_infested.min.p1": [
+   {
+    "instruction": 87,
+    "module": "1a1354d153712f9d",
+    "prototype": 61,
+    "table_id": "root:i86:R29",
+    "value_kind": "instruction",
+    "value_offset": 92019
+   }
+  ],
+  "defense.simultaneous_enemies_infested.min.p2": [
+   {
+    "instruction": 88,
+    "module": "1a1354d153712f9d",
+    "prototype": 61,
+    "table_id": "root:i86:R29",
+    "value_kind": "instruction",
+    "value_offset": 92023
+   }
+  ],
+  "defense.simultaneous_enemies_infested.min.p3": [
+   {
+    "instruction": 89,
+    "module": "1a1354d153712f9d",
+    "prototype": 61,
+    "table_id": "root:i86:R29",
+    "value_kind": "instruction",
+    "value_offset": 92027
+   }
+  ],
+  "defense.simultaneous_enemies_infested.min.p4": [
+   {
+    "instruction": 90,
+    "module": "1a1354d153712f9d",
+    "prototype": 61,
+    "table_id": "root:i86:R29",
+    "value_kind": "instruction",
+    "value_offset": 92031
+   }
+  ],
+  "defense.simultaneous_enemies_max.p1": [
+   {
+    "instruction": 81,
+    "module": "1a1354d153712f9d",
+    "prototype": 61,
+    "table_id": "root:i80:R28",
+    "value_kind": "instruction",
+    "value_offset": 91987
+   }
+  ],
+  "defense.simultaneous_enemies_max.p2": [
+   {
+    "instruction": 82,
+    "module": "1a1354d153712f9d",
+    "prototype": 61,
+    "table_id": "root:i80:R28",
+    "value_kind": "instruction",
+    "value_offset": 91991
+   }
+  ],
+  "defense.simultaneous_enemies_max.p3": [
+   {
+    "instruction": 83,
+    "module": "1a1354d153712f9d",
+    "prototype": 61,
+    "table_id": "root:i80:R28",
+    "value_kind": "instruction",
+    "value_offset": 91995
+   }
+  ],
+  "defense.simultaneous_enemies_max.p4": [
+   {
+    "instruction": 84,
+    "module": "1a1354d153712f9d",
+    "prototype": 61,
+    "table_id": "root:i80:R28",
+    "value_kind": "instruction",
+    "value_offset": 91999
+   }
+  ],
+  "defense.simultaneous_enemies_min.p1": [
+   {
+    "instruction": 75,
+    "module": "1a1354d153712f9d",
+    "prototype": 61,
+    "table_id": "root:i74:R27",
+    "value_kind": "instruction",
+    "value_offset": 91955
+   }
+  ],
+  "defense.simultaneous_enemies_min.p2": [
+   {
+    "instruction": 76,
+    "module": "1a1354d153712f9d",
+    "prototype": 61,
+    "table_id": "root:i74:R27",
+    "value_kind": "instruction",
+    "value_offset": 91959
+   }
+  ],
+  "defense.simultaneous_enemies_min.p3": [
+   {
+    "instruction": 77,
+    "module": "1a1354d153712f9d",
+    "prototype": 61,
+    "table_id": "root:i74:R27",
+    "value_kind": "instruction",
+    "value_offset": 91963
+   }
+  ],
+  "defense.simultaneous_enemies_min.p4": [
+   {
+    "instruction": 78,
+    "module": "1a1354d153712f9d",
+    "prototype": 61,
+    "table_id": "root:i74:R27",
+    "value_kind": "instruction",
+    "value_offset": 91967
+   }
+  ],
+  "disruption.boss_health_multiplier": [
+   {
+    "constant": 273,
+    "module": "b6d8c45f9424d376",
+    "prototype": 95,
+    "table_id": "root:i599:R46",
+    "value_kind": "number_constant",
+    "value_offset": 127763
+   }
+  ],
+  "disruption.initial_spawn_delay": [
+   {
+    "constant": 302,
+    "module": "b6d8c45f9424d376",
+    "prototype": 95,
+    "table_id": "root:i613:R60",
+    "value_kind": "number_constant",
+    "value_offset": 127955
+   }
+  ],
+  "disruption.treasure_goblin.tier": [
+   {
+    "constant": 196,
+    "module": "b6d8c45f9424d376",
+    "prototype": 95,
+    "table_id": "root:i421:R44",
+    "value_kind": "number_constant",
+    "value_offset": 127383
+   }
+  ],
+  "entrati_swarm.eximus_by_scale.cap.area1": [
+   {
+    "instruction": 216,
+    "module": "eacd4629273a9981",
+    "prototype": 87,
+    "table_id": "root:i215:R55",
+    "value_kind": "instruction",
+    "value_offset": 95233
+   }
+  ],
+  "entrati_swarm.eximus_by_scale.cap.area2": [
+   {
+    "instruction": 217,
+    "module": "eacd4629273a9981",
+    "prototype": 87,
+    "table_id": "root:i215:R55",
+    "value_kind": "instruction",
+    "value_offset": 95237
+   }
+  ],
+  "entrati_swarm.eximus_by_scale.cap.area3": [
+   {
+    "instruction": 218,
+    "module": "eacd4629273a9981",
+    "prototype": 87,
+    "table_id": "root:i215:R55",
+    "value_kind": "instruction",
+    "value_offset": 95241
+   }
+  ],
+  "entrati_swarm.eximus_by_scale.cap.area4": [
+   {
+    "instruction": 219,
+    "module": "eacd4629273a9981",
+    "prototype": 87,
+    "table_id": "root:i215:R55",
+    "value_kind": "instruction",
+    "value_offset": 95245
+   }
+  ],
+  "entrati_swarm.eximus_by_scale.chance.area1": [
+   {
+    "constant": 86,
+    "module": "eacd4629273a9981",
+    "prototype": 87,
+    "table_id": "root:i209:R54",
+    "value_kind": "number_constant",
+    "value_offset": 98289
+   }
+  ],
+  "entrati_swarm.eximus_by_scale.chance.area2": [
+   {
+    "constant": 87,
+    "module": "eacd4629273a9981",
+    "prototype": 87,
+    "table_id": "root:i209:R54",
+    "value_kind": "number_constant",
+    "value_offset": 98298
+   }
+  ],
+  "entrati_swarm.eximus_by_scale.chance.area3": [
+   {
+    "constant": 88,
+    "module": "eacd4629273a9981",
+    "prototype": 87,
+    "table_id": "root:i209:R54",
+    "value_kind": "number_constant",
+    "value_offset": 98307
+   }
+  ],
+  "entrati_swarm.eximus_by_scale.chance.area4": [
+   {
+    "constant": 89,
+    "module": "eacd4629273a9981",
+    "prototype": 87,
+    "table_id": "root:i209:R54",
+    "value_kind": "number_constant",
+    "value_offset": 98316
+   }
+  ],
+  "escalation.keys_per_players.p1": [
+   {
+    "instruction": 34,
+    "module": "4c0a341e89cab9ee",
+    "prototype": 29,
+    "table_id": "root:i33:R11",
+    "value_kind": "instruction",
+    "value_offset": 28568
+   }
+  ],
+  "escalation.keys_per_players.p2": [
+   {
+    "instruction": 35,
+    "module": "4c0a341e89cab9ee",
+    "prototype": 29,
+    "table_id": "root:i33:R11",
+    "value_kind": "instruction",
+    "value_offset": 28572
+   }
+  ],
+  "escalation.keys_per_players.p3": [
+   {
+    "instruction": 36,
+    "module": "4c0a341e89cab9ee",
+    "prototype": 29,
+    "table_id": "root:i33:R11",
+    "value_kind": "instruction",
+    "value_offset": 28576
+   }
+  ],
+  "escalation.keys_per_players.p4": [
+   {
+    "instruction": 37,
+    "module": "4c0a341e89cab9ee",
+    "prototype": 29,
+    "table_id": "root:i33:R11",
+    "value_kind": "instruction",
+    "value_offset": 28580
+   }
+  ],
+  "faceoff.assassination.enemy_health_mult_p1": [
+   {
+    "instruction": 719,
+    "module": "97ddf9f92301da45",
+    "prototype": 183,
+    "table_id": "root:i718:R163",
+    "value_kind": "instruction",
+    "value_offset": 222381
+   }
+  ],
+  "faceoff.assassination.enemy_health_mult_p2": [
+   {
+    "instruction": 720,
+    "module": "97ddf9f92301da45",
+    "prototype": 183,
+    "table_id": "root:i718:R163",
+    "value_kind": "instruction",
+    "value_offset": 222385
+   }
+  ],
+  "faceoff.assassination.enemy_health_mult_p3": [
+   {
+    "instruction": 721,
+    "module": "97ddf9f92301da45",
+    "prototype": 183,
+    "table_id": "root:i718:R163",
+    "value_kind": "instruction",
+    "value_offset": 222389
+   }
+  ],
+  "faceoff.assassination.enemy_health_mult_p4": [
+   {
+    "instruction": 722,
+    "module": "97ddf9f92301da45",
+    "prototype": 183,
+    "table_id": "root:i718:R163",
+    "value_kind": "instruction",
+    "value_offset": 222393
+   }
+  ],
+  "faceoff.assassination.kill_goal": [
+   {
+    "constant": 246,
+    "module": "97ddf9f92301da45",
+    "prototype": 183,
+    "table_id": "root:i717:R162",
+    "value_kind": "number_constant",
+    "value_offset": 225691
+   }
+  ],
+  "faceoff.defense_escort.catalyst_bonus_time_pct": [
+   {
+    "constant": 40,
+    "module": "97ddf9f92301da45",
+    "prototype": 183,
+    "table_id": "root:i598:R148",
+    "value_kind": "number_constant",
+    "value_offset": 224502
+   }
+  ],
+  "faceoff.defense_escort.catalysts_spawn_time": [
+   {
+    "constant": 72,
+    "module": "97ddf9f92301da45",
+    "prototype": 183,
+    "table_id": "root:i598:R148",
+    "value_kind": "number_constant",
+    "value_offset": 224714
+   }
+  ],
+  "faceoff.defense_escort.initial_defense_time": [
+   {
+    "constant": 238,
+    "module": "97ddf9f92301da45",
+    "prototype": 183,
+    "table_id": "root:i598:R148",
+    "value_kind": "number_constant",
+    "value_offset": 225649
+   }
+  ],
+  "faceoff.defense_escort.initial_escort_time": [
+   {
+    "constant": 203,
+    "module": "97ddf9f92301da45",
+    "prototype": 183,
+    "table_id": "root:i598:R148",
+    "value_kind": "number_constant",
+    "value_offset": 225418
+   }
+  ],
+  "faceoff.defense_escort.max_catalysts": [
+   {
+    "constant": 38,
+    "module": "97ddf9f92301da45",
+    "prototype": 183,
+    "table_id": "root:i598:R148",
+    "value_kind": "number_constant",
+    "value_offset": 224461
+   }
+  ],
+  "faceoff.defense_escort.min_catalysts": [
+   {
+    "constant": 246,
+    "module": "97ddf9f92301da45",
+    "prototype": 183,
+    "table_id": "root:i598:R148",
+    "value_kind": "number_constant",
+    "value_offset": 225691
+   }
+  ],
+  "faceoff.delivery.enemy_kill_goal": [
+   {
+    "constant": 294,
+    "module": "97ddf9f92301da45",
+    "prototype": 183,
+    "table_id": "root:i668:R157",
+    "value_kind": "number_constant",
+    "value_offset": 225977
+   }
+  ],
+  "faceoff.delivery.eximus_chance": [
+   {
+    "constant": 74,
+    "module": "97ddf9f92301da45",
+    "prototype": 183,
+    "table_id": "root:i668:R157",
+    "value_kind": "number_constant",
+    "value_offset": 224740
+   }
+  ],
+  "faceoff.delivery.key_self_destruction_time": [
+   {
+    "constant": 72,
+    "module": "97ddf9f92301da45",
+    "prototype": 183,
+    "table_id": "root:i668:R157",
+    "value_kind": "number_constant",
+    "value_offset": 224714
+   }
+  ],
+  "faceoff.delivery.max_keys": [
+   {
+    "constant": 297,
+    "module": "97ddf9f92301da45",
+    "prototype": 183,
+    "table_id": "root:i668:R157",
+    "value_kind": "number_constant",
+    "value_offset": 225992
+   }
+  ],
+  "faceoff.delivery.target_goal_keys": [
+   {
+    "constant": 38,
+    "module": "97ddf9f92301da45",
+    "prototype": 183,
+    "table_id": "root:i668:R157",
+    "value_kind": "number_constant",
+    "value_offset": 224461
+   }
+  ],
+  "faceoff.excavation.carrier_spawn_time": [
+   {
+    "constant": 58,
+    "module": "97ddf9f92301da45",
+    "prototype": 183,
+    "table_id": "root:i547:R142",
+    "value_kind": "number_constant",
+    "value_offset": 224616
+   }
+  ],
+  "faceoff.excavation.decreased_time_per_cell": [
+   {
+    "constant": 60,
+    "module": "97ddf9f92301da45",
+    "prototype": 183,
+    "table_id": "root:i547:R142",
+    "value_kind": "number_constant",
+    "value_offset": 224628
+   }
+  ],
+  "faceoff.excavation.excavation_time": [
+   {
+    "constant": 203,
+    "module": "97ddf9f92301da45",
+    "prototype": 183,
+    "table_id": "root:i547:R142",
+    "value_kind": "number_constant",
+    "value_offset": 225418
+   }
+  ],
+  "faceoff.excavation.max_num_cells_available": [
+   {
+    "constant": 38,
+    "module": "97ddf9f92301da45",
+    "prototype": 183,
+    "table_id": "root:i547:R142",
+    "value_kind": "number_constant",
+    "value_offset": 224461
+   }
+  ],
+  "faceoff.excavation.max_power": [
+   {
+    "constant": 32,
+    "module": "97ddf9f92301da45",
+    "prototype": 183,
+    "table_id": "root:i547:R142",
+    "value_kind": "number_constant",
+    "value_offset": 224431
+   }
+  ],
+  "faceoff.excavation.power_drain_rate": [
+   {
+    "constant": 36,
+    "module": "97ddf9f92301da45",
+    "prototype": 183,
+    "table_id": "root:i547:R142",
+    "value_kind": "number_constant",
+    "value_offset": 224449
+   }
+  ],
+  "faceoff.excavation.power_per_cell": [
+   {
+    "constant": 72,
+    "module": "97ddf9f92301da45",
+    "prototype": 183,
+    "table_id": "root:i547:R142",
+    "value_kind": "number_constant",
+    "value_offset": 224714
+   }
+  ],
+  "faceoff.exterminate_kill_goal.max": [
+   {
+    "constant": 275,
+    "module": "97ddf9f92301da45",
+    "prototype": 183,
+    "table_id": "root:i645:R154",
+    "value_kind": "number_constant",
+    "value_offset": 225864
+   }
+  ],
+  "faceoff.exterminate_kill_goal.min": [
+   {
+    "constant": 273,
+    "module": "97ddf9f92301da45",
+    "prototype": 183,
+    "table_id": "root:i645:R154",
+    "value_kind": "number_constant",
+    "value_offset": 225852
+   }
+  ],
+  "faceoff.spawn_params.max_spawn_dist": [
+   {
+    "constant": 32,
+    "module": "97ddf9f92301da45",
+    "prototype": 183,
+    "table_id": "root:i102:R22",
+    "value_kind": "number_constant",
+    "value_offset": 224431
+   }
+  ],
+  "faceoff.spawn_params.max_tier": [
+   {
+    "constant": 38,
+    "module": "97ddf9f92301da45",
+    "prototype": 183,
+    "table_id": "root:i102:R22",
+    "value_kind": "number_constant",
+    "value_offset": 224461
+   }
+  ],
+  "faceoff.spawn_params.maxenemies_p1": [
+   {
+    "instruction": 111,
+    "module": "97ddf9f92301da45",
+    "prototype": 183,
+    "table_id": "root:i110:R23",
+    "value_kind": "instruction",
+    "value_offset": 219537
+   }
+  ],
+  "faceoff.spawn_params.maxenemies_p2": [
+   {
+    "instruction": 112,
+    "module": "97ddf9f92301da45",
+    "prototype": 183,
+    "table_id": "root:i110:R23",
+    "value_kind": "instruction",
+    "value_offset": 219541
+   }
+  ],
+  "faceoff.spawn_params.maxenemies_p3": [
+   {
+    "instruction": 113,
+    "module": "97ddf9f92301da45",
+    "prototype": 183,
+    "table_id": "root:i110:R23",
+    "value_kind": "instruction",
+    "value_offset": 219545
+   }
+  ],
+  "faceoff.spawn_params.maxenemies_p4": [
+   {
+    "instruction": 114,
+    "module": "97ddf9f92301da45",
+    "prototype": 183,
+    "table_id": "root:i110:R23",
+    "value_kind": "instruction",
+    "value_offset": 219549
+   }
+  ],
+  "faceoff.spawn_params.min_spawn_dist": [
+   {
+    "constant": 30,
+    "module": "97ddf9f92301da45",
+    "prototype": 183,
+    "table_id": "root:i102:R22",
+    "value_kind": "number_constant",
+    "value_offset": 224419
+   }
+  ],
+  "faceoff.spawn_params.minenemies_p1": [
+   {
+    "instruction": 104,
+    "module": "97ddf9f92301da45",
+    "prototype": 183,
+    "table_id": "root:i103:R23",
+    "value_kind": "instruction",
+    "value_offset": 219497
+   }
+  ],
+  "faceoff.spawn_params.minenemies_p2": [
+   {
+    "instruction": 105,
+    "module": "97ddf9f92301da45",
+    "prototype": 183,
+    "table_id": "root:i103:R23",
+    "value_kind": "instruction",
+    "value_offset": 219501
+   }
+  ],
+  "faceoff.spawn_params.minenemies_p3": [
+   {
+    "instruction": 106,
+    "module": "97ddf9f92301da45",
+    "prototype": 183,
+    "table_id": "root:i103:R23",
+    "value_kind": "instruction",
+    "value_offset": 219505
+   }
+  ],
+  "faceoff.spawn_params.minenemies_p4": [
+   {
+    "instruction": 107,
+    "module": "97ddf9f92301da45",
+    "prototype": 183,
+    "table_id": "root:i103:R23",
+    "value_kind": "instruction",
+    "value_offset": 219509
+   }
+  ],
+  "faceoff.spawn_params.tier_up_interval": [
+   {
+    "constant": 36,
+    "module": "97ddf9f92301da45",
+    "prototype": 183,
+    "table_id": "root:i102:R22",
+    "value_kind": "number_constant",
+    "value_offset": 224449
+   }
+  ],
+  "fivefates.state_times.state1": [
+   {
+    "constant": 40,
+    "module": "7979bfde24ad1a51",
+    "prototype": 84,
+    "table_id": "root:i122:R51",
+    "value_kind": "number_constant",
+    "value_offset": 64974
+   }
+  ],
+  "fivefates.state_times.state2": [
+   {
+    "constant": 45,
+    "module": "7979bfde24ad1a51",
+    "prototype": 84,
+    "table_id": "root:i145:R51",
+    "value_kind": "number_constant",
+    "value_offset": 65011
+   }
+  ],
+  "fivefates.state_times.state3": [
+   {
+    "constant": 47,
+    "module": "7979bfde24ad1a51",
+    "prototype": 84,
+    "table_id": "root:i168:R51",
+    "value_kind": "number_constant",
+    "value_offset": 65042
+   }
+  ],
+  "fivefates.state_times.state4": [
+   {
+    "constant": 49,
+    "module": "7979bfde24ad1a51",
+    "prototype": 84,
+    "table_id": "root:i191:R51",
+    "value_kind": "number_constant",
+    "value_offset": 65073
+   }
+  ],
+  "fivefates.state_times.state5": [
+   {
+    "constant": 47,
+    "module": "7979bfde24ad1a51",
+    "prototype": 84,
+    "table_id": "root:i214:R51",
+    "value_kind": "number_constant",
+    "value_offset": 65042
+   }
+  ],
+  "fivefates.state_times_sp.state1": [
+   {
+    "constant": 51,
+    "module": "7979bfde24ad1a51",
+    "prototype": 84,
+    "table_id": "root:i238:R52",
+    "value_kind": "number_constant",
+    "value_offset": 65104
+   }
+  ],
+  "fivefates.state_times_sp.state2": [
+   {
+    "constant": 45,
+    "module": "7979bfde24ad1a51",
+    "prototype": 84,
+    "table_id": "root:i261:R52",
+    "value_kind": "number_constant",
+    "value_offset": 65011
+   }
+  ],
+  "fivefates.state_times_sp.state3": [
+   {
+    "constant": 47,
+    "module": "7979bfde24ad1a51",
+    "prototype": 84,
+    "table_id": "root:i284:R52",
+    "value_kind": "number_constant",
+    "value_offset": 65042
+   }
+  ],
+  "fivefates.state_times_sp.state4": [
+   {
+    "constant": 47,
+    "module": "7979bfde24ad1a51",
+    "prototype": 84,
+    "table_id": "root:i307:R52",
+    "value_kind": "number_constant",
+    "value_offset": 65042
+   }
+  ],
+  "fivefates.state_times_sp.state5": [
+   {
+    "constant": 47,
+    "module": "7979bfde24ad1a51",
+    "prototype": 84,
+    "table_id": "root:i330:R52",
+    "value_kind": "number_constant",
+    "value_offset": 65042
+   }
+  ],
+  "infested_salvage.spawn_caps_by_players.max_ai.p1": [
+   {
+    "instruction": 146,
+    "module": "b35d715b0f5aa1c9",
+    "prototype": 49,
+    "table_id": "root:i145:R62",
+    "value_kind": "instruction",
+    "value_offset": 43104
+   }
+  ],
+  "infested_salvage.spawn_caps_by_players.max_ai.p2": [
+   {
+    "instruction": 147,
+    "module": "b35d715b0f5aa1c9",
+    "prototype": 49,
+    "table_id": "root:i145:R62",
+    "value_kind": "instruction",
+    "value_offset": 43108
+   }
+  ],
+  "infested_salvage.spawn_caps_by_players.max_ai.p3": [
+   {
+    "instruction": 148,
+    "module": "b35d715b0f5aa1c9",
+    "prototype": 49,
+    "table_id": "root:i145:R62",
+    "value_kind": "instruction",
+    "value_offset": 43112
+   }
+  ],
+  "infested_salvage.spawn_caps_by_players.max_ai.p4": [
+   {
+    "instruction": 149,
+    "module": "b35d715b0f5aa1c9",
+    "prototype": 49,
+    "table_id": "root:i145:R62",
+    "value_kind": "instruction",
+    "value_offset": 43116
+   }
+  ],
+  "infested_salvage.spawn_caps_by_players.max_source_ai.p1": [
+   {
+    "instruction": 152,
+    "module": "b35d715b0f5aa1c9",
+    "prototype": 49,
+    "table_id": "root:i151:R63",
+    "value_kind": "instruction",
+    "value_offset": 43136
+   }
+  ],
+  "infested_salvage.spawn_caps_by_players.max_source_ai.p2": [
+   {
+    "instruction": 153,
+    "module": "b35d715b0f5aa1c9",
+    "prototype": 49,
+    "table_id": "root:i151:R63",
+    "value_kind": "instruction",
+    "value_offset": 43140
+   }
+  ],
+  "infested_salvage.spawn_caps_by_players.max_source_ai.p3": [
+   {
+    "instruction": 154,
+    "module": "b35d715b0f5aa1c9",
+    "prototype": 49,
+    "table_id": "root:i151:R63",
+    "value_kind": "instruction",
+    "value_offset": 43144
+   }
+  ],
+  "infested_salvage.spawn_caps_by_players.max_source_ai.p4": [
+   {
+    "instruction": 155,
+    "module": "b35d715b0f5aa1c9",
+    "prototype": 49,
+    "table_id": "root:i151:R63",
+    "value_kind": "instruction",
+    "value_offset": 43148
+   }
+  ],
+  "infested_salvage.spawn_caps_by_players.spawn_delay.p1": [
+   {
+    "instruction": 158,
+    "module": "b35d715b0f5aa1c9",
+    "prototype": 49,
+    "table_id": "root:i157:R64",
+    "value_kind": "instruction",
+    "value_offset": 43168
+   }
+  ],
+  "infested_salvage.spawn_caps_by_players.spawn_delay.p2": [
+   {
+    "instruction": 159,
+    "module": "b35d715b0f5aa1c9",
+    "prototype": 49,
+    "table_id": "root:i157:R64",
+    "value_kind": "instruction",
+    "value_offset": 43172
+   }
+  ],
+  "infested_salvage.spawn_caps_by_players.spawn_delay.p3": [
+   {
+    "instruction": 160,
+    "module": "b35d715b0f5aa1c9",
+    "prototype": 49,
+    "table_id": "root:i157:R64",
+    "value_kind": "instruction",
+    "value_offset": 43176
+   }
+  ],
+  "infested_salvage.spawn_caps_by_players.spawn_delay.p4": [
+   {
+    "instruction": 161,
+    "module": "b35d715b0f5aa1c9",
+    "prototype": 49,
+    "table_id": "root:i157:R64",
+    "value_kind": "instruction",
+    "value_offset": 43180
+   }
+  ],
+  "lantern.lamp_decay.b": [
+   {
+    "constant": 73,
+    "module": "caec63d8e739b693",
+    "prototype": 38,
+    "table_id": "root:i93:R40",
+    "value_kind": "number_constant",
+    "value_offset": 45704
+   }
+  ],
+  "lantern.lamp_decay.m": [
+   {
+    "constant": 77,
+    "module": "caec63d8e739b693",
+    "prototype": 38,
+    "table_id": "root:i93:R40",
+    "value_kind": "number_constant",
+    "value_offset": 45726
+   }
+  ],
+  "lantern.lamp_decay.p": [
+   {
+    "constant": 79,
+    "module": "caec63d8e739b693",
+    "prototype": 38,
+    "table_id": "root:i93:R40",
+    "value_kind": "number_constant",
+    "value_offset": 45737
+   }
+  ],
+  "lantern.lamp_decay.v": [
+   {
+    "constant": 75,
+    "module": "caec63d8e739b693",
+    "prototype": 38,
+    "table_id": "root:i93:R40",
+    "value_kind": "number_constant",
+    "value_offset": 45715
+   }
+  ],
+  "lantern.max_tier": [
+   {
+    "constant": 30,
+    "module": "caec63d8e739b693",
+    "prototype": 38,
+    "table_id": "root:i75:R36",
+    "value_kind": "number_constant",
+    "value_offset": 45378
+   }
+  ],
+  "lantern.num_enemies.p1": [
+   {
+    "instruction": 77,
+    "module": "caec63d8e739b693",
+    "prototype": 38,
+    "table_id": "root:i76:R37",
+    "value_kind": "instruction",
+    "value_offset": 44081
+   }
+  ],
+  "lantern.num_enemies.p2": [
+   {
+    "instruction": 78,
+    "module": "caec63d8e739b693",
+    "prototype": 38,
+    "table_id": "root:i76:R37",
+    "value_kind": "instruction",
+    "value_offset": 44085
+   }
+  ],
+  "lantern.num_enemies.p3": [
+   {
+    "instruction": 79,
+    "module": "caec63d8e739b693",
+    "prototype": 38,
+    "table_id": "root:i76:R37",
+    "value_kind": "instruction",
+    "value_offset": 44089
+   }
+  ],
+  "lantern.num_enemies.p4": [
+   {
+    "instruction": 80,
+    "module": "caec63d8e739b693",
+    "prototype": 38,
+    "table_id": "root:i76:R37",
+    "value_kind": "instruction",
+    "value_offset": 44093
+   }
+  ],
+  "lantern.radius_per_kill.p1": [
+   {
+    "constant": 42,
+    "module": "caec63d8e739b693",
+    "prototype": 38,
+    "table_id": "root:i83:R37",
+    "value_kind": "number_constant",
+    "value_offset": 45489
+   }
+  ],
+  "lantern.radius_per_kill.p2": [
+   {
+    "instruction": 85,
+    "module": "caec63d8e739b693",
+    "prototype": 38,
+    "table_id": "root:i83:R37",
+    "value_kind": "instruction",
+    "value_offset": 44125
+   }
+  ],
+  "lantern.radius_per_kill.p3": [
+   {
+    "constant": 43,
+    "module": "caec63d8e739b693",
+    "prototype": 38,
+    "table_id": "root:i83:R37",
+    "value_kind": "number_constant",
+    "value_offset": 45498
+   }
+  ],
+  "lantern.radius_per_kill.p4": [
+   {
+    "constant": 44,
+    "module": "caec63d8e739b693",
+    "prototype": 38,
+    "table_id": "root:i83:R37",
+    "value_kind": "number_constant",
+    "value_offset": 45507
+   }
+  ],
+  "lantern.tier_up_interval": [
+   {
+    "constant": 26,
+    "module": "caec63d8e739b693",
+    "prototype": 38,
+    "table_id": "root:i75:R36",
+    "value_kind": "number_constant",
+    "value_offset": 45356
+   }
+  ],
+  "loopdefend.crystal_cluster.clusterSpawnCooldown": [
+   {
+    "constant": 187,
+    "module": "4c2f0f786e4a8e58",
+    "prototype": 62,
+    "table_id": "root:i481:R64",
+    "value_kind": "number_constant",
+    "value_offset": 85427
+   }
+  ],
+  "loopdefend.crystal_cluster.enemyKillCountThreshold.p1": [
+   {
+    "instruction": 483,
+    "module": "4c2f0f786e4a8e58",
+    "prototype": 62,
+    "table_id": "root:i482:R65",
+    "value_kind": "instruction",
+    "value_offset": 82689
+   }
+  ],
+  "loopdefend.crystal_cluster.enemyKillCountThreshold.p2": [
+   {
+    "instruction": 484,
+    "module": "4c2f0f786e4a8e58",
+    "prototype": 62,
+    "table_id": "root:i482:R65",
+    "value_kind": "instruction",
+    "value_offset": 82693
+   }
+  ],
+  "loopdefend.crystal_cluster.enemyKillCountThreshold.p3": [
+   {
+    "instruction": 485,
+    "module": "4c2f0f786e4a8e58",
+    "prototype": 62,
+    "table_id": "root:i482:R65",
+    "value_kind": "instruction",
+    "value_offset": 82697
+   }
+  ],
+  "loopdefend.crystal_cluster.enemyKillCountThreshold.p4": [
+   {
+    "instruction": 486,
+    "module": "4c2f0f786e4a8e58",
+    "prototype": 62,
+    "table_id": "root:i482:R65",
+    "value_kind": "instruction",
+    "value_offset": 82701
+   }
+  ],
+  "loopdefend.crystal_cluster.enemyKillOnTunnelInterval": [
+   {
+    "constant": 7,
+    "module": "4c2f0f786e4a8e58",
+    "prototype": 62,
+    "table_id": "root:i481:R64",
+    "value_kind": "number_constant",
+    "value_offset": 84226
+   }
+  ],
+  "loopdefend.crystal_cluster.flashingTimeBeforeDespawn": [
+   {
+    "constant": 51,
+    "module": "4c2f0f786e4a8e58",
+    "prototype": 62,
+    "table_id": "root:i481:R64",
+    "value_kind": "number_constant",
+    "value_offset": 84426
+   }
+  ],
+  "loopdefend.crystal_cluster.groupsToSpawnAtWaveStart": [
+   {
+    "constant": 51,
+    "module": "4c2f0f786e4a8e58",
+    "prototype": 62,
+    "table_id": "root:i481:R64",
+    "value_kind": "number_constant",
+    "value_offset": 84426
+   }
+  ],
+  "loopdefend.crystal_cluster.groupsToSpawnPerKillThreshold": [
+   {
+    "constant": 9,
+    "module": "4c2f0f786e4a8e58",
+    "prototype": 62,
+    "table_id": "root:i481:R64",
+    "value_kind": "number_constant",
+    "value_offset": 84237
+   }
+  ],
+  "loopdefend.enemy_counts.maxNum.p1": [
+   {
+    "instruction": 89,
+    "module": "4c2f0f786e4a8e58",
+    "prototype": 62,
+    "table_id": "root:i88:R32",
+    "value_kind": "instruction",
+    "value_offset": 80353
+   }
+  ],
+  "loopdefend.enemy_counts.maxNum.p2": [
+   {
+    "instruction": 90,
+    "module": "4c2f0f786e4a8e58",
+    "prototype": 62,
+    "table_id": "root:i88:R32",
+    "value_kind": "instruction",
+    "value_offset": 80357
+   }
+  ],
+  "loopdefend.enemy_counts.maxNum.p3": [
+   {
+    "instruction": 91,
+    "module": "4c2f0f786e4a8e58",
+    "prototype": 62,
+    "table_id": "root:i88:R32",
+    "value_kind": "instruction",
+    "value_offset": 80361
+   }
+  ],
+  "loopdefend.enemy_counts.maxNum.p4": [
+   {
+    "instruction": 92,
+    "module": "4c2f0f786e4a8e58",
+    "prototype": 62,
+    "table_id": "root:i88:R32",
+    "value_kind": "instruction",
+    "value_offset": 80365
+   }
+  ],
+  "loopdefend.enemy_counts.maxNumInfested.p1": [
+   {
+    "instruction": 75,
+    "module": "4c2f0f786e4a8e58",
+    "prototype": 62,
+    "table_id": "root:i74:R32",
+    "value_kind": "instruction",
+    "value_offset": 80273
+   }
+  ],
+  "loopdefend.enemy_counts.maxNumInfested.p2": [
+   {
+    "instruction": 76,
+    "module": "4c2f0f786e4a8e58",
+    "prototype": 62,
+    "table_id": "root:i74:R32",
+    "value_kind": "instruction",
+    "value_offset": 80277
+   }
+  ],
+  "loopdefend.enemy_counts.maxNumInfested.p3": [
+   {
+    "instruction": 77,
+    "module": "4c2f0f786e4a8e58",
+    "prototype": 62,
+    "table_id": "root:i74:R32",
+    "value_kind": "instruction",
+    "value_offset": 80281
+   }
+  ],
+  "loopdefend.enemy_counts.maxNumInfested.p4": [
+   {
+    "instruction": 78,
+    "module": "4c2f0f786e4a8e58",
+    "prototype": 62,
+    "table_id": "root:i74:R32",
+    "value_kind": "instruction",
+    "value_offset": 80285
+   }
+  ],
+  "loopdefend.enemy_counts.minNum.p1": [
+   {
+    "instruction": 82,
+    "module": "4c2f0f786e4a8e58",
+    "prototype": 62,
+    "table_id": "root:i81:R32",
+    "value_kind": "instruction",
+    "value_offset": 80313
+   }
+  ],
+  "loopdefend.enemy_counts.minNum.p2": [
+   {
+    "instruction": 83,
+    "module": "4c2f0f786e4a8e58",
+    "prototype": 62,
+    "table_id": "root:i81:R32",
+    "value_kind": "instruction",
+    "value_offset": 80317
+   }
+  ],
+  "loopdefend.enemy_counts.minNum.p3": [
+   {
+    "instruction": 84,
+    "module": "4c2f0f786e4a8e58",
+    "prototype": 62,
+    "table_id": "root:i81:R32",
+    "value_kind": "instruction",
+    "value_offset": 80321
+   }
+  ],
+  "loopdefend.enemy_counts.minNum.p4": [
+   {
+    "instruction": 85,
+    "module": "4c2f0f786e4a8e58",
+    "prototype": 62,
+    "table_id": "root:i81:R32",
+    "value_kind": "instruction",
+    "value_offset": 80325
+   }
+  ],
+  "loopdefend.enemy_counts.minNumInfested.p1": [
+   {
+    "instruction": 68,
+    "module": "4c2f0f786e4a8e58",
+    "prototype": 62,
+    "table_id": "root:i67:R32",
+    "value_kind": "instruction",
+    "value_offset": 80233
+   }
+  ],
+  "loopdefend.enemy_counts.minNumInfested.p2": [
+   {
+    "instruction": 69,
+    "module": "4c2f0f786e4a8e58",
+    "prototype": 62,
+    "table_id": "root:i67:R32",
+    "value_kind": "instruction",
+    "value_offset": 80237
+   }
+  ],
+  "loopdefend.enemy_counts.minNumInfested.p3": [
+   {
+    "instruction": 70,
+    "module": "4c2f0f786e4a8e58",
+    "prototype": 62,
+    "table_id": "root:i67:R32",
+    "value_kind": "instruction",
+    "value_offset": 80241
+   }
+  ],
+  "loopdefend.enemy_counts.minNumInfested.p4": [
+   {
+    "instruction": 71,
+    "module": "4c2f0f786e4a8e58",
+    "prototype": 62,
+    "table_id": "root:i67:R32",
+    "value_kind": "instruction",
+    "value_offset": 80245
+   }
+  ],
+  "loopdefend.eximus.exMaxChance": [
+   {
+    "constant": 71,
+    "module": "4c2f0f786e4a8e58",
+    "prototype": 62,
+    "table_id": "root:i66:R31",
+    "value_kind": "number_constant",
+    "value_offset": 84536
+   }
+  ],
+  "loopdefend.eximus.exMinChance": [
+   {
+    "constant": 69,
+    "module": "4c2f0f786e4a8e58",
+    "prototype": 62,
+    "table_id": "root:i66:R31",
+    "value_kind": "number_constant",
+    "value_offset": 84525
+   }
+  ],
+  "loopdefend.eximus.exPeakTime": [
+   {
+    "constant": 67,
+    "module": "4c2f0f786e4a8e58",
+    "prototype": 62,
+    "table_id": "root:i66:R31",
+    "value_kind": "number_constant",
+    "value_offset": 84514
+   }
+  ],
+  "loopdefend.eximus.exStartTime": [
+   {
+    "constant": 65,
+    "module": "4c2f0f786e4a8e58",
+    "prototype": 62,
+    "table_id": "root:i66:R31",
+    "value_kind": "number_constant",
+    "value_offset": 84503
+   }
+  ],
+  "loopdefend.eximus.override_exMaxChance": [
+   {
+    "constant": 77,
+    "module": "4c2f0f786e4a8e58",
+    "prototype": 62,
+    "table_id": "root:i95:R32",
+    "value_kind": "number_constant",
+    "value_offset": 84656
+   }
+  ],
+  "loopdefend.eximus.override_exMinChance": [
+   {
+    "constant": 76,
+    "module": "4c2f0f786e4a8e58",
+    "prototype": 62,
+    "table_id": "root:i95:R32",
+    "value_kind": "number_constant",
+    "value_offset": 84647
+   }
+  ],
+  "loopdefend.eximus.override_exPeakTime": [
+   {
+    "constant": 75,
+    "module": "4c2f0f786e4a8e58",
+    "prototype": 62,
+    "table_id": "root:i95:R32",
+    "value_kind": "number_constant",
+    "value_offset": 84638
+   }
+  ],
+  "loopdefend.eximus.override_ex_max_spawn.p1": [
+   {
+    "instruction": 97,
+    "module": "4c2f0f786e4a8e58",
+    "prototype": 62,
+    "table_id": "root:i96:R33",
+    "value_kind": "instruction",
+    "value_offset": 80397
+   }
+  ],
+  "loopdefend.eximus.override_ex_max_spawn.p2": [
+   {
+    "instruction": 98,
+    "module": "4c2f0f786e4a8e58",
+    "prototype": 62,
+    "table_id": "root:i96:R33",
+    "value_kind": "instruction",
+    "value_offset": 80401
+   }
+  ],
+  "loopdefend.eximus.override_ex_max_spawn.p3": [
+   {
+    "instruction": 99,
+    "module": "4c2f0f786e4a8e58",
+    "prototype": 62,
+    "table_id": "root:i96:R33",
+    "value_kind": "instruction",
+    "value_offset": 80405
+   }
+  ],
+  "loopdefend.eximus.override_ex_max_spawn.p4": [
+   {
+    "instruction": 100,
+    "module": "4c2f0f786e4a8e58",
+    "prototype": 62,
+    "table_id": "root:i96:R33",
+    "value_kind": "instruction",
+    "value_offset": 80409
+   }
+  ],
+  "loopdefend.level_and_enrage.alertLevelMaxBoost": [
+   {
+    "constant": 51,
+    "module": "4c2f0f786e4a8e58",
+    "prototype": 62,
+    "table_id": "root:i66:R31",
+    "value_kind": "number_constant",
+    "value_offset": 84426
+   }
+  ],
+  "loopdefend.level_and_enrage.enrageInterval": [
+   {
+    "constant": 59,
+    "module": "4c2f0f786e4a8e58",
+    "prototype": 62,
+    "table_id": "root:i66:R31",
+    "value_kind": "number_constant",
+    "value_offset": 84470
+   }
+  ],
+  "loopdefend.level_and_enrage.enrageIntervalMin": [
+   {
+    "constant": 61,
+    "module": "4c2f0f786e4a8e58",
+    "prototype": 62,
+    "table_id": "root:i66:R31",
+    "value_kind": "number_constant",
+    "value_offset": 84481
+   }
+  ],
+  "loopdefend.level_and_enrage.enrageIntervalScale": [
+   {
+    "constant": 63,
+    "module": "4c2f0f786e4a8e58",
+    "prototype": 62,
+    "table_id": "root:i66:R31",
+    "value_kind": "number_constant",
+    "value_offset": 84492
+   }
+  ],
+  "loopdefend.level_and_enrage.enrageTime": [
+   {
+    "constant": 57,
+    "module": "4c2f0f786e4a8e58",
+    "prototype": 62,
+    "table_id": "root:i66:R31",
+    "value_kind": "number_constant",
+    "value_offset": 84459
+   }
+  ],
+  "loopdefend.level_and_enrage.levelUpTime": [
+   {
+    "constant": 55,
+    "module": "4c2f0f786e4a8e58",
+    "prototype": 62,
+    "table_id": "root:i66:R31",
+    "value_kind": "number_constant",
+    "value_offset": 84448
+   }
+  ],
+  "loopdefend.level_and_enrage.sortieLevelMaxBoost": [
+   {
+    "constant": 53,
+    "module": "4c2f0f786e4a8e58",
+    "prototype": 62,
+    "table_id": "root:i66:R31",
+    "value_kind": "number_constant",
+    "value_offset": 84437
+   }
+  ],
+  "loopdefend.objective_dot.damagePerPickup": [
+   {
+    "constant": 11,
+    "module": "4c2f0f786e4a8e58",
+    "prototype": 62,
+    "table_id": "root:i1:R0",
+    "value_kind": "number_constant",
+    "value_offset": 84249
+   }
+  ],
+  "loopdefend.objective_dot.healPercentage": [
+   {
+    "constant": 5,
+    "module": "4c2f0f786e4a8e58",
+    "prototype": 62,
+    "table_id": "root:i1:R0",
+    "value_kind": "number_constant",
+    "value_offset": 84215
+   }
+  ],
+  "loopdefend.objective_dot.objectiveDamage": [
+   {
+    "constant": 1,
+    "module": "4c2f0f786e4a8e58",
+    "prototype": 62,
+    "table_id": "root:i1:R0",
+    "value_kind": "number_constant",
+    "value_offset": 84191
+   }
+  ],
+  "loopdefend.objective_dot.pauseDotTime": [
+   {
+    "constant": 3,
+    "module": "4c2f0f786e4a8e58",
+    "prototype": 62,
+    "table_id": "root:i1:R0",
+    "value_kind": "number_constant",
+    "value_offset": 84203
+   }
+  ],
+  "loopdefend.objective_dot.pickupSpawnRateModifier": [
+   {
+    "constant": 9,
+    "module": "4c2f0f786e4a8e58",
+    "prototype": 62,
+    "table_id": "root:i1:R0",
+    "value_kind": "number_constant",
+    "value_offset": 84237
+   }
+  ],
+  "loopdefend.objective_dot.pickupThresholdModifier": [
+   {
+    "constant": 7,
+    "module": "4c2f0f786e4a8e58",
+    "prototype": 62,
+    "table_id": "root:i1:R0",
+    "value_kind": "number_constant",
+    "value_offset": 84226
+   }
+  ],
+  "mobiledefense.enemy_counts.max.p1": [
+   {
+    "instruction": 23,
+    "module": "a807aae359ffc1eb",
+    "prototype": 24,
+    "table_id": "root:i22:R6",
+    "value_kind": "instruction",
+    "value_offset": 30666
+   }
+  ],
+  "mobiledefense.enemy_counts.max.p2": [
+   {
+    "instruction": 24,
+    "module": "a807aae359ffc1eb",
+    "prototype": 24,
+    "table_id": "root:i22:R6",
+    "value_kind": "instruction",
+    "value_offset": 30670
+   }
+  ],
+  "mobiledefense.enemy_counts.max.p3": [
+   {
+    "instruction": 25,
+    "module": "a807aae359ffc1eb",
+    "prototype": 24,
+    "table_id": "root:i22:R6",
+    "value_kind": "instruction",
+    "value_offset": 30674
+   }
+  ],
+  "mobiledefense.enemy_counts.max.p4": [
+   {
+    "instruction": 26,
+    "module": "a807aae359ffc1eb",
+    "prototype": 24,
+    "table_id": "root:i22:R6",
+    "value_kind": "instruction",
+    "value_offset": 30678
+   }
+  ],
+  "mobiledefense.enemy_counts.min.p1": [
+   {
+    "instruction": 17,
+    "module": "a807aae359ffc1eb",
+    "prototype": 24,
+    "table_id": "root:i16:R5",
+    "value_kind": "instruction",
+    "value_offset": 30634
+   }
+  ],
+  "mobiledefense.enemy_counts.min.p2": [
+   {
+    "instruction": 18,
+    "module": "a807aae359ffc1eb",
+    "prototype": 24,
+    "table_id": "root:i16:R5",
+    "value_kind": "instruction",
+    "value_offset": 30638
+   }
+  ],
+  "mobiledefense.enemy_counts.min.p3": [
+   {
+    "instruction": 19,
+    "module": "a807aae359ffc1eb",
+    "prototype": 24,
+    "table_id": "root:i16:R5",
+    "value_kind": "instruction",
+    "value_offset": 30642
+   }
+  ],
+  "mobiledefense.enemy_counts.min.p4": [
+   {
+    "instruction": 20,
+    "module": "a807aae359ffc1eb",
+    "prototype": 24,
+    "table_id": "root:i16:R5",
+    "value_kind": "instruction",
+    "value_offset": 30646
+   }
+  ],
+  "orphix.max_rounds_railjack": [
+   {
+    "constant": 62,
+    "module": "721710696afea305",
+    "prototype": 36,
+    "table_id": "root:i73:R9",
+    "value_kind": "number_constant",
+    "value_offset": 39866
+   }
+  ],
+  "orphix.orphix_interval.condrixCap": [
+   {
+    "constant": 10,
+    "module": "721710696afea305",
+    "prototype": 36,
+    "table_id": "root:i16:R5",
+    "value_kind": "number_constant",
+    "value_offset": 39460
+   }
+  ],
+  "orphix.orphix_interval.eventInterval": [
+   {
+    "constant": 12,
+    "module": "721710696afea305",
+    "prototype": 36,
+    "table_id": "root:i16:R5",
+    "value_kind": "number_constant",
+    "value_offset": 39472
+   }
+  ],
+  "orphix.orphix_interval.interval": [
+   {
+    "constant": 8,
+    "module": "721710696afea305",
+    "prototype": 36,
+    "table_id": "root:i16:R5",
+    "value_kind": "number_constant",
+    "value_offset": 39448
+   }
+  ],
+  "orphix.reward_interval": [
+   {
+    "constant": 10,
+    "module": "721710696afea305",
+    "prototype": 36,
+    "table_id": "root:i17:R6",
+    "value_kind": "number_constant",
+    "value_offset": 39460
+   }
+  ],
+  "orphix.score_add_per_round": [
+   {
+    "constant": 8,
+    "module": "721710696afea305",
+    "prototype": 36,
+    "table_id": "root:i17:R6",
+    "value_kind": "number_constant",
+    "value_offset": 39448
+   }
+  ],
+  "purgatory.difficulty1.damage_mult": [
+   {
+    "constant": 37,
+    "module": "6fa60841c9e0f207",
+    "prototype": 40,
+    "table_id": "root:i79:R28",
+    "value_kind": "number_constant",
+    "value_offset": 46085
+   }
+  ],
+  "purgatory.difficulty1.ghost_level": [
+   {
+    "constant": 35,
+    "module": "6fa60841c9e0f207",
+    "prototype": 40,
+    "table_id": "root:i79:R28",
+    "value_kind": "number_constant",
+    "value_offset": 46073
+   }
+  ],
+  "purgatory.difficulty1.warrior_level": [
+   {
+    "constant": 33,
+    "module": "6fa60841c9e0f207",
+    "prototype": 40,
+    "table_id": "root:i79:R28",
+    "value_kind": "number_constant",
+    "value_offset": 46061
+   }
+  ],
+  "purgatory.difficulty2.damage_mult": [
+   {
+    "constant": 40,
+    "module": "6fa60841c9e0f207",
+    "prototype": 40,
+    "table_id": "root:i80:R29",
+    "value_kind": "number_constant",
+    "value_offset": 46120
+   }
+  ],
+  "purgatory.difficulty2.ghost_level": [
+   {
+    "constant": 33,
+    "module": "6fa60841c9e0f207",
+    "prototype": 40,
+    "table_id": "root:i80:R29",
+    "value_kind": "number_constant",
+    "value_offset": 46061
+   }
+  ],
+  "purgatory.difficulty2.warrior_level": [
+   {
+    "constant": 39,
+    "module": "6fa60841c9e0f207",
+    "prototype": 40,
+    "table_id": "root:i80:R29",
+    "value_kind": "number_constant",
+    "value_offset": 46111
+   }
+  ],
+  "purgatory.difficulty3.damage_mult": [
+   {
+    "constant": 35,
+    "module": "6fa60841c9e0f207",
+    "prototype": 40,
+    "table_id": "root:i81:R30",
+    "value_kind": "number_constant",
+    "value_offset": 46073
+   }
+  ],
+  "purgatory.difficulty3.ghost_level": [
+   {
+    "constant": 43,
+    "module": "6fa60841c9e0f207",
+    "prototype": 40,
+    "table_id": "root:i81:R30",
+    "value_kind": "number_constant",
+    "value_offset": 46155
+   }
+  ],
+  "purgatory.difficulty3.warrior_level": [
+   {
+    "constant": 42,
+    "module": "6fa60841c9e0f207",
+    "prototype": 40,
+    "table_id": "root:i81:R30",
+    "value_kind": "number_constant",
+    "value_offset": 46146
+   }
+  ],
+  "purgatory.reward_kill_threshold.t1": [
+   {
+    "instruction": 84,
+    "module": "6fa60841c9e0f207",
+    "prototype": 40,
+    "table_id": "root:i83:R28",
+    "value_kind": "instruction",
+    "value_offset": 44884
+   }
+  ],
+  "purgatory.reward_kill_threshold.t2": [
+   {
+    "instruction": 85,
+    "module": "6fa60841c9e0f207",
+    "prototype": 40,
+    "table_id": "root:i83:R28",
+    "value_kind": "instruction",
+    "value_offset": 44888
+   }
+  ],
+  "purgatory.reward_kill_threshold.t3": [
+   {
+    "instruction": 86,
+    "module": "6fa60841c9e0f207",
+    "prototype": 40,
+    "table_id": "root:i83:R28",
+    "value_kind": "instruction",
+    "value_offset": 44892
+   }
+  ],
+  "purgatory.reward_kill_threshold.t4": [
+   {
+    "instruction": 87,
+    "module": "6fa60841c9e0f207",
+    "prototype": 40,
+    "table_id": "root:i83:R28",
+    "value_kind": "instruction",
+    "value_offset": 44896
+   }
+  ],
+  "purgatory.reward_kill_threshold.t5": [
+   {
+    "instruction": 88,
+    "module": "6fa60841c9e0f207",
+    "prototype": 40,
+    "table_id": "root:i83:R28",
+    "value_kind": "instruction",
+    "value_offset": 44900
+   }
+  ],
+  "purgatory.reward_kill_threshold.t6": [
+   {
+    "instruction": 89,
+    "module": "6fa60841c9e0f207",
+    "prototype": 40,
+    "table_id": "root:i83:R28",
+    "value_kind": "instruction",
+    "value_offset": 44904
+   }
+  ],
+  "purge.alert_tiers.tier1_multiplier": [
+   {
+    "instruction": 26,
+    "module": "ae99f8ae6c2eb271",
+    "prototype": 14,
+    "table_id": "root:i25:R9",
+    "value_kind": "instruction",
+    "value_offset": 7171
+   }
+  ],
+  "purge.alert_tiers.tier2_multiplier": [
+   {
+    "instruction": 27,
+    "module": "ae99f8ae6c2eb271",
+    "prototype": 14,
+    "table_id": "root:i25:R9",
+    "value_kind": "instruction",
+    "value_offset": 7175
+   }
+  ],
+  "purge.alert_tiers.tier3_multiplier": [
+   {
+    "instruction": 28,
+    "module": "ae99f8ae6c2eb271",
+    "prototype": 14,
+    "table_id": "root:i25:R9",
+    "value_kind": "instruction",
+    "value_offset": 7179
+   }
+  ],
+  "sentientcapture.swarm.area_swarm_size": [
+   {
+    "constant": 8,
+    "module": "b685d6398f60997c",
+    "prototype": 15,
+    "table_id": "root:i18:R11",
+    "value_kind": "number_constant",
+    "value_offset": 10215
+   }
+  ],
+  "sentientmd.max_sim_ai.p1": [
+   {
+    "instruction": 23,
+    "module": "1f41c5821d2c5240",
+    "prototype": 16,
+    "table_id": "root:i22:R15",
+    "value_kind": "instruction",
+    "value_offset": 8211
+   }
+  ],
+  "sentientmd.max_sim_ai.p2": [
+   {
+    "instruction": 24,
+    "module": "1f41c5821d2c5240",
+    "prototype": 16,
+    "table_id": "root:i22:R15",
+    "value_kind": "instruction",
+    "value_offset": 8215
+   }
+  ],
+  "sentientmd.max_sim_ai.p3": [
+   {
+    "instruction": 25,
+    "module": "1f41c5821d2c5240",
+    "prototype": 16,
+    "table_id": "root:i22:R15",
+    "value_kind": "instruction",
+    "value_offset": 8219
+   }
+  ],
+  "sentientmd.max_sim_ai.p4": [
+   {
+    "instruction": 26,
+    "module": "1f41c5821d2c5240",
+    "prototype": 16,
+    "table_id": "root:i22:R15",
+    "value_kind": "instruction",
+    "value_offset": 8223
+   }
+  ],
+  "shrine.max_enemies.normal.boss_part_2.p1": [
+   {
+    "instruction": 183,
+    "module": "1ef96aede7fe612e",
+    "prototype": 76,
+    "table_id": "root:i182:R60",
+    "value_kind": "instruction",
+    "value_offset": 55048
+   }
+  ],
+  "shrine.max_enemies.normal.boss_part_2.p2": [
+   {
+    "instruction": 184,
+    "module": "1ef96aede7fe612e",
+    "prototype": 76,
+    "table_id": "root:i182:R60",
+    "value_kind": "instruction",
+    "value_offset": 55052
+   }
+  ],
+  "shrine.max_enemies.normal.boss_part_2.p3": [
+   {
+    "instruction": 185,
+    "module": "1ef96aede7fe612e",
+    "prototype": 76,
+    "table_id": "root:i182:R60",
+    "value_kind": "instruction",
+    "value_offset": 55056
+   }
+  ],
+  "shrine.max_enemies.normal.boss_part_2.p4": [
+   {
+    "instruction": 186,
+    "module": "1ef96aede7fe612e",
+    "prototype": 76,
+    "table_id": "root:i182:R60",
+    "value_kind": "instruction",
+    "value_offset": 55060
+   }
+  ],
+  "shrine.max_enemies.normal.offering.p1": [
+   {
+    "instruction": 160,
+    "module": "1ef96aede7fe612e",
+    "prototype": 76,
+    "table_id": "root:i159:R60",
+    "value_kind": "instruction",
+    "value_offset": 54920
+   }
+  ],
+  "shrine.max_enemies.normal.offering.p2": [
+   {
+    "instruction": 161,
+    "module": "1ef96aede7fe612e",
+    "prototype": 76,
+    "table_id": "root:i159:R60",
+    "value_kind": "instruction",
+    "value_offset": 54924
+   }
+  ],
+  "shrine.max_enemies.normal.offering.p3": [
+   {
+    "instruction": 162,
+    "module": "1ef96aede7fe612e",
+    "prototype": 76,
+    "table_id": "root:i159:R60",
+    "value_kind": "instruction",
+    "value_offset": 54928
+   }
+  ],
+  "shrine.max_enemies.normal.offering.p4": [
+   {
+    "instruction": 163,
+    "module": "1ef96aede7fe612e",
+    "prototype": 76,
+    "table_id": "root:i159:R60",
+    "value_kind": "instruction",
+    "value_offset": 54932
+   }
+  ],
+  "shrine.max_enemies.sp.boss_part_2.p1": [
+   {
+    "instruction": 230,
+    "module": "1ef96aede7fe612e",
+    "prototype": 76,
+    "table_id": "root:i229:R61",
+    "value_kind": "instruction",
+    "value_offset": 55312
+   }
+  ],
+  "shrine.max_enemies.sp.boss_part_2.p2": [
+   {
+    "instruction": 231,
+    "module": "1ef96aede7fe612e",
+    "prototype": 76,
+    "table_id": "root:i229:R61",
+    "value_kind": "instruction",
+    "value_offset": 55316
+   }
+  ],
+  "shrine.max_enemies.sp.boss_part_2.p3": [
+   {
+    "instruction": 232,
+    "module": "1ef96aede7fe612e",
+    "prototype": 76,
+    "table_id": "root:i229:R61",
+    "value_kind": "instruction",
+    "value_offset": 55320
+   }
+  ],
+  "shrine.max_enemies.sp.boss_part_2.p4": [
+   {
+    "instruction": 233,
+    "module": "1ef96aede7fe612e",
+    "prototype": 76,
+    "table_id": "root:i229:R61",
+    "value_kind": "instruction",
+    "value_offset": 55324
+   }
+  ],
+  "shrine.max_enemies.sp.offering.p1": [
+   {
+    "instruction": 207,
+    "module": "1ef96aede7fe612e",
+    "prototype": 76,
+    "table_id": "root:i206:R61",
+    "value_kind": "instruction",
+    "value_offset": 55184
+   }
+  ],
+  "shrine.max_enemies.sp.offering.p2": [
+   {
+    "instruction": 208,
+    "module": "1ef96aede7fe612e",
+    "prototype": 76,
+    "table_id": "root:i206:R61",
+    "value_kind": "instruction",
+    "value_offset": 55188
+   }
+  ],
+  "shrine.max_enemies.sp.offering.p3": [
+   {
+    "instruction": 209,
+    "module": "1ef96aede7fe612e",
+    "prototype": 76,
+    "table_id": "root:i206:R61",
+    "value_kind": "instruction",
+    "value_offset": 55192
+   }
+  ],
+  "shrine.max_enemies.sp.offering.p4": [
+   {
+    "instruction": 210,
+    "module": "1ef96aede7fe612e",
+    "prototype": 76,
+    "table_id": "root:i206:R61",
+    "value_kind": "instruction",
+    "value_offset": 55196
+   }
+  ],
+  "shrine.min_enemies.normal.boss_part_2.p1": [
+   {
+    "instruction": 176,
+    "module": "1ef96aede7fe612e",
+    "prototype": 76,
+    "table_id": "root:i175:R60",
+    "value_kind": "instruction",
+    "value_offset": 55008
+   }
+  ],
+  "shrine.min_enemies.normal.boss_part_2.p2": [
+   {
+    "instruction": 177,
+    "module": "1ef96aede7fe612e",
+    "prototype": 76,
+    "table_id": "root:i175:R60",
+    "value_kind": "instruction",
+    "value_offset": 55012
+   }
+  ],
+  "shrine.min_enemies.normal.boss_part_2.p3": [
+   {
+    "instruction": 178,
+    "module": "1ef96aede7fe612e",
+    "prototype": 76,
+    "table_id": "root:i175:R60",
+    "value_kind": "instruction",
+    "value_offset": 55016
+   }
+  ],
+  "shrine.min_enemies.normal.boss_part_2.p4": [
+   {
+    "instruction": 179,
+    "module": "1ef96aede7fe612e",
+    "prototype": 76,
+    "table_id": "root:i175:R60",
+    "value_kind": "instruction",
+    "value_offset": 55020
+   }
+  ],
+  "shrine.min_enemies.normal.offering.p1": [
+   {
+    "instruction": 153,
+    "module": "1ef96aede7fe612e",
+    "prototype": 76,
+    "table_id": "root:i152:R60",
+    "value_kind": "instruction",
+    "value_offset": 54880
+   }
+  ],
+  "shrine.min_enemies.normal.offering.p2": [
+   {
+    "instruction": 154,
+    "module": "1ef96aede7fe612e",
+    "prototype": 76,
+    "table_id": "root:i152:R60",
+    "value_kind": "instruction",
+    "value_offset": 54884
+   }
+  ],
+  "shrine.min_enemies.normal.offering.p3": [
+   {
+    "instruction": 155,
+    "module": "1ef96aede7fe612e",
+    "prototype": 76,
+    "table_id": "root:i152:R60",
+    "value_kind": "instruction",
+    "value_offset": 54888
+   }
+  ],
+  "shrine.min_enemies.normal.offering.p4": [
+   {
+    "instruction": 156,
+    "module": "1ef96aede7fe612e",
+    "prototype": 76,
+    "table_id": "root:i152:R60",
+    "value_kind": "instruction",
+    "value_offset": 54892
+   }
+  ],
+  "shrine.min_enemies.sp.boss_part_2.p1": [
+   {
+    "instruction": 223,
+    "module": "1ef96aede7fe612e",
+    "prototype": 76,
+    "table_id": "root:i222:R61",
+    "value_kind": "instruction",
+    "value_offset": 55272
+   }
+  ],
+  "shrine.min_enemies.sp.boss_part_2.p2": [
+   {
+    "instruction": 224,
+    "module": "1ef96aede7fe612e",
+    "prototype": 76,
+    "table_id": "root:i222:R61",
+    "value_kind": "instruction",
+    "value_offset": 55276
+   }
+  ],
+  "shrine.min_enemies.sp.boss_part_2.p3": [
+   {
+    "instruction": 225,
+    "module": "1ef96aede7fe612e",
+    "prototype": 76,
+    "table_id": "root:i222:R61",
+    "value_kind": "instruction",
+    "value_offset": 55280
+   }
+  ],
+  "shrine.min_enemies.sp.boss_part_2.p4": [
+   {
+    "instruction": 226,
+    "module": "1ef96aede7fe612e",
+    "prototype": 76,
+    "table_id": "root:i222:R61",
+    "value_kind": "instruction",
+    "value_offset": 55284
+   }
+  ],
+  "shrine.min_enemies.sp.offering.p1": [
+   {
+    "instruction": 200,
+    "module": "1ef96aede7fe612e",
+    "prototype": 76,
+    "table_id": "root:i199:R61",
+    "value_kind": "instruction",
+    "value_offset": 55144
+   }
+  ],
+  "shrine.min_enemies.sp.offering.p2": [
+   {
+    "instruction": 201,
+    "module": "1ef96aede7fe612e",
+    "prototype": 76,
+    "table_id": "root:i199:R61",
+    "value_kind": "instruction",
+    "value_offset": 55148
+   }
+  ],
+  "shrine.min_enemies.sp.offering.p3": [
+   {
+    "instruction": 202,
+    "module": "1ef96aede7fe612e",
+    "prototype": 76,
+    "table_id": "root:i199:R61",
+    "value_kind": "instruction",
+    "value_offset": 55152
+   }
+  ],
+  "shrine.min_enemies.sp.offering.p4": [
+   {
+    "instruction": 203,
+    "module": "1ef96aede7fe612e",
+    "prototype": 76,
+    "table_id": "root:i199:R61",
+    "value_kind": "instruction",
+    "value_offset": 55156
+   }
+  ],
+  "shrine.respawn_delay.normal.boss_part_2.p1": [
+   {
+    "instruction": 169,
+    "module": "1ef96aede7fe612e",
+    "prototype": 76,
+    "table_id": "root:i168:R60",
+    "value_kind": "instruction",
+    "value_offset": 54968
+   }
+  ],
+  "shrine.respawn_delay.normal.boss_part_2.p2": [
+   {
+    "instruction": 170,
+    "module": "1ef96aede7fe612e",
+    "prototype": 76,
+    "table_id": "root:i168:R60",
+    "value_kind": "instruction",
+    "value_offset": 54972
+   }
+  ],
+  "shrine.respawn_delay.normal.boss_part_2.p3": [
+   {
+    "instruction": 171,
+    "module": "1ef96aede7fe612e",
+    "prototype": 76,
+    "table_id": "root:i168:R60",
+    "value_kind": "instruction",
+    "value_offset": 54976
+   }
+  ],
+  "shrine.respawn_delay.normal.boss_part_2.p4": [
+   {
+    "instruction": 172,
+    "module": "1ef96aede7fe612e",
+    "prototype": 76,
+    "table_id": "root:i168:R60",
+    "value_kind": "instruction",
+    "value_offset": 54980
+   }
+  ],
+  "shrine.respawn_delay.normal.offering.p1": [
+   {
+    "instruction": 146,
+    "module": "1ef96aede7fe612e",
+    "prototype": 76,
+    "table_id": "root:i145:R60",
+    "value_kind": "instruction",
+    "value_offset": 54840
+   }
+  ],
+  "shrine.respawn_delay.normal.offering.p2": [
+   {
+    "instruction": 147,
+    "module": "1ef96aede7fe612e",
+    "prototype": 76,
+    "table_id": "root:i145:R60",
+    "value_kind": "instruction",
+    "value_offset": 54844
+   }
+  ],
+  "shrine.respawn_delay.normal.offering.p3": [
+   {
+    "instruction": 148,
+    "module": "1ef96aede7fe612e",
+    "prototype": 76,
+    "table_id": "root:i145:R60",
+    "value_kind": "instruction",
+    "value_offset": 54848
+   }
+  ],
+  "shrine.respawn_delay.normal.offering.p4": [
+   {
+    "instruction": 149,
+    "module": "1ef96aede7fe612e",
+    "prototype": 76,
+    "table_id": "root:i145:R60",
+    "value_kind": "instruction",
+    "value_offset": 54852
+   }
+  ],
+  "shrine.respawn_delay.sp.boss_part_2.p1": [
+   {
+    "instruction": 216,
+    "module": "1ef96aede7fe612e",
+    "prototype": 76,
+    "table_id": "root:i215:R61",
+    "value_kind": "instruction",
+    "value_offset": 55232
+   }
+  ],
+  "shrine.respawn_delay.sp.boss_part_2.p2": [
+   {
+    "instruction": 217,
+    "module": "1ef96aede7fe612e",
+    "prototype": 76,
+    "table_id": "root:i215:R61",
+    "value_kind": "instruction",
+    "value_offset": 55236
+   }
+  ],
+  "shrine.respawn_delay.sp.boss_part_2.p3": [
+   {
+    "instruction": 218,
+    "module": "1ef96aede7fe612e",
+    "prototype": 76,
+    "table_id": "root:i215:R61",
+    "value_kind": "instruction",
+    "value_offset": 55240
+   }
+  ],
+  "shrine.respawn_delay.sp.boss_part_2.p4": [
+   {
+    "instruction": 219,
+    "module": "1ef96aede7fe612e",
+    "prototype": 76,
+    "table_id": "root:i215:R61",
+    "value_kind": "instruction",
+    "value_offset": 55244
+   }
+  ],
+  "shrine.respawn_delay.sp.offering.p1": [
+   {
+    "instruction": 193,
+    "module": "1ef96aede7fe612e",
+    "prototype": 76,
+    "table_id": "root:i192:R61",
+    "value_kind": "instruction",
+    "value_offset": 55104
+   }
+  ],
+  "shrine.respawn_delay.sp.offering.p2": [
+   {
+    "instruction": 194,
+    "module": "1ef96aede7fe612e",
+    "prototype": 76,
+    "table_id": "root:i192:R61",
+    "value_kind": "instruction",
+    "value_offset": 55108
+   }
+  ],
+  "shrine.respawn_delay.sp.offering.p3": [
+   {
+    "instruction": 195,
+    "module": "1ef96aede7fe612e",
+    "prototype": 76,
+    "table_id": "root:i192:R61",
+    "value_kind": "instruction",
+    "value_offset": 55112
+   }
+  ],
+  "shrine.respawn_delay.sp.offering.p4": [
+   {
+    "instruction": 196,
+    "module": "1ef96aede7fe612e",
+    "prototype": 76,
+    "table_id": "root:i192:R61",
+    "value_kind": "instruction",
+    "value_offset": 55116
+   }
+  ],
+  "shrine.stage_time.offering": [
+   {
+    "constant": 49,
+    "module": "1ef96aede7fe612e",
+    "prototype": 76,
+    "table_id": "root:i144:R59",
+    "value_kind": "number_constant",
+    "value_offset": 57554
+   }
+  ],
+  "survival.alert_interval": [
+   {
+    "constant": 36,
+    "module": "f10a043e7f825db2",
+    "prototype": 79,
+    "table_id": "root:i19:R9",
+    "value_kind": "number_constant",
+    "value_offset": 131001
+   }
+  ],
+  "survival.alert_ls_drop_mult": [
+   {
+    "constant": 25,
+    "module": "f10a043e7f825db2",
+    "prototype": 79,
+    "table_id": "root:i18:R8",
+    "value_kind": "number_constant",
+    "value_offset": 130889
+   }
+  ],
+  "survival.capsule_incoming_time": [
+   {
+    "constant": 11,
+    "module": "f10a043e7f825db2",
+    "prototype": 79,
+    "table_id": "root:i10:R7",
+    "value_kind": "number_constant",
+    "value_offset": 130782
+   }
+  ],
+  "survival.capsule_initial_time": [
+   {
+    "constant": 4,
+    "module": "f10a043e7f825db2",
+    "prototype": 79,
+    "table_id": "root:i10:R7",
+    "value_kind": "number_constant",
+    "value_offset": 130744
+   }
+  ],
+  "survival.capsule_interval": [
+   {
+    "constant": 9,
+    "module": "f10a043e7f825db2",
+    "prototype": 79,
+    "table_id": "root:i10:R7",
+    "value_kind": "number_constant",
+    "value_offset": 130770
+   }
+  ],
+  "survival.capsule_max_time": [
+   {
+    "constant": 4,
+    "module": "f10a043e7f825db2",
+    "prototype": 79,
+    "table_id": "root:i10:R7",
+    "value_kind": "number_constant",
+    "value_offset": 130744
+   }
+  ],
+  "survival.capsule_time_added": [
+   {
+    "constant": 7,
+    "module": "f10a043e7f825db2",
+    "prototype": 79,
+    "table_id": "root:i10:R7",
+    "value_kind": "number_constant",
+    "value_offset": 130758
+   }
+  ],
+  "survival.duviri_drop_mults.duviriQuestMultiplier": [
+   {
+    "constant": 27,
+    "module": "f10a043e7f825db2",
+    "prototype": 79,
+    "table_id": "root:i18:R8",
+    "value_kind": "number_constant",
+    "value_offset": 130901
+   }
+  ],
+  "survival.duviri_drop_mults.duviriSurvivalMultiplier": [
+   {
+    "constant": 29,
+    "module": "f10a043e7f825db2",
+    "prototype": 79,
+    "table_id": "root:i18:R8",
+    "value_kind": "number_constant",
+    "value_offset": 130913
+   }
+  ],
+  "survival.kuva_level_enrage.enrageTime": [
+   {
+    "constant": 36,
+    "module": "f10a043e7f825db2",
+    "prototype": 79,
+    "table_id": "root:i63:R11",
+    "value_kind": "number_constant",
+    "value_offset": 131001
+   }
+  ],
+  "survival.kuva_level_enrage.levelUpTime": [
+   {
+    "constant": 36,
+    "module": "f10a043e7f825db2",
+    "prototype": 79,
+    "table_id": "root:i63:R11",
+    "value_kind": "number_constant",
+    "value_offset": 131001
+   }
+  ],
+  "survival.level_max_boost.alertLevelMaxBoost": [
+   {
+    "constant": 49,
+    "module": "f10a043e7f825db2",
+    "prototype": 79,
+    "table_id": "root:i20:R10",
+    "value_kind": "number_constant",
+    "value_offset": 131072
+   }
+  ],
+  "survival.level_max_boost.sortieLevelMaxBoost": [
+   {
+    "constant": 66,
+    "module": "f10a043e7f825db2",
+    "prototype": 79,
+    "table_id": "root:i20:R10",
+    "value_kind": "number_constant",
+    "value_offset": 131171
+   }
+  ],
+  "survival.level_up_enrage.enrageInterval": [
+   {
+    "constant": 59,
+    "module": "f10a043e7f825db2",
+    "prototype": 79,
+    "table_id": "root:i20:R10",
+    "value_kind": "number_constant",
+    "value_offset": 131132
+   }
+  ],
+  "survival.level_up_enrage.enrageIntervalMin": [
+   {
+    "constant": 61,
+    "module": "f10a043e7f825db2",
+    "prototype": 79,
+    "table_id": "root:i20:R10",
+    "value_kind": "number_constant",
+    "value_offset": 131144
+   }
+  ],
+  "survival.level_up_enrage.enrageIntervalScale": [
+   {
+    "constant": 63,
+    "module": "f10a043e7f825db2",
+    "prototype": 79,
+    "table_id": "root:i20:R10",
+    "value_kind": "number_constant",
+    "value_offset": 131156
+   }
+  ],
+  "survival.level_up_enrage.enrageTime": [
+   {
+    "constant": 57,
+    "module": "f10a043e7f825db2",
+    "prototype": 79,
+    "table_id": "root:i20:R10",
+    "value_kind": "number_constant",
+    "value_offset": 131120
+   }
+  ],
+  "survival.level_up_enrage.levelUpTime": [
+   {
+    "constant": 55,
+    "module": "f10a043e7f825db2",
+    "prototype": 79,
+    "table_id": "root:i20:R10",
+    "value_kind": "number_constant",
+    "value_offset": 131108
+   }
+  ],
+  "survival.pickup_drop_low_high_mult.highDropMultiplier": [
+   {
+    "constant": 21,
+    "module": "f10a043e7f825db2",
+    "prototype": 79,
+    "table_id": "root:i18:R8",
+    "value_kind": "number_constant",
+    "value_offset": 130865
+   }
+  ],
+  "survival.pickup_drop_low_high_mult.highSpawnThreshold": [
+   {
+    "constant": 17,
+    "module": "f10a043e7f825db2",
+    "prototype": 79,
+    "table_id": "root:i18:R8",
+    "value_kind": "number_constant",
+    "value_offset": 130841
+   }
+  ],
+  "survival.pickup_drop_low_high_mult.lowDropMultiplier": [
+   {
+    "constant": 19,
+    "module": "f10a043e7f825db2",
+    "prototype": 79,
+    "table_id": "root:i18:R8",
+    "value_kind": "number_constant",
+    "value_offset": 130853
+   }
+  ],
+  "survival.pickup_drop_low_high_mult.lowSpawnThreshold": [
+   {
+    "constant": 15,
+    "module": "f10a043e7f825db2",
+    "prototype": 79,
+    "table_id": "root:i18:R8",
+    "value_kind": "number_constant",
+    "value_offset": 130829
+   }
+  ],
+  "survival.pickup_time_added": [
+   {
+    "constant": 23,
+    "module": "f10a043e7f825db2",
+    "prototype": 79,
+    "table_id": "root:i18:R8",
+    "value_kind": "number_constant",
+    "value_offset": 130877
+   }
+  ],
+  "survival.player_damage_at_zero_ls.killPlayerTime": [
+   {
+    "constant": 34,
+    "module": "f10a043e7f825db2",
+    "prototype": 79,
+    "table_id": "root:i70:R14",
+    "value_kind": "number_constant",
+    "value_offset": 130989
+   }
+  ],
+  "survival.player_damage_at_zero_ls.playerDamagePercent": [
+   {
+    "constant": 15,
+    "module": "f10a043e7f825db2",
+    "prototype": 79,
+    "table_id": "root:i70:R14",
+    "value_kind": "number_constant",
+    "value_offset": 130829
+   }
+  ],
+  "survival.reward_interval": [
+   {
+    "constant": 34,
+    "module": "f10a043e7f825db2",
+    "prototype": 79,
+    "table_id": "root:i19:R9",
+    "value_kind": "number_constant",
+    "value_offset": 130989
+   }
+  ],
+  "survival.wf99_drop_mults.wf99SurvivalMultiplier": [
+   {
+    "constant": 32,
+    "module": "f10a043e7f825db2",
+    "prototype": 79,
+    "table_id": "root:i18:R8",
+    "value_kind": "number_constant",
+    "value_offset": 130928
+   }
+  ],
+  "survival.wf99_drop_mults.wf99SurvivalQuestMultiplier": [
+   {
+    "constant": 29,
+    "module": "f10a043e7f825db2",
+    "prototype": 79,
+    "table_id": "root:i18:R8",
+    "value_kind": "number_constant",
+    "value_offset": 130913
+   }
+  ],
+  "void_armageddon.angel_channel_time": [
+   {
+    "constant": 35,
+    "module": "ac839a89c06bf0bb",
+    "prototype": 102,
+    "table_id": "root:i28:R9",
+    "value_kind": "number_constant",
+    "value_offset": 99056
+   }
+  ],
+  "void_armageddon.kills_per_wave.p1": [
+   {
+    "instruction": 30,
+    "module": "ac839a89c06bf0bb",
+    "prototype": 102,
+    "table_id": "root:i29:R10",
+    "value_kind": "instruction",
+    "value_offset": 94538
+   }
+  ],
+  "void_armageddon.kills_per_wave.p2": [
+   {
+    "instruction": 31,
+    "module": "ac839a89c06bf0bb",
+    "prototype": 102,
+    "table_id": "root:i29:R10",
+    "value_kind": "instruction",
+    "value_offset": 94542
+   }
+  ],
+  "void_armageddon.kills_per_wave.p3": [
+   {
+    "instruction": 32,
+    "module": "ac839a89c06bf0bb",
+    "prototype": 102,
+    "table_id": "root:i29:R10",
+    "value_kind": "instruction",
+    "value_offset": 94546
+   }
+  ],
+  "void_armageddon.kills_per_wave.p4": [
+   {
+    "instruction": 33,
+    "module": "ac839a89c06bf0bb",
+    "prototype": 102,
+    "table_id": "root:i29:R10",
+    "value_kind": "instruction",
+    "value_offset": 94550
+   }
+  ],
+  "void_armageddon.max_enemies.p1": [
+   {
+    "instruction": 37,
+    "module": "ac839a89c06bf0bb",
+    "prototype": 102,
+    "table_id": "root:i36:R10",
+    "value_kind": "instruction",
+    "value_offset": 94578
+   }
+  ],
+  "void_armageddon.max_enemies.p2": [
+   {
+    "instruction": 38,
+    "module": "ac839a89c06bf0bb",
+    "prototype": 102,
+    "table_id": "root:i36:R10",
+    "value_kind": "instruction",
+    "value_offset": 94582
+   }
+  ],
+  "void_armageddon.max_enemies.p3": [
+   {
+    "instruction": 39,
+    "module": "ac839a89c06bf0bb",
+    "prototype": 102,
+    "table_id": "root:i36:R10",
+    "value_kind": "instruction",
+    "value_offset": 94586
+   }
+  ],
+  "void_armageddon.max_enemies.p4": [
+   {
+    "instruction": 40,
+    "module": "ac839a89c06bf0bb",
+    "prototype": 102,
+    "table_id": "root:i36:R10",
+    "value_kind": "instruction",
+    "value_offset": 94590
+   }
+  ],
+  "void_armageddon.post_wave_time": [
+   {
+    "constant": 16,
+    "module": "ac839a89c06bf0bb",
+    "prototype": 102,
+    "table_id": "root:i28:R9",
+    "value_kind": "number_constant",
+    "value_offset": 98972
+   }
+  ],
+  "void_armageddon.pre_wave_time": [
+   {
+    "constant": 12,
+    "module": "ac839a89c06bf0bb",
+    "prototype": 102,
+    "table_id": "root:i28:R9",
+    "value_kind": "number_constant",
+    "value_offset": 98948
+   }
+  ],
+  "void_armageddon.prepare_time": [
+   {
+    "constant": 16,
+    "module": "ac839a89c06bf0bb",
+    "prototype": 102,
+    "table_id": "root:i28:R9",
+    "value_kind": "number_constant",
+    "value_offset": 98972
+   }
+  ],
+  "void_armageddon.reward_interval": [
+   {
+    "constant": 33,
+    "module": "ac839a89c06bf0bb",
+    "prototype": 102,
+    "table_id": "root:i28:R9",
+    "value_kind": "number_constant",
+    "value_offset": 99044
+   }
+  ],
+  "void_armageddon.round_complete_time": [
+   {
+    "constant": 24,
+    "module": "ac839a89c06bf0bb",
+    "prototype": 102,
+    "table_id": "root:i28:R9",
+    "value_kind": "number_constant",
+    "value_offset": 99005
+   }
+  ],
+  "void_armageddon.wave_time": [
+   {
+    "constant": 14,
+    "module": "ac839a89c06bf0bb",
+    "prototype": 102,
+    "table_id": "root:i28:R9",
+    "value_kind": "number_constant",
+    "value_offset": 98960
+   }
+  ],
+  "void_armageddon.waves_per_round": [
+   {
+    "constant": 30,
+    "module": "ac839a89c06bf0bb",
+    "prototype": 102,
+    "table_id": "root:i28:R9",
+    "value_kind": "number_constant",
+    "value_offset": 99031
+   }
+  ],
+  "void_cascade.alert_reward_interval": [
+   {
+    "instruction": 82,
+    "module": "32c344afa33be174",
+    "prototype": 97,
+    "table_id": "root:i16:R5",
+    "value_kind": "instruction",
+    "value_offset": 88722
+   }
+  ],
+  "void_cascade.circle_fixed_length.p1": [
+   {
+    "instruction": 145,
+    "module": "32c344afa33be174",
+    "prototype": 97,
+    "table_id": "root:i144:R6",
+    "value_kind": "instruction",
+    "value_offset": 89098
+   }
+  ],
+  "void_cascade.circle_fixed_length.p2": [
+   {
+    "instruction": 146,
+    "module": "32c344afa33be174",
+    "prototype": 97,
+    "table_id": "root:i144:R6",
+    "value_kind": "instruction",
+    "value_offset": 89102
+   }
+  ],
+  "void_cascade.circle_fixed_length.p3": [
+   {
+    "instruction": 147,
+    "module": "32c344afa33be174",
+    "prototype": 97,
+    "table_id": "root:i144:R6",
+    "value_kind": "instruction",
+    "value_offset": 89106
+   }
+  ],
+  "void_cascade.circle_fixed_length.p4": [
+   {
+    "instruction": 148,
+    "module": "32c344afa33be174",
+    "prototype": 97,
+    "table_id": "root:i144:R6",
+    "value_kind": "instruction",
+    "value_offset": 89110
+   }
+  ],
+  "void_cascade.pillar_duration": [
+   {
+    "instruction": 56,
+    "module": "32c344afa33be174",
+    "prototype": 97,
+    "table_id": "root:i16:R5",
+    "value_kind": "instruction",
+    "value_offset": 88570
+   },
+   {
+    "instruction": 140,
+    "module": "32c344afa33be174",
+    "prototype": 97,
+    "table_id": "root:i16:R5",
+    "value_kind": "instruction",
+    "value_offset": 89066
+   }
+  ],
+  "void_flood.curse_count.curseCountNormal": [
+   {
+    "constant": 31,
+    "module": "fc711ff621a75552",
+    "prototype": 83,
+    "table_id": "root:i193:R88",
+    "value_kind": "number_constant",
+    "value_offset": 107679
+   }
+  ],
+  "void_flood.curse_count.curseCountSteelPath": [
+   {
+    "constant": 55,
+    "module": "fc711ff621a75552",
+    "prototype": 83,
+    "table_id": "root:i193:R88",
+    "value_kind": "number_constant",
+    "value_offset": 107859
+   }
+  ],
+  "void_flood.curse_count.playerCapacity": [
+   {
+    "constant": 46,
+    "module": "fc711ff621a75552",
+    "prototype": 83,
+    "table_id": "root:i193:R88",
+    "value_kind": "number_constant",
+    "value_offset": 107814
+   }
+  ],
+  "void_flood.deposit_speed_scale": [
+   {
+    "constant": 37,
+    "module": "fc711ff621a75552",
+    "prototype": 83,
+    "table_id": "root:i26:R4",
+    "value_kind": "number_constant",
+    "value_offset": 107757
+   },
+   {
+    "constant": 38,
+    "module": "fc711ff621a75552",
+    "prototype": 83,
+    "table_id": "root:i26:R4",
+    "value_kind": "number_constant",
+    "value_offset": 107766
+   },
+   {
+    "constant": 33,
+    "module": "fc711ff621a75552",
+    "prototype": 83,
+    "table_id": "root:i26:R4",
+    "value_kind": "number_constant",
+    "value_offset": 107691
+   },
+   {
+    "constant": 39,
+    "module": "fc711ff621a75552",
+    "prototype": 83,
+    "table_id": "root:i26:R4",
+    "value_kind": "number_constant",
+    "value_offset": 107775
+   }
+  ],
+  "void_flood.drain_speed_scale": [
+   {
+    "constant": 33,
+    "module": "fc711ff621a75552",
+    "prototype": 83,
+    "table_id": "root:i25:R3",
+    "value_kind": "number_constant",
+    "value_offset": 107691
+   }
+  ],
+  "void_flood.fill_timer.curveScaleV": [
+   {
+    "constant": 67,
+    "module": "fc711ff621a75552",
+    "prototype": 83,
+    "table_id": "root:i62:R6",
+    "value_kind": "number_constant",
+    "value_offset": 107989
+   }
+  ],
+  "void_flood.fill_timer.timeToFillMax": [
+   {
+    "constant": 65,
+    "module": "fc711ff621a75552",
+    "prototype": 83,
+    "table_id": "root:i62:R6",
+    "value_kind": "number_constant",
+    "value_offset": 107977
+   }
+  ],
+  "void_flood.fill_timer.timeToFillMin": [
+   {
+    "constant": 44,
+    "module": "fc711ff621a75552",
+    "prototype": 83,
+    "table_id": "root:i62:R6",
+    "value_kind": "number_constant",
+    "value_offset": 107802
+   }
+  ],
+  "void_flood.fractures_per_round.shadowgrapher": [
+   {
+    "constant": 108,
+    "module": "fc711ff621a75552",
+    "prototype": 83,
+    "table_id": "root:i193:R88",
+    "value_kind": "number_constant",
+    "value_offset": 108191
+   }
+  ],
+  "void_flood.orb_value_scale": [
+   {
+    "constant": 6,
+    "module": "fc711ff621a75552",
+    "prototype": 83,
+    "table_id": "root:i47:R5",
+    "value_kind": "number_constant",
+    "value_offset": 107497
+   },
+   {
+    "constant": 42,
+    "module": "fc711ff621a75552",
+    "prototype": 83,
+    "table_id": "root:i47:R5",
+    "value_kind": "number_constant",
+    "value_offset": 107790
+   },
+   {
+    "constant": 44,
+    "module": "fc711ff621a75552",
+    "prototype": 83,
+    "table_id": "root:i47:R5",
+    "value_kind": "number_constant",
+    "value_offset": 107802
+   }
+  ],
+  "void_flood.tank_capacity_scale": [
+   {
+    "instruction": 40,
+    "module": "fc711ff621a75552",
+    "prototype": 83,
+    "table_id": "root:i39:R4",
+    "value_kind": "instruction",
+    "value_offset": 102937
+   },
+   {
+    "instruction": 41,
+    "module": "fc711ff621a75552",
+    "prototype": 83,
+    "table_id": "root:i39:R4",
+    "value_kind": "instruction",
+    "value_offset": 102941
+   },
+   {
+    "instruction": 42,
+    "module": "fc711ff621a75552",
+    "prototype": 83,
+    "table_id": "root:i39:R4",
+    "value_kind": "instruction",
+    "value_offset": 102945
+   },
+   {
+    "instruction": 43,
+    "module": "fc711ff621a75552",
+    "prototype": 83,
+    "table_id": "root:i39:R4",
+    "value_kind": "instruction",
+    "value_offset": 102949
+   }
+  ]
+ },
  "seed": 1989041872,
  "signatures": {
   "OpenWF/vv/sig/Curl_ossl_verifyhost.json@41.0.0": {
@@ -8062,6 +14404,85 @@
    "file": "renovice/vm_stack_write.hpp",
    "pattern": "4C 8B 49 18 80 62 01 FB 49 8B 41 30 49 89 00 49 89 51 30 C3"
   }
+ },
+ "stock_pack": {
+  "files": {
+   "Lotus_Interface_Libs_DuviriUtil.lua_B": "cae26c1e202d382817b1fbd9537af8364c93243520ae248db489577ccf04a2e4",
+   "Lotus_Interface_MissionRequirementUtilities.lua_B": "6801f711c598efbce3b57ca50f15e45b50abaf803abe1c72694f3b962e431d25",
+   "Lotus_Interface_OmegaRerollSelection.lua_B": "cdecc0699fd91bc1e97591aa83e4f732c608e2461a287515c6a62c297fcb1283",
+   "Lotus_Powersuits_Bard_Abilities_BardAmplify.lua_B": "5647f3c201fce041bf1a05962ee61ad358ab7e312e8c8c8e6aec88355e1e7797",
+   "Lotus_Powersuits_Bard_Abilities_BardJam.lua_B": "300589644138a42917e17a1ee5ed014dd38b37a5c876f8a1d0b049139aea190a",
+   "Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B": "c713c4d6bf32adb06f7b3ff71d03f00feb53ccd0b651bd2cdf2382106882299f",
+   "Lotus_Powersuits_Frost_Abilities_IceSpike.lua_B": "f903720dee7828506f2a3e668204860f5300a27c27fc53f4e86781cab276f3c5",
+   "Lotus_Scripts_Arbitration.lua_B": "23470a6b6a8f904c363e08da20995879ef7eb15b28e950cdd271f43eb84b93ce",
+   "Lotus_Scripts_BossAmbulasArena.lua_B": "a4b476330246ca513a2eb8b5dfc3f476130b3e3c14fadc3a75cd586c50a83470",
+   "Lotus_Scripts_BossKelaArena.lua_B": "2b39f531ad194a78d054b30a2674b5e387ab1b9eea48aefe12776ff49be09a50",
+   "Lotus_Scripts_CaptureNew.lua_B": "4e1469f2aa8b228d4e650543a2ec153c196abecc24d8b9d2f365323f43ca7ff7",
+   "Lotus_Scripts_CrewShip_Encounters_BasicRailJackPatrol.lua_B": "fa1553b18402becc5809523b25747599718e28d21cf7abf69b19b0c15f059c0f",
+   "Lotus_Scripts_CrewShip_Encounters_KillCrewShipsExterminateObjective.lua_B": "741a81ad4b150ecdce0507b4ab708fa09213b381836d03404740656ab2595da6",
+   "Lotus_Scripts_CrewShip_Encounters_KillFightersExterminateEncounter.lua_B": "870d531df5117518e6a5d600d8c266bae8ee3e61c0b03746a831580bfd69a2de",
+   "Lotus_Scripts_DarkSectors_DarkSectors.lua_B": "5ea543e500d508d2a4431d72a1500099a51f6a54690e39f39c2966d00b73e118",
+   "Lotus_Scripts_Duviri_Gameplay_DuviriEndless.lua_B": "f95988346ac03cd340b4cd99d87bc9891837d8b8545246777b673e29e67fb48f",
+   "Lotus_Scripts_Eidolon_Encounters_DynamicDefend.lua_B": "f2a27591489413891650d0948414cde30dc7b7ca7ec0922ca3003b55773c150e",
+   "Lotus_Scripts_ExtractionTimer.lua_B": "634857104d2306d4b800370d2875a698202483f83fc01b6e9586cb88b093d67c",
+   "Lotus_Scripts_InfestedMicroplanet_Encounters_DynamicAreaDefense.lua_B": "322d5e174ac81d86dfdff92fced2cde6a2748d9929698409381c13de936153f2",
+   "Lotus_Scripts_Intel.lua_B": "51b3a553da84d23c871408160fccef20553b47f77836767a265f7475e63da961",
+   "Lotus_Scripts_JadeShadowsPart2Mission_MissionEncounters_AS1Space.lua_B": "c5c0ae7fa7db1c5c26a464e7ecc776a3f33f5d1567abfd63a0bc1046fc44191c",
+   "Lotus_Scripts_JadeShadowsPart2Mission_MissionEncounters_GS1Space.lua_B": "e2a94d090512390c8a3226d74057891675819714575ed89854757e4ad767a4cf",
+   "Lotus_Scripts_Levels_1999Defense.lua_B": "4d067b25c1bdc426826226431ac1fe4dfd4647dfede24bac7f4289b09f89c4ea",
+   "Lotus_Scripts_Libs_ConquestLib.lua_B": "73107506e80ff7853ae0c4e77d56682707492328be9eec80067c5edb86529453",
+   "Lotus_Scripts_Libs_HardModeBossUtil.lua_B": "2218391e18b77db92150d2f024ef318ba1553edeb494e39d9099f53fbf087c43",
+   "Lotus_Scripts_LoopDefend.lua_B": "377f28ee2af3f9fd21a20c6a0b27c73aa90509730b7ba4658414028eb68e1fd2",
+   "Lotus_Scripts_LotusGameRules.lua_B": "afa3f397525a368d52a3a2b8b687074a216893603ab92e82f1aae08fe9d973e6",
+   "Lotus_Scripts_MobileDefense.lua_B": "4dcfa0b5633b93bc3af57f04ab5de4f1cc492fcfd2ae4de61b9b473e5f1b2da1",
+   "Lotus_Scripts_Modes_ArchWingMissionScript.lua_B": "33bc6f058cc5692494923a76842ae6d7bea4d80357414e464738f0b98567da8b",
+   "Lotus_Scripts_Modes_ArchwingPursuitMode.lua_B": "74f207dcd4ca5704185b2edd4e10e0f6941692f79335c9541ab0f5b88bd89e01",
+   "Lotus_Scripts_Modes_AscensionMission.lua_B": "07747feb6149f476e9da94885f7e64fcbea143347d85ed5d18e25407fb610e49",
+   "Lotus_Scripts_Modes_ColonistDoorDefenseMission.lua_B": "554e7c6c817b29938616d62759639f13601d4a6b9d6756ed1ad4868d71a786cd",
+   "Lotus_Scripts_Modes_ColonistRescueMission.lua_B": "b8dd2af5e74a2b3742ef0cd87b6f6fbfbf377a3935857fa93f74de5e876b2b08",
+   "Lotus_Scripts_Modes_EntratiLabAlchemy.lua_B": "0da3f5d2c05509d4d8ed3f12588f77d501cd099a5a90e2baef0c60460caa1104",
+   "Lotus_Scripts_Modes_EntratiSwarmMission.lua_B": "0e8e7fa98805f73885c50cbea3ce81368511c94f70d17e2cc38ac85174521b24",
+   "Lotus_Scripts_Modes_EntratiVoidVaults.lua_B": "036522b0202ab810737f23c765e45050cb02f87b10f9c293932b3be8da24f85f",
+   "Lotus_Scripts_Modes_EscalationExtermination.lua_B": "13e7651237628ce771dee374d8a756ea779c2feca075bd4a692c0043227f7013",
+   "Lotus_Scripts_Modes_ExcavationMission.lua_B": "df9fb3206e468652dc7a101e26118adf2e039f35b69e228c26bb6bbd3a6f4701",
+   "Lotus_Scripts_Modes_FiveFatesMission.lua_B": "99458805b788dd465e41e08cb79b568c6a0b55bb060abaf6212d83beb1b61bb6",
+   "Lotus_Scripts_Modes_GasCitySabotage.lua_B": "64f1281d3c81ec76e5051406172c23bbbab29d62d51697ad2666744628c13e08",
+   "Lotus_Scripts_Modes_HalloweenLanternEndless.lua_B": "1e5a6e3919a93d78521e2e2f59501dcc06dfa55b0673190450542dc00b3875e2",
+   "Lotus_Scripts_Modes_InfestedCapture.lua_B": "2dfc64ff77d4b1a364662d41ceb9db54ee9f21f00a4880fe757bc6b68ea36c92",
+   "Lotus_Scripts_Modes_MechSurvivalMission.lua_B": "724df33e2300a8cd81c39c2fc9cae201c7c53d7705ee21a45937c63239e21739",
+   "Lotus_Scripts_Modes_MeltdownMode.lua_B": "1b47c8f93955d2131a64a050e6ebac38190aa9ce3c9af7095fe467c56326e3f0",
+   "Lotus_Scripts_Modes_Purgatory.lua_B": "6b0ecd7c47b23a0c2c0a4598e4d9b044e070f51e76daa149a14f0e12aa244fe9",
+   "Lotus_Scripts_Modes_PurgeMission.lua_B": "a732efae605a21a7057565e61b7424b55e4df223c76975883addb6414443d2a5",
+   "Lotus_Scripts_Modes_PurifyMission.lua_B": "9a3d32337d9325c5940855842cdf555bce6e1c91b04989249c63ca533fe948f1",
+   "Lotus_Scripts_Modes_RaceMission.lua_B": "0b670e59ed55f21064aa5390c3f7d662b2a4f0fdb19dbf3b2fa15b0bc08ab53d",
+   "Lotus_Scripts_Modes_RaidMission.lua_B": "8454efd8b936f0c9d297fc9a1e7e6b46ff7121911be5d887174c8a0e5d6f9b1b",
+   "Lotus_Scripts_Modes_RetrievalMission.lua_B": "294eb28a72762e81c019ce6494b2aa71f8fcd16e2d4969d7efc7ba718f544b09",
+   "Lotus_Scripts_Modes_SentientArtifactMission.lua_B": "b3e18cb43701adeaac4e41293dd3f2f332071d84c766abdcd45b0084eb0ceda3",
+   "Lotus_Scripts_Modes_SentientCapture.lua_B": "5e3912d7d58b2272be331ae6a5b06d71fb8a7064b1bd27ff94d35710b85ce63c",
+   "Lotus_Scripts_Modes_SentientMobileDefense.lua_B": "dbd1025e7f8cd2ea7547b2d6659597bd3dca744ba91b451e615e145fb456d416",
+   "Lotus_Scripts_Modes_SurvivalMission.lua_B": "0147fb5e9dc86fb5023090ca37fad652fa3fd86d109f497a3d3c28a3680a9f8d",
+   "Lotus_Scripts_Modes_TerritoryMission.lua_B": "3a8acf02213053621ad8cf3cc77809a35f27baddf91d10fcbf94475d0a7d225b",
+   "Lotus_Scripts_Modes_WF99PvPvEMission.lua_B": "e9020e9a558445b366c0f9d214bec615204118d2f438fca3d3839ad9b0b63b00",
+   "Lotus_Scripts_Modes_ZarimanCorruptionMission.lua_B": "738aa59c66f935235c812cba1ae6ecd361fdf700d5723c0928b88a2e11d89261",
+   "Lotus_Scripts_Modes_ZarimanSurvivalMission.lua_B": "15ce88bf63c0a721bc978997ad7e7fba39ea4fadee00da8ce5d66e2df6319d50",
+   "Lotus_Scripts_MultiDefend.lua_B": "616dcc530651ee9b24fd24b7d139a7ace4d40de8fe428dccee6fbe05f1f53aa6",
+   "Lotus_Scripts_Rescue.lua_B": "2a768c7f6faa32c8e567b0e256fddc2427023040a78f03be41c3f4bc09cdce33",
+   "Lotus_Scripts_Sabotage.lua_B": "0f1e3d2d0a2becb2a4cc662981e7d0595d391cd466573c551f5fd9cd913f7190",
+   "Lotus_Scripts_SabotageForest.lua_B": "1c890aef543f03eafda6647352432a97fc0e648283e1a9aa5a833499d31cf6c4",
+   "Lotus_Scripts_SabotageModular.lua_B": "97eaa77546b6152dbed926348e3f2d493df343e19a4a855812fe095efdcc988a",
+   "Lotus_Scripts_SabotageOrokin.lua_B": "51228e84f40269dd2ede7026076abdc326cdaef510d396a4ce4d47dba2f48883",
+   "Lotus_Scripts_TriggerAlarm.lua_B": "49e83b9ebe7c954ac9d2a484e687bb634b6ac4d7226b87a751378c2e55ac394a",
+   "Lotus_Scripts_Venus_NokkoColony_Encounters_AreaDefense.lua_B": "2c7bb67b50c245a0d9b10e680b18b54503abdbf546eeeb2b85a3d98de80aa4c6",
+   "Lotus_Scripts_WaveDefend.lua_B": "0fb53a2c0946acc3476df7e16c5a3aaeea1b6384a2d4efa2d7360f4c155dbf10",
+   "Lotus_Scripts_Zariman_Encounters_DynamicAssassinateEndless.lua_B": "b21d3ba8240ae36eb2f508062f1e295cda6021132fdfc15e19cbb143e194b8c7",
+   "Lotus_Types_Enemies_SimpleBossScaling.lua_B": "d25bedd1593e20b7948c1f07c0f75f6852653fca47d39e8d87153e7c6f16c208",
+   "Lotus_Types_Gameplay_DevilTower_LiteGameModes_CoHDestroyTargets.lua_B": "937062ca4270af333fc920f54f85aef68747337bda974425fc81dafbef3706b4",
+   "Lotus_Types_Gameplay_DevilTower_LiteGameModes_CoHExcavationLite.lua_B": "c641b897157618608088a5cfbd1d5688ace5c12822f8adaadf95089c6491d0e8",
+   "Lotus_Types_Gameplay_DevilTower_LiteGameModes_CoHNemesis.lua_B": "7fac41544e4dd806309f151019d0f5c4cdec6ff583b279a467ed59424e7610ce",
+   "Lotus_Types_Gameplay_DevilTower_LiteGameModes_CoHShrineDefenseLite.lua_B": "4bea96c94d8a22a6578139c47919e05d4a191d97a6a88cf371ed150bb11ed946",
+   "Lotus_Types_Scripts_Tau_CoH_CoHInterception.lua_B": "d3eee8d0f393af6e9ead211e3fd602d4863a3f87017c85b869a87a133e70f702"
+  },
+  "folder": "shared/corpus/update-baseline-2026.09.28.13.06"
  },
  "toc_sha256": "10cced56a94672742917492393ebbf622212634169fbc43cd179e642a6379dfd",
  "toolchain_probes": {

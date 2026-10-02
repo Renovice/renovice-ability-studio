@@ -94,7 +94,8 @@ def server_detail(owner: dict, server_root: Path) -> str:
             notes.append(f'{owner[f]} missing')
             continue
         raw = path.read_bytes()
-        if hashlib.sha256(raw).hexdigest().lower() == owner[sha].lower():
+        pinned = raw.replace(b'\r\n', b'\n') if owner.get('sha256_text') == 'LF' else raw   # LF-normalized pin (2026-10-02)
+        if hashlib.sha256(pinned).hexdigest().lower() == owner[sha].lower():
             continue
         lf = raw.replace(b'\r\n', b'\n')
         variants = {'LF': lf, 'CRLF': lf.replace(b'\n', b'\r\n')}

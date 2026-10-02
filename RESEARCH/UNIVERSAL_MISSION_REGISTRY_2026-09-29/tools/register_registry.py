@@ -803,7 +803,10 @@ for r in phase1['tunables']:
                                   }.get(tid, 'server code, not a config.json key; no config back end'))
             schema, consumer = 'src/services/configService.ts', 'src/services/missionInventoryUpdateService.ts'
             pre_schema, pre_consumer = 'creditBoostMultiplier?: number;', 'if (config.worldState?.creditBoostMultiplier) {'
-            s_text, c_text = (SERVER / schema).read_bytes(), (SERVER / consumer).read_bytes()
+            # Update resilience (2026-10-02): the pin is the SHA-256 of the LF-normalized text (`sha256_text: LF`), so a git
+            # checkout that only rewrites line endings keeps it; the generator's verify-missions hashes the same way.
+            s_text = (SERVER / schema).read_bytes().replace(b'\r\n', b'\n')
+            c_text = (SERVER / consumer).read_bytes().replace(b'\r\n', b'\n')
             if s_text.count(pre_schema.encode()) != 1 or pre_consumer.encode() not in c_text:
                 raise ValueError('server preimage not found')
             rows.append({'tunable_id': tid, 'phase1_tunable_id': tid, 'label': r['description'], 'mission_type': r['mission_type'],
@@ -811,7 +814,7 @@ for r in phase1['tunables']:
                          'owner': {'config_key': 'worldState.creditBoostMultiplier', 'server_root': SERVER_REL,
                                    'schema_file': schema, 'schema_sha256': hashlib.sha256(s_text).hexdigest().upper(), 'schema_preimage': pre_schema,
                                    'consumer_file': consumer, 'consumer_sha256': hashlib.sha256(c_text).hexdigest().upper(),
-                                   'consumer_preimage': pre_consumer},
+                                   'consumer_preimage': pre_consumer, 'sha256_text': 'LF'},
                          'unit': 'x', 'stock': 0, 'limits': {'minimum': 0, 'maximum': 100, 'integer': False},
                          'applies': 'immediate', 'confidence': conf, 'provenance': 'auto:server-config-key',
                          'backend_note': 'Absent/0 = disabled (stock). Written only as a config diff; never applied by the generator.'})

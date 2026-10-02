@@ -772,8 +772,9 @@ def family_order(groups):
     return {f: 10 * (i + 1) for i, f in enumerate(families)}
 
 
-def apply(rows, groups, masters):
-    """R7 layout onto registry rows (list), ui_groups (dict) and ui_masters (dict), in place. Returns meta."""
+def apply(rows, groups, masters, absent=frozenset()):
+    """R7 layout onto registry rows (list), ui_groups (dict) and ui_masters (dict), in place. Returns meta.
+    `absent`: value ids an update rebase left out (player_text.apply); their layout entries are skipped."""
     by_id = {r['tunable_id']: r for r in rows}
     problems = []
     shown = {r['tunable_id'] for r in rows if r['ui'].get('label_source') == 'player_text'} | set(masters)
@@ -781,7 +782,7 @@ def apply(rows, groups, masters):
         if tid not in L:
             problems.append(f'{tid}: shown value without an R7 layout entry')
     for tid in L:
-        if tid not in by_id and tid not in masters:
+        if tid not in by_id and tid not in masters and tid not in absent:
             problems.append(f'{tid}: layout entry for an unknown value')
     orders = family_order(groups)
     # R17: an Advanced section follows every section of its mission type (the Exterminate page lists the 1999 Escalation

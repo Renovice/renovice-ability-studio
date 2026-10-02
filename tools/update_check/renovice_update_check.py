@@ -45,7 +45,7 @@ from uc_report import OK, BROKEN, UNKNOWN  # noqa: E402
 EDITOR = TOOL_DIR.parents[1]
 DEFAULT_GAME = Path(r'C:\Program Files (x86)\Steam\steamapps\common\Warframe')
 BASELINES = TOOL_DIR / 'baselines'
-BASELINE_FORMAT = 'RENOVICE_UPDATE_CHECK_BASELINE_V1'
+BASELINE_FORMAT = 'RENOVICE_UPDATE_CHECK_BASELINE_V2'   # V2 (step 2): stock pack, literal-site and initialiser context
 # decompile -> recompile -> const-identity probes: referenced modules whose U44 raw-hash round trip passes on 44.0.2
 PROBE_MODULES = ['Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B', 'Lotus_Interface_OmegaRerollSelection.lua_B',
                  'Lotus_Scripts_Modes_TerritoryMission.lua_B', 'Lotus_Interface_Libs_DuviriUtil.lua_B']
@@ -153,6 +153,8 @@ def main(argv=None) -> int:
     ap.add_argument('--out', type=Path, help='report folder')
     ap.add_argument('--cli', type=Path, help='renovice_ability_editor_cli.exe (default: work/builds/ability-editor/'
                                              'current/bin)')
+    ap.add_argument('--registry', type=Path, help='mission registry to verify (default: REGISTRIES/mission_build_u44.json; '
+                                                  'the update tool passes its staged, rebased registry)')
     ap.add_argument('--no-verify-missions', action='store_true', help='skip the verify-missions CLI run')
     ap.add_argument('--write-baseline', action='store_true',
                     help='write tools/update_check/baselines/<build>.json from this run (refused when anything is '
@@ -200,7 +202,7 @@ def run(args, ws, wsj, repos, temp, rep, log, t0) -> int:
     if args.stock_overlay:
         stock_source += f' + overlay {args.stock_overlay}'
     baseline, baseline_name = load_baseline(args.baseline, build, log)
-    registry_path = EDITOR / 'REGISTRIES' / 'mission_build_u44.json'
+    registry_path = args.registry or EDITOR / 'REGISTRIES' / 'mission_build_u44.json'
     registry = json.loads(registry_path.read_text(encoding='utf-8'))
     seed_registry = int(registry['name_hash_seed'], 16)
     rep.meta.update(build=build, exe_sha256=exe_sha, game=str(game), toc_sha256=manifest.get('toc_sha256'),
@@ -444,7 +446,8 @@ def run(args, ws, wsj, repos, temp, rep, log, t0) -> int:
         if blocking:
             print(f'baseline NOT written: {len(blocking)} BROKEN client-build items', file=sys.stderr)
         else:
-            write_baseline(build, exe_sha, manifest, boot, native, stock, features, hint, scripts, tc)
+            write_baseline(build, exe_sha, manifest, boot, native, stock, features, hint, scripts, tc,
+                           ws=ws, wsj=wsj, registry=registry, literals=literals)
     return rep.exit_code()
 
 
@@ -515,7 +518,8 @@ def _callsite_status(m_now, how, p, i, method, seed, fps, key, hint):
          f'; P{q} has no NAMECALL :{method}')
 
 
-def write_baseline(build, exe_sha, manifest, boot, native, stock, features, hint, scripts, tc):
+def write_baseline(build, exe_sha, manifest, boot, native, stock, features, hint, scripts, tc, ws=None, wsj=None,
+                   registry=None, literals=None):
     mods = {}
     for key in sorted(features):
         rec = stock.record_for_key(key)
@@ -540,10 +544,77 @@ def write_baseline(build, exe_sha, manifest, boot, native, stock, features, hint
         'engine_params': native.get('engine_params'),
         'corpus_walk': tc.get('corpus_walk'), 'toolchain_probes': tc.get('probes', {}), 'modules': mods, 'hooks': hooks,
     }
+    # V2 (update resilience step 2): the build-A bytes of every referenced module (the remap reads them after the update,
+    # when the install has only build B), and the prototype/instruction context of every literal site and root-table
+    # initialiser (a site can be found again by function + logical index instead of by byte offset).
+    if ws is not None:
+        pack_rel = f'{wsj["shared"]["de_luau_corpus"].rsplit("/", 1)[0]}/update-baseline-{build}'
+        pack = ws / pack_rel
+        pack.mkdir(parents=True, exist_ok=True)
+        files = {}
+        for key, rec in mods.items():
+            body = stock.bytes(key)
+            (pack / rec['file']).write_bytes(body)
+            files[rec['file']] = rec['sha256']
+        data['stock_pack'] = {'folder': pack_rel, 'files': dict(sorted(files.items()))}
+        data['literal_sites'] = literal_context(literals or {}, stock)
+        data['root_table_initialisers'] = initialiser_context(registry or {}, stock)
+        data['format'] = BASELINE_FORMAT
     BASELINES.mkdir(exist_ok=True)
     path = BASELINES / f'{build}.json'
-    path.write_text(json.dumps(data, indent=1, sort_keys=True) + '\n', encoding='utf-8')
+    path.write_text(json.dumps(data, indent=1, sort_keys=True) + '\n', encoding='utf-8', newline='\n')
     print(f'baseline written: {path} ({len(mods)} modules, {len(data["signatures"])} signature rows)')
+
+
+def _site_context(m, offset: int, kind: str) -> dict:
+    if kind == 'number_constant':
+        hit = m.constant_at(offset)
+        return {'prototype': hit[0], 'constant': hit[1]} if hit else {'unresolved': True}
+    hit = m.logical_at(offset)
+    if not hit:
+        return {'unresolved': True}
+    out = {'prototype': hit[0], 'instruction': hit[1]}
+    if m.offset(m.protos[hit[0]], hit[1]) != offset:
+        out['aux'] = True
+    return out
+
+
+def literal_context(literals: dict, stock) -> dict:
+    """{value id: [{module, file, offset, kind, prototype, instruction | constant}]} of the installed literals.json."""
+    out = {}
+    mods = literals.get('modules', {})
+    for vid, value in sorted(literals.get('values', {}).items()):
+        sites = []
+        for drive in value.get('drives', []):
+            key = drive.get('module', value.get('module'))
+            m = stock.module(key)
+            for site in drive.get('sites', []):
+                rec = {'module': key, 'file': mods.get(key, {}).get('file'), 'offset': site['offset'], 'kind': site['kind']}
+                if m is not None:
+                    rec.update(_site_context(m, site['offset'], site['kind']))
+                sites.append(rec)
+        out[vid] = sites
+    return out
+
+
+def initialiser_context(registry: dict, stock) -> dict:
+    """{tunable id: [{module, table_id, value_kind, value_offset, prototype, instruction | constant}]} of every
+    root-table field the registry owns."""
+    out = {}
+    for row in registry.get('tunables', []):
+        fields = row.get('owner', {}).get('fields')
+        if not fields:
+            continue
+        key = row['owner']['body_key']
+        m = stock.module(key)
+        recs = []
+        for f in fields:
+            rec = {'module': key, 'table_id': f['table_id'], 'value_kind': f['value_kind'], 'value_offset': f['value_offset']}
+            if m is not None:
+                rec.update(_site_context(m, f['value_offset'], f['value_kind']))
+            recs.append(rec)
+        out[row['tunable_id']] = recs
+    return out
 
 
 def _json(path: Path):
