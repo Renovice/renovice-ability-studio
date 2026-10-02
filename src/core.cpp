@@ -742,6 +742,11 @@ namespace renovice
                 {"module_body_key", form.module_body_key},
                 {"installed_build", form.installed_build},
                 {"expected_source_sha256", nullptr},
+                {"stock_module", {
+                    {"path", form.stock_module_path},
+                    {"sha256", form.stock_module_sha256},
+                    {"bytecode_profile", form.stock_module_profile},
+                }},
             }},
             {"effect", {
                 {"summary", "Convert a linked percentage of the ability's actual damage result into caster Overguard."},
@@ -1165,28 +1170,28 @@ namespace renovice
                 else if (addon_template == "MISSION_CONTROL_AREA_PLAINS_TIMER_TARGET")
                 {
                     expected_hook = "renovice.target.native_call";
-                    invariant = "Plains Control Area body bf3c901cb4058c47, GetNetPersistentVar result at prototype 8 instruction 30";
+                    invariant = "Plains Control Area body bf3c901cb4058c47, GetNetPersistentVar result at prototype 8 NAMECALL instruction 29";
                     if (body_key != "bf3c901cb4058c47"
                         || module_path != "Lotus.Scripts.Eidolon.Encounters.DynamicDefend"
                         || ability_identifier != "CONTROL_AREA_PLAINS_TIMER_PATCH")
                         add(diagnostics, Severity::error, "MISSION_ADDON_TARGET", "Plains Control Area timer template is locked to its exact stock module and body key");
                     if (generation.value("method", "") != "GetNetPersistentVar"
                         || generation.value("prototype", -1) != 8
-                        || generation.value("instruction", -1) != 30)
+                        || generation.value("instruction", -1) != 29)
                         add(diagnostics, Severity::error, "MISSION_ADDON_CALLSITE", "Plains Control Area duration-result callsite drifted");
                     finite_number("duration_seconds", 1.0);
                 }
                 else if (addon_template == "MISSION_CONTROL_AREA_DEIMOS_TIMER_TARGET")
                 {
                     expected_hook = "renovice.target.native_call";
-                    invariant = "Deimos Control Area body d9541341dfd466a3, GetNetPersistentVar result at prototype 7 instruction 62";
+                    invariant = "Deimos Control Area body d9541341dfd466a3, GetNetPersistentVar result at prototype 7 NAMECALL instruction 61";
                     if (body_key != "d9541341dfd466a3"
                         || module_path != "Lotus.Scripts.InfestedMicroplanet.Encounters.DynamicAreaDefense"
                         || ability_identifier != "CONTROL_AREA_DEIMOS_TIMER_PATCH")
                         add(diagnostics, Severity::error, "MISSION_ADDON_TARGET", "Deimos Control Area timer template is locked to its exact stock module and body key");
                     if (generation.value("method", "") != "GetNetPersistentVar"
                         || generation.value("prototype", -1) != 7
-                        || generation.value("instruction", -1) != 62)
+                        || generation.value("instruction", -1) != 61)
                         add(diagnostics, Severity::error, "MISSION_ADDON_CALLSITE", "Deimos Control Area duration-result callsite drifted");
                     finite_number("duration_seconds", 1.0);
                 }
@@ -1492,6 +1497,13 @@ namespace renovice
                     {
                         add(diagnostics, Severity::error, "NATIVE_EVIDENCE", path + ".evidence_id must identify exact callsite evidence");
                     }
+                    if (method == "PushFloatArg" && argument && *argument != 2)
+                    {
+                        // PushFloatArg is reserved by the runtime's native adapter and is
+                        // generated as hooks.transformFloatArgument(prototype, instruction,
+                        // stockValue); its single float is one-based arguments[2].
+                        add(diagnostics, Severity::error, "NATIVE_TRANSFORM_ARGUMENT", path + ".argument must be 2 for PushFloatArg (transformFloatArgument rewrites its single float)");
+                    }
                     if (prototype && instruction && argument)
                     {
                         const std::string site = method + ":" + std::to_string(*prototype) + ":"
@@ -1499,6 +1511,42 @@ namespace renovice
                         if (!rewrite_sites.emplace(site).second)
                         {
                             add(diagnostics, Severity::error, "NATIVE_REWRITE_DUPLICATE", "Duplicate native argument rewrite: " + site);
+                        }
+                    }
+                }
+                if (!generation.at("native_argument_rewrites").empty())
+                {
+                    // Every instruction-addressed filter is verified against the exact stock
+                    // module at build time (native-callsite-namecall gate), so the project
+                    // must name that module, its bytes and its bytecode profile.
+                    const Json* stock = nullptr;
+                    if (project.contains("target") && project.at("target").is_object()
+                        && project.at("target").contains("stock_module")
+                        && project.at("target").at("stock_module").is_object())
+                    {
+                        stock = &project.at("target").at("stock_module");
+                    }
+                    if (stock == nullptr)
+                    {
+                        add(diagnostics, Severity::error, "NATIVE_STOCK_BINDING", "target.stock_module {path, sha256, bytecode_profile} is required for native callsite rewrites (NEEDS_BINDING)");
+                    }
+                    else
+                    {
+                        const std::string stock_path = stock->value("path", "");
+                        const std::string stock_hash = stock->value("sha256", "");
+                        const std::string stock_profile = stock->value("bytecode_profile", "");
+                        if (stock_path.empty() || fs::path(stock_path).is_absolute()
+                            || fs::path(stock_path).extension() != ".lua_B")
+                        {
+                            add(diagnostics, Severity::error, "NATIVE_STOCK_BINDING", "target.stock_module.path must be a workspace-relative .lua_B stock module");
+                        }
+                        if (!std::regex_match(stock_hash, std::regex("^[0-9a-fA-F]{64}$")))
+                        {
+                            add(diagnostics, Severity::error, "NATIVE_STOCK_BINDING", "target.stock_module.sha256 must be 64 hexadecimal characters");
+                        }
+                        if (stock_profile != "U43" && stock_profile != "U44")
+                        {
+                            add(diagnostics, Severity::error, "NATIVE_STOCK_BINDING", "target.stock_module.bytecode_profile must be U43 or U44");
                         }
                     }
                 }
@@ -1543,6 +1591,88 @@ namespace renovice
         return diagnostics;
     }
 
+    std::vector<NativeCallsiteCheck> check_native_callsites_against_ir(
+        const std::string& ir_listing,
+        const Json& native_argument_rewrites)
+    {
+        // derecomp `ir` / `ir-u44` listing: "== proto[N] ..." headers followed by
+        // "  [ idx] OPCODE operands" rows, idx being the logical instruction index that
+        // native_callsite_instruction_from_saved_pc reports.
+        std::map<int, std::map<int, std::pair<std::string, std::string>>> protos;
+        {
+            const std::regex header(R"(^== proto\[(\d+)\])");
+            const std::regex row(R"(^\s*\[\s*(\d+)\]\s+(\S+)\s*(.*?)\s*$)");
+            std::map<int, std::pair<std::string, std::string>>* current = nullptr;
+            std::istringstream lines(ir_listing);
+            std::string line;
+            while (std::getline(lines, line))
+            {
+                if (!line.empty() && line.back() == '\r') line.pop_back();
+                std::smatch match;
+                if (std::regex_search(line, match, header))
+                {
+                    current = &protos[std::stoi(match[1].str())];
+                }
+                else if (current != nullptr && std::regex_match(line, match, row))
+                {
+                    (*current)[std::stoi(match[1].str())] = {match[2].str(), match[3].str()};
+                }
+            }
+        }
+        const auto namecall_method = [](const std::pair<std::string, std::string>* entry) -> std::string {
+            if (entry == nullptr || entry->first != "NAMECALL") return {};
+            const std::size_t colon = entry->second.rfind(':');
+            return colon == std::string::npos ? std::string{} : entry->second.substr(colon + 1);
+        };
+
+        std::vector<NativeCallsiteCheck> checks;
+        if (!native_argument_rewrites.is_array()) return checks;
+        for (const Json& rewrite : native_argument_rewrites)
+        {
+            NativeCallsiteCheck check;
+            check.method = rewrite.value("method", "");
+            check.prototype = rewrite.value("prototype", -1);
+            check.instruction = rewrite.value("instruction", -1);
+            const auto proto = protos.find(check.prototype);
+            const auto entry_at = [&](const int index) -> const std::pair<std::string, std::string>* {
+                if (proto == protos.end()) return nullptr;
+                const auto found = proto->second.find(index);
+                return found == proto->second.end() ? nullptr : &found->second;
+            };
+            const auto* here = entry_at(check.instruction);
+            const auto* next = entry_at(check.instruction + 1);
+            const auto* previous = entry_at(check.instruction - 1);
+            if (proto == protos.end())
+            {
+                check.status = "MISMATCH";
+                check.detail = "prototype " + std::to_string(check.prototype) + " does not exist in the stock module";
+            }
+            else if (namecall_method(here) == check.method && next != nullptr && next->first == "CALL")
+            {
+                check.status = "OK";
+                check.expected_instruction = check.instruction;
+                check.detail = "NAMECALL :" + check.method + " at " + std::to_string(check.instruction)
+                    + ", CALL at " + std::to_string(check.instruction + 1);
+            }
+            else if (here != nullptr && here->first == "CALL" && namecall_method(previous) == check.method)
+            {
+                check.status = "OFF_BY_ONE";
+                check.expected_instruction = check.instruction - 1;
+                check.detail = "instruction " + std::to_string(check.instruction) + " is the CALL; the runtime reports NAMECALL :"
+                    + check.method + " at " + std::to_string(check.instruction - 1);
+            }
+            else
+            {
+                check.status = "MISMATCH";
+                check.detail = "instruction " + std::to_string(check.instruction) + " is "
+                    + (here == nullptr ? std::string("absent") : here->first + " " + here->second)
+                    + ", not NAMECALL :" + check.method;
+            }
+            checks.push_back(std::move(check));
+        }
+        return checks;
+    }
+
     std::string generate_target_addon_source(const Json& project, const fs::path& editor_root)
     {
         const std::vector<Diagnostic> diagnostics = validate_project(project, editor_root);
@@ -1563,7 +1693,7 @@ namespace renovice
                 std::ostringstream output;
                 output << "-- Generated by RENOVICE Ability Editor. Do not hand-edit generated sections.\n"
                        << "-- Exact target: Lotus.Scripts.MobileDefense / body 89329f85c8575b84\n"
-                       << "-- Exact owner: DefenseStage prototype 22 before its CustomMissionTime query at instruction 139\n\n"
+                       << "-- Exact owner: DefenseStage prototype 22 before its CustomMissionTime query (NAMECALL instruction 138)\n\n"
                        << "local MINIMUM_TOTAL_SECONDS = " << minimum_total << "\n"
                        << "local MAXIMUM_TOTAL_SECONDS = " << maximum_total << "\n\n"
                        << "local CUSTOM_MISSION_TIME = Symbol(\"CustomMissionTime\")\n\n"
@@ -1823,10 +1953,24 @@ namespace renovice
         const std::string cap_stat_id = generation.at("cap_stat_id").get<std::string>();
         const Json& fraction_stat = find_stat(project, fraction_stat_id);
         const Json& cap_stat = find_stat(project, cap_stat_id);
+        // Callsite rule (bootstrapper V66+): `instruction` is the logical index of the
+        // NAMECALL that names the native method, never the CALL after it. The
+        // native-callsite-namecall build gate proves this against the exact stock module.
+        // PushFloatArg is reserved by the runtime adapter and is emitted as
+        // hooks.transformFloatArgument; every other method uses hooks.nativeCalls.
         std::map<std::string, std::vector<const Json*>> native_rewrites;
+        std::vector<const Json*> float_transforms;
         for (const Json& rewrite : generation.at("native_argument_rewrites"))
         {
-            native_rewrites[rewrite.at("method").get<std::string>()].push_back(&rewrite);
+            const std::string method = rewrite.at("method").get<std::string>();
+            if (method == "PushFloatArg")
+            {
+                float_transforms.push_back(&rewrite);
+            }
+            else
+            {
+                native_rewrites[method].push_back(&rewrite);
+            }
         }
 
         std::ostringstream output;
@@ -1868,6 +2012,21 @@ namespace renovice
                        << "    end\n";
             }
             output << "end\n\n";
+        }
+
+        if (!float_transforms.empty())
+        {
+            output << "local function transformFloatArgument(prototype, instruction, stockValue)\n";
+            for (const Json* rewrite : float_transforms)
+            {
+                output << "    if prototype == " << rewrite->at("prototype").get<int>()
+                       << " and instruction == " << rewrite->at("instruction").get<int>()
+                       << " and stockValue == " << format_number(rewrite->at("expected").get<double>()) << " then\n"
+                       << "        return " << format_number(rewrite->at("replacement").get<double>()) << "\n"
+                       << "    end\n";
+            }
+            output << "    return stockValue\n"
+                   << "end\n\n";
         }
 
         const std::string rate_getter = getter_name(fraction_stat);
@@ -1965,6 +2124,10 @@ namespace renovice
             }
             output << "        },\n";
         }
+        if (!float_transforms.empty())
+        {
+            output << "        transformFloatArgument = transformFloatArgument,\n";
+        }
         output << "    },\n"
                << "}\n";
         return output.str();
@@ -2051,8 +2214,68 @@ namespace renovice
                 }
                 else
                 {
+                    // Mission and luaCalls templates share this build path and declare no
+                    // native rewrites; only projects that do are gated.
+                    const Json& generation_for_gate = project.at("addon_generation");
+                    const Json rewrites = generation_for_gate.contains("native_argument_rewrites")
+                            && generation_for_gate.at("native_argument_rewrites").is_array()
+                        ? generation_for_gate.at("native_argument_rewrites")
+                        : Json::array();
+                    const Json stock_module = project.at("target").value("stock_module", Json::object());
+                    const bool u44_profile = stock_module.value("bytecode_profile", "") == "U44";
+                    if (!rewrites.empty())
+                    {
+                        // native-callsite-namecall: every generated callsite filter must name
+                        // the NAMECALL of its method in the exact stock module, because the
+                        // runtime reports native calls at that NAMECALL (V66+).
+                        ProcessResult callsite_gate;
+                        const fs::path stock_path = locate_workspace_root(editor_root)
+                            / fs::path(stock_module.value("path", ""));
+                        const auto upper_hex = [](std::string value) {
+                            std::transform(value.begin(), value.end(), value.begin(),
+                                [](const unsigned char character) { return static_cast<char>(std::toupper(character)); });
+                            return value;
+                        };
+                        const std::string expected_hash = upper_hex(stock_module.value("sha256", ""));
+                        bool callsites_pass = false;
+                        if (!fs::is_regular_file(stock_path))
+                        {
+                            callsite_gate.exit_code = 1;
+                            callsite_gate.output = "stock module missing: " + stock_path.string() + "\n";
+                        }
+                        else if (upper_hex(sha256_file(stock_path)) != expected_hash)
+                        {
+                            callsite_gate.exit_code = 1;
+                            callsite_gate.output = "stock module sha256 " + sha256_file(stock_path)
+                                + " != target.stock_module.sha256 " + expected_hash + "\n";
+                        }
+                        else
+                        {
+                            const ProcessResult listing = run_process(
+                                quote_process_argument(derecomp) + (u44_profile ? " ir-u44 " : " ir ")
+                                    + quote_process_argument(stock_path),
+                                decompiler_root);
+                            callsite_gate.exit_code = listing.exit_code;
+                            callsites_pass = listing.exit_code == 0;
+                            for (const NativeCallsiteCheck& check : check_native_callsites_against_ir(listing.output, rewrites))
+                            {
+                                callsite_gate.output += check.status + " " + check.method + " p"
+                                    + std::to_string(check.prototype) + "/i" + std::to_string(check.instruction)
+                                    + ": " + check.detail + "\n";
+                                if (check.status != "OK")
+                                {
+                                    callsites_pass = false;
+                                    add(result.diagnostics, Severity::error, "NATIVE_CALLSITE_NOT_NAMECALL",
+                                        check.method + " p" + std::to_string(check.prototype) + "/i"
+                                            + std::to_string(check.instruction) + ": " + check.detail);
+                                }
+                            }
+                        }
+                        record_gate("native-callsite-namecall", callsite_gate, callsites_pass);
+                    }
+
                     const ProcessResult compile = run_process(
-                        quote_process_argument(derecomp) + " recompile "
+                        quote_process_argument(derecomp) + (u44_profile ? " recompile-u44 " : " recompile ")
                             + quote_process_argument(result.generated_source) + " "
                             + quote_process_argument(result.generated_bytecode),
                         decompiler_root);
@@ -3160,10 +3383,128 @@ namespace renovice
             check(contains_text(source, "card_overguard_cap = linkedStat_overguard_cap(query.Avatar)"), "card uses same cap accessor");
             check(contains_text(source, "ValueUnit = \"/Lotus/Language/Game/UNIT_PERCENT\""), "native percent unit generated");
             check(contains_text(source, "afterDamage = afterDamage"), "universal afterDamage contract generated");
-            check(contains_text(source, "nativeCalls = {"), "low-level nativeCalls contract generated");
-            check(contains_text(source, "PushFloatArg = {"), "declared native method generated");
-            check(contains_text(source, "prototype == 16 and instruction == 596 and arguments[2] == 1"), "exact native callsite guard generated");
-            check(contains_text(source, "arguments[2] = 5"), "native argument replacement generated");
+            // PushFloatArg is reserved by the runtime adapter: it is generated as
+            // hooks.transformFloatArgument at the NAMECALL index, never as nativeCalls.PushFloatArg.
+            check(contains_text(source, "local function transformFloatArgument(prototype, instruction, stockValue)"), "PushFloatArg rewrite generated as transformFloatArgument");
+            check(contains_text(source, "prototype == 16 and instruction == 595 and stockValue == 1 then"), "exact NAMECALL callsite guard generated (U43 BardMusic p16/i595)");
+            check(contains_text(source, "        return 5\n"), "float replacement generated");
+            check(contains_text(source, "    return stockValue\n"), "every other callsite keeps the stock float");
+            check(contains_text(source, "transformFloatArgument = transformFloatArgument,"), "transformFloatArgument hook declared");
+            check(!contains_text(source, "nativeCalls") && !contains_text(source, "PushFloatArg = {"), "rejected nativeCalls.PushFloatArg form not generated");
+            {
+                Json other_method = project;
+                other_method["addon_generation"]["native_argument_rewrites"][0]["method"] = "SetBaseAmount";
+                const std::string other_source = generate_target_addon_source(other_method, editor_root);
+                check(contains_text(other_source, "nativeCalls = {") && contains_text(other_source, "SetBaseAmount = {")
+                        && contains_text(other_source, "prototype == 16 and instruction == 595 and arguments[2] == 1")
+                        && !contains_text(other_source, "transformFloatArgument"),
+                    "non-reserved native method keeps the nativeCalls before contract");
+
+                Json wrong_float_argument = project;
+                wrong_float_argument["addon_generation"]["native_argument_rewrites"][0]["argument"] = 3;
+                check(has_errors(validate_project(wrong_float_argument, editor_root)), "PushFloatArg rewrite of a non-float argument rejected");
+
+                Json no_stock = project;
+                no_stock["target"].erase("stock_module");
+                check(has_errors(validate_project(no_stock, editor_root)), "native rewrite without target.stock_module rejected (NEEDS_BINDING)");
+                Json bad_profile = project;
+                bad_profile["target"]["stock_module"]["bytecode_profile"] = "U45";
+                check(has_errors(validate_project(bad_profile, editor_root)), "unknown stock bytecode profile rejected");
+                Json absolute_stock = project;
+                absolute_stock["target"]["stock_module"]["path"] = "C:/stock.lua_B";
+                check(has_errors(validate_project(absolute_stock, editor_root)), "absolute stock module path rejected");
+
+                // Generic gate on a fixture listing in derecomp ir format.
+                const std::string fixture =
+                    "== proto[16] maxstack=40 nparams=1 nups=4 vararg=0 insns=620 consts=160 ==\n"
+                    "  [ 594] MOVE           R30 R29\n"
+                    "  [ 595] NAMECALL       R30 R29 :PushFloatArg\n"
+                    "  [ 596] CALL           R30 2 1\n"
+                    "  [ 597] NAMECALL       R30 R29 :ActivateSecondaryScript\n"
+                    "  [ 598] CALL           R30 4 1\n";
+                const auto gate = [&](const std::string& method, const int prototype, const int instruction) {
+                    const Json rewrites = Json::array({Json{{"method", method}, {"prototype", prototype}, {"instruction", instruction}}});
+                    return check_native_callsites_against_ir(fixture, rewrites).at(0);
+                };
+                check(gate("PushFloatArg", 16, 595).status == "OK", "gate accepts the NAMECALL index");
+                const NativeCallsiteCheck off = gate("PushFloatArg", 16, 596);
+                check(off.status == "OFF_BY_ONE" && off.expected_instruction == 595, "gate rejects the CALL index (NAMECALL+1) and names the NAMECALL");
+                check(gate("PushFloatArg", 16, 597).status == "MISMATCH", "gate rejects a NAMECALL of another method");
+                check(gate("SetSource", 16, 595).status == "MISMATCH", "gate rejects a hook whose native name differs from the NAMECALL");
+                check(gate("PushFloatArg", 15, 595).status == "MISMATCH", "gate rejects a missing prototype");
+
+                // The real example stock module, when the workspace toolchain is present.
+                const fs::path workspace = locate_workspace_root(editor_root);
+                const fs::path derecomp = resolve_workspace_path(editor_root, "repos", "de_luau_toolchain") / "bin" / "derecomp.exe";
+                const fs::path stock = workspace / project.at("target").at("stock_module").at("path").get<std::string>();
+                if (fs::is_regular_file(derecomp) && fs::is_regular_file(stock))
+                {
+                    std::string declared_hash = project.at("target").at("stock_module").at("sha256").get<std::string>();
+                    std::transform(declared_hash.begin(), declared_hash.end(), declared_hash.begin(),
+                        [](const unsigned char character) { return static_cast<char>(std::toupper(character)); });
+                    check(sha256_file(stock) == declared_hash, "example stock module bytes match target.stock_module.sha256");
+                    const ProcessResult listing = run_process(
+                        quote_process_argument(derecomp) + " ir " + quote_process_argument(stock), workspace);
+                    const auto real = check_native_callsites_against_ir(
+                        listing.output, project.at("addon_generation").at("native_argument_rewrites"));
+                    check(listing.exit_code == 0 && real.size() == 1 && real[0].status == "OK",
+                        "example PushFloatArg p16/i595 is NAMECALL :PushFloatArg in U43 BardMusic stock");
+                    Json stale = project.at("addon_generation").at("native_argument_rewrites");
+                    stale[0]["instruction"] = 596;
+                    const auto stale_check = check_native_callsites_against_ir(listing.output, stale);
+                    check(stale_check.size() == 1 && stale_check[0].status == "OFF_BY_ONE",
+                        "pre-2026-09-29 example index 596 is the CALL (OFF_BY_ONE) in the real stock");
+                }
+                else
+                {
+                    output << "SKIP real-stock callsite gate: derecomp or example stock module unavailable\n";
+                }
+
+                // The same gate on 44.0.2 stock (ir-u44) for three unrelated live targets:
+                // Mallet threat, Ice Wave cold-stack damage and Elite Sanctuary No Rank.
+                const fs::path u44_stock = resolve_workspace_path(editor_root, "repos", "de_luau_toolchain")
+                    / "work" / "u44-rawhash-2026-09-29" / "stock";
+                struct U44Site { const char* file; const char* method; int prototype; int instruction; const char* status; };
+                const U44Site u44_sites[] = {
+                    {"Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B", "PushFloatArg", 16, 596, "OK"},
+                    {"Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B", "PushFloatArg", 16, 597, "OFF_BY_ONE"},
+                    {"Lotus_Powersuits_Frost_Abilities_IceSpike.lua_B", "SetBaseAmount", 7, 42, "OK"},
+                    {"Lotus_Powersuits_Frost_Abilities_IceSpike.lua_B", "SetSource", 7, 53, "OK"},
+                    {"Lotus_Powersuits_Frost_Abilities_IceSpike.lua_B", "DamageDD", 7, 65, "OK"},
+                    {"Lotus_Interface_MissionRequirementUtilities.lua_B", "BuildMissionForLocation", 25, 9, "OK"},
+                    {"Lotus_Interface_MissionRequirementUtilities.lua_B", "BuildMissionForLocation", 25, 10, "OFF_BY_ONE"},
+                    {"Lotus_Interface_MissionRequirementUtilities.lua_B", "BuildMissionForLocation", 21, 324, "OK"},
+                };
+                if (fs::is_regular_file(derecomp) && fs::is_directory(u44_stock))
+                {
+                    std::map<std::string, std::string> listings;
+                    bool all_expected = true;
+                    std::string mismatches;
+                    for (const U44Site& site : u44_sites)
+                    {
+                        auto found = listings.find(site.file);
+                        if (found == listings.end())
+                        {
+                            const ProcessResult listing = run_process(
+                                quote_process_argument(derecomp) + " ir-u44 " + quote_process_argument(u44_stock / site.file),
+                                workspace);
+                            found = listings.emplace(site.file, listing.exit_code == 0 ? listing.output : std::string{}).first;
+                        }
+                        const Json rewrites = Json::array({Json{{"method", site.method}, {"prototype", site.prototype}, {"instruction", site.instruction}}});
+                        const auto checked = check_native_callsites_against_ir(found->second, rewrites);
+                        if (checked.size() != 1 || checked[0].status != site.status)
+                        {
+                            all_expected = false;
+                            mismatches += std::string(" ") + site.method + "@" + std::to_string(site.prototype) + "/" + std::to_string(site.instruction);
+                        }
+                    }
+                    check(all_expected, "44.0.2 gate: Mallet p16/596, Ice Wave p7/42,53,65 and Elite p25/9, p21/324 are NAMECALLs; 597 and p25/10 are CALLs" + mismatches);
+                }
+                else
+                {
+                    output << "SKIP 44.0.2 callsite gate: derecomp or 44.0.2 stock directory unavailable\n";
+                }
+            }
             check(contains_text(source, "GetUpgradeModifiedValue("), "stock operation-10 modifier generated");
             check(!contains_text(source, "RENOVICE_AFTER_MALLET_DAMAGE"), "legacy handler slot omitted");
             check(occurrences(source, "0.01") == 1, "base fraction literal emitted once");

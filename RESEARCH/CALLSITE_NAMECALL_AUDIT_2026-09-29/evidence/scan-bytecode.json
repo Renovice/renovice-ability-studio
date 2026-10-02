@@ -1,0 +1,3597 @@
+[
+ {
+  "addon": "repos\\apps\\ability-editor\\RESEARCH\\ICE_WAVE_BONUS_10_2026-09-27\\artifacts\\8fba3a28f8fef624.IceWaveColdStackDamage.target.addon.lua_B",
+  "sha256": "78fe0410ba34b056af74ff215ed28a50e2b7925821d94cba8b90c80987d3d30f",
+  "body_key": "8fba3a28f8fef624",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\repos\\toolchains\\de-luau-toolchain\\work\\u44-rawhash-2026-09-29\\stock\\Lotus_Powersuits_Frost_Abilities_IceSpike.lua_B",
+  "stock_profile": "u44",
+  "stock_sha256": "f903720dee7828506f2a3e668204860f5300a27c27fc53f4e86781cab276f3c5",
+  "decompile_profile": "u44",
+  "hooks": [
+   {
+    "hook": "nativeCalls.SetBaseAmount.before",
+    "method": "SetBaseAmount",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 42,
+      "method": "SetBaseAmount",
+      "method_namecalls": [
+       "p7/i42"
+      ],
+      "at": "NAMECALL R11 R6 :SetBaseAmount",
+      "class": "OK",
+      "reason": "NAMECALL :SetBaseAmount at 42, CALL at 43"
+     }
+    ],
+    "prototype_only": []
+   },
+   {
+    "hook": "nativeCalls.SetSource.before",
+    "method": "SetSource",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 53,
+      "method": "SetSource",
+      "method_namecalls": [
+       "p7/i53",
+       "p13/i66"
+      ],
+      "at": "NAMECALL R11 R6 :SetSource",
+      "class": "OK",
+      "reason": "NAMECALL :SetSource at 53, CALL at 54"
+     }
+    ],
+    "prototype_only": []
+   },
+   {
+    "hook": "nativeCalls.DamageDD.before",
+    "method": "DamageDD",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 65,
+      "method": "DamageDD",
+      "method_namecalls": [
+       "p7/i65",
+       "p13/i102"
+      ],
+      "at": "NAMECALL R11 R11 :DamageDD",
+      "class": "OK",
+      "reason": "NAMECALL :DamageDD at 65, CALL at 66"
+     }
+    ],
+    "prototype_only": []
+   },
+   {
+    "hook": "nativeCalls.DamageDD.after",
+    "method": "DamageDD",
+    "phase": "after",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 65,
+      "method": "DamageDD",
+      "method_namecalls": [
+       "p7/i65",
+       "p13/i102"
+      ],
+      "at": "NAMECALL R11 R11 :DamageDD",
+      "class": "OK",
+      "reason": "NAMECALL :DamageDD at 65, CALL at 66"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "OK",
+  "copies": [
+   "repos\\apps\\ability-editor\\RESEARCH\\ICE_WAVE_BONUS_10_2026-09-27\\artifacts\\8fba3a28f8fef624.IceWaveColdStackDamage.target.addon.lua_B",
+   "work\\temp\\ability-editor-elite-sanctuary-fix\\RESEARCH\\ICE_WAVE_BONUS_10_2026-09-27\\artifacts\\8fba3a28f8fef624.IceWaveColdStackDamage.target.addon.lua_B",
+   "work\\temp\\ability-editor-mallet-threat-fix\\RESEARCH\\ICE_WAVE_BONUS_10_2026-09-27\\artifacts\\8fba3a28f8fef624.IceWaveColdStackDamage.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\apps\\ability-editor\\RESEARCH\\ICE_WAVE_BONUS_50_2026-09-27\\artifacts\\8fba3a28f8fef624.IceWaveColdStackDamage.target.addon.lua_B",
+  "sha256": "dcedc4a2d11cd2d7f03361432eb02c64fd01f3dc6517b627e940ac8ad4228e31",
+  "body_key": "8fba3a28f8fef624",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\repos\\toolchains\\de-luau-toolchain\\work\\u44-rawhash-2026-09-29\\stock\\Lotus_Powersuits_Frost_Abilities_IceSpike.lua_B",
+  "stock_profile": "u44",
+  "stock_sha256": "f903720dee7828506f2a3e668204860f5300a27c27fc53f4e86781cab276f3c5",
+  "decompile_profile": "u44",
+  "hooks": [
+   {
+    "hook": "nativeCalls.SetBaseAmount.before",
+    "method": "SetBaseAmount",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 42,
+      "method": "SetBaseAmount",
+      "method_namecalls": [
+       "p7/i42"
+      ],
+      "at": "NAMECALL R11 R6 :SetBaseAmount",
+      "class": "OK",
+      "reason": "NAMECALL :SetBaseAmount at 42, CALL at 43"
+     }
+    ],
+    "prototype_only": []
+   },
+   {
+    "hook": "nativeCalls.SetSource.before",
+    "method": "SetSource",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 53,
+      "method": "SetSource",
+      "method_namecalls": [
+       "p7/i53",
+       "p13/i66"
+      ],
+      "at": "NAMECALL R11 R6 :SetSource",
+      "class": "OK",
+      "reason": "NAMECALL :SetSource at 53, CALL at 54"
+     }
+    ],
+    "prototype_only": []
+   },
+   {
+    "hook": "nativeCalls.DamageDD.before",
+    "method": "DamageDD",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 65,
+      "method": "DamageDD",
+      "method_namecalls": [
+       "p7/i65",
+       "p13/i102"
+      ],
+      "at": "NAMECALL R11 R11 :DamageDD",
+      "class": "OK",
+      "reason": "NAMECALL :DamageDD at 65, CALL at 66"
+     }
+    ],
+    "prototype_only": []
+   },
+   {
+    "hook": "nativeCalls.DamageDD.after",
+    "method": "DamageDD",
+    "phase": "after",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 65,
+      "method": "DamageDD",
+      "method_namecalls": [
+       "p7/i65",
+       "p13/i102"
+      ],
+      "at": "NAMECALL R11 R11 :DamageDD",
+      "class": "OK",
+      "reason": "NAMECALL :DamageDD at 65, CALL at 66"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "OK",
+  "copies": [
+   "repos\\apps\\ability-editor\\RESEARCH\\ICE_WAVE_BONUS_50_2026-09-27\\artifacts\\8fba3a28f8fef624.IceWaveColdStackDamage.target.addon.lua_B",
+   "work\\temp\\ability-editor-elite-sanctuary-fix\\RESEARCH\\ICE_WAVE_BONUS_50_2026-09-27\\artifacts\\8fba3a28f8fef624.IceWaveColdStackDamage.target.addon.lua_B",
+   "work\\temp\\ability-editor-mallet-threat-fix\\RESEARCH\\ICE_WAVE_BONUS_50_2026-09-27\\artifacts\\8fba3a28f8fef624.IceWaveColdStackDamage.target.addon.lua_B",
+   "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Warframe\\OpenWF\\CustomScripts\\Inject\\8fba3a28f8fef624.IceWaveColdStackDamage.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\apps\\ability-editor\\RESEARCH\\U44_AUTHORING_2026-09-27\\artifacts\\ec368d4901690a15.MalletOverguardAndCard.target.addon.lua_B",
+  "sha256": "d3bbd1272ec0d121f8f20bd9b2ff8860a2411d9d9c796f6a90d3cae210bbd62a",
+  "body_key": "ec368d4901690a15",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\repos\\toolchains\\de-luau-toolchain\\work\\u44-rawhash-2026-09-29\\stock\\Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B",
+  "stock_profile": "u44",
+  "stock_sha256": "c713c4d6bf32adb06f7b3ff71d03f00feb53ccd0b651bd2cdf2382106882299f",
+  "decompile_profile": "u44",
+  "hooks": [
+   {
+    "hook": "nativeCalls.PushFloatArg.before",
+    "method": "PushFloatArg",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 16,
+      "instruction": 597,
+      "method": "PushFloatArg",
+      "method_namecalls": [
+       "p10/i64",
+       "p10/i67",
+       "p15/i100",
+       "p15/i103",
+       "p16/i596"
+      ],
+      "at": "CALL R30 nargs=2 nres=0",
+      "class": "OFF-BY-ONE",
+      "expected_instruction": 596,
+      "reason": "597 is the CALL; the runtime reports NAMECALL :PushFloatArg at 596"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "OFF-BY-ONE",
+  "copies": [
+   "repos\\apps\\ability-editor\\RESEARCH\\U44_AUTHORING_2026-09-27\\artifacts\\ec368d4901690a15.MalletOverguardAndCard.target.addon.lua_B",
+   "work\\temp\\ability-editor-elite-sanctuary-fix\\RESEARCH\\U44_AUTHORING_2026-09-27\\artifacts\\ec368d4901690a15.MalletOverguardAndCard.target.addon.lua_B",
+   "work\\temp\\ability-editor-mallet-threat-fix\\RESEARCH\\U44_AUTHORING_2026-09-27\\artifacts\\ec368d4901690a15.MalletOverguardAndCard.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\2026-08-23_f9_loaded_module_refresh\\rollback\\MalletFlat30000Overguard.pre-_T.addon.lua_B",
+  "sha256": "de2f462570f380cef8a56f014289ef6c39e64a74e5230f1848f07f97a579d9ca",
+  "body_key": null,
+  "stock": null,
+  "stock_profile": null,
+  "stock_sha256": null,
+  "decompile_profile": "u43",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\2026-08-23_f9_loaded_module_refresh\\rollback\\MalletFlat30000Overguard.pre-_T.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\2026-08-23_f9_shared_t_bridge\\rollback\\MalletFlat30000Overguard.addon.lua_B",
+  "sha256": "81712e3e6ca951071260492affc4b573c1a393a97f1017d9bdb24356d8f1967a",
+  "body_key": null,
+  "stock": null,
+  "stock_profile": null,
+  "stock_sha256": null,
+  "decompile_profile": "u43",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\2026-08-23_f9_shared_t_bridge\\rollback\\MalletFlat30000Overguard.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_LIVE_TESTS\\F9_TRANSACTION_2026-08-23\\compiled\\RenoviceLifecycleTest.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\2026-08-23_mallet_addon_diagnosis\\rollback\\MalletFlat30000Overguard.addon.lua_B",
+  "sha256": "398da02c4100199e6d7710dfe1192881bda37a37b20a048511aae79d4e0c948a",
+  "body_key": null,
+  "stock": null,
+  "stock_profile": null,
+  "stock_sha256": null,
+  "decompile_profile": "u43",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\2026-08-23_mallet_addon_diagnosis\\rollback\\MalletFlat30000Overguard.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ABILITY_IDENTITY_MATCHER_2026-08-24\\rollback\\08faf07b504d058f.MalletOverguardAndCard.before_ability_identity_matcher.target.addon.lua_B",
+  "sha256": "a061d626ca257d31c27cd99002e983c7e0cb617b79616a5f4bef67044e5cea08",
+  "body_key": "08faf07b504d058f",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "c0cf04fc388092533c3084e459ba4ae9050571934c82e3473385823f8e2a6390",
+  "decompile_profile": "u43",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ABILITY_IDENTITY_MATCHER_2026-08-24\\rollback\\08faf07b504d058f.MalletOverguardAndCard.before_ability_identity_matcher.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\NATIVE_HOOK_BUS_MALLET_POC_2026-08-24\\rollback\\08faf07b504d058f.MalletOverguardAndCard.before_root_execution_20260824-172731.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\NATIVE_HOOK_BUS_MALLET_POC_2026-08-24\\staging\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\NATIVE_HOOK_BUS_MALLET_POC_2026-08-24\\verification\\addon.second_compile.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\NATIVE_HOOK_BUS_MALLET_POC_2026-08-24\\verification\\addon.verifier-recompile.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ABILITY_IDENTITY_MATCHER_2026-08-24\\staging\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+  "sha256": "3f78b2741bbd31f29208a6b91cdb8a208804bc86c5b6693e8a716dfba63d7305",
+  "body_key": "08faf07b504d058f",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "c0cf04fc388092533c3084e459ba4ae9050571934c82e3473385823f8e2a6390",
+  "decompile_profile": "u43",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ABILITY_IDENTITY_MATCHER_2026-08-24\\staging\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\SEMANTIC_CARD_AND_DAMAGE_BUS_2026-08-24\\rollback\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ABILITY_MATCHED_DAMAGE_V41_2026-09-07\\rollback\\08faf07b504d058f.MalletOverguardAndCard.v40.target.addon.lua_B",
+  "sha256": "6e1bed91f2d348ee6e99d3c8e4f8ffb99f681150fc3f165b1f08ef7a07b9bd6a",
+  "body_key": "08faf07b504d058f",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "c0cf04fc388092533c3084e459ba4ae9050571934c82e3473385823f8e2a6390",
+  "decompile_profile": "u43",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ABILITY_MATCHED_DAMAGE_V41_2026-09-07\\rollback\\08faf07b504d058f.MalletOverguardAndCard.v40.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\CONTENT_KEYED_TARGET_DAMAGE_V39_2026-09-07\\staging\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\TARGET_NATIVE_HANDOFF_V40_2026-09-07\\staging\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ABILITY_MATCHED_DAMAGE_V41_2026-09-07\\staging\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+  "sha256": "31861e8fa146a050d06b0b1f86fdea6c1ba8ac2bf735e9a011a9115a2cbf1634",
+  "body_key": "08faf07b504d058f",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "c0cf04fc388092533c3084e459ba4ae9050571934c82e3473385823f8e2a6390",
+  "decompile_profile": "u43",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ABILITY_MATCHED_DAMAGE_V41_2026-09-07\\staging\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\HASHED_MODULE_OWNER_V42_2026-09-07\\rollback\\08faf07b504d058f.MalletOverguardAndCard.v41.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ACTIVE_CALL_STACK_V43_2026-09-07\\staging\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+  "sha256": "5fe6fb16bc5292ecaf4fb98cf79815633c0f3327ca50824020a9c03ac17cc5e4",
+  "body_key": "08faf07b504d058f",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "c0cf04fc388092533c3084e459ba4ae9050571934c82e3473385823f8e2a6390",
+  "decompile_profile": "u43",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ACTIVE_CALL_STACK_V43_2026-09-07\\staging\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ADDON_PERFORMANCE_V46_2026-09-07\\rollback\\Mallet.v45.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\EXACT_DAMAGE_BATCH_AND_CALLSITE_V47_2026-09-07\\rollback\\Mallet.v45.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\HASHED_MODULE_OWNER_V42_2026-09-07\\staging\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\LUA_CALLBACK_ABI_V45_2026-09-07\\staging\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\PROTO_FAMILY_TRACE_V44_2026-09-07\\staging\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ADDON_PERFORMANCE_V46_2026-09-07\\staging\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+  "sha256": "f3a18474a7dd0c6a5dd4407131a5b822f1a81376c186ea49230d9ea7a5a9c90f",
+  "body_key": "08faf07b504d058f",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "c0cf04fc388092533c3084e459ba4ae9050571934c82e3473385823f8e2a6390",
+  "decompile_profile": "u43",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ADDON_PERFORMANCE_V46_2026-09-07\\staging\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\EXACT_DAMAGE_BATCH_AND_CALLSITE_V47_2026-09-07\\rollback\\Mallet.v46.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\EXACT_DAMAGE_BATCH_COMPACT_CALLSITE_V48_2026-09-07\\rollback\\Mallet.v46.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\AUTOMATIC_DAMAGE_LIFECYCLE_FIX_V78_2026-09-15\\artifact\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.lua_B",
+  "sha256": "be8414c6c2309528e644fa5bc9dd701ad7bd966f90c5bc6190e1facaaa49e64b",
+  "body_key": "f62b70b45fc7fdf9",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Powersuits_Frost_Abilities_IceSpike.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "5c657567b9471a46e78603d4da2f8d2c792a5ba18c4dacb4609d59d423a6fc69",
+  "decompile_profile": "u43",
+  "hooks": [
+   {
+    "hook": "nativeCalls.SetBaseAmount.before",
+    "method": "SetBaseAmount",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 41,
+      "method": "SetBaseAmount",
+      "method_namecalls": [
+       "p7/i41"
+      ],
+      "at": "NAMECALL R11 R6 :SetBaseAmount",
+      "class": "OK",
+      "reason": "NAMECALL :SetBaseAmount at 41, CALL at 42"
+     }
+    ],
+    "prototype_only": []
+   },
+   {
+    "hook": "nativeCalls.DamageDD.before",
+    "method": "DamageDD",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 64,
+      "method": "DamageDD",
+      "method_namecalls": [
+       "p7/i64",
+       "p13/i100"
+      ],
+      "at": "NAMECALL R11 R11 :DamageDD",
+      "class": "OK",
+      "reason": "NAMECALL :DamageDD at 64, CALL at 65"
+     }
+    ],
+    "prototype_only": []
+   },
+   {
+    "hook": "nativeCalls.DamageDD.after",
+    "method": "DamageDD",
+    "phase": "after",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 64,
+      "method": "DamageDD",
+      "method_namecalls": [
+       "p7/i64",
+       "p13/i100"
+      ],
+      "at": "NAMECALL R11 R11 :DamageDD",
+      "class": "OK",
+      "reason": "NAMECALL :DamageDD at 64, CALL at 65"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "OK",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\AUTOMATIC_DAMAGE_LIFECYCLE_FIX_V78_2026-09-15\\artifact\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\AUTOMATIC_DAMAGE_RESTRICTED_MATH_FIX_V79_2026-09-15\\artifact\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\AUTOMATIC_SCRIPTED_DAMAGE_CAPTURE_V77_2026-09-15\\artifact\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\BATTLE_TRACE_REGISTRY_ROOT_V76_2026-09-14\\artifact\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\BATTLE_TRACE_SHARED_VM_OWNERSHIP_V75_2026-09-14\\artifact\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\COMBAT_BATTLE_LOG_V74_2026-09-14\\artifact\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\CIRCUIT_PROGRESS_PREVIEW_X5_2026-09-12\\artifact\\5384d6f5377f7b27.CircuitProgressPreviewX5.target.addon.lua_B",
+  "sha256": "8f417dc728d4ef42d7e76512d8ad49b7c04a03125580e159fc535a76378c5414",
+  "body_key": "5384d6f5377f7b27",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Interface_Libs_DuviriUtil.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "aeec0631813366cc08ab74ca7a175b11d923040c7ca0c66276dbfddf5b188c4f",
+  "decompile_profile": "u43",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\CIRCUIT_PROGRESS_PREVIEW_X5_2026-09-12\\artifact\\5384d6f5377f7b27.CircuitProgressPreviewX5.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\CIRCUIT_PROGRESS_PREVIEW_X5_2026-09-12\\verification\\addon.authored-recompile.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\EXACT_CALLINFO_AND_NATIVE_IDENTITY_V66_2026-09-13\\rollback\\OpenWF\\CustomScripts\\Inject\\5384d6f5377f7b27.CircuitProgressPreviewX5.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\EXACT_NATIVE_CALL_MULTI_BINDING_V64_2026-09-13\\rollback\\OpenWF\\CustomScripts\\Inject\\5384d6f5377f7b27.CircuitProgressPreviewX5.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\F9_UNCHANGED_MANAGED_GENERATION_REUSE_V67_2026-09-13\\rollback\\OpenWF\\CustomScripts\\Inject\\5384d6f5377f7b27.CircuitProgressPreviewX5.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\NATIVE_COMPACT_HOOK_CAPTURED_RESTORE_V63_2026-09-12\\rollback\\OpenWF\\CustomScripts\\Inject\\5384d6f5377f7b27.CircuitProgressPreviewX5.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\NATIVE_INGRESS_CALLSITE_DIAGNOSTICS_V65_2026-09-13\\rollback\\OpenWF\\CustomScripts\\Inject\\5384d6f5377f7b27.CircuitProgressPreviewX5.target.addon.lua_B",
+   "work\\research\\U44-2026-09-27\\lua-port\\before\\deployed\\OpenWF\\CustomScripts\\Inject\\5384d6f5377f7b27.CircuitProgressPreviewX5.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\CIRCUIT_PROGRESS_PREVIEW_X5_2026-09-12\\verification\\addon.stable-pass1.lua_B",
+  "sha256": "ae7fec27d48576a8b5d16330829d2fefbb5ece659bd21e382f01c71c3fade102",
+  "body_key": null,
+  "stock": null,
+  "stock_profile": null,
+  "stock_sha256": null,
+  "decompile_profile": "u43",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\CIRCUIT_PROGRESS_PREVIEW_X5_2026-09-12\\verification\\addon.stable-pass1.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\CIRCUIT_PROGRESS_PREVIEW_X5_2026-09-12\\verification\\addon.stable-pass2.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\COMBAT_BATTLE_LOG_V74_2026-09-14\\rollback\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.V73.lua_B",
+  "sha256": "8000a06cd5e842721316d8669ea9f49c244bc32982a2a70762f32321fc40e7a2",
+  "body_key": "f62b70b45fc7fdf9",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Powersuits_Frost_Abilities_IceSpike.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "5c657567b9471a46e78603d4da2f8d2c792a5ba18c4dacb4609d59d423a6fc69",
+  "decompile_profile": "u43",
+  "hooks": [
+   {
+    "hook": "nativeCalls.SetBaseAmount.before",
+    "method": "SetBaseAmount",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 41,
+      "method": "SetBaseAmount",
+      "method_namecalls": [
+       "p7/i41"
+      ],
+      "at": "NAMECALL R11 R6 :SetBaseAmount",
+      "class": "OK",
+      "reason": "NAMECALL :SetBaseAmount at 41, CALL at 42"
+     }
+    ],
+    "prototype_only": []
+   },
+   {
+    "hook": "nativeCalls.DamageDD.before",
+    "method": "DamageDD",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 64,
+      "method": "DamageDD",
+      "method_namecalls": [
+       "p7/i64",
+       "p13/i100"
+      ],
+      "at": "NAMECALL R11 R11 :DamageDD",
+      "class": "OK",
+      "reason": "NAMECALL :DamageDD at 64, CALL at 65"
+     }
+    ],
+    "prototype_only": []
+   },
+   {
+    "hook": "nativeCalls.DamageDD.after",
+    "method": "DamageDD",
+    "phase": "after",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 64,
+      "method": "DamageDD",
+      "method_namecalls": [
+       "p7/i64",
+       "p13/i100"
+      ],
+      "at": "NAMECALL R11 R11 :DamageDD",
+      "class": "OK",
+      "reason": "NAMECALL :DamageDD at 64, CALL at 65"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "OK",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\COMBAT_BATTLE_LOG_V74_2026-09-14\\rollback\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.V73.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ICE_WAVE_NUMERIC_BASELINE_RESTORE_V73_2026-09-14\\artifact\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\CONTENT_KEYED_TARGET_DAMAGE_V39_2026-09-07\\rollback\\08faf07b504d058f.MalletOverguardAndCard.explicit-shim.target.addon.lua_B",
+  "sha256": "e05953b5c801badfa6fe7073fc1873e99abccb2353c2547a8ba4270ee48e3585",
+  "body_key": "08faf07b504d058f",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "c0cf04fc388092533c3084e459ba4ae9050571934c82e3473385823f8e2a6390",
+  "decompile_profile": "u43",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\CONTENT_KEYED_TARGET_DAMAGE_V39_2026-09-07\\rollback\\08faf07b504d058f.MalletOverguardAndCard.explicit-shim.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\LIVE_TOGGLE_AND_MALLET_RECOVERY_V29_2026-09-03\\staging\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MALLET_GAMEPLAY_RESTORE_V38_2026-09-07\\rollback\\08faf07b504d058f.MalletOverguardAndCard.before.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MALLET_GAMEPLAY_RESTORE_V38_2026-09-07\\staging\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\REGISTRY_STABLE_SCRIPT_DISPATCH_V26_2026-09-03\\staging\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\UNIVERSAL_TARGET_INJECTION_V28_2026-09-03\\rollback\\08faf07b504d058f.MalletOverguardAndCard.explicit-shim.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\DIAGNOSTIC_OUTPUT_ADMISSION_V94_2026-09-16\\rollback\\V91_R1.IceWave.target.addon.lua_B",
+  "sha256": "1a51c462b4a916f69ce51f0d87367863fa761d23070d7eaffd1800dbce3db267",
+  "body_key": null,
+  "stock": null,
+  "stock_profile": null,
+  "stock_sha256": null,
+  "decompile_profile": "u43",
+  "hooks": [
+   {
+    "hook": "nativeCalls.SetBaseAmount.before",
+    "method": "SetBaseAmount",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 41,
+      "method": "SetBaseAmount",
+      "class": "UNRESOLVED",
+      "reason": "no stock module for this body key"
+     }
+    ],
+    "prototype_only": []
+   },
+   {
+    "hook": "nativeCalls.SetSource.before",
+    "method": "SetSource",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 52,
+      "method": "SetSource",
+      "class": "UNRESOLVED",
+      "reason": "no stock module for this body key"
+     }
+    ],
+    "prototype_only": []
+   },
+   {
+    "hook": "nativeCalls.DamageDD.before",
+    "method": "DamageDD",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 64,
+      "method": "DamageDD",
+      "class": "UNRESOLVED",
+      "reason": "no stock module for this body key"
+     }
+    ],
+    "prototype_only": []
+   },
+   {
+    "hook": "nativeCalls.DamageDD.after",
+    "method": "DamageDD",
+    "phase": "after",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 64,
+      "method": "DamageDD",
+      "class": "UNRESOLVED",
+      "reason": "no stock module for this body key"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "UNRESOLVED",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\DIAGNOSTIC_OUTPUT_ADMISSION_V94_2026-09-16\\rollback\\V91_R1.IceWave.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ICE_WAVE_NATIVE_CARD_V91_R1_2026-09-16\\artifact\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\UNIVERSAL_VM_API_FRAME_REPAIR_V95_2026-09-16\\rollback\\IceWave.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\UNIVERSAL_VM_STACK_GC_REPAIR_V93_2026-09-16\\rollback\\V91_R1.IceWave.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ELITE_SANCTUARY_NO_RANK_ADDON_2026-09-12\\artifact\\9dfe563d26eb6527.EliteSanctuaryNoRank.target.addon.lua_B",
+  "sha256": "7eb86d96e20c79c1867fa7641cbb1ac7038800338ce275051a6e4c772177e188",
+  "body_key": "9dfe563d26eb6527",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Interface_MissionRequirementUtilities.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "4ad63fd5d545b70bd424d1e63d5390b37a573d66078f195e747d91f7a61d7e5e",
+  "decompile_profile": "u43",
+  "hooks": [
+   {
+    "hook": "nativeCalls.BuildMissionForLocation.after",
+    "method": "BuildMissionForLocation",
+    "phase": "after",
+    "sites": [
+     {
+      "prototype": 25,
+      "instruction": 10,
+      "method": "BuildMissionForLocation",
+      "method_namecalls": [
+       "p21/i324",
+       "p25/i9",
+       "p26/i3"
+      ],
+      "at": "CALL R2 nargs=2 nres=1",
+      "class": "OFF-BY-ONE",
+      "expected_instruction": 9,
+      "reason": "10 is the CALL; the runtime reports NAMECALL :BuildMissionForLocation at 9"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "OFF-BY-ONE",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ELITE_SANCTUARY_NO_RANK_ADDON_2026-09-12\\artifact\\9dfe563d26eb6527.EliteSanctuaryNoRank.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\NATIVE_COMPACT_HOOK_CAPTURED_RESTORE_V63_2026-09-12\\rollback\\OpenWF\\CustomScripts\\Inject\\9dfe563d26eb6527.EliteSanctuaryNoRank.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ELITE_SANCTUARY_NO_RANK_ADDON_2026-09-12\\verification\\addon.stable-pass1.lua_B",
+  "sha256": "61a1c36c5f275cb0397ab4db0faa20b4ca9284985788040beaf3e88c8fe17f32",
+  "body_key": null,
+  "stock": null,
+  "stock_profile": null,
+  "stock_sha256": null,
+  "decompile_profile": "u43",
+  "hooks": [
+   {
+    "hook": "nativeCalls.BuildMissionForLocation.after",
+    "method": "BuildMissionForLocation",
+    "phase": "after",
+    "sites": [
+     {
+      "prototype": 25,
+      "instruction": 10,
+      "method": "BuildMissionForLocation",
+      "class": "UNRESOLVED",
+      "reason": "no stock module for this body key"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "UNRESOLVED",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ELITE_SANCTUARY_NO_RANK_ADDON_2026-09-12\\verification\\addon.stable-pass1.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ELITE_SANCTUARY_NO_RANK_ADDON_2026-09-12\\verification\\addon.stable-pass2.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ELITE_SANCTUARY_NO_RANK_ADDON_2026-09-12\\verification\\addon.stable.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ELITE_SANCTUARY_NO_RANK_CALLSITE_FIX_2026-09-13\\artifact\\9dfe563d26eb6527.EliteSanctuaryNoRank.target.addon.lua_B",
+  "sha256": "19d8b54af74f5d8adf7250359fbdf2740503b72d9fbd269eb70d825c1be1ff59",
+  "body_key": "9dfe563d26eb6527",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Interface_MissionRequirementUtilities.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "4ad63fd5d545b70bd424d1e63d5390b37a573d66078f195e747d91f7a61d7e5e",
+  "decompile_profile": "u43",
+  "hooks": [
+   {
+    "hook": "nativeCalls.BuildMissionForLocation.after",
+    "method": "BuildMissionForLocation",
+    "phase": "after",
+    "sites": [
+     {
+      "prototype": 25,
+      "instruction": 10,
+      "method": "BuildMissionForLocation",
+      "method_namecalls": [
+       "p21/i324",
+       "p25/i9",
+       "p26/i3"
+      ],
+      "at": "CALL R2 nargs=2 nres=1",
+      "class": "OFF-BY-ONE",
+      "expected_instruction": 9,
+      "reason": "10 is the CALL; the runtime reports NAMECALL :BuildMissionForLocation at 9"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "OFF-BY-ONE",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ELITE_SANCTUARY_NO_RANK_CALLSITE_FIX_2026-09-13\\artifact\\9dfe563d26eb6527.EliteSanctuaryNoRank.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\EXACT_CALLINFO_AND_NATIVE_IDENTITY_V66_2026-09-13\\rollback\\OpenWF\\CustomScripts\\Inject\\9dfe563d26eb6527.EliteSanctuaryNoRank.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\EXACT_NATIVE_CALL_MULTI_BINDING_V64_2026-09-13\\rollback\\OpenWF\\CustomScripts\\Inject\\9dfe563d26eb6527.EliteSanctuaryNoRank.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\F9_UNCHANGED_MANAGED_GENERATION_REUSE_V67_2026-09-13\\rollback\\OpenWF\\CustomScripts\\Inject\\9dfe563d26eb6527.EliteSanctuaryNoRank.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\NATIVE_INGRESS_CALLSITE_DIAGNOSTICS_V65_2026-09-13\\rollback\\OpenWF\\CustomScripts\\Inject\\9dfe563d26eb6527.EliteSanctuaryNoRank.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_LIVE_TESTS\\F9_CHANGED_GENERATION_V72_2026-09-14\\rollback\\9dfe563d26eb6527.EliteSanctuaryNoRank.target.addon.lua_B",
+   "work\\research\\U44-2026-09-27\\lua-port\\before\\deployed\\OpenWF\\CustomScripts\\Inject\\9dfe563d26eb6527.EliteSanctuaryNoRank.target.addon.lua_B",
+   "work\\temp\\bootstrapper-circuit-u44-research\\RENOVICE_LIVE_TESTS\\F9_CHANGED_GENERATION_V72_2026-09-14\\rollback\\9dfe563d26eb6527.EliteSanctuaryNoRank.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\EXACT_CALLINFO_AND_NATIVE_IDENTITY_V66_2026-09-13\\rollback\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+  "sha256": "75bb4231c6a2748c7c79a69dbfe781644a1ee63b4d26b5fedb34de3064757eb7",
+  "body_key": "08faf07b504d058f",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "c0cf04fc388092533c3084e459ba4ae9050571934c82e3473385823f8e2a6390",
+  "decompile_profile": "u43",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\EXACT_CALLINFO_AND_NATIVE_IDENTITY_V66_2026-09-13\\rollback\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\EXACT_NATIVE_CALL_MULTI_BINDING_V64_2026-09-13\\rollback\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\F9_UNCHANGED_MANAGED_GENERATION_REUSE_V67_2026-09-13\\rollback\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MALLET_LUA_ENTRY_THREAT_ARGUMENT_V62_2026-09-11\\staging\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\NATIVE_COMPACT_HOOK_CAPTURED_RESTORE_V63_2026-09-12\\rollback\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\NATIVE_INGRESS_CALLSITE_DIAGNOSTICS_V65_2026-09-13\\rollback\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+   "work\\research\\U44-2026-09-27\\lua-port\\before\\deployed\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\EXACT_CALLINFO_AND_NATIVE_IDENTITY_V66_2026-09-13\\rollback\\OpenWF\\CustomScripts\\Inject\\1e3647332a578b78.SurvivalTimers.target.addon.lua_B",
+  "sha256": "7790599dc2ce36fd12a31bcef323f9100ee9e825e2f174e128bd59d27d81354b",
+  "body_key": "1e3647332a578b78",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Scripts_Modes_SurvivalMission.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "eeb5078b27cef0c81d4366a5651083ca828b393c1a965dd01c3402708461ca18",
+  "decompile_profile": "u43",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\EXACT_CALLINFO_AND_NATIVE_IDENTITY_V66_2026-09-13\\rollback\\OpenWF\\CustomScripts\\Inject\\1e3647332a578b78.SurvivalTimers.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\EXACT_NATIVE_CALL_MULTI_BINDING_V64_2026-09-13\\rollback\\OpenWF\\CustomScripts\\Inject\\1e3647332a578b78.SurvivalTimers.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\F9_UNCHANGED_MANAGED_GENERATION_REUSE_V67_2026-09-13\\rollback\\OpenWF\\CustomScripts\\Inject\\1e3647332a578b78.SurvivalTimers.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MALLET_COVER_BYPASS_ADDON_2026-09-09\\baseline\\1e3647332a578b78.SurvivalTimers.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\NATIVE_COMPACT_HOOK_CAPTURED_RESTORE_V63_2026-09-12\\rollback\\OpenWF\\CustomScripts\\Inject\\1e3647332a578b78.SurvivalTimers.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\NATIVE_INGRESS_CALLSITE_DIAGNOSTICS_V65_2026-09-13\\rollback\\OpenWF\\CustomScripts\\Inject\\1e3647332a578b78.SurvivalTimers.target.addon.lua_B",
+   "work\\diagnostics\\survival-pickup-event-trace-v62\\1e3647332a578b78.SurvivalTimers.target.addon.lua_B",
+   "work\\research\\U44-2026-09-27\\lua-port\\before\\deployed\\OpenWF\\CustomScripts\\Inject\\1e3647332a578b78.SurvivalTimers.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\EXACT_CALLINFO_AND_NATIVE_IDENTITY_V66_2026-09-13\\rollback\\OpenWF\\CustomScripts\\Inject\\a51e98a1833bd8c1.InterceptionTimers.target.addon.lua_B",
+  "sha256": "e802edb863ccfc9a7f7d67c70b52ce2c2d108e627116ce93eaa743c3c8fb76fd",
+  "body_key": "a51e98a1833bd8c1",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Scripts_Modes_TerritoryMission.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "83fd75da524b45fb4b7460f698f66271ca7e380d6871c8a53f2066166042f292",
+  "decompile_profile": "u43",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\EXACT_CALLINFO_AND_NATIVE_IDENTITY_V66_2026-09-13\\rollback\\OpenWF\\CustomScripts\\Inject\\a51e98a1833bd8c1.InterceptionTimers.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\EXACT_NATIVE_CALL_MULTI_BINDING_V64_2026-09-13\\rollback\\OpenWF\\CustomScripts\\Inject\\a51e98a1833bd8c1.InterceptionTimers.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\F9_UNCHANGED_MANAGED_GENERATION_REUSE_V67_2026-09-13\\rollback\\OpenWF\\CustomScripts\\Inject\\a51e98a1833bd8c1.InterceptionTimers.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\INTERCEPTION_SCORING_GUARD_FIX_2026-09-11\\staging\\OpenWF\\CustomScripts\\Inject\\a51e98a1833bd8c1.InterceptionTimers.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\NATIVE_COMPACT_HOOK_CAPTURED_RESTORE_V63_2026-09-12\\rollback\\OpenWF\\CustomScripts\\Inject\\a51e98a1833bd8c1.InterceptionTimers.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\NATIVE_INGRESS_CALLSITE_DIAGNOSTICS_V65_2026-09-13\\rollback\\OpenWF\\CustomScripts\\Inject\\a51e98a1833bd8c1.InterceptionTimers.target.addon.lua_B",
+   "work\\research\\U44-2026-09-27\\lua-port\\before\\deployed\\OpenWF\\CustomScripts\\Inject\\a51e98a1833bd8c1.InterceptionTimers.target.addon.lua_B",
+   "work\\staging\\ability-editor\\mission_interception_timers_addon\\55FBCCE78F58\\artifacts\\a51e98a1833bd8c1.mission_interception_timers_addon.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\EXACT_CALLINFO_AND_NATIVE_IDENTITY_V66_2026-09-13\\rollback\\OpenWF\\CustomScripts\\Inject\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.lua_B",
+  "sha256": "4a037bf2f6fd13d6ba6e51033f8b1846cfe78127b56eff2576222268bebfeb9a",
+  "body_key": "f62b70b45fc7fdf9",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Powersuits_Frost_Abilities_IceSpike.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "5c657567b9471a46e78603d4da2f8d2c792a5ba18c4dacb4609d59d423a6fc69",
+  "decompile_profile": "u43",
+  "hooks": [
+   {
+    "hook": "nativeCalls.DamageDD.before",
+    "method": "DamageDD",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 64,
+      "method": "DamageDD",
+      "method_namecalls": [
+       "p7/i64",
+       "p13/i100"
+      ],
+      "at": "NAMECALL R11 R11 :DamageDD",
+      "class": "OK",
+      "reason": "NAMECALL :DamageDD at 64, CALL at 65"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "OK",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\EXACT_CALLINFO_AND_NATIVE_IDENTITY_V66_2026-09-13\\rollback\\OpenWF\\CustomScripts\\Inject\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\EXACT_NATIVE_CALL_MULTI_BINDING_V64_2026-09-13\\rollback\\OpenWF\\CustomScripts\\Inject\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\FROST_ICE_WAVE_COLD_STACK_DAMAGE_2026-09-13\\artifact\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ICE_WAVE_VALUE_TRACE_2026-09-13\\rollback\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\NATIVE_INGRESS_CALLSITE_DIAGNOSTICS_V65_2026-09-13\\rollback\\OpenWF\\CustomScripts\\Inject\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\EXACT_DAMAGE_BATCH_AND_CALLSITE_V47_2026-09-07\\staging\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+  "sha256": "cabfd1489fe5bf5965bd3ddf174d51c667506960c4c6787595e8a1d60146717b",
+  "body_key": "08faf07b504d058f",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "c0cf04fc388092533c3084e459ba4ae9050571934c82e3473385823f8e2a6390",
+  "decompile_profile": "u43",
+  "hooks": [
+   {
+    "hook": "transformFloatArgument",
+    "method": "PushFloatArg",
+    "phase": "call",
+    "sites": [
+     {
+      "prototype": 16,
+      "instruction": 596,
+      "method": "PushFloatArg",
+      "method_namecalls": [
+       "p10/i63",
+       "p10/i66",
+       "p15/i100",
+       "p15/i103",
+       "p16/i595"
+      ],
+      "at": "CALL R30 nargs=2 nres=0",
+      "class": "OFF-BY-ONE",
+      "expected_instruction": 595,
+      "reason": "596 is the CALL; the runtime reports NAMECALL :PushFloatArg at 595"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "OFF-BY-ONE",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\EXACT_DAMAGE_BATCH_AND_CALLSITE_V47_2026-09-07\\staging\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\EXACT_DAMAGE_BATCH_COMPACT_CALLSITE_V48_2026-09-07\\staging\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\LOW_LEVEL_NATIVE_HOOKS_IMMEDIATE_DAMAGE_V49_2026-09-07\\rollback\\Mallet.v48.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\F9_ROOT_REACTIVATION_AND_ICE_WAVE_PACKET_BASELINE_V68_2026-09-13\\artifact\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.lua_B",
+  "sha256": "7973eebbe5788079d27f5c9a19df415911a241784ea83fadf633bbf74cf3af5d",
+  "body_key": "f62b70b45fc7fdf9",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Powersuits_Frost_Abilities_IceSpike.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "5c657567b9471a46e78603d4da2f8d2c792a5ba18c4dacb4609d59d423a6fc69",
+  "decompile_profile": "u43",
+  "hooks": [
+   {
+    "hook": "nativeCalls.DamageDD.before",
+    "method": "DamageDD",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 64,
+      "method": "DamageDD",
+      "method_namecalls": [
+       "p7/i64",
+       "p13/i100"
+      ],
+      "at": "NAMECALL R11 R11 :DamageDD",
+      "class": "OK",
+      "reason": "NAMECALL :DamageDD at 64, CALL at 65"
+     }
+    ],
+    "prototype_only": []
+   },
+   {
+    "hook": "nativeCalls.DamageDD.after",
+    "method": "DamageDD",
+    "phase": "after",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 64,
+      "method": "DamageDD",
+      "method_namecalls": [
+       "p7/i64",
+       "p13/i100"
+      ],
+      "at": "NAMECALL R11 R11 :DamageDD",
+      "class": "OK",
+      "reason": "NAMECALL :DamageDD at 64, CALL at 65"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "OK",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\F9_ROOT_REACTIVATION_AND_ICE_WAVE_PACKET_BASELINE_V68_2026-09-13\\artifact\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ICE_WAVE_AUTHORITATIVE_BATCH_AND_HOST_TRACE_V69_2026-09-13\\rollback\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.V68.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\F9_ROOT_REACTIVATION_AND_ICE_WAVE_PACKET_BASELINE_V68_2026-09-13\\rollback\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.lua_B",
+  "sha256": "75e70e9e015d6448248ac3ad727c479a6d5776956af201ac0bcbb1a53815d063",
+  "body_key": "f62b70b45fc7fdf9",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Powersuits_Frost_Abilities_IceSpike.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "5c657567b9471a46e78603d4da2f8d2c792a5ba18c4dacb4609d59d423a6fc69",
+  "decompile_profile": "u43",
+  "hooks": [
+   {
+    "hook": "nativeCalls.DamageDD.before",
+    "method": "DamageDD",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 64,
+      "method": "DamageDD",
+      "method_namecalls": [
+       "p7/i64",
+       "p13/i100"
+      ],
+      "at": "NAMECALL R11 R11 :DamageDD",
+      "class": "OK",
+      "reason": "NAMECALL :DamageDD at 64, CALL at 65"
+     }
+    ],
+    "prototype_only": []
+   },
+   {
+    "hook": "nativeCalls.DamageDD.after",
+    "method": "DamageDD",
+    "phase": "after",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 64,
+      "method": "DamageDD",
+      "method_namecalls": [
+       "p7/i64",
+       "p13/i100"
+      ],
+      "at": "NAMECALL R11 R11 :DamageDD",
+      "class": "OK",
+      "reason": "NAMECALL :DamageDD at 64, CALL at 65"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "OK",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\F9_ROOT_REACTIVATION_AND_ICE_WAVE_PACKET_BASELINE_V68_2026-09-13\\rollback\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\UNIVERSAL_COMBAT_METER_LIVE_BRIDGE_FIX_2026-09-13\\artifact\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\F9_UNCHANGED_MANAGED_GENERATION_REUSE_V67_2026-09-13\\rollback\\OpenWF\\CustomScripts\\Inject\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.lua_B",
+  "sha256": "36f1d3e6cc4df17845be98b93a190395a9afc4a54fe963dd1fbf260326c51214",
+  "body_key": "f62b70b45fc7fdf9",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Powersuits_Frost_Abilities_IceSpike.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "5c657567b9471a46e78603d4da2f8d2c792a5ba18c4dacb4609d59d423a6fc69",
+  "decompile_profile": "u43",
+  "hooks": [
+   {
+    "hook": "nativeCalls.DamageDD.before",
+    "method": "DamageDD",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 64,
+      "method": "DamageDD",
+      "method_namecalls": [
+       "p7/i64",
+       "p13/i100"
+      ],
+      "at": "NAMECALL R11 R11 :DamageDD",
+      "class": "OK",
+      "reason": "NAMECALL :DamageDD at 64, CALL at 65"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "OK",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\F9_UNCHANGED_MANAGED_GENERATION_REUSE_V67_2026-09-13\\rollback\\OpenWF\\CustomScripts\\Inject\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ICE_WAVE_PROVIDER_ERROR_VALUE_TRACE_2026-09-13\\artifact\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ICE_WAVE_UPGRADED_VALUE_FIX_2026-09-13\\rollback\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ICE_WAVE_AUTHORITATIVE_BATCH_AND_HOST_TRACE_V69_2026-09-13\\artifact\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.lua_B",
+  "sha256": "4939aef25c10fac7c187ef475518d2aac3d76091ca1709556739fce3fae34a6b",
+  "body_key": "f62b70b45fc7fdf9",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Powersuits_Frost_Abilities_IceSpike.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "5c657567b9471a46e78603d4da2f8d2c792a5ba18c4dacb4609d59d423a6fc69",
+  "decompile_profile": "u43",
+  "hooks": [
+   {
+    "hook": "nativeCalls.DamageDD.before",
+    "method": "DamageDD",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 64,
+      "method": "DamageDD",
+      "method_namecalls": [
+       "p7/i64",
+       "p13/i100"
+      ],
+      "at": "NAMECALL R11 R11 :DamageDD",
+      "class": "OK",
+      "reason": "NAMECALL :DamageDD at 64, CALL at 65"
+     }
+    ],
+    "prototype_only": []
+   },
+   {
+    "hook": "nativeCalls.DamageDD.after",
+    "method": "DamageDD",
+    "phase": "after",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 64,
+      "method": "DamageDD",
+      "method_namecalls": [
+       "p7/i64",
+       "p13/i100"
+      ],
+      "at": "NAMECALL R11 R11 :DamageDD",
+      "class": "OK",
+      "reason": "NAMECALL :DamageDD at 64, CALL at 65"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "OK",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ICE_WAVE_AUTHORITATIVE_BATCH_AND_HOST_TRACE_V69_2026-09-13\\artifact\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ICE_WAVE_STOCK_SETTER_TRANSACTION_V70_2026-09-14\\rollback\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.V69.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ICE_WAVE_BASE_3X_PER_STACK_V99_2026-09-16\\artifact\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.lua_B",
+  "sha256": "10a5c33a74b60811c6fdd66184ac61a55fab675033d9ac058d0220d67ae80d86",
+  "body_key": "f62b70b45fc7fdf9",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Powersuits_Frost_Abilities_IceSpike.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "5c657567b9471a46e78603d4da2f8d2c792a5ba18c4dacb4609d59d423a6fc69",
+  "decompile_profile": "u43",
+  "hooks": [
+   {
+    "hook": "nativeCalls.SetBaseAmount.before",
+    "method": "SetBaseAmount",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 41,
+      "method": "SetBaseAmount",
+      "method_namecalls": [
+       "p7/i41"
+      ],
+      "at": "NAMECALL R11 R6 :SetBaseAmount",
+      "class": "OK",
+      "reason": "NAMECALL :SetBaseAmount at 41, CALL at 42"
+     }
+    ],
+    "prototype_only": []
+   },
+   {
+    "hook": "nativeCalls.SetSource.before",
+    "method": "SetSource",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 52,
+      "method": "SetSource",
+      "method_namecalls": [
+       "p7/i52",
+       "p13/i65"
+      ],
+      "at": "NAMECALL R11 R6 :SetSource",
+      "class": "OK",
+      "reason": "NAMECALL :SetSource at 52, CALL at 53"
+     }
+    ],
+    "prototype_only": []
+   },
+   {
+    "hook": "nativeCalls.DamageDD.before",
+    "method": "DamageDD",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 64,
+      "method": "DamageDD",
+      "method_namecalls": [
+       "p7/i64",
+       "p13/i100"
+      ],
+      "at": "NAMECALL R11 R11 :DamageDD",
+      "class": "OK",
+      "reason": "NAMECALL :DamageDD at 64, CALL at 65"
+     }
+    ],
+    "prototype_only": []
+   },
+   {
+    "hook": "nativeCalls.DamageDD.after",
+    "method": "DamageDD",
+    "phase": "after",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 64,
+      "method": "DamageDD",
+      "method_namecalls": [
+       "p7/i64",
+       "p13/i100"
+      ],
+      "at": "NAMECALL R11 R11 :DamageDD",
+      "class": "OK",
+      "reason": "NAMECALL :DamageDD at 64, CALL at 65"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "OK",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ICE_WAVE_BASE_3X_PER_STACK_V99_2026-09-16\\artifact\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.lua_B",
+   "work\\research\\U44-2026-09-27\\lua-port\\before\\deployed\\OpenWF\\CustomScripts\\Inject\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ICE_WAVE_DE_VM_FINITE_GUARD_V71_2026-09-14\\artifact\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.lua_B",
+  "sha256": "886142c10441e81139dce55f12d4a48083ca5828da712c7b08d5ddc1b16a1791",
+  "body_key": "f62b70b45fc7fdf9",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Powersuits_Frost_Abilities_IceSpike.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "5c657567b9471a46e78603d4da2f8d2c792a5ba18c4dacb4609d59d423a6fc69",
+  "decompile_profile": "u43",
+  "hooks": [
+   {
+    "hook": "nativeCalls.SetBaseAmount.before",
+    "method": "SetBaseAmount",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 41,
+      "method": "SetBaseAmount",
+      "method_namecalls": [
+       "p7/i41"
+      ],
+      "at": "NAMECALL R11 R6 :SetBaseAmount",
+      "class": "OK",
+      "reason": "NAMECALL :SetBaseAmount at 41, CALL at 42"
+     }
+    ],
+    "prototype_only": []
+   },
+   {
+    "hook": "nativeCalls.DamageDD.before",
+    "method": "DamageDD",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 64,
+      "method": "DamageDD",
+      "method_namecalls": [
+       "p7/i64",
+       "p13/i100"
+      ],
+      "at": "NAMECALL R11 R11 :DamageDD",
+      "class": "OK",
+      "reason": "NAMECALL :DamageDD at 64, CALL at 65"
+     }
+    ],
+    "prototype_only": []
+   },
+   {
+    "hook": "nativeCalls.DamageDD.after",
+    "method": "DamageDD",
+    "phase": "after",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 64,
+      "method": "DamageDD",
+      "method_namecalls": [
+       "p7/i64",
+       "p13/i100"
+      ],
+      "at": "NAMECALL R11 R11 :DamageDD",
+      "class": "OK",
+      "reason": "NAMECALL :DamageDD at 64, CALL at 65"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "OK",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ICE_WAVE_DE_VM_FINITE_GUARD_V71_2026-09-14\\artifact\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ICE_WAVE_NUMERIC_BASELINE_RESTORE_V73_2026-09-14\\rollback\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.V71.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ICE_WAVE_SHARED_PACKET_PER_TARGET_V72_2026-09-14\\rollback\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.V71.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ICE_WAVE_DE_VM_FINITE_GUARD_V71_2026-09-14\\rollback\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.V70.lua_B",
+  "sha256": "8b602693d395b1e6eab782d6ee5d0ff8667b156174cccd7fabdb57775232776e",
+  "body_key": "f62b70b45fc7fdf9",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Powersuits_Frost_Abilities_IceSpike.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "5c657567b9471a46e78603d4da2f8d2c792a5ba18c4dacb4609d59d423a6fc69",
+  "decompile_profile": "u43",
+  "hooks": [
+   {
+    "hook": "nativeCalls.SetBaseAmount.before",
+    "method": "SetBaseAmount",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 41,
+      "method": "SetBaseAmount",
+      "method_namecalls": [
+       "p7/i41"
+      ],
+      "at": "NAMECALL R11 R6 :SetBaseAmount",
+      "class": "OK",
+      "reason": "NAMECALL :SetBaseAmount at 41, CALL at 42"
+     }
+    ],
+    "prototype_only": []
+   },
+   {
+    "hook": "nativeCalls.DamageDD.before",
+    "method": "DamageDD",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 64,
+      "method": "DamageDD",
+      "method_namecalls": [
+       "p7/i64",
+       "p13/i100"
+      ],
+      "at": "NAMECALL R11 R11 :DamageDD",
+      "class": "OK",
+      "reason": "NAMECALL :DamageDD at 64, CALL at 65"
+     }
+    ],
+    "prototype_only": []
+   },
+   {
+    "hook": "nativeCalls.DamageDD.after",
+    "method": "DamageDD",
+    "phase": "after",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 64,
+      "method": "DamageDD",
+      "method_namecalls": [
+       "p7/i64",
+       "p13/i100"
+      ],
+      "at": "NAMECALL R11 R11 :DamageDD",
+      "class": "OK",
+      "reason": "NAMECALL :DamageDD at 64, CALL at 65"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "OK",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ICE_WAVE_DE_VM_FINITE_GUARD_V71_2026-09-14\\rollback\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.V70.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ICE_WAVE_NUMERIC_BASELINE_RESTORE_V73_2026-09-14\\rollback\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.V70.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ICE_WAVE_SHARED_PACKET_PER_TARGET_V72_2026-09-14\\rollback\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.V70.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ICE_WAVE_STOCK_SETTER_TRANSACTION_V70_2026-09-14\\artifact\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ICE_WAVE_NATIVE_CARD_V91_2026-09-16\\artifact\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.lua_B",
+  "sha256": "d24673ae0485c968bb2888e5299339da6b3d63adb984601825b602cae18ec8f8",
+  "body_key": "f62b70b45fc7fdf9",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Powersuits_Frost_Abilities_IceSpike.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "5c657567b9471a46e78603d4da2f8d2c792a5ba18c4dacb4609d59d423a6fc69",
+  "decompile_profile": "u43",
+  "hooks": [
+   {
+    "hook": "nativeCalls.SetBaseAmount.before",
+    "method": "SetBaseAmount",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 41,
+      "method": "SetBaseAmount",
+      "method_namecalls": [
+       "p7/i41"
+      ],
+      "at": "NAMECALL R11 R6 :SetBaseAmount",
+      "class": "OK",
+      "reason": "NAMECALL :SetBaseAmount at 41, CALL at 42"
+     }
+    ],
+    "prototype_only": []
+   },
+   {
+    "hook": "nativeCalls.SetSource.before",
+    "method": "SetSource",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 52,
+      "method": "SetSource",
+      "method_namecalls": [
+       "p7/i52",
+       "p13/i65"
+      ],
+      "at": "NAMECALL R11 R6 :SetSource",
+      "class": "OK",
+      "reason": "NAMECALL :SetSource at 52, CALL at 53"
+     }
+    ],
+    "prototype_only": []
+   },
+   {
+    "hook": "nativeCalls.DamageDD.before",
+    "method": "DamageDD",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 64,
+      "method": "DamageDD",
+      "method_namecalls": [
+       "p7/i64",
+       "p13/i100"
+      ],
+      "at": "NAMECALL R11 R11 :DamageDD",
+      "class": "OK",
+      "reason": "NAMECALL :DamageDD at 64, CALL at 65"
+     }
+    ],
+    "prototype_only": []
+   },
+   {
+    "hook": "nativeCalls.DamageDD.after",
+    "method": "DamageDD",
+    "phase": "after",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 64,
+      "method": "DamageDD",
+      "method_namecalls": [
+       "p7/i64",
+       "p13/i100"
+      ],
+      "at": "NAMECALL R11 R11 :DamageDD",
+      "class": "OK",
+      "reason": "NAMECALL :DamageDD at 64, CALL at 65"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "OK",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ICE_WAVE_NATIVE_CARD_V91_2026-09-16\\artifact\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ICE_WAVE_NUMERIC_BASELINE_RESTORE_V73_2026-09-14\\rollback\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.V72.lua_B",
+  "sha256": "ecf1a98f720feff4f488c728f4a3cdcd1d6212b776cdac51c895b139eaafc065",
+  "body_key": "f62b70b45fc7fdf9",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Powersuits_Frost_Abilities_IceSpike.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "5c657567b9471a46e78603d4da2f8d2c792a5ba18c4dacb4609d59d423a6fc69",
+  "decompile_profile": "u43",
+  "hooks": [
+   {
+    "hook": "nativeCalls.SetBaseAmount.before",
+    "method": "SetBaseAmount",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 41,
+      "method": "SetBaseAmount",
+      "method_namecalls": [
+       "p7/i41"
+      ],
+      "at": "NAMECALL R11 R6 :SetBaseAmount",
+      "class": "OK",
+      "reason": "NAMECALL :SetBaseAmount at 41, CALL at 42"
+     }
+    ],
+    "prototype_only": []
+   },
+   {
+    "hook": "nativeCalls.DamageDD.before",
+    "method": "DamageDD",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 64,
+      "method": "DamageDD",
+      "method_namecalls": [
+       "p7/i64",
+       "p13/i100"
+      ],
+      "at": "NAMECALL R11 R11 :DamageDD",
+      "class": "OK",
+      "reason": "NAMECALL :DamageDD at 64, CALL at 65"
+     }
+    ],
+    "prototype_only": []
+   },
+   {
+    "hook": "nativeCalls.DamageDD.after",
+    "method": "DamageDD",
+    "phase": "after",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 64,
+      "method": "DamageDD",
+      "method_namecalls": [
+       "p7/i64",
+       "p13/i100"
+      ],
+      "at": "NAMECALL R11 R11 :DamageDD",
+      "class": "OK",
+      "reason": "NAMECALL :DamageDD at 64, CALL at 65"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "OK",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ICE_WAVE_NUMERIC_BASELINE_RESTORE_V73_2026-09-14\\rollback\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.V72.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ICE_WAVE_SHARED_PACKET_PER_TARGET_V72_2026-09-14\\artifact\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ICE_WAVE_PER_CALL_RESTORE_FIX_2026-09-13\\artifact\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.lua_B",
+  "sha256": "6433e834c3bfa8f710c98ce5d295d658feb12ebb2a3ae4fce3b8b504340d1e03",
+  "body_key": "f62b70b45fc7fdf9",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Powersuits_Frost_Abilities_IceSpike.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "5c657567b9471a46e78603d4da2f8d2c792a5ba18c4dacb4609d59d423a6fc69",
+  "decompile_profile": "u43",
+  "hooks": [
+   {
+    "hook": "nativeCalls.DamageDD.before",
+    "method": "DamageDD",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 64,
+      "method": "DamageDD",
+      "method_namecalls": [
+       "p7/i64",
+       "p13/i100"
+      ],
+      "at": "NAMECALL R11 R11 :DamageDD",
+      "class": "OK",
+      "reason": "NAMECALL :DamageDD at 64, CALL at 65"
+     }
+    ],
+    "prototype_only": []
+   },
+   {
+    "hook": "nativeCalls.DamageDD.after",
+    "method": "DamageDD",
+    "phase": "after",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 64,
+      "method": "DamageDD",
+      "method_namecalls": [
+       "p7/i64",
+       "p13/i100"
+      ],
+      "at": "NAMECALL R11 R11 :DamageDD",
+      "class": "OK",
+      "reason": "NAMECALL :DamageDD at 64, CALL at 65"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "OK",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ICE_WAVE_PER_CALL_RESTORE_FIX_2026-09-13\\artifact\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\UNIVERSAL_COMBAT_METER_ICE_WAVE_2026-09-13\\rollback\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ICE_WAVE_PER_CALL_RESTORE_FIX_2026-09-13\\rollback\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.lua_B",
+  "sha256": "da1938ae1e2394d0cd6aebc6b7a01e9a4d45bbb15ffe11da0979dfd89ac11b88",
+  "body_key": "f62b70b45fc7fdf9",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Powersuits_Frost_Abilities_IceSpike.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "5c657567b9471a46e78603d4da2f8d2c792a5ba18c4dacb4609d59d423a6fc69",
+  "decompile_profile": "u43",
+  "hooks": [
+   {
+    "hook": "nativeCalls.DamageDD.before",
+    "method": "DamageDD",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 64,
+      "method": "DamageDD",
+      "method_namecalls": [
+       "p7/i64",
+       "p13/i100"
+      ],
+      "at": "NAMECALL R11 R11 :DamageDD",
+      "class": "OK",
+      "reason": "NAMECALL :DamageDD at 64, CALL at 65"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "OK",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ICE_WAVE_PER_CALL_RESTORE_FIX_2026-09-13\\rollback\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ICE_WAVE_UPGRADED_VALUE_FIX_2026-09-13\\artifact\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ICE_WAVE_PROVIDER_ERROR_VALUE_TRACE_2026-09-13\\rollback\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.lua_B",
+  "sha256": "05478f55d2994540b46d522b6afe26fe9c0d7b70d0d23e166acc65fde2b7bb56",
+  "body_key": "f62b70b45fc7fdf9",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Powersuits_Frost_Abilities_IceSpike.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "5c657567b9471a46e78603d4da2f8d2c792a5ba18c4dacb4609d59d423a6fc69",
+  "decompile_profile": "u43",
+  "hooks": [
+   {
+    "hook": "nativeCalls.DamageDD.before",
+    "method": "DamageDD",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 64,
+      "method": "DamageDD",
+      "method_namecalls": [
+       "p7/i64",
+       "p13/i100"
+      ],
+      "at": "NAMECALL R11 R11 :DamageDD",
+      "class": "OK",
+      "reason": "NAMECALL :DamageDD at 64, CALL at 65"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "OK",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ICE_WAVE_PROVIDER_ERROR_VALUE_TRACE_2026-09-13\\rollback\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ICE_WAVE_VALUE_TRACE_2026-09-13\\artifact\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ICE_WAVE_STRENGTH_PER_STACK_V81_2026-09-15\\artifact\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.lua_B",
+  "sha256": "47be0645ce804ba565de4b0021cfd46be452b22908b5c0092c900c62ca6e3e02",
+  "body_key": "f62b70b45fc7fdf9",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Powersuits_Frost_Abilities_IceSpike.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "5c657567b9471a46e78603d4da2f8d2c792a5ba18c4dacb4609d59d423a6fc69",
+  "decompile_profile": "u43",
+  "hooks": [
+   {
+    "hook": "nativeCalls.SetBaseAmount.before",
+    "method": "SetBaseAmount",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 41,
+      "method": "SetBaseAmount",
+      "method_namecalls": [
+       "p7/i41"
+      ],
+      "at": "NAMECALL R11 R6 :SetBaseAmount",
+      "class": "OK",
+      "reason": "NAMECALL :SetBaseAmount at 41, CALL at 42"
+     }
+    ],
+    "prototype_only": []
+   },
+   {
+    "hook": "nativeCalls.SetSource.before",
+    "method": "SetSource",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 52,
+      "method": "SetSource",
+      "method_namecalls": [
+       "p7/i52",
+       "p13/i65"
+      ],
+      "at": "NAMECALL R11 R6 :SetSource",
+      "class": "OK",
+      "reason": "NAMECALL :SetSource at 52, CALL at 53"
+     }
+    ],
+    "prototype_only": []
+   },
+   {
+    "hook": "nativeCalls.DamageDD.before",
+    "method": "DamageDD",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 64,
+      "method": "DamageDD",
+      "method_namecalls": [
+       "p7/i64",
+       "p13/i100"
+      ],
+      "at": "NAMECALL R11 R11 :DamageDD",
+      "class": "OK",
+      "reason": "NAMECALL :DamageDD at 64, CALL at 65"
+     }
+    ],
+    "prototype_only": []
+   },
+   {
+    "hook": "nativeCalls.DamageDD.after",
+    "method": "DamageDD",
+    "phase": "after",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 64,
+      "method": "DamageDD",
+      "method_namecalls": [
+       "p7/i64",
+       "p13/i100"
+      ],
+      "at": "NAMECALL R11 R11 :DamageDD",
+      "class": "OK",
+      "reason": "NAMECALL :DamageDD at 64, CALL at 65"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "OK",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\ICE_WAVE_STRENGTH_PER_STACK_V81_2026-09-15\\artifact\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\INTERCEPTION_SCORING_GUARD_FIX_2026-09-11\\rollback\\OpenWF\\CustomScripts\\Inject\\a51e98a1833bd8c1.InterceptionTimers.target.addon.lua_B",
+  "sha256": "5c1f441fce9bcdb3a61691e24864fbc4588cae8340ec5f7ca27eb1a42f751429",
+  "body_key": "a51e98a1833bd8c1",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Scripts_Modes_TerritoryMission.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "83fd75da524b45fb4b7460f698f66271ca7e380d6871c8a53f2066166042f292",
+  "decompile_profile": "u43",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\INTERCEPTION_SCORING_GUARD_FIX_2026-09-11\\rollback\\OpenWF\\CustomScripts\\Inject\\a51e98a1833bd8c1.InterceptionTimers.target.addon.lua_B",
+   "work\\staging\\ability-editor\\mission_interception_timers_addon\\2DF849CD4CF2\\artifacts\\a51e98a1833bd8c1.mission_interception_timers_addon.target.addon.lua_B",
+   "work\\staging\\ability-editor\\mission_interception_timers_addon\\6AFF20BAB01E\\artifacts\\a51e98a1833bd8c1.mission_interception_timers_addon.target.addon.lua_B",
+   "work\\staging\\ability-editor\\mission_interception_timers_addon\\8DCF28F297C1\\artifacts\\a51e98a1833bd8c1.mission_interception_timers_addon.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\LIVE_TOGGLE_AND_MALLET_RECOVERY_V29_2026-09-03\\rollback\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+  "sha256": "e73dc842ea503a24b13af48c79188f2ae4ecbc17076312a8359b9aa597779d05",
+  "body_key": "08faf07b504d058f",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "c0cf04fc388092533c3084e459ba4ae9050571934c82e3473385823f8e2a6390",
+  "decompile_profile": "u43",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\LIVE_TOGGLE_AND_MALLET_RECOVERY_V29_2026-09-03\\rollback\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MODULE_ENVIRONMENT_OWNER_BUS_2026-08-25\\rollback\\pre-module-environment-owner-bus\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\PREDICATE_ERROR_OBSERVABILITY_2026-08-25\\rollback\\pre-predicate-error-observability\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\PREDICATE_ERROR_OBSERVABILITY_2026-08-25\\staging\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\RUNTIME_ABILITY_EVENT_BUS_2026-08-25\\staging\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\UNIVERSAL_TARGET_INJECTION_V28_2026-09-03\\staging\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+   "repos\\toolchains\\de-luau-toolchain\\stage\\live_candidates\\2026-08-24_mallet_target_scoped_addon_poc\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\LOG_DIRECTORY_LAYOUT_V59_2026-09-09\\baseline\\08faf07b504d058f.MalletOverguardAndCard.v57.target.addon.lua_B",
+  "sha256": "36d2e3ec21e5879fbc0129a82139cf35e53d5fc95c8a82443d106eff6fbdf049",
+  "body_key": "08faf07b504d058f",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "c0cf04fc388092533c3084e459ba4ae9050571934c82e3473385823f8e2a6390",
+  "decompile_profile": "u43",
+  "hooks": [
+   {
+    "hook": "nativeCalls.PushFloatArg.before",
+    "method": "PushFloatArg",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 16,
+      "instruction": 596,
+      "method": "PushFloatArg",
+      "method_namecalls": [
+       "p10/i63",
+       "p10/i66",
+       "p15/i100",
+       "p15/i103",
+       "p16/i595"
+      ],
+      "at": "CALL R30 nargs=2 nres=0",
+      "class": "OFF-BY-ONE",
+      "expected_instruction": 595,
+      "reason": "596 is the CALL; the runtime reports NAMECALL :PushFloatArg at 595"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "OFF-BY-ONE",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\LOG_DIRECTORY_LAYOUT_V59_2026-09-09\\baseline\\08faf07b504d058f.MalletOverguardAndCard.v57.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MALLET_COVER_BYPASS_ADDON_2026-09-09\\rollback\\Mallet.v57.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MALLET_LUA_ENTRY_THREAT_ARGUMENT_V62_2026-09-11\\rollback\\08faf07b504d058f.MalletOverguardAndCard.v57.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MALLET_LUA_SETTHREATLEVEL_WRAPPER_2026-09-11\\rollback\\08faf07b504d058f.MalletOverguardAndCard.before-lua-wrapper.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MALLET_PROTECTED_NAMECALL_STATE_FILTER_V57_2026-09-08\\staging\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MISSION_TIMER_AND_MALLET_LOS_RECOVERY_2026-09-11\\staging\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\REUSABLE_DIAGNOSTICS_AND_API_CATALOG_V58_2026-09-08\\baseline\\08faf07b504d058f.MalletOverguardAndCard.v57.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\SURVIVAL_COROUTINE_RESUME_FIX_V61_2026-09-09\\baseline\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\SURVIVAL_TIMER_TARGET_ADDON_V60_2026-09-09\\baseline\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\LOW_LEVEL_NATIVE_HOOKS_IMMEDIATE_DAMAGE_V49_2026-09-07\\staging\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+  "sha256": "2484605913bf1e1e32849ab7afec41bb2e93eb4a24ef711f13476827351aea0c",
+  "body_key": "08faf07b504d058f",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "c0cf04fc388092533c3084e459ba4ae9050571934c82e3473385823f8e2a6390",
+  "decompile_profile": "u43",
+  "hooks": [
+   {
+    "hook": "nativeCalls.PushFloatArg.before",
+    "method": "PushFloatArg",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 16,
+      "instruction": 596,
+      "method": "PushFloatArg",
+      "method_namecalls": [
+       "p10/i63",
+       "p10/i66",
+       "p15/i100",
+       "p15/i103",
+       "p16/i595"
+      ],
+      "at": "CALL R30 nargs=2 nres=0",
+      "class": "OFF-BY-ONE",
+      "expected_instruction": 595,
+      "reason": "596 is the CALL; the runtime reports NAMECALL :PushFloatArg at 595"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "OFF-BY-ONE",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\LOW_LEVEL_NATIVE_HOOKS_IMMEDIATE_DAMAGE_V49_2026-09-07\\staging\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MALLET_CALLBACK_TIMING_TRACE_V50_2026-09-08\\rollback\\Mallet.v49.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MALLET_CALLBACK_OBJECT_IDENTITY_V51_2026-09-08\\baseline\\Mallet.v50.target.addon.lua_B",
+  "sha256": "e51a559a6df98ae31bb74ba1fe31d87795b3245e209007efb3396916aa0fd2d9",
+  "body_key": null,
+  "stock": null,
+  "stock_profile": null,
+  "stock_sha256": null,
+  "decompile_profile": "u43",
+  "hooks": [
+   {
+    "hook": "nativeCalls.PushFloatArg.before",
+    "method": "PushFloatArg",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 16,
+      "instruction": 596,
+      "method": "PushFloatArg",
+      "class": "UNRESOLVED",
+      "reason": "no stock module for this body key"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "UNRESOLVED",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MALLET_CALLBACK_OBJECT_IDENTITY_V51_2026-09-08\\baseline\\Mallet.v50.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MALLET_CALLBACK_TIMING_TRACE_V50_2026-09-08\\staging\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MALLET_DEAD_VICTIM_FILTER_V52_2026-09-08\\rollback\\Mallet.v50.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MALLET_KILLED_VICTIM_FILTER_V53_2026-09-08\\rollback\\Mallet.v50.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MALLET_CALLBACK_RETURN_STATE_TRACE_V55_2026-09-08\\rollback\\Mallet.v54.target.addon.lua_B",
+  "sha256": "75657872eabefa5f50818f81e0bb1accd1b2f20436d365ff15b944f80ea20514",
+  "body_key": null,
+  "stock": null,
+  "stock_profile": null,
+  "stock_sha256": null,
+  "decompile_profile": "u43",
+  "hooks": [
+   {
+    "hook": "nativeCalls.PushFloatArg.before",
+    "method": "PushFloatArg",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 16,
+      "instruction": 596,
+      "method": "PushFloatArg",
+      "class": "UNRESOLVED",
+      "reason": "no stock module for this body key"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "UNRESOLVED",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MALLET_CALLBACK_RETURN_STATE_TRACE_V55_2026-09-08\\rollback\\Mallet.v54.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MALLET_CALLBACK_TARGET_STATE_TRACE_V54_2026-09-08\\staging\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MALLET_CALLBACK_RETURN_STATE_TRACE_V55_2026-09-08\\staging\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+  "sha256": "77b467e66cb736b051d687d9ae3a9360badedf9b48ba4e7b325b6cd21f5ecf9b",
+  "body_key": "08faf07b504d058f",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "c0cf04fc388092533c3084e459ba4ae9050571934c82e3473385823f8e2a6390",
+  "decompile_profile": "u43",
+  "hooks": [
+   {
+    "hook": "nativeCalls.PushFloatArg.before",
+    "method": "PushFloatArg",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 16,
+      "instruction": 596,
+      "method": "PushFloatArg",
+      "method_namecalls": [
+       "p10/i63",
+       "p10/i66",
+       "p15/i100",
+       "p15/i103",
+       "p16/i595"
+      ],
+      "at": "CALL R30 nargs=2 nres=0",
+      "class": "OFF-BY-ONE",
+      "expected_instruction": 595,
+      "reason": "596 is the CALL; the runtime reports NAMECALL :PushFloatArg at 595"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "OFF-BY-ONE",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MALLET_CALLBACK_RETURN_STATE_TRACE_V55_2026-09-08\\staging\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MALLET_CANONICAL_TARGET_STATE_FILTER_V56_2026-09-08\\rollback\\Mallet.v55.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MALLET_CALLBACK_TARGET_STATE_TRACE_V54_2026-09-08\\rollback\\Mallet.v53.target.addon.lua_B",
+  "sha256": "87498df37ac94dfff9a8ae1abb26537672b1ce15d49991034d6a914c4032ee14",
+  "body_key": null,
+  "stock": null,
+  "stock_profile": null,
+  "stock_sha256": null,
+  "decompile_profile": "u43",
+  "hooks": [
+   {
+    "hook": "nativeCalls.PushFloatArg.before",
+    "method": "PushFloatArg",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 16,
+      "instruction": 596,
+      "method": "PushFloatArg",
+      "class": "UNRESOLVED",
+      "reason": "no stock module for this body key"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "UNRESOLVED",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MALLET_CALLBACK_TARGET_STATE_TRACE_V54_2026-09-08\\rollback\\Mallet.v53.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MALLET_KILLED_VICTIM_FILTER_V53_2026-09-08\\staging\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MALLET_CANONICAL_TARGET_STATE_FILTER_V56_2026-09-08\\staging\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+  "sha256": "45560bcfa715fc6ac31305b3c792838ead9b9407b73179fffa63b0c4fee252f6",
+  "body_key": "08faf07b504d058f",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "c0cf04fc388092533c3084e459ba4ae9050571934c82e3473385823f8e2a6390",
+  "decompile_profile": "u43",
+  "hooks": [
+   {
+    "hook": "nativeCalls.PushFloatArg.before",
+    "method": "PushFloatArg",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 16,
+      "instruction": 596,
+      "method": "PushFloatArg",
+      "method_namecalls": [
+       "p10/i63",
+       "p10/i66",
+       "p15/i100",
+       "p15/i103",
+       "p16/i595"
+      ],
+      "at": "CALL R30 nargs=2 nres=0",
+      "class": "OFF-BY-ONE",
+      "expected_instruction": 595,
+      "reason": "596 is the CALL; the runtime reports NAMECALL :PushFloatArg at 595"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "OFF-BY-ONE",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MALLET_CANONICAL_TARGET_STATE_FILTER_V56_2026-09-08\\staging\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MALLET_PROTECTED_NAMECALL_STATE_FILTER_V57_2026-09-08\\rollback\\Mallet.v56.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MALLET_COVER_BYPASS_ADDON_2026-09-09\\staging\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+  "sha256": "c25583684e59c7ab8b1185703ed09701b3b3374a392e4db416fc458bde5ed822",
+  "body_key": "08faf07b504d058f",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "c0cf04fc388092533c3084e459ba4ae9050571934c82e3473385823f8e2a6390",
+  "decompile_profile": "u43",
+  "hooks": [
+   {
+    "hook": "nativeCalls.PushFloatArg.before",
+    "method": "PushFloatArg",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 16,
+      "instruction": 596,
+      "method": "PushFloatArg",
+      "method_namecalls": [
+       "p10/i63",
+       "p10/i66",
+       "p15/i100",
+       "p15/i103",
+       "p16/i595"
+      ],
+      "at": "CALL R30 nargs=2 nres=0",
+      "class": "OFF-BY-ONE",
+      "expected_instruction": 595,
+      "reason": "596 is the CALL; the runtime reports NAMECALL :PushFloatArg at 595"
+     }
+    ],
+    "prototype_only": []
+   },
+   {
+    "hook": "nativeCalls.RadialDamage.before",
+    "method": "RadialDamage",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 16,
+      "instruction": 576,
+      "method": "RadialDamage",
+      "method_namecalls": [
+       "p16/i575"
+      ],
+      "at": "CALL R31 nargs=2 nres=0",
+      "class": "OFF-BY-ONE",
+      "expected_instruction": 575,
+      "reason": "576 is the CALL; the runtime reports NAMECALL :RadialDamage at 575"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "OFF-BY-ONE",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MALLET_COVER_BYPASS_ADDON_2026-09-09\\staging\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MISSION_TIMER_AND_MALLET_LOS_RECOVERY_2026-09-11\\rollback\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MALLET_DEAD_VICTIM_FILTER_V52_2026-09-08\\staging\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+  "sha256": "95a13ede7b48cbefd47550d69f34e47dc2e7af7dc9611bfc17425de2c650dd64",
+  "body_key": "08faf07b504d058f",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "c0cf04fc388092533c3084e459ba4ae9050571934c82e3473385823f8e2a6390",
+  "decompile_profile": "u43",
+  "hooks": [
+   {
+    "hook": "nativeCalls.PushFloatArg.before",
+    "method": "PushFloatArg",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 16,
+      "instruction": 596,
+      "method": "PushFloatArg",
+      "method_namecalls": [
+       "p10/i63",
+       "p10/i66",
+       "p15/i100",
+       "p15/i103",
+       "p16/i595"
+      ],
+      "at": "CALL R30 nargs=2 nres=0",
+      "class": "OFF-BY-ONE",
+      "expected_instruction": 595,
+      "reason": "596 is the CALL; the runtime reports NAMECALL :PushFloatArg at 595"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "OFF-BY-ONE",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MALLET_DEAD_VICTIM_FILTER_V52_2026-09-08\\staging\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MALLET_EXACT_PIPELINE_TRACE_2026-08-25\\artifacts\\08faf07b504d058f.MalletOverguardAndCard.exact-trace.target.addon.lua_B",
+  "sha256": "0f9cc1f99c70b6c6d741afb3e1c0e31136fbc54f0aa74d2bf349a19c00fdd0d2",
+  "body_key": "08faf07b504d058f",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "c0cf04fc388092533c3084e459ba4ae9050571934c82e3473385823f8e2a6390",
+  "decompile_profile": "u43",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MALLET_EXACT_PIPELINE_TRACE_2026-08-25\\artifacts\\08faf07b504d058f.MalletOverguardAndCard.exact-trace.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MALLET_EXACT_PIPELINE_TRACE_2026-08-25\\staging\\08faf07b504d058f.MalletOverguardAndCard.exact-trace.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\REGISTRY_STABLE_SCRIPT_DISPATCH_V26_2026-09-03\\rollback\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\SCRIPT_VM_GENERATION_REBIND_V25_2026-09-02\\live-script-snapshot\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_TOOLCHAIN\\runtime\\tmp-v26\\Addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MALLET_EXACT_PIPELINE_TRACE_2026-08-25\\rollback\\pre-exact-trace\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+  "sha256": "cad7a482e3a0b14a3afe8c1e92e018b4cf74010b37ac9858b0dbaed331907087",
+  "body_key": "08faf07b504d058f",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "c0cf04fc388092533c3084e459ba4ae9050571934c82e3473385823f8e2a6390",
+  "decompile_profile": "u43",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MALLET_EXACT_PIPELINE_TRACE_2026-08-25\\rollback\\pre-exact-trace\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MALLET_EXPLICIT_HOOK_SHIM_2026-08-25\\artifacts\\08faf07b504d058f.MalletOverguardAndCard.explicit.target.addon.lua_B",
+   "repos\\toolchains\\de-luau-toolchain\\stage\\live_candidates\\2026-08-25_mallet_explicit_hook_shim_poc\\08faf07b504d058f.MalletOverguardAndCard.explicit.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MALLET_EXPLICIT_HOOK_SHIM_2026-08-25\\rollback\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+  "sha256": "1b77d1b0dba98b682e5b9fcc7b57e3375ad960480009453bdaf1b3eefd955c0f",
+  "body_key": "08faf07b504d058f",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "c0cf04fc388092533c3084e459ba4ae9050571934c82e3473385823f8e2a6390",
+  "decompile_profile": "u43",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MALLET_EXPLICIT_HOOK_SHIM_2026-08-25\\rollback\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MODULE_ENVIRONMENT_OWNER_BUS_2026-08-25\\staging\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MALLET_LUA_ENTRY_THREAT_ARGUMENT_V62_2026-09-11\\rollback\\08faf07b504d058f.MalletOverguardAndCard.failed-export-wrapper.target.addon.lua_B",
+  "sha256": "3290241d7860b4123673e493102b9624ef1c6805b0809719cbe1c608cacf0863",
+  "body_key": "08faf07b504d058f",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "c0cf04fc388092533c3084e459ba4ae9050571934c82e3473385823f8e2a6390",
+  "decompile_profile": "u43",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MALLET_LUA_ENTRY_THREAT_ARGUMENT_V62_2026-09-11\\rollback\\08faf07b504d058f.MalletOverguardAndCard.failed-export-wrapper.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MALLET_LUA_SETTHREATLEVEL_WRAPPER_2026-09-11\\staging\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MISSION_TIMER_AND_MALLET_LOS_RECOVERY_2026-09-11\\evidence\\superseded\\303f809a05c1fbaa.ExcavationTimers.target.addon.lua_B",
+  "sha256": "a60475c500fa1acf61c01c75b9071ed20224c4d298237e00b32668aa5eb00dc8",
+  "body_key": "303f809a05c1fbaa",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Scripts_Modes_ExcavationMission.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "a2326fd92ddc2075e03cab08300744bfa15ed8bdec7c13fa98dd5071eeec20c2",
+  "decompile_profile": "u43",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MISSION_TIMER_AND_MALLET_LOS_RECOVERY_2026-09-11\\evidence\\superseded\\303f809a05c1fbaa.ExcavationTimers.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MISSION_TIMER_AND_MALLET_LOS_RECOVERY_2026-09-11\\rollback\\pre-exact-excavation\\OpenWF\\CustomScripts\\Inject\\303f809a05c1fbaa.ExcavationTimers.target.addon.lua_B",
+   "work\\staging\\ability-editor\\mission_excavation_timers_addon\\FC4FD104F6D7\\artifacts\\303f809a05c1fbaa.mission_excavation_timers_addon.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MISSION_TIMER_AND_MALLET_LOS_RECOVERY_2026-09-11\\rollback\\OpenWF\\CustomScripts\\Inject\\303f809a05c1fbaa.ExcavationTimers.target.addon.lua_B",
+  "sha256": "8af5aa5be4dc5bf3aca6793e04ecc218430bdca9a125d5085258109eccc28854",
+  "body_key": "303f809a05c1fbaa",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Scripts_Modes_ExcavationMission.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "a2326fd92ddc2075e03cab08300744bfa15ed8bdec7c13fa98dd5071eeec20c2",
+  "decompile_profile": "u43",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MISSION_TIMER_AND_MALLET_LOS_RECOVERY_2026-09-11\\rollback\\OpenWF\\CustomScripts\\Inject\\303f809a05c1fbaa.ExcavationTimers.target.addon.lua_B",
+   "work\\staging\\ability-editor\\mission_excavation_timers_addon\\80A84A2E91AE\\artifacts\\303f809a05c1fbaa.mission_excavation_timers_addon.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MISSION_TIMER_AND_MALLET_LOS_RECOVERY_2026-09-11\\rollback\\OpenWF\\CustomScripts\\Inject\\89329f85c8575b84.Mobile_defenseTimers.target.addon.lua_B",
+  "sha256": "8a36a4db639f21df97a39a2657ae587ee993763bb53af153b028f67ee436f6c1",
+  "body_key": "89329f85c8575b84",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Scripts_MobileDefense.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "e9cbbef4b6beca2ac61ec741f3f9a22ba45df06878708c429176843222b47541",
+  "decompile_profile": "u43",
+  "hooks": [
+   {
+    "hook": "nativeCalls.GetNetPersistentVar.after",
+    "method": "GetNetPersistentVar",
+    "phase": "after",
+    "sites": [
+     {
+      "prototype": 22,
+      "instruction": 139,
+      "method": "GetNetPersistentVar",
+      "method_namecalls": [
+       "p13/i4",
+       "p19/i167",
+       "p19/i373",
+       "p19/i411",
+       "p19/i424",
+       "p19/i438",
+       "p20/i2",
+       "p21/i7",
+       "p21/i17",
+       "p21/i76",
+       "p21/i102",
+       "p22/i52",
+       "p22/i55",
+       "p22/i76",
+       "p22/i138",
+       "p22/i144",
+       "p22/i147",
+       "p22/i162",
+       "p22/i217",
+       "p22/i238",
+       "p22/i270",
+       "p22/i275",
+       "p22/i376",
+       "p23/i51",
+       "p23/i54",
+       "p23/i71",
+       "p23/i160"
+      ],
+      "at": "CALL R18 nargs=3 nres=1",
+      "class": "OFF-BY-ONE",
+      "expected_instruction": 138,
+      "reason": "139 is the CALL; the runtime reports NAMECALL :GetNetPersistentVar at 138"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "OFF-BY-ONE",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MISSION_TIMER_AND_MALLET_LOS_RECOVERY_2026-09-11\\rollback\\OpenWF\\CustomScripts\\Inject\\89329f85c8575b84.Mobile_defenseTimers.target.addon.lua_B",
+   "work\\staging\\ability-editor\\mission_mobile_defense_timers_addon\\EFD73020DF26\\artifacts\\89329f85c8575b84.mission_mobile_defense_timers_addon.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MISSION_TIMER_AND_MALLET_LOS_RECOVERY_2026-09-11\\staging\\OpenWF\\CustomScripts\\Inject\\89329f85c8575b84.Mobile_defenseTimers.target.addon.lua_B",
+  "sha256": "65542a75ba2f25ba3bb45810127536e606a1943e0d009a61ae068d336f9910aa",
+  "body_key": "89329f85c8575b84",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Scripts_MobileDefense.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "e9cbbef4b6beca2ac61ec741f3f9a22ba45df06878708c429176843222b47541",
+  "decompile_profile": "u43",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\MISSION_TIMER_AND_MALLET_LOS_RECOVERY_2026-09-11\\staging\\OpenWF\\CustomScripts\\Inject\\89329f85c8575b84.Mobile_defenseTimers.target.addon.lua_B",
+   "work\\deployments\\mobile-defense-exact-timer-recovery-2026-09-12\\rollback\\89329f85c8575b84.Mobile_defenseTimers.target.addon.lua_B",
+   "work\\staging\\ability-editor\\mission_mobile_defense_timers_addon\\9CB471CFF9BD\\artifacts\\89329f85c8575b84.mission_mobile_defense_timers_addon.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\NATIVE_HOOK_BUS_MALLET_POC_2026-08-24\\rollback\\08faf07b504d058f (Mallet target addon hooks POC 2026-08-24).lua_B",
+  "sha256": "e9c4d05a8874835e5b0cda00f2a2fc886e315a7a5970897f789c80f875529842",
+  "body_key": "08faf07b504d058f",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "c0cf04fc388092533c3084e459ba4ae9050571934c82e3473385823f8e2a6390",
+  "decompile_profile": "u43",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\NATIVE_HOOK_BUS_MALLET_POC_2026-08-24\\rollback\\08faf07b504d058f (Mallet target addon hooks POC 2026-08-24).lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\TARGET_SCOPED_MALLET_ADDON_POC_2026-08-24\\staging\\CustomScripts\\08faf07b504d058f (Mallet target addon hooks POC 2026-08-24).lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\TARGET_SCOPED_MALLET_ADDON_POC_2026-08-24\\verification\\BardMusic_target_addon_hooks.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\NATIVE_HOOK_BUS_MALLET_POC_2026-08-24\\rollback\\08faf07b504d058f.MalletOverguardAndCard.before_native_hook_bus.target.addon.lua_B",
+  "sha256": "af7b9369f48cb1050d0f54cf6e8ae183f46280de09cc0c184d38dbc8c3c0bd18",
+  "body_key": "08faf07b504d058f",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "c0cf04fc388092533c3084e459ba4ae9050571934c82e3473385823f8e2a6390",
+  "decompile_profile": "u43",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\NATIVE_HOOK_BUS_MALLET_POC_2026-08-24\\rollback\\08faf07b504d058f.MalletOverguardAndCard.before_native_hook_bus.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\TARGET_SCOPED_MALLET_ADDON_POC_2026-08-24\\staging\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\TARGET_SCOPED_MALLET_ADDON_POC_2026-08-24\\verification\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\NATIVE_MODULE_OWNER_PACKET_ROUTE_2026-08-25\\rollback\\pre-module-owner-route\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+  "sha256": "a6a1e9bd137abd37d211d0519b35f242cf31efd0bda37d4c93f3a65b2c1038fc",
+  "body_key": "08faf07b504d058f",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "c0cf04fc388092533c3084e459ba4ae9050571934c82e3473385823f8e2a6390",
+  "decompile_profile": "u43",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\NATIVE_MODULE_OWNER_PACKET_ROUTE_2026-08-25\\rollback\\pre-module-owner-route\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\NATIVE_MODULE_OWNER_PACKET_ROUTE_2026-08-25\\staging\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\NATIVE_OBJECT_TYPE_IDENTITY_2026-08-25\\rollback\\pre-object-type-identity\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\NATIVE_OBJECT_TYPE_IDENTITY_2026-08-25\\staging\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\NATIVE_TABLE_IDENTITY_AND_TYPE_RESOURCE_2026-08-24\\rollback\\pre-native-damage-detours\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\NATIVE_TABLE_IDENTITY_AND_TYPE_RESOURCE_2026-08-24\\staging\\addon.verify.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\NATIVE_TABLE_IDENTITY_AND_TYPE_RESOURCE_2026-08-24\\staging\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\RUNTIME_ABILITY_EVENT_BUS_2026-08-25\\rollback\\pre-runtime-ability-event-bus\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\NATIVE_TABLE_IDENTITY_AND_TYPE_RESOURCE_2026-08-24\\rollback\\guarded-original-table\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+  "sha256": "e72d331e52b70d608f02f3b52707721768f55ecd705b7e5df52fd39a670a2fda",
+  "body_key": "08faf07b504d058f",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "c0cf04fc388092533c3084e459ba4ae9050571934c82e3473385823f8e2a6390",
+  "decompile_profile": "u43",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\NATIVE_TABLE_IDENTITY_AND_TYPE_RESOURCE_2026-08-24\\rollback\\guarded-original-table\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+   "repos\\toolchains\\de-luau-toolchain\\stage\\live_candidates\\2026-08-24_mallet_target_scoped_addon_poc\\MalletOverguardAndCard.target.addon.verify.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\NATIVE_TABLE_IDENTITY_AND_TYPE_RESOURCE_2026-08-24\\rollback\\guardless-card-type-tag-gameplay\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+  "sha256": "e3d0b0da43d58faf2f74e3989c13bfb254ba2a133977121c1daba8790bd940a5",
+  "body_key": "08faf07b504d058f",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "c0cf04fc388092533c3084e459ba4ae9050571934c82e3473385823f8e2a6390",
+  "decompile_profile": "u43",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\NATIVE_TABLE_IDENTITY_AND_TYPE_RESOURCE_2026-08-24\\rollback\\guardless-card-type-tag-gameplay\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\NATIVE_TABLE_IDENTITY_AND_TYPE_RESOURCE_2026-08-24\\staging\\addon.guardless.verify.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\NATIVE_TABLE_IDENTITY_AND_TYPE_RESOURCE_2026-08-24\\rollback\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+  "sha256": "223007e2034b090552d2859d7aa65ecc9b1e8467a83f545aa6ba15d4d3029b64",
+  "body_key": "08faf07b504d058f",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "c0cf04fc388092533c3084e459ba4ae9050571934c82e3473385823f8e2a6390",
+  "decompile_profile": "u43",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\NATIVE_TABLE_IDENTITY_AND_TYPE_RESOURCE_2026-08-24\\rollback\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\SEMANTIC_CARD_AND_DAMAGE_BUS_2026-08-24\\staging\\OpenWF\\CustomScripts\\Inject\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+   "repos\\toolchains\\de-luau-toolchain\\stage\\live_candidates\\2026-08-24_mallet_target_scoped_addon_poc\\08faf07b504d058f.MalletOverguardAndCard.target.addon.second.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\NATIVE_TABLE_IDENTITY_AND_TYPE_RESOURCE_2026-08-24\\rollback\\pre-cross-vm-native-identity\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+  "sha256": "1ea3c7304aa257fec879f32021e7734ae136740e8ff9417be4a0bbf82b97c4c9",
+  "body_key": "08faf07b504d058f",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "c0cf04fc388092533c3084e459ba4ae9050571934c82e3473385823f8e2a6390",
+  "decompile_profile": "u43",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\NATIVE_TABLE_IDENTITY_AND_TYPE_RESOURCE_2026-08-24\\rollback\\pre-cross-vm-native-identity\\08faf07b504d058f.MalletOverguardAndCard.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\NATIVE_TABLE_IDENTITY_AND_TYPE_RESOURCE_2026-08-24\\staging\\addon.resource-equality.verify.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\SURVIVAL_COROUTINE_RESUME_FIX_V61_2026-09-09\\rollback\\1e3647332a578b78.SurvivalTimers.target.addon.v60.lua_B",
+  "sha256": "adef761299cd0b466f84c42e2626b3aa61fc187504c63119bb13e6336071b1b7",
+  "body_key": "1e3647332a578b78",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Scripts_Modes_SurvivalMission.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "eeb5078b27cef0c81d4366a5651083ca828b393c1a965dd01c3402708461ca18",
+  "decompile_profile": "u43",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\SURVIVAL_COROUTINE_RESUME_FIX_V61_2026-09-09\\rollback\\1e3647332a578b78.SurvivalTimers.target.addon.v60.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\SURVIVAL_TIMER_TARGET_ADDON_V60_2026-09-09\\staging\\1e3647332a578b78.SurvivalTimers.target.addon.lua_B",
+   "work\\diagnostics\\survival-target-addon-v60\\1e3647332a578b78.SurvivalTimers.target.addon.lua_B",
+   "work\\staging\\ability-editor\\mission_survival_timers_addon\\4248C69A8D3A\\artifacts\\1e3647332a578b78.mission_survival_timers_addon.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\SURVIVAL_COROUTINE_RESUME_FIX_V61_2026-09-09\\staging\\1e3647332a578b78.SurvivalTimers.target.addon.lua_B",
+  "sha256": "25cd05fc50c5350630f0360829b7dc8e4a4df84ee359187fbcf248f8302763dd",
+  "body_key": "1e3647332a578b78",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Scripts_Modes_SurvivalMission.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "eeb5078b27cef0c81d4366a5651083ca828b393c1a965dd01c3402708461ca18",
+  "decompile_profile": "u43",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\SURVIVAL_COROUTINE_RESUME_FIX_V61_2026-09-09\\staging\\1e3647332a578b78.SurvivalTimers.target.addon.lua_B",
+   "work\\staging\\ability-editor\\mission_survival_timers_addon\\3164AE8FD423\\artifacts\\1e3647332a578b78.mission_survival_timers_addon.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\TARGET_SCOPED_MALLET_ADDON_POC_2026-08-24\\rollback\\target_addon_exact_env_t_bridge_failed_live.lua_B",
+  "sha256": "6406ccd454c0030050bb5630baa082bd4852493dbbd8760aaa3f1cba6ad73f65",
+  "body_key": null,
+  "stock": null,
+  "stock_profile": null,
+  "stock_sha256": null,
+  "decompile_profile": "u43",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\TARGET_SCOPED_MALLET_ADDON_POC_2026-08-24\\rollback\\target_addon_exact_env_t_bridge_failed_live.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\UNIVERSAL_COMBAT_METER_ICE_WAVE_2026-09-13\\artifact\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.lua_B",
+  "sha256": "a3414125269ede5aa41c0d8646f1afd7f6376d3473ad04f7ab838e96ec0ae525",
+  "body_key": "f62b70b45fc7fdf9",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Powersuits_Frost_Abilities_IceSpike.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "5c657567b9471a46e78603d4da2f8d2c792a5ba18c4dacb4609d59d423a6fc69",
+  "decompile_profile": "u43",
+  "hooks": [
+   {
+    "hook": "nativeCalls.DamageDD.before",
+    "method": "DamageDD",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 64,
+      "method": "DamageDD",
+      "method_namecalls": [
+       "p7/i64",
+       "p13/i100"
+      ],
+      "at": "NAMECALL R11 R11 :DamageDD",
+      "class": "OK",
+      "reason": "NAMECALL :DamageDD at 64, CALL at 65"
+     }
+    ],
+    "prototype_only": []
+   },
+   {
+    "hook": "nativeCalls.DamageDD.after",
+    "method": "DamageDD",
+    "phase": "after",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 64,
+      "method": "DamageDD",
+      "method_namecalls": [
+       "p7/i64",
+       "p13/i100"
+      ],
+      "at": "NAMECALL R11 R11 :DamageDD",
+      "class": "OK",
+      "reason": "NAMECALL :DamageDD at 64, CALL at 65"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "OK",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\UNIVERSAL_COMBAT_METER_ICE_WAVE_2026-09-13\\artifact\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_DEPLOYMENTS\\UNIVERSAL_COMBAT_METER_LIVE_BRIDGE_FIX_2026-09-13\\rollback\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_LIVE_TESTS\\F9_CHANGED_GENERATION_V72_2026-09-14\\candidate\\9dfe563d26eb6527.EliteSanctuaryNoRank.target.addon.lua_B",
+  "sha256": "ecc382d46973fb54f0cda4d45a23e9bc9f00fdd03d28ef770eb0fd21d8372df5",
+  "body_key": "9dfe563d26eb6527",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Interface_MissionRequirementUtilities.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "4ad63fd5d545b70bd424d1e63d5390b37a573d66078f195e747d91f7a61d7e5e",
+  "decompile_profile": "u43",
+  "hooks": [
+   {
+    "hook": "nativeCalls.BuildMissionForLocation.after",
+    "method": "BuildMissionForLocation",
+    "phase": "after",
+    "sites": [
+     {
+      "prototype": 25,
+      "instruction": 10,
+      "method": "BuildMissionForLocation",
+      "method_namecalls": [
+       "p21/i324",
+       "p25/i9",
+       "p26/i3"
+      ],
+      "at": "CALL R2 nargs=2 nres=1",
+      "class": "OFF-BY-ONE",
+      "expected_instruction": 9,
+      "reason": "10 is the CALL; the runtime reports NAMECALL :BuildMissionForLocation at 9"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "OFF-BY-ONE",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_LIVE_TESTS\\F9_CHANGED_GENERATION_V72_2026-09-14\\candidate\\9dfe563d26eb6527.EliteSanctuaryNoRank.target.addon.lua_B",
+   "work\\temp\\bootstrapper-circuit-u44-research\\RENOVICE_LIVE_TESTS\\F9_CHANGED_GENERATION_V72_2026-09-14\\candidate\\9dfe563d26eb6527.EliteSanctuaryNoRank.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_LIVE_TESTS\\F9_TRANSACTION_2026-08-23\\crash_live_payload\\RenoviceLifecycleTest.addon.lua_B",
+  "sha256": "992f250821f435609a09042388032d0afe97743d48a03d428edb4f044f8c6157",
+  "body_key": null,
+  "stock": null,
+  "stock_profile": null,
+  "stock_sha256": null,
+  "decompile_profile": "u43",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_LIVE_TESTS\\F9_TRANSACTION_2026-08-23\\crash_live_payload\\RenoviceLifecycleTest.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_LIVE_TESTS\\MALLET_CAST_ADDON_2026-08-23\\MalletFlat30000Overguard.addon.lua_B",
+  "sha256": "8886f9fb188b036cae43caa5a1633a878d9d3e43ef1b146ba07688f418c17674",
+  "body_key": null,
+  "stock": null,
+  "stock_profile": null,
+  "stock_sha256": null,
+  "decompile_profile": "u43",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_LIVE_TESTS\\MALLET_CAST_ADDON_2026-08-23\\MalletFlat30000Overguard.addon.lua_B",
+   "work\\temp\\bootstrapper-circuit-u44-research\\RENOVICE_LIVE_TESTS\\MALLET_CAST_ADDON_2026-08-23\\MalletFlat30000Overguard.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_SCRIPTING\\CARD_UI\\AbilityCards.addon.lua_B",
+  "sha256": "313e785455b0ec1fe316d21dc9e805ea3ca9c7bb68c22560c7e01988cf81f45f",
+  "body_key": null,
+  "stock": null,
+  "stock_profile": null,
+  "stock_sha256": null,
+  "decompile_profile": "u43",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_SCRIPTING\\CARD_UI\\AbilityCards.addon.lua_B",
+   "work\\temp\\bootstrapper-circuit-u44-research\\RENOVICE_SCRIPTING\\CARD_UI\\AbilityCards.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_TOOLCHAIN\\bin\\injection\\MultiTargetFixture.targets.addon.u44.lua_B",
+  "sha256": "e4407e051a04af973a124fa015aa1957587e72030761a1588f960e642698789a",
+  "body_key": null,
+  "stock": null,
+  "stock_profile": null,
+  "stock_sha256": null,
+  "decompile_profile": "u44",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_TOOLCHAIN\\bin\\injection\\MultiTargetFixture.targets.addon.u44.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_TOOLCHAIN\\bin\\injection\\PackageFixture.targets.addon.u44.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_TOOLCHAIN\\bin\\injection\\script-packages-work\\CustomScripts\\Packages\\Missions\\Missions.targets.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_TOOLCHAIN\\bin\\injection\\MultiTargetProbe.targets.addon.lua_B",
+  "sha256": "76857273f36a539b069b081b4fc0a194c29e3cf87a60047aced02f1fc2e8056a",
+  "body_key": null,
+  "stock": null,
+  "stock_profile": null,
+  "stock_sha256": null,
+  "decompile_profile": "u44",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_TOOLCHAIN\\bin\\injection\\MultiTargetProbe.targets.addon.lua_B",
+   "work\\staging\\bootstrapper-multitarget-addon\\opt-in-live-probe\\Inject\\MultiTargetProbe.targets.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_TOOLCHAIN\\bin\\injection\\script-packages-work\\admit\\CustomScripts\\Packages\\Missions\\Missions.targets.addon.lua_B",
+  "sha256": null,
+  "verdict": "MISSING",
+  "hooks": [],
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_TOOLCHAIN\\bin\\injection\\script-packages-work\\admit\\CustomScripts\\Packages\\Missions\\Missions.targets.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_TOOLCHAIN\\bin\\injection\\script-packages-work\\CustomScripts\\Inject\\3333333333333333.Loose.target.addon.lua_B",
+  "sha256": "fc360b701aa11c13a87bccbead0c78fb60cc4cab210cc0de827a89ffc679373e",
+  "verdict": "ERROR",
+  "error": "cannot decompile C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\repos\\runtime\\bootstrapper-runtime\\RENOVICE_TOOLCHAIN\\bin\\injection\\script-packages-work\\CustomScripts\\Inject\\3333333333333333.Loose.target.addon.lua_B: decompile-mod: walk error: not a 09 03 container\n",
+  "hooks": [],
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_TOOLCHAIN\\bin\\injection\\script-packages-work\\CustomScripts\\Inject\\3333333333333333.Loose.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_TOOLCHAIN\\bin\\injection\\script-packages-work\\CustomScripts\\Packages\\BadMulti\\Bad.targets.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_TOOLCHAIN\\bin\\injection\\script-packages-work\\CustomScripts\\Packages\\ConflictLooseTarget\\3333333333333333.X.target.addon.lua_B",
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_TOOLCHAIN\\bin\\injection\\script-packages-work\\CustomScripts\\Packages\\Managed\\Thing.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_TOOLCHAIN\\bin\\injection\\script-packages-work\\CustomScripts\\Inject\\LooseMulti.targets.addon.lua_B",
+  "sha256": "c7271122cf062de986fa7434407bd3b9099f9c8d945ecb036757fcea3a61f86c",
+  "verdict": "ERROR",
+  "error": "cannot decompile C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\repos\\runtime\\bootstrapper-runtime\\RENOVICE_TOOLCHAIN\\bin\\injection\\script-packages-work\\CustomScripts\\Inject\\LooseMulti.targets.addon.lua_B: decompile-mod: no protos\n",
+  "hooks": [],
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_TOOLCHAIN\\bin\\injection\\script-packages-work\\CustomScripts\\Inject\\LooseMulti.targets.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_TOOLCHAIN\\bin\\injection\\script-packages-work\\CustomScripts\\Packages\\ConflictLooseMulti\\M.targets.addon.lua_B",
+  "sha256": "62f5dba5a6d8d68d2c3d91e3fc1bed73cc3193ceb8552a5e7b6925c89d9e1129",
+  "verdict": "ERROR",
+  "error": "cannot decompile C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\repos\\runtime\\bootstrapper-runtime\\RENOVICE_TOOLCHAIN\\bin\\injection\\script-packages-work\\CustomScripts\\Packages\\ConflictLooseMulti\\M.targets.addon.lua_B: decompile-mod: no protos\n",
+  "hooks": [],
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_TOOLCHAIN\\bin\\injection\\script-packages-work\\CustomScripts\\Packages\\ConflictLooseMulti\\M.targets.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_TOOLCHAIN\\bin\\injection\\script-packages-work\\CustomScripts\\Packages\\Disabled\\D.targets.addon.lua_B",
+  "sha256": "79d6d66fd70c4d1e23090b8ef01559fcad20b58de586573ee6627cd73fff1443",
+  "verdict": "ERROR",
+  "error": "cannot decompile C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\repos\\runtime\\bootstrapper-runtime\\RENOVICE_TOOLCHAIN\\bin\\injection\\script-packages-work\\CustomScripts\\Packages\\Disabled\\D.targets.addon.lua_B: decompile-mod: no protos\n",
+  "hooks": [],
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_TOOLCHAIN\\bin\\injection\\script-packages-work\\CustomScripts\\Packages\\Disabled\\D.targets.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RESEARCH\\LOADOUT_NATIVE_HOOK_CONFLICT_2026-09-27\\artifacts\\ec368d4901690a15.MalletOverguardAndCard.target.addon.lua_B",
+  "sha256": "0acbfea23262dc6d1f0103e469cca1ff94cf5d4757cb567326d1b344013baae5",
+  "body_key": "ec368d4901690a15",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\repos\\toolchains\\de-luau-toolchain\\work\\u44-rawhash-2026-09-29\\stock\\Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B",
+  "stock_profile": "u44",
+  "stock_sha256": "c713c4d6bf32adb06f7b3ff71d03f00feb53ccd0b651bd2cdf2382106882299f",
+  "decompile_profile": "u44",
+  "hooks": [
+   {
+    "hook": "transformFloatArgument",
+    "method": "PushFloatArg",
+    "phase": "call",
+    "sites": [
+     {
+      "prototype": 16,
+      "instruction": 597,
+      "method": "PushFloatArg",
+      "method_namecalls": [
+       "p10/i64",
+       "p10/i67",
+       "p15/i100",
+       "p15/i103",
+       "p16/i596"
+      ],
+      "at": "CALL R30 nargs=2 nres=0",
+      "class": "OFF-BY-ONE",
+      "expected_instruction": 596,
+      "reason": "597 is the CALL; the runtime reports NAMECALL :PushFloatArg at 596"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "OFF-BY-ONE",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RESEARCH\\LOADOUT_NATIVE_HOOK_CONFLICT_2026-09-27\\artifacts\\ec368d4901690a15.MalletOverguardAndCard.target.addon.lua_B",
+   "work\\staging\\mallet-threat-fix\\rollback\\ec368d4901690a15.MalletOverguardAndCard.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\toolchains\\de-luau-toolchain\\stage\\live_candidates\\2026-08-23_mallet_cast_addon_dispatch\\BardMusic_mallet_addon_dispatch.card_ui.lua_B",
+  "sha256": "a9497760c73e43f92f8c181faeb2228cad52d0c3e9b973d2772ff301fff6f7ed",
+  "body_key": null,
+  "stock": null,
+  "stock_profile": null,
+  "stock_sha256": null,
+  "decompile_profile": "u43",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "repos\\toolchains\\de-luau-toolchain\\stage\\live_candidates\\2026-08-23_mallet_cast_addon_dispatch\\BardMusic_mallet_addon_dispatch.card_ui.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\toolchains\\de-luau-toolchain\\stage\\live_candidates\\2026-08-23_mallet_cast_addon_dispatch\\BardMusic_mallet_addon_dispatch.lua_B",
+  "sha256": "b4677ff960fb3985e228da9d7addb54d4d89f4a1667205d3d1e82a8150bda6a6",
+  "body_key": null,
+  "stock": null,
+  "stock_profile": null,
+  "stock_sha256": null,
+  "decompile_profile": "u43",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "repos\\toolchains\\de-luau-toolchain\\stage\\live_candidates\\2026-08-23_mallet_cast_addon_dispatch\\BardMusic_mallet_addon_dispatch.lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\toolchains\\de-luau-toolchain\\stage\\live_candidates\\2026-08-23_mallet_cast_addon_dispatch\\rollback\\08faf07b504d058f (pre-addon-dispatch live).lua_B",
+  "sha256": "c6bd1e4b76014b17526573bda343b84432a1349b7540ea795a492c7123ac04e0",
+  "body_key": "08faf07b504d058f",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "c0cf04fc388092533c3084e459ba4ae9050571934c82e3473385823f8e2a6390",
+  "decompile_profile": "u43",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "repos\\toolchains\\de-luau-toolchain\\stage\\live_candidates\\2026-08-23_mallet_cast_addon_dispatch\\rollback\\08faf07b504d058f (pre-addon-dispatch live).lua_B"
+  ]
+ },
+ {
+  "addon": "repos\\toolchains\\de-luau-toolchain\\stage\\live_candidates\\2026-08-24_mallet_target_scoped_addon_poc\\BardMusic_target_addon_hooks.lua_B",
+  "sha256": "1a47938fde8faa4843b1a58d1f4aad336e199615d2fec138ff707ed0f057ebf3",
+  "body_key": null,
+  "stock": null,
+  "stock_profile": null,
+  "stock_sha256": null,
+  "decompile_profile": "u43",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "repos\\toolchains\\de-luau-toolchain\\stage\\live_candidates\\2026-08-24_mallet_target_scoped_addon_poc\\BardMusic_target_addon_hooks.lua_B"
+  ]
+ },
+ {
+  "addon": "work\\research\\U44-2026-09-27\\lua-port\\staged\\CustomScripts\\Inject\\64d11e6973afa4b1.EliteSanctuaryNoRank.target.addon.lua_B",
+  "sha256": "86eacb891078aeb40b054ae2041ea29a23c3f55bc636612af35bd133d9672ed1",
+  "body_key": "64d11e6973afa4b1",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\repos\\toolchains\\de-luau-toolchain\\work\\u44-rawhash-2026-09-29\\stock\\Lotus_Interface_MissionRequirementUtilities.lua_B",
+  "stock_profile": "u44",
+  "stock_sha256": "6801f711c598efbce3b57ca50f15e45b50abaf803abe1c72694f3b962e431d25",
+  "decompile_profile": "u44",
+  "hooks": [
+   {
+    "hook": "nativeCalls.BuildMissionForLocation.after",
+    "method": "BuildMissionForLocation",
+    "phase": "after",
+    "sites": [
+     {
+      "prototype": 25,
+      "instruction": 10,
+      "method": "BuildMissionForLocation",
+      "method_namecalls": [
+       "p21/i324",
+       "p25/i9",
+       "p26/i3"
+      ],
+      "at": "CALL R2 nargs=2 nres=1",
+      "class": "OFF-BY-ONE",
+      "expected_instruction": 9,
+      "reason": "10 is the CALL; the runtime reports NAMECALL :BuildMissionForLocation at 9"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "OFF-BY-ONE",
+  "copies": [
+   "work\\research\\U44-2026-09-27\\lua-port\\staged\\CustomScripts\\Inject\\64d11e6973afa4b1.EliteSanctuaryNoRank.target.addon.lua_B",
+   "work\\staging\\elite-sanctuary-fix\\rollback\\64d11e6973afa4b1.EliteSanctuaryNoRank.target.addon.lua_B",
+   "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Warframe\\OpenWF\\CustomScripts\\Inject\\64d11e6973afa4b1.EliteSanctuaryNoRank.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "work\\research\\U44-2026-09-27\\lua-port\\staged\\CustomScripts\\Inject\\8fba3a28f8fef624.IceWaveColdStackDamage.target.addon.lua_B",
+  "sha256": "945881d62f376d735e38cd5d537e8f823cd7c39c83d6ad89853020e768123073",
+  "body_key": "8fba3a28f8fef624",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\repos\\toolchains\\de-luau-toolchain\\work\\u44-rawhash-2026-09-29\\stock\\Lotus_Powersuits_Frost_Abilities_IceSpike.lua_B",
+  "stock_profile": "u44",
+  "stock_sha256": "f903720dee7828506f2a3e668204860f5300a27c27fc53f4e86781cab276f3c5",
+  "decompile_profile": "u44",
+  "hooks": [
+   {
+    "hook": "nativeCalls.SetBaseAmount.before",
+    "method": "SetBaseAmount",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 42,
+      "method": "SetBaseAmount",
+      "method_namecalls": [
+       "p7/i42"
+      ],
+      "at": "NAMECALL R11 R6 :SetBaseAmount",
+      "class": "OK",
+      "reason": "NAMECALL :SetBaseAmount at 42, CALL at 43"
+     }
+    ],
+    "prototype_only": []
+   },
+   {
+    "hook": "nativeCalls.SetSource.before",
+    "method": "SetSource",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 53,
+      "method": "SetSource",
+      "method_namecalls": [
+       "p7/i53",
+       "p13/i66"
+      ],
+      "at": "NAMECALL R11 R6 :SetSource",
+      "class": "OK",
+      "reason": "NAMECALL :SetSource at 53, CALL at 54"
+     }
+    ],
+    "prototype_only": []
+   },
+   {
+    "hook": "nativeCalls.DamageDD.before",
+    "method": "DamageDD",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 65,
+      "method": "DamageDD",
+      "method_namecalls": [
+       "p7/i65",
+       "p13/i102"
+      ],
+      "at": "NAMECALL R11 R11 :DamageDD",
+      "class": "OK",
+      "reason": "NAMECALL :DamageDD at 65, CALL at 66"
+     }
+    ],
+    "prototype_only": []
+   },
+   {
+    "hook": "nativeCalls.DamageDD.after",
+    "method": "DamageDD",
+    "phase": "after",
+    "sites": [
+     {
+      "prototype": 7,
+      "instruction": 65,
+      "method": "DamageDD",
+      "method_namecalls": [
+       "p7/i65",
+       "p13/i102"
+      ],
+      "at": "NAMECALL R11 R11 :DamageDD",
+      "class": "OK",
+      "reason": "NAMECALL :DamageDD at 65, CALL at 66"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "OK",
+  "copies": [
+   "work\\research\\U44-2026-09-27\\lua-port\\staged\\CustomScripts\\Inject\\8fba3a28f8fef624.IceWaveColdStackDamage.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "work\\research\\U44-2026-09-27\\lua-port\\staged\\CustomScripts\\Inject\\95ef5b82a8400944.CircuitProgressPreviewX5.target.addon.lua_B",
+  "sha256": "f4e8a45a019cd8e7f99cc22b06ea6cef7dbeda009c257802dc4453c10389aab4",
+  "body_key": "95ef5b82a8400944",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\repos\\toolchains\\de-luau-toolchain\\work\\u44-rawhash-2026-09-29\\stock\\Lotus_Interface_Libs_DuviriUtil.lua_B",
+  "stock_profile": "u44",
+  "stock_sha256": "cae26c1e202d382817b1fbd9537af8364c93243520ae248db489577ccf04a2e4",
+  "decompile_profile": "u44",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "work\\research\\U44-2026-09-27\\lua-port\\staged\\CustomScripts\\Inject\\95ef5b82a8400944.CircuitProgressPreviewX5.target.addon.lua_B",
+   "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Warframe\\OpenWF\\CustomScripts\\Inject\\95ef5b82a8400944.CircuitProgressPreviewX5.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "work\\research\\U44-2026-09-27\\lua-port\\staged\\CustomScripts\\Inject\\c9605470a8c47d8d.InterceptionTimers.target.addon.lua_B",
+  "sha256": "b436b712d294e8a2c0e8082103476cdda4498af6e2ded18c25ff964af08e5db2",
+  "body_key": "c9605470a8c47d8d",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\repos\\toolchains\\de-luau-toolchain\\work\\u44-rawhash-2026-09-29\\stock\\Lotus_Scripts_Modes_TerritoryMission.lua_B",
+  "stock_profile": "u44",
+  "stock_sha256": "3a8acf02213053621ad8cf3cc77809a35f27baddf91d10fcbf94475d0a7d225b",
+  "decompile_profile": "u44",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "work\\research\\U44-2026-09-27\\lua-port\\staged\\CustomScripts\\Inject\\c9605470a8c47d8d.InterceptionTimers.target.addon.lua_B",
+   "work\\staging\\ability-editor-u44-tests\\mission_interception_timers_addon\\DB693C4414CB\\artifacts\\c9605470a8c47d8d.mission_interception.target.addon.lua_B",
+   "work\\staging\\aer44\\m_interception\\2ACC96F13276\\artifacts\\c9605470a8c47d8d.mission_interception.target.addon.lua_B",
+   "work\\staging\\aer44\\m_interception\\4B87BA0250C4\\artifacts\\c9605470a8c47d8d.mission_interception.target.addon.lua_B",
+   "work\\staging\\aer44\\m_interception\\94F326D34FA2\\artifacts\\c9605470a8c47d8d.mission_interception.target.addon.lua_B",
+   "work\\staging\\aer44\\m_interception\\A041E453F90A\\artifacts\\c9605470a8c47d8d.mission_interception.target.addon.lua_B",
+   "work\\staging\\aer44\\m_interception\\E189C18AC1AE\\artifacts\\c9605470a8c47d8d.mission_interception.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "work\\research\\U44-2026-09-27\\lua-port\\staged\\CustomScripts\\Inject\\ec368d4901690a15.MalletOverguardAndCard.target.addon.lua_B",
+  "sha256": "b19618d37ac2a09f06257393f4bba645e1c5a437e890c5a64ea4a7b0ae84e5de",
+  "body_key": "ec368d4901690a15",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\repos\\toolchains\\de-luau-toolchain\\work\\u44-rawhash-2026-09-29\\stock\\Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B",
+  "stock_profile": "u44",
+  "stock_sha256": "c713c4d6bf32adb06f7b3ff71d03f00feb53ccd0b651bd2cdf2382106882299f",
+  "decompile_profile": "u44",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "work\\research\\U44-2026-09-27\\lua-port\\staged\\CustomScripts\\Inject\\ec368d4901690a15.MalletOverguardAndCard.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "work\\research\\U44-2026-09-27\\lua-port\\staged\\CustomScripts\\Inject\\f10a043e7f825db2.SurvivalTimers.target.addon.lua_B",
+  "sha256": "0b70d9db27c38e23527dc3a3c34eb74538c5f2f8c964f333d3764ff75a943edf",
+  "body_key": "f10a043e7f825db2",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\repos\\toolchains\\de-luau-toolchain\\work\\u44-rawhash-2026-09-29\\stock\\Lotus_Scripts_Modes_SurvivalMission.lua_B",
+  "stock_profile": "u44",
+  "stock_sha256": "0147fb5e9dc86fb5023090ca37fad652fa3fd86d109f497a3d3c28a3680a9f8d",
+  "decompile_profile": "u44",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "work\\research\\U44-2026-09-27\\lua-port\\staged\\CustomScripts\\Inject\\f10a043e7f825db2.SurvivalTimers.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "work\\research\\universal-mission-editor-2026-09-29\\phase2b-sample\\generation\\artifacts\\f10a043e7f825db2.missions.target.addon.lua_B",
+  "sha256": "5b2aae27a4efadab03c40d5ec16293b97d0f42cd7a3361f0f3a20d284ecb0202",
+  "body_key": "f10a043e7f825db2",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\repos\\toolchains\\de-luau-toolchain\\work\\u44-rawhash-2026-09-29\\stock\\Lotus_Scripts_Modes_SurvivalMission.lua_B",
+  "stock_profile": "u44",
+  "stock_sha256": "0147fb5e9dc86fb5023090ca37fad652fa3fd86d109f497a3d3c28a3680a9f8d",
+  "decompile_profile": "u44",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "work\\research\\universal-mission-editor-2026-09-29\\phase2b-sample\\generation\\artifacts\\f10a043e7f825db2.missions.target.addon.lua_B",
+   "work\\staging\\aer44\\sample\\missions\\129A1B6BC809\\artifacts\\f10a043e7f825db2.missions.target.addon.lua_B",
+   "work\\staging\\aer44\\sample\\missions\\AB7B384D13F9\\artifacts\\f10a043e7f825db2.missions.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "work\\research\\universal-mission-editor-2026-09-29\\phase2e-sample\\generation\\artifacts\\6fa60841c9e0f207.missions.target.addon.lua_B",
+  "sha256": "043176ecdeecf9a876108d87beb72eb4a7bd7caa3a799ecd849fad4e0eea8472",
+  "body_key": "6fa60841c9e0f207",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\repos\\toolchains\\de-luau-toolchain\\work\\u44-rawhash-2026-09-29\\stock\\Lotus_Scripts_Modes_Purgatory.lua_B",
+  "stock_profile": "u44",
+  "stock_sha256": "6b0ecd7c47b23a0c2c0a4598e4d9b044e070f51e76daa149a14f0e12aa244fe9",
+  "decompile_profile": "u44",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "work\\research\\universal-mission-editor-2026-09-29\\phase2e-sample\\generation\\artifacts\\6fa60841c9e0f207.missions.target.addon.lua_B",
+   "work\\staging\\aer44\\sample2e\\missions\\3AB8D186369A\\artifacts\\6fa60841c9e0f207.missions.target.addon.lua_B",
+   "work\\staging\\aer44\\sample2e\\missions\\61731A7DDAF9\\artifacts\\6fa60841c9e0f207.missions.target.addon.lua_B",
+   "work\\staging\\aer44\\sample2e-probe\\missions\\9DF03CB0BF3E\\artifacts\\6fa60841c9e0f207.missions.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "work\\research\\universal-mission-editor-2026-09-29\\phase2e-sample\\generation\\artifacts\\caec63d8e739b693.missions.target.addon.lua_B",
+  "sha256": "228754af891c5a9a75da250ef171a0689323e6e439cdfd28ec054d6b7334358c",
+  "body_key": "caec63d8e739b693",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\repos\\toolchains\\de-luau-toolchain\\work\\u44-rawhash-2026-09-29\\stock\\Lotus_Scripts_Modes_HalloweenLanternEndless.lua_B",
+  "stock_profile": "u44",
+  "stock_sha256": "1e5a6e3919a93d78521e2e2f59501dcc06dfa55b0673190450542dc00b3875e2",
+  "decompile_profile": "u44",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "work\\research\\universal-mission-editor-2026-09-29\\phase2e-sample\\generation\\artifacts\\caec63d8e739b693.missions.target.addon.lua_B",
+   "work\\staging\\aer44\\sample2e\\missions\\3AB8D186369A\\artifacts\\caec63d8e739b693.missions.target.addon.lua_B",
+   "work\\staging\\aer44\\sample2e\\missions\\61731A7DDAF9\\artifacts\\caec63d8e739b693.missions.target.addon.lua_B",
+   "work\\staging\\aer44\\sample2e-probe\\missions\\9DF03CB0BF3E\\artifacts\\caec63d8e739b693.missions.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "work\\research\\universal-mission-editor-2026-09-29\\phase2e-sample\\generation\\artifacts\\f10a043e7f825db2.missions.target.addon.lua_B",
+  "sha256": "cef8808f993059f44c3e55cde72038c5271260a7bfb803fb8b47c6132ce9da6a",
+  "body_key": "f10a043e7f825db2",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\repos\\toolchains\\de-luau-toolchain\\work\\u44-rawhash-2026-09-29\\stock\\Lotus_Scripts_Modes_SurvivalMission.lua_B",
+  "stock_profile": "u44",
+  "stock_sha256": "0147fb5e9dc86fb5023090ca37fad652fa3fd86d109f497a3d3c28a3680a9f8d",
+  "decompile_profile": "u44",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "work\\research\\universal-mission-editor-2026-09-29\\phase2e-sample\\generation\\artifacts\\f10a043e7f825db2.missions.target.addon.lua_B",
+   "work\\staging\\aer44\\sample2b\\missions\\80ADC26371DA\\artifacts\\f10a043e7f825db2.missions.target.addon.lua_B",
+   "work\\staging\\aer44\\sample2b\\missions\\A99C7EE0535B\\artifacts\\f10a043e7f825db2.missions.target.addon.lua_B",
+   "work\\staging\\aer44\\sample2b-probe\\missions\\8A338D0CA401\\artifacts\\f10a043e7f825db2.missions.target.addon.lua_B",
+   "work\\staging\\aer44\\sample2e\\missions\\3AB8D186369A\\artifacts\\f10a043e7f825db2.missions.target.addon.lua_B",
+   "work\\staging\\aer44\\sample2e\\missions\\61731A7DDAF9\\artifacts\\f10a043e7f825db2.missions.target.addon.lua_B",
+   "work\\staging\\aer44\\sample2e-probe\\missions\\9DF03CB0BF3E\\artifacts\\f10a043e7f825db2.missions.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "work\\research\\universal-mission-editor-2026-09-29\\phase2g-sample\\generation\\artifacts\\Missions.targets.addon.lua_B",
+  "sha256": "00da193d03d43472d4df98806e7a532a82f449e17fa82e07624cc2f9816a773e",
+  "body_key": null,
+  "stock": null,
+  "stock_profile": null,
+  "stock_sha256": null,
+  "decompile_profile": "u44",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "work\\research\\universal-mission-editor-2026-09-29\\phase2g-sample\\generation\\artifacts\\Missions.targets.addon.lua_B",
+   "work\\research\\universal-mission-editor-2026-09-29\\phase2h-sample\\generation\\artifacts\\Missions.targets.addon.lua_B",
+   "work\\research\\universal-mission-editor-2026-09-29\\phase2h-sample\\generation\\Packages\\Missions\\Missions.targets.addon.lua_B",
+   "work\\research\\universal-mission-editor-2026-09-29\\phase2h-sample\\Packages\\Missions\\Missions.targets.addon.lua_B",
+   "work\\staging\\aer44\\sample2e-probe\\missions\\06E633FE53A8\\artifacts\\Missions.targets.addon.lua_B",
+   "work\\staging\\aer44\\sample2e-probe\\missions\\9DF03CB0BF3E\\artifacts\\Missions.targets.addon.lua_B",
+   "work\\staging\\aer44\\sample2g\\missions\\06E633FE53A8\\artifacts\\Missions.targets.addon.lua_B",
+   "work\\staging\\aer44\\sample2g\\missions\\9DF03CB0BF3E\\artifacts\\Missions.targets.addon.lua_B",
+   "work\\staging\\aer44\\sample2h\\missions\\5D0CF4C3F27D\\artifacts\\Missions.targets.addon.lua_B",
+   "work\\staging\\aer44\\sample2h\\missions\\5D0CF4C3F27D\\Packages\\Missions\\Missions.targets.addon.lua_B",
+   "work\\staging\\aer44\\sample2h\\missions\\C182C6CD9553\\artifacts\\Missions.targets.addon.lua_B",
+   "work\\staging\\aer44\\sample2h\\missions\\C182C6CD9553\\Packages\\Missions\\Missions.targets.addon.lua_B",
+   "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Warframe\\OpenWF\\CustomScripts\\Packages\\Missions\\Missions.targets.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "work\\staging\\ability-editor\\current\\octavia_mallet_overguard\\90E8BFA48E45\\artifacts\\08faf07b504d058f.octavia_mallet_overguard.target.addon.lua_B",
+  "sha256": "f8e9049fa2cc0cbd370f4191af73954c896190cec4817fb3e92523b7f2ec82da",
+  "body_key": "08faf07b504d058f",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "c0cf04fc388092533c3084e459ba4ae9050571934c82e3473385823f8e2a6390",
+  "decompile_profile": "u43",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "work\\staging\\ability-editor\\current\\octavia_mallet_overguard\\90E8BFA48E45\\artifacts\\08faf07b504d058f.octavia_mallet_overguard.target.addon.lua_B",
+   "work\\staging\\ability-editor\\migration-smoke-2026-08-25\\octavia_mallet_overguard\\90E8BFA48E45\\artifacts\\08faf07b504d058f.octavia_mallet_overguard.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "work\\staging\\ability-editor\\mission_control_area_deimos_timers_addon\\4978B935FFB0\\artifacts\\d9541341dfd466a3.mission_control_area_deimos_timers_addon.target.addon.lua_B",
+  "sha256": "b6e97be6dfedee141672cd8bb48b0a6c6629efd6d1ca7a1f6cf879a8098c9e77",
+  "body_key": "d9541341dfd466a3",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Scripts_InfestedMicroplanet_Encounters_DynamicAreaDefense.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "ecbed12e85416ce5fbb25995d9252f4ad29042f1ae7daa3c2e4c8a2f25aedf49",
+  "decompile_profile": "u43",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "work\\staging\\ability-editor\\mission_control_area_deimos_timers_addon\\4978B935FFB0\\artifacts\\d9541341dfd466a3.mission_control_area_deimos_timers_addon.target.addon.lua_B",
+   "work\\staging\\ability-editor\\mission_control_area_deimos_timers_exact-replacement\\644F55A7523F\\rollback\\deployment-1789090989605\\retired-addon\\d9541341dfd466a3.Control_area_deimosTimers.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "work\\staging\\ability-editor\\mission_control_area_nokko_timers_addon\\4F40F087D594\\artifacts\\e192d5cc2f37056e.mission_control_area_nokko_timers_addon.target.addon.lua_B",
+  "sha256": "6b4e432527ccf7809b22374576d8d6658e8d1d31a4f9deddffba039724546796",
+  "body_key": "e192d5cc2f37056e",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Scripts_Venus_NokkoColony_Encounters_AreaDefense.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "e5048c7a1f9ae04da38ba5aae18d749a946172a61e67f6d56853bc719246c3f5",
+  "decompile_profile": "u43",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "work\\staging\\ability-editor\\mission_control_area_nokko_timers_addon\\4F40F087D594\\artifacts\\e192d5cc2f37056e.mission_control_area_nokko_timers_addon.target.addon.lua_B",
+   "work\\staging\\ability-editor\\mission_control_area_nokko_timers_addon\\D4532CBACB18\\artifacts\\e192d5cc2f37056e.mission_control_area_nokko_timers_addon.target.addon.lua_B",
+   "work\\staging\\ability-editor\\mission_control_area_nokko_timers_exact-replacement\\A29282486F15\\rollback\\retired-failing-addon-20260911-060159619\\e192d5cc2f37056e.Control_area_nokkoTimers.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "work\\staging\\ability-editor\\mission_control_area_nokko_timers_addon\\C90F44182142\\artifacts\\e192d5cc2f37056e.mission_control_area_nokko_timers_addon.target.addon.lua_B",
+  "sha256": "abe86e692cc1272617b0b1d0f9053289b3039b386bc0b597915c61afa33ad035",
+  "body_key": "e192d5cc2f37056e",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Scripts_Venus_NokkoColony_Encounters_AreaDefense.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "e5048c7a1f9ae04da38ba5aae18d749a946172a61e67f6d56853bc719246c3f5",
+  "decompile_profile": "u43",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "work\\staging\\ability-editor\\mission_control_area_nokko_timers_addon\\C90F44182142\\artifacts\\e192d5cc2f37056e.mission_control_area_nokko_timers_addon.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "work\\staging\\ability-editor\\mission_control_area_plains_timers_addon\\755257A25602\\artifacts\\bf3c901cb4058c47.mission_control_area_plains_timers_addon.target.addon.lua_B",
+  "sha256": "56f8aac0b00383c033fc1591cd686ce71bf09e5a216da0e3273a8cb87c60250b",
+  "body_key": "bf3c901cb4058c47",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Scripts_Eidolon_Encounters_DynamicDefend.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "ecc204753db9bded69f6a764c919df5dd2240b5ee907e35c046e99c624d23386",
+  "decompile_profile": "u43",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "work\\staging\\ability-editor\\mission_control_area_plains_timers_addon\\755257A25602\\artifacts\\bf3c901cb4058c47.mission_control_area_plains_timers_addon.target.addon.lua_B",
+   "work\\staging\\ability-editor\\mission_control_area_plains_timers_exact-replacement\\DB7D0A6162C9\\rollback\\deployment-1789090989338\\retired-addon\\bf3c901cb4058c47.Control_area_plainsTimers.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "work\\staging\\ability-editor\\mission_excavation_timers_addon\\A19358DCCAF7\\artifacts\\303f809a05c1fbaa.mission_excavation_timers_addon.target.addon.lua_B",
+  "sha256": "33ffde3f580746640f78c84482a6d3874fdc822cf7f0d3e33ec0b3a951d9bd20",
+  "body_key": "303f809a05c1fbaa",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Scripts_Modes_ExcavationMission.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "a2326fd92ddc2075e03cab08300744bfa15ed8bdec7c13fa98dd5071eeec20c2",
+  "decompile_profile": "u43",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "work\\staging\\ability-editor\\mission_excavation_timers_addon\\A19358DCCAF7\\artifacts\\303f809a05c1fbaa.mission_excavation_timers_addon.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "work\\staging\\ability-editor\\mission_excavation_timers_addon\\FF005C3BF3BA\\artifacts\\303f809a05c1fbaa.mission_excavation_timers_addon.target.addon.lua_B",
+  "sha256": "543d13a1b34eb3a63bb175f834cc094f22cd19859ff6a60d89b9771ceb4635b2",
+  "body_key": "303f809a05c1fbaa",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Scripts_Modes_ExcavationMission.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "a2326fd92ddc2075e03cab08300744bfa15ed8bdec7c13fa98dd5071eeec20c2",
+  "decompile_profile": "u43",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "work\\staging\\ability-editor\\mission_excavation_timers_addon\\FF005C3BF3BA\\artifacts\\303f809a05c1fbaa.mission_excavation_timers_addon.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "work\\staging\\ability-editor\\mission_mobile_defense_timers_addon\\040954D56483\\artifacts\\89329f85c8575b84.mission_mobile_defense_timers_addon.target.addon.lua_B",
+  "sha256": "8628d971355048df742dcd9bf3cacef8c70017a5d629d60040b414fef4ac4f70",
+  "body_key": "89329f85c8575b84",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Scripts_MobileDefense.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "e9cbbef4b6beca2ac61ec741f3f9a22ba45df06878708c429176843222b47541",
+  "decompile_profile": "u43",
+  "hooks": [
+   {
+    "hook": "nativeCalls.GetNetPersistentVar.after",
+    "method": "GetNetPersistentVar",
+    "phase": "after",
+    "sites": [
+     {
+      "prototype": 22,
+      "instruction": 139,
+      "method": "GetNetPersistentVar",
+      "method_namecalls": [
+       "p13/i4",
+       "p19/i167",
+       "p19/i373",
+       "p19/i411",
+       "p19/i424",
+       "p19/i438",
+       "p20/i2",
+       "p21/i7",
+       "p21/i17",
+       "p21/i76",
+       "p21/i102",
+       "p22/i52",
+       "p22/i55",
+       "p22/i76",
+       "p22/i138",
+       "p22/i144",
+       "p22/i147",
+       "p22/i162",
+       "p22/i217",
+       "p22/i238",
+       "p22/i270",
+       "p22/i275",
+       "p22/i376",
+       "p23/i51",
+       "p23/i54",
+       "p23/i71",
+       "p23/i160"
+      ],
+      "at": "CALL R18 nargs=3 nres=1",
+      "class": "OFF-BY-ONE",
+      "expected_instruction": 138,
+      "reason": "139 is the CALL; the runtime reports NAMECALL :GetNetPersistentVar at 138"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "OFF-BY-ONE",
+  "copies": [
+   "work\\staging\\ability-editor\\mission_mobile_defense_timers_addon\\040954D56483\\artifacts\\89329f85c8575b84.mission_mobile_defense_timers_addon.target.addon.lua_B",
+   "work\\staging\\ability-editor\\mission_mobile_defense_timers_addon\\3F19B92B26FA\\artifacts\\89329f85c8575b84.mission_mobile_defense_timers_addon.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "work\\staging\\ability-editor-u44-tests\\mission_survival_timers_addon\\4880184062D6\\artifacts\\f10a043e7f825db2.mission_survival.target.addon.lua_B",
+  "sha256": "b7590c6990a64c47230504674e94cec3db2df4427d74b5605bf6e8e2be210fca",
+  "body_key": "f10a043e7f825db2",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\repos\\toolchains\\de-luau-toolchain\\work\\u44-rawhash-2026-09-29\\stock\\Lotus_Scripts_Modes_SurvivalMission.lua_B",
+  "stock_profile": "u44",
+  "stock_sha256": "0147fb5e9dc86fb5023090ca37fad652fa3fd86d109f497a3d3c28a3680a9f8d",
+  "decompile_profile": "u44",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "work\\staging\\ability-editor-u44-tests\\mission_survival_timers_addon\\4880184062D6\\artifacts\\f10a043e7f825db2.mission_survival.target.addon.lua_B",
+   "work\\staging\\aer44\\m_survival\\8A17A5BC6E1C\\artifacts\\f10a043e7f825db2.mission_survival.target.addon.lua_B",
+   "work\\staging\\aer44\\m_survival\\A285DC07778D\\artifacts\\f10a043e7f825db2.mission_survival.target.addon.lua_B",
+   "work\\staging\\aer44\\m_survival\\BF254FEFC735\\artifacts\\f10a043e7f825db2.mission_survival.target.addon.lua_B",
+   "work\\staging\\aer44\\m_survival\\E6B47BBF3CE5\\artifacts\\f10a043e7f825db2.mission_survival.target.addon.lua_B",
+   "work\\staging\\aer44\\m_survival\\E6F4D4ADA355\\artifacts\\f10a043e7f825db2.mission_survival.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "work\\staging\\ability-editor-v49-contract\\octavia_mallet_overguard\\70FB1481AE7C\\artifacts\\08faf07b504d058f.octavia_mallet_overguard.target.addon.lua_B",
+  "sha256": "c20abb37684d1e095ce7f56a251e8b406aef61ab64eefb66c44bb87064627db6",
+  "body_key": "08faf07b504d058f",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "c0cf04fc388092533c3084e459ba4ae9050571934c82e3473385823f8e2a6390",
+  "decompile_profile": "u43",
+  "hooks": [
+   {
+    "hook": "nativeCalls.PushFloatArg.before",
+    "method": "PushFloatArg",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 16,
+      "instruction": 596,
+      "method": "PushFloatArg",
+      "method_namecalls": [
+       "p10/i63",
+       "p10/i66",
+       "p15/i100",
+       "p15/i103",
+       "p16/i595"
+      ],
+      "at": "CALL R30 nargs=2 nres=0",
+      "class": "OFF-BY-ONE",
+      "expected_instruction": 595,
+      "reason": "596 is the CALL; the runtime reports NAMECALL :PushFloatArg at 595"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "OFF-BY-ONE",
+  "copies": [
+   "work\\staging\\ability-editor-v49-contract\\octavia_mallet_overguard\\70FB1481AE7C\\artifacts\\08faf07b504d058f.octavia_mallet_overguard.target.addon.lua_B",
+   "work\\staging\\ability-editor-v49-contract-final\\octavia_mallet_overguard\\304705ECE0B3\\artifacts\\08faf07b504d058f.octavia_mallet_overguard.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "work\\staging\\aer44\\sample2b-probe\\missions\\81D1E67B78DE\\artifacts\\Missions.targets.addon.lua_B",
+  "sha256": "54a425f800ad79ddef9eadfd8e8b8d0314357e30539f69b4f65e397b53391f64",
+  "body_key": null,
+  "stock": null,
+  "stock_profile": null,
+  "stock_sha256": null,
+  "decompile_profile": "u44",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "work\\staging\\aer44\\sample2b-probe\\missions\\81D1E67B78DE\\artifacts\\Missions.targets.addon.lua_B",
+   "work\\staging\\aer44\\sample2b-probe\\missions\\8A338D0CA401\\artifacts\\Missions.targets.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "work\\staging\\aer44\\sample2d\\missions\\654E373F0411\\artifacts\\fc711ff621a75552.missions.target.addon.lua_B",
+  "sha256": "0dcb62ddf3642bed3173e1a132710032c3f4ef333cf7a80093d43d989b3574af",
+  "body_key": "fc711ff621a75552",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\repos\\toolchains\\de-luau-toolchain\\work\\u44-rawhash-2026-09-29\\stock\\Lotus_Scripts_Modes_ZarimanCorruptionMission.lua_B",
+  "stock_profile": "u44",
+  "stock_sha256": "738aa59c66f935235c812cba1ae6ecd361fdf700d5723c0928b88a2e11d89261",
+  "decompile_profile": "u44",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "work\\staging\\aer44\\sample2d\\missions\\654E373F0411\\artifacts\\fc711ff621a75552.missions.target.addon.lua_B",
+   "work\\staging\\aer44\\sample2d\\missions\\C1C3AE67968B\\artifacts\\fc711ff621a75552.missions.target.addon.lua_B",
+   "work\\staging\\aer44\\sample2d-probe\\missions\\FB24919D557A\\artifacts\\fc711ff621a75552.missions.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "work\\staging\\aer44\\sample2d-probe\\missions\\4986D3ED4E8F\\artifacts\\Missions.targets.addon.lua_B",
+  "sha256": "379184bdbdbfbb9bf64a4e78a8504ad7671c4eb750a12dae071ce6738b6b28bf",
+  "body_key": null,
+  "stock": null,
+  "stock_profile": null,
+  "stock_sha256": null,
+  "decompile_profile": "u44",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "work\\staging\\aer44\\sample2d-probe\\missions\\4986D3ED4E8F\\artifacts\\Missions.targets.addon.lua_B",
+   "work\\staging\\aer44\\sample2d-probe\\missions\\FB24919D557A\\artifacts\\Missions.targets.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "work\\staging\\control-area\\mission_control_area_deimos_timers_addon\\338D2EBD881D\\artifacts\\d9541341dfd466a3.mission_control_area_deimos_timers_addon.target.addon.lua_B",
+  "sha256": "8511a9bebfd634615dc523eb0847c02f7338137af99fb3ea696b19495696e124",
+  "body_key": "d9541341dfd466a3",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Scripts_InfestedMicroplanet_Encounters_DynamicAreaDefense.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "ecbed12e85416ce5fbb25995d9252f4ad29042f1ae7daa3c2e4c8a2f25aedf49",
+  "decompile_profile": "u43",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "work\\staging\\control-area\\mission_control_area_deimos_timers_addon\\338D2EBD881D\\artifacts\\d9541341dfd466a3.mission_control_area_deimos_timers_addon.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "work\\staging\\control-area\\mission_control_area_nokko_timers_addon\\543DDE1076CF\\artifacts\\e192d5cc2f37056e.mission_control_area_nokko_timers_addon.target.addon.lua_B",
+  "sha256": "2755595ac871d5d009b115cea77251c4caf2fcb9e0d8acb9e395903d60098648",
+  "body_key": "e192d5cc2f37056e",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Scripts_Venus_NokkoColony_Encounters_AreaDefense.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "e5048c7a1f9ae04da38ba5aae18d749a946172a61e67f6d56853bc719246c3f5",
+  "decompile_profile": "u43",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "work\\staging\\control-area\\mission_control_area_nokko_timers_addon\\543DDE1076CF\\artifacts\\e192d5cc2f37056e.mission_control_area_nokko_timers_addon.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "work\\staging\\control-area\\mission_control_area_plains_timers_addon\\2ABF87D4443F\\artifacts\\bf3c901cb4058c47.mission_control_area_plains_timers_addon.target.addon.lua_B",
+  "sha256": "4b430155c7df872c85c4a0a95651b82c1d6662b1aba739d5f9f202645b988e87",
+  "body_key": "bf3c901cb4058c47",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Scripts_Eidolon_Encounters_DynamicDefend.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "ecc204753db9bded69f6a764c919df5dd2240b5ee907e35c046e99c624d23386",
+  "decompile_profile": "u43",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "work\\staging\\control-area\\mission_control_area_plains_timers_addon\\2ABF87D4443F\\artifacts\\bf3c901cb4058c47.mission_control_area_plains_timers_addon.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "work\\staging\\elite-sanctuary-fix\\64d11e6973afa4b1.EliteSanctuaryNoRank.target.addon.lua_B",
+  "sha256": "4e6d5b7133017e6001c61d0f1e1f1b7d6878f6a9085ca570008fede6815b90e3",
+  "body_key": "64d11e6973afa4b1",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\repos\\toolchains\\de-luau-toolchain\\work\\u44-rawhash-2026-09-29\\stock\\Lotus_Interface_MissionRequirementUtilities.lua_B",
+  "stock_profile": "u44",
+  "stock_sha256": "6801f711c598efbce3b57ca50f15e45b50abaf803abe1c72694f3b962e431d25",
+  "decompile_profile": "u44",
+  "hooks": [
+   {
+    "hook": "nativeCalls.BuildMissionForLocation.after",
+    "method": "BuildMissionForLocation",
+    "phase": "after",
+    "sites": [
+     {
+      "prototype": 25,
+      "instruction": 9,
+      "method": "BuildMissionForLocation",
+      "method_namecalls": [
+       "p21/i324",
+       "p25/i9",
+       "p26/i3"
+      ],
+      "at": "NAMECALL R2 R2 :BuildMissionForLocation",
+      "class": "OK",
+      "reason": "NAMECALL :BuildMissionForLocation at 9, CALL at 10"
+     },
+     {
+      "prototype": 21,
+      "instruction": 324,
+      "method": "BuildMissionForLocation",
+      "method_namecalls": [
+       "p21/i324",
+       "p25/i9",
+       "p26/i3"
+      ],
+      "at": "NAMECALL R12 R11 :BuildMissionForLocation",
+      "class": "OK",
+      "reason": "NAMECALL :BuildMissionForLocation at 324, CALL at 325"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "OK",
+  "copies": [
+   "work\\staging\\elite-sanctuary-fix\\64d11e6973afa4b1.EliteSanctuaryNoRank.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "work\\staging\\mallet-threat-fix\\ec368d4901690a15.MalletOverguardAndCard.target.addon.lua_B",
+  "sha256": "22e0cb4972f81050175b982cbef7c4d09a5a1fb2a1268c38172d45e151bf422a",
+  "body_key": "ec368d4901690a15",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\repos\\toolchains\\de-luau-toolchain\\work\\u44-rawhash-2026-09-29\\stock\\Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B",
+  "stock_profile": "u44",
+  "stock_sha256": "c713c4d6bf32adb06f7b3ff71d03f00feb53ccd0b651bd2cdf2382106882299f",
+  "decompile_profile": "u44",
+  "hooks": [
+   {
+    "hook": "transformFloatArgument",
+    "method": "PushFloatArg",
+    "phase": "call",
+    "sites": [
+     {
+      "prototype": 16,
+      "instruction": 596,
+      "method": "PushFloatArg",
+      "method_namecalls": [
+       "p10/i64",
+       "p10/i67",
+       "p15/i100",
+       "p15/i103",
+       "p16/i596"
+      ],
+      "at": "NAMECALL R30 R29 :PushFloatArg",
+      "class": "OK",
+      "reason": "NAMECALL :PushFloatArg at 596, CALL at 597"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "OK",
+  "copies": [
+   "work\\staging\\mallet-threat-fix\\ec368d4901690a15.MalletOverguardAndCard.target.addon.lua_B",
+   "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Warframe\\OpenWF\\CustomScripts\\Inject\\ec368d4901690a15.MalletOverguardAndCard.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "work\\staging\\octavia-float-addon-test-2026-08-27\\OctaviaFloatTest.addon.lua_B",
+  "sha256": "9f43659050a72cb86e4abc2af052eb1ad463e970da9e876e059f49fb8f0ef3a5",
+  "body_key": null,
+  "stock": null,
+  "stock_profile": null,
+  "stock_sha256": null,
+  "decompile_profile": "u43",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "work\\staging\\octavia-float-addon-test-2026-08-27\\OctaviaFloatTest.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "work\\staging\\callsite-audit-2026-09-29\\editor-example-build\\octavia_mallet_overguard\\539A2A1BE8B7\\artifacts\\08faf07b504d058f.octavia_mallet_overguard.target.addon.lua_B",
+  "sha256": "bdcfab8ee12b20f875354ded2edc722074b0e31baec7bc1962668b55d88f1f3a",
+  "body_key": "08faf07b504d058f",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "c0cf04fc388092533c3084e459ba4ae9050571934c82e3473385823f8e2a6390",
+  "decompile_profile": "u43",
+  "hooks": [
+   {
+    "hook": "transformFloatArgument",
+    "method": "PushFloatArg",
+    "phase": "call",
+    "sites": [
+     {
+      "prototype": 16,
+      "instruction": 595,
+      "method": "PushFloatArg",
+      "method_namecalls": [
+       "p10/i63",
+       "p10/i66",
+       "p15/i100",
+       "p15/i103",
+       "p16/i595"
+      ],
+      "at": "NAMECALL R30 R29 :PushFloatArg",
+      "class": "OK",
+      "reason": "NAMECALL :PushFloatArg at 595, CALL at 596"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "OK",
+  "copies": [
+   "work\\staging\\callsite-audit-2026-09-29\\editor-example-build\\octavia_mallet_overguard\\539A2A1BE8B7\\artifacts\\08faf07b504d058f.octavia_mallet_overguard.target.addon.lua_B",
+   "work\\staging\\callsite-audit-2026-09-29\\editor-example-build-2\\octavia_mallet_overguard\\539A2A1BE8B7\\artifacts\\08faf07b504d058f.octavia_mallet_overguard.target.addon.lua_B"
+  ]
+ },
+ {
+  "addon": "work\\staging\\callsite-audit-2026-09-29\\editor-negative-build\\octavia_mallet_overguard\\3EDF45FEB031\\artifacts\\08faf07b504d058f.octavia_mallet_overguard.target.addon.lua_B",
+  "sha256": "b27785fcc2afcd0b50ba66656b9666aa8d8e303eddc821b1ad65d69fd1671267",
+  "body_key": "08faf07b504d058f",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "c0cf04fc388092533c3084e459ba4ae9050571934c82e3473385823f8e2a6390",
+  "decompile_profile": "u43",
+  "hooks": [
+   {
+    "hook": "transformFloatArgument",
+    "method": "PushFloatArg",
+    "phase": "call",
+    "sites": [
+     {
+      "prototype": 16,
+      "instruction": 596,
+      "method": "PushFloatArg",
+      "method_namecalls": [
+       "p10/i63",
+       "p10/i66",
+       "p15/i100",
+       "p15/i103",
+       "p16/i595"
+      ],
+      "at": "CALL R30 nargs=2 nres=0",
+      "class": "OFF-BY-ONE",
+      "expected_instruction": 595,
+      "reason": "596 is the CALL; the runtime reports NAMECALL :PushFloatArg at 595"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "OFF-BY-ONE",
+  "copies": [
+   "work\\staging\\callsite-audit-2026-09-29\\editor-negative-build\\octavia_mallet_overguard\\3EDF45FEB031\\artifacts\\08faf07b504d058f.octavia_mallet_overguard.target.addon.lua_B"
+  ]
+ }
+]

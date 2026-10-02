@@ -1,0 +1,493 @@
+{
+  "gates": {
+    "tool.derecomp-identity": {
+      "pass": true,
+      "detail": "c1672d8d70e44bf7001a68f873f229714f5afdefb0b93c8558b6abb49e187c58"
+    },
+    "stock.u44.Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B": {
+      "pass": true,
+      "detail": "c713c4d6bf32adb0"
+    },
+    "stock.u44.Lotus_Powersuits_Frost_Abilities_IceSpike.lua_B": {
+      "pass": true,
+      "detail": "f903720dee782850"
+    },
+    "stock.u44.Lotus_Interface_MissionRequirementUtilities.lua_B": {
+      "pass": true,
+      "detail": "6801f711c598efbc"
+    },
+    "stock.u44.Lotus_Scripts_Eidolon_Encounters_DynamicDefend.lua_B": {
+      "pass": true,
+      "detail": "f2a2759148941389"
+    },
+    "stock.u44.Lotus_Scripts_InfestedMicroplanet_Encounters_DynamicAreaDefense.lua_B": {
+      "pass": true,
+      "detail": "322d5e174ac81d86"
+    },
+    "stock.u43.Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B": {
+      "pass": true,
+      "detail": "c0cf04fc38809253"
+    },
+    "stock.u43.Lotus_Powersuits_Frost_Abilities_IceSpike.lua_B": {
+      "pass": true,
+      "detail": "5c657567b9471a46"
+    },
+    "stock.u43.Lotus_Interface_MissionRequirementUtilities.lua_B": {
+      "pass": true,
+      "detail": "4ad63fd5d545b70b"
+    },
+    "stock.u43.Lotus_Scripts_MobileDefense.lua_B": {
+      "pass": true,
+      "detail": "e9cbbef4b6beca2a"
+    },
+    "stock.u43.Lotus_Scripts_Eidolon_Encounters_DynamicDefend.lua_B": {
+      "pass": true,
+      "detail": "ecc204753db9bded"
+    },
+    "stock.u43.Lotus_Scripts_InfestedMicroplanet_Encounters_DynamicAreaDefense.lua_B": {
+      "pass": true,
+      "detail": "ecbed12e85416ce5"
+    },
+    "site.Ice Wave installed SetBaseAmount": {
+      "pass": true,
+      "detail": "SetBaseAmount p7/i42 -> OK: NAMECALL :SetBaseAmount at 42, CALL at 43"
+    },
+    "site.Ice Wave installed SetSource": {
+      "pass": true,
+      "detail": "SetSource p7/i53 -> OK: NAMECALL :SetSource at 53, CALL at 54"
+    },
+    "site.Ice Wave installed DamageDD": {
+      "pass": true,
+      "detail": "DamageDD p7/i65 -> OK: NAMECALL :DamageDD at 65, CALL at 66"
+    },
+    "site.Mallet installed (fixed) transformFloatArgument": {
+      "pass": true,
+      "detail": "PushFloatArg p16/i596 -> OK: NAMECALL :PushFloatArg at 596, CALL at 597"
+    },
+    "site.Mallet pre-fix (U44_AUTHORING / LOADOUT 2026-09-27)": {
+      "pass": true,
+      "detail": "PushFloatArg p16/i597 -> OFF-BY-ONE: 597 is the CALL; the runtime reports NAMECALL :PushFloatArg at 596"
+    },
+    "site.Elite installed p25": {
+      "pass": true,
+      "detail": "BuildMissionForLocation p25/i10 -> OFF-BY-ONE: 10 is the CALL; the runtime reports NAMECALL :BuildMissionForLocation at 9"
+    },
+    "site.Elite staged fix p25": {
+      "pass": true,
+      "detail": "BuildMissionForLocation p25/i9 -> OK: NAMECALL :BuildMissionForLocation at 9, CALL at 10"
+    },
+    "site.Elite staged fix p21": {
+      "pass": true,
+      "detail": "BuildMissionForLocation p21/i324 -> OK: NAMECALL :BuildMissionForLocation at 324, CALL at 325"
+    },
+    "site.Editor Plains Control Area lock (was 30)": {
+      "pass": true,
+      "detail": "GetNetPersistentVar p8/i29 -> OK: NAMECALL :GetNetPersistentVar at 29, CALL at 30"
+    },
+    "site.Editor Deimos Control Area lock (was 62)": {
+      "pass": true,
+      "detail": "GetNetPersistentVar p7/i61 -> OK: NAMECALL :GetNetPersistentVar at 61, CALL at 62"
+    },
+    "site.Editor Plains lock before fix": {
+      "pass": true,
+      "detail": "GetNetPersistentVar p8/i30 -> OFF-BY-ONE: 30 is the CALL; the runtime reports NAMECALL :GetNetPersistentVar at 29"
+    },
+    "site.Editor Deimos lock before fix": {
+      "pass": true,
+      "detail": "GetNetPersistentVar p7/i62 -> OFF-BY-ONE: 62 is the CALL; the runtime reports NAMECALL :GetNetPersistentVar at 61"
+    },
+    "site.Editor example / form default before fix (U43 target)": {
+      "pass": true,
+      "detail": "PushFloatArg p16/i596 -> OFF-BY-ONE: 596 is the CALL; the runtime reports NAMECALL :PushFloatArg at 595"
+    },
+    "site.Editor example / form default after fix (U43 target)": {
+      "pass": true,
+      "detail": "PushFloatArg p16/i595 -> OK: NAMECALL :PushFloatArg at 595, CALL at 596"
+    },
+    "site.Mallet cover-bypass addon 2026-09-09 (U43)": {
+      "pass": true,
+      "detail": "RadialDamage p16/i576 -> OFF-BY-ONE: 576 is the CALL; the runtime reports NAMECALL :RadialDamage at 575"
+    },
+    "site.Mobile Defense nativeCalls addon (retired template)": {
+      "pass": true,
+      "detail": "GetNetPersistentVar p22/i139 -> OFF-BY-ONE: 139 is the CALL; the runtime reports NAMECALL :GetNetPersistentVar at 138"
+    },
+    "site.Elite 2026-09-12/13 package and V72 fixture (U43)": {
+      "pass": true,
+      "detail": "BuildMissionForLocation p25/i10 -> OFF-BY-ONE: 10 is the CALL; the runtime reports NAMECALL :BuildMissionForLocation at 9"
+    },
+    "site.Ice Wave U43 package (V66-V99)": {
+      "pass": true,
+      "detail": "DamageDD p7/i64 -> OK: NAMECALL :DamageDD at 64, CALL at 65"
+    },
+    "installed.Inject\\8fba3a28f8fef624.IceWaveColdStackDamage.target.addon.lua_B": {
+      "pass": true,
+      "detail": "dcedc4a2d11cd2d7 OK nativeCalls.SetBaseAmount.before p7/i42=OK; nativeCalls.SetSource.before p7/i53=OK; nativeCalls.DamageDD.before p7/i65=OK; nativeCalls.DamageDD.after p7/i65=OK"
+    },
+    "installed.Inject\\ec368d4901690a15.MalletOverguardAndCard.target.addon.lua_B": {
+      "pass": true,
+      "detail": "22e0cb4972f81050 OK transformFloatArgument p16/i596=OK"
+    },
+    "installed.Inject\\64d11e6973afa4b1.EliteSanctuaryNoRank.target.addon.lua_B": {
+      "pass": true,
+      "detail": "86eacb891078aeb4 OFF-BY-ONE nativeCalls.BuildMissionForLocation.after p25/i10=OFF-BY-ONE"
+    },
+    "installed.Packages\\Missions\\Missions.targets.addon.lua_B": {
+      "pass": true,
+      "detail": "00da193d03d43472 NO-INSTRUCTION-FILTER "
+    },
+    "staged.work/staging/elite-sanctuary-fix/64d11e6973afa4b1.EliteSanctuaryNoRank.target.addon.lua_B": {
+      "pass": true,
+      "detail": "4e6d5b7133017e60 OK"
+    },
+    "staged.work/staging/mallet-threat-fix/ec368d4901690a15.MalletOverguardAndCard.target.addon.lua_B": {
+      "pass": true,
+      "detail": "22e0cb4972f81050 OK"
+    },
+    "provenance.call-map-numbers-method-calls-by-CALL": {
+      "pass": true,
+      "detail": "210/210 method rows sit at NAMECALL+1 (calls.tsv 79e0cc63eec4c020)"
+    },
+    "editor.self-test": {
+      "pass": true,
+      "detail": "SUMMARY passed=110 failed=0"
+    },
+    "editor.gate rejects the CALL index (NAMECALL+1)": {
+      "pass": true,
+      "detail": ""
+    },
+    "editor.44.0.2 gate:": {
+      "pass": true,
+      "detail": ""
+    },
+    "editor.rejected nativeCalls.PushFloatArg form not generated": {
+      "pass": true,
+      "detail": ""
+    }
+  },
+  "facts": {
+    "sites": [
+      {
+        "label": "Ice Wave installed SetBaseAmount",
+        "profile": "u44",
+        "stock": "Lotus_Powersuits_Frost_Abilities_IceSpike.lua_B",
+        "prototype": 7,
+        "instruction": 42,
+        "method": "SetBaseAmount",
+        "method_namecalls": [
+          "p7/i42"
+        ],
+        "at": "NAMECALL R11 R6 :SetBaseAmount",
+        "class": "OK",
+        "reason": "NAMECALL :SetBaseAmount at 42, CALL at 43"
+      },
+      {
+        "label": "Ice Wave installed SetSource",
+        "profile": "u44",
+        "stock": "Lotus_Powersuits_Frost_Abilities_IceSpike.lua_B",
+        "prototype": 7,
+        "instruction": 53,
+        "method": "SetSource",
+        "method_namecalls": [
+          "p7/i53",
+          "p13/i66"
+        ],
+        "at": "NAMECALL R11 R6 :SetSource",
+        "class": "OK",
+        "reason": "NAMECALL :SetSource at 53, CALL at 54"
+      },
+      {
+        "label": "Ice Wave installed DamageDD",
+        "profile": "u44",
+        "stock": "Lotus_Powersuits_Frost_Abilities_IceSpike.lua_B",
+        "prototype": 7,
+        "instruction": 65,
+        "method": "DamageDD",
+        "method_namecalls": [
+          "p7/i65",
+          "p13/i102"
+        ],
+        "at": "NAMECALL R11 R11 :DamageDD",
+        "class": "OK",
+        "reason": "NAMECALL :DamageDD at 65, CALL at 66"
+      },
+      {
+        "label": "Mallet installed (fixed) transformFloatArgument",
+        "profile": "u44",
+        "stock": "Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B",
+        "prototype": 16,
+        "instruction": 596,
+        "method": "PushFloatArg",
+        "method_namecalls": [
+          "p10/i64",
+          "p10/i67",
+          "p15/i100",
+          "p15/i103",
+          "p16/i596"
+        ],
+        "at": "NAMECALL R30 R29 :PushFloatArg",
+        "class": "OK",
+        "reason": "NAMECALL :PushFloatArg at 596, CALL at 597"
+      },
+      {
+        "label": "Mallet pre-fix (U44_AUTHORING / LOADOUT 2026-09-27)",
+        "profile": "u44",
+        "stock": "Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B",
+        "prototype": 16,
+        "instruction": 597,
+        "method": "PushFloatArg",
+        "method_namecalls": [
+          "p10/i64",
+          "p10/i67",
+          "p15/i100",
+          "p15/i103",
+          "p16/i596"
+        ],
+        "at": "CALL R30 nargs=2 nres=0",
+        "class": "OFF-BY-ONE",
+        "expected_instruction": 596,
+        "reason": "597 is the CALL; the runtime reports NAMECALL :PushFloatArg at 596"
+      },
+      {
+        "label": "Elite installed p25",
+        "profile": "u44",
+        "stock": "Lotus_Interface_MissionRequirementUtilities.lua_B",
+        "prototype": 25,
+        "instruction": 10,
+        "method": "BuildMissionForLocation",
+        "method_namecalls": [
+          "p21/i324",
+          "p25/i9",
+          "p26/i3"
+        ],
+        "at": "CALL R2 nargs=2 nres=1",
+        "class": "OFF-BY-ONE",
+        "expected_instruction": 9,
+        "reason": "10 is the CALL; the runtime reports NAMECALL :BuildMissionForLocation at 9"
+      },
+      {
+        "label": "Elite staged fix p25",
+        "profile": "u44",
+        "stock": "Lotus_Interface_MissionRequirementUtilities.lua_B",
+        "prototype": 25,
+        "instruction": 9,
+        "method": "BuildMissionForLocation",
+        "method_namecalls": [
+          "p21/i324",
+          "p25/i9",
+          "p26/i3"
+        ],
+        "at": "NAMECALL R2 R2 :BuildMissionForLocation",
+        "class": "OK",
+        "reason": "NAMECALL :BuildMissionForLocation at 9, CALL at 10"
+      },
+      {
+        "label": "Elite staged fix p21",
+        "profile": "u44",
+        "stock": "Lotus_Interface_MissionRequirementUtilities.lua_B",
+        "prototype": 21,
+        "instruction": 324,
+        "method": "BuildMissionForLocation",
+        "method_namecalls": [
+          "p21/i324",
+          "p25/i9",
+          "p26/i3"
+        ],
+        "at": "NAMECALL R12 R11 :BuildMissionForLocation",
+        "class": "OK",
+        "reason": "NAMECALL :BuildMissionForLocation at 324, CALL at 325"
+      },
+      {
+        "label": "Editor Plains Control Area lock (was 30)",
+        "profile": "u44",
+        "stock": "Lotus_Scripts_Eidolon_Encounters_DynamicDefend.lua_B",
+        "prototype": 8,
+        "instruction": 29,
+        "method": "GetNetPersistentVar",
+        "method_namecalls": [
+          "p8/i29",
+          "p10/i92",
+          "p10/i111"
+        ],
+        "at": "NAMECALL R0 R0 :GetNetPersistentVar",
+        "class": "OK",
+        "reason": "NAMECALL :GetNetPersistentVar at 29, CALL at 30"
+      },
+      {
+        "label": "Editor Deimos Control Area lock (was 62)",
+        "profile": "u44",
+        "stock": "Lotus_Scripts_InfestedMicroplanet_Encounters_DynamicAreaDefense.lua_B",
+        "prototype": 7,
+        "instruction": 61,
+        "method": "GetNetPersistentVar",
+        "method_namecalls": [
+          "p7/i61",
+          "p8/i159"
+        ],
+        "at": "NAMECALL R1 R1 :GetNetPersistentVar",
+        "class": "OK",
+        "reason": "NAMECALL :GetNetPersistentVar at 61, CALL at 62"
+      },
+      {
+        "label": "Editor Plains lock before fix",
+        "profile": "u43",
+        "stock": "Lotus_Scripts_Eidolon_Encounters_DynamicDefend.lua_B",
+        "prototype": 8,
+        "instruction": 30,
+        "method": "GetNetPersistentVar",
+        "method_namecalls": [
+          "p8/i29",
+          "p10/i92",
+          "p10/i111"
+        ],
+        "at": "CALL R0 nargs=3 nres=1",
+        "class": "OFF-BY-ONE",
+        "expected_instruction": 29,
+        "reason": "30 is the CALL; the runtime reports NAMECALL :GetNetPersistentVar at 29"
+      },
+      {
+        "label": "Editor Deimos lock before fix",
+        "profile": "u43",
+        "stock": "Lotus_Scripts_InfestedMicroplanet_Encounters_DynamicAreaDefense.lua_B",
+        "prototype": 7,
+        "instruction": 62,
+        "method": "GetNetPersistentVar",
+        "method_namecalls": [
+          "p7/i61",
+          "p8/i159"
+        ],
+        "at": "CALL R1 nargs=3 nres=1",
+        "class": "OFF-BY-ONE",
+        "expected_instruction": 61,
+        "reason": "62 is the CALL; the runtime reports NAMECALL :GetNetPersistentVar at 61"
+      },
+      {
+        "label": "Editor example / form default before fix (U43 target)",
+        "profile": "u43",
+        "stock": "Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B",
+        "prototype": 16,
+        "instruction": 596,
+        "method": "PushFloatArg",
+        "method_namecalls": [
+          "p10/i63",
+          "p10/i66",
+          "p15/i100",
+          "p15/i103",
+          "p16/i595"
+        ],
+        "at": "CALL R30 nargs=2 nres=0",
+        "class": "OFF-BY-ONE",
+        "expected_instruction": 595,
+        "reason": "596 is the CALL; the runtime reports NAMECALL :PushFloatArg at 595"
+      },
+      {
+        "label": "Editor example / form default after fix (U43 target)",
+        "profile": "u43",
+        "stock": "Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B",
+        "prototype": 16,
+        "instruction": 595,
+        "method": "PushFloatArg",
+        "method_namecalls": [
+          "p10/i63",
+          "p10/i66",
+          "p15/i100",
+          "p15/i103",
+          "p16/i595"
+        ],
+        "at": "NAMECALL R30 R29 :PushFloatArg",
+        "class": "OK",
+        "reason": "NAMECALL :PushFloatArg at 595, CALL at 596"
+      },
+      {
+        "label": "Mallet cover-bypass addon 2026-09-09 (U43)",
+        "profile": "u43",
+        "stock": "Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B",
+        "prototype": 16,
+        "instruction": 576,
+        "method": "RadialDamage",
+        "method_namecalls": [
+          "p16/i575"
+        ],
+        "at": "CALL R31 nargs=2 nres=0",
+        "class": "OFF-BY-ONE",
+        "expected_instruction": 575,
+        "reason": "576 is the CALL; the runtime reports NAMECALL :RadialDamage at 575"
+      },
+      {
+        "label": "Mobile Defense nativeCalls addon (retired template)",
+        "profile": "u43",
+        "stock": "Lotus_Scripts_MobileDefense.lua_B",
+        "prototype": 22,
+        "instruction": 139,
+        "method": "GetNetPersistentVar",
+        "method_namecalls": [
+          "p13/i4",
+          "p19/i167",
+          "p19/i373",
+          "p19/i411",
+          "p19/i424",
+          "p19/i438",
+          "p20/i2",
+          "p21/i7",
+          "p21/i17",
+          "p21/i76",
+          "p21/i102",
+          "p22/i52",
+          "p22/i55",
+          "p22/i76",
+          "p22/i138",
+          "p22/i144",
+          "p22/i147",
+          "p22/i162",
+          "p22/i217",
+          "p22/i238",
+          "p22/i270",
+          "p22/i275",
+          "p22/i376",
+          "p23/i51",
+          "p23/i54",
+          "p23/i71",
+          "p23/i160"
+        ],
+        "at": "CALL R18 nargs=3 nres=1",
+        "class": "OFF-BY-ONE",
+        "expected_instruction": 138,
+        "reason": "139 is the CALL; the runtime reports NAMECALL :GetNetPersistentVar at 138"
+      },
+      {
+        "label": "Elite 2026-09-12/13 package and V72 fixture (U43)",
+        "profile": "u43",
+        "stock": "Lotus_Interface_MissionRequirementUtilities.lua_B",
+        "prototype": 25,
+        "instruction": 10,
+        "method": "BuildMissionForLocation",
+        "method_namecalls": [
+          "p21/i324",
+          "p25/i9",
+          "p26/i3"
+        ],
+        "at": "CALL R2 nargs=2 nres=1",
+        "class": "OFF-BY-ONE",
+        "expected_instruction": 9,
+        "reason": "10 is the CALL; the runtime reports NAMECALL :BuildMissionForLocation at 9"
+      },
+      {
+        "label": "Ice Wave U43 package (V66-V99)",
+        "profile": "u43",
+        "stock": "Lotus_Powersuits_Frost_Abilities_IceSpike.lua_B",
+        "prototype": 7,
+        "instruction": 64,
+        "method": "DamageDD",
+        "method_namecalls": [
+          "p7/i64",
+          "p13/i100"
+        ],
+        "at": "NAMECALL R11 R11 :DamageDD",
+        "class": "OK",
+        "reason": "NAMECALL :DamageDD at 64, CALL at 65"
+      }
+    ],
+    "call_map_method_rows": 210
+  },
+  "all_pass": true
+}

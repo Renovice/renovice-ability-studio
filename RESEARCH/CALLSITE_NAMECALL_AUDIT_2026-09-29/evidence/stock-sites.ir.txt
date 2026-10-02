@@ -1,0 +1,72 @@
+## Ice Wave installed SetBaseAmount  (u44 Lotus_Powersuits_Frost_Abilities_IceSpike.lua_B)
+  p7 [  41] MOVE       R13 <- R2
+  p7 [  42] NAMECALL   R11 R6 :SetBaseAmount
+  p7 [  43] CALL       R11 nargs=2 nres=0
+## Ice Wave installed SetSource  (u44 Lotus_Powersuits_Frost_Abilities_IceSpike.lua_B)
+  p7 [  52] MOVE       R13 <- R0
+  p7 [  53] NAMECALL   R11 R6 :SetSource
+  p7 [  54] CALL       R11 nargs=2 nres=0
+## Ice Wave installed DamageDD  (u44 Lotus_Powersuits_Frost_Abilities_IceSpike.lua_B)
+  p7 [  64] MOVE       R13 <- R6
+  p7 [  65] NAMECALL   R11 R11 :DamageDD
+  p7 [  66] CALL       R11 nargs=2 nres=0
+## Mallet installed (fixed) transformFloatArgument  (u44 Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B)
+  p16 [ 595] MOVE       R32 <- R21
+  p16 [ 596] NAMECALL   R30 R29 :PushFloatArg
+  p16 [ 597] CALL       R30 nargs=2 nres=0
+## Mallet pre-fix (U44_AUTHORING / LOADOUT 2026-09-27)  (u44 Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B)
+  p16 [ 596] NAMECALL   R30 R29 :PushFloatArg
+  p16 [ 597] CALL       R30 nargs=2 nres=0
+  p16 [ 598] MOVE       R32 <- R14
+## Elite installed p25  (u44 Lotus_Interface_MissionRequirementUtilities.lua_B)
+  p25 [   9] NAMECALL   R2 R2 :BuildMissionForLocation
+  p25 [  10] CALL       R2 nargs=2 nres=1
+  p25 [  11] GETUPVAL   R3 <- U2
+## Elite staged fix p25  (u44 Lotus_Interface_MissionRequirementUtilities.lua_B)
+  p25 [   8] MOVE       R4 <- R1
+  p25 [   9] NAMECALL   R2 R2 :BuildMissionForLocation
+  p25 [  10] CALL       R2 nargs=2 nres=1
+## Elite staged fix p21  (u44 Lotus_Interface_MissionRequirementUtilities.lua_B)
+  p21 [ 323] CALL       R14 nargs=1 nres=-1
+  p21 [ 324] NAMECALL   R12 R11 :BuildMissionForLocation
+  p21 [ 325] CALL       R12 nargs=-1 nres=1
+## Editor Plains Control Area lock (was 30)  (u44 Lotus_Scripts_Eidolon_Encounters_DynamicDefend.lua_B)
+  p8 [  28] GETUPVAL   R3 <- U6
+  p8 [  29] NAMECALL   R0 R0 :GetNetPersistentVar
+  p8 [  30] CALL       R0 nargs=3 nres=1
+## Editor Deimos Control Area lock (was 62)  (u44 Lotus_Scripts_InfestedMicroplanet_Encounters_DynamicAreaDefense.lua_B)
+  p7 [  60] GETUPVAL   R4 <- U11
+  p7 [  61] NAMECALL   R1 R1 :GetNetPersistentVar
+  p7 [  62] CALL       R1 nargs=3 nres=1
+## Editor Plains lock before fix  (u43 Lotus_Scripts_Eidolon_Encounters_DynamicDefend.lua_B)
+  p8 [  29] NAMECALL   R0 R0 :GetNetPersistentVar
+  p8 [  30] CALL       R0 nargs=3 nres=1
+  p8 [  31] GETIMPORT  R1 <- gPromotedToHost
+## Editor Deimos lock before fix  (u43 Lotus_Scripts_InfestedMicroplanet_Encounters_DynamicAreaDefense.lua_B)
+  p7 [  61] NAMECALL   R1 R1 :GetNetPersistentVar
+  p7 [  62] CALL       R1 nargs=3 nres=1
+  p7 [  63] GETUPVAL   R4 <- U11
+## Editor example / form default before fix (U43 target)  (u43 Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B)
+  p16 [ 595] NAMECALL   R30 R29 :PushFloatArg
+  p16 [ 596] CALL       R30 nargs=2 nres=0
+  p16 [ 597] MOVE       R32 <- R14
+## Editor example / form default after fix (U43 target)  (u43 Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B)
+  p16 [ 594] MOVE       R32 <- R21
+  p16 [ 595] NAMECALL   R30 R29 :PushFloatArg
+  p16 [ 596] CALL       R30 nargs=2 nres=0
+## Mallet cover-bypass addon 2026-09-09 (U43)  (u43 Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B)
+  p16 [ 575] NAMECALL   R31 R31 :RadialDamage
+  p16 [ 576] CALL       R31 nargs=2 nres=0
+  p16 [ 577] GETIMPORT  R29 <- Lerp
+## Mobile Defense nativeCalls addon (retired template)  (u43 Lotus_Scripts_MobileDefense.lua_B)
+  p22 [ 138] NAMECALL   R18 R0 :GetNetPersistentVar
+  p22 [ 139] CALL       R18 nargs=3 nres=1
+  p22 [ 140] LOADN      R19 <- 0
+## Elite 2026-09-12/13 package and V72 fixture (U43)  (u43 Lotus_Interface_MissionRequirementUtilities.lua_B)
+  p25 [   9] NAMECALL   R2 R2 :BuildMissionForLocation
+  p25 [  10] CALL       R2 nargs=2 nres=1
+  p25 [  11] GETUPVAL   R3 <- U2
+## Ice Wave U43 package (V66-V99)  (u43 Lotus_Powersuits_Frost_Abilities_IceSpike.lua_B)
+  p7 [  63] MOVE       R13 <- R6
+  p7 [  64] NAMECALL   R11 R11 :DamageDD
+  p7 [  65] CALL       R11 nargs=2 nres=0

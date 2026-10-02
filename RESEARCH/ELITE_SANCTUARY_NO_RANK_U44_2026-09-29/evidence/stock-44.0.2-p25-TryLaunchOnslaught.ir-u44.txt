@@ -1,0 +1,56 @@
+== proto[25] maxstack=9 nparams=1 nups=4 vararg=0 insns=35 consts=18 ==
+   k[0] Ternary
+   k[1] "SANCTUARY_ONSLAUGHT_CHALLENGE_NODE"
+   k[2] "SANCTUARY_ONSLAUGHT_NODE"
+   k[3] BuildMissionForLocation
+   k[4] "name"
+   k[5] "quest"
+   k[6] ""
+   k[7] "difficulty"
+   k[8] nil
+   k[9] { name = nil, quest = "", difficulty = nil }
+   k[10] tostring
+   k[11] tostring
+   k[12] cjson
+   k[13] encode
+   k[14] cjson.encode
+   k[15] gMatchingService
+   k[16] gMatchingService
+   k[17] SendSquadMission
+  [   0] GETUPVAL       R1 <- U0                                            
+  [   1] GETFIELD       R1 <- R1.Ternary                                    
+  [   2] MOVE           R2 <- R0                                            
+  [   3] GETGLOBAL      R3 <- _ENV.SANCTUARY_ONSLAUGHT_CHALLENGE_NODE       
+  [   4] GETGLOBAL      R4 <- _ENV.SANCTUARY_ONSLAUGHT_NODE                 
+  [   5] CALL           R1 nargs=3 nres=1                                   
+  [   6] GETUPVAL       R2 <- U1                                            
+  [   7] CALL           R2 nargs=0 nres=1                                   
+  [   8] MOVE           R4 <- R1                                            
+  [   9] NAMECALL       R2 R2 :BuildMissionForLocation                      
+  [  10] CALL           R2 nargs=2 nres=1                                   
+  [  11] GETUPVAL       R3 <- U2                                            
+  [  12] MOVE           R4 <- R1                                            
+  [  13] LOADB          A=5 B=1 C=0                                         
+  [  14] MOVE           R6 <- R2                                            
+  [  15] CALL           R3 nargs=3 nres=1                                   
+  [  16] CMPK_A         R3 == nil -> [21]                                   
+  [  17] GETUPVAL       R4 <- U3                                            
+  [  18] MOVE           R5 <- R3                                            
+  [  19] CALL           R4 nargs=1 nres=0                                   
+  [  20] RETURN         R0 nret=0                                           
+  [  21] DUPTABLE       R4 <- { name = nil, quest = "", difficulty = nil }  
+  [  22] FASTCALL1      A=63 B=1 C=3                                        
+  [  23] MOVE           R6 <- R1                                            
+  [  24] GETIMPORT      R5 <- tostring                                      
+  [  25] CALL           R5 nargs=1 nres=1                                   
+  [  26] SETFIELD       R4.name <- R5                                       
+  [  27] GETIMPORT      R5 <- cjson.encode                                  
+  [  28] MOVE           R6 <- R4                                            
+  [  29] CALL           R5 nargs=1 nres=1                                   
+  [  30] GETIMPORT      R6 <- gMatchingService                              
+  [  31] MOVE           R8 <- R5                                            
+  [  32] NAMECALL       R6 R6 :SendSquadMission                             
+  [  33] CALL           R6 nargs=2 nres=0                                   
+  [  34] RETURN         R0 nret=0                                           
+
+== proto[26] maxstack=7 nparams=0 nups=3 vararg=0 insns=44 consts=28 ==

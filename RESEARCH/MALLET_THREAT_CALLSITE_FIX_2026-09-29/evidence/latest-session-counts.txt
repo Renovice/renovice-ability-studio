@@ -1,0 +1,39 @@
+# Latest session: renovice_source.log.1 line 19654 .. renovice_source.log EOF (97,029 lines, 64,102,954 B); pid=23260; Diagnostics=true (trace); installed WTSAPI32.dll sha256 420e10a4...98f4da (4,927,488 B, written 21:27:16)
+## per-key lifecycle counts
+ec368d4901690a15 ROOT_RETURN=0 ADDON_PASS=1 ADDON_FAIL=0 ROLLBACK=0 PENDING_ABORT=0 lifecycle_FAIL=0
+8fba3a28f8fef624 ROOT_RETURN=0 ADDON_PASS=1 ADDON_FAIL=0 ROLLBACK=0 PENDING_ABORT=0 lifecycle_FAIL=0
+95ef5b82a8400944 ROOT_RETURN=1 ADDON_PASS=0 ADDON_FAIL=0 ROLLBACK=4 PENDING_ABORT=3 lifecycle_FAIL=4
+64d11e6973afa4b1 ROOT_RETURN=0 ADDON_PASS=1 ADDON_FAIL=0 ROLLBACK=0 PENDING_ABORT=0 lifecycle_FAIL=0
+luaCalls leaf FAIL=0 mutation_rejected=0 FROST_ICE_WAVE lines=2703
+## Mallet threat transform
+PushFloatArg adapter: PushFloatArg=1 nativeCalls=9 nativeBindings=17
+VM_MEMORY transformFloatArgument max sampled calls: label=transformFloatArgument calls=64
+PushFloatArg.instruction-transform / native.float.transform lines: 0
+ENGINE_DAMAGE Mallet RadialDamage SourcePrototype/Instruction:     240 "SourcePrototype":16,"SourceInstruction":576
+## Mallet ADDON_TRACE events
+   2050 event=damage.callback.enter
+   2050 event=damage.callback.return
+     80 event=damage.factory.return
+      4 event=damage.identity
+     40 event=damage.install.native-enter
+     40 event=damage.install.native-return
+      4 event=damage.target-canonical
+      4 event=damage.timing.after-addon
+      4 event=damage.timing.receive
+    697 event=dispatch.begin
+    697 event=dispatch.end
+    697 event=dispatch.enter
+    697 event=dispatch.results
+    697 event=dispatch.return
+      1 event=module.graph.ready
+     22 event=module.prototype
+     40 event=source.attach-return
+     40 event=source.native-enter
+     40 event=source.native-return
+     40 event=source.return
+     40 event=target.stack
+attempt range: attempt=3 attempt=42 
+Mallet damage window tick_ms: tick_ms=48346781 tick_ms=48367328 
+## afterDamage outcomes
+    674 mallet.c9v57.grant
+     23 mallet.c9v57.skip-killed-target

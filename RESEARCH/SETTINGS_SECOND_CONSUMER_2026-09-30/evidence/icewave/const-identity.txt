@@ -1,0 +1,8 @@
+proto 30 KEYUSE only-stock=[] only-candidate=[SETFIELD S:bonusPerStack]
+proto 34 HASH only-stock=[] only-candidate=[404f8a8c]
+proto 34 STRING only-stock=[] only-candidate=["enabled", "ice_wave.bonus_per_cold_stack", "number", "settings", "stock", "table", "value"]
+proto 34 KEYUSE only-stock=[] only-candidate=[FIELD S:enabled, FIELD S:ice_wave.bonus_per_cold_stack, FIELD S:settings, FIELD S:stock, FIELD S:value, GLOBAL H:404f8a8c]
+BOOLEANS protos_with_boolean_constant_differences=0 (value constants; not part of the verdict)
+CLASS_SWAPS hash_string_class_swaps=0 other_keyuse_differences=7
+CODE_DIFF protos_code_equal=32 protos_code_size_differs=4 differing_bytes_by_canonical_op_field={12.B:1,12.op:1}
+CONST_IDENTITY protos_stock=37 protos_candidate=37 hash_equal=36 string_equal=36 keyuse_equal=35 verdict=FAIL

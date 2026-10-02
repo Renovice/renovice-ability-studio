@@ -108,7 +108,14 @@ Therefore:
 - “addon behavior + show on native card” generates one target addon while
   leaving the stock `.lua_B` unchanged;
 - an exact low-level numeric change may be represented by an evidence-bound
-  `native_argument_rewrites` entry and emitted as `hooks.nativeCalls`;
+  `native_argument_rewrites` entry and emitted as `hooks.nativeCalls`
+  (`PushFloatArg`, which the runtime adapter reserves, is emitted as
+  `hooks.transformFloatArgument`). Its `instruction` is the logical index of the
+  NAMECALL that names the method, because the runtime (V66+) reports a native
+  call there and never at the following CALL. The project names the exact
+  stock module in `target.stock_module`, and the `native-callsite-namecall`
+  build gate rejects any site that is not `NAMECALL :method` followed by CALL
+  (see `RESEARCH/CALLSITE_NAMECALL_AUDIT_2026-09-29`);
 - the editor treats every produced artifact as one project, deployment,
   rollback, and acceptance unit;
 - if neither a host callback nor an exact native callsite exists, the project

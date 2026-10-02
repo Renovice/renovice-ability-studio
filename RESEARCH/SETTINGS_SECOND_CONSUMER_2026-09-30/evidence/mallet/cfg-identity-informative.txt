@@ -1,0 +1,5 @@
+proto 10 CFG_DIFF kind=LABEL depth=2 stock[6]="LOAD N:5" candidate[6]="GETUPVAL u0" class="LABEL LOAD -> GETUPVAL"
+proto 11 CFG_DIFF kind=LABEL depth=0 stock[0]="RETURN 0" candidate[3]="GETIMPORT I:H:404f8a8c" class="LABEL RETURN -> GETIMPORT"
+proto 13 CFG_DIFF kind=LABEL depth=14 stock[47]="CLOSURE p11" candidate[19]="LOAD N:5" class="LABEL CLOSURE -> LOAD"
+CFG_CLASSES {LABEL CLOSURE -> LOAD:1;LABEL LOAD -> GETUPVAL:1;LABEL RETURN -> GETIMPORT:1}
+CFG_IDENTITY protos_stock=14 protos_candidate=14 cfg_equal=11 model_errors=0 candidate_dispatch_webs=0 verdict=FAIL

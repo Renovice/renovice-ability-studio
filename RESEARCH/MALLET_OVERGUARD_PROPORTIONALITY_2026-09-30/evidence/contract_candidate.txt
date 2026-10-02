@@ -1,0 +1,2 @@
+REPLAY clean=128 exact=128 at_cap_beats=75 at_cap_writes=0
+PASS overguard contract

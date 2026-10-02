@@ -1,0 +1,88 @@
+﻿PASS	Octavia: example Settings file present
+LOG	Octavia/absent	RENOVICE SETTINGS PACKAGE trigger=startup package=Octavia declarations=1 groups=1 file=absent use_stock=0 effective=0 rejected=0 unknown_entries=0 members_staged=1/1
+LOG	Octavia/absent	RENOVICE SETTINGS DELIVERY trigger=startup package=Octavia member=ec368d4901690a15.MalletOverguardAndCard.target.addon.lua_B values=0 identity=a29d7b6fe390e066 staged=1
+LOG	Octavia/absent	RENOVICE PACKAGE ACCEPT trigger=startup package=Octavia id=package:octavia members=1 replacements=0 target_addons=1 target_keys=1 lanes=replacement+inject
+LOG	Octavia/absent	RENOVICE PACKAGES scan PASS trigger=startup packages=1 accepted=1 disabled=0 rejected=0
+PASS	Octavia: package accepted by the loader rules
+PASS	Octavia: state id package:octavia
+PASS	Octavia: declarations accepted by the strict parser (1 value, 1 group, stock 5)
+PASS	Octavia: single-key target-addon member staged (ec368d4901690a15)
+PASS	Octavia: no Settings file -> delivery with 0 values (context.settings = {}, stock)
+PASS	Octavia: exact summary line, file absent
+LOG	Octavia/example	RENOVICE SETTINGS PACKAGE trigger=startup package=Octavia declarations=1 groups=1 file=valid use_stock=0 effective=1 rejected=0 unknown_entries=0 members_staged=1/1
+LOG	Octavia/example	RENOVICE SETTINGS DELIVERY trigger=startup package=Octavia member=ec368d4901690a15.MalletOverguardAndCard.target.addon.lua_B values=1 identity=fee0743837fe3d87 staged=1
+LOG	Octavia/example	RENOVICE PACKAGE ACCEPT trigger=startup package=Octavia id=package:octavia members=1 replacements=0 target_addons=1 target_keys=1 lanes=replacement+inject
+LOG	Octavia/example	RENOVICE PACKAGES scan PASS trigger=startup packages=1 accepted=1 disabled=0 rejected=0
+PASS	Octavia: example file delivers { mallet.threat_level = { enabled = true, value = 5, stock = 5 } }
+PASS	Octavia: summary effective=1
+PASS	Octavia: use_stock=true -> stock, package still loads, identity changes (forces cleanup+activate)
+PASS	Octavia: enabled=false -> stock, package still loads, identity changes (forces cleanup+activate)
+PASS	Octavia: group off -> stock, package still loads, identity changes (forces cleanup+activate)
+PASS	Octavia: value above max -> stock, package still loads, identity changes (forces cleanup+activate)
+PASS	Octavia: recorded stock differs -> stock, package still loads, identity changes (forces cleanup+activate)
+PASS	Octavia: malformed file -> stock, package still loads, identity changes (forces cleanup+activate)
+PASS	Octavia: malformed file logs FILE REJECT (package-local)
+PASS	Octavia: with the loose copy still enabled the package fails closed (conflict kind=target key=ec368d4901690a15 holder=loose:Inject/ec368d4901690a15.MalletOverguardAndCard.target.addon.lua_B resolution=later-sorted-source-fails-closed)
+PASS	Octavia: loose copy disabled in ScriptStates -> package accepted
+PASS	Frost: example Settings file present
+LOG	Frost/absent	RENOVICE SETTINGS PACKAGE trigger=startup package=Frost declarations=1 groups=1 file=absent use_stock=0 effective=0 rejected=0 unknown_entries=0 members_staged=1/1
+LOG	Frost/absent	RENOVICE SETTINGS DELIVERY trigger=startup package=Frost member=8fba3a28f8fef624.IceWaveColdStackDamage.target.addon.lua_B values=0 identity=a29d7b6fe390e066 staged=1
+LOG	Frost/absent	RENOVICE PACKAGE ACCEPT trigger=startup package=Frost id=package:frost members=1 replacements=0 target_addons=1 target_keys=1 lanes=replacement+inject
+LOG	Frost/absent	RENOVICE PACKAGES scan PASS trigger=startup packages=1 accepted=1 disabled=0 rejected=0
+PASS	Frost: package accepted by the loader rules
+PASS	Frost: state id package:frost
+PASS	Frost: declarations accepted by the strict parser (1 value, 1 group, stock 0)
+PASS	Frost: single-key target-addon member staged (8fba3a28f8fef624)
+PASS	Frost: no Settings file -> delivery with 0 values (context.settings = {}, stock)
+PASS	Frost: exact summary line, file absent
+LOG	Frost/example	RENOVICE SETTINGS PACKAGE trigger=startup package=Frost declarations=1 groups=1 file=valid use_stock=0 effective=1 rejected=0 unknown_entries=0 members_staged=1/1
+LOG	Frost/example	RENOVICE SETTINGS DELIVERY trigger=startup package=Frost member=8fba3a28f8fef624.IceWaveColdStackDamage.target.addon.lua_B values=1 identity=6f4414d1c5174ea0 staged=1
+LOG	Frost/example	RENOVICE PACKAGE ACCEPT trigger=startup package=Frost id=package:frost members=1 replacements=0 target_addons=1 target_keys=1 lanes=replacement+inject
+LOG	Frost/example	RENOVICE PACKAGES scan PASS trigger=startup packages=1 accepted=1 disabled=0 rejected=0
+PASS	Frost: example file delivers { ice_wave.bonus_per_cold_stack = { enabled = true, value = 50, stock = 0 } }
+PASS	Frost: summary effective=1
+PASS	Frost: use_stock=true -> stock, package still loads, identity changes (forces cleanup+activate)
+PASS	Frost: enabled=false -> stock, package still loads, identity changes (forces cleanup+activate)
+PASS	Frost: group off -> stock, package still loads, identity changes (forces cleanup+activate)
+PASS	Frost: value above max -> stock, package still loads, identity changes (forces cleanup+activate)
+PASS	Frost: recorded stock differs -> stock, package still loads, identity changes (forces cleanup+activate)
+PASS	Frost: malformed file -> stock, package still loads, identity changes (forces cleanup+activate)
+PASS	Frost: malformed file logs FILE REJECT (package-local)
+PASS	Frost: with the loose copy still enabled the package fails closed (conflict kind=target key=8fba3a28f8fef624 holder=loose:Inject/8fba3a28f8fef624.IceWaveColdStackDamage.target.addon.lua_B resolution=later-sorted-source-fails-closed)
+PASS	Frost: loose copy disabled in ScriptStates -> package accepted
+LOG	both	RENOVICE SETTINGS PACKAGE trigger=startup package=Frost declarations=1 groups=1 file=valid use_stock=0 effective=1 rejected=0 unknown_entries=0 members_staged=1/1
+LOG	both	RENOVICE SETTINGS DELIVERY trigger=startup package=Frost member=8fba3a28f8fef624.IceWaveColdStackDamage.target.addon.lua_B values=1 identity=6f4414d1c5174ea0 staged=1
+LOG	both	RENOVICE SETTINGS PACKAGE trigger=startup package=Octavia declarations=1 groups=1 file=valid use_stock=0 effective=1 rejected=0 unknown_entries=0 members_staged=1/1
+LOG	both	RENOVICE SETTINGS DELIVERY trigger=startup package=Octavia member=ec368d4901690a15.MalletOverguardAndCard.target.addon.lua_B values=1 identity=fee0743837fe3d87 staged=1
+LOG	both	RENOVICE PACKAGE ACCEPT trigger=startup package=Frost id=package:frost members=1 replacements=0 target_addons=1 target_keys=1 lanes=replacement+inject
+LOG	both	RENOVICE PACKAGE ACCEPT trigger=startup package=Octavia id=package:octavia members=1 replacements=0 target_addons=1 target_keys=1 lanes=replacement+inject
+LOG	both	RENOVICE PACKAGES scan PASS trigger=startup packages=2 accepted=2 disabled=0 rejected=0
+PASS	both packages accepted together, next to the loose Mallet root replacement (same key, other lane)
+PASS	Octavia: example file parses ()
+PASS	Frost: example file parses ()
+ROW	TITLE	OCTAVIA		tooltip(0)=
+ROW	CHECKBOX	Octavia package	package:octavia	tooltip(67)=Turns the whole package on or off (same switch as the SCRIPTS row).
+ROW	CHECKBOX	Use stock values	stock:octavia	tooltip(80)=On: every value of this package is stock. Your custom values are kept for later.
+ROW	SPACER			tooltip(0)=
+ROW	TITLE	MALLET		tooltip(0)=
+ROW	CHECKBOX	Custom Mallet values	group:octavia/mallet	tooltip(65)=Off: every value in Mallet is stock. Your custom values are kept.
+ROW	CHECKBOX	Custom Forced threat level	custom:octavia/mallet.threat_level	tooltip(288)=Off: the stock value is used. Stock 5. Range 0 to 5. Octavia Mallet. Unticked: the game's dynamic level (5 while the Mallet's damage pool is empty, down to 0 at 1500). Ticked: always this level. Applies: live, at the next read. Custom value applies only where the live value equals stock.
+ROW	INPUTCOUNT	Forced threat level (stock 5)	value:octavia/mallet.threat_level	tooltip(258)=Stock 5. Range 0 to 5. Octavia Mallet. Unticked: the game's dynamic level (5 while the Mallet's damage pool is empty, down to 0 at 1500). Ticked: always this level. Applies: live, at the next read. Custom value applies only where the live value equals stock.
+ROW	SPACER			tooltip(0)=
+ROW	TITLE	FROST		tooltip(0)=
+ROW	CHECKBOX	Frost package	package:frost	tooltip(67)=Turns the whole package on or off (same switch as the SCRIPTS row).
+ROW	CHECKBOX	Use stock values	stock:frost	tooltip(80)=On: every value of this package is stock. Your custom values are kept for later.
+ROW	SPACER			tooltip(0)=
+ROW	TITLE	ICE WAVE		tooltip(0)=
+ROW	CHECKBOX	Custom Ice Wave values	group:frost/ice_wave	tooltip(67)=Off: every value in Ice Wave is stock. Your custom values are kept.
+ROW	CHECKBOX	Custom Bonus per Cold stack	custom:frost/ice_wave.bonus_per_cold_stack	tooltip(284)=Off: the stock value is used. Stock 0x. Range 0 to 100. Frost Ice Wave damage x (1 + Cold stacks (max 10) x bonus x Ability Strength). Unticked or 0: stock damage, the addon changes nothing. Applies: live, at the next read. Custom value applies only where the live value equals stock.
+ROW	INPUTBOX	Bonus per Cold stack (stock 0x)	value:frost/ice_wave.bonus_per_cold_stack	tooltip(254)=Stock 0x. Range 0 to 100. Frost Ice Wave damage x (1 + Cold stacks (max 10) x bonus x Ability Strength). Unticked or 0: stock damage, the addon changes nothing. Applies: live, at the next read. Custom value applies only where the live value equals stock.
+PASS	every label and tooltip within the UI budget
+PASS	Mallet: CHECKBOX "Custom Forced threat level" ticked by the example
+PASS	Mallet: INPUTCOUNT "Forced threat level (stock 5)" 0..5, value 5
+PASS	Mallet: tooltip carries the full dynamic-stock explanation (not cut)
+PASS	Ice Wave: CHECKBOX "Custom Bonus per Cold stack" ticked by the example
+PASS	Ice Wave: validated INPUTBOX "Bonus per Cold stack (stock 0x)" 0..100, value 50
+PASS	Ice Wave: tooltip carries the full scope (not cut)
+PASS	package, Use stock values and section switches present; no member row for a one-member package
+SETTINGS PACKAGE GATE PASS

@@ -1,0 +1,201 @@
+﻿powershell.exe : 'vswhere.exe' is not recognized as an internal or external command,
+At line:12 char:3
++   & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $gate -Pa ...
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ('vswhere.exe' i...ternal command,:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+operable program or batch file.
+verify_addon_settings.cpp
+packages.cpp
+Generating Code...
+PASS	generator-shaped declarations parse: 3 groups, 5 values, aliases kept
+PASS	int value carries member, bounds, lane, applies and unit
+PASS	enum value carries its options
+PASS	literal value belongs to its replacement member
+PASS	`settings: {}` means no declarations (package behaves exactly as today)
+PASS	declaration rejects: settings-unknown-field=extra
+PASS	declaration rejects: settings-format-not-RENOVICE_SETTINGS_DECL_V1
+PASS	declaration rejects: settings-build-invalid
+PASS	declaration rejects: settings-groups-not-array
+PASS	declaration rejects: group-duplicate=g
+PASS	declaration rejects: group-id-invalid
+PASS	declaration rejects: group-order-invalid=g
+PASS	declaration rejects: member=M value=g.v unknown-field=enabled
+PASS	declaration rejects: member=M value=g.v group-not-declared=x
+PASS	declaration rejects: member=M value=g.v type-invalid=text
+PASS	declaration rejects: member=M value=g.v stock-outside-min-max
+PASS	declaration rejects: member=M value=g.v int-has-fraction
+PASS	declaration rejects: member=M value=g.v int-bound-not-exact-in-float32
+PASS	declaration rejects: member=M value=g.v enum-stock-not-an-option
+PASS	declaration rejects: member=M value=g.v options-only-for-enum
+PASS	declaration rejects: member=M value=g.v lane-invalid=server
+PASS	declaration rejects: member=M value=g.v applies-invalid=now
+PASS	declaration rejects: member=M value=g.v stock_check-invalid=sometimes
+PASS	declaration rejects: member=M value=g.v stock_check-invalid
+PASS	declaration rejects: member=M value=g.v stock_check-only-for-addon-lane
+PASS	declaration rejects: member=M value=g.v label-invalid
+PASS	declaration rejects: member=M value-id-invalid=bad id
+PASS	declaration rejects: member=M settings-must-be-exactly-values-object
+PASS	declaration rejects: member=M settings-not-object
+PASS	declaration rejects: settings-invalid-json
+PASS	a value id is unique across the members of a package
+PASS	stock_check: "live" | "none" parse; absent means live (backward compatible)
+PASS	values file parses (BOM, groups, per-value enabled/value/stock); a bad entry is entry-local
+PASS	malformed values file: values-file-invalid-json
+PASS	malformed values file: values-file-not-object
+PASS	malformed values file: values-file-format-not-RENOVICE_SCRIPT_SETTINGS_V1
+PASS	malformed values file: values-file-package-mismatch expected=package:missions found=package:other
+PASS	malformed values file: values-file-unknown-field=extra
+PASS	malformed values file: values-file-use_stock-not-boolean
+PASS	malformed values file: values-file-group-not-boolean=a
+PASS	malformed values file: values-file-values-not-object
+PASS	malformed values file: values-file-trailing-data
+PASS	malformed values file: values-file-invalid-json
+PASS	malformed values file: values-file-too-large
+PASS	writer round trip keeps master, sections, values and records the declared stock
+PASS	writer output is deterministic and human-editable
+PASS	missing values file: every value is stock
+PASS	malformed values file: the package reverts to stock with the exact reason
+PASS	per-value enable: an enabled valid value is effective, a disabled one stays stock, unknown ids are ignored
+PASS	invalid values revert only that value to stock with an exact reason
+PASS	master `use_stock` makes every value stock and keeps the remembered values
+PASS	a section switch reverts only its group
+PASS	build mismatch without a recorded stock never carries a value over
+PASS	build mismatch keeps a value whose recorded stock equals the declared stock
+PASS	a recorded stock that differs from the declaration fails closed
+PASS	literal member without a values file stays stock (not staged)
+PASS	literal member is staged when its value is enabled
+PASS	per-value switch off: the one-value literal member stays stock
+PASS	master `use_stock` also holds back literal members
+PASS	a replacement member without literal declarations is unaffected
+PASS	delivery holds only this member's effective addon-lane values, sorted, with stock
+PASS	delivery identity is a deterministic SHA-256
+PASS	a value edit or a per-value switch changes the identity (forces re-activation)
+PASS	an all-stock package still delivers an (empty) table with its own identity
+PASS	SHA-256 matches the FIPS 180-4 vectors
+PASS	reuse identity: bytes AND settings; loose addons (no settings) reuse exactly as before
+PASS	member ids are member:<folder>/<file>, lowercased
+PASS	member ids satisfy the ScriptStates.json id rules
+PASS	startup scan PASS (package without declarations)
+PASS	package regression: no declarations -> all members staged, no delivery (context.settings = nil)
+PASS	package regression: no settings log lines at all
+PASS	package regression: the ACCEPT line is unchanged
+PASS	F9 prepare PASS (declarations, values file absent)
+PASS	declarations without a values file: addon gets an empty table, literal member stays stock
+PASS	operational lines: package summary, literal gate, delivery
+PASS	F9 prepare PASS (valid values file)
+PASS	valid values file: enabled value delivered, literal member staged
+PASS	an out-of-range value reverts only itself, with an exact line
+PASS	F9 prepare PASS (settings-only change)
+PASS	identity-includes-settings: unchanged bytes, changed settings -> different identity
+PASS	F9 prepare PASS with a malformed values file (never rejects the transaction)
+PASS	fail-closed: malformed values file -> this package is stock (empty table, literal held back)
+PASS	fail-closed: exact FILE REJECT line
+PASS	F9 prepare PASS with invalid declarations
+PASS	fail-closed: invalid declarations reject only the settings capability (members keep compiled defaults)
+PASS	fail-closed: exact DECLARATIONS REJECT line
+PASS	F9 prepare PASS with a disabled member
+PASS	member: off -> excluded from staging, still validated, keys still inventoried; siblings unaffected
+PASS	member: off -> exact MEMBER DISABLED line
+PASS	reserved _RENOVICE_INTERNAL_ names are never package members
+PASS	internal chunk classification: only named bridges load; the probe only in a probe build
+PASS	loose/package stable ids unchanged
+PASS	phase2i contract fixtures are present
+PASS	phase2i: startup scan PASS
+PASS	phase2i: generator declarations are accepted by the runtime parser (4 values, 4 groups)
+PASS	phase2i: only survival.reward_interval is delivered (purgatory disabled, lantern absent = stock)
+PASS	phase2i: the enabled Void Flood literal keeps its replacement member staged (D2)
+PASS	phase2i: exact operational summary line
+PASS	phase2i: row labels follow CONTRACT_PHASE1 D1
+PASS	phase2i: every row label is within the width budget
+PASS	phase2i: without stock_check the addon rows keep the live-stock sentence (backward compatible); literal rows never carry it
+PASS	flat page: native title and the stock search box
+PASS	flat page uses stock row types only
+PASS	every row label fits the width budget (40 value / 48 title)
+PASS	no leading spaces, box or tree glyphs in labels
+PASS	package, master and member switches are CHECKBOX rows with current state
+PASS	int >= 0: Custom checkbox + INPUTCOUNT with stock in the label and bounds
+PASS	float and negative int use a validated INPUTBOX; enum uses TOGGLE at its stock option
+PASS	section switch is the first row of its section and reflects the file
+PASS	literal-lane values are read-only in v1 (locked row)
+PASS	flat fallback has no navigation or FinishSelection buttons (unproven gates stay off)
+PASS	tooltips carry scope and apply timing
+PASS	stock_check absent (live): addon rows say the value applies only where the live value equals stock; literal rows do not
+PASS	stock_check none: the tooltip is derived from the declaration and omits the live-stock sentence
+PASS	nested L1: one BUTTON per package with a value summary
+PASS	nested L2: mission-type buttons and Restore all
+PASS	nested L3: section switch first, stock search box, Restore section
+PASS	staging accepts CHECKBOX, INPUTCOUNT, INPUTBOX text and member rows
+PASS	host re-validates every staged value (second line of defence behind the native validator)
+PASS	apply merges staged rows into one values file per package and one policy batch
+PASS	Restore unticks Custom in scope and remembers the value
+PASS	a session with no changes is a no-op
+PASS	restaging the current value is not a change
+INFO	external package folder=Missions settings=Missions.json
+PASS	external Missions: package folder copied into an empty CustomScripts tree
+PASS	external Missions: values file read
+PASS	external Missions: startup scan PASS
+LOG	RENOVICE SETTINGS PACKAGE trigger=startup package=Missions declarations=4 groups=4 file=valid use_stock=0 effective=2 rejected=0 unknown_entries=0 members_staged=2/2
+LOG	RENOVICE SETTINGS DELIVERY trigger=startup package=Missions member=Missions.targets.addon.lua_B values=1 identity=5b85f55a16c38d1e staged=1
+LOG	RENOVICE PACKAGE ACCEPT trigger=startup package=Missions id=package:missions members=2 replacements=1 target_addons=1 target_keys=3 lanes=replacement+inject
+LOG	RENOVICE PACKAGES scan PASS trigger=startup packages=1 accepted=1 disabled=0 rejected=0
+PASS	external Missions: package accepted
+PASS	external Missions: settings declarations accepted by the runtime parser
+DECL	id=lantern.tier_up_interval member=Missions.targets.addon.lua_B group=lantern lane=addon type=float stock=90 min=0 max=9000 applies=live_next_read stock_check=live(default)
+DECL	id=purgatory.difficulty1.warrior_level member=Missions.targets.addon.lua_B group=purgatory lane=addon type=int stock=10 min=1 max=1000 applies=live_next_read stock_check=live(default)
+DECL	id=survival.reward_interval member=Missions.targets.addon.lua_B group=survival lane=addon type=float stock=300 min=1 max=32767 applies=live_next_read stock_check=live(default)
+DECL	id=void_flood.fractures_per_round.normal member=fc711ff621a75552 (missions_exact-replacement).lua_B group=void_flood lane=literal type=int stock=3 min=1 max=32767 applies=next_mission stock_check=n/a
+PASS	external Missions: the runtime finds Settings/Missions.json
+PASS	external Missions: values file valid
+INFO	file=valid use_stock=0 effective=2 rejected=0 unknown_entries=0
+PASS	external Missions: no value in the values file is rejected
+MEMBER	fc711ff621a75552 (missions_exact-replacement).lua_B staged=1 enabled=1 delivery=nil
+MEMBER	Missions.targets.addon.lua_B staged=1 enabled=1 delivery=yes values=1 identity=settings-v1:5b85f55a16c38d1ea7744c02d6436d06c39023fbc3012c734b0eba9e19bf2739
+DELIVER	Missions.targets.addon.lua_B context.settings["survival.reward_interval"] = { enabled = true, value = 150, stock = 300 }
+PASS	external Missions: every addon member that declares values receives a delivery (context.settings)
+ROW	TITLE		MISSIONS
+ROW	CHECKBOX	package:missions	Missions package	value=on	tooltip=Turns the whole package on or off (same switch as the SCRIPTS row).
+ROW	CHECKBOX	stock:missions	Use stock values	value=off	tooltip=On: every value of this package is stock. Your custom values are kept for later.
+ROW	CHECKBOX	member:missions/fc711ff621a75552 (missions_exact-replacement).lua_b	Exact replacement:	value=on	tooltip=Exact replacement: ZarimanCorruptionMission (void_flood.fractures_per_round.normal) (fc711ff621a75552 (missions_exact-replacement).lua_B). Off: this script stays out of the package.
+ROW	CHECKBOX	member:missions/missions.targets.addon.lua_b	Mission tunables: Purgatory,	value=on	tooltip=Mission tunables: Purgatory, HalloweenLanternEndless, SurvivalMission (Missions.targets.addon.lua_B). Off: this script stays out of the package.
+ROW	SPACER		
+ROW	TITLE		LANTERN
+ROW	CHECKBOX	group:missions/lantern	Custom Lantern values	value=on	tooltip=Off: every value in Lantern is stock. Your custom values are kept.
+ROW	CHECKBOX	custom:missions/lantern.tier_up_interval	Custom Tier up interval	value=off	tooltip=Off: the stock value is used. Stock 90 s. Range 0 to 9000. Lantern. Applies: live, at the next read. Custom value applies only where the live value equals stock.
+ROW	INPUTBOX	value:missions/lantern.tier_up_interval	Tier up interval (stock 90 s)	content=90	tooltip=Stock 90 s. Range 0 to 9000. Lantern. Applies: live, at the next read. Custom value applies only where the live value equals stock.
+ROW	SPACER		
+ROW	TITLE		PURGATORY
+ROW	CHECKBOX	group:missions/purgatory	Custom Purgatory values	value=on	tooltip=Off: every value in Purgatory is stock. Your custom values are kept.
+ROW	CHECKBOX	custom:missions/purgatory.difficulty1.warrior_level	Custom Difficulty 1 warrior level	value=off	tooltip=Off: the stock value is used. Stock 10. Range 1 to 1000. Purgatory. Applies: live, at the next read. Custom value applies only where the live value equals stock.
+ROW	INPUTCOUNT	value:missions/purgatory.difficulty1.warrior_level	Difficulty 1 warrior level (stock 10)	count=15	tooltip=Stock 10. Range 1 to 1000. Purgatory. Applies: live, at the next read. Custom value applies only where the live value equals stock.
+ROW	SPACER		
+ROW	TITLE		SURVIVAL
+ROW	CHECKBOX	group:missions/survival	Custom Survival values	value=on	tooltip=Off: every value in Survival is stock. Your custom values are kept.
+ROW	CHECKBOX	custom:missions/survival.reward_interval	Custom Reward interval	value=on	tooltip=Off: the stock value is used. Stock 300 s. Range 1 to 32767. All Survival nodes (30) incl. Conjunction Survival, Hell-Scrub. Case: normal. Applies: live, at the next read. Custom value applies only where the live value equals stock.
+ROW	INPUTBOX	value:missions/survival.reward_interval	Reward interval (stock 300 s)	content=150	tooltip=Stock 300 s. Range 1 to 32767. All Survival nodes (30) incl. Conjunction Survival, Hell-Scrub. Case: normal. Applies: live, at the next read. Custom value applies only where the live value equals stock.
+ROW	SPACER		
+ROW	TITLE		VOID FLOOD
+ROW	CHECKBOX	group:missions/void_flood	Custom Void Flood values	value=on	tooltip=Off: every value in Void Flood is stock. Your custom values are kept.
+ROW	CHECKBOX	custom:missions/void_flood.fractures_per_round.normal	Custom Fractures per round normal	value=on	tooltip=Off: the stock value is used. Stock 3. Range 1 to 32767. Nodes: Everview Arc. Case: normal. Edited in Ability Studio; this switch applies the edited script at the next mission.
+ROW	INPUTCOUNT	value:missions/void_flood.fractures_per_round.normal	Fractures per round normal (stock 3)	count=4	locked	tooltip=Stock 3. Range 1 to 32767. Nodes: Everview Arc. Case: normal. Edited in Ability Studio; this switch applies the edited script at the next mission.
+PASS	external Missions: SCRIPT SETTINGS page has rows
+PASS	external Missions: every row label fits the width budget (40 value / 48 title)
+PASS	external Missions: every tooltip fits the tooltip budget
+PASS	external Missions: the live-stock tooltip sentence appears exactly on addon rows with stock_check live
+ADDON SETTINGS PASS
+PASS	a member held back by policy or settings stays inventoried but never staged
+PASS	addon members carry their generation-owned delivery into the chunk
+PASS	replacement members: inventoried first, staged only when admitted
+PASS	identity-includes-settings: reuse requires the settings identity to match
+PASS	root reactivation is not chosen across a settings change
+PASS	staged bindings record their settings identity
+PASS	both activation paths deliver activate(context)
+PASS	no target-addon activation bypasses the delivery
+PASS	context.settings = { [id] = { enabled, value, stock } } is built inside the protected leaf
+PASS	activate(context) only with a delivery; plain activate() otherwise
+PASS	the historical 3-argument lifecycle call delivers nothing (managed addons unchanged)
+PASS	deliveries are copied to POD views outside the leaf
+PASS	member: ids are admitted into the policy batch only for existing package members
+PASS	the primitive names no mission, ability or file (universal)
+ADDON SETTINGS GATES PASS

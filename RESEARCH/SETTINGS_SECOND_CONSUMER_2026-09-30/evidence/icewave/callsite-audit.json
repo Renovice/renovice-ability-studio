@@ -1,0 +1,91 @@
+{
+  "addon": "C:\\Users\\Bartek\\AppData\\Local\\Temp\\claude\\C--Users-Bartek-OneDrive-Dokumenter-Warframe-RE-PROJECT-RENOVICE\\da3f97f0-d2c7-475a-a46d-2f428b02d1ea\\scratchpad\\final\\work\\icewave\\named\\8fba3a28f8fef624.IceWaveColdStackDamage.target.addon.lua_B",
+  "sha256": "f3ddb4336b13e321d236a5f543ce1e5122783b9f3b5e619604073f2db8ea5e71",
+  "body_key": "8fba3a28f8fef624",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\repos\\toolchains\\de-luau-toolchain\\work\\u44-rawhash-2026-09-29\\stock\\Lotus_Powersuits_Frost_Abilities_IceSpike.lua_B",
+  "stock_profile": "u44",
+  "stock_sha256": "f903720dee7828506f2a3e668204860f5300a27c27fc53f4e86781cab276f3c5",
+  "decompile_profile": "u44",
+  "hooks": [
+    {
+      "hook": "nativeCalls.SetBaseAmount.before",
+      "method": "SetBaseAmount",
+      "phase": "before",
+      "sites": [
+        {
+          "prototype": 7,
+          "instruction": 42,
+          "method": "SetBaseAmount",
+          "method_namecalls": [
+            "p7/i42"
+          ],
+          "at": "NAMECALL R11 R6 :SetBaseAmount",
+          "class": "OK",
+          "reason": "NAMECALL :SetBaseAmount at 42, CALL at 43"
+        }
+      ],
+      "prototype_only": []
+    },
+    {
+      "hook": "nativeCalls.SetSource.before",
+      "method": "SetSource",
+      "phase": "before",
+      "sites": [
+        {
+          "prototype": 7,
+          "instruction": 53,
+          "method": "SetSource",
+          "method_namecalls": [
+            "p7/i53",
+            "p13/i66"
+          ],
+          "at": "NAMECALL R11 R6 :SetSource",
+          "class": "OK",
+          "reason": "NAMECALL :SetSource at 53, CALL at 54"
+        }
+      ],
+      "prototype_only": []
+    },
+    {
+      "hook": "nativeCalls.DamageDD.before",
+      "method": "DamageDD",
+      "phase": "before",
+      "sites": [
+        {
+          "prototype": 7,
+          "instruction": 65,
+          "method": "DamageDD",
+          "method_namecalls": [
+            "p7/i65",
+            "p13/i102"
+          ],
+          "at": "NAMECALL R11 R11 :DamageDD",
+          "class": "OK",
+          "reason": "NAMECALL :DamageDD at 65, CALL at 66"
+        }
+      ],
+      "prototype_only": []
+    },
+    {
+      "hook": "nativeCalls.DamageDD.after",
+      "method": "DamageDD",
+      "phase": "after",
+      "sites": [
+        {
+          "prototype": 7,
+          "instruction": 65,
+          "method": "DamageDD",
+          "method_namecalls": [
+            "p7/i65",
+            "p13/i102"
+          ],
+          "at": "NAMECALL R11 R11 :DamageDD",
+          "class": "OK",
+          "reason": "NAMECALL :DamageDD at 65, CALL at 66"
+        }
+      ],
+      "prototype_only": []
+    }
+  ],
+  "verdict": "OK"
+}

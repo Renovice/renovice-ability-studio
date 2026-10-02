@@ -1,0 +1,604 @@
+[
+ {
+  "addon": "repos\\apps\\ability-editor\\RESEARCH\\ICE_WAVE_BONUS_10_2026-09-27\\baseline.u44.luau",
+  "sha256": "f96f2e254197f61b1ca79b4fa64356db13a75b795c12aa4d462bb74edb8f6b5b",
+  "verdict": "ERROR",
+  "error": "cannot compile C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\repos\\apps\\ability-editor\\RESEARCH\\ICE_WAVE_BONUS_10_2026-09-27\\baseline.u44.luau: [derecomp] transcode error: profile: unresolved source alias Name__ff67e37d\n",
+  "hooks": [],
+  "copies": [
+   "repos\\apps\\ability-editor\\RESEARCH\\ICE_WAVE_BONUS_10_2026-09-27\\baseline.u44.luau"
+  ]
+ },
+ {
+  "addon": "repos\\apps\\ability-editor\\RESEARCH\\ICE_WAVE_BONUS_10_2026-09-27\\ice-wave-bonus10.u44.luau",
+  "sha256": "09a24c1e5b5637e07c29b01b211711baa3eadcbad98865e2404f8fc7133b3ddd",
+  "verdict": "ERROR",
+  "error": "cannot compile C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\repos\\apps\\ability-editor\\RESEARCH\\ICE_WAVE_BONUS_10_2026-09-27\\ice-wave-bonus10.u44.luau: [derecomp] transcode error: profile: unresolved source alias Name__ff67e37d\n",
+  "hooks": [],
+  "copies": [
+   "repos\\apps\\ability-editor\\RESEARCH\\ICE_WAVE_BONUS_10_2026-09-27\\ice-wave-bonus10.u44.luau"
+  ]
+ },
+ {
+  "addon": "repos\\apps\\ability-editor\\RESEARCH\\ICE_WAVE_BONUS_50_2026-09-27\\ice-wave-bonus50.u44.luau",
+  "sha256": "164e9b935ec59c5c52ee4b025f712ced1eadced84e79a17ea38ecfe9fe001ec8",
+  "verdict": "ERROR",
+  "error": "cannot compile C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\repos\\apps\\ability-editor\\RESEARCH\\ICE_WAVE_BONUS_50_2026-09-27\\ice-wave-bonus50.u44.luau: [derecomp] transcode error: profile: unresolved source alias Name__ff67e37d\n",
+  "hooks": [],
+  "copies": [
+   "repos\\apps\\ability-editor\\RESEARCH\\ICE_WAVE_BONUS_50_2026-09-27\\ice-wave-bonus50.u44.luau"
+  ]
+ },
+ {
+  "addon": "repos\\apps\\ability-editor\\RESEARCH\\U44_AUTHORING_2026-09-27\\mallet-threat.u44.luau",
+  "sha256": "5a9b6afb01ea8cb8aa06ed73b3bace24ac6923f9fb04d1af8ca6e1657d06f617",
+  "body_key": null,
+  "stock": null,
+  "stock_profile": null,
+  "stock_sha256": null,
+  "decompile_profile": "u44",
+  "hooks": [
+   {
+    "hook": "nativeCalls.PushFloatArg.before",
+    "method": "PushFloatArg",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 16,
+      "instruction": 597,
+      "method": "PushFloatArg",
+      "class": "UNRESOLVED",
+      "reason": "no stock module for this body key"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "UNRESOLVED",
+  "copies": [
+   "repos\\apps\\ability-editor\\RESEARCH\\U44_AUTHORING_2026-09-27\\mallet-threat.u44.luau"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_LIVE_TESTS\\F9_CHANGED_GENERATION_V72_2026-09-14\\source\\9dfe563d26eb6527.EliteSanctuaryNoRank.target.addon.luau",
+  "sha256": "2ac1340145127dce73ae8c456ed56aa2d66c2b2217155ac37e0274125673e472",
+  "body_key": "9dfe563d26eb6527",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Interface_MissionRequirementUtilities.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "4ad63fd5d545b70bd424d1e63d5390b37a573d66078f195e747d91f7a61d7e5e",
+  "decompile_profile": "u43",
+  "hooks": [
+   {
+    "hook": "nativeCalls.BuildMissionForLocation.after",
+    "method": "BuildMissionForLocation",
+    "phase": "after",
+    "sites": [
+     {
+      "prototype": 25,
+      "instruction": 10,
+      "method": "BuildMissionForLocation",
+      "method_namecalls": [
+       "p21/i324",
+       "p25/i9",
+       "p26/i3"
+      ],
+      "at": "CALL R2 nargs=2 nres=1",
+      "class": "OFF-BY-ONE",
+      "expected_instruction": 9,
+      "reason": "10 is the CALL; the runtime reports NAMECALL :BuildMissionForLocation at 9"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "OFF-BY-ONE",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_LIVE_TESTS\\F9_CHANGED_GENERATION_V72_2026-09-14\\source\\9dfe563d26eb6527.EliteSanctuaryNoRank.target.addon.luau",
+   "work\\temp\\bootstrapper-circuit-u44-research\\RENOVICE_LIVE_TESTS\\F9_CHANGED_GENERATION_V72_2026-09-14\\source\\9dfe563d26eb6527.EliteSanctuaryNoRank.target.addon.luau"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_LIVE_TESTS\\F9_CHANGED_GENERATION_V72_2026-09-14\\verification\\behavior.luau",
+  "sha256": "64324b3a27c29e18d68e05be7790308ac8d9b6d03a5bec77678f67719cc4e3d1",
+  "body_key": null,
+  "stock": null,
+  "stock_profile": null,
+  "stock_sha256": null,
+  "decompile_profile": "u44",
+  "hooks": [
+   {
+    "hook": "nativeCalls.BuildMissionForLocation.after",
+    "method": "BuildMissionForLocation",
+    "phase": "after",
+    "sites": [
+     {
+      "prototype": 25,
+      "instruction": 10,
+      "method": "BuildMissionForLocation",
+      "class": "UNRESOLVED",
+      "reason": "no stock module for this body key"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "UNRESOLVED",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_LIVE_TESTS\\F9_CHANGED_GENERATION_V72_2026-09-14\\verification\\behavior.luau",
+   "work\\temp\\bootstrapper-circuit-u44-research\\RENOVICE_LIVE_TESTS\\F9_CHANGED_GENERATION_V72_2026-09-14\\verification\\behavior.luau"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_LIVE_TESTS\\F9_CHANGED_GENERATION_V72_2026-09-14\\verification\\candidate.raw.luau",
+  "sha256": "605412abab7584370cacb23d9d09dcfac6c4742ced24374d42fa6e658f8fe2f1",
+  "body_key": null,
+  "stock": null,
+  "stock_profile": null,
+  "stock_sha256": null,
+  "decompile_profile": "u44",
+  "hooks": [
+   {
+    "hook": "nativeCalls.BuildMissionForLocation.after",
+    "method": "BuildMissionForLocation",
+    "phase": "after",
+    "sites": [
+     {
+      "prototype": 25,
+      "instruction": 10,
+      "method": "BuildMissionForLocation",
+      "class": "UNRESOLVED",
+      "reason": "no stock module for this body key"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "UNRESOLVED",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_LIVE_TESTS\\F9_CHANGED_GENERATION_V72_2026-09-14\\verification\\candidate.raw.luau",
+   "work\\temp\\bootstrapper-circuit-u44-research\\RENOVICE_LIVE_TESTS\\F9_CHANGED_GENERATION_V72_2026-09-14\\verification\\candidate.raw.luau"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RENOVICE_LIVE_TESTS\\F9_CHANGED_GENERATION_V72_2026-09-14\\verification\\test_assertions.luau",
+  "sha256": "8c191e4932e95990b06d78b74f7d82bc6b0671371be1b0b4a006ec0b5ac4a974",
+  "verdict": "ERROR",
+  "error": "cannot decompile C:\\Users\\Bartek\\AppData\\Local\\Temp\\tmpzd86awaz\\addon.lua_B: decompile-mod: emit problem: cfg build failed\n",
+  "hooks": [],
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RENOVICE_LIVE_TESTS\\F9_CHANGED_GENERATION_V72_2026-09-14\\verification\\test_assertions.luau",
+   "work\\temp\\bootstrapper-circuit-u44-research\\RENOVICE_LIVE_TESTS\\F9_CHANGED_GENERATION_V72_2026-09-14\\verification\\test_assertions.luau"
+  ]
+ },
+ {
+  "addon": "repos\\runtime\\bootstrapper-runtime\\RESEARCH\\LOADOUT_NATIVE_HOOK_CONFLICT_2026-09-27\\mallet-threat.u44.luau",
+  "sha256": "fd20845efa93f5592dfec7d5dbd5aaff5170952ee559cd026dbd13b19fe95b17",
+  "body_key": null,
+  "stock": null,
+  "stock_profile": null,
+  "stock_sha256": null,
+  "decompile_profile": "u44",
+  "hooks": [
+   {
+    "hook": "transformFloatArgument",
+    "method": "PushFloatArg",
+    "phase": "call",
+    "sites": [
+     {
+      "prototype": 16,
+      "instruction": 597,
+      "method": "PushFloatArg",
+      "class": "UNRESOLVED",
+      "reason": "no stock module for this body key"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "UNRESOLVED",
+  "copies": [
+   "repos\\runtime\\bootstrapper-runtime\\RESEARCH\\LOADOUT_NATIVE_HOOK_CONFLICT_2026-09-27\\mallet-threat.u44.luau"
+  ]
+ },
+ {
+  "addon": "work\\research\\U44-2026-09-27\\lua-port\\staged\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.u44.luau",
+  "sha256": "0f4c19b748b4a89f8e88636b1bbf679749b5b00e48796ec997d594b91b8f7874",
+  "verdict": "ERROR",
+  "error": "cannot compile C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\work\\research\\U44-2026-09-27\\lua-port\\staged\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.u44.luau: [derecomp] transcode error: profile: unresolved source alias Name__ff67e37d\n",
+  "hooks": [],
+  "copies": [
+   "work\\research\\U44-2026-09-27\\lua-port\\staged\\f62b70b45fc7fdf9.IceWaveColdStackDamage.target.addon.u44.luau",
+   "work\\temp\\ability-editor-callsite-audit\\RESEARCH\\ICE_WAVE_BONUS_10_2026-09-27\\baseline.u44.luau",
+   "work\\temp\\ability-editor-elite-sanctuary-fix\\RESEARCH\\ICE_WAVE_BONUS_10_2026-09-27\\baseline.u44.luau",
+   "work\\temp\\ability-editor-mallet-threat-fix\\RESEARCH\\ICE_WAVE_BONUS_10_2026-09-27\\baseline.u44.luau"
+  ]
+ },
+ {
+  "addon": "work\\staging\\ability-editor-v49-contract-final\\octavia_mallet_overguard\\304705ECE0B3\\source\\08faf07b504d058f.octavia_mallet_overguard.target.addon.luau",
+  "sha256": "60e5a1ed6af2d14a91a8dbd957450907a9372c39be5c2ee6b1bfcfd9bcf886fc",
+  "body_key": "08faf07b504d058f",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "c0cf04fc388092533c3084e459ba4ae9050571934c82e3473385823f8e2a6390",
+  "decompile_profile": "u43",
+  "hooks": [
+   {
+    "hook": "nativeCalls.PushFloatArg.before",
+    "method": "PushFloatArg",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 16,
+      "instruction": 596,
+      "method": "PushFloatArg",
+      "method_namecalls": [
+       "p10/i63",
+       "p10/i66",
+       "p15/i100",
+       "p15/i103",
+       "p16/i595"
+      ],
+      "at": "CALL R30 nargs=2 nres=0",
+      "class": "OFF-BY-ONE",
+      "expected_instruction": 595,
+      "reason": "596 is the CALL; the runtime reports NAMECALL :PushFloatArg at 595"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "OFF-BY-ONE",
+  "copies": [
+   "work\\staging\\ability-editor-v49-contract-final\\octavia_mallet_overguard\\304705ECE0B3\\source\\08faf07b504d058f.octavia_mallet_overguard.target.addon.luau",
+   "work\\staging\\ability-editor-v49-contract\\octavia_mallet_overguard\\70FB1481AE7C\\source\\08faf07b504d058f.octavia_mallet_overguard.target.addon.luau"
+  ]
+ },
+ {
+  "addon": "work\\staging\\ability-editor\\mission_mobile_defense_timers_addon\\040954D56483\\source\\89329f85c8575b84.mission_mobile_defense_timers_addon.target.addon.luau",
+  "sha256": "7b4d2592016a362dc53d053a98f6fc2356db1a70631e7b3ab4967fa7c2b807dc",
+  "body_key": "89329f85c8575b84",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Scripts_MobileDefense.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "e9cbbef4b6beca2ac61ec741f3f9a22ba45df06878708c429176843222b47541",
+  "decompile_profile": "u43",
+  "hooks": [
+   {
+    "hook": "nativeCalls.GetNetPersistentVar.after",
+    "method": "GetNetPersistentVar",
+    "phase": "after",
+    "sites": [
+     {
+      "prototype": 22,
+      "instruction": 139,
+      "method": "GetNetPersistentVar",
+      "method_namecalls": [
+       "p13/i4",
+       "p19/i167",
+       "p19/i373",
+       "p19/i411",
+       "p19/i424",
+       "p19/i438",
+       "p20/i2",
+       "p21/i7",
+       "p21/i17",
+       "p21/i76",
+       "p21/i102",
+       "p22/i52",
+       "p22/i55",
+       "p22/i76",
+       "p22/i138",
+       "p22/i144",
+       "p22/i147",
+       "p22/i162",
+       "p22/i217",
+       "p22/i238",
+       "p22/i270",
+       "p22/i275",
+       "p22/i376",
+       "p23/i51",
+       "p23/i54",
+       "p23/i71",
+       "p23/i160"
+      ],
+      "at": "CALL R18 nargs=3 nres=1",
+      "class": "OFF-BY-ONE",
+      "expected_instruction": 138,
+      "reason": "139 is the CALL; the runtime reports NAMECALL :GetNetPersistentVar at 138"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "OFF-BY-ONE",
+  "copies": [
+   "work\\staging\\ability-editor\\mission_mobile_defense_timers_addon\\040954D56483\\source\\89329f85c8575b84.mission_mobile_defense_timers_addon.target.addon.luau"
+  ]
+ },
+ {
+  "addon": "work\\staging\\ability-editor\\mission_mobile_defense_timers_addon\\3F19B92B26FA\\source\\89329f85c8575b84.mission_mobile_defense_timers_addon.target.addon.luau",
+  "sha256": "ce9b46b59738289ef5675afb48b6582a38a4be5e167004606c0ee866e7c353a5",
+  "body_key": "89329f85c8575b84",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Scripts_MobileDefense.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "e9cbbef4b6beca2ac61ec741f3f9a22ba45df06878708c429176843222b47541",
+  "decompile_profile": "u43",
+  "hooks": [
+   {
+    "hook": "nativeCalls.GetNetPersistentVar.after",
+    "method": "GetNetPersistentVar",
+    "phase": "after",
+    "sites": [
+     {
+      "prototype": 22,
+      "instruction": 139,
+      "method": "GetNetPersistentVar",
+      "method_namecalls": [
+       "p13/i4",
+       "p19/i167",
+       "p19/i373",
+       "p19/i411",
+       "p19/i424",
+       "p19/i438",
+       "p20/i2",
+       "p21/i7",
+       "p21/i17",
+       "p21/i76",
+       "p21/i102",
+       "p22/i52",
+       "p22/i55",
+       "p22/i76",
+       "p22/i138",
+       "p22/i144",
+       "p22/i147",
+       "p22/i162",
+       "p22/i217",
+       "p22/i238",
+       "p22/i270",
+       "p22/i275",
+       "p22/i376",
+       "p23/i51",
+       "p23/i54",
+       "p23/i71",
+       "p23/i160"
+      ],
+      "at": "CALL R18 nargs=3 nres=1",
+      "class": "OFF-BY-ONE",
+      "expected_instruction": 138,
+      "reason": "139 is the CALL; the runtime reports NAMECALL :GetNetPersistentVar at 138"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "OFF-BY-ONE",
+  "copies": [
+   "work\\staging\\ability-editor\\mission_mobile_defense_timers_addon\\3F19B92B26FA\\source\\89329f85c8575b84.mission_mobile_defense_timers_addon.target.addon.luau"
+  ]
+ },
+ {
+  "addon": "work\\staging\\ability-editor\\mission_mobile_defense_timers_addon\\EFD73020DF26\\source\\89329f85c8575b84.mission_mobile_defense_timers_addon.target.addon.luau",
+  "sha256": "0c1951cb3a632c3adf4ad8e1fd951c3e82101525bbfb1a8f2f5ce5e722c371f0",
+  "body_key": "89329f85c8575b84",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared\\corpus\\de-luau-stock\\Lotus_Scripts_MobileDefense.lua_B",
+  "stock_profile": "u43",
+  "stock_sha256": "e9cbbef4b6beca2ac61ec741f3f9a22ba45df06878708c429176843222b47541",
+  "decompile_profile": "u43",
+  "hooks": [
+   {
+    "hook": "nativeCalls.GetNetPersistentVar.after",
+    "method": "GetNetPersistentVar",
+    "phase": "after",
+    "sites": [
+     {
+      "prototype": 22,
+      "instruction": 139,
+      "method": "GetNetPersistentVar",
+      "method_namecalls": [
+       "p13/i4",
+       "p19/i167",
+       "p19/i373",
+       "p19/i411",
+       "p19/i424",
+       "p19/i438",
+       "p20/i2",
+       "p21/i7",
+       "p21/i17",
+       "p21/i76",
+       "p21/i102",
+       "p22/i52",
+       "p22/i55",
+       "p22/i76",
+       "p22/i138",
+       "p22/i144",
+       "p22/i147",
+       "p22/i162",
+       "p22/i217",
+       "p22/i238",
+       "p22/i270",
+       "p22/i275",
+       "p22/i376",
+       "p23/i51",
+       "p23/i54",
+       "p23/i71",
+       "p23/i160"
+      ],
+      "at": "CALL R18 nargs=3 nres=1",
+      "class": "OFF-BY-ONE",
+      "expected_instruction": 138,
+      "reason": "139 is the CALL; the runtime reports NAMECALL :GetNetPersistentVar at 138"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "OFF-BY-ONE",
+  "copies": [
+   "work\\staging\\ability-editor\\mission_mobile_defense_timers_addon\\EFD73020DF26\\source\\89329f85c8575b84.mission_mobile_defense_timers_addon.target.addon.luau"
+  ]
+ },
+ {
+  "addon": "work\\staging\\elite-sanctuary-fix\\64d11e6973afa4b1.EliteSanctuaryNoRank.target.addon.luau",
+  "sha256": "75b7fe5d1ace10d6e17be9d83c8bb098287cfd9754a7da0639453940db52fce6",
+  "body_key": "64d11e6973afa4b1",
+  "stock": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\repos\\toolchains\\de-luau-toolchain\\work\\u44-rawhash-2026-09-29\\stock\\Lotus_Interface_MissionRequirementUtilities.lua_B",
+  "stock_profile": "u44",
+  "stock_sha256": "6801f711c598efbce3b57ca50f15e45b50abaf803abe1c72694f3b962e431d25",
+  "decompile_profile": "u44",
+  "hooks": [
+   {
+    "hook": "nativeCalls.BuildMissionForLocation.after",
+    "method": "BuildMissionForLocation",
+    "phase": "after",
+    "sites": [
+     {
+      "prototype": 25,
+      "instruction": 9,
+      "method": "BuildMissionForLocation",
+      "method_namecalls": [
+       "p21/i324",
+       "p25/i9",
+       "p26/i3"
+      ],
+      "at": "NAMECALL R2 R2 :BuildMissionForLocation",
+      "class": "OK",
+      "reason": "NAMECALL :BuildMissionForLocation at 9, CALL at 10"
+     },
+     {
+      "prototype": 21,
+      "instruction": 324,
+      "method": "BuildMissionForLocation",
+      "method_namecalls": [
+       "p21/i324",
+       "p25/i9",
+       "p26/i3"
+      ],
+      "at": "NAMECALL R12 R11 :BuildMissionForLocation",
+      "class": "OK",
+      "reason": "NAMECALL :BuildMissionForLocation at 324, CALL at 325"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "OK",
+  "copies": [
+   "work\\staging\\elite-sanctuary-fix\\64d11e6973afa4b1.EliteSanctuaryNoRank.target.addon.luau",
+   "work\\temp\\ability-editor-elite-sanctuary-fix\\RESEARCH\\ELITE_SANCTUARY_NO_RANK_U44_2026-09-29\\64d11e6973afa4b1.EliteSanctuaryNoRank.target.addon.luau"
+  ]
+ },
+ {
+  "addon": "work\\staging\\mallet-threat-fix\\mallet-threat.u44.luau",
+  "sha256": "6c7d7f92f8f84ebdb006278186ab7c1f7e10f77989aed12c069a8ecf62c19733",
+  "body_key": null,
+  "stock": null,
+  "stock_profile": null,
+  "stock_sha256": null,
+  "decompile_profile": "u44",
+  "hooks": [
+   {
+    "hook": "transformFloatArgument",
+    "method": "PushFloatArg",
+    "phase": "call",
+    "sites": [
+     {
+      "prototype": 16,
+      "instruction": 596,
+      "method": "PushFloatArg",
+      "class": "UNRESOLVED",
+      "reason": "no stock module for this body key"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "UNRESOLVED",
+  "copies": [
+   "work\\staging\\mallet-threat-fix\\mallet-threat.u44.luau",
+   "work\\temp\\ability-editor-mallet-threat-fix\\RESEARCH\\MALLET_THREAT_CALLSITE_FIX_2026-09-29\\mallet-threat.u44.luau"
+  ]
+ },
+ {
+  "addon": "work\\temp\\ability-editor-callsite-audit\\RESEARCH\\ICE_WAVE_BONUS_10_2026-09-27\\ice-wave-bonus10.u44.luau",
+  "sha256": "930e3e58e3aad40c09b50aca7d632dc9524a0869bd3dd58b24230826fbd36d27",
+  "verdict": "ERROR",
+  "error": "cannot compile C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\work\\temp\\ability-editor-callsite-audit\\RESEARCH\\ICE_WAVE_BONUS_10_2026-09-27\\ice-wave-bonus10.u44.luau: [derecomp] transcode error: profile: unresolved source alias Name__ff67e37d\n",
+  "hooks": [],
+  "copies": [
+   "work\\temp\\ability-editor-callsite-audit\\RESEARCH\\ICE_WAVE_BONUS_10_2026-09-27\\ice-wave-bonus10.u44.luau",
+   "work\\temp\\ability-editor-elite-sanctuary-fix\\RESEARCH\\ICE_WAVE_BONUS_10_2026-09-27\\ice-wave-bonus10.u44.luau",
+   "work\\temp\\ability-editor-mallet-threat-fix\\RESEARCH\\ICE_WAVE_BONUS_10_2026-09-27\\ice-wave-bonus10.u44.luau"
+  ]
+ },
+ {
+  "addon": "work\\temp\\ability-editor-callsite-audit\\RESEARCH\\ICE_WAVE_BONUS_50_2026-09-27\\ice-wave-bonus50.u44.luau",
+  "sha256": "7497cf768acef3dd733fd71d5e1750352a160c3560bcd945720b02daa0a8a65c",
+  "verdict": "ERROR",
+  "error": "cannot compile C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\work\\temp\\ability-editor-callsite-audit\\RESEARCH\\ICE_WAVE_BONUS_50_2026-09-27\\ice-wave-bonus50.u44.luau: [derecomp] transcode error: profile: unresolved source alias Name__ff67e37d\n",
+  "hooks": [],
+  "copies": [
+   "work\\temp\\ability-editor-callsite-audit\\RESEARCH\\ICE_WAVE_BONUS_50_2026-09-27\\ice-wave-bonus50.u44.luau",
+   "work\\temp\\ability-editor-elite-sanctuary-fix\\RESEARCH\\ICE_WAVE_BONUS_50_2026-09-27\\ice-wave-bonus50.u44.luau",
+   "work\\temp\\ability-editor-mallet-threat-fix\\RESEARCH\\ICE_WAVE_BONUS_50_2026-09-27\\ice-wave-bonus50.u44.luau"
+  ]
+ },
+ {
+  "addon": "work\\temp\\ability-editor-callsite-audit\\RESEARCH\\U44_AUTHORING_2026-09-27\\mallet-threat.u44.luau",
+  "sha256": "70c7aaebdacfcbcac3130e697b12efdf637b1cd2a2c5e1e41bb1e4b861ea7bb0",
+  "body_key": null,
+  "stock": null,
+  "stock_profile": null,
+  "stock_sha256": null,
+  "decompile_profile": "u44",
+  "hooks": [
+   {
+    "hook": "nativeCalls.PushFloatArg.before",
+    "method": "PushFloatArg",
+    "phase": "before",
+    "sites": [
+     {
+      "prototype": 16,
+      "instruction": 597,
+      "method": "PushFloatArg",
+      "class": "UNRESOLVED",
+      "reason": "no stock module for this body key"
+     }
+    ],
+    "prototype_only": []
+   }
+  ],
+  "verdict": "UNRESOLVED",
+  "copies": [
+   "work\\temp\\ability-editor-callsite-audit\\RESEARCH\\U44_AUTHORING_2026-09-27\\mallet-threat.u44.luau",
+   "work\\temp\\ability-editor-elite-sanctuary-fix\\RESEARCH\\U44_AUTHORING_2026-09-27\\mallet-threat.u44.luau",
+   "work\\temp\\ability-editor-mallet-threat-fix\\RESEARCH\\U44_AUTHORING_2026-09-27\\mallet-threat.u44.luau"
+  ]
+ },
+ {
+  "addon": "work\\temp\\ability-editor-elite-sanctuary-fix\\RESEARCH\\ELITE_SANCTUARY_NO_RANK_U44_2026-09-29\\tests\\contract_assertions.luau",
+  "sha256": "e46e2a89ac7e17efd12bda9c8bf67858e68271a1f4fe53c619bf789be4ab56d7",
+  "body_key": null,
+  "stock": null,
+  "stock_profile": null,
+  "stock_sha256": null,
+  "decompile_profile": "u44",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "work\\temp\\ability-editor-elite-sanctuary-fix\\RESEARCH\\ELITE_SANCTUARY_NO_RANK_U44_2026-09-29\\tests\\contract_assertions.luau"
+  ]
+ },
+ {
+  "addon": "work\\temp\\ability-editor-mallet-threat-fix\\RESEARCH\\MALLET_THREAT_CALLSITE_FIX_2026-09-29\\tests\\contract_assertions.luau",
+  "sha256": "e33d28c91938f473f00bd5fffaa0630808884f8056d4475f46d97a3fd12b2012",
+  "body_key": null,
+  "stock": null,
+  "stock_profile": null,
+  "stock_sha256": null,
+  "decompile_profile": "u44",
+  "hooks": [],
+  "verdict": "NO-INSTRUCTION-FILTER",
+  "copies": [
+   "work\\temp\\ability-editor-mallet-threat-fix\\RESEARCH\\MALLET_THREAT_CALLSITE_FIX_2026-09-29\\tests\\contract_assertions.luau"
+  ]
+ }
+]

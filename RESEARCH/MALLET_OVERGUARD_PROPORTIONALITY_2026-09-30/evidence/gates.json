@@ -1,0 +1,51 @@
+{
+  "gates": {
+    "tool.derecomp-identity": {
+      "pass": true,
+      "detail": "c1672d8d70e44bf7001a68f873f229714f5afdefb0b93c8558b6abb49e187c58"
+    },
+    "input.installed-identity": {
+      "pass": true,
+      "detail": "1e3682a4bacf46ef4b15bcedb71ad402a2d9bd01540e410abe0a5419b418bb86"
+    },
+    "input.committed-package-equals-installed": {
+      "pass": true,
+      "detail": "1e3682a4bacf46ef4b15bcedb71ad402a2d9bd01540e410abe0a5419b418bb86"
+    },
+    "build.baseline-source-reproduces-installed": {
+      "pass": true,
+      "detail": "1e3682a4bacf46ef4b15bcedb71ad402a2d9bd01540e410abe0a5419b418bb86"
+    },
+    "build.recompile-u44": {
+      "pass": true,
+      "detail": "[derecomp] recompile C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\work\\temp\\ability-editor-settings-consumer\\RESEARCH\\MALLET_OVERGUARD_PROPORTIONALITY_2026-09-30\\src\\mallet-overguard-integer-cap.u44.luau -> C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\work\\staging\\mallet-overguard-integer-cap-2026-09-30\\ec368d4901690a15.MalletOverguardAndCard.target.addon.lua_B : 3844 bytes, nps=14, re-parses=yes, hashed-globals=0, hashed-fields=0"
+    },
+    "build.deterministic": {
+      "pass": true,
+      "detail": "95d26a914eae2749d8be579df1d09d9f69d34dbc7c1f68eab22e0b61218cb52d"
+    },
+    "build.de-roundtrip": {
+      "pass": true,
+      "detail": "nps=14   consts re-encode exact: 14/14  FULL BODY identical: True"
+    },
+    "gate.const-identity-delta-only-afterDamage": {
+      "pass": true,
+      "detail": "protos_stock=14 protos_candidate=14 hash_equal=13 string_equal=14 keyuse_equal=13 verdict=FAIL"
+    },
+    "source.candidate.contract-and-live-replay": {
+      "pass": true,
+      "detail": "REPLAY clean=128 exact=128 at_cap_beats=75 at_cap_writes=0 rows=203"
+    },
+    "source.baseline.contract-and-live-replay": {
+      "pass": true,
+      "detail": "REPLAY clean=128 exact=128 at_cap_beats=75 at_cap_writes=363 rows=203"
+    }
+  },
+  "all_pass": true,
+  "facts": {
+    "candidate_sha256": "95d26a914eae2749d8be579df1d09d9f69d34dbc7c1f68eab22e0b61218cb52d",
+    "candidate_size": 3844,
+    "source_sha256": "90326871eab3f502c6a6c636e4a6aec9ec47f0f2047ef678758675ee32f38a0e",
+    "installed_sha256": "1e3682a4bacf46ef4b15bcedb71ad402a2d9bd01540e410abe0a5419b418bb86"
+  }
+}
