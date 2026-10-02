@@ -338,8 +338,9 @@ print(f"PASS phase2i sample: {len(decl2i)} declarations in {len(groups2i)} group
 # (phase2i CustomScripts/Settings/Missions.json, ee4fa704) through missions_settings_to_build.py. Compared with the staged
 # install set when it exists (never rewritten here).
 import missions_settings_to_build as REBUILD  # noqa: E402
-# R19 (2026-10-02): + the Grineer Railjack fighter and crewship rows (R18 13CB0290: + the two Pontis tower rows; R17 26E56E26).
-ENGINE_PARAMS_R17 = 'EAFD2DDF3B3916AAD7A0DD4D1B09090A2A6CA74192DDE69DD0E3AFBF72AA259B'
+# R21 (2026-10-02): + Spy vault alarm and Sabotage surprise extraction (R19/R20 EAFD2DDF: + the Grineer Railjack fighter and
+# crewship rows; R18 13CB0290: + the two Pontis tower rows; R17 26E56E26).
+ENGINE_PARAMS_R17 = '20323777391827278DEA4494F6F123AC0BA2846CF2B65F4A886C4EAED61E1BAD'
 # R17: the registry layout of R16 (c48c819) tells the R17 "All <type> missions" layout changes from anything else.
 R16_REGISTRY = json.loads(subprocess.run(['git', '-C', str(EDITOR), 'show', 'c48c819:REGISTRIES/mission_build_u44.json'],
                                          capture_output=True, check=True).stdout.decode('utf-8'))

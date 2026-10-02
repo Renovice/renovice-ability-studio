@@ -9,27 +9,43 @@
       "pass": true
     },
     {
-      "name": "Missions.targets.addon.lua_B is the pinned R20 build (d8736450)",
+      "name": "Missions.targets.addon.lua_B is the pinned R20/R21 build (d8736450)",
       "pass": true
     },
     {
-      "name": "package.json is the pinned R20 build (acc2256e)",
+      "name": "package.json is the pinned R20/R21 build (acc2256e)",
       "pass": true
     },
     {
-      "name": "literals.json is the pinned R20 build (96a97899)",
+      "name": "literals.json is the pinned R20/R21 build (96a97899)",
       "pass": true
     },
     {
-      "name": "engine_params.json is the pinned R19/R20 build (eafd2ddf)",
+      "name": "engine_params.json is the pinned R21 build (20323777)",
       "pass": true
     },
     {
-      "name": "manifest records engine_params.json (17 overrides, 8 modules, master railjack.kill_goals_scale) and the engine-param-overrides gate",
+      "name": "manifest records engine_params.json (20 overrides, 13 values, 10 modules, master railjack.kill_goals_scale) and the engine-param-overrides gate",
       "pass": true
     },
     {
-      "name": "registry: the six R15 EXPOSED rows, the R17 Gas City row, the two R18 Pontis rows and the two R19 Grineer Railjack rows are admitted ENGINE_PARAM_OVERRIDE_V1 (['exterminate.archwing_kill_mult', 'exterminate.kills_scale', 'interception.round_end_timer', 'interception.score_goal_scale', 'interception.scoring_speed', 'railjack.corpus_fighter_limit_scale', 'railjack.crewship_kills_scale', 'railjack.fighter_kills_scale', 'railjack.pontis_ash_enemies_scale', 'railjack.pontis_garuda_enemies_scale', 'sabotage.gascity_meltdown_time_scale'])",
+      "name": "registry: the six R15 EXPOSED rows, the R17 Gas City row, the two R18 Pontis rows, the two R19 Grineer Railjack rows and the two R21 rows are admitted ENGINE_PARAM_OVERRIDE_V1 (['exterminate.archwing_kill_mult', 'exterminate.kills_scale', 'interception.round_end_timer', 'interception.score_goal_scale', 'interception.scoring_speed', 'railjack.corpus_fighter_limit_scale', 'railjack.crewship_kills_scale', 'railjack.fighter_kills_scale', 'railjack.pontis_ash_enemies_scale', 'railjack.pontis_garuda_enemies_scale', 'sabotage.gascity_meltdown_time_scale', 'sabotage.random_extraction_timer', 'spy.vault_alarm_scale'])",
+      "pass": true
+    },
+    {
+      "name": "R21: no level/encounter parameter row is left on the plain R10 entry write ([])",
+      "pass": true
+    },
+    {
+      "name": "R21: the 8 MissionInfo rows stay on MISSION_INFO_FIELD_AT_ENTRY (maxWaveNum, not a level parameter) (['defense.waves_to_finish', 'excavation.excavators_to_finish', 'interception.rounds_to_finish', 'loopdefend.phases_to_finish', 'spy.vaults_required', 'survival.fixed_length_minutes', 'void_cascade.exolizers_to_finish', 'void_flood.tanks_to_finish'])",
+      "pass": true
+    },
+    {
+      "name": "R21 spy.vault_alarm_scale: admitted with the R19-class exposure, every parameter global covered",
+      "pass": true
+    },
+    {
+      "name": "R21 sabotage.random_extraction_timer: admitted with the R19-class exposure, every parameter global covered",
       "pass": true
     },
     {
@@ -61,6 +77,10 @@
       "pass": true
     },
     {
+      "name": "sabotage.random_extraction_timer duration: admitted row, module 7e0adf2d83f7a086, hash f4de5c39, mode absolute",
+      "pass": true
+    },
+    {
       "name": "exterminate.archwing_kill_mult spaceBattleKillCountMultiplier: admitted row, module c05987eccd08c1ca, hash e34f013b, mode absolute",
       "pass": true
     },
@@ -86,6 +106,14 @@
     },
     {
       "name": "railjack.crewship_kills_scale kuvaLichKillGoal: admitted row, module e773280ca7743441, hash 240bcba8, mode scale_count",
+      "pass": true
+    },
+    {
+      "name": "spy.vault_alarm_scale intelTimerDurationMax: admitted row, module ee15b583788c3e7d, hash e7743c68, mode scale",
+      "pass": true
+    },
+    {
+      "name": "spy.vault_alarm_scale intelTimerDurationMin: admitted row, module ee15b583788c3e7d, hash b8882841, mode scale",
       "pass": true
     },
     {
@@ -121,11 +149,11 @@
       "pass": true
     },
     {
-      "name": "the bootstrapper R19 gate fixture (fixtures/MissionsR19) holds the engine_params.json of this build (R20 changed only minimums, types and descriptions in package.json; the fixture keeps the R19 package.json 150c0d16)",
+      "name": "the bootstrapper R21 gate fixture (fixtures/MissionsR21) holds the engine_params.json and package.json of this build",
       "pass": true
     },
     {
-      "name": "R20: every writer-owned multiplier accepts 0.001 except a recorded floor (exterminate.kills_scale=0.001, exterminate.archwing_kill_mult=0.001, interception.score_goal_scale=0.001, interception.scoring_speed=0.1, interception.round_end_timer=1, railjack.corpus_fighter_limit_scale=0.001, sabotage.gascity_meltdown_time_scale=0.001, railjack.pontis_ash_enemies_scale=0.001, railjack.pontis_garuda_enemies_scale=0.001, railjack.fighter_kills_scale=0.001, railjack.crewship_kills_scale=0.001)",
+      "name": "R20: every writer-owned multiplier accepts 0.001 except a recorded floor (exterminate.kills_scale=0.001, exterminate.archwing_kill_mult=0.001, interception.score_goal_scale=0.001, interception.scoring_speed=0.1, interception.round_end_timer=1, railjack.corpus_fighter_limit_scale=0.001, sabotage.gascity_meltdown_time_scale=0.001, railjack.pontis_ash_enemies_scale=0.001, railjack.pontis_garuda_enemies_scale=0.001, railjack.fighter_kills_scale=0.001, railjack.crewship_kills_scale=0.001, spy.vault_alarm_scale=0.001, sabotage.random_extraction_timer=1)",
       "pass": true
     },
     {
@@ -137,7 +165,11 @@
       "pass": true
     },
     {
-      "name": "harness: 87 Luau checks over the six R16 rows, the R17 Gas City row, the R18 Pontis rows, the R19 Grineer Railjack rows and the Railjack master (writer-owned, live numbers)",
+      "name": "harness: 179 Luau checks over the six R16 rows, the R17 Gas City row, the R18 Pontis rows, the R19 Grineer Railjack rows, the R21 Spy and Sabotage rows and the Railjack master (writer-owned, live numbers, R19 failure order)",
+      "pass": true
+    },
+    {
+      "name": "R21: the R19 failure order replayed for all 13 writer-owned rows (3 mechanisms x hook/no hook), 6 checks per migrated row",
       "pass": true
     }
   ]

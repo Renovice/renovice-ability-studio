@@ -337,6 +337,13 @@
       "railjack.crewship_kills_scale": [
         "majorKillGoals",
         "kuvaLichKillGoal"
+      ],
+      "spy.vault_alarm_scale": [
+        "intelTimerDurationMax",
+        "intelTimerDurationMin"
+      ],
+      "sabotage.random_extraction_timer": [
+        "duration"
       ]
     }
   },
@@ -865,7 +872,7 @@
   "modules": 67,
   "corpus_files": 67,
   "metadata_snapshot_sha256": "33D3D0EA8ED3FB4E4FB54A6101683701C353CA909D597C60EC2D7ADF1212A7D2",
-  "registry_sha256": "72D3F9F4DC264F0087B40CBB1F306BB5BBD805E45035273475B400462175FC12",
+  "registry_sha256": "639D959F678635553782BC4C98C569B2464243DBC677FD551CC8CE154CE51938",
   "ui": {
     "groups": 103,
     "editors": {

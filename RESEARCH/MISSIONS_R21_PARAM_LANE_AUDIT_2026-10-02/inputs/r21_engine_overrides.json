@@ -1,0 +1,18 @@
+{
+ "schema": "RENOVICE mission registry: ENGINE_PARAM_OVERRIDE admissions (contract R21, same gate as R16)",
+ "build": "2026.09.28.13.06",
+ "gate": "ENGINE_PARAM_OVERRIDE_V1",
+ "source": "work/research/param-lane-audit-r21-2026-10-02/README.md (audit of every row still on the plain R10 entry write after the R19 live refutation of the REACHES class)",
+ "rows": [
+  {
+   "tunable_id": "spy.vault_alarm_scale",
+   "exposure": "EXPOSED (R19 class): R15 classed the read REACHES (Intel P43 VaultAlarmTriggered reads both globals at i64/i65 before any yield), the same class the live session pid 7128 refuted for the Railjack goals",
+   "evidence": "Level ScriptTrigger parameters _intelTimerDurationMax/_intelTimerDurationMin (17 per-vault pairs in the 44.0.2 levels, 30/55 to 90/120; mission-owners-2026-09-30 table 'Real default'). Whole-module census of e7743c68/b8882841 in Intel (ee15b583788c3e7d): one GETIMPORT each (P43 i64, i65), no SETGLOBAL, no string-keyed use, so the instance environment is the only source and the engine's parameter writer (apply_param 0x181CAE0, ApplyScriptParams path) is its only producer. Readable P43 L4335-4339: alarm = Lerp(Max, Min, difficulty), +30 tutorial, +15 quest type 32, x0.8 quest; no Lua recomputation of either parameter."
+  },
+  {
+   "tunable_id": "sabotage.random_extraction_timer",
+   "exposure": "EXPOSED (R19 class): R17 classed the single read REACHES (Sabotage P11 reactorDestroyedFunction i223, no Sleep on its path), the same class the live session pid 7128 refuted for the Railjack goals",
+   "evidence": "Level ScriptTrigger parameter _duration=300 on all 9 Sabotage.lua triggers of the 44.0.2 levels (mission-owners-2026-09-30 table 'Real default'). Whole-module census of f4de5c39 in Sabotage (7e0adf2d83f7a086): one GETIMPORT (P11 i223), no SETGLOBAL, no string-keyed use; the value goes straight into SetObjTimer (readable L940-948). The engine's parameter writer is its only producer."
+  }
+ ]
+}

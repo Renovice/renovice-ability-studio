@@ -19,9 +19,17 @@ R19 (2026-10-02): the Grineer Railjack fighter and crewship goals move to the wr
 the addon keeps the master compiled (no drives) and writes nothing with the hook installed; the exact live numbers are the
 expected writer output (master + rows at 0.1, a row on at x1 wins, a master at its stock writes nothing).
 
+R21 (2026-10-02): class audit after R19. The last two rows on the plain R10 entry write, Spy "vault alarm time"
+(Intel P43, intelTimerDurationMax/Min) and Sabotage "surprise extraction" (Sabotage P11, duration), are level ScriptTrigger
+parameters whose only producer is the engine writer, read in the entry call (REACHES): the class R19 refuted live. Both move
+to the writer. New section "R19 failure order": game writer first, then the addon's Lua entry write, then the read, under
+the three mechanisms R19 left open (H1d: a re-write between the entry write and the read; a reader environment other than
+the callee environment; a value resolved before the entry write). The R10 lane alone reproduces the live signature (the
+write is logged, the read sees the level value); the writer lane gives the configured value under all three.
+
 This gate:
   1. builds the pinned build input with the generator CLI: the addon, package.json, literals.json and engine_params.json
-     are the pinned R17 build;
+     are the pinned R21 build;
   2. re-checks engine_params.json against the registry: every override is an admitted ENGINE_PARAM_OVERRIDE_V1 row, one
      entry per parameter global, the U44 name hash, the row's own mode, the row's stock module key; the bootstrapper's
      gate fixture is byte-identical (when the R16 worktree is present);
@@ -63,9 +71,12 @@ R15 = {'Missions.targets.addon.lua_B': 'd8736450cc81c2c03daaf219fbd5a046dad82b57
        'package.json': 'acc2256eb4a76f6782af1aa51534a5387c065ae1323da36daa45dfbbd06f6d71',
        'literals.json': '96a97899889b6a5f5357a4c0ae0024d0afe9a214c398784fdcc834f401f0fd03'}
 R19_FIXTURE_PACKAGE = '150c0d1642d9208f97fc46df7a14ce411b60120cb4280d30f991aaf179978ff7'
-ENGINE_PARAMS_SHA = 'eafd2ddf3b3916aad7a0dd4d1b09090a2a6ca74192dde69dd0e3afbf72aa259b'
-# The bootstrapper gate fixture of this build (R19, fixtures/MissionsR19; the R16 and R17 fixtures stay in their folders).
-BOOTSTRAPPER_FIXTURE = ROOT / 'repos/runtime/bootstrapper-runtime-wt-r19/RENOVICE_TOOLCHAIN/engine_params/fixtures/MissionsR19'
+# R21 (2026-10-02): only engine_params.json changes (R19/R20 eafd2ddf: 17 overrides, 8 modules); addon, package.json and
+# literals.json are the R20 files byte for byte.
+ENGINE_PARAMS_SHA = '20323777391827278dea4494f6f123ac0ba2846cf2b65f4a886c4eaed61e1bad'
+# The bootstrapper gate fixture of this build (R21, fixtures/MissionsR21: engine_params.json and the R20 package.json; the
+# R16, R17 and R19 fixtures stay in their folders).
+BOOTSTRAPPER_FIXTURE = ROOT / 'repos/runtime/bootstrapper-runtime-wt-r19/RENOVICE_TOOLCHAIN/engine_params/fixtures/MissionsR21'
 WORK = ROOT / 'work/temp/engine-param-override-harness'
 OUT = Path(__file__).resolve().parents[1] / 'test-results'
 results = {'checks': []}
@@ -99,7 +110,14 @@ CASES = {
                                                 'kuvaLichKillGoalMin': 5, 'kuvaLichKillGoalMax': 6}},
     'railjack.crewship_kills_scale': {'observed': {'majorKillGoals': [2, 4, 6, 7, 8, 9], 'kuvaLichKillGoal': 3}, 'value': 0.5,
                                       'expect': {'majorKillGoals': [1, 2, 3, 4, 4, 5], 'kuvaLichKillGoal': 2}},
+    # R21: the Spy vault alarm (most common level pair 35/55; both globals scaled together) and the Sabotage surprise
+    # extraction (300 on all 9 Sabotage.lua triggers; absolute).
+    'spy.vault_alarm_scale': {'observed': {'intelTimerDurationMax': 55, 'intelTimerDurationMin': 35}, 'value': 0.5,
+                              'expect': {'intelTimerDurationMax': 27.5, 'intelTimerDurationMin': 17.5}},
+    'sabotage.random_extraction_timer': {'observed': {'duration': 300}, 'value': 120, 'expect': {'duration': 120}},
 }
+# R21: the rows this revision moved from the plain R10 entry write to the writer.
+R21_MIGRATED = ['spy.vault_alarm_scale', 'sabotage.random_extraction_timer']
 
 
 def check(ok, name):
@@ -148,21 +166,35 @@ check(run.returncode == 0 and len(generations) == 1, 'build succeeds')
 generation = generations[0].parent
 package = generation / 'Packages/Missions'
 for name, digest in R15.items():
-    check(sha(package / name) == digest, f'{name} is the pinned R20 build ({digest[:8]})')
-check(sha(package / 'engine_params.json') == ENGINE_PARAMS_SHA, f'engine_params.json is the pinned R19/R20 build ({ENGINE_PARAMS_SHA[:8]})')
+    check(sha(package / name) == digest, f'{name} is the pinned R20/R21 build ({digest[:8]})')
+check(sha(package / 'engine_params.json') == ENGINE_PARAMS_SHA, f'engine_params.json is the pinned R21 build ({ENGINE_PARAMS_SHA[:8]})')
 manifest = json.loads(generations[0].read_text(encoding='utf-8'))
 record = manifest['package'].get('engine_params') or {}
-check(record.get('sha256', '').lower() == ENGINE_PARAMS_SHA and record.get('overrides') == 17 and record.get('modules') == 8
-      and record.get('masters') == ['railjack.kill_goals_scale']
+check(record.get('sha256', '').lower() == ENGINE_PARAMS_SHA and record.get('overrides') == 20 and record.get('modules') == 10
+      and record.get('masters') == ['railjack.kill_goals_scale'] and len(record.get('rows', [])) == 13
       and any(g['name'] == 'engine-param-overrides' and g['pass'] for g in manifest['package']['gates']),
-      'manifest records engine_params.json (17 overrides, 8 modules, master railjack.kill_goals_scale) and the engine-param-overrides gate')
+      'manifest records engine_params.json (20 overrides, 13 values, 10 modules, master railjack.kill_goals_scale) and the engine-param-overrides gate')
 
 # 2. Re-check the declarations against the registry.
 recipe = json.loads((package / 'engine_params.json').read_text(encoding='utf-8'))
 registry = json.loads((EDITOR / 'REGISTRIES/mission_build_u44.json').read_text(encoding='utf-8'))
 rows = {r['tunable_id']: r for r in registry['tunables']}
 admitted = {tid for tid, r in rows.items() if isinstance(r.get('owner'), dict) and 'engine_override' in r['owner']}
-check(admitted == set(CASES), f'registry: the six R15 EXPOSED rows, the R17 Gas City row, the two R18 Pontis rows and the two R19 Grineer Railjack rows are admitted ENGINE_PARAM_OVERRIDE_V1 ({sorted(admitted)})')
+check(admitted == set(CASES), f'registry: the six R15 EXPOSED rows, the R17 Gas City row, the two R18 Pontis rows, the two R19 Grineer Railjack rows and the two R21 rows are admitted ENGINE_PARAM_OVERRIDE_V1 ({sorted(admitted)})')
+# R21 class audit: no SCRIPT_PARAM_GLOBAL_AT_ENTRY row is left on the plain R10 entry write (every one is writer-owned, the
+# entry write only its fallback), and every MissionInfo row stays on its own template (MISSION_INFO_FIELD_AT_ENTRY).
+plain_r10 = sorted(tid for tid, r in rows.items() if isinstance(r.get('owner'), dict)
+                   and r['owner'].get('template') == 'SCRIPT_PARAM_GLOBAL_AT_ENTRY' and 'engine_override' not in r['owner'])
+check(plain_r10 == [], f'R21: no level/encounter parameter row is left on the plain R10 entry write ({plain_r10})')
+mission_info = sorted(tid for tid, r in rows.items() if isinstance(r.get('owner'), dict) and r['owner'].get('template') == 'MISSION_INFO_FIELD_AT_ENTRY')
+check(len(mission_info) == 8 and all(rows[t]['owner'].get('field') == 'maxWaveNum' and 'engine_override' not in rows[t]['owner']
+                                     for t in mission_info),
+      f'R21: the 8 MissionInfo rows stay on MISSION_INFO_FIELD_AT_ENTRY (maxWaveNum, not a level parameter) ({mission_info})')
+for tid in R21_MIGRATED:
+    owner = rows[tid]['owner']
+    check(owner['engine_override']['exposure'].startswith('EXPOSED (R19 class)')
+          and [g['name'] for g in owner['engine_override']['parameters']] == [g['name'] for g in owner['globals']],
+          f'R21 {tid}: admitted with the R19-class exposure, every parameter global covered')
 check(recipe['format'] == 'RENOVICE_ENGINE_PARAMS_V1' and recipe['package'] == 'package:missions'
       and recipe['build'] == registry['build'] and recipe['member'] == 'Missions.targets.addon.lua_B',
       'recipe header: format, package id, client build, addon member')
@@ -199,9 +231,8 @@ check(addon_source.count('["railjack.kill_goals_scale"] = { value = ') == 1 and 
       'R19: the addon compiles the Railjack master once (its own module, no drives) and drives neither Grineer row')
 if BOOTSTRAPPER_FIXTURE.is_dir():
     check(sha(BOOTSTRAPPER_FIXTURE / 'engine_params.json') == ENGINE_PARAMS_SHA
-          and sha(BOOTSTRAPPER_FIXTURE / 'package.json') == R19_FIXTURE_PACKAGE,
-          'the bootstrapper R19 gate fixture (fixtures/MissionsR19) holds the engine_params.json of this build (R20 changed only '
-          'minimums, types and descriptions in package.json; the fixture keeps the R19 package.json 150c0d16)')
+          and sha(BOOTSTRAPPER_FIXTURE / 'package.json') == R15['package.json'],
+          'the bootstrapper R21 gate fixture (fixtures/MissionsR21) holds the engine_params.json and package.json of this build')
 else:
     print('INFO\tbootstrapper worktree absent; fixture identity not compared')
 
@@ -361,6 +392,48 @@ for _, case in ipairs(CASES) do
         ok(not both[1], case.id .. ": native + addon on the same value compounds (" .. case.mode .. "): the withholding is required")
     end
 end
+-- R21: the R19 failure order. Game writer first, then the addon's Lua entry write, then the read, under each mechanism R19
+-- left open (H1d): "rewrite" = the engine writes again between the entry write and the read (R15 shape, H1d c); "reader_env"
+-- = the reader resolves the global in an instance environment the writer filled but the entry hook was not handed (H1d b);
+-- "early" = the reader holds the value it resolved before the entry write (an import resolved at load, H1d a).
+local function r19_order(case, runtime, mechanism)
+    local native = runtime == "r16"
+    local addon = ADDON_MODULE()
+    local target = addon.targets[case.key]
+    local settings = {}
+    if not native then settings[case.id] = { enabled = true, value = case.value, stock = case.stock } end
+    target.activate({ settings = settings })
+    printed = {}
+    local callee = { isDuviriDefense = false, isCircle = false }
+    local reader = callee
+    engine_write(callee, case, native)                                -- 1. the game's parameter writer
+    local early = {}
+    for _, name in ipairs(case.globals) do early[name] = callee[name] end
+    if mechanism == "reader_env" then
+        reader = { isDuviriDefense = false, isCircle = false }
+        engine_write(reader, case, native)
+    end
+    entries(target, case, callee)                                     -- 2. our Lua write at the entry
+    local logged = prints_for(case.id)
+    if mechanism == "rewrite" then engine_write(callee, case, native) end
+    local view = mechanism == "early" and early or reader             -- 3. the read
+    local seen, stock = reads(view, case, case.expect), reads(view, case, case.observed)
+    target.cleanup()
+    return seen, stock, logged
+end
+local migrated = {}
+for _, id in ipairs(R21_MIGRATED) do migrated[id] = true end
+for _, case in ipairs(CASES) do
+    local tag = migrated[case.id] and "R21 (migrated) " or "R21 "
+    for _, mechanism in ipairs({ "rewrite", "reader_env", "early" }) do
+        local seen, _, logged = r19_order(case, "r16", mechanism)
+        ok(seen and logged == 0, tag .. case.id .. ": R19 order (writer, Lua entry write, read; " .. mechanism
+            .. "): with the writer hook the read sees the configured value and the addon writes nothing")
+        local old_seen, old_stock, old_logged = r19_order(case, "old", mechanism)
+        ok(not old_seen and old_stock and old_logged == #case.globals, tag .. case.id .. ": R19 order (" .. mechanism
+            .. "): the R10 entry write alone is logged and the read still sees the level value (the live R19 signature, control)")
+    end
+end
 -- R17/R19: the Railjack master drives the Corpus, Pontis and (R19) Grineer rows at the engine writer only. With the hook
 -- installed the bootstrapper withholds the rows and delivers the master; the addon must write NOTHING for any of them (else
 -- the native master value and the addon write would compound).
@@ -416,7 +489,8 @@ script = WORK / 'engine_param_override_harness.luau'
 master_targets = [{'id': d['tunable_id'], 'key': rows[d['tunable_id']]['owner']['body_key'],
                    'prototypes': [e['prototype'] for e in rows[d['tunable_id']]['owner']['entries']],
                    'observed': CASES[d['tunable_id']]['observed']} for d in master_row['drives']]
-extra = 'MASTER_TARGETS = ' + lua(master_targets) + '\n' + 'MINIMUM_CASES = ' + lua(minimum_cases) + '\n'
+extra = ('MASTER_TARGETS = ' + lua(master_targets) + '\n' + 'MINIMUM_CASES = ' + lua(minimum_cases) + '\n'
+         + 'R21_MIGRATED = ' + lua(R21_MIGRATED) + '\n')
 script.write_text('ADDON_MODULE = function(...)\n' + source + '\nend\n' + 'CASES = ' + lua(cases) + '\n' + extra + harness,
                   encoding='utf-8')
 check(LUAU.is_file(), 'toolchain luau.exe present')
@@ -428,7 +502,10 @@ if run.stderr.strip():
     print('HARNESS-STDERR\t' + run.stderr.strip())
 check(run.returncode == 0 and 'ENGINE PARAM OVERRIDE HARNESS PASS' in lines and not any(l.startswith('FAIL') for l in lines),
       f'harness: {sum(l.startswith("PASS") for l in lines)} Luau checks over the six R16 rows, the R17 Gas City row, the R18 Pontis rows, '
-      'the R19 Grineer Railjack rows and the Railjack master (writer-owned, live numbers)')
+      'the R19 Grineer Railjack rows, the R21 Spy and Sabotage rows and the Railjack master (writer-owned, live numbers, R19 failure order)')
+check(sum(l.startswith('PASS') and 'R19 order' in l for l in lines) == 6 * len(CASES)
+      and all(sum(l.startswith('PASS') and f'R21 (migrated) {tid}:' in l for l in lines) == 6 for tid in R21_MIGRATED),
+      f'R21: the R19 failure order replayed for all {len(CASES)} writer-owned rows (3 mechanisms x hook/no hook), 6 checks per migrated row')
 OUT.mkdir(parents=True, exist_ok=True)
 (OUT / 'engine_param_override_harness.json').write_text(json.dumps(results, indent=2) + '\n', encoding='utf-8')
 print('ENGINE PARAM OVERRIDE HARNESS GATE PASS')

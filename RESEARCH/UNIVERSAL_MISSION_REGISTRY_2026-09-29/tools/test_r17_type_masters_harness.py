@@ -11,7 +11,8 @@ method (does every reader run in the entry call, before control can return to th
     after a host migration. The R10 row wrote hackTime at the entry and was always overwritten. R17 row: both parameters
     scaled at the engine writer (R16 lane), which scales the countdown in both engine write orders.
   * Sabotage surprise extraction: REACHES. reactorDestroyedFunction (P11) reads `duration` once, in the entry call, before
-    any yield of the path that reads it. Unchanged (R10 lane).
+    any yield of the path that reads it. Unchanged (R10 lane). R21 (2026-10-02): REACHES is the class R19 refuted live, so
+    the row is owned at the engine writer; the R10 entry write is its fallback.
   * Deepmines hold time and bonus threshold: EXPOSED. DefendStart (P9) first runs P6, which busy-waits Sleep(1) before
     reading defendTime; the threshold is read in P9's loop, a 1 s timer (P0) and a callback (P5). Every read is a
     single-name GETIMPORT and nothing writes the names, so both rows are reader pins (IMPORT_READ_PIN_V1, live literals).
@@ -222,8 +223,12 @@ source = (generation / 'source/Missions.targets.addon.luau').read_text(encoding=
 registry = json.loads((EDITOR / 'REGISTRIES/mission_build_u44.json').read_text(encoding='utf-8'))
 rows = {r['tunable_id']: r for r in registry['tunables']}
 gas_row, sab_row = rows['sabotage.gascity_meltdown_time_scale'], rows['sabotage.random_extraction_timer']
-check(gas_row['owner'].get('engine_override', {}).get('gate') == 'ENGINE_PARAM_OVERRIDE_V1' and 'engine_override' not in sab_row['owner'],
-      'registry: the Gas City row is owned at the engine writer; the surprise extraction stays on the R10 entry lane')
+# R21 (2026-10-02): the surprise extraction is owned at the engine writer too (its REACHES class is the one R19 refuted live
+# for the Railjack goals); the entry write below is its fallback for a DLL without the hook (test_engine_param_override_harness
+# replays the R19 failure order for it).
+check(gas_row['owner'].get('engine_override', {}).get('gate') == 'ENGINE_PARAM_OVERRIDE_V1'
+      and sab_row['owner'].get('engine_override', {}).get('gate') == 'ENGINE_PARAM_OVERRIDE_V1',
+      'registry: the Gas City row and (R21) the surprise extraction are owned at the engine writer')
 harness = r'''
 local emit = print
 local printed = {}
@@ -280,7 +285,7 @@ do
     target.hooks.luaCalls[SAB_ENTRY].before(SAB_ENTRY, {}, {}, nil, env)
     local read = env.duration                                    -- P11 i223 GETIMPORT duration, before any yield
     env.duration = 300                                           -- a later engine re-write: no reader left
-    ok(read == 120, "Sabotage surprise extraction: the reader in the entry call sees 120 (REACHES, R10 lane suffices)")
+    ok(read == 120, "Sabotage surprise extraction, R10 fallback (DLL without the writer hook): the reader in the entry call sees 120 (REACHES model; R21 owns the row at the writer)")
     target.cleanup()
 end
 emit(failures == 0 and "R17 HARNESS PASS" or "R17 HARNESS FAIL")

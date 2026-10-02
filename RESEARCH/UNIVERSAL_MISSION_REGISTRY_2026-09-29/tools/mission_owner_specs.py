@@ -105,6 +105,13 @@ R18_OVERRIDES_SHA256 = '6BE472F4DA39F41A2DE09446E1B96E1FAC261D0132D1A547D1695E7B
 R19 = EDITOR / 'RESEARCH/MISSIONS_R19_RAILJACK_ENGINE_OWNER_2026-10-02'
 R19_OVERRIDES = R19 / 'inputs/r19_engine_overrides.json'
 R19_OVERRIDES_SHA256 = 'AD86E8EC77FDB11BAF4033436E72961C26170BC65D1717A1765A418E12580A38'  # LF-normalized content
+# Contract R21 (2026-10-02, class audit after R19): the last two rows on the plain R10 entry write (Spy vault alarm, Sabotage
+# surprise extraction) are level ScriptTrigger parameters whose only producer is the engine's parameter writer; their REACHES
+# class is the one R19 refuted live. Both are owned at the writer (R16 gate); the entry write stays the fallback for a DLL
+# without the hook. Record RESEARCH/MISSIONS_R21_PARAM_LANE_AUDIT_2026-10-02; input pinned by its LF content.
+R21 = EDITOR / 'RESEARCH/MISSIONS_R21_PARAM_LANE_AUDIT_2026-10-02'
+R21_OVERRIDES = R21 / 'inputs/r21_engine_overrides.json'
+R21_OVERRIDES_SHA256 = '91518C83D34A8E311C2A9EE349DA7F19454C1814B820E403589C0CD680517F90'  # LF-normalized content
 # R15 IMPORT_READ_PIN_V1: a single-name GETIMPORT of a hashed global (U44 dispatch byte 0x35, canonical 0x46) is rewritten
 # into `LOADN A, value` twice (the instruction word and its aux word), through two LIVE_LITERALS_V1 instruction sites flagged
 # `rewrites_instruction`. Admissible only when every instruction of the module that names the hash is one of the pinned
@@ -476,7 +483,8 @@ def engine_overrides(out, report):
     specs = [load_drafts(R16_OVERRIDES, R16_OVERRIDES_SHA256, 'R16'),
              load_drafts(R17_OVERRIDES, R17_OVERRIDES_SHA256, 'R17'),  # R17: same gate, one more row
              load_drafts(R18_OVERRIDES, R18_OVERRIDES_SHA256, 'R18'),  # R18: the two Pontis tower rows
-             load_drafts(R19_OVERRIDES, R19_OVERRIDES_SHA256, 'R19')]  # R19: Grineer fighter and crewship goals (live-refuted entry route)
+             load_drafts(R19_OVERRIDES, R19_OVERRIDES_SHA256, 'R19'),  # R19: Grineer fighter and crewship goals (live-refuted entry route)
+             load_drafts(R21_OVERRIDES, R21_OVERRIDES_SHA256, 'R21')]  # R21: Spy vault alarm, Sabotage surprise extraction (R19 class)
     if any(spec.get('gate') != ENGINE_OVERRIDE_GATE for spec in specs):
         raise ValueError('R16: engine override input names another gate')
     by_id = {r['tunable_id']: r for r in out}

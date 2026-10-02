@@ -5,7 +5,8 @@ RESEARCH/MISSIONS_R20_MULTIPLIER_MINIMUMS_2026-10-02/inputs/r20_minimums.json.
 
 What it proves (offline):
   1. The pinned full-package build input builds; package.json and literals.json are the pinned R20 files; the addon and
-     engine_params.json are byte-identical to R19 (a minimum is a declaration, never compiled into the addon).
+     engine_params.json are byte-identical to R19 (a minimum is a declaration, never compiled into the addon). R21: the
+     pinned engine_params.json is the R21 one (two more writer-owned rows); the addon is still the R19 file.
   2. Declarations: every declared value with unit "x" (package.json and literals.json) is fractional and accepts 0.001,
      except a floor the R20 input records with its decompile reason; every R20 input row is what the package declares
      (minimum and type); a master's minimum is the largest minimum of its driven rows (the registry rule).
@@ -36,7 +37,7 @@ INPUT = EDITOR / 'RESEARCH/MISSIONS_R13_NATIVE_ENTRY_2026-10-01/inputs/rebuild_i
 INPUT_LF_SHA = 'dccde5fddf2649c2be4c93789cecab4cc1d1759dc9d01d0117cba25f5a7ca4b6'
 R20_INPUT = EDITOR / 'RESEARCH/MISSIONS_R20_MULTIPLIER_MINIMUMS_2026-10-02/inputs/r20_minimums.json'
 PINS = {'Missions.targets.addon.lua_B': 'd8736450cc81c2c03daaf219fbd5a046dad82b57e1d54fd8263fe2832a4d3c88',  # = R19
-        'engine_params.json': 'eafd2ddf3b3916aad7a0dd4d1b09090a2a6ca74192dde69dd0e3afbf72aa259b',            # = R19
+        'engine_params.json': '20323777391827278dea4494f6f123ac0ba2846cf2b65f4a886c4eaed61e1bad',            # R21 (R19/R20 eafd2ddf)
         'package.json': 'acc2256eb4a76f6782af1aa51534a5387c065ae1323da36daa45dfbbd06f6d71',                  # R19 150c0d16
         'literals.json': '96a97899889b6a5f5357a4c0ae0024d0afe9a214c398784fdcc834f401f0fd03'}                 # R19 786c7b94
 TARGET = 0.001
