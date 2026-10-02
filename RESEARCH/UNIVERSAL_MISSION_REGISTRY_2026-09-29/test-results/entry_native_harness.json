@@ -17,11 +17,19 @@
       "pass": true
     },
     {
+      "name": "R20: the 10 scaled parameter rows (scale, scale_inverse, scale_count) get a case at their minimum; each accepts 0.001 except a recorded floor (exterminate.kills_scale=0.001, interception.score_goal_scale=0.001, interception.scoring_speed=0.1, railjack.corpus_fighter_limit_scale=0.001, railjack.crewship_kills_scale=0.001, railjack.fighter_kills_scale=0.001, railjack.pontis_ash_enemies_scale=0.001, railjack.pontis_garuda_enemies_scale=0.001, sabotage.gascity_meltdown_time_scale=0.001, spy.vault_alarm_scale=0.001)",
+      "pass": true
+    },
+    {
+      "name": "R20: scale_count at its minimum writes 1 for every count (the at-least-1 rule)",
+      "pass": true
+    },
+    {
       "name": "toolchain luau.exe present",
       "pass": true
     },
     {
-      "name": "harness: 104 checks over 21 entry rows + the R15 Defense and R17 Deepmines checks",
+      "name": "harness: 164 checks over 21 entry rows, the 10 scaled rows at their R20 minimum, the R15 Defense and R17 Deepmines checks",
       "pass": true
     }
   ]

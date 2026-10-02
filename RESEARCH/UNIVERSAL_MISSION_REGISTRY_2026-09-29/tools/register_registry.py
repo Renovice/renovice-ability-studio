@@ -66,6 +66,49 @@ previous = json.loads(subprocess.run(['git', '-C', str(EDITOR), 'show', PREVIOUS
                                      capture_output=True, text=True, check=True).stdout)
 assert previous['build'] == '2026.09.24.13.29'
 
+# Contract R20 (2026-10-02): multiplier minimums (record RESEARCH/MISSIONS_R20_MULTIPLIER_MINIMUMS_2026-10-02). The input
+# names, per row, the limits it replaces (`was`, checked exactly so a changed upstream draft cannot be overwritten
+# silently), the new minimum, an optional type change (`integer`: false makes a whole-number multiplier fractional) and the
+# decompile evidence (`basis`, kept in the row's limits). Pinned by its LF content.
+R20_MINIMUMS = EDITOR / 'RESEARCH/MISSIONS_R20_MULTIPLIER_MINIMUMS_2026-10-02/inputs/r20_minimums.json'
+R20_MINIMUMS_PIN = 'CAB91F54CCD259A1C2E01EE09D5302629ED7BD276BB844CB72088AC96452773A'  # LF-normalized content
+
+
+def apply_minimums(rows):
+    raw = R20_MINIMUMS.read_bytes().replace(b'\r\n', b'\n')
+    digest = hashlib.sha256(raw).hexdigest().upper()
+    if digest != R20_MINIMUMS_PIN:
+        raise SystemExit(f'R20: {R20_MINIMUMS.name} LF SHA-256 {digest} is not the pinned {R20_MINIMUMS_PIN}')
+    spec = json.loads(raw)
+    if spec.get('format') != 'RENOVICE_MISSION_MINIMUMS_V1' or spec.get('build') != BUILD:
+        raise SystemExit('R20: minimums input has another format or build')
+    by_id = {r['tunable_id']: r for r in rows}
+    done = []
+    for item in spec['rows']:
+        tid = item['tunable_id']
+        row = by_id.get(tid)
+        if row is None:
+            raise SystemExit(f'R20: {tid} is not a registry row')
+        lim = row['limits']
+        was = item['was']
+        if lim['minimum'] != was['minimum'] or bool(lim.get('integer')) != was['integer']:
+            raise SystemExit(f'R20: {tid} limits are {lim["minimum"]}/{lim.get("integer")}, the input expects {was}')
+        integer = item.get('integer', was['integer'])
+        minimum = item['minimum']
+        if integer and float(minimum) != int(minimum):
+            raise SystemExit(f'R20: {tid} keeps a whole-number type with a fractional minimum')
+        if not (0 <= minimum <= lim['maximum']) or (row.get('stock') is not None and row['stock'] < minimum):
+            raise SystemExit(f'R20: {tid} minimum {minimum} is outside 0..maximum or above the stock')
+        if not item.get('basis'):
+            raise SystemExit(f'R20: {tid} carries no evidence')
+        lim['minimum'] = minimum
+        lim['integer'] = integer
+        lim['basis'] = item['basis']
+        done.append(tid)
+    if len(done) != len(set(done)):
+        raise SystemExit('R20: a row is named twice')
+    return {'input': R20_MINIMUMS.relative_to(EDITOR).as_posix(), 'sha256_lf': R20_MINIMUMS_PIN, 'rows': len(done)}
+
 
 def namehash(name):
     x = NAME_SEED
@@ -919,6 +962,10 @@ for key, rec in modules.items():
         report['phase2k']['hooks_full'] += len(table['hooks'])
         report['phase2k']['hooks_minimal'] += len(plan['hooks'])
         report['phase2k']['by_method'][plan['method']] = report['phase2k']['by_method'].get(plan['method'], 0) + 1
+# Contract R20 (2026-10-02): multiplier minimums. Every "x" multiplier the package declares accepts values down to
+# 0.001 unless the decompiled reader shows a smaller value is unsafe; the per-row decision (minimum, type, evidence) is
+# the pinned input below, applied after every row is built and before the editor fields are derived from the limits.
+report['r20_minimums'] = apply_minimums(rows)
 # Phase 2i: in-game settings editor fields (group, short label, scope, apply timing, editor, limits, search aliases).
 ui_groups, ui_sources, ui_rules = UI.apply(rows, ROOT, SERVER_REL, p1rows)
 # 2026-09-30 (contract R5): player-facing labels, descriptions, advanced sections and master knobs (player_text.py).

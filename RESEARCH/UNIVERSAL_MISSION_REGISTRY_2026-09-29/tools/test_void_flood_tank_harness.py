@@ -48,7 +48,8 @@ INPUT_LF_SHA = 'dccde5fddf2649c2be4c93789cecab4cc1d1759dc9d01d0117cba25f5a7ca4b6
 R14_ADDON_SHA = 'd8736450cc81c2c03daaf219fbd5a046dad82b57e1d54fd8263fe2832a4d3c88'
 # R17 adds the Deepmines reader pins and the "All <type> missions" literal masters (028fdcd2); R15/R16 shipped a16b2520...,
 # R11-R14 d9b3a764...
-LITERALS_SHA = '786c7b94a7c296758b8c94d40c3fcd69cb1a5dcbcda661a2cc7f15093cc1cbe6'
+# R20 (2026-10-02): minimums of the Kela and Gas City factor literals (96a97899).
+LITERALS_SHA = '96a97899889b6a5f5357a4c0ae0024d0afe9a214c398784fdcc834f401f0fd03'
 KEY = 'fc711ff621a75552'
 ROWS = {'void_flood.deposit_speed_scale': 'scale', 'void_flood.tank_capacity_scale': 'scale_count',
         'void_flood.orb_value_scale': 'scale', 'void_flood.drain_speed_scale': 'scale'}
@@ -95,7 +96,7 @@ check(run.returncode == 0 and len(generations) == 1, 'full package build succeed
 generation = generations[0].parent
 package = generation / 'Packages/Missions'
 check(sha(package / 'Missions.targets.addon.lua_B') == R14_ADDON_SHA, f'the built addon is the pinned R19 addon ({R14_ADDON_SHA[:8]}; R18 43cb89c3, R17 daab653a, R15/R16 70fff0b6, R14 4c70b5ec)')
-check(sha(package / 'literals.json') == LITERALS_SHA, 'literals.json is the pinned R18 recipe file (786c7b94; R17 028fdcd2, R15/R16 a16b2520, R11-R14 d9b3a764)')
+check(sha(package / 'literals.json') == LITERALS_SHA, 'literals.json is the pinned R20 recipe file (96a97899; R18/R19 786c7b94, R17 028fdcd2, R15/R16 a16b2520, R11-R14 d9b3a764)')
 source = (generation / 'source/Missions.targets.addon.luau').read_text(encoding='utf-8')
 declared = json.loads((package / 'package.json').read_text(encoding='utf-8'))['members']['Missions.targets.addon.lua_B']['settings']['values']
 check(all(tid in declared and declared[tid]['stock'] == 1 and declared[tid]['type'] == 'float' and declared[tid]['unit'] == 'x'
@@ -262,7 +263,7 @@ target.cleanup()
 target.activate(settings({ ["void_flood.tank_capacity_scale"] = 0.05 }))
 local f = fresh()
 run_hooks(target, f)
-ok(same(f.cfg18.capacity, { 6, 13, 15, 18 }), "capacity x0.05 (the minimum): 6/13/15/18 (6.25, 12.5 -> 13, 15, 17.5 -> 18)")
+ok(same(f.cfg18.capacity, { 6, 13, 15, 18 }), "capacity x0.05: 6/13/15/18 (6.25, 12.5 -> 13, 15, 17.5 -> 18)")
 target.cleanup()
 
 -- (i) gameplay rules transcribed from the readable decompile, run on tables the addon wrote.
@@ -328,12 +329,50 @@ local pickup = { m.cfg34.smallAmt, m.cfg34.mediumAmt, m.cfg34.largeAmt }
 ok(same(pickup, { 7.5, 30, 90 }), "Void orb value x1.5: VoidPickupAmt = 7.5/30/90")
 target.cleanup()
 ok(stock_state(m), "orb values restored")
+-- (j) R20 (2026-10-02): every row at its minimum (MINIMUMS: the registry minimums, 0.001 unless the R20 input records a floor).
+ok(MINIMUMS["void_flood.deposit_speed_scale"] == 0.001 and MINIMUMS["void_flood.tank_capacity_scale"] == 0.001
+    and MINIMUMS["void_flood.orb_value_scale"] == 0.06 and MINIMUMS["void_flood.drain_speed_scale"] == 0,
+    "R20 minimums: fill speed 0.001, capacity 0.001, orb value 0.06 (floor), drain 0")
+local q = fresh()
+target.activate(settings({ ["void_flood.tank_capacity_scale"] = MINIMUMS["void_flood.tank_capacity_scale"] }))
+run_hooks(target, q)
+local tq, fullq = fill_seconds(q, 1, 1000)
+ok(same(q.cfg18.capacity, { 1, 1, 1, 1 }) and fullq and tq <= 1 / 60 + 1e-9,
+    "R20 capacity x0.001: every tank needs 1 (at least 1) and one frame at the tank fills it (snap at capacity - 1)")
+target.cleanup()
+local r = fresh()
+target.activate(settings({ ["void_flood.deposit_speed_scale"] = MINIMUMS["void_flood.deposit_speed_scale"] }))
+run_hooks(target, r)
+local tr, fullr = fill_seconds(r, 1, 1000)
+local depositedr = 125 * r.cfg18.depositPctPerSecond[1] * tr
+ok(same(r.cfg18.depositPctPerSecond, { 0.00012, 0.00009, 0.00008, 0.00007 }) and not fullr and math.abs(depositedr - 15) < 0.1,
+    "R20 fill speed x0.001: 0.00012/0.00009/0.00008/0.00007; a solo tank gains about 15 of 125 in 1000 s (no stall, about 2.3 h to fill)")
+target.cleanup()
+-- Downed-player drop (prototype 28 L4404-4425): floor(E/2 / mediumAmt) + ceil((E/2 % mediumAmt) / smallAmt) orbs in one loop,
+-- E at most the squad capacity 350; the game keeps at most 150 pickups active (prototype 33 L5655, L5744).
+local function drop_count(inst, carried)
+    local half = carried * 0.5
+    return math.floor(half / inst.cfg34.mediumAmt) + math.ceil((half % inst.cfg34.mediumAmt) / inst.cfg34.smallAmt)
+end
+local s = fresh()
+ok(drop_count(s, 350) == 11, "stock: a downed squad player with 350 energy drops 11 orbs (8 medium, 3 small)")
+target.activate(settings({ ["void_flood.orb_value_scale"] = MINIMUMS["void_flood.orb_value_scale"] }))
+run_hooks(target, s)
+ok(near(s.cfg34.smallAmt, 0.3) and near(s.cfg34.mediumAmt, 1.2) and near(s.cfg34.largeAmt, 3.6) and drop_count(s, 350) <= 150,
+    "R20 orb value x0.06 (the floor): 0.3/1.2/3.6 and the largest downed drop is " .. drop_count(s, 350) .. " orbs (at most 150)")
+target.cleanup()
+local u = fresh()
+target.activate(settings({ ["void_flood.orb_value_scale"] = 0.05 }))
+run_hooks(target, u)
+ok(drop_count(u, 350) > 150, "R20 control: orb value x0.05 lets one downed drop reach " .. drop_count(u, 350) .. " orbs (over 150)")
+target.cleanup()
 emit(failures == 0 and ("VOID FLOOD TANK HARNESS PASS checks=" .. passes) or "VOID FLOOD TANK HARNESS FAIL")
 '''
 
 script = WORK / 'void_flood_tank_harness.luau'
 script.write_text('ADDON_MODULE = function(...)\n' + source + '\nend\n' + f'KEY = {lua(KEY)}\nHOOKED = {lua(hooked)}\n'
-                  + 'VIEWS = ' + lua({p: views[p] for p in sorted(views)}) + '\n' + harness, encoding='utf-8')
+                  + 'VIEWS = ' + lua({p: views[p] for p in sorted(views)}) + '\n'
+                  + 'MINIMUMS = ' + lua({tid: rows[tid]['limits']['minimum'] for tid in ROWS}) + '\n' + harness, encoding='utf-8')
 check(LUAU.is_file(), 'toolchain luau.exe present')
 run = subprocess.run([str(LUAU), str(script)], capture_output=True, text=True)
 lines = run.stdout.splitlines()

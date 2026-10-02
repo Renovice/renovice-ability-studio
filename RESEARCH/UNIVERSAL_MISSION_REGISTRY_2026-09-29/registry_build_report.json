@@ -351,6 +351,11 @@
     },
     "retire_safe_tables": 95
   },
+  "r20_minimums": {
+    "input": "RESEARCH/MISSIONS_R20_MULTIPLIER_MINIMUMS_2026-10-02/inputs/r20_minimums.json",
+    "sha256_lf": "CAB91F54CCD259A1C2E01EE09D5302629ED7BD276BB844CB72088AC96452773A",
+    "rows": 31
+  },
   "phase1_accounting": {
     "denominator": 387,
     "registered_fully": 196,
@@ -860,12 +865,12 @@
   "modules": 67,
   "corpus_files": 67,
   "metadata_snapshot_sha256": "33D3D0EA8ED3FB4E4FB54A6101683701C353CA909D597C60EC2D7ADF1212A7D2",
-  "registry_sha256": "44025FDE22BAC636B98A4EBDB2560ED94E257576B9AD920D6971518C02EDC505",
+  "registry_sha256": "72D3F9F4DC264F0087B40CBB1F306BB5BBD805E45035273475B400462175FC12",
   "ui": {
     "groups": 103,
     "editors": {
-      "INPUTCOUNT": 482,
-      "INPUTBOX": 184,
+      "INPUTCOUNT": 474,
+      "INPUTBOX": 192,
       "TOGGLE": 3
     },
     "label_sources": {

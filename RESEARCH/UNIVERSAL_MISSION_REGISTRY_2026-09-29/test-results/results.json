@@ -2015,10 +2015,10 @@
       "Packages/Missions/f7444e3c621ff018 (missions_exact-replacement).lua_B": "66B4F9349C0EC7FB45A457DFC2EED5D49C102C7B79E0C1183A6A874E8E7830E7",
       "Packages/Missions/fc711ff621a75552 (missions_exact-replacement).lua_B": "E979F5E7906F0D88E49C42B4191ECA6AFDC1237FDDD91D52CBF427DB3FA9F6D2",
       "Packages/Missions/Missions.targets.addon.lua_B": "B39A172FE314F3E654B89EE6EF0D1F1E787990F2B7D77BF3ECAAAC878653D1DE",
-      "Packages/Missions/package.json": "87806DC649E0A8ED8A23CD8C8F08F3AAD72DB3D5227180B86D95ABB802E57D7E",
-      "Settings/Missions.json": "F4F45169C4DCD7B01CA7700C7662524DF292453AF46BA04B812EABF5039B47D5"
+      "Packages/Missions/package.json": "E0BFED21A778AAB7FE63538F8588DB3DD84FF5E5D1DAEAB59FF6B5480C67C156",
+      "Settings/Missions.json": "7EA30C92564ACA0A0083140BC5EE072521326AB893751BFC1B63F622170D20D4"
     },
-    "state": "staged exact replacements identical; R10/R17 add 60 addon values (all off); R9/R10 description and category-level changes and 11 R17 layout changes only (folder untouched)"
+    "state": "staged exact replacements identical; R10/R17 add 60 addon values (all off); R9/R10 description and category-level changes, 14 R17 layout changes and 12 R20 minimums only (folder untouched)"
   },
   "phase2g_sample_state": "identical except the intentional Phase 2i change of Missions.targets.addon.lua_B (folder untouched)",
   "phase2h_sample_state": "identical except the intentional Phase 2i change of Missions.targets.addon.lua_B, package.json to the recorded sample (folder untouched)"

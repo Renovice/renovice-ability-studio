@@ -146,7 +146,25 @@ R17_COLLAPSE = {k for k in changed - R17_LAYOUT - R10_PATH
                 and [e for e in staged_values[k]['path'] if e != staged_values[k]['path'][1]] == built_values[k]['path']}
 check(set(built_values) - set(staged_values) == R10_ADDED and not set(staged_values) - set(built_values),
       f'baked package.json declares every staged value plus exactly the {len(R10_ADDED)} R10/R11/R17/R18 addon values')
-check(changed <= R9_TEXT | R10_PATH | R17_LAYOUT | R17_COLLAPSE and R17_LAYOUT & changed
+# R20 (2026-10-02, multiplier minimums): a declaration may differ in `min`, `type` and its description where the R20 input
+# names the value (or a master over named rows), with exactly the R20 minimum.
+R20_ROWS = {r['tunable_id']: r for r in json.loads((EDITOR / 'RESEARCH/MISSIONS_R20_MULTIPLIER_MINIMUMS_2026-10-02/inputs/'
+                                                    'r20_minimums.json').read_text(encoding='utf-8'))['rows']}
+
+
+def r20_only(k):
+    want = R20_ROWS.get(k)
+    master = current_registry['ui_masters'].get(k)
+    if want is None and not (master and any(d['tunable_id'] in R20_ROWS for d in master['drives'])):
+        return False
+    low = want['minimum'] if want else master['min']
+    kind = ('int' if want.get('integer', want['was']['integer']) else 'float') if want else master['type']
+    rest = lambda d: {f: v for f, v in d.items() if f not in ('scope', 'path', 'min', 'type')}
+    return built_values[k]['min'] == low and built_values[k]['type'] == kind and rest(staged_values[k]) == rest(built_values[k])
+
+
+R20_MINIMUMS = {k for k in changed if r20_only(k)}
+check(changed <= R9_TEXT | R10_PATH | R17_LAYOUT | R17_COLLAPSE | R20_MINIMUMS and R17_LAYOUT & changed
       and all({f: v for f, v in staged_values[k].items() if f != 'scope'} == {f: v for f, v in built_values[k].items() if f != 'scope'}
               for k in R9_TEXT - R17_LAYOUT)
       and all({f: v for f, v in staged_values[k].items() if f != 'path'} == {f: v for f, v in built_values[k].items() if f != 'path'}

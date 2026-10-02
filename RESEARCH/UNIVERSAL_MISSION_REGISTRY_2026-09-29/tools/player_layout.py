@@ -562,6 +562,39 @@ OVERRIDE = {    # id -> full description
 }
 for _i in range(2, 7):
     OVERRIDE[f'purgatory.reward_kill_threshold.t{_i}'] = OVERRIDE['purgatory.reward_kill_threshold.t1'].replace('tier 1 in', f'tier {_i} in')
+# R20 (2026-10-02, multiplier minimums): count multipliers say that every count stays at least 1; a row whose minimum is
+# above 0.001 says why (decompile evidence in RESEARCH/MISSIONS_R20_MULTIPLIER_MINIMUMS_2026-10-02/inputs/r20_minimums.json).
+# Descriptions carry no decimal numbers (gate BANNED_TOKENS); the editor tooltip adds the range itself.
+OVERRIDE.update({
+    'railjack.kill_goals_scale': 'Multiplies every Railjack kill goal: Grineer fighters and crewships, the Corpus fighter '
+                                 'limit and the Pontis tower space enemies (each at least 1). A row below that is on wins for '
+                                 'its missions.',
+    'railjack.fighter_kills_scale': 'Multiplies the fighters to destroy in Grineer Railjack Skirmish missions and Kuva Lich '
+                                    'showdowns (at least 1). Corpus and Pontis tower missions do not use this goal.',
+    'railjack.crewship_kills_scale': 'Multiplies the crewships to destroy in Grineer Railjack Skirmish missions and Kuva Lich '
+                                     'showdowns (at least 1). Corpus Railjack has no crewship goal, only spawn limits.',
+    'railjack.corpus_fighter_limit_scale': 'Multiplies the Corpus fighter kills after which no new squadrons come on every '
+                                           'Corpus Proxima node (at least 1, no counter on screen). The Corpus Exterminate '
+                                           'counter is under Exterminate.',
+    'railjack.pontis_ash_enemies_scale': 'Multiplies the space enemies to defeat in the first stage of The Kuva Wytch (Pontis '
+                                         'tower, at least 1). The game also caps the goal at the squad it sends, so raising it '
+                                         'may not show.',
+    'railjack.pontis_garuda_enemies_scale': "Multiplies the space enemies to defeat in the first stage of Scoria's Angel "
+                                            '(Pontis tower, at least 1). The game also caps the goal at the squad it sends, so '
+                                            'raising it may not show.',
+    'exterminate.kills_scale': 'Multiplies the Exterminate kill count, also inside Corpus Railjack capital ships (about one '
+                               'kill per 15 m of map path at x1). At very low values the game still asks for about 15 kills.',
+    'void_flood.tank_capacity_scale': 'Void energy each tank needs and the most energy a player can carry (125 solo up to 350 '
+                                      'in a squad, at least 1). The standing time per tank stays the same.',
+    'void_flood.orb_value_scale': 'Void energy each small, medium and large Void orb gives (5 to 60 at the default). The '
+                                  'minimum keeps a downed player from dropping more orbs at once than the game allows on the map.',
+    'interception.scoring_speed': 'Multiplies how fast held towers add score in Interception (the map sets the base). The '
+                                  'minimum stops the score from freezing at high frame rates, which would never end a round.',
+})
+for _n in (1, 2, 3):
+    OVERRIDE[f'purge.alert_tiers.tier{_n}_multiplier'] = (f'Enemy spawn multiplier at Alert Purge tier {_n} (up to 15 x it '
+                                                          'enemies per spawn point). The minimum keeps enemies spawning while '
+                                                          'players are away from a spawn point.')
 # Registry fields corrected by the 2026-09-30 defaults audit (meaning, unit).
 UNIT = {'faceoff.spawn_params.tier_up_interval': ''}
 # Values the audit found unsafe to offer: never declared (reason recorded in ui.hidden).

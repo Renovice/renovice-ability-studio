@@ -21,7 +21,7 @@
       "pass": true
     },
     {
-      "name": "baked declarations equal the staged ones except the two R9 master descriptions, the R10 category levels and the R17 layout (7 values changed by the R16 -> R17 registry layout, 4 collapsed under a type master)",
+      "name": "baked declarations equal the staged ones except the two R9 master descriptions, the R10 category levels and the R17 layout (10 values changed by the R16 -> R17 registry layout, 4 collapsed under a type master)",
       "pass": true
     },
     {
@@ -137,9 +137,9 @@
     "values": 135,
     "modules": 43,
     "masters": 18,
-    "literals_json_sha256": "786c7b94a7c296758b8c94d40c3fcd69cb1a5dcbcda661a2cc7f15093cc1cbe6",
-    "package_json_sha256": "150c0d1642d9208f97fc46df7a14ce411b60120cb4280d30f991aaf179978ff7",
-    "generation": "work\\temp\\live-literals-tests\\recipe\\missions\\ADF019512529"
+    "literals_json_sha256": "96a97899889b6a5f5357a4c0ae0024d0afe9a214c398784fdcc834f401f0fd03",
+    "package_json_sha256": "acc2256eb4a76f6782af1aa51534a5387c065ae1323da36daa45dfbbd06f6d71",
+    "generation": "work\\temp\\live-literals-tests\\recipe\\missions\\FDB860F1E04A"
   },
   "old_bootstrapper": {
     "revision": "6227cc0",

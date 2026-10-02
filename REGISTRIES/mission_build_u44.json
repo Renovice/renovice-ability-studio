@@ -10723,10 +10723,10 @@
         ]
       },
       "limits": {
-        "minimum": 0.01,
+        "minimum": 0.001,
         "maximum": 100,
         "integer": false,
-        "basis": "operand domain guard only; gameplay-safe range not established offline"
+        "basis": "R20: number constant multiplied with GetMaxHealth in avatarHealthScalingFunction (BossKelaArena P15 L1636-1655), then SetMaxHealth/SetHealth; the stage logic divides health by the max health it captured, never by the multiplier (L617). 0.001: Kela dies to one hit. readable decompile 44.0.2 (work/research/mission-owners-2026-09-30/decomp unless noted)"
       },
       "applies": "next_mission",
       "backend_note": "1 exact site(s) patched together: AvatarHealthScaling: MaxHealth x 2 with 2 players (MULK)",
@@ -10744,7 +10744,7 @@
         "type": "float",
         "editor": "INPUTBOX",
         "unit": "x",
-        "min": 0.01,
+        "min": 0.001,
         "max": 100,
         "rank": 497,
         "path": [
@@ -10811,10 +10811,10 @@
         ]
       },
       "limits": {
-        "minimum": 0.01,
+        "minimum": 0.001,
         "maximum": 100,
         "integer": false,
-        "basis": "operand domain guard only; gameplay-safe range not established offline"
+        "basis": "R20: number constant multiplied with GetMaxHealth in avatarHealthScalingFunction (BossKelaArena P15 L1636-1655), then SetMaxHealth/SetHealth; the stage logic divides health by the max health it captured, never by the multiplier (L617). 0.001: Kela dies to one hit. readable decompile 44.0.2 (work/research/mission-owners-2026-09-30/decomp unless noted)"
       },
       "applies": "next_mission",
       "backend_note": "1 exact site(s) patched together: AvatarHealthScaling: MaxHealth x 3 with 3 players (MULK)",
@@ -10832,7 +10832,7 @@
         "type": "float",
         "editor": "INPUTBOX",
         "unit": "x",
-        "min": 0.01,
+        "min": 0.001,
         "max": 100,
         "rank": 498,
         "path": [
@@ -10899,10 +10899,10 @@
         ]
       },
       "limits": {
-        "minimum": 0.01,
+        "minimum": 0.001,
         "maximum": 100,
         "integer": false,
-        "basis": "operand domain guard only; gameplay-safe range not established offline"
+        "basis": "R20: number constant multiplied with GetMaxHealth in avatarHealthScalingFunction (BossKelaArena P15 L1636-1655), then SetMaxHealth/SetHealth; the stage logic divides health by the max health it captured, never by the multiplier (L617). 0.001: Kela dies to one hit. readable decompile 44.0.2 (work/research/mission-owners-2026-09-30/decomp unless noted)"
       },
       "applies": "next_mission",
       "backend_note": "1 exact site(s) patched together: AvatarHealthScaling: MaxHealth x 4 with 4+ players (MULK)",
@@ -10920,7 +10920,7 @@
         "type": "float",
         "editor": "INPUTBOX",
         "unit": "x",
-        "min": 0.01,
+        "min": 0.001,
         "max": 100,
         "rank": 499,
         "path": [
@@ -11165,10 +11165,10 @@
       "unit": "multiplier",
       "stock": 1,
       "limits": {
-        "minimum": 1,
+        "minimum": 0.001,
         "maximum": 32767,
-        "integer": true,
-        "basis": "operand domain guard only; gameplay-safe range not established offline"
+        "integer": false,
+        "basis": "R20: fractional (was whole only because the stock is 1). CaptureNew P17 L1323-1390: health and shield = ceil(base x level factor x T[Clamp(players,1,4)]), capped at 100000; the value is only a multiplier, never an index or count. ceil keeps at least 1 at 0.001 (very low health can spawn the target already downed: GetHealth() <= 2, L4430-4451). readable decompile 44.0.2 (work/research/universal-mission-editor-2026-09-29/decomp)"
       },
       "applies": "F9",
       "confidence": "CONFIRMED_STATIC",
@@ -11224,10 +11224,10 @@
         "aliases": [],
         "lane": "addon",
         "applies": "live_next_read",
-        "type": "int",
-        "editor": "INPUTCOUNT",
+        "type": "float",
+        "editor": "INPUTBOX",
         "unit": "x",
-        "min": 1,
+        "min": 0.001,
         "max": 32767,
         "rank": 2,
         "path": [
@@ -11280,10 +11280,10 @@
       "unit": "multiplier",
       "stock": 1.75,
       "limits": {
-        "minimum": 0,
+        "minimum": 0.001,
         "maximum": 1000,
         "integer": false,
-        "basis": "operand domain guard only; gameplay-safe range not established offline"
+        "basis": "R20: 0 gave ceil(0) = 0 and SetMaxHealth(0) (CaptureNew P17 L1323-1390); 0.001 keeps health at least 1. readable decompile 44.0.2 (work/research/universal-mission-editor-2026-09-29/decomp)"
       },
       "applies": "F9",
       "confidence": "CONFIRMED_STATIC",
@@ -11343,7 +11343,7 @@
         "type": "float",
         "editor": "INPUTBOX",
         "unit": "x",
-        "min": 0,
+        "min": 0.001,
         "max": 1000,
         "rank": 3,
         "path": [
@@ -11396,10 +11396,10 @@
       "unit": "multiplier",
       "stock": 2.25,
       "limits": {
-        "minimum": 0,
+        "minimum": 0.001,
         "maximum": 1000,
         "integer": false,
-        "basis": "operand domain guard only; gameplay-safe range not established offline"
+        "basis": "R20: 0 gave ceil(0) = 0 and SetMaxHealth(0) (CaptureNew P17 L1323-1390); 0.001 keeps health at least 1. readable decompile 44.0.2 (work/research/universal-mission-editor-2026-09-29/decomp)"
       },
       "applies": "F9",
       "confidence": "CONFIRMED_STATIC",
@@ -11459,7 +11459,7 @@
         "type": "float",
         "editor": "INPUTBOX",
         "unit": "x",
-        "min": 0,
+        "min": 0.001,
         "max": 1000,
         "rank": 4,
         "path": [
@@ -11512,10 +11512,10 @@
       "unit": "multiplier",
       "stock": 2.75,
       "limits": {
-        "minimum": 0,
+        "minimum": 0.001,
         "maximum": 1000,
         "integer": false,
-        "basis": "operand domain guard only; gameplay-safe range not established offline"
+        "basis": "R20: 0 gave ceil(0) = 0 and SetMaxHealth(0) (CaptureNew P17 L1323-1390); 0.001 keeps health at least 1. readable decompile 44.0.2 (work/research/universal-mission-editor-2026-09-29/decomp)"
       },
       "applies": "F9",
       "confidence": "CONFIRMED_STATIC",
@@ -11575,7 +11575,7 @@
         "type": "float",
         "editor": "INPUTBOX",
         "unit": "x",
-        "min": 0,
+        "min": 0.001,
         "max": 1000,
         "rank": 5,
         "path": [
@@ -32653,10 +32653,10 @@
         }
       },
       "limits": {
-        "minimum": 0.01,
+        "minimum": 0.001,
         "maximum": 10,
         "integer": false,
-        "basis": "operand domain guard only; gameplay-safe range not established offline"
+        "basis": "R20: absolute spaceBattleKillCountMultiplier, read only on Archwing maps (TriggerAlarm P21 L3136-3137, a product); the count floors to 0 and the same 15-kill bonus applies (L3259). readable decompile 44.0.2 (work/research/mission-owners-2026-09-30/decomp unless noted)"
       },
       "applies": "next_mission",
       "backend_note": "SCRIPT_PARAM_GLOBAL_AT_ENTRY: written at the entry of prototype(s) 21 (gate CAPTURE_GRAPH_ENTRY_V1).",
@@ -32674,7 +32674,7 @@
         "type": "float",
         "editor": "INPUTBOX",
         "unit": "x",
-        "min": 0.01,
+        "min": 0.001,
         "max": 10,
         "stock_check": "none",
         "rank": 181,
@@ -32763,10 +32763,10 @@
         }
       },
       "limits": {
-        "minimum": 0.1,
+        "minimum": 0.001,
         "maximum": 10,
         "integer": false,
-        "basis": "operand domain guard only; gameplay-safe range not established offline"
+        "basis": "R20: scale_inverse writes metersPerEnemy / v (x1000 at 0.001). TriggerAlarm P21 L2721-2886 divides the path length (at least 1) by it; the result floors to 0; L3219-3264 then adds max(15, ...) kills (density 0: 0.05/0 = inf, clamped to 1.5), so the goal is about 15 kills. Later divisors (progress L3459, L3635, L3837) divide by the director total. No division by the multiplier. readable decompile 44.0.2 (work/research/mission-owners-2026-09-30/decomp unless noted)"
       },
       "applies": "next_mission",
       "backend_note": "SCRIPT_PARAM_GLOBAL_AT_ENTRY: written at the entry of prototype(s) 21 (gate CAPTURE_GRAPH_ENTRY_V1).",
@@ -32777,14 +32777,14 @@
         ],
         "short_label": "Kills needed",
         "label_source": "player_text",
-        "scope_text": "Multiplies the Exterminate kill count, also the one inside Corpus Railjack capital ships. The base is about one kill per 15 m of map path times faction and difficulty factors.",
+        "scope_text": "Multiplies the Exterminate kill count, also inside Corpus Railjack capital ships (about one kill per 15 m of map path at x1). At very low values the game still asks for about 15 kills.",
         "aliases": [],
         "lane": "addon",
         "applies": "next_mission",
         "type": "float",
         "editor": "INPUTBOX",
         "unit": "x",
-        "min": 0.1,
+        "min": 0.001,
         "max": 10,
         "stock_check": "none",
         "rank": 180,
@@ -32834,10 +32834,10 @@
       "unit": "multiplier",
       "stock": 2,
       "limits": {
-        "minimum": 1,
+        "minimum": 0.001,
         "maximum": 32767,
-        "integer": true,
-        "basis": "operand domain guard only; gameplay-safe range not established offline"
+        "integer": false,
+        "basis": "R20: fractional (was whole only because the stocks are whole). WF99PvPvEMission P123 L16096-16190: the only use is AddUpgrade(79, 2, mult) then SetHealth(GetMaxHealth()); the same call takes fractional stocks in the Disruption script (0.7, 1.5). Never a count or index. readable decompile 44.0.2 (work/research/universal-mission-editor-2026-09-29/decomp)"
       },
       "applies": "F9",
       "confidence": "CONFIRMED_STATIC",
@@ -32894,10 +32894,10 @@
         "aliases": [],
         "lane": "addon",
         "applies": "live_next_read",
-        "type": "int",
-        "editor": "INPUTCOUNT",
+        "type": "float",
+        "editor": "INPUTBOX",
         "unit": "x",
-        "min": 1,
+        "min": 0.001,
         "max": 32767,
         "rank": 208,
         "path": [
@@ -32945,10 +32945,10 @@
       "unit": "multiplier",
       "stock": 4,
       "limits": {
-        "minimum": 1,
+        "minimum": 0.001,
         "maximum": 32767,
-        "integer": true,
-        "basis": "operand domain guard only; gameplay-safe range not established offline"
+        "integer": false,
+        "basis": "R20: fractional (was whole only because the stocks are whole). WF99PvPvEMission P123 L16096-16190: the only use is AddUpgrade(79, 2, mult) then SetHealth(GetMaxHealth()); the same call takes fractional stocks in the Disruption script (0.7, 1.5). Never a count or index. readable decompile 44.0.2 (work/research/universal-mission-editor-2026-09-29/decomp)"
       },
       "applies": "F9",
       "confidence": "CONFIRMED_STATIC",
@@ -33005,10 +33005,10 @@
         "aliases": [],
         "lane": "addon",
         "applies": "live_next_read",
-        "type": "int",
-        "editor": "INPUTCOUNT",
+        "type": "float",
+        "editor": "INPUTBOX",
         "unit": "x",
-        "min": 1,
+        "min": 0.001,
         "max": 32767,
         "rank": 209,
         "path": [
@@ -33056,10 +33056,10 @@
       "unit": "multiplier",
       "stock": 6,
       "limits": {
-        "minimum": 1,
+        "minimum": 0.001,
         "maximum": 32767,
-        "integer": true,
-        "basis": "operand domain guard only; gameplay-safe range not established offline"
+        "integer": false,
+        "basis": "R20: fractional (was whole only because the stocks are whole). WF99PvPvEMission P123 L16096-16190: the only use is AddUpgrade(79, 2, mult) then SetHealth(GetMaxHealth()); the same call takes fractional stocks in the Disruption script (0.7, 1.5). Never a count or index. readable decompile 44.0.2 (work/research/universal-mission-editor-2026-09-29/decomp)"
       },
       "applies": "F9",
       "confidence": "CONFIRMED_STATIC",
@@ -33116,10 +33116,10 @@
         "aliases": [],
         "lane": "addon",
         "applies": "live_next_read",
-        "type": "int",
-        "editor": "INPUTCOUNT",
+        "type": "float",
+        "editor": "INPUTBOX",
         "unit": "x",
-        "min": 1,
+        "min": 0.001,
         "max": 32767,
         "rank": 210,
         "path": [
@@ -33167,10 +33167,10 @@
       "unit": "multiplier",
       "stock": 8,
       "limits": {
-        "minimum": 1,
+        "minimum": 0.001,
         "maximum": 32767,
-        "integer": true,
-        "basis": "operand domain guard only; gameplay-safe range not established offline"
+        "integer": false,
+        "basis": "R20: fractional (was whole only because the stocks are whole). WF99PvPvEMission P123 L16096-16190: the only use is AddUpgrade(79, 2, mult) then SetHealth(GetMaxHealth()); the same call takes fractional stocks in the Disruption script (0.7, 1.5). Never a count or index. readable decompile 44.0.2 (work/research/universal-mission-editor-2026-09-29/decomp)"
       },
       "applies": "F9",
       "confidence": "CONFIRMED_STATIC",
@@ -33227,10 +33227,10 @@
         "aliases": [],
         "lane": "addon",
         "applies": "live_next_read",
-        "type": "int",
-        "editor": "INPUTCOUNT",
+        "type": "float",
+        "editor": "INPUTBOX",
         "unit": "x",
-        "min": 1,
+        "min": 0.001,
         "max": 32767,
         "rank": 211,
         "path": [
@@ -41956,10 +41956,10 @@
         }
       },
       "limits": {
-        "minimum": 0.05,
+        "minimum": 0.001,
         "maximum": 20,
         "integer": false,
-        "basis": "operand domain guard only; gameplay-safe range not established offline"
+        "basis": "R20: scoreGoal x v is only compared and used as a ratio denominator (TerritoryMission P35 L6998, L7215-7295, L7528-7550, L7678, L8781; HUD L5836-5951 after score < goal checks); 1450 x 0.001 = 1.45 is never 0. Each round is decided within seconds (an enemy win fails the mission, game rule). readable decompile 44.0.2 (work/research/mission-owners-2026-09-30/decomp unless noted)"
       },
       "applies": "next_mission",
       "backend_note": "SCRIPT_PARAM_GLOBAL_AT_ENTRY: written at the entry of prototype(s) 35, 37 (gate CAPTURE_GRAPH_ENTRY_V1).",
@@ -41977,7 +41977,7 @@
         "type": "float",
         "editor": "INPUTBOX",
         "unit": "x",
-        "min": 0.05,
+        "min": 0.001,
         "max": 20,
         "stock_check": "none",
         "rank": 448,
@@ -42126,10 +42126,10 @@
         }
       },
       "limits": {
-        "minimum": 0.05,
+        "minimum": 0.1,
         "maximum": 20,
         "integer": false,
-        "basis": "operand domain guard only; gameplay-safe range not established offline"
+        "basis": "R20 floor: scoreRatePerSecond x v is added every frame (P35 L7515-7522, L7614-7621, Sleep(0) loop). The DE VM adds in float32: a per-frame gain below half a float32 step of the score never changes it. Near the map goal (1450: scores 1024-2048, half step 2^-14) one tower at rate 1 stalls when v x dt < 6.1e-5: at 0.05 above 819 fps, at 0.1 above 1638 fps (goals up to 2048). The round can then never end. 0.1 = rounds of at least about 30 min. readable decompile 44.0.2 (work/research/mission-owners-2026-09-30/decomp unless noted)"
       },
       "applies": "next_mission",
       "backend_note": "SCRIPT_PARAM_GLOBAL_AT_ENTRY: written at the entry of prototype(s) 35 (gate CAPTURE_GRAPH_ENTRY_V1).",
@@ -42140,14 +42140,14 @@
         ],
         "short_label": "Scoring speed",
         "label_source": "player_text",
-        "scope_text": "Multiplies how fast held towers add score in Interception, the map sets the base.",
+        "scope_text": "Multiplies how fast held towers add score in Interception (the map sets the base). The minimum stops the score from freezing at high frame rates, which would never end a round.",
         "aliases": [],
         "lane": "addon",
         "applies": "next_mission",
         "type": "float",
         "editor": "INPUTBOX",
         "unit": "x",
-        "min": 0.05,
+        "min": 0.1,
         "max": 20,
         "stock_check": "none",
         "rank": 451,
@@ -51025,10 +51025,10 @@
       "unit": "x",
       "stock": 2,
       "limits": {
-        "minimum": 0,
+        "minimum": 0.001,
         "maximum": 1000,
         "integer": false,
-        "basis": "numeric guard only; gameplay-safe range not established offline"
+        "basis": "R20: 0 was unsafe: LoopDefend (Lost in Translation) uses mod x K as a divisor and modulus (crystal handler L5366-5419, client loop L6123-6180, HUD L7463-7471): 0 gives NaN, heals and crystals never trigger. At 0.001 the client loop runs about 1000 / K activations per crystal in one frame (bounded; K = the unresolved global eeb574b8). readable decompile 44.0.2 (work/research/universal-mission-editor-2026-09-29/decomp)"
       },
       "applies": "F9",
       "confidence": "CONFIRMED_STATIC",
@@ -51048,7 +51048,7 @@
         "type": "float",
         "editor": "INPUTBOX",
         "unit": "x",
-        "min": 0,
+        "min": 0.001,
         "max": 1000,
         "rank": 301,
         "path": [
@@ -58459,10 +58459,10 @@
       "unit": "multiplier",
       "stock": 2,
       "limits": {
-        "minimum": 1,
+        "minimum": 0.134,
         "maximum": 32767,
-        "integer": true,
-        "basis": "operand domain guard only; gameplay-safe range not established offline"
+        "integer": false,
+        "basis": "R20 floor, fractional: PurgeMission P10 L682-691: SetSpawnDelay(4 / m) (read only at SpawnLib Initialize, before this loop) and SetMaxSourceAi(15 x m). SpawnLib Update caps a spawn point at 15 m while a player is near it and at floor(15 m / 2) otherwise (de-luau-toolchain work/forloops-2026-09-30 SpawnLib capture, Update L704-865): below 2/15 = 0.1333 floor(7.5 m) is 0 and nothing spawns away from players. 0.134 is the lowest 3-decimal value with both caps >= 1. readable decompile 44.0.2 (work/research/universal-mission-editor-2026-09-29/decomp)"
       },
       "applies": "F9",
       "confidence": "CONFIRMED_STATIC",
@@ -58513,16 +58513,16 @@
         ],
         "short_label": "Alert tier 1: spawn speed",
         "label_source": "player_text",
-        "scope_text": "Spawn rate multiplier at Alert Purge tier 1 (spawn delay 4 s divided by it, spawn budget times it).",
+        "scope_text": "Enemy spawn multiplier at Alert Purge tier 1 (up to 15 x it enemies per spawn point). The minimum keeps enemies spawning while players are away from a spawn point.",
         "aliases": [
           "Alert"
         ],
         "lane": "addon",
         "applies": "live_next_read",
-        "type": "int",
-        "editor": "INPUTCOUNT",
+        "type": "float",
+        "editor": "INPUTBOX",
         "unit": "x",
-        "min": 1,
+        "min": 0.134,
         "max": 32767,
         "rank": 372,
         "path": [
@@ -58570,10 +58570,10 @@
       "unit": "multiplier",
       "stock": 3,
       "limits": {
-        "minimum": 1,
+        "minimum": 0.134,
         "maximum": 32767,
-        "integer": true,
-        "basis": "operand domain guard only; gameplay-safe range not established offline"
+        "integer": false,
+        "basis": "R20 floor, fractional: PurgeMission P10 L682-691: SetSpawnDelay(4 / m) (read only at SpawnLib Initialize, before this loop) and SetMaxSourceAi(15 x m). SpawnLib Update caps a spawn point at 15 m while a player is near it and at floor(15 m / 2) otherwise (de-luau-toolchain work/forloops-2026-09-30 SpawnLib capture, Update L704-865): below 2/15 = 0.1333 floor(7.5 m) is 0 and nothing spawns away from players. 0.134 is the lowest 3-decimal value with both caps >= 1. readable decompile 44.0.2 (work/research/universal-mission-editor-2026-09-29/decomp)"
       },
       "applies": "F9",
       "confidence": "CONFIRMED_STATIC",
@@ -58624,16 +58624,16 @@
         ],
         "short_label": "Alert tier 2: spawn speed",
         "label_source": "player_text",
-        "scope_text": "Spawn rate multiplier at Alert Purge tier 2 (spawn delay 4 s divided by it, spawn budget times it).",
+        "scope_text": "Enemy spawn multiplier at Alert Purge tier 2 (up to 15 x it enemies per spawn point). The minimum keeps enemies spawning while players are away from a spawn point.",
         "aliases": [
           "Alert"
         ],
         "lane": "addon",
         "applies": "live_next_read",
-        "type": "int",
-        "editor": "INPUTCOUNT",
+        "type": "float",
+        "editor": "INPUTBOX",
         "unit": "x",
-        "min": 1,
+        "min": 0.134,
         "max": 32767,
         "rank": 373,
         "path": [
@@ -58768,10 +58768,10 @@
       "unit": "multiplier",
       "stock": 4,
       "limits": {
-        "minimum": 1,
+        "minimum": 0.134,
         "maximum": 32767,
-        "integer": true,
-        "basis": "operand domain guard only; gameplay-safe range not established offline"
+        "integer": false,
+        "basis": "R20 floor, fractional: PurgeMission P10 L682-691: SetSpawnDelay(4 / m) (read only at SpawnLib Initialize, before this loop) and SetMaxSourceAi(15 x m). SpawnLib Update caps a spawn point at 15 m while a player is near it and at floor(15 m / 2) otherwise (de-luau-toolchain work/forloops-2026-09-30 SpawnLib capture, Update L704-865): below 2/15 = 0.1333 floor(7.5 m) is 0 and nothing spawns away from players. 0.134 is the lowest 3-decimal value with both caps >= 1. readable decompile 44.0.2 (work/research/universal-mission-editor-2026-09-29/decomp)"
       },
       "applies": "F9",
       "confidence": "CONFIRMED_STATIC",
@@ -58822,16 +58822,16 @@
         ],
         "short_label": "Alert tier 3: spawn speed",
         "label_source": "player_text",
-        "scope_text": "Spawn rate multiplier at Alert Purge tier 3 (spawn delay 4 s divided by it, spawn budget times it).",
+        "scope_text": "Enemy spawn multiplier at Alert Purge tier 3 (up to 15 x it enemies per spawn point). The minimum keeps enemies spawning while players are away from a spawn point.",
         "aliases": [
           "Alert"
         ],
         "lane": "addon",
         "applies": "live_next_read",
-        "type": "int",
-        "editor": "INPUTCOUNT",
+        "type": "float",
+        "editor": "INPUTBOX",
         "unit": "x",
-        "min": 1,
+        "min": 0.134,
         "max": 32767,
         "rank": 374,
         "path": [
@@ -60575,10 +60575,10 @@
         }
       },
       "limits": {
-        "minimum": 0.1,
+        "minimum": 0.001,
         "maximum": 10,
         "integer": false,
-        "basis": "operand domain guard only; gameplay-safe range not established offline"
+        "basis": "R20: scale_count: every count n >= 1 becomes max(1, floor(n x v + 0.5)), so 0.001 gives 1 (engine writer and entry write). Readers handle 1: RandomInt(1,1) (KillFighters/KillCrewShips P6, BasicRailJackPatrol P15), kills / goal with goal >= 1 (KillFighters P9 L801-832, KillCrewShips P9 L757-780), goal <= count (BasicRailJackPatrol L2413-2422), min(director, list[variant]) (AS1Space P14 L1534-1546, GS1Space P11 L1747-1759). One kill completes the goal. Decompiles: work/research/railjack-kills-2026-09-30 and mission-coverage-audit-2026-10-02/railjack."
       },
       "applies": "next_mission",
       "backend_note": "SCRIPT_PARAM_GLOBAL_AT_ENTRY: written at the entry of prototype(s) 15 (gate CAPTURE_GRAPH_ENTRY_V1).",
@@ -60587,7 +60587,7 @@
         "mt_codes": [],
         "short_label": "Corpus fighters",
         "label_source": "player_text",
-        "scope_text": "Multiplies the Corpus fighter kills after which no new squadrons come, on every Corpus Proxima node (no counter on screen). The Corpus Exterminate counter is under Exterminate.",
+        "scope_text": "Multiplies the Corpus fighter kills after which no new squadrons come on every Corpus Proxima node (at least 1, no counter on screen). The Corpus Exterminate counter is under Exterminate.",
         "aliases": [
           "Railjack"
         ],
@@ -60596,7 +60596,7 @@
         "type": "float",
         "editor": "INPUTBOX",
         "unit": "x",
-        "min": 0.1,
+        "min": 0.001,
         "max": 10,
         "stock_check": "none",
         "rank": 507,
@@ -60707,10 +60707,10 @@
         }
       },
       "limits": {
-        "minimum": 0.1,
+        "minimum": 0.001,
         "maximum": 10,
         "integer": false,
-        "basis": "operand domain guard only; gameplay-safe range not established offline"
+        "basis": "R20: scale_count: every count n >= 1 becomes max(1, floor(n x v + 0.5)), so 0.001 gives 1 (engine writer and entry write). Readers handle 1: RandomInt(1,1) (KillFighters/KillCrewShips P6, BasicRailJackPatrol P15), kills / goal with goal >= 1 (KillFighters P9 L801-832, KillCrewShips P9 L757-780), goal <= count (BasicRailJackPatrol L2413-2422), min(director, list[variant]) (AS1Space P14 L1534-1546, GS1Space P11 L1747-1759). One kill completes the goal. Decompiles: work/research/railjack-kills-2026-09-30 and mission-coverage-audit-2026-10-02/railjack."
       },
       "applies": "next_mission",
       "backend_note": "SCRIPT_PARAM_GLOBAL_AT_ENTRY: written at the entry of prototype(s) 9 (gate CAPTURE_GRAPH_ENTRY_V1).",
@@ -60719,7 +60719,7 @@
         "mt_codes": [],
         "short_label": "Crewships to kill",
         "label_source": "player_text",
-        "scope_text": "Multiplies the crewships to destroy in Grineer Railjack Skirmish missions, Kuva Lich showdowns included. Corpus Railjack has no crewship goal, only spawn limits.",
+        "scope_text": "Multiplies the crewships to destroy in Grineer Railjack Skirmish missions and Kuva Lich showdowns (at least 1). Corpus Railjack has no crewship goal, only spawn limits.",
         "aliases": [
           "Railjack"
         ],
@@ -60728,7 +60728,7 @@
         "type": "float",
         "editor": "INPUTBOX",
         "unit": "x",
-        "min": 0.1,
+        "min": 0.001,
         "max": 10,
         "stock_check": "none",
         "rank": 506,
@@ -60880,10 +60880,10 @@
         }
       },
       "limits": {
-        "minimum": 0.1,
+        "minimum": 0.001,
         "maximum": 10,
         "integer": false,
-        "basis": "operand domain guard only; gameplay-safe range not established offline"
+        "basis": "R20: scale_count: every count n >= 1 becomes max(1, floor(n x v + 0.5)), so 0.001 gives 1 (engine writer and entry write). Readers handle 1: RandomInt(1,1) (KillFighters/KillCrewShips P6, BasicRailJackPatrol P15), kills / goal with goal >= 1 (KillFighters P9 L801-832, KillCrewShips P9 L757-780), goal <= count (BasicRailJackPatrol L2413-2422), min(director, list[variant]) (AS1Space P14 L1534-1546, GS1Space P11 L1747-1759). One kill completes the goal. Decompiles: work/research/railjack-kills-2026-09-30 and mission-coverage-audit-2026-10-02/railjack."
       },
       "applies": "next_mission",
       "backend_note": "SCRIPT_PARAM_GLOBAL_AT_ENTRY: written at the entry of prototype(s) 9 (gate CAPTURE_GRAPH_ENTRY_V1).",
@@ -60892,7 +60892,7 @@
         "mt_codes": [],
         "short_label": "Fighters to kill",
         "label_source": "player_text",
-        "scope_text": "Multiplies the fighters to destroy in Grineer Railjack Skirmish missions, Kuva Lich showdowns included. Corpus and Pontis tower missions do not use this goal.",
+        "scope_text": "Multiplies the fighters to destroy in Grineer Railjack Skirmish missions and Kuva Lich showdowns (at least 1). Corpus and Pontis tower missions do not use this goal.",
         "aliases": [
           "Railjack"
         ],
@@ -60901,7 +60901,7 @@
         "type": "float",
         "editor": "INPUTBOX",
         "unit": "x",
-        "min": 0.1,
+        "min": 0.001,
         "max": 10,
         "stock_check": "none",
         "rank": 505,
@@ -60993,10 +60993,10 @@
         }
       },
       "limits": {
-        "minimum": 0.1,
+        "minimum": 0.001,
         "maximum": 10,
         "integer": false,
-        "basis": "operand domain guard only; gameplay-safe range not established offline"
+        "basis": "R20: scale_count: every count n >= 1 becomes max(1, floor(n x v + 0.5)), so 0.001 gives 1 (engine writer and entry write). Readers handle 1: RandomInt(1,1) (KillFighters/KillCrewShips P6, BasicRailJackPatrol P15), kills / goal with goal >= 1 (KillFighters P9 L801-832, KillCrewShips P9 L757-780), goal <= count (BasicRailJackPatrol L2413-2422), min(director, list[variant]) (AS1Space P14 L1534-1546, GS1Space P11 L1747-1759). One kill completes the goal. Decompiles: work/research/railjack-kills-2026-09-30 and mission-coverage-audit-2026-10-02/railjack."
       },
       "applies": "next_mission",
       "backend_note": "SCRIPT_PARAM_GLOBAL_AT_ENTRY: written at the entry of prototype(s) 16 (gate CAPTURE_GRAPH_ENTRY_V1).",
@@ -61005,7 +61005,7 @@
         "mt_codes": [],
         "short_label": "Kuva Wytch: space enemies",
         "label_source": "player_text",
-        "scope_text": "Multiplies the space enemies to defeat in the first stage of The Kuva Wytch (Pontis tower). The game also caps the goal at the squad it sends, so raising it may not show.",
+        "scope_text": "Multiplies the space enemies to defeat in the first stage of The Kuva Wytch (Pontis tower, at least 1). The game also caps the goal at the squad it sends, so raising it may not show.",
         "aliases": [
           "Railjack",
           "Kuva"
@@ -61015,7 +61015,7 @@
         "type": "float",
         "editor": "INPUTBOX",
         "unit": "x",
-        "min": 0.1,
+        "min": 0.001,
         "max": 10,
         "stock_check": "none",
         "rank": 508,
@@ -61110,10 +61110,10 @@
         }
       },
       "limits": {
-        "minimum": 0.1,
+        "minimum": 0.001,
         "maximum": 10,
         "integer": false,
-        "basis": "operand domain guard only; gameplay-safe range not established offline"
+        "basis": "R20: scale_count: every count n >= 1 becomes max(1, floor(n x v + 0.5)), so 0.001 gives 1 (engine writer and entry write). Readers handle 1: RandomInt(1,1) (KillFighters/KillCrewShips P6, BasicRailJackPatrol P15), kills / goal with goal >= 1 (KillFighters P9 L801-832, KillCrewShips P9 L757-780), goal <= count (BasicRailJackPatrol L2413-2422), min(director, list[variant]) (AS1Space P14 L1534-1546, GS1Space P11 L1747-1759). One kill completes the goal. Decompiles: work/research/railjack-kills-2026-09-30 and mission-coverage-audit-2026-10-02/railjack."
       },
       "applies": "next_mission",
       "backend_note": "SCRIPT_PARAM_GLOBAL_AT_ENTRY: written at the entry of prototype(s) 13 (gate CAPTURE_GRAPH_ENTRY_V1).",
@@ -61122,7 +61122,7 @@
         "mt_codes": [],
         "short_label": "Scoria's Angel: space enemies",
         "label_source": "player_text",
-        "scope_text": "Multiplies the space enemies to defeat in the first stage of Scoria's Angel (Pontis tower). The game also caps the goal at the squad it sends, so raising it may not show.",
+        "scope_text": "Multiplies the space enemies to defeat in the first stage of Scoria's Angel (Pontis tower, at least 1). The game also caps the goal at the squad it sends, so raising it may not show.",
         "aliases": [
           "Railjack"
         ],
@@ -61131,7 +61131,7 @@
         "type": "float",
         "editor": "INPUTBOX",
         "unit": "x",
-        "min": 0.1,
+        "min": 0.001,
         "max": 10,
         "stock_check": "none",
         "rank": 509,
@@ -61869,10 +61869,10 @@
         ]
       },
       "limits": {
-        "minimum": 0.01,
+        "minimum": 0.001,
         "maximum": 100,
         "integer": false,
-        "basis": "operand domain guard only; gameplay-safe range not established offline"
+        "basis": "R20: the Lerp end 1.8 of hackTime = modeTimer x Lerp(1.8, 1.2, difficulty) (GasCitySabotage P5 L1089-1094); positive for any positive ends, no division (see sabotage.gascity_meltdown_time_scale). readable decompile 44.0.2 (work/research/mission-owners-2026-09-30/decomp unless noted)"
       },
       "applies": "next_mission",
       "backend_note": "1 exact site(s) patched together: Lerp(1.8, 1.2, difficulty) x level hackTime -> meltdown countdown",
@@ -61890,7 +61890,7 @@
         "type": "float",
         "editor": "INPUTBOX",
         "unit": "x",
-        "min": 0.01,
+        "min": 0.001,
         "max": 100,
         "rank": 470,
         "path": [
@@ -61957,10 +61957,10 @@
         ]
       },
       "limits": {
-        "minimum": 0.01,
+        "minimum": 0.001,
         "maximum": 100,
         "integer": false,
-        "basis": "operand domain guard only; gameplay-safe range not established offline"
+        "basis": "R20: the Lerp end 1.2 of hackTime = modeTimer x Lerp(1.8, 1.2, difficulty) (GasCitySabotage P5 L1089-1094); positive for any positive ends, no division (see sabotage.gascity_meltdown_time_scale). readable decompile 44.0.2 (work/research/mission-owners-2026-09-30/decomp unless noted)"
       },
       "applies": "next_mission",
       "backend_note": "1 exact site(s) patched together: Lerp(1.8, 1.2, difficulty) x level hackTime -> meltdown countdown",
@@ -61978,7 +61978,7 @@
         "type": "float",
         "editor": "INPUTBOX",
         "unit": "x",
-        "min": 0.01,
+        "min": 0.001,
         "max": 100,
         "rank": 471,
         "path": [
@@ -62091,10 +62091,10 @@
         }
       },
       "limits": {
-        "minimum": 0.05,
+        "minimum": 0.001,
         "maximum": 20,
         "integer": false,
-        "basis": "operand domain guard only (a positive multiplier); gameplay-safe range not established offline"
+        "basis": "R20: scale on hackTime and modeTimer (GasCitySabotage P5 L1089-1094 hackTime = modeTimer x Lerp(1.8, 1.2, d); SetObjTimer L442-447). P11 L1620-2124 compares GetObjTime() <= 0 each frame; every Sleep is a fixed number; no division by the timer. 0.001: the meltdown phase ends within a frame or two. readable decompile 44.0.2 (work/research/mission-owners-2026-09-30/decomp unless noted)"
       },
       "applies": "next_mission",
       "backend_note": "SCRIPT_PARAM_GLOBAL_AT_ENTRY: written at the entry of prototype(s) 15 (gate CAPTURE_GRAPH_ENTRY_V1).",
@@ -62112,7 +62112,7 @@
         "type": "float",
         "editor": "INPUTBOX",
         "unit": "x",
-        "min": 0.05,
+        "min": 0.001,
         "max": 20,
         "stock_check": "none",
         "rank": 464,
@@ -69605,10 +69605,10 @@
         }
       },
       "limits": {
-        "minimum": 0.05,
+        "minimum": 0.001,
         "maximum": 20,
         "integer": false,
-        "basis": "operand domain guard only; gameplay-safe range not established offline"
+        "basis": "R20: scale on the vault alarm time (Intel P43 L4335-4389). The countdown loop subtracts dt with Sleep(0) (L4485-4533), then Sleep(0.5) and the vault fails; none of the 14 divisions in the file uses the timer. 0.001: a tripped alarm loses the vault almost at once. readable decompile 44.0.2 (work/research/mission-owners-2026-09-30/decomp unless noted)"
       },
       "applies": "next_mission",
       "backend_note": "SCRIPT_PARAM_GLOBAL_AT_ENTRY: written at the entry of prototype(s) 43 (gate CAPTURE_GRAPH_ENTRY_V1).",
@@ -69626,7 +69626,7 @@
         "type": "float",
         "editor": "INPUTBOX",
         "unit": "x",
-        "min": 0.05,
+        "min": 0.001,
         "max": 20,
         "stock_check": "none",
         "rank": 452,
@@ -75165,10 +75165,10 @@
         "mode": "scale"
       },
       "limits": {
-        "minimum": 0.05,
+        "minimum": 0.001,
         "maximum": 100,
         "integer": false,
-        "basis": "multiplier; 0 would stop every tank from filling (minimum 0.05 = 20 times slower); maximum is a numeric guard"
+        "basis": "R20: depositPctPerSecond is only multiplied (ZarimanCorruptionMission P48 L9618-9662: capacity x pct x dt); never a divisor, timer or sleep. Float32 progress: the per-frame deposit stays above half a float32 step of the tank up to about 1600 fps at 0.001 (squad 0.07). At 0.001 with the default capacity a tank takes hours, so the corruption meter (L9001-9007, eruption L8736-8799) fails the mission: game rule, not a code fault. readable decompile 44.0.2 (work/research/mission-owners-2026-09-30/decomp unless noted)"
       },
       "applies": "F9",
       "backend_note": "Root-table field(s) root:i26:R4.1, root:i26:R4.2, root:i26:R4.3, root:i26:R4.4 written through the target-addon lane (ROOT_TABLE_UPVALUE_V1); mode scale: each field = its stock x the row value.",
@@ -75188,7 +75188,7 @@
         "type": "float",
         "editor": "INPUTBOX",
         "unit": "x",
-        "min": 0.05,
+        "min": 0.001,
         "max": 100,
         "rank": 413,
         "path": [
@@ -76152,10 +76152,10 @@
         "mode": "scale"
       },
       "limits": {
-        "minimum": 0.05,
+        "minimum": 0.06,
         "maximum": 100,
         "integer": false,
-        "basis": "multiplier; 0 would make orbs worthless; maximum is a numeric guard (carried energy is capped by the tank capacity)"
+        "basis": "R20 floor: a downed player drops floor(E/2 / mediumAmt) + ceil((E/2 % mediumAmt) / smallAmt) orbs in one loop (P28 L4404-4425, the scaled config table). Carried energy E is capped by the tank capacity (350 in a squad), so the drop is up to 175 / (20 x v) + 4 orbs: 179 at 0.05, 149 at 0.06, 8750 at 0.001. The game itself keeps at most 150 pickups active (P33 L5655, L5744). 0.06 keeps the burst within that limit at the default capacity. readable decompile 44.0.2 (work/research/mission-owners-2026-09-30/decomp unless noted)"
       },
       "applies": "F9",
       "backend_note": "Root-table field(s) root:i47:R5.smallAmt, root:i47:R5.mediumAmt, root:i47:R5.largeAmt written through the target-addon lane (ROOT_TABLE_UPVALUE_V1); mode scale: each field = its stock x the row value.",
@@ -76166,7 +76166,7 @@
         ],
         "short_label": "Void orb value",
         "label_source": "player_text",
-        "scope_text": "Void energy each small, medium and large Void orb gives (5 to 60 at the default). Applies from the next mission.",
+        "scope_text": "Void energy each small, medium and large Void orb gives (5 to 60 at the default). The minimum keeps a downed player from dropping more orbs at once than the game allows on the map.",
         "aliases": [
           "Shadowgrapher"
         ],
@@ -76175,7 +76175,7 @@
         "type": "float",
         "editor": "INPUTBOX",
         "unit": "x",
-        "min": 0.05,
+        "min": 0.06,
         "max": 100,
         "rank": 419,
         "path": [
@@ -76274,10 +76274,10 @@
         "mode": "scale_count"
       },
       "limits": {
-        "minimum": 0.05,
+        "minimum": 0.001,
         "maximum": 100,
         "integer": false,
-        "basis": "multiplier; each capacity is rounded and at least 1; maximum is a numeric guard"
+        "basis": "R20: scale_count: each capacity becomes max(1, round(n x v)) = 1 at 0.001. Every division by capacity has capacity >= 1 (P41 L7699 guard, L7914-7920; Fractures client L344, L537); deposited > capacity - 1 snaps full (P48 L9754-9775), so one touch fills a tank; the carry cap (P43 L8598-8604) becomes 1. readable decompile 44.0.2 (work/research/mission-owners-2026-09-30/decomp unless noted)"
       },
       "applies": "F9",
       "backend_note": "Root-table field(s) root:i39:R4.1, root:i39:R4.2, root:i39:R4.3, root:i39:R4.4 written through the target-addon lane (ROOT_TABLE_UPVALUE_V1); mode scale_count: each field = its stock x the row value, rounded, at least 1.",
@@ -76288,7 +76288,7 @@
         ],
         "short_label": "Tank capacity",
         "label_source": "player_text",
-        "scope_text": "Void energy each tank needs and the most energy a player can carry (125 solo up to 350 in a squad). The standing time per tank stays the same.",
+        "scope_text": "Void energy each tank needs and the most energy a player can carry (125 solo up to 350 in a squad, at least 1). The standing time per tank stays the same.",
         "aliases": [
           "Shadowgrapher"
         ],
@@ -76297,7 +76297,7 @@
         "type": "float",
         "editor": "INPUTBOX",
         "unit": "x",
-        "min": 0.05,
+        "min": 0.001,
         "max": 100,
         "rank": 418,
         "path": [
@@ -83552,7 +83552,7 @@
       "group": "railjack",
       "short_label": "Kill goals",
       "label_source": "player_text",
-      "scope_text": "Multiplies every Railjack kill goal: Grineer fighters and crewships, the Corpus fighter limit and the Pontis tower space enemies. A row below that is on wins for its missions.",
+      "scope_text": "Multiplies every Railjack kill goal: Grineer fighters and crewships, the Corpus fighter limit and the Pontis tower space enemies (each at least 1). A row below that is on wins for its missions.",
       "rank": 504,
       "lane": "addon",
       "applies": "next_mission",
@@ -83560,7 +83560,7 @@
       "editor": "INPUTBOX",
       "unit": "x",
       "stock": 1,
-      "min": 0.1,
+      "min": 0.001,
       "max": 10,
       "body_key": "feb4ca192ef69f0a",
       "drives": [

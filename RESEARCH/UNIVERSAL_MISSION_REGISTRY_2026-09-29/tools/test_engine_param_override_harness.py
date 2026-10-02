@@ -57,9 +57,12 @@ INPUT_LF_SHA = 'dccde5fddf2649c2be4c93789cecab4cc1d1759dc9d01d0117cba25f5a7ca4b6
 # R19 build of the pinned input (R18: addon 43cb89c3, engine_params 13cb0290, package.json and literals.json unchanged;
 # R17: addon daab653a, package.json fb43906b, literals.json 028fdcd2, engine_params 26e56e26;
 # R15/R16: addon 70fff0b6, package.json 44fc0b53, literals.json a16b2520, engine_params ae090c33).
+# R20 (2026-10-02): the multiplier minimums change only package.json and literals.json (minimums, types, descriptions);
+# R19 package.json 150c0d16, literals.json 786c7b94 (also the bootstrapper R19 fixture's package.json).
 R15 = {'Missions.targets.addon.lua_B': 'd8736450cc81c2c03daaf219fbd5a046dad82b57e1d54fd8263fe2832a4d3c88',
-       'package.json': '150c0d1642d9208f97fc46df7a14ce411b60120cb4280d30f991aaf179978ff7',
-       'literals.json': '786c7b94a7c296758b8c94d40c3fcd69cb1a5dcbcda661a2cc7f15093cc1cbe6'}
+       'package.json': 'acc2256eb4a76f6782af1aa51534a5387c065ae1323da36daa45dfbbd06f6d71',
+       'literals.json': '96a97899889b6a5f5357a4c0ae0024d0afe9a214c398784fdcc834f401f0fd03'}
+R19_FIXTURE_PACKAGE = '150c0d1642d9208f97fc46df7a14ce411b60120cb4280d30f991aaf179978ff7'
 ENGINE_PARAMS_SHA = 'eafd2ddf3b3916aad7a0dd4d1b09090a2a6ca74192dde69dd0e3afbf72aa259b'
 # The bootstrapper gate fixture of this build (R19, fixtures/MissionsR19; the R16 and R17 fixtures stay in their folders).
 BOOTSTRAPPER_FIXTURE = ROOT / 'repos/runtime/bootstrapper-runtime-wt-r19/RENOVICE_TOOLCHAIN/engine_params/fixtures/MissionsR19'
@@ -145,8 +148,8 @@ check(run.returncode == 0 and len(generations) == 1, 'build succeeds')
 generation = generations[0].parent
 package = generation / 'Packages/Missions'
 for name, digest in R15.items():
-    check(sha(package / name) == digest, f'{name} is the pinned R18 build ({digest[:8]})')
-check(sha(package / 'engine_params.json') == ENGINE_PARAMS_SHA, f'engine_params.json is the pinned R18 build ({ENGINE_PARAMS_SHA[:8]})')
+    check(sha(package / name) == digest, f'{name} is the pinned R20 build ({digest[:8]})')
+check(sha(package / 'engine_params.json') == ENGINE_PARAMS_SHA, f'engine_params.json is the pinned R19/R20 build ({ENGINE_PARAMS_SHA[:8]})')
 manifest = json.loads(generations[0].read_text(encoding='utf-8'))
 record = manifest['package'].get('engine_params') or {}
 check(record.get('sha256', '').lower() == ENGINE_PARAMS_SHA and record.get('overrides') == 17 and record.get('modules') == 8
@@ -196,8 +199,9 @@ check(addon_source.count('["railjack.kill_goals_scale"] = { value = ') == 1 and 
       'R19: the addon compiles the Railjack master once (its own module, no drives) and drives neither Grineer row')
 if BOOTSTRAPPER_FIXTURE.is_dir():
     check(sha(BOOTSTRAPPER_FIXTURE / 'engine_params.json') == ENGINE_PARAMS_SHA
-          and sha(BOOTSTRAPPER_FIXTURE / 'package.json') == R15['package.json'],
-          'the bootstrapper R19 gate fixture (fixtures/MissionsR19) is this build (engine_params.json, package.json)')
+          and sha(BOOTSTRAPPER_FIXTURE / 'package.json') == R19_FIXTURE_PACKAGE,
+          'the bootstrapper R19 gate fixture (fixtures/MissionsR19) holds the engine_params.json of this build (R20 changed only '
+          'minimums, types and descriptions in package.json; the fixture keeps the R19 package.json 150c0d16)')
 else:
     print('INFO\tbootstrapper worktree absent; fixture identity not compared')
 
@@ -209,6 +213,35 @@ for tid, case in CASES.items():
     cases.append({'id': tid, 'key': owner['body_key'], 'stock': rows[tid]['stock'], 'mode': owner['mode'],
                   'prototypes': [e['prototype'] for e in owner['entries']], 'globals': [g['name'] for g in owner['globals']],
                   'observed': case['observed'], 'value': case['value'], 'expect': case['expect']})
+# R20 (2026-10-02): every writer-owned row again at its registry minimum (0.001 unless the R20 input records a floor), with
+# the expected writer output transcribed from engine_params_core.hpp override_number (float32 there; the expected numbers
+# below are exact in both precisions within the harness tolerance).
+def override(mode, n, v):
+    if mode == 'absolute':
+        return v
+    if mode == 'scale':
+        return n * v
+    if mode == 'scale_inverse':
+        return n / v
+    if n < 1:
+        return n
+    return max(1, int(n * v + 0.5))
+
+
+minimum_cases = []
+for case in cases:
+    low = rows[case['id']]['limits']['minimum']
+    expect = {name: ([override(case['mode'], n, low) for n in level] if isinstance(level, list) else override(case['mode'], level, low))
+              for name, level in case['observed'].items()}
+    minimum_cases.append(dict(case, value=low, expect=expect, at_minimum=True))
+# R20 floors: rows whose minimum stays above 0.001, with the decompile reason (RESEARCH/MISSIONS_R20_MULTIPLIER_MINIMUMS_2026-10-02).
+R20_INPUT = EDITOR / 'RESEARCH/MISSIONS_R20_MULTIPLIER_MINIMUMS_2026-10-02/inputs/r20_minimums.json'
+R20_FLOORS = {r['tunable_id']: r['minimum'] for r in json.loads(R20_INPUT.read_text(encoding='utf-8'))['rows'] if r['minimum'] > 0.001}
+check(all(c['value'] <= 0.001 or R20_FLOORS.get(c['id']) == c['value'] for c in minimum_cases if c['mode'] != 'absolute' or c['value'] < 1),
+      'R20: every writer-owned multiplier accepts 0.001 except a recorded floor (' + ', '.join(f"{c['id']}={c['value']:g}" for c in minimum_cases) + ')')
+check(all(all(n == 1 for n in (v if isinstance(v, list) else [v])) for c in minimum_cases if c['mode'] == 'scale_count'
+          for v in c['expect'].values()),
+      'R20: scale_count at its minimum: the writer stores 1 for every count (at least one)')
 harness = r'''
 local emit = print
 local printed = {}
@@ -297,6 +330,16 @@ local function run(case, runtime)
     return seen, writes, env
 end
 
+-- R20: each writer-owned row at its minimum: with the hook every read sees the minimum's result; the addon writes nothing.
+for _, case in ipairs(MINIMUM_CASES) do
+    local seen, writes = run(case, "r16")
+    local all = true
+    for _, s in ipairs(seen) do all = all and s end
+    ok(all and writes == 0, case.id .. ": R20 at its minimum " .. tostring(case.value) .. " (" .. case.mode
+        .. "): every read after the entry and 3 engine re-writes sees the writer's result; the addon writes nothing")
+    local old = run(case, "old")
+    ok(old[1], case.id .. ": R20 at its minimum: the R10 entry fallback writes the same result")
+end
 for _, case in ipairs(CASES) do
     local seen, writes = run(case, "r16")
     local all = true
@@ -373,7 +416,7 @@ script = WORK / 'engine_param_override_harness.luau'
 master_targets = [{'id': d['tunable_id'], 'key': rows[d['tunable_id']]['owner']['body_key'],
                    'prototypes': [e['prototype'] for e in rows[d['tunable_id']]['owner']['entries']],
                    'observed': CASES[d['tunable_id']]['observed']} for d in master_row['drives']]
-extra = 'MASTER_TARGETS = ' + lua(master_targets) + '\n'
+extra = 'MASTER_TARGETS = ' + lua(master_targets) + '\n' + 'MINIMUM_CASES = ' + lua(minimum_cases) + '\n'
 script.write_text('ADDON_MODULE = function(...)\n' + source + '\nend\n' + 'CASES = ' + lua(cases) + '\n' + extra + harness,
                   encoding='utf-8')
 check(LUAU.is_file(), 'toolchain luau.exe present')

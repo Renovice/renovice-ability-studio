@@ -360,6 +360,26 @@ def _r17_explained(old_values, new_values, changed):
                 and len(new_values[k]['path']) == len(old_values[k]['path']) - 1
                 and {f: v for f, v in old_values[k].items() if f != 'path'} == {f: v for f, v in new_values[k].items() if f != 'path'}}
     return layout | collapse
+# R20 (2026-10-02, multiplier minimums): the R20 input names every changed minimum (and the whole-number multipliers that
+# became fractional); a master's minimum follows its driven rows. A declaration may differ from an older staged one in
+# `min`, `type` and its description only where R20 says so.
+R20_ROWS = {r['tunable_id']: r for r in json.loads((EDITOR / 'RESEARCH/MISSIONS_R20_MULTIPLIER_MINIMUMS_2026-10-02/inputs/'
+                                                    'r20_minimums.json').read_text(encoding='utf-8'))['rows']}
+
+
+def _r20_explained(old_values, new_values, changed):
+    out = set()
+    for k in changed:
+        want = R20_ROWS.get(k)
+        master = CURRENT_REGISTRY['ui_masters'].get(k)
+        if want is None and not (master and any(d['tunable_id'] in R20_ROWS for d in master['drives'])):
+            continue
+        low = want['minimum'] if want else master['min']
+        kind = ('int' if want.get('integer', want['was']['integer']) else 'float') if want else master['type']
+        rest = lambda d: {f: v for f, v in d.items() if f not in ('scope', 'path', 'min', 'type')}
+        if new_values[k]['min'] == low and new_values[k]['type'] == kind and rest(old_values[k]) == rest(new_values[k]):
+            out.add(k)
+    return out
 STAGE2K = ROOT / 'work/staging/missions-full-package'
 settings2k = REBUILD.convert(SAMPLE2I / 'CustomScripts' / 'Settings' / 'Missions.json')
 assert settings2k['values'] == {'survival.reward_interval': 150, 'void_flood.fractures_per_round.normal': 4}, settings2k['values']
@@ -424,12 +444,13 @@ if (STAGE2K / 'SHA256SUMS.json').exists():
         old_file = json.loads((STAGE2K / 'Settings/Missions.json').read_text(encoding='utf-8'))['values']
         new_file = json.loads((generation2k / 'Settings' / 'Missions.json').read_text(encoding='utf-8'))['values']
         r17 = _r17_explained(old_values, new_values, changed)  # R17 (2026-10-01)
-        assert not set(old_values) - set(new_values) and changed <= R9_TEXT | R10_PATH | r17 and all(
+        r20 = _r20_explained(old_values, new_values, changed)  # R20 (2026-10-02)
+        assert not set(old_values) - set(new_values) and changed <= R9_TEXT | R10_PATH | r17 | r20 and all(
             {f: v for f, v in old_values[k].items() if f not in ('scope', 'path')} ==
-            {f: v for f, v in new_values[k].items() if f not in ('scope', 'path')} for k in changed - r17),             ('rebuilt full package.json differs from the staged one beyond R9, R10 and R17', changed - r17)
+            {f: v for f, v in new_values[k].items() if f not in ('scope', 'path')} for k in changed - r17 - r20),             ('rebuilt full package.json differs from the staged one beyond R9, R10, R17 and R20', changed - r17 - r20)
         assert all(new_file.get(k) == v for k, v in old_file.items()) and set(new_file) - set(old_file) == added and             not any(new_file[k]['enabled'] for k in added), 'values file: staged entries changed or R10 entries enabled'
         state2k = (f'staged exact replacements identical; R10/R17 add {len(added)} addon values (all off); R9/R10 description and '
-                   f'category-level changes and {len(r17)} R17 layout changes only (folder untouched)')
+                   f'category-level changes, {len(r17)} R17 layout changes and {len(r20)} R20 minimums only (folder untouched)')
     else:
         assert staged == hashes2k, ('rebuilt full package differs from the staged install set', staged, hashes2k)
         state2k = 'identical to the staged install set (folder untouched)'

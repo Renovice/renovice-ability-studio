@@ -131,6 +131,25 @@ for row in registry['tunables']:
 check(len(cases) == 21 and sum(c['kind'] == 'param' for c in cases) == 13,
       f'registry: 21 entry-template rows (13 script parameters, 8 MissionInfo fields; R15 moved Defense waves per reward and '
       f'R17 the two Deepmines rows to reader pins, R18 added the two Pontis tower rows); found {len(cases)}')
+# R20 (2026-10-02): every scaled parameter row again at its registry minimum (0.001 unless the R20 input records a floor):
+# scale gives observed x minimum, scale_inverse observed / minimum, scale_count at least 1 for every count.
+by_id = {r['tunable_id']: r for r in registry['tunables']}
+minimum_cases = []
+for case in [c for c in cases if c['kind'] == 'param' and c['mode'] != 'absolute']:
+    low = by_id[case['id']]['limits']['minimum']
+    observed = case['observed']
+    expect = (observed * low if case['mode'] == 'scale' else observed / low if case['mode'] == 'scale_inverse'
+              else scaled_count(observed, low))
+    minimum_cases.append(dict(case, value=low, expect=expect, at_minimum=True))
+# R20 floors: rows whose minimum stays above 0.001, with the decompile reason (RESEARCH/MISSIONS_R20_MULTIPLIER_MINIMUMS_2026-10-02).
+R20_INPUT = EDITOR / 'RESEARCH/MISSIONS_R20_MULTIPLIER_MINIMUMS_2026-10-02/inputs/r20_minimums.json'
+R20_FLOORS = {r['tunable_id']: r['minimum'] for r in json.loads(R20_INPUT.read_text(encoding='utf-8'))['rows'] if r['minimum'] > 0.001}
+check(len(minimum_cases) == 10 and all(c['value'] <= 0.001 or R20_FLOORS.get(c['id']) == c['value'] for c in minimum_cases),
+      'R20: the 10 scaled parameter rows (scale, scale_inverse, scale_count) get a case at their minimum; each accepts 0.001 '
+      'except a recorded floor (' + ', '.join(f"{c['id']}={c['value']:g}" for c in minimum_cases) + ')')
+check(all(c['expect'] == [1, 1, 1] for c in minimum_cases if c['mode'] == 'scale_count'),
+      'R20: scale_count at its minimum writes 1 for every count (the at-least-1 rule)')
+cases += minimum_cases
 
 harness = r'''
 local emit = print   -- Luau has no io library; the addon's own print is captured below
@@ -193,22 +212,23 @@ for _, case in ipairs(CASES) do
     for _, prototype in ipairs(case.prototypes) do signals[#signals + 1] = native_entry(target, prototype, env) end
     local retire = true
     for _, s in ipairs(signals) do retire = retire and s == "RENOVICE_RETIRE" end
-    ok(retire, case.id .. ": every entry hook ran and returned the R3 retire signal")
+    local tag = case.at_minimum and (case.id .. " at its minimum " .. tostring(case.value)) or case.id
+    ok(retire, tag .. ": every entry hook ran and returned the R3 retire signal")
     if case.kind == "param" then
         local written = true
         for _, name in ipairs(case.globals) do written = written and same(env[name], case.expect) end
-        ok(written, case.id .. ": the native entry writes the parameter global(s) " .. case.mode)
+        ok(written, tag .. ": the native entry writes the parameter global(s) " .. case.mode)
         native_entry(target, case.prototypes[1], env)
         local stable = true
         for _, name in ipairs(case.globals) do stable = stable and same(env[name], case.expect) end
-        ok(stable, case.id .. ": a second entry of the same instance does not compound")
+        ok(stable, tag .. ": a second entry of the same instance does not compound")
         local env2 = environment_for(case)
         native_entry(target, case.prototypes[1], env2)
-        ok(same(env2[case.globals[1]], case.expect), case.id .. ": a new instance (environment) is written again")
+        ok(same(env2[case.globals[1]], case.expect), tag .. ": a new instance (environment) is written again")
         target.cleanup()
         local restored = true
         for _, name in ipairs(case.globals) do restored = restored and same(env[name], case.observed) and same(env2[name], case.observed) end
-        ok(restored, case.id .. ": cleanup restores the level value in every instance")
+        ok(restored, tag .. ": cleanup restores the level value in every instance")
     else
         ok(mission[case.field] == case.expect, case.id .. ": the native entry writes MissionInfo." .. case.field .. " through SetMission")
         target.cleanup()
@@ -242,7 +262,8 @@ for line in lines:
 if run.stderr.strip():
     print('HARNESS-STDERR\t' + run.stderr.strip())
 check(run.returncode == 0 and 'ENTRY NATIVE HARNESS PASS' in lines and not any(l.startswith('FAIL') for l in lines),
-      f'harness: {sum(l.startswith("PASS") for l in lines)} checks over 21 entry rows + the R15 Defense and R17 Deepmines checks')
+      f'harness: {sum(l.startswith("PASS") for l in lines)} checks over 21 entry rows, the 10 scaled rows at their R20 minimum, '
+      'the R15 Defense and R17 Deepmines checks')
 OUT.mkdir(parents=True, exist_ok=True)
 (OUT / 'entry_native_harness.json').write_text(json.dumps(results, indent=2) + '\n', encoding='utf-8')
 print('ENTRY NATIVE HARNESS GATE PASS')

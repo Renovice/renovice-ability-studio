@@ -1,0 +1,300 @@
+{
+ "format": "RENOVICE_MISSION_MINIMUMS_V1",
+ "build": "2026.09.28.13.06",
+ "contract": "R20",
+ "target_minimum": 0.001,
+ "rows": [
+  {
+   "tunable_id": "exterminate.kills_scale",
+   "was": {
+    "minimum": 0.1,
+    "integer": false
+   },
+   "minimum": 0.001,
+   "basis": "R20: scale_inverse writes metersPerEnemy / v (x1000 at 0.001). TriggerAlarm P21 L2721-2886 divides the path length (at least 1) by it; the result floors to 0; L3219-3264 then adds max(15, ...) kills (density 0: 0.05/0 = inf, clamped to 1.5), so the goal is about 15 kills. Later divisors (progress L3459, L3635, L3837) divide by the director total. No division by the multiplier. readable decompile 44.0.2 (work/research/mission-owners-2026-09-30/decomp unless noted)"
+  },
+  {
+   "tunable_id": "exterminate.archwing_kill_mult",
+   "was": {
+    "minimum": 0.01,
+    "integer": false
+   },
+   "minimum": 0.001,
+   "basis": "R20: absolute spaceBattleKillCountMultiplier, read only on Archwing maps (TriggerAlarm P21 L3136-3137, a product); the count floors to 0 and the same 15-kill bonus applies (L3259). readable decompile 44.0.2 (work/research/mission-owners-2026-09-30/decomp unless noted)"
+  },
+  {
+   "tunable_id": "interception.score_goal_scale",
+   "was": {
+    "minimum": 0.05,
+    "integer": false
+   },
+   "minimum": 0.001,
+   "basis": "R20: scoreGoal x v is only compared and used as a ratio denominator (TerritoryMission P35 L6998, L7215-7295, L7528-7550, L7678, L8781; HUD L5836-5951 after score < goal checks); 1450 x 0.001 = 1.45 is never 0. Each round is decided within seconds (an enemy win fails the mission, game rule). readable decompile 44.0.2 (work/research/mission-owners-2026-09-30/decomp unless noted)"
+  },
+  {
+   "tunable_id": "interception.scoring_speed",
+   "was": {
+    "minimum": 0.05,
+    "integer": false
+   },
+   "minimum": 0.1,
+   "basis": "R20 floor: scoreRatePerSecond x v is added every frame (P35 L7515-7522, L7614-7621, Sleep(0) loop). The DE VM adds in float32: a per-frame gain below half a float32 step of the score never changes it. Near the map goal (1450: scores 1024-2048, half step 2^-14) one tower at rate 1 stalls when v x dt < 6.1e-5: at 0.05 above 819 fps, at 0.1 above 1638 fps (goals up to 2048). The round can then never end. 0.1 = rounds of at least about 30 min. readable decompile 44.0.2 (work/research/mission-owners-2026-09-30/decomp unless noted)"
+  },
+  {
+   "tunable_id": "railjack.fighter_kills_scale",
+   "was": {
+    "minimum": 0.1,
+    "integer": false
+   },
+   "minimum": 0.001,
+   "basis": "R20: scale_count: every count n >= 1 becomes max(1, floor(n x v + 0.5)), so 0.001 gives 1 (engine writer and entry write). Readers handle 1: RandomInt(1,1) (KillFighters/KillCrewShips P6, BasicRailJackPatrol P15), kills / goal with goal >= 1 (KillFighters P9 L801-832, KillCrewShips P9 L757-780), goal <= count (BasicRailJackPatrol L2413-2422), min(director, list[variant]) (AS1Space P14 L1534-1546, GS1Space P11 L1747-1759). One kill completes the goal. Decompiles: work/research/railjack-kills-2026-09-30 and mission-coverage-audit-2026-10-02/railjack."
+  },
+  {
+   "tunable_id": "railjack.crewship_kills_scale",
+   "was": {
+    "minimum": 0.1,
+    "integer": false
+   },
+   "minimum": 0.001,
+   "basis": "R20: scale_count: every count n >= 1 becomes max(1, floor(n x v + 0.5)), so 0.001 gives 1 (engine writer and entry write). Readers handle 1: RandomInt(1,1) (KillFighters/KillCrewShips P6, BasicRailJackPatrol P15), kills / goal with goal >= 1 (KillFighters P9 L801-832, KillCrewShips P9 L757-780), goal <= count (BasicRailJackPatrol L2413-2422), min(director, list[variant]) (AS1Space P14 L1534-1546, GS1Space P11 L1747-1759). One kill completes the goal. Decompiles: work/research/railjack-kills-2026-09-30 and mission-coverage-audit-2026-10-02/railjack."
+  },
+  {
+   "tunable_id": "railjack.corpus_fighter_limit_scale",
+   "was": {
+    "minimum": 0.1,
+    "integer": false
+   },
+   "minimum": 0.001,
+   "basis": "R20: scale_count: every count n >= 1 becomes max(1, floor(n x v + 0.5)), so 0.001 gives 1 (engine writer and entry write). Readers handle 1: RandomInt(1,1) (KillFighters/KillCrewShips P6, BasicRailJackPatrol P15), kills / goal with goal >= 1 (KillFighters P9 L801-832, KillCrewShips P9 L757-780), goal <= count (BasicRailJackPatrol L2413-2422), min(director, list[variant]) (AS1Space P14 L1534-1546, GS1Space P11 L1747-1759). One kill completes the goal. Decompiles: work/research/railjack-kills-2026-09-30 and mission-coverage-audit-2026-10-02/railjack."
+  },
+  {
+   "tunable_id": "railjack.pontis_ash_enemies_scale",
+   "was": {
+    "minimum": 0.1,
+    "integer": false
+   },
+   "minimum": 0.001,
+   "basis": "R20: scale_count: every count n >= 1 becomes max(1, floor(n x v + 0.5)), so 0.001 gives 1 (engine writer and entry write). Readers handle 1: RandomInt(1,1) (KillFighters/KillCrewShips P6, BasicRailJackPatrol P15), kills / goal with goal >= 1 (KillFighters P9 L801-832, KillCrewShips P9 L757-780), goal <= count (BasicRailJackPatrol L2413-2422), min(director, list[variant]) (AS1Space P14 L1534-1546, GS1Space P11 L1747-1759). One kill completes the goal. Decompiles: work/research/railjack-kills-2026-09-30 and mission-coverage-audit-2026-10-02/railjack."
+  },
+  {
+   "tunable_id": "railjack.pontis_garuda_enemies_scale",
+   "was": {
+    "minimum": 0.1,
+    "integer": false
+   },
+   "minimum": 0.001,
+   "basis": "R20: scale_count: every count n >= 1 becomes max(1, floor(n x v + 0.5)), so 0.001 gives 1 (engine writer and entry write). Readers handle 1: RandomInt(1,1) (KillFighters/KillCrewShips P6, BasicRailJackPatrol P15), kills / goal with goal >= 1 (KillFighters P9 L801-832, KillCrewShips P9 L757-780), goal <= count (BasicRailJackPatrol L2413-2422), min(director, list[variant]) (AS1Space P14 L1534-1546, GS1Space P11 L1747-1759). One kill completes the goal. Decompiles: work/research/railjack-kills-2026-09-30 and mission-coverage-audit-2026-10-02/railjack."
+  },
+  {
+   "tunable_id": "sabotage.gascity_meltdown_time_scale",
+   "was": {
+    "minimum": 0.05,
+    "integer": false
+   },
+   "minimum": 0.001,
+   "basis": "R20: scale on hackTime and modeTimer (GasCitySabotage P5 L1089-1094 hackTime = modeTimer x Lerp(1.8, 1.2, d); SetObjTimer L442-447). P11 L1620-2124 compares GetObjTime() <= 0 each frame; every Sleep is a fixed number; no division by the timer. 0.001: the meltdown phase ends within a frame or two. readable decompile 44.0.2 (work/research/mission-owners-2026-09-30/decomp unless noted)"
+  },
+  {
+   "tunable_id": "spy.vault_alarm_scale",
+   "was": {
+    "minimum": 0.05,
+    "integer": false
+   },
+   "minimum": 0.001,
+   "basis": "R20: scale on the vault alarm time (Intel P43 L4335-4389). The countdown loop subtracts dt with Sleep(0) (L4485-4533), then Sleep(0.5) and the vault fails; none of the 14 divisions in the file uses the timer. 0.001: a tripped alarm loses the vault almost at once. readable decompile 44.0.2 (work/research/mission-owners-2026-09-30/decomp unless noted)"
+  },
+  {
+   "tunable_id": "void_flood.deposit_speed_scale",
+   "was": {
+    "minimum": 0.05,
+    "integer": false
+   },
+   "minimum": 0.001,
+   "basis": "R20: depositPctPerSecond is only multiplied (ZarimanCorruptionMission P48 L9618-9662: capacity x pct x dt); never a divisor, timer or sleep. Float32 progress: the per-frame deposit stays above half a float32 step of the tank up to about 1600 fps at 0.001 (squad 0.07). At 0.001 with the default capacity a tank takes hours, so the corruption meter (L9001-9007, eruption L8736-8799) fails the mission: game rule, not a code fault. readable decompile 44.0.2 (work/research/mission-owners-2026-09-30/decomp unless noted)"
+  },
+  {
+   "tunable_id": "void_flood.tank_capacity_scale",
+   "was": {
+    "minimum": 0.05,
+    "integer": false
+   },
+   "minimum": 0.001,
+   "basis": "R20: scale_count: each capacity becomes max(1, round(n x v)) = 1 at 0.001. Every division by capacity has capacity >= 1 (P41 L7699 guard, L7914-7920; Fractures client L344, L537); deposited > capacity - 1 snaps full (P48 L9754-9775), so one touch fills a tank; the carry cap (P43 L8598-8604) becomes 1. readable decompile 44.0.2 (work/research/mission-owners-2026-09-30/decomp unless noted)"
+  },
+  {
+   "tunable_id": "void_flood.orb_value_scale",
+   "was": {
+    "minimum": 0.05,
+    "integer": false
+   },
+   "minimum": 0.06,
+   "basis": "R20 floor: a downed player drops floor(E/2 / mediumAmt) + ceil((E/2 % mediumAmt) / smallAmt) orbs in one loop (P28 L4404-4425, the scaled config table). Carried energy E is capped by the tank capacity (350 in a squad), so the drop is up to 175 / (20 x v) + 4 orbs: 179 at 0.05, 149 at 0.06, 8750 at 0.001. The game itself keeps at most 150 pickups active (P33 L5655, L5744). 0.06 keeps the burst within that limit at the default capacity. readable decompile 44.0.2 (work/research/mission-owners-2026-09-30/decomp unless noted)"
+  },
+  {
+   "tunable_id": "assassination.kela_health.p2",
+   "was": {
+    "minimum": 0.01,
+    "integer": false
+   },
+   "minimum": 0.001,
+   "basis": "R20: number constant multiplied with GetMaxHealth in avatarHealthScalingFunction (BossKelaArena P15 L1636-1655), then SetMaxHealth/SetHealth; the stage logic divides health by the max health it captured, never by the multiplier (L617). 0.001: Kela dies to one hit. readable decompile 44.0.2 (work/research/mission-owners-2026-09-30/decomp unless noted)"
+  },
+  {
+   "tunable_id": "assassination.kela_health.p3",
+   "was": {
+    "minimum": 0.01,
+    "integer": false
+   },
+   "minimum": 0.001,
+   "basis": "R20: number constant multiplied with GetMaxHealth in avatarHealthScalingFunction (BossKelaArena P15 L1636-1655), then SetMaxHealth/SetHealth; the stage logic divides health by the max health it captured, never by the multiplier (L617). 0.001: Kela dies to one hit. readable decompile 44.0.2 (work/research/mission-owners-2026-09-30/decomp unless noted)"
+  },
+  {
+   "tunable_id": "assassination.kela_health.p4",
+   "was": {
+    "minimum": 0.01,
+    "integer": false
+   },
+   "minimum": 0.001,
+   "basis": "R20: number constant multiplied with GetMaxHealth in avatarHealthScalingFunction (BossKelaArena P15 L1636-1655), then SetMaxHealth/SetHealth; the stage logic divides health by the max health it captured, never by the multiplier (L617). 0.001: Kela dies to one hit. readable decompile 44.0.2 (work/research/mission-owners-2026-09-30/decomp unless noted)"
+  },
+  {
+   "tunable_id": "sabotage.gascity_meltdown_scale.easy",
+   "was": {
+    "minimum": 0.01,
+    "integer": false
+   },
+   "minimum": 0.001,
+   "basis": "R20: the Lerp end 1.8 of hackTime = modeTimer x Lerp(1.8, 1.2, difficulty) (GasCitySabotage P5 L1089-1094); positive for any positive ends, no division (see sabotage.gascity_meltdown_time_scale). readable decompile 44.0.2 (work/research/mission-owners-2026-09-30/decomp unless noted)"
+  },
+  {
+   "tunable_id": "sabotage.gascity_meltdown_scale.hard",
+   "was": {
+    "minimum": 0.01,
+    "integer": false
+   },
+   "minimum": 0.001,
+   "basis": "R20: the Lerp end 1.2 of hackTime = modeTimer x Lerp(1.8, 1.2, difficulty) (GasCitySabotage P5 L1089-1094); positive for any positive ends, no division (see sabotage.gascity_meltdown_time_scale). readable decompile 44.0.2 (work/research/mission-owners-2026-09-30/decomp unless noted)"
+  },
+  {
+   "tunable_id": "capture.target_health_player_mult.p1",
+   "was": {
+    "minimum": 1,
+    "integer": true
+   },
+   "minimum": 0.001,
+   "integer": false,
+   "basis": "R20: fractional (was whole only because the stock is 1). CaptureNew P17 L1323-1390: health and shield = ceil(base x level factor x T[Clamp(players,1,4)]), capped at 100000; the value is only a multiplier, never an index or count. ceil keeps at least 1 at 0.001 (very low health can spawn the target already downed: GetHealth() <= 2, L4430-4451). readable decompile 44.0.2 (work/research/universal-mission-editor-2026-09-29/decomp)"
+  },
+  {
+   "tunable_id": "capture.target_health_player_mult.p2",
+   "was": {
+    "minimum": 0,
+    "integer": false
+   },
+   "minimum": 0.001,
+   "basis": "R20: 0 gave ceil(0) = 0 and SetMaxHealth(0) (CaptureNew P17 L1323-1390); 0.001 keeps health at least 1. readable decompile 44.0.2 (work/research/universal-mission-editor-2026-09-29/decomp)"
+  },
+  {
+   "tunable_id": "capture.target_health_player_mult.p3",
+   "was": {
+    "minimum": 0,
+    "integer": false
+   },
+   "minimum": 0.001,
+   "basis": "R20: 0 gave ceil(0) = 0 and SetMaxHealth(0) (CaptureNew P17 L1323-1390); 0.001 keeps health at least 1. readable decompile 44.0.2 (work/research/universal-mission-editor-2026-09-29/decomp)"
+  },
+  {
+   "tunable_id": "capture.target_health_player_mult.p4",
+   "was": {
+    "minimum": 0,
+    "integer": false
+   },
+   "minimum": 0.001,
+   "basis": "R20: 0 gave ceil(0) = 0 and SetMaxHealth(0) (CaptureNew P17 L1323-1390); 0.001 keeps health at least 1. readable decompile 44.0.2 (work/research/universal-mission-editor-2026-09-29/decomp)"
+  },
+  {
+   "tunable_id": "faceoff.assassination.enemy_health_mult_p1",
+   "was": {
+    "minimum": 1,
+    "integer": true
+   },
+   "minimum": 0.001,
+   "integer": false,
+   "basis": "R20: fractional (was whole only because the stocks are whole). WF99PvPvEMission P123 L16096-16190: the only use is AddUpgrade(79, 2, mult) then SetHealth(GetMaxHealth()); the same call takes fractional stocks in the Disruption script (0.7, 1.5). Never a count or index. readable decompile 44.0.2 (work/research/universal-mission-editor-2026-09-29/decomp)"
+  },
+  {
+   "tunable_id": "faceoff.assassination.enemy_health_mult_p2",
+   "was": {
+    "minimum": 1,
+    "integer": true
+   },
+   "minimum": 0.001,
+   "integer": false,
+   "basis": "R20: fractional (was whole only because the stocks are whole). WF99PvPvEMission P123 L16096-16190: the only use is AddUpgrade(79, 2, mult) then SetHealth(GetMaxHealth()); the same call takes fractional stocks in the Disruption script (0.7, 1.5). Never a count or index. readable decompile 44.0.2 (work/research/universal-mission-editor-2026-09-29/decomp)"
+  },
+  {
+   "tunable_id": "faceoff.assassination.enemy_health_mult_p3",
+   "was": {
+    "minimum": 1,
+    "integer": true
+   },
+   "minimum": 0.001,
+   "integer": false,
+   "basis": "R20: fractional (was whole only because the stocks are whole). WF99PvPvEMission P123 L16096-16190: the only use is AddUpgrade(79, 2, mult) then SetHealth(GetMaxHealth()); the same call takes fractional stocks in the Disruption script (0.7, 1.5). Never a count or index. readable decompile 44.0.2 (work/research/universal-mission-editor-2026-09-29/decomp)"
+  },
+  {
+   "tunable_id": "faceoff.assassination.enemy_health_mult_p4",
+   "was": {
+    "minimum": 1,
+    "integer": true
+   },
+   "minimum": 0.001,
+   "integer": false,
+   "basis": "R20: fractional (was whole only because the stocks are whole). WF99PvPvEMission P123 L16096-16190: the only use is AddUpgrade(79, 2, mult) then SetHealth(GetMaxHealth()); the same call takes fractional stocks in the Disruption script (0.7, 1.5). Never a count or index. readable decompile 44.0.2 (work/research/universal-mission-editor-2026-09-29/decomp)"
+  },
+  {
+   "tunable_id": "purge.alert_tiers.tier1_multiplier",
+   "was": {
+    "minimum": 1,
+    "integer": true
+   },
+   "minimum": 0.134,
+   "integer": false,
+   "basis": "R20 floor, fractional: PurgeMission P10 L682-691: SetSpawnDelay(4 / m) (read only at SpawnLib Initialize, before this loop) and SetMaxSourceAi(15 x m). SpawnLib Update caps a spawn point at 15 m while a player is near it and at floor(15 m / 2) otherwise (de-luau-toolchain work/forloops-2026-09-30 SpawnLib capture, Update L704-865): below 2/15 = 0.1333 floor(7.5 m) is 0 and nothing spawns away from players. 0.134 is the lowest 3-decimal value with both caps >= 1. readable decompile 44.0.2 (work/research/universal-mission-editor-2026-09-29/decomp)"
+  },
+  {
+   "tunable_id": "purge.alert_tiers.tier2_multiplier",
+   "was": {
+    "minimum": 1,
+    "integer": true
+   },
+   "minimum": 0.134,
+   "integer": false,
+   "basis": "R20 floor, fractional: PurgeMission P10 L682-691: SetSpawnDelay(4 / m) (read only at SpawnLib Initialize, before this loop) and SetMaxSourceAi(15 x m). SpawnLib Update caps a spawn point at 15 m while a player is near it and at floor(15 m / 2) otherwise (de-luau-toolchain work/forloops-2026-09-30 SpawnLib capture, Update L704-865): below 2/15 = 0.1333 floor(7.5 m) is 0 and nothing spawns away from players. 0.134 is the lowest 3-decimal value with both caps >= 1. readable decompile 44.0.2 (work/research/universal-mission-editor-2026-09-29/decomp)"
+  },
+  {
+   "tunable_id": "purge.alert_tiers.tier3_multiplier",
+   "was": {
+    "minimum": 1,
+    "integer": true
+   },
+   "minimum": 0.134,
+   "integer": false,
+   "basis": "R20 floor, fractional: PurgeMission P10 L682-691: SetSpawnDelay(4 / m) (read only at SpawnLib Initialize, before this loop) and SetMaxSourceAi(15 x m). SpawnLib Update caps a spawn point at 15 m while a player is near it and at floor(15 m / 2) otherwise (de-luau-toolchain work/forloops-2026-09-30 SpawnLib capture, Update L704-865): below 2/15 = 0.1333 floor(7.5 m) is 0 and nothing spawns away from players. 0.134 is the lowest 3-decimal value with both caps >= 1. readable decompile 44.0.2 (work/research/universal-mission-editor-2026-09-29/decomp)"
+  },
+  {
+   "tunable_id": "loopdefend.objective_dot.pickupThresholdModifier",
+   "was": {
+    "minimum": 0,
+    "integer": false
+   },
+   "minimum": 0.001,
+   "basis": "R20: 0 was unsafe: LoopDefend (Lost in Translation) uses mod x K as a divisor and modulus (crystal handler L5366-5419, client loop L6123-6180, HUD L7463-7471): 0 gives NaN, heals and crystals never trigger. At 0.001 the client loop runs about 1000 / K activations per crystal in one frame (bounded; K = the unresolved global eeb574b8). readable decompile 44.0.2 (work/research/universal-mission-editor-2026-09-29/decomp)"
+  }
+ ],
+ "unchanged": {
+  "void_flood.drain_speed_scale": "minimum 0 (0 = no drain; drainPercent x capacity is subtracted, never divided)",
+  "loopdefend.objective_dot.pickupSpawnRateModifier": "minimum 0 (kill threshold / mod: 0 gives inf = never; no error)",
+  "other x rows with minimum 0": "already accept 0.001; no division by the value in their readers (R20 audit)"
+ }
+}

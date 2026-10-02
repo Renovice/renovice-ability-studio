@@ -1,0 +1,100 @@
+{
+  "checks": [
+    {
+      "name": "pinned full-package build input (LF content)",
+      "pass": true
+    },
+    {
+      "name": "build succeeds",
+      "pass": true
+    },
+    {
+      "name": "Missions.targets.addon.lua_B is the pinned R20 build (d8736450)",
+      "pass": true
+    },
+    {
+      "name": "engine_params.json is the pinned R20 build (eafd2ddf)",
+      "pass": true
+    },
+    {
+      "name": "package.json is the pinned R20 build (acc2256e)",
+      "pass": true
+    },
+    {
+      "name": "literals.json is the pinned R20 build (96a97899)",
+      "pass": true
+    },
+    {
+      "name": "the package declares 51 values with unit x (46 in package.json, 5 in literals.json): 51",
+      "pass": true
+    },
+    {
+      "name": "every x value is fractional (type float): all",
+      "pass": true
+    },
+    {
+      "name": "every x value accepts 0.001 unless the R20 input records a floor: all",
+      "pass": true
+    },
+    {
+      "name": "R20 floors: Interception scoring speed 0.1 (float32 score stall), Void Flood orb value 0.06 (downed drop within the game's 150 pickups), Alert Purge tiers 0.134 (spawn cap away from players)",
+      "pass": true
+    },
+    {
+      "name": "all 31 R20 input rows are declared with their minimum and type (registry and package): all",
+      "pass": true
+    },
+    {
+      "name": "19 x values keep minimum 0 (they already accept 0.001; R20 audit: no division by them)",
+      "pass": true
+    },
+    {
+      "name": "master railjack.kill_goals_scale: minimum 0.001 = the largest minimum of its driven rows",
+      "pass": true
+    },
+    {
+      "name": "7 count multipliers (5 Railjack rows, the Railjack master, Void Flood tank capacity): ['railjack.corpus_fighter_limit_scale', 'railjack.crewship_kills_scale', 'railjack.fighter_kills_scale', 'railjack.kill_goals_scale', 'railjack.pontis_ash_enemies_scale', 'railjack.pontis_garuda_enemies_scale', 'void_flood.tank_capacity_scale']",
+      "pass": true
+    },
+    {
+      "name": "every count multiplier says that each count stays at least 1: all",
+      "pass": true
+    },
+    {
+      "name": "every floor says why its minimum is above 0.001: all",
+      "pass": true
+    },
+    {
+      "name": "Exterminate kills needed (a divisor of the map path) names the game floor of about 15 kills",
+      "pass": true
+    },
+    {
+      "name": "12 named-setting multiplier rows without a scale mode in the R20 input: ['capture.target_health_player_mult.p1', 'capture.target_health_player_mult.p2', 'capture.target_health_player_mult.p3', 'capture.target_health_player_mult.p4', 'faceoff.assassination.enemy_health_mult_p1', 'faceoff.assassination.enemy_health_mult_p2', 'faceoff.assassination.enemy_health_mult_p3', 'faceoff.assassination.enemy_health_mult_p4', 'purge.alert_tiers.tier1_multiplier', 'purge.alert_tiers.tier2_multiplier', 'purge.alert_tiers.tier3_multiplier', 'loopdefend.objective_dot.pickupThresholdModifier']",
+      "pass": true
+    },
+    {
+      "name": "1002fa2aeb0ef437 root:i16:R5: at most one container level (harness model)",
+      "pass": true
+    },
+    {
+      "name": "4c2f0f786e4a8e58 root:i1:R0: at most one container level (harness model)",
+      "pass": true
+    },
+    {
+      "name": "97ddf9f92301da45 root:i718:R163: at most one container level (harness model)",
+      "pass": true
+    },
+    {
+      "name": "ae99f8ae6c2eb271 root:i25:R9: at most one container level (harness model)",
+      "pass": true
+    },
+    {
+      "name": "toolchain luau.exe present",
+      "pass": true
+    },
+    {
+      "name": "harness: 24 Luau checks (the real addon writes each named-setting multiplier at its minimum)",
+      "pass": true
+    }
+  ]
+}

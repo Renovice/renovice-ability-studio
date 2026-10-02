@@ -9,19 +9,19 @@
       "pass": true
     },
     {
-      "name": "Missions.targets.addon.lua_B is the pinned R18 build (d8736450)",
+      "name": "Missions.targets.addon.lua_B is the pinned R20 build (d8736450)",
       "pass": true
     },
     {
-      "name": "package.json is the pinned R18 build (150c0d16)",
+      "name": "package.json is the pinned R20 build (acc2256e)",
       "pass": true
     },
     {
-      "name": "literals.json is the pinned R18 build (786c7b94)",
+      "name": "literals.json is the pinned R20 build (96a97899)",
       "pass": true
     },
     {
-      "name": "engine_params.json is the pinned R18 build (eafd2ddf)",
+      "name": "engine_params.json is the pinned R19/R20 build (eafd2ddf)",
       "pass": true
     },
     {
@@ -121,7 +121,15 @@
       "pass": true
     },
     {
-      "name": "the bootstrapper R19 gate fixture (fixtures/MissionsR19) is this build (engine_params.json, package.json)",
+      "name": "the bootstrapper R19 gate fixture (fixtures/MissionsR19) holds the engine_params.json of this build (R20 changed only minimums, types and descriptions in package.json; the fixture keeps the R19 package.json 150c0d16)",
+      "pass": true
+    },
+    {
+      "name": "R20: every writer-owned multiplier accepts 0.001 except a recorded floor (exterminate.kills_scale=0.001, exterminate.archwing_kill_mult=0.001, interception.score_goal_scale=0.001, interception.scoring_speed=0.1, interception.round_end_timer=1, railjack.corpus_fighter_limit_scale=0.001, sabotage.gascity_meltdown_time_scale=0.001, railjack.pontis_ash_enemies_scale=0.001, railjack.pontis_garuda_enemies_scale=0.001, railjack.fighter_kills_scale=0.001, railjack.crewship_kills_scale=0.001)",
+      "pass": true
+    },
+    {
+      "name": "R20: scale_count at its minimum: the writer stores 1 for every count (at least one)",
       "pass": true
     },
     {
@@ -129,7 +137,7 @@
       "pass": true
     },
     {
-      "name": "harness: 65 Luau checks over the six R16 rows, the R17 Gas City row, the R18 Pontis rows, the R19 Grineer Railjack rows and the Railjack master (writer-owned, live numbers)",
+      "name": "harness: 87 Luau checks over the six R16 rows, the R17 Gas City row, the R18 Pontis rows, the R19 Grineer Railjack rows and the Railjack master (writer-owned, live numbers)",
       "pass": true
     }
   ]
