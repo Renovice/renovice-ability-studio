@@ -36,10 +36,16 @@ LUAU = ROOT / 'repos/toolchains/de-luau-toolchain/bin/luau.exe'
 INPUT = EDITOR / 'RESEARCH/MISSIONS_R13_NATIVE_ENTRY_2026-10-01/inputs/rebuild_input.r12.json'
 INPUT_LF_SHA = 'dccde5fddf2649c2be4c93789cecab4cc1d1759dc9d01d0117cba25f5a7ca4b6'
 R20_INPUT = EDITOR / 'RESEARCH/MISSIONS_R20_MULTIPLIER_MINIMUMS_2026-10-02/inputs/r20_minimums.json'
-PINS = {'Missions.targets.addon.lua_B': 'd8736450cc81c2c03daaf219fbd5a046dad82b57e1d54fd8263fe2832a4d3c88',  # = R19
+# R22 (2026-10-02): the Void Cascade exolizer speed master (an x value with a recorded floor, below) and the reward-interval
+# live literal; R20/R21 built d8736450 / acc2256e / 96a97899.
+PINS = {'Missions.targets.addon.lua_B': 'a943cd3e5ca053368fd3604cd96d6cbde768090f283ac2ee33db60d0f1ad9340',  # R22 (R19-R21 d8736450)
         'engine_params.json': '20323777391827278dea4494f6f123ac0ba2846cf2b65f4a886c4eaed61e1bad',            # R21 (R19/R20 eafd2ddf)
-        'package.json': 'acc2256eb4a76f6782af1aa51534a5387c065ae1323da36daa45dfbbd06f6d71',                  # R19 150c0d16
-        'literals.json': '96a97899889b6a5f5357a4c0ae0024d0afe9a214c398784fdcc834f401f0fd03'}                 # R19 786c7b94
+        'package.json': 'fd89dacae8cfd9cec10af9c06af22dcd2835a6e8c88a2842206fdb8c3904eda0',                  # R22 (R20/R21 acc2256e)
+        'literals.json': '9beaa4385ee3efe39daf0f3788bcf19b41aa500af1cd7705b03e3ab4df0392e8'}                 # R22 (R20/R21 96a97899)
+# R22 floors outside the R20 input, each with its code reason (record RESEARCH/MISSIONS_R22_EXOLIZER_PROGRESS_2026-10-02):
+# the exolizer speed is an inverse master (duration = 90 / speed); TimerMgr adds the frame time to a float32 sum, which keeps
+# moving up to 2048 fps while the duration stays below 16384 s (0.006 -> 15000 s; 0.005 -> 18000 s stalls above 1024 fps).
+R22_FLOORS = {'void_cascade.exolizer_speed': 0.006}
 TARGET = 0.001
 WORK = ROOT / 'work/temp/r20-minimums-gate'
 OUT = Path(__file__).resolve().parents[1] / 'test-results'
@@ -96,14 +102,17 @@ for vid, value in json.loads((package / 'literals.json').read_text(encoding='utf
     declared[vid] = value['declaration']
 multipliers = {vid: d for vid, d in declared.items() if d.get('unit') == 'x'}
 floors = {r['tunable_id']: r['minimum'] for r in spec['rows'] if r['minimum'] > TARGET}
-check(len(multipliers) == 51, f'the package declares 51 values with unit x (46 in package.json, 5 in literals.json): {len(multipliers)}')
+r20_floors = dict(floors)
+floors.update(R22_FLOORS)
+check(len(multipliers) == 52, f'the package declares 52 values with unit x (47 in package.json, 5 in literals.json; R22 + the '
+      f'exolizer speed master): {len(multipliers)}')
 bad_type = sorted(vid for vid, d in multipliers.items() if d['type'] != 'float')
 check(not bad_type, f'every x value is fractional (type float): {bad_type or "all"}')
 bad_min = sorted(f'{vid}={d["min"]}' for vid, d in multipliers.items() if d['min'] > TARGET and floors.get(vid) != d['min'])
 check(not bad_min, f'every x value accepts {TARGET} unless the R20 input records a floor: {bad_min or "all"}')
-check(sorted(floors) == ['interception.scoring_speed', 'purge.alert_tiers.tier1_multiplier', 'purge.alert_tiers.tier2_multiplier',
+check(sorted(r20_floors) == ['interception.scoring_speed', 'purge.alert_tiers.tier1_multiplier', 'purge.alert_tiers.tier2_multiplier',
                          'purge.alert_tiers.tier3_multiplier', 'void_flood.orb_value_scale']
-      and floors['interception.scoring_speed'] == 0.1 and floors['void_flood.orb_value_scale'] == 0.06
+      and r20_floors['interception.scoring_speed'] == 0.1 and r20_floors['void_flood.orb_value_scale'] == 0.06
       and all(floors[f'purge.alert_tiers.tier{n}_multiplier'] == 0.134 for n in (1, 2, 3)),
       'R20 floors: Interception scoring speed 0.1 (float32 score stall), Void Flood orb value 0.06 (downed drop within the '
       "game's 150 pickups), Alert Purge tiers 0.134 (spawn cap away from players)")
@@ -118,6 +127,11 @@ zero = sorted(vid for vid, d in multipliers.items() if d['min'] == 0)
 check(all(vid in rows for vid in zero), f'{len(zero)} x values keep minimum 0 (they already accept {TARGET}; R20 audit: no division by them)')
 for mid, master in masters.items():
     if mid in multipliers:
+        if any(d.get('inverse') for d in master['drives']):  # R22: row = scale / master; the floor is recorded above
+            low = max(d['scale'] / rows[d['tunable_id']]['limits']['maximum'] for d in master['drives'])
+            check(multipliers[mid]['min'] == master['min'] == R22_FLOORS.get(mid) and low <= master['min'],
+                  f'inverse master {mid}: minimum {master["min"]} is the recorded R22 floor (the rows allow {low:.6g})')
+            continue
         low = max(rows[d['tunable_id']]['limits']['minimum'] / d['scale'] for d in master['drives'])
         check(multipliers[mid]['min'] == low == master['min'], f'master {mid}: minimum {master["min"]} = the largest minimum of its driven rows')
 

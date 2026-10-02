@@ -67,9 +67,11 @@ INPUT_LF_SHA = 'dccde5fddf2649c2be4c93789cecab4cc1d1759dc9d01d0117cba25f5a7ca4b6
 # R15/R16: addon 70fff0b6, package.json 44fc0b53, literals.json a16b2520, engine_params ae090c33).
 # R20 (2026-10-02): the multiplier minimums change only package.json and literals.json (minimums, types, descriptions);
 # R19 package.json 150c0d16, literals.json 786c7b94 (also the bootstrapper R19 fixture's package.json).
-R15 = {'Missions.targets.addon.lua_B': 'd8736450cc81c2c03daaf219fbd5a046dad82b57e1d54fd8263fe2832a4d3c88',
-       'package.json': 'acc2256eb4a76f6782af1aa51534a5387c065ae1323da36daa45dfbbd06f6d71',
-       'literals.json': '96a97899889b6a5f5357a4c0ae0024d0afe9a214c398784fdcc834f401f0fd03'}
+# R22 (2026-10-02): the Void Cascade exolizer speed master (inverse drive, addon) and the reward-interval live literal;
+# R20/R21 built d8736450 / acc2256e / 96a97899. engine_params.json is unchanged (R21).
+R15 = {'Missions.targets.addon.lua_B': 'a943cd3e5ca053368fd3604cd96d6cbde768090f283ac2ee33db60d0f1ad9340',
+       'package.json': 'fd89dacae8cfd9cec10af9c06af22dcd2835a6e8c88a2842206fdb8c3904eda0',
+       'literals.json': '9beaa4385ee3efe39daf0f3788bcf19b41aa500af1cd7705b03e3ab4df0392e8'}
 R19_FIXTURE_PACKAGE = '150c0d1642d9208f97fc46df7a14ce411b60120cb4280d30f991aaf179978ff7'
 # R21 (2026-10-02): only engine_params.json changes (R19/R20 eafd2ddf: 17 overrides, 8 modules); addon, package.json and
 # literals.json are the R20 files byte for byte.
@@ -166,7 +168,7 @@ check(run.returncode == 0 and len(generations) == 1, 'build succeeds')
 generation = generations[0].parent
 package = generation / 'Packages/Missions'
 for name, digest in R15.items():
-    check(sha(package / name) == digest, f'{name} is the pinned R20/R21 build ({digest[:8]})')
+    check(sha(package / name) == digest, f'{name} is the pinned R22 build ({digest[:8]}; R20/R21 d8736450 / acc2256e / 96a97899)')
 check(sha(package / 'engine_params.json') == ENGINE_PARAMS_SHA, f'engine_params.json is the pinned R21 build ({ENGINE_PARAMS_SHA[:8]})')
 manifest = json.loads(generations[0].read_text(encoding='utf-8'))
 record = manifest['package'].get('engine_params') or {}
@@ -230,9 +232,13 @@ check(addon_source.count('["railjack.kill_goals_scale"] = { value = ') == 1 and 
       and '["railjack.crewship_kills_scale"] = { master =' not in addon_source,
       'R19: the addon compiles the Railjack master once (its own module, no drives) and drives neither Grineer row')
 if BOOTSTRAPPER_FIXTURE.is_dir():
+    # R22: engine_params.json is unchanged, so the R21 fixture still holds this build's file; its package.json stays the R20/R21
+    # one (acc2256e). The R22 package.json is checked against engine_params.json by verify_addon_settings -Package
+    # (ENGINE PARAMS RECIPE ACCEPT), recorded in the R22 staging evidence.
     check(sha(BOOTSTRAPPER_FIXTURE / 'engine_params.json') == ENGINE_PARAMS_SHA
-          and sha(BOOTSTRAPPER_FIXTURE / 'package.json') == R15['package.json'],
-          'the bootstrapper R21 gate fixture (fixtures/MissionsR21) holds the engine_params.json and package.json of this build')
+          and sha(BOOTSTRAPPER_FIXTURE / 'package.json') == 'acc2256eb4a76f6782af1aa51534a5387c065ae1323da36daa45dfbbd06f6d71',
+          'the bootstrapper R21 gate fixture (fixtures/MissionsR21) holds the engine_params.json of this build (unchanged since R21) '
+          'and the R20/R21 package.json')
 else:
     print('INFO\tbootstrapper worktree absent; fixture identity not compared')
 

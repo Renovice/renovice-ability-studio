@@ -41,8 +41,14 @@ EngineParamsOutput emit_engine_param_recipe(const Json& registry, const MissionP
     if (registry.contains("ui_masters"))
         for (const auto& [master_id, master] : registry.at("ui_masters").items()) {
             if (master.contains("drives"))
-                for (const auto& drive : master.at("drives"))
+                for (const auto& drive : master.at("drives")) {
+                    // R22: the engine writer resolves master x scale only; an inverse drive never reaches a writer-owned row.
+                    if (master_drive_inverse(master_id, drive) &&
+                        mission_tunable(registry, drive.at("tunable_id").get<std::string>()).at("owner").contains("engine_override"))
+                        throw std::runtime_error("engine-param-overrides gate failed: " + drive.at("tunable_id").get<std::string>() +
+                                                 ": an inverse master drive cannot reach the engine writer");
                     driven[drive.at("tunable_id").get<std::string>()] = {master_id, drive.at("scale").get<double>()};
+                }
         }
     nlohmann::ordered_json overrides = nlohmann::ordered_json::array();
     std::set<std::string> modules, masters_named;

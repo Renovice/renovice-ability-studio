@@ -4026,6 +4026,14 @@ namespace renovice
                                                              {{"tunable_id", "survival.reward_interval"}, {"scale", 1}}); }, "is not a addon row of module")
                             && rejects_ui([&](Json& r) { master_of(r, "loopdefend.max_enemies.p2")["drives"].push_back(
                                                              {{"tunable_id", "loopdefend.enemy_counts.maxNum.p1"}, {"scale", 1}}); }, "already driven")
+                            // R22 inverse drives (row = scale / master): addon float masters only, stock = scale / row stock,
+                            // limits inside the row after inverting, the flag is true when present.
+                            && rejects_ui([&](Json& r) { master_of(r, "loopdefend.phase_time")["drives"][0]["inverse"] = true; }, "inverse drive")
+                            && rejects_ui([&](Json& r) { master_of(r, "void_cascade.exolizer_speed")["drives"][0]["inverse"] = false; },
+                                          "must be true when present")
+                            && rejects_ui([&](Json& r) { master_of(r, "void_cascade.exolizer_speed")["stock"] = 2; }, "inverse drive's scale")
+                            && rejects_ui([&](Json& r) { master_of(r, "void_cascade.exolizer_speed")["max"] = 100; }, "after the inverse drive")
+                            && rejects_ui([&](Json& r) { master_of(r, "void_cascade.exolizer_speed")["min"] = 0; }, "positive minimum")
                             && rejects_ui([&](Json& r) { r["ui_masters"]["survival.reward_interval"] = master_of(r, "orphix.spawn_interval"); }, "collides")
                             && rejects_ui([&](Json& r) { r["ui_player_text"]["banned_abbreviations"] = Json::array({"LS"}); }, "banned-abbreviation"),
                           "R5 player text: labels <= 33 without unexplained abbreviations or code identifiers, Advanced subsections after "
@@ -4834,7 +4842,8 @@ print("MULTI-TARGET HARNESS PASS cases=" .. #cases .. " idle=" .. #idle .. " ret
                                                 slot.second += "{ id = " + lua_quote(row.at("tunable_id").get<std::string>()) + ", key = " +
                                                                lua_table_key(field.at("field")) + ", stock = " +
                                                                format_number(row.at("stock").get<double>()) + ", scale = " +
-                                                               format_number(drive.at("scale").get<double>()) + " }, ";
+                                                               format_number(drive.at("scale").get<double>()) +
+                                                               (master_drive_inverse(id, drive) ? ", inverse = true" : "") + " }, ";
                                             }
                                         }
                                     }
@@ -4851,6 +4860,10 @@ print("MULTI-TARGET HARNESS PASS cases=" .. #cases .. " idle=" .. #idle .. " ret
                                 harness << "}\n" << R"LUA(
 local function check(condition, message)
     if not condition then error("MASTER HARNESS FAIL: " .. message, 0) end
+end
+local function driven(case, field) -- R22: an inverse drive writes scale / master
+    if field.inverse then return field.scale / case.value end
+    return case.value * field.scale
 end
 local function instance(case)
     local upvalues, owners = {}, {}
@@ -4886,7 +4899,7 @@ for _, case in ipairs(cases) do
     local owners, entry = run(case, { [case.master] = { enabled = true, value = case.value, stock = case.mstock } })
     for t, tab in ipairs(case.tables) do
         for _, field in ipairs(tab.fields) do
-            check(owners[t][field.key] == case.value * field.scale, tag .. " master writes value x scale into " .. field.id)
+            check(owners[t][field.key] == driven(case, field), tag .. " master writes value x scale (inverse: scale / value) into " .. field.id)
         end
     end
     entry.cleanup()
@@ -4899,7 +4912,7 @@ for _, case in ipairs(cases) do
     owners = run(case, settings)
     for t, tab in ipairs(case.tables) do
         for _, field in ipairs(tab.fields) do
-            local want = field.id == first.id and first.stock + 2 or case.value * field.scale
+            local want = field.id == first.id and first.stock + 2 or driven(case, field)
             check(owners[t][field.key] == want, tag .. " an enabled driven row wins over its master (" .. field.id .. ")")
         end
     end

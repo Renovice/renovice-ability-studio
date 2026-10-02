@@ -226,3 +226,8 @@ def register(row, master, players, master_rule, variant_rule):
     live('hijack.payload_health', 'Payload health', 'Health of the Hijack payload (Steel Path scales it)')
     live('hijack.payload_health.goal_mission', 'Goal missions: payload health',
          'Health of the Hijack payload on goal missions; wins over Payload health there')
+
+    # ---- Void Cascade (contract R22, 2026-10-02): the normal reward interval. The root copies it into a root local at
+    # module load (its only reader), so the root-table addon lane cannot own it; the literal lane rewrites the initialiser.
+    live('void_cascade.reward_interval', 'Exolizers per reward',
+         'Exolizers that must finish for each reward in normal Void Cascade missions')

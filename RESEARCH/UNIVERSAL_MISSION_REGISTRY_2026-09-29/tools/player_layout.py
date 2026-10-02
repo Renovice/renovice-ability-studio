@@ -378,9 +378,13 @@ for tid, row in (('level_up_enrage.levelUpTime', 'Time to reach max level'),
     put(f'survival.{tid}', SLEVEL, row)
 
 # ---- Void Cascade
-master_row('void_cascade.pillar_duration', 'Void Cascade', 'Void Cascade: exolizer defense time')  # R17
+# R22: "All Void Cascade missions" = exolizer progress speed (inverse master over the exolizer time; Quick settings entry).
+# The exolizer time in seconds stays as its own row and wins over the master when it is on.
+master_row('void_cascade.exolizer_speed', 'Void Cascade', 'Void Cascade: exolizer progress speed')
+put('void_cascade.pillar_duration', ['Void Cascade', 'Timers'], 'Exolizer defense time')
 put('void_cascade.exolizers_to_finish', ['Void Cascade', 'Objectives'], 'Exolizers to finish')  # R10
 players('void_cascade.circle_fixed_length.{}', ['Void Cascade', 'Objectives', 'The Circuit: exolizers to finish'])
+put('void_cascade.reward_interval', ['Void Cascade', 'Rewards / drops'], 'Exolizers per reward')  # R22 live literal
 put('void_cascade.alert_reward_interval', ['Void Cascade', 'Rewards / drops'], 'Alert: reward interval')
 
 # ---- Void Flood
@@ -535,7 +539,8 @@ OVERRIDE = {    # id -> full description
     'sabotage.escape_timer': 'Escape countdown after the sabotage on Corpus and Grineer ships and in Orokin Sabotage. The '
                              'Gas City meltdown has its own row below.',
     'faceoff.spawn_params.tier_up_interval': 'Enemy tiers gained per Faceoff objective step (the highest tier is 5).',
-    'void_cascade.pillar_duration': 'Seconds each exolizer must be defended in Void Cascade. The Circuit uses its own timer.',
+    'void_cascade.pillar_duration': 'Seconds each exolizer runs before it is used up, in Void Cascade and The Circuit. When on, '
+                                    'it wins over the exolizer progress speed above.',
     'purgatory.reward_kill_threshold.t1': 'Kills for reward tier 1 in the Granum Void. Solo earns at tiers 1 to 3; each extra '
                                           'player moves the rewards up one tier.',
     # R12 (user wording, 2026-10-01). The editor tooltip adds "Default 3." itself, so the description does not repeat it.
@@ -590,6 +595,14 @@ OVERRIDE.update({
                                   'minimum keeps a downed player from dropping more orbs at once than the game allows on the map.',
     'interception.scoring_speed': 'Multiplies how fast held towers add score in Interception (the map sets the base). The '
                                   'minimum stops the score from freezing at high frame rates, which would never end a round.',
+})
+# R22 (2026-10-02, Void Cascade exolizer progress; research work/research/void-cascade-exolizer-progress-2026-10-02).
+OVERRIDE.update({
+    'void_cascade.exolizer_speed': 'Speeds up every exolizer, also in The Circuit (x2 = 45 s instead of 90 s): rewards come '
+                                   'sooner, each one holds back the cascade for less time. The minimum keeps its timer moving.',
+    'void_cascade.reward_interval': 'Exolizers that must finish for each reward in normal Void Cascade missions (1 = a reward '
+                                    'for every exolizer). Applies from the next mission.',
+    'void_cascade.alert_reward_interval': 'Exolizers that must finish for each reward in Alert Void Cascade missions.',
 })
 for _n in (1, 2, 3):
     OVERRIDE[f'purge.alert_tiers.tier{_n}_multiplier'] = (f'Enemy spawn multiplier at Alert Purge tier {_n} (up to 15 x it '
@@ -662,6 +675,8 @@ DEFAULTS['void_flood.deposit_speed_scale'] = {'label': 'x1 (8-14 s)', 'note': No
 DEFAULTS['void_flood.tank_capacity_scale'] = {'label': 'x1 (125-350)', 'note': None}
 DEFAULTS['void_flood.orb_value_scale'] = {'label': 'x1 (5-60)', 'note': None}
 DEFAULTS['void_flood.drain_speed_scale'] = {'label': 'x1', 'note': None}
+# Contract R22: Void Cascade exolizer progress speed (master, addon lane); x1 keeps the game's 90 s per exolizer.
+DEFAULTS['void_cascade.exolizer_speed'] = {'label': 'x1', 'note': None}
 
 
 def _strip(text):

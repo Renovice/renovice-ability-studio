@@ -132,7 +132,9 @@ R10_ADDED = ({t for t, r in registry_rows.items() if r['provenance'].startswith(
                                                                                   # R18: the two Pontis tower rows
                                                                                   'research:mission-coverage-audit-2026-10-02'))
                 and r['backend'] == 'TARGET_ADDON' and r['owner']['body_key'] not in REPLACED}
-             | {'railjack.kill_goals_scale'})
+             | {'railjack.kill_goals_scale'}
+             # R22: the Void Cascade "All Void Cascade missions" master (exolizer progress speed, inverse drive, addon lane).
+             | {'void_cascade.exolizer_speed'})
 # R10: page sets whose mission type now has more than one category keep their category level (r7_collapse_paths).
 R10_PATH = {f'defense.simultaneous_enemies_duviri.max.p{k}' for k in range(1, 5)} | {f'escalation.keys_per_players.p{k}' for k in range(1, 5)}
 changed = {k for k in staged_values if staged_values[k] != built_values.get(k)}
@@ -145,7 +147,7 @@ R17_COLLAPSE = {k for k in changed - R17_LAYOUT - R10_PATH
                 and staged_values[k]['path'][1] in ('Timers', 'Objectives', 'Enemies', 'Rewards / drops')
                 and [e for e in staged_values[k]['path'] if e != staged_values[k]['path'][1]] == built_values[k]['path']}
 check(set(built_values) - set(staged_values) == R10_ADDED and not set(staged_values) - set(built_values),
-      f'baked package.json declares every staged value plus exactly the {len(R10_ADDED)} R10/R11/R17/R18 addon values')
+      f'baked package.json declares every staged value plus exactly the {len(R10_ADDED)} R10/R11/R17/R18/R22 addon values')
 # R20 (2026-10-02, multiplier minimums): a declaration may differ in `min`, `type` and its description where the R20 input
 # names the value (or a master over named rows), with exactly the R20 minimum.
 R20_ROWS = {r['tunable_id']: r for r in json.loads((EDITOR / 'RESEARCH/MISSIONS_R20_MULTIPLIER_MINIMUMS_2026-10-02/inputs/'

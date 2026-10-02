@@ -90,11 +90,15 @@ def per_player(prefix, label, text, section='main', word=None, ids=None, note=No
 MASTERS = []  # {'id','group','label','text','drives':[(row, scale)],'note'}; stock = drives[0] stock / scale
 
 
-def master(mid, label, text, drives, note=None, group=None, word=None):
+def master(mid, label, text, drives, note=None, group=None, word=None, unit=None, limits=None):
     """`group`: contract R17, for a master whose id names no section of its own (a mission-type master over several
     locations, "All Control Area missions"): the main section of its first driven row's family. Default: the id's family.
-    `word`: the unit words of the stock phrase when the registry unit has none (as for rows)."""
-    MASTERS.append({'id': mid, 'label': label, 'text': text, 'drives': drives, 'note': note, 'group': group, 'word': word})
+    `word`: the unit words of the stock phrase when the registry unit has none (as for rows).
+    Contract R22: a drive (row, scale, 'inverse') makes the master a speed over a duration row (row = scale / master; every
+    drive of such a master is inverse, the master is fractional). `unit` names the master's own unit (default: the first
+    row's) and `limits` = (minimum, maximum) narrows the range the rows allow (a floor with a code reason)."""
+    MASTERS.append({'id': mid, 'label': label, 'text': text, 'drives': drives, 'note': note, 'group': group, 'word': word,
+                    'unit': unit, 'limits': limits})
 
 
 HIDDEN = {}  # tunable_id -> reason (never declared in the package; kept in the registry)
@@ -464,8 +468,9 @@ row('survival.pickup_reward_progress', 'Reward clock per pickup',
 # ---- Void Cascade
 row('void_cascade.pillar_duration', 'Exolizer defense time',
     'Seconds each exolizer must be defended in Void Cascade (normal and The Circuit)')
+# R22: the unit is confirmed (ZarimanSurvivalMission proto 28: reward tiers = floor(finished exolizers / interval)).
 row('void_cascade.alert_reward_interval', 'Alert missions: reward interval',
-    'Exolizers per reward in Alert Void Cascade missions (unit inferred from the code)')
+    'Exolizers that must finish for each reward in Alert Void Cascade missions')
 per_player('void_cascade.circle_fixed_length', 'Circuit: exolizers',
            'Exolizers to finish Void Cascade in The Circuit', 'adv')
 
@@ -637,14 +642,22 @@ def apply(rows, groups):
         if mid in by_id or mid in masters:
             problems.append(f'master {mid}: id collides with a tunable or another master')
             continue
-        driven = []
-        for tid, scale in m['drives']:
+        driven, inverse = [], set()
+        for drive in m['drives']:
+            tid, scale = drive[0], drive[1]
+            if len(drive) == 3:
+                if drive[2] != 'inverse':
+                    problems.append(f'master {mid}: unknown drive form {drive[2]!r}')
+                    continue
+                inverse.add(tid)
             if tid not in by_id:
                 problems.append(f'master {mid}: drives unknown row {tid}')
                 continue
             driven.append((by_id[tid], scale))
         if not driven:
             continue
+        if inverse and len(inverse) != len(driven):
+            problems.append(f'master {mid}: every drive of an inverse master must be inverse (R22)')
         first, first_scale = driven[0]
         lanes = {r['backend'] for r, _ in driven}
         bodies = {r['owner']['body_key'] for r, _ in driven}
@@ -659,24 +672,38 @@ def apply(rows, groups):
                 problems.append(f'master {mid}: group {family} is not the main section of its first driven row')
         elif len(bodies) != 1:
             problems.append(f'master {mid}: drives rows of several modules without naming its group (contract R17)')
-        stock = first['stock'] / first_scale
-        low = max(r['limits']['minimum'] / s for r, s in driven)
-        high = min(r['limits']['maximum'] / s for r, s in driven)
-        kind = 'int' if 'int' in types else first['ui']['type']
+        if inverse:  # R22: row = scale / master
+            stock = first_scale / first['stock']
+            low = max(s / r['limits']['maximum'] for r, s in driven)
+            high = min(s / r['limits']['minimum'] for r, s in driven)
+            kind = 'float'
+        else:
+            stock = first['stock'] / first_scale
+            low = max(r['limits']['minimum'] / s for r, s in driven)
+            high = min(r['limits']['maximum'] / s for r, s in driven)
+            kind = 'int' if 'int' in types else first['ui']['type']
+        if m['limits'] is not None:  # R22: a narrower range with a recorded reason
+            want_low, want_high = m['limits']
+            if not (low <= want_low <= stock <= want_high <= high):
+                problems.append(f'master {mid}: limits {m["limits"]} are not inside {low}..{high} around the stock {stock}')
+            low, high = want_low, want_high
+        unit = m['unit'] if m['unit'] is not None else first['unit']
+        ui_unit = m['unit'] if m['unit'] is not None else first['ui']['unit']
         if kind == 'int':
             low, high = float(int(-(-low // 1))), float(int(high // 1))
             if any(float(s) != int(s) for _, s in driven):
                 problems.append(f'master {mid}: an int master needs whole scales')
-        description = m['text'] + '; ' + stock_phrase(stock, first['unit'], m.get('word'))
+        description = m['text'] + '; ' + stock_phrase(stock, unit, m.get('word'))
         if m['note']:
             description += ' ' + m['note']
         number = (lambda v: int(v)) if kind == 'int' else (lambda v: int(v) if float(v).is_integer() else v)
         masters[mid] = {'group': family, 'short_label': m['label'], 'label_source': 'player_text', 'scope_text': description,
                         'rank': -len(MASTERS) + n, 'lane': first['ui']['lane'], 'applies': first['ui']['applies'],
                         'type': kind, 'editor': 'INPUTBOX' if kind != 'int' or low < 0 else 'INPUTCOUNT',
-                        'unit': first['ui']['unit'], 'stock': number(stock), 'min': number(low), 'max': number(high),
+                        'unit': ui_unit, 'stock': number(stock), 'min': number(low), 'max': number(high),
                         'body_key': first['owner']['body_key'],
-                        'drives': [{'tunable_id': r['tunable_id'], 'scale': int(s) if float(s).is_integer() else s} for r, s in driven]}
+                        'drives': [dict({'tunable_id': r['tunable_id'], 'scale': int(s) if float(s).is_integer() else s},
+                                        **({'inverse': True} if r['tunable_id'] in inverse else {})) for r, s in driven]}
         if len(bodies) > 1:  # R17 cross-module master: every module it drives, first driven row's module first
             masters[mid]['body_keys'] = [first['owner']['body_key']] + sorted(bodies - {first['owner']['body_key']})
         if not (low <= stock <= high):

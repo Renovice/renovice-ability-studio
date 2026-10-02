@@ -67,8 +67,10 @@ LiveLiteralValue live_literal_value(const Json& registry, const std::string& id)
         if (master->at("lane") != "literal") throw std::runtime_error("live literal " + id + " is not a literal master knob");
         value.master = true;
         value.body = master->at("body_key").get<std::string>();
-        for (const auto& drive : master->at("drives"))
+        for (const auto& drive : master->at("drives")) {
+            if (master_drive_inverse(id, drive)) throw std::runtime_error("live literal " + id + ": an inverse drive is addon-lane only (R22)");
             value.drives.emplace_back(&mission_tunable(registry, drive.at("tunable_id").get<std::string>()), drive.at("scale").get<double>());
+        }
         value.declaration = mission_master_declaration(*master);
         value.stock = master->at("stock").get<double>();
     } else {

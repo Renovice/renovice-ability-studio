@@ -214,7 +214,7 @@
   "r10": {
     "drafts": 65,
     "drafts_rejected_by_research": 8,
-    "admitted": 75,
+    "admitted": 76,
     "excluded": [
       "gascity.hack_time"
     ],
@@ -233,12 +233,12 @@
       "extraction.countdown": "gamerules.extraction_countdown"
     },
     "by_backend": {
-      "EXACT_LITERAL": 32,
+      "EXACT_LITERAL": 33,
       "TARGET_ADDON": 41,
       "METADATA_PATCH": 2
     },
     "by_template": {
-      "EXACT_LITERAL": 32,
+      "EXACT_LITERAL": 33,
       "ROOT_TABLE_FIELD": 20,
       "MISSION_INFO_FIELD_AT_ENTRY": 8,
       "SCRIPT_PARAM_GLOBAL_AT_ENTRY": 13,
@@ -250,6 +250,7 @@
     "r15_drafts": 1,
     "r17_drafts": 3,
     "r18_drafts": 2,
+    "r22_drafts": 1,
     "superseded": {
       "defense.waves_per_reward": "R15: the R12 SCRIPT_PARAM_GLOBAL_AT_ENTRY owner wrote the level parameter into the WaveDefense instance environment at the trigger entry. Live 2026-10-01 (DLL e5d9b61b, addon 4c70b5ec): the write ran (EE 581.400 'minWavesToComplete 3 -> 1') but the checkpoint after waves 1 and 2 did not open. The environment is not owned by the entry write: the engine's script-parameter applier writes the trigger's level values into the instance environment natively (44.0.2 RVA 0x181CAE0 via ApplyScriptParams 0x175C710 / 0x1280F60 / 0x0C6DD40) and the script-run loop at 0x0A77E90 re-applies them to an already existing instance before running it, without the busy check of the entity path 0x02EB8F0 (which call re-applied them in the live session is not identified offline). The four readers are the owner of the decision input; R15 pins them.",
       "control_area_nokko.hold_time": "R17 (R15 method): the R10 SCRIPT_PARAM_GLOBAL_AT_ENTRY owner wrote the encounter parameter defendTime into the AreaDefense instance environment at the DefendStart (P9) entry. Every reader runs after a yield of the same instance: P9 first calls P6, which busy-waits Sleep(1) until the area is ready (readable L683-690) before reading defendTime at i102/i105/i109/i110 (net-var default and the defendTime/2, defendTime/3 thresholds, L762-769); P5 i74 runs later as a registered callback (L598). An engine re-write of the parameter between the entry and these reads restores the template value (the R15 Defense failure shape: EXPOSED). The five reads are the only uses of the hash 1d1539a9 in the module (GETIMPORT, no write), so R17 pins them (IMPORT_READ_PIN_V1).",
@@ -365,9 +366,9 @@
   },
   "phase1_accounting": {
     "denominator": 387,
-    "registered_fully": 196,
+    "registered_fully": 197,
     "registered_partially": 25,
-    "excluded": 166,
+    "excluded": 165,
     "excluded_parts": 26
   },
   "rows_by_mode": {
@@ -602,7 +603,8 @@
     },
     "Void Cascade": {
       "LUA_ROOT_TABLE": 6,
-      "MISSION_INFO_FIELD": 1
+      "MISSION_INFO_FIELD": 1,
+      "LUA_PROTO_LITERAL": 1
     },
     "Void Flood": {
       "LUA_ROOT_TABLE": 12,
@@ -613,26 +615,26 @@
   },
   "rows_by_backend": {
     "METADATA_PATCH": 64,
-    "EXACT_LITERAL": 254,
+    "EXACT_LITERAL": 255,
     "TARGET_ADDON": 350,
     "SERVER_CONFIG": 1
   },
   "build": "2026.09.28.13.06",
-  "rows": 669,
+  "rows": 670,
   "rows_by_owner_kind": {
     "METADATA_PARAM": 65,
-    "LUA_PROTO_LITERAL": 167,
+    "LUA_PROTO_LITERAL": 168,
     "LUA_ROOT_TABLE": 411,
     "SCRIPT_PARAM_GLOBAL": 16,
     "MISSION_INFO_FIELD": 8,
     "SERVER": 1,
     "ADDON_EXTENSION": 1
   },
-  "excluded": 166,
+  "excluded": 165,
   "excluded_by_owner_kind": {
     "METADATA_PARAM": 30,
     "MISSIONINFO": 20,
-    "LUA_ROOT_TABLE": 35,
+    "LUA_ROOT_TABLE": 34,
     "LUA_PROTO_LITERAL": 47,
     "NATIVE_OR_UNKNOWN": 23,
     "SERVER": 11
@@ -859,6 +861,7 @@
     "void_cascade.alert_reward_interval",
     "void_cascade.circle_fixed_length",
     "void_cascade.pillar_duration",
+    "void_cascade.reward_interval",
     "void_flood.curse_count",
     "void_flood.deposit_and_drain",
     "void_flood.duviri_fixed_length",
@@ -872,25 +875,25 @@
   "modules": 67,
   "corpus_files": 67,
   "metadata_snapshot_sha256": "33D3D0EA8ED3FB4E4FB54A6101683701C353CA909D597C60EC2D7ADF1212A7D2",
-  "registry_sha256": "639D959F678635553782BC4C98C569B2464243DBC677FD551CC8CE154CE51938",
+  "registry_sha256": "1A9B103F066766968D42868A009CC37D434636AFCBE92AD327733DD88C97566A",
   "ui": {
     "groups": 103,
     "editors": {
-      "INPUTCOUNT": 474,
+      "INPUTCOUNT": 475,
       "INPUTBOX": 192,
       "TOGGLE": 3
     },
     "label_sources": {
       "id": 66,
       "override": 62,
-      "player_text": 461,
+      "player_text": 462,
       "prose": 54,
       "variant-id": 16,
       "variant-prose": 10
     },
     "applies": {
       "live_next_read": 329,
-      "next_mission": 275,
+      "next_mission": 276,
       "restart": 64,
       "server_reload": 1
     },

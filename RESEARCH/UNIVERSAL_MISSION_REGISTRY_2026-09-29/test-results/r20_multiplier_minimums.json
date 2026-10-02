@@ -9,7 +9,7 @@
       "pass": true
     },
     {
-      "name": "Missions.targets.addon.lua_B is the pinned R20 build (d8736450)",
+      "name": "Missions.targets.addon.lua_B is the pinned R20 build (a943cd3e)",
       "pass": true
     },
     {
@@ -17,15 +17,15 @@
       "pass": true
     },
     {
-      "name": "package.json is the pinned R20 build (acc2256e)",
+      "name": "package.json is the pinned R20 build (fd89daca)",
       "pass": true
     },
     {
-      "name": "literals.json is the pinned R20 build (96a97899)",
+      "name": "literals.json is the pinned R20 build (9beaa438)",
       "pass": true
     },
     {
-      "name": "the package declares 51 values with unit x (46 in package.json, 5 in literals.json): 51",
+      "name": "the package declares 52 values with unit x (47 in package.json, 5 in literals.json; R22 + the exolizer speed master): 52",
       "pass": true
     },
     {
@@ -50,6 +50,10 @@
     },
     {
       "name": "master railjack.kill_goals_scale: minimum 0.001 = the largest minimum of its driven rows",
+      "pass": true
+    },
+    {
+      "name": "inverse master void_cascade.exolizer_speed: minimum 0.006 is the recorded R22 floor (the rows allow 0.00274667)",
       "pass": true
     },
     {

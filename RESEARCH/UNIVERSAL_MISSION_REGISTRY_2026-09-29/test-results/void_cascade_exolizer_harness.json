@@ -1,0 +1,140 @@
+{
+  "checks": [
+    {
+      "name": "pinned full-package build input (LF content)",
+      "pass": true
+    },
+    {
+      "name": "full package build succeeds",
+      "pass": true
+    },
+    {
+      "name": "Missions.targets.addon.lua_B is the pinned R22 build (a943cd3e; got a943cd3e)",
+      "pass": true
+    },
+    {
+      "name": "package.json is the pinned R22 build (fd89daca; got fd89daca)",
+      "pass": true
+    },
+    {
+      "name": "literals.json is the pinned R22 build (9beaa438; got 9beaa438)",
+      "pass": true
+    },
+    {
+      "name": "engine_params.json is the pinned R22 build (20323777; got 20323777)",
+      "pass": true
+    },
+    {
+      "name": "package.json declares \"Exolizer progress speed\" (float x1, 0.006 to 90, addon, live, \"All Void Cascade missions\" + Quick)",
+      "pass": true
+    },
+    {
+      "name": "\"Exolizer defense time\" stays a declared row (Void Cascade > Timers), no longer the Quick entry",
+      "pass": true
+    },
+    {
+      "name": "literals.json declares \"Exolizers per reward\" (int 4, from 1, next mission) with the one LOADN site 88710 (08 06 04 00)",
+      "pass": true
+    },
+    {
+      "name": "the addon compiles the inverse drive (row = 90 / master) in the Void Cascade target",
+      "pass": true
+    },
+    {
+      "name": "registry master: one inverse drive of the exolizer duration row (scale 90 = the stock seconds), float, 0.006 to 90",
+      "pass": true
+    },
+    {
+      "name": "the driven row owns PILLAR_DURATION and PILLAR_DURATION_CIRCLE (root table root:i16:R5, stock 90)",
+      "pass": true
+    },
+    {
+      "name": "registry row void_cascade.reward_interval: live literal P97 i80 (offset 88710), 1..32767; the Phase 1 exclusion is resolved",
+      "pass": true
+    },
+    {
+      "name": "stock ZarimanSurvivalMission 44.0.2 (SHA-256 15ce88bf...)",
+      "pass": true
+    },
+    {
+      "name": "PILLAR_DURATION: written once by the root, read by prototypes [20, 42, 46, 73, 79], every one a hooked prototype [2, 20, 42, 46, 73, 79] (the hook binds the live table before the read)",
+      "pass": true
+    },
+    {
+      "name": "PILLAR_DURATION_CIRCLE: written once by the root, read by prototypes [2, 20, 42, 46, 73, 79], every one a hooked prototype [2, 20, 42, 46, 73, 79] (the hook binds the live table before the read)",
+      "pass": true
+    },
+    {
+      "name": "REWARD_INTERVAL: only the root uses it (i81 write, i237 read into the root local that the reward check reads); the root-table addon lane cannot reach a read at module load, the live literal can",
+      "pass": true
+    },
+    {
+      "name": "REWARD_INTERVAL = 4 is LOADN R6 at P97 i80, offset 88710",
+      "pass": true
+    },
+    {
+      "name": "toolchain luau.exe present",
+      "pass": true
+    },
+    {
+      "name": "harness: 43 Luau checks (generated addon, hooked prototypes [2, 9, 20, 42, 46, 73, 74, 79])",
+      "pass": true
+    },
+    {
+      "name": "x0.006: duration 15000.0000 s < 16384; the float32 timer still moves at 2000 fps (stops only above 2048 fps)",
+      "pass": true
+    },
+    {
+      "name": "control x0.005: duration 18000.0 s >= 16384; the timer stops moving above 1024 fps (why the floor is 0.006, R20 rule: no stall below about 1600 fps)",
+      "pass": true
+    },
+    {
+      "name": "control x0.001: 90000 s; the timer stops moving above 256 fps",
+      "pass": true
+    },
+    {
+      "name": "7 addon-owned field initialisers in the module (2 durations, alert interval, 4 Circuit counts)",
+      "pass": true
+    },
+    {
+      "name": "N=1: build succeeds and synthesizes ZarimanSurvivalMission from the recipe",
+      "pass": true
+    },
+    {
+      "name": "N=1: only the immediate of P97 i80 changes (LOADN R6, 1); 1 byte(s)",
+      "pass": true
+    },
+    {
+      "name": "N=1: every addon-owned initialiser keeps its stock bytes (R5-C: the addon stock check holds)",
+      "pass": true
+    },
+    {
+      "name": "N=1: the readable render (pinned derecomp) shows REWARD_INTERVAL = 1 copied into the reward-check local; PILLAR_DURATION stays 90",
+      "pass": true
+    },
+    {
+      "name": "N=2: build succeeds and synthesizes ZarimanSurvivalMission from the recipe",
+      "pass": true
+    },
+    {
+      "name": "N=2: only the immediate of P97 i80 changes (LOADN R6, 2); 1 byte(s)",
+      "pass": true
+    },
+    {
+      "name": "N=2: every addon-owned initialiser keeps its stock bytes (R5-C: the addon stock check holds)",
+      "pass": true
+    },
+    {
+      "name": "N=10: build succeeds and synthesizes ZarimanSurvivalMission from the recipe",
+      "pass": true
+    },
+    {
+      "name": "N=10: only the immediate of P97 i80 changes (LOADN R6, 10); 1 byte(s)",
+      "pass": true
+    },
+    {
+      "name": "N=10: every addon-owned initialiser keeps its stock bytes (R5-C: the addon stock check holds)",
+      "pass": true
+    }
+  ]
+}

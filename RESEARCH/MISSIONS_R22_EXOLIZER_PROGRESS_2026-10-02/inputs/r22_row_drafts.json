@@ -1,0 +1,52 @@
+{
+ "schema": "RENOVICE_MISSION_TUNABLE_REGISTRY_V2 tunables[] drafts (contract R22)",
+ "build": "2026.09.28.13.06",
+ "supersedes": {},
+ "rows": [
+  {
+   "tunable_id": "void_cascade.reward_interval",
+   "phase1_tunable_id": "void_cascade.reward_interval",
+   "label": "Exolizers per reward (normal Void Cascade)",
+   "mission_type": "Void Cascade",
+   "variant": "normal (not Alert; not The Circuit fixed length)",
+   "shared_with": "Alert missions replace the interval with ALERT_REWARD_INTERVAL (proto 73)",
+   "owner_kind": "LUA_PROTO_LITERAL",
+   "backend": "EXACT_LITERAL",
+   "owner": {
+    "body_key": "32c344afa33be174",
+    "stock_sha256": "15CE88BF63C0A721BC978997AD7E7FBA39EA4FADEE00DA8CE5D66E2DF6319D50",
+    "file": "Lotus_Scripts_Modes_ZarimanSurvivalMission.lua_B",
+    "module_path": "Lotus.Scripts.Modes.ZarimanSurvivalMission",
+    "sites": [
+     {
+      "kind": "instruction",
+      "prototype": 97,
+      "instruction": 80,
+      "offset": 88710,
+      "expected": [
+       8,
+       6,
+       4,
+       0
+      ],
+      "register": 6,
+      "numerator": 1,
+      "denominator": 1,
+      "owner": "root REWARD_INTERVAL (LOADN->SETTABLEKS, i80/i81)"
+     }
+    ]
+   },
+   "unit": "pillars",
+   "stock": 4,
+   "limits": {
+    "minimum": 1,
+    "maximum": 32767,
+    "integer": true,
+    "basis": "R22: the interval is a divisor (proto 28 floor(used / interval)) and a first-reward threshold (proto 12); 1 = a reward per exolizer. LOADN domain 1..32767."
+   },
+   "applies": "next_mission",
+   "confidence": "CONFIRMED_STATIC",
+   "evidence": "ZarimanSurvivalMission 44.0.2 (body 32c344afa33be174), readable decompile work/research/universal-mission-editor-2026-09-29/decomp: the root sets REWARD_INTERVAL = 4 (proto 97 i80 LOADN, i81 SETTABLEKS, L97) and copies it once into the root local frame_97[177] (i237 GETTABLEKS, L214); the module has no other use of the key (census: i81 write, i237 read). Alert missions overwrite frame_97[177] with ALERT_REWARD_INTERVAL in proto 73 (L8141-8147). Readers of frame_97[177]: proto 28 (L4073-4108) gives reward tier n for every n up to floor(pillarsUsed / interval) (OnTieredRewardRoundOver(n - 1)); pillarsUsed (frame_97[170]) counts exolizers whose timer ran out (proto 45 L6188-6198); proto 12 (L2393-2416) fails the mission when the cascade meter reaches 0 before the first reward; proto 2 (L649) is a debug line. Because the only reader of the table field is the root copy, the addon root-table lane cannot own it (gate test_phase2e_gates case 'root reads the field at module load'); the literal lane rewrites the initialiser before the root runs."
+  }
+ ]
+}

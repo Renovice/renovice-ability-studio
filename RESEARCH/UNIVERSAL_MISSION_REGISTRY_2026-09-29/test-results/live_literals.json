@@ -17,11 +17,11 @@
       "pass": true
     },
     {
-      "name": "baked package.json declares every staged value plus exactly the 60 R10/R11/R17/R18 addon values",
+      "name": "baked package.json declares every staged value plus exactly the 61 R10/R11/R17/R18/R22 addon values",
       "pass": true
     },
     {
-      "name": "baked declarations equal the staged ones except the two R9 master descriptions, the R10 category levels and the R17 layout (10 values changed by the R16 -> R17 registry layout, 4 collapsed under a type master)",
+      "name": "baked declarations equal the staged ones except the two R9 master descriptions, the R10 category levels and the R17 layout (11 values changed by the R16 -> R17 registry layout, 4 collapsed under a type master)",
       "pass": true
     },
     {
@@ -37,7 +37,7 @@
       "pass": true
     },
     {
-      "name": "every registry headline literal value is declared (135)",
+      "name": "every registry headline literal value is declared (136)",
       "pass": true
     },
     {
@@ -134,12 +134,12 @@
     }
   ],
   "recipe": {
-    "values": 135,
-    "modules": 43,
+    "values": 136,
+    "modules": 44,
     "masters": 18,
-    "literals_json_sha256": "96a97899889b6a5f5357a4c0ae0024d0afe9a214c398784fdcc834f401f0fd03",
-    "package_json_sha256": "acc2256eb4a76f6782af1aa51534a5387c065ae1323da36daa45dfbbd06f6d71",
-    "generation": "work\\temp\\live-literals-tests\\recipe\\missions\\91E936A47C58"
+    "literals_json_sha256": "9beaa4385ee3efe39daf0f3788bcf19b41aa500af1cd7705b03e3ab4df0392e8",
+    "package_json_sha256": "fd89dacae8cfd9cec10af9c06af22dcd2835a6e8c88a2842206fdb8c3904eda0",
+    "generation": "work\\temp\\live-literals-tests\\recipe\\missions\\7793C7146D42"
   },
   "old_bootstrapper": {
     "revision": "6227cc0",

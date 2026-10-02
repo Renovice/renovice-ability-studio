@@ -38,6 +38,14 @@ def register(row, master):
             ('railjack.corpus_fighter_limit_scale', 1), ('railjack.pontis_ash_enemies_scale', 1),
             ('railjack.pontis_garuda_enemies_scale', 1)], group='railjack')
 
+    # ---- Contract R22 (2026-10-02): "All Void Cascade missions" = exolizer progress speed, an inverse master over the
+    # exolizer duration (PILLAR_DURATION and PILLAR_DURATION_CIRCLE, one addon row): duration = 90 / speed. Floor 0.006:
+    # the game's timer adds the frame time to a float32 sum and stops moving once the frame time is below half a float32
+    # step of that sum; 90 / 0.006 = 15000 s keeps the sum below 16384, which moves up to 2048 fps (R20 rule).
+    master('void_cascade.exolizer_speed', 'Exolizer progress speed',
+           'How fast every exolizer fills in Void Cascade and The Circuit, x2 = half the time per exolizer',
+           [('void_cascade.pillar_duration', 90, 'inverse')], unit='x', limits=(0.006, 90))
+
     # ---- One module, literal lane (R5/R9 masters).
     live_master('loopdefend.phase_time', 'Time per phase (all)',
                 'Seconds each Mirror Defense phase lasts in normal and Jade missions',

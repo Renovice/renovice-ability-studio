@@ -9,15 +9,15 @@
       "pass": true
     },
     {
-      "name": "Missions.targets.addon.lua_B is the pinned R20/R21 build (d8736450)",
+      "name": "Missions.targets.addon.lua_B is the pinned R22 build (a943cd3e; R20/R21 d8736450 / acc2256e / 96a97899)",
       "pass": true
     },
     {
-      "name": "package.json is the pinned R20/R21 build (acc2256e)",
+      "name": "package.json is the pinned R22 build (fd89daca; R20/R21 d8736450 / acc2256e / 96a97899)",
       "pass": true
     },
     {
-      "name": "literals.json is the pinned R20/R21 build (96a97899)",
+      "name": "literals.json is the pinned R22 build (9beaa438; R20/R21 d8736450 / acc2256e / 96a97899)",
       "pass": true
     },
     {
@@ -149,7 +149,7 @@
       "pass": true
     },
     {
-      "name": "the bootstrapper R21 gate fixture (fixtures/MissionsR21) holds the engine_params.json and package.json of this build",
+      "name": "the bootstrapper R21 gate fixture (fixtures/MissionsR21) holds the engine_params.json of this build (unchanged since R21) and the R20/R21 package.json",
       "pass": true
     },
     {

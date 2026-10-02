@@ -112,6 +112,15 @@ R19_OVERRIDES_SHA256 = 'AD86E8EC77FDB11BAF4033436E72961C26170BC65D1717A1765A418E
 R21 = EDITOR / 'RESEARCH/MISSIONS_R21_PARAM_LANE_AUDIT_2026-10-02'
 R21_OVERRIDES = R21 / 'inputs/r21_engine_overrides.json'
 R21_OVERRIDES_SHA256 = '91518C83D34A8E311C2A9EE349DA7F19454C1814B820E403589C0CD680517F90'  # LF-normalized content
+# Contract R22 (2026-10-02, Void Cascade exolizer progress): the normal Void Cascade reward interval REWARD_INTERVAL (4
+# exolizers per reward). Phase 1 left it PARTIAL because the root copies the table field into a root local at module load
+# (the addon root-table lane cannot reach that read); its only reader is that copy, so the live-literal lane owns the
+# initialiser (EXACT_LITERAL, one LOADN site). Record RESEARCH/MISSIONS_R22_EXOLIZER_PROGRESS_2026-10-02; research
+# work/research/void-cascade-exolizer-progress-2026-10-02; drafts pinned by their LF content.
+R22 = EDITOR / 'RESEARCH/MISSIONS_R22_EXOLIZER_PROGRESS_2026-10-02'
+R22_DRAFTS = R22 / 'inputs/r22_row_drafts.json'
+R22_DRAFTS_SHA256 = '936F0EDD3137B48C9DE1CBEABD8E33815C8ACB20B56B16434E82028286A2D1C1'  # LF-normalized content
+R22_PROVENANCE = 'research:void-cascade-exolizer-progress-2026-10-02 (contract R22)'
 # R15 IMPORT_READ_PIN_V1: a single-name GETIMPORT of a hashed global (U44 dispatch byte 0x35, canonical 0x46) is rewritten
 # into `LOADN A, value` twice (the instruction word and its aux word), through two LIVE_LITERALS_V1 instruction sites flagged
 # `rewrites_instruction`. Admissible only when every instruction of the module that names the hash is one of the pinned
@@ -354,18 +363,21 @@ def rows(ctx):
     r15 = load_drafts(R15_DRAFTS, R15_DRAFTS_SHA256, 'R15')
     r17 = load_drafts(R17_DRAFTS, R17_DRAFTS_SHA256, 'R17')
     r18 = load_drafts(R18_DRAFTS, R18_DRAFTS_SHA256, 'R18')
+    r22 = load_drafts(R22_DRAFTS, R22_DRAFTS_SHA256, 'R22')
     out, excluded = [], []
     report = {'drafts': len(drafts['rows']), 'drafts_rejected_by_research': len(drafts['rejected']), 'admitted': 0,
               'excluded': [], 'renamed': {}, 'by_backend': {}, 'by_template': {}, 'r11_drafts': len(r11['rows']),
               'r12_drafts': len(r12['rows']), 'r14_drafts': len(r14['rows']), 'r15_drafts': len(r15['rows']),
-              'r17_drafts': len(r17['rows']), 'r18_drafts': len(r18['rows']),
-              'superseded': dict(r15['supersedes'], **r17['supersedes'], **r18['supersedes']), 'import_pins': {}}
+              'r17_drafts': len(r17['rows']), 'r18_drafts': len(r18['rows']), 'r22_drafts': len(r22['rows']),
+              'superseded': dict(r15['supersedes'], **r17['supersedes'], **r18['supersedes'], **r22['supersedes']),
+              'import_pins': {}}
     # R15/R17: a later draft with the same id replaces the earlier one (the reason is recorded in the report). A later set
     # may also add new ids (R17: the Gas City row); each reason must name one of its own drafts and an earlier draft.
     earlier = [d for d in (drafts['rows'] + [dict(x, _provenance=R11_PROVENANCE) for x in r11['rows']]
                            + [dict(x, _provenance=R12_PROVENANCE) for x in r12['rows']]
                            + [dict(x, _provenance=R14_PROVENANCE) for x in r14['rows']])]
-    for label, later, provenance in (('R15', r15, R15_PROVENANCE), ('R17', r17, R17_PROVENANCE), ('R18', r18, R18_PROVENANCE)):
+    for label, later, provenance in (('R15', r15, R15_PROVENANCE), ('R17', r17, R17_PROVENANCE), ('R18', r18, R18_PROVENANCE),
+                                     ('R22', r22, R22_PROVENANCE)):
         superseded = set(later['supersedes'])
         own = {x['tunable_id'] for x in later['rows']}
         if label == 'R15' and superseded != own:

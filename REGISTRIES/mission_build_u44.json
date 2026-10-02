@@ -8821,7 +8821,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 427,
+        "rank": 429,
         "path": [
           "Arbitration",
           "Advanced"
@@ -8891,7 +8891,7 @@
         "unit": "",
         "min": 1,
         "max": 2,
-        "rank": 430,
+        "rank": 432,
         "path": [
           "Archimedea",
           "Objectives",
@@ -8962,7 +8962,7 @@
         "unit": "",
         "min": 1,
         "max": 8,
-        "rank": 431,
+        "rank": 433,
         "path": [
           "Archimedea",
           "Objectives",
@@ -9318,7 +9318,7 @@
         "unit": "",
         "min": 1,
         "max": 4,
-        "rank": 432,
+        "rank": 434,
         "path": [
           "Archimedea",
           "Objectives",
@@ -9389,7 +9389,7 @@
         "unit": "min",
         "min": 1,
         "max": 60,
-        "rank": 429,
+        "rank": 431,
         "path": [
           "Archimedea",
           "Objectives",
@@ -9460,7 +9460,7 @@
         "unit": "",
         "min": 1,
         "max": 6,
-        "rank": 434,
+        "rank": 436,
         "path": [
           "Archimedea",
           "Objectives",
@@ -9816,7 +9816,7 @@
         "unit": "min",
         "min": 1,
         "max": 60,
-        "rank": 433,
+        "rank": 435,
         "path": [
           "Archimedea",
           "Objectives",
@@ -9925,7 +9925,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 435,
+        "rank": 437,
         "path": [
           "Archwing",
           "Timers"
@@ -10409,7 +10409,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 503,
+        "rank": 505,
         "path": [
           "Assassination",
           "Advanced"
@@ -10496,7 +10496,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 500,
+        "rank": 502,
         "path": [
           "Assassination",
           "Enemies"
@@ -10570,7 +10570,7 @@
         "unit": "",
         "min": 1,
         "max": 9999,
-        "rank": 501,
+        "rank": 503,
         "path": [
           "Assassination",
           "Advanced"
@@ -10659,7 +10659,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 502,
+        "rank": 504,
         "path": [
           "Assassination",
           "Advanced"
@@ -10746,7 +10746,7 @@
         "unit": "x",
         "min": 0.001,
         "max": 100,
-        "rank": 497,
+        "rank": 499,
         "path": [
           "Assassination",
           "Enemies",
@@ -10834,7 +10834,7 @@
         "unit": "x",
         "min": 0.001,
         "max": 100,
-        "rank": 498,
+        "rank": 500,
         "path": [
           "Assassination",
           "Enemies",
@@ -10922,7 +10922,7 @@
         "unit": "x",
         "min": 0.001,
         "max": 100,
-        "rank": 499,
+        "rank": 501,
         "path": [
           "Assassination",
           "Enemies",
@@ -37999,7 +37999,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 490,
+        "rank": 492,
         "path": [
           "All missions",
           "Timers"
@@ -38482,7 +38482,7 @@
         "unit": "HP",
         "min": 1,
         "max": 32767,
-        "rank": 443,
+        "rank": 445,
         "path": [
           "Hijack",
           "Objectives"
@@ -38565,7 +38565,7 @@
         "unit": "HP",
         "min": 1,
         "max": 32767,
-        "rank": 444,
+        "rank": 446,
         "path": [
           "Hijack",
           "Objectives"
@@ -38771,7 +38771,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 461,
+        "rank": 463,
         "path": [
           "Legacyte Harvest",
           "Objectives",
@@ -38847,7 +38847,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 460,
+        "rank": 462,
         "path": [
           "Legacyte Harvest",
           "Objectives",
@@ -38923,7 +38923,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 458,
+        "rank": 460,
         "path": [
           "Legacyte Harvest",
           "Objectives",
@@ -38999,7 +38999,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 459,
+        "rank": 461,
         "path": [
           "Legacyte Harvest",
           "Objectives",
@@ -41687,7 +41687,7 @@
         "min": 1,
         "max": 3600,
         "stock_check": "none",
-        "rank": 449,
+        "rank": 451,
         "path": [
           "Interception",
           "Timers"
@@ -41823,7 +41823,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 450,
+        "rank": 452,
         "path": [
           "Interception",
           "Objectives"
@@ -41980,7 +41980,7 @@
         "min": 0.001,
         "max": 20,
         "stock_check": "none",
-        "rank": 448,
+        "rank": 450,
         "path": [
           "Interception"
         ],
@@ -42150,7 +42150,7 @@
         "min": 0.1,
         "max": 20,
         "stock_check": "none",
-        "rank": 451,
+        "rank": 453,
         "path": [
           "Interception",
           "Advanced"
@@ -54062,7 +54062,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 438,
+        "rank": 440,
         "path": [
           "Hack-Station Defense",
           "Timers",
@@ -54144,7 +54144,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 440,
+        "rank": 442,
         "path": [
           "Hack-Station Defense",
           "Timers",
@@ -54226,7 +54226,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 437,
+        "rank": 439,
         "path": [
           "Hack-Station Defense",
           "Timers",
@@ -54308,7 +54308,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 439,
+        "rank": 441,
         "path": [
           "Hack-Station Defense",
           "Timers",
@@ -54470,7 +54470,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 441,
+        "rank": 443,
         "path": [
           "Hack-Station Defense",
           "Objectives"
@@ -54932,7 +54932,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 445,
+        "rank": 447,
         "path": [
           "Netracell",
           "Objectives"
@@ -55108,7 +55108,7 @@
         "unit": "",
         "min": 0,
         "max": 10000,
-        "rank": 446,
+        "rank": 448,
         "path": [
           "Netracell",
           "Objectives"
@@ -55302,7 +55302,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 496,
+        "rank": 498,
         "path": [
           "Sanctuary Onslaught",
           "Advanced"
@@ -55372,7 +55372,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 492,
+        "rank": 494,
         "path": [
           "Sanctuary Onslaught",
           "Objectives",
@@ -55443,7 +55443,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 494,
+        "rank": 496,
         "path": [
           "Sanctuary Onslaught",
           "Objectives",
@@ -55514,7 +55514,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 493,
+        "rank": 495,
         "path": [
           "Sanctuary Onslaught",
           "Objectives",
@@ -55617,7 +55617,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 491,
+        "rank": 493,
         "path": [
           "Sanctuary Onslaught",
           "Timers"
@@ -55702,7 +55702,7 @@
         "unit": "",
         "min": 1,
         "max": 100,
-        "rank": 495,
+        "rank": 497,
         "path": [
           "Sanctuary Onslaught",
           "Rewards / drops"
@@ -59536,7 +59536,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 447,
+        "rank": 449,
         "path": [
           "Pursuit",
           "Timers"
@@ -60599,7 +60599,7 @@
         "min": 0.001,
         "max": 10,
         "stock_check": "none",
-        "rank": 507,
+        "rank": 509,
         "path": [
           "Railjack",
           "Objectives"
@@ -60731,7 +60731,7 @@
         "min": 0.001,
         "max": 10,
         "stock_check": "none",
-        "rank": 506,
+        "rank": 508,
         "path": [
           "Railjack",
           "Objectives"
@@ -60904,7 +60904,7 @@
         "min": 0.001,
         "max": 10,
         "stock_check": "none",
-        "rank": 505,
+        "rank": 507,
         "path": [
           "Railjack",
           "Objectives"
@@ -61018,7 +61018,7 @@
         "min": 0.001,
         "max": 10,
         "stock_check": "none",
-        "rank": 508,
+        "rank": 510,
         "path": [
           "Railjack",
           "Objectives",
@@ -61134,7 +61134,7 @@
         "min": 0.001,
         "max": 10,
         "stock_check": "none",
-        "rank": 509,
+        "rank": 511,
         "path": [
           "Railjack",
           "Objectives",
@@ -61286,7 +61286,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 455,
+        "rank": 457,
         "path": [
           "Rescue",
           "Timers",
@@ -61359,7 +61359,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 456,
+        "rank": 458,
         "path": [
           "Rescue",
           "Timers",
@@ -61733,7 +61733,7 @@
         "unit": "m/s",
         "min": 0.1,
         "max": 1000,
-        "rank": 473,
+        "rank": 475,
         "path": [
           "Rush",
           "Timers"
@@ -61805,7 +61805,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 467,
+        "rank": 469,
         "path": [
           "Sabotage",
           "Timers"
@@ -61892,7 +61892,7 @@
         "unit": "x",
         "min": 0.001,
         "max": 100,
-        "rank": 470,
+        "rank": 472,
         "path": [
           "Sabotage",
           "Advanced",
@@ -61980,7 +61980,7 @@
         "unit": "x",
         "min": 0.001,
         "max": 100,
-        "rank": 471,
+        "rank": 473,
         "path": [
           "Sabotage",
           "Advanced",
@@ -62115,7 +62115,7 @@
         "min": 0.001,
         "max": 20,
         "stock_check": "none",
-        "rank": 464,
+        "rank": 466,
         "path": [
           "Sabotage",
           "Timers"
@@ -62188,7 +62188,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 465,
+        "rank": 467,
         "path": [
           "Sabotage",
           "Timers"
@@ -62277,7 +62277,7 @@
         "unit": "s",
         "min": 4,
         "max": 32767,
-        "rank": 466,
+        "rank": 468,
         "path": [
           "Sabotage",
           "Timers"
@@ -62383,7 +62383,7 @@
         "min": 1,
         "max": 3600,
         "stock_check": "none",
-        "rank": 472,
+        "rank": 474,
         "path": [
           "Sabotage",
           "Advanced"
@@ -62455,7 +62455,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 463,
+        "rank": 465,
         "path": [
           "Sabotage",
           "Timers"
@@ -62527,7 +62527,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 469,
+        "rank": 471,
         "path": [
           "Sabotage",
           "Enemies"
@@ -62599,7 +62599,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 468,
+        "rank": 470,
         "path": [
           "Sabotage",
           "Timers"
@@ -69657,7 +69657,7 @@
         "min": 0.001,
         "max": 20,
         "stock_check": "none",
-        "rank": 452,
+        "rank": 454,
         "path": [
           "Spy"
         ],
@@ -69899,7 +69899,7 @@
         "unit": "",
         "min": 0,
         "max": 5,
-        "rank": 453,
+        "rank": 455,
         "path": [
           "Spy",
           "Advanced"
@@ -72934,7 +72934,7 @@
         "unit": "s",
         "min": 0.5,
         "max": 32767,
-        "rank": 489,
+        "rank": 491,
         "path": [
           "Void Armageddon",
           "Advanced"
@@ -73006,7 +73006,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 480,
+        "rank": 482,
         "path": [
           "Void Armageddon",
           "Objectives",
@@ -73079,7 +73079,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 481,
+        "rank": 483,
         "path": [
           "Void Armageddon",
           "Objectives",
@@ -73152,7 +73152,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 482,
+        "rank": 484,
         "path": [
           "Void Armageddon",
           "Objectives",
@@ -73225,7 +73225,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 483,
+        "rank": 485,
         "path": [
           "Void Armageddon",
           "Objectives",
@@ -73298,7 +73298,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 484,
+        "rank": 486,
         "path": [
           "Void Armageddon",
           "Enemies",
@@ -73371,7 +73371,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 485,
+        "rank": 487,
         "path": [
           "Void Armageddon",
           "Enemies",
@@ -73444,7 +73444,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 486,
+        "rank": 488,
         "path": [
           "Void Armageddon",
           "Enemies",
@@ -73517,7 +73517,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 487,
+        "rank": 489,
         "path": [
           "Void Armageddon",
           "Enemies",
@@ -73595,7 +73595,7 @@
         "unit": "s",
         "min": 0.5,
         "max": 32767,
-        "rank": 476,
+        "rank": 478,
         "path": [
           "Void Armageddon",
           "Timers"
@@ -73672,7 +73672,7 @@
         "unit": "s",
         "min": 0.5,
         "max": 32767,
-        "rank": 475,
+        "rank": 477,
         "path": [
           "Void Armageddon",
           "Timers"
@@ -73749,7 +73749,7 @@
         "unit": "s",
         "min": 0.5,
         "max": 32767,
-        "rank": 477,
+        "rank": 479,
         "path": [
           "Void Armageddon",
           "Timers"
@@ -73826,7 +73826,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 488,
+        "rank": 490,
         "path": [
           "Void Armageddon",
           "Rewards / drops"
@@ -73903,7 +73903,7 @@
         "unit": "s",
         "min": 0.5,
         "max": 32767,
-        "rank": 478,
+        "rank": 480,
         "path": [
           "Void Armageddon",
           "Timers"
@@ -73980,7 +73980,7 @@
         "unit": "s",
         "min": 0.5,
         "max": 32767,
-        "rank": 474,
+        "rank": 476,
         "path": [
           "Void Armageddon"
         ],
@@ -74058,7 +74058,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 479,
+        "rank": 481,
         "path": [
           "Void Armageddon",
           "Objectives"
@@ -74142,7 +74142,7 @@
         ],
         "short_label": "Alert missions: reward interval",
         "label_source": "player_text",
-        "scope_text": "Exolizers per reward in Alert Void Cascade missions. Its exact effect is not confirmed in the game code.",
+        "scope_text": "Exolizers that must finish for each reward in Alert Void Cascade missions.",
         "aliases": [
           "Alert"
         ],
@@ -74153,13 +74153,13 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 412,
+        "rank": 414,
         "path": [
           "Void Cascade",
           "Rewards / drops"
         ],
         "row": "Alert: reward interval",
-        "r5_scope_text": "Exolizers per reward in Alert Void Cascade missions (unit inferred from the code); stock 10 exolizers"
+        "r5_scope_text": "Exolizers that must finish for each reward in Alert Void Cascade missions; stock 10 exolizers"
       }
     },
     {
@@ -74267,7 +74267,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 408,
+        "rank": 409,
         "path": [
           "Void Cascade",
           "Objectives",
@@ -74382,7 +74382,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 409,
+        "rank": 410,
         "path": [
           "Void Cascade",
           "Objectives",
@@ -74497,7 +74497,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 410,
+        "rank": 411,
         "path": [
           "Void Cascade",
           "Objectives",
@@ -74612,7 +74612,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 411,
+        "rank": 412,
         "path": [
           "Void Cascade",
           "Objectives",
@@ -74723,7 +74723,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 407,
+        "rank": 408,
         "path": [
           "Void Cascade",
           "Objectives"
@@ -74838,7 +74838,7 @@
         ],
         "short_label": "Exolizer defense time",
         "label_source": "player_text",
-        "scope_text": "Seconds each exolizer must be defended in Void Cascade. The Circuit uses its own timer.",
+        "scope_text": "Seconds each exolizer runs before it is used up, in Void Cascade and The Circuit. When on, it wins over the exolizer progress speed above.",
         "aliases": [
           "Circuit"
         ],
@@ -74849,14 +74849,88 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 406,
+        "rank": 407,
         "path": [
-          "Void Cascade"
+          "Void Cascade",
+          "Timers"
         ],
-        "row": "All Void Cascade missions",
-        "quick": "Void Cascade: exolizer defense time",
-        "quick_on_page": true,
+        "row": "Exolizer defense time",
         "r5_scope_text": "Seconds each exolizer must be defended in Void Cascade (normal and The Circuit); stock 90 s"
+      }
+    },
+    {
+      "tunable_id": "void_cascade.reward_interval",
+      "phase1_tunable_id": "void_cascade.reward_interval",
+      "label": "Exolizers per reward (normal Void Cascade)",
+      "mission_type": "Void Cascade",
+      "variant": "normal (not Alert; not The Circuit fixed length)",
+      "shared_with": "Alert missions replace the interval with ALERT_REWARD_INTERVAL (proto 73)",
+      "owner_kind": "LUA_PROTO_LITERAL",
+      "backend": "EXACT_LITERAL",
+      "unit": "pillars",
+      "stock": 4,
+      "confidence": "CONFIRMED_STATIC",
+      "provenance": "research:void-cascade-exolizer-progress-2026-10-02 (contract R22)",
+      "evidence": "ZarimanSurvivalMission 44.0.2 (body 32c344afa33be174), readable decompile work/research/universal-mission-editor-2026-09-29/decomp: the root sets REWARD_INTERVAL = 4 (proto 97 i80 LOADN, i81 SETTABLEKS, L97) and copies it once into the root local frame_97[177] (i237 GETTABLEKS, L214); the module has no other use of the key (census: i81 write, i237 read). Alert missions overwrite frame_97[177] with ALERT_REWARD_INTERVAL in proto 73 (L8141-8147). Readers of frame_97[177]: proto 28 (L4073-4108) gives reward tier n for every n up to floor(pillarsUsed / interval) (OnTieredRewardRoundOver(n - 1)); pillarsUsed (frame_97[170]) counts exolizers whose timer ran out (proto 45 L6188-6198); proto 12 (L2393-2416) fails the mission when the cascade meter reaches 0 before the first reward; proto 2 (L649) is a debug line. Because the only reader of the table field is the root copy, the addon root-table lane cannot own it (gate test_phase2e_gates case 'root reads the field at module load'); the literal lane rewrites the initialiser before the root runs.",
+      "research_draft_id": "void_cascade.reward_interval",
+      "owner": {
+        "body_key": "32c344afa33be174",
+        "stock_sha256": "15CE88BF63C0A721BC978997AD7E7FBA39EA4FADEE00DA8CE5D66E2DF6319D50",
+        "file": "Lotus_Scripts_Modes_ZarimanSurvivalMission.lua_B",
+        "module_path": "Lotus.Scripts.Modes.ZarimanSurvivalMission",
+        "sites": [
+          {
+            "kind": "instruction",
+            "prototype": 97,
+            "instruction": 80,
+            "offset": 88710,
+            "expected": [
+              8,
+              6,
+              4,
+              0
+            ],
+            "register": 6,
+            "numerator": 1,
+            "denominator": 1,
+            "owner": "root REWARD_INTERVAL (LOADN->SETTABLEKS, i80/i81)"
+          }
+        ]
+      },
+      "limits": {
+        "minimum": 1,
+        "maximum": 32767,
+        "integer": true,
+        "basis": "R22: the interval is a divisor (proto 28 floor(used / interval)) and a first-reward threshold (proto 12); 1 = a reward per exolizer. LOADN domain 1..32767."
+      },
+      "applies": "next_mission",
+      "backend_note": "1 exact site(s) patched together: root REWARD_INTERVAL (LOADN->SETTABLEKS, i80/i81)",
+      "ui": {
+        "group": "void_cascade",
+        "mt_codes": [
+          "MT_VOID_CASCADE"
+        ],
+        "short_label": "Exolizers per reward",
+        "label_source": "player_text",
+        "scope_text": "Exolizers that must finish for each reward in normal Void Cascade missions (1 = a reward for every exolizer). Applies from the next mission.",
+        "aliases": [
+          "Alert",
+          "Circuit"
+        ],
+        "lane": "literal",
+        "applies": "next_mission",
+        "type": "int",
+        "editor": "INPUTCOUNT",
+        "unit": "",
+        "min": 1,
+        "max": 32767,
+        "rank": 413,
+        "path": [
+          "Void Cascade",
+          "Rewards / drops"
+        ],
+        "row": "Exolizers per reward",
+        "r5_scope_text": "Exolizers that must finish for each reward in normal Void Cascade missions; stock 4 exolizers"
       }
     },
     {
@@ -74925,7 +74999,7 @@
         "unit": "",
         "min": 1,
         "max": 1000,
-        "rank": 422,
+        "rank": 424,
         "path": [
           "Void Flood",
           "Advanced"
@@ -75002,7 +75076,7 @@
         "unit": "",
         "min": 1,
         "max": 1000,
-        "rank": 423,
+        "rank": 425,
         "path": [
           "Void Flood",
           "Advanced"
@@ -75077,7 +75151,7 @@
         "unit": "",
         "min": 1,
         "max": 10000,
-        "rank": 424,
+        "rank": 426,
         "path": [
           "Void Flood",
           "Advanced"
@@ -75218,7 +75292,7 @@
         "unit": "x",
         "min": 0.001,
         "max": 100,
-        "rank": 413,
+        "rank": 415,
         "path": [
           "Void Flood"
         ],
@@ -75299,7 +75373,7 @@
         "unit": "x",
         "min": 0,
         "max": 100,
-        "rank": 420,
+        "rank": 422,
         "path": [
           "Void Flood",
           "Objectives"
@@ -75539,7 +75613,7 @@
         "unit": "x",
         "min": 0,
         "max": 1000,
-        "rank": 421,
+        "rank": 423,
         "path": [
           "Void Flood",
           "Advanced"
@@ -75663,7 +75737,7 @@
         "unit": "s",
         "min": 0,
         "max": 20000,
-        "rank": 414,
+        "rank": 416,
         "path": [
           "Void Flood",
           "Timers"
@@ -75738,7 +75812,7 @@
         "unit": "s",
         "min": 1,
         "max": 6000,
-        "rank": 415,
+        "rank": 417,
         "path": [
           "Void Flood",
           "Timers"
@@ -75851,7 +75925,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 426,
+        "rank": 428,
         "path": [
           "Void Flood",
           "Objectives"
@@ -75934,7 +76008,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 416,
+        "rank": 418,
         "path": [
           "Void Flood",
           "Objectives"
@@ -76012,7 +76086,7 @@
         "unit": "",
         "min": 1,
         "max": 1000,
-        "rank": 425,
+        "rank": 427,
         "path": [
           "Void Flood",
           "Advanced"
@@ -76205,7 +76279,7 @@
         "unit": "x",
         "min": 0.06,
         "max": 100,
-        "rank": 419,
+        "rank": 421,
         "path": [
           "Void Flood",
           "Objectives"
@@ -76327,7 +76401,7 @@
         "unit": "x",
         "min": 0.001,
         "max": 100,
-        "rank": 418,
+        "rank": 420,
         "path": [
           "Void Flood",
           "Objectives"
@@ -76438,7 +76512,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 417,
+        "rank": 419,
         "path": [
           "Void Flood",
           "Objectives"
@@ -78125,12 +78199,6 @@
       "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
     },
     {
-      "tunable_id": "void_cascade.reward_interval",
-      "owner_kind": "LUA_ROOT_TABLE",
-      "confidence": "PARTIAL",
-      "reason": "Phase 1 confidence PARTIAL; only CONFIRMED_STATIC rows are admitted."
-    },
-    {
       "tunable_id": "void_flood.armageddon_presence",
       "owner_kind": "NATIVE_OR_UNKNOWN",
       "confidence": "UNCONFIRMED",
@@ -78337,7 +78405,7 @@
     "title_label": "group label upper-cased, <= title_budget",
     "editor_rule": "TOGGLE for enum; INPUTCOUNT for int with min >= 0 (max always set); INPUTBOX otherwise",
     "applies_rule": "addon live_next_read; literal next_mission; metadata restart; server server_reload",
-    "editor_label_with_stock_rows": 517
+    "editor_label_with_stock_rows": 518
   },
   "ui_sources": {
     "public_export_regions": {
@@ -83497,7 +83565,7 @@
       "short_label": "Defend time per station",
       "label_source": "player_text",
       "scope_text": "Seconds to defend each hack station, all node levels (sets the random range). A number you type replaces the whole range; the variants below override it.",
-      "rank": 436,
+      "rank": 438,
       "lane": "literal",
       "applies": "next_mission",
       "type": "int",
@@ -83581,7 +83649,7 @@
       "short_label": "Kill goals",
       "label_source": "player_text",
       "scope_text": "Multiplies every Railjack kill goal: Grineer fighters and crewships, the Corpus fighter limit and the Pontis tower space enemies (each at least 1). A row below that is on wins for its missions.",
-      "rank": 504,
+      "rank": 506,
       "lane": "addon",
       "applies": "next_mission",
       "type": "float",
@@ -83629,6 +83697,37 @@
       "default_label": "x1",
       "r5_scope_text": "Multiplies every Railjack kill goal: Grineer fighters and crewships, the Corpus fighter limit and the Pontis tower space enemies; stock 1x"
     },
+    "void_cascade.exolizer_speed": {
+      "group": "void_cascade",
+      "short_label": "Exolizer progress speed",
+      "label_source": "player_text",
+      "scope_text": "Speeds up every exolizer, also in The Circuit (x2 = 45 s instead of 90 s): rewards come sooner, each one holds back the cascade for less time. The minimum keeps its timer moving.",
+      "rank": 406,
+      "lane": "addon",
+      "applies": "live_next_read",
+      "type": "float",
+      "editor": "INPUTBOX",
+      "unit": "x",
+      "stock": 1,
+      "min": 0.006,
+      "max": 90,
+      "body_key": "32c344afa33be174",
+      "drives": [
+        {
+          "tunable_id": "void_cascade.pillar_duration",
+          "scale": 90,
+          "inverse": true
+        }
+      ],
+      "path": [
+        "Void Cascade"
+      ],
+      "row": "All Void Cascade missions",
+      "quick": "Void Cascade: exolizer progress speed",
+      "quick_on_page": true,
+      "default_label": "x1",
+      "r5_scope_text": "How fast every exolizer fills in Void Cascade and The Circuit, x2 = half the time per exolizer; stock 1x"
+    },
     "loopdefend.phase_time": {
       "group": "loopdefend",
       "short_label": "Time per phase (all)",
@@ -83668,7 +83767,7 @@
       "short_label": "Hostage timer (all nodes)",
       "label_source": "player_text",
       "scope_text": "Seconds before the hostage dies on every Rescue node. A number you type replaces the whole range; the variants below override it.",
-      "rank": 454,
+      "rank": 456,
       "lane": "literal",
       "applies": "next_mission",
       "type": "int",
@@ -83702,7 +83801,7 @@
       "short_label": "Captures to finish (all)",
       "label_source": "player_text",
       "scope_text": "Legacytes to capture in every Legacyte Harvest variant with a capture count. A number you type replaces the whole range; the variants below override it.",
-      "rank": 457,
+      "rank": 459,
       "lane": "literal",
       "applies": "next_mission",
       "type": "int",
@@ -83812,7 +83911,7 @@
       "short_label": "Payload health (all)",
       "label_source": "player_text",
       "scope_text": "Health of the Hijack payload in every mission including goal missions. A number you type replaces the whole range; the variants below override it.",
-      "rank": 442,
+      "rank": 444,
       "lane": "literal",
       "applies": "next_mission",
       "type": "int",
@@ -83846,7 +83945,7 @@
       "short_label": "Survival length (all)",
       "label_source": "player_text",
       "scope_text": "Minutes of the Survival stage in Deep and Temporal Archimedea. The variants below override it.",
-      "rank": 428,
+      "rank": 430,
       "lane": "literal",
       "applies": "next_mission",
       "type": "int",
@@ -83945,7 +84044,7 @@
       "short_label": "Escape timer (all)",
       "label_source": "player_text",
       "scope_text": "Escape countdown after the sabotage on Corpus and Grineer ships and in Orokin Sabotage. The Gas City meltdown has its own row below.",
-      "rank": 462,
+      "rank": 464,
       "lane": "literal",
       "applies": "next_mission",
       "type": "int",
@@ -83982,7 +84081,7 @@
   "ui_player_text": {
     "format": "RENOVICE_MISSION_PLAYER_TEXT_V1",
     "tool": "RESEARCH/UNIVERSAL_MISSION_REGISTRY_2026-09-29/tools/player_text.py",
-    "data_sha256": "C8F00E7467866B2F313BDCF511E61C2E7DF265A7EC3D04BB7D1236D081D4158C",
+    "data_sha256": "D03E0DC517CAA73DB5D4B45D40E3255B3C601BAF560BC1FF25498A08636181D9",
     "label_max": 33,
     "row_max": 40,
     "tooltip_max": 300,
@@ -84031,8 +84130,8 @@
       "NpcHardCap",
       "fixedLength"
     ],
-    "rows": 461,
-    "masters": 49,
+    "rows": 462,
+    "masters": 50,
     "hidden": 5,
     "advanced_suffix": "_advanced",
     "live_literal_headline": [
@@ -84129,6 +84228,7 @@
       "arbitration.resurrection_score_cap",
       "hijack.payload_health",
       "hijack.payload_health.goal_mission",
+      "void_cascade.reward_interval",
       "control_area_nokko.hold_time",
       "control_area_nokko.bonus_threshold",
       "rescue.hostage_timer.easy",
@@ -84188,7 +84288,7 @@
     "default_label_max": 20,
     "row_budget": 40,
     "description_max": 200,
-    "placed": 510,
+    "placed": 512,
     "types": {
       "alchemy": [
         "Alchemy",

@@ -651,6 +651,16 @@ const Json* mission_master(const Json& registry, const std::string& id) {
     return &registry.at("ui_masters").at(id);
 }
 
+// Contract R22 (2026-10-02): a master drive may carry `"inverse": true`: the driven row gets scale / master instead of
+// master x scale (a speed master over a duration row; scale = the row's stock at x1). Absent means false (every master
+// before R22, whose generated text is unchanged).
+bool master_drive_inverse(const std::string& id, const Json& drive) {
+    if (!drive.contains("inverse")) return false;
+    if (!drive.at("inverse").is_boolean() || !drive.at("inverse").get<bool>())
+        throw std::runtime_error("ui master " + id + ": drive field inverse must be true when present");
+    return true;
+}
+
 // Contract R7 (CONTRACT_PHASE1.md, 2026-09-30): the SCRIPT SETTINGS page tree. Every declared value carries `path` (the
 // pages below the package page: mission type, optional location or mode, category, optional set) and `row` (its row
 // text on the last page); headline values carry `quick` (their Quick settings label) and range defaults
@@ -900,10 +910,25 @@ void verify_mission_ui(const Json& registry) {
                                          ", the master " + master_applies);
             drive_bodies.insert(row.at("owner").at("body_key").get<std::string>());
             if (!row.at("stock").is_number()) throw std::runtime_error("ui master " + id + ": " + row_id + " has no stock");
-            if (first && std::fabs(row.at("stock").get<double>() / scale - stock) > 1e-9)
-                throw std::runtime_error("ui master " + id + ": stock is not the first driven row's stock divided by its scale");
-            if (low * scale < row.at("limits").at("minimum").get<double>() - 1e-9 || high * scale > row.at("limits").at("maximum").get<double>() + 1e-9)
-                throw std::runtime_error("ui master " + id + ": limits exceed " + row_id + " after scaling");
+            // R22: an inverse drive makes the master a speed over a duration row: row = scale / master (scale = the row's
+            // stock duration at x1). Addon lane only (the literal recipe and the engine writer resolve master x scale), a
+            // fractional master with a positive minimum, and a driven row the engine writer does not own.
+            const bool inverse = master_drive_inverse(id, drive);
+            if (inverse) {
+                if (lane != "addon" || type != "float" || !(low > 0) || row.at("owner").contains("engine_override") ||
+                    !(row.at("stock").get<double>() > 0))
+                    throw std::runtime_error("ui master " + id + ": an inverse drive of " + row_id + " needs an addon master of type "
+                                             "float with a positive minimum, a positive row stock and a row the engine writer does not own");
+                if (first && std::fabs(scale / row.at("stock").get<double>() - stock) > 1e-9)
+                    throw std::runtime_error("ui master " + id + ": stock is not the inverse drive's scale divided by the first driven row's stock");
+                if (scale / high < row.at("limits").at("minimum").get<double>() - 1e-9 || scale / low > row.at("limits").at("maximum").get<double>() + 1e-9)
+                    throw std::runtime_error("ui master " + id + ": limits exceed " + row_id + " after the inverse drive");
+            } else {
+                if (first && std::fabs(row.at("stock").get<double>() / scale - stock) > 1e-9)
+                    throw std::runtime_error("ui master " + id + ": stock is not the first driven row's stock divided by its scale");
+                if (low * scale < row.at("limits").at("minimum").get<double>() - 1e-9 || high * scale > row.at("limits").at("maximum").get<double>() + 1e-9)
+                    throw std::runtime_error("ui master " + id + ": limits exceed " + row_id + " after scaling");
+            }
             if (const auto [it, inserted] = driven_by.emplace(row_id, id); !inserted)
                 throw std::runtime_error("ui master " + id + ": " + row_id + " is already driven by " + it->second);
             first = false;
@@ -1817,6 +1842,15 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
             } else
                 info_fields.insert(row->at("owner").at("field").get<std::string>());
         }
+    // R22: an inverse master drive this addon applies (a row the engine writer owns gets its master there) needs the
+    // inverse-capable effectiveSettings; builds without one keep the R5 text byte for byte.
+    bool inverse_drives = false;
+    for (const auto& [id, build] : masters) {
+        static_cast<void>(build);
+        if (const Json* master = mission_master(registry, id))
+            for (const auto& drive : master->at("drives"))
+                if (master_drive_inverse(id, drive) && !native_rows.contains(drive.at("tunable_id").get<std::string>())) inverse_drives = true;
+    }
     for (const auto& name : parameter_names) out << kHashedFieldDirective << name << "\n";
     out << "-- Generated by RENOVICE Ability Editor from the mission registry. Do not hand-edit.\n"
         << "-- Build profile " << registry.at("build").get<std::string>() << ". Multi-target addon: one Scripts row, \"[ADDON] "
@@ -1853,7 +1887,10 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
             << "end\n\n";
     } else {
         out << "-- Master knobs (contract R5): a master value drives several rows of one target (row = master x scale); a row that\n"
-            << "-- is itself enabled wins over its master.\n\n"
+            << "-- is itself enabled wins over its master.\n"
+            << (inverse_drives ? "-- R22: an inverse drive gives row = scale / master (a speed over a duration); a master value that is not\n"
+                                 "-- positive leaves such a row at stock.\n" : "")
+            << "\n"
             << "local function effectiveSettings(compiled, context, masters, drives)\n"
             << "    local provided = nil\n"
             << "    if type(context) == \"table\" and type(context.settings) == \"table\" then provided = context.settings end\n"
@@ -1878,7 +1915,15 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
             << "        local value = pick(id, entry)\n"
             << "        if value == nil and drives ~= nil then\n"
             << "            local drive = drives[id]\n"
-            << "            if drive ~= nil and chosen[drive.master] ~= nil then value = chosen[drive.master] * drive.scale end\n"
+            << (inverse_drives
+                    ? "            if drive ~= nil and chosen[drive.master] ~= nil then\n"
+                      "                if not drive.inverse then\n"
+                      "                    value = chosen[drive.master] * drive.scale\n"
+                      "                elseif chosen[drive.master] > 0 then\n"
+                      "                    value = drive.scale / chosen[drive.master]\n"
+                      "                end\n"
+                      "            end\n"
+                    : "            if drive ~= nil and chosen[drive.master] ~= nil then value = chosen[drive.master] * drive.scale end\n")
             << "        end\n"
             << "        if value ~= nil then\n"
             << "            result[id] = { enabled = true, value = value, stock = entry.stock }\n"
@@ -1976,6 +2021,7 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
         // target's drives; a row the engine writer owns gets the master there, not here.
         std::vector<std::string> target_masters;
         std::map<std::string, std::vector<std::pair<std::string, double>>> target_drives;
+        std::set<std::string> inverse_rows;  // R22: rows of this target driven inversely (row = scale / master)
         for (const auto& [id, build] : masters) {
             static_cast<void>(build);
             const Json* master = mission_master(registry, id);
@@ -1988,6 +2034,7 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
                     throw std::runtime_error("master knob " + id + " drives " + row_id + ", which is not a declared row of its target");
                 if (native_rows.contains(row_id)) continue;
                 own.emplace_back(row_id, drive.at("scale").get<double>());
+                if (master_drive_inverse(id, drive)) inverse_rows.insert(row_id);
             }
             // R19: a master every drive of which the engine writer owns (Railjack kill goals since R19) drives nothing here,
             // but it is still a value of this member (engine_params.json names it, the bootstrapper delivers it): it stays
@@ -2009,12 +2056,14 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
                     << format_number(mission_master(registry, id)->at("stock").get<double>()) << ", enabled = "
                     << (masters.at(id).enabled ? "true" : "false") << " },\n";
             out << "    }\n"
-                << "    local drives = { -- row -> master knob that drives it (row value = master value x scale)\n";
+                << "    local drives = { -- row -> master knob that drives it (row value = master value x scale"
+                << (inverse_rows.empty() ? "" : "; inverse: scale / master value") << ")\n";
             std::map<std::string, std::string> drive_lines;
             for (const auto& id : target_masters)
                 for (const auto& [row_id, scale] : target_drives.at(id))
                     drive_lines[row_id] = "        [" + lua_quote(row_id) + "] = { master = " + lua_quote(id) +
-                                          ", scale = " + format_number(scale) + " },\n";
+                                          ", scale = " + format_number(scale) + (inverse_rows.contains(row_id) ? ", inverse = true" : "") +
+                                          " },\n";
             for (const auto& [row_id, line] : drive_lines) out << line;
             out << "    }\n";
         }
@@ -2335,6 +2384,7 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                     continue;
                 }
                 if (row_values.contains(row)) throw std::runtime_error(row + " is named both directly and through master knob " + id);
+                if (master_drive_inverse(id, drive)) throw std::runtime_error("master knob " + id + ": an inverse drive is addon-lane only (R22)");
                 const double scaled = number * drive.at("scale").get<double>();
                 row_values[row] = mission_tunable(registry, row).at("limits").value("integer", false) ? Json(static_cast<long long>(std::llround(scaled)))
                                                                                                        : Json(scaled);
