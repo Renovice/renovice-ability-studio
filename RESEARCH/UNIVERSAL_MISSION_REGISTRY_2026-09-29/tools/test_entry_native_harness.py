@@ -42,7 +42,7 @@ INPUT_LF_SHA = 'dccde5fddf2649c2be4c93789cecab4cc1d1759dc9d01d0117cba25f5a7ca4b6
 # the R14 build of this input was 4c70b5ec200f9409ca034546aea37555c8f6081cd6661978c3a41e347b7ccbba (installed 2026-10-01).
 # R17 (2026-10-01): the Deepmines rows left the addon (reader pins, live literals) and the Gas City row was replaced by the
 # meltdown-time scale over hackTime and modeTimer; the R15/R16 build of this input was 70fff0b6606e452e... (installed).
-R12_ADDON_SHA = '43cb89c3a3f230c75d9fdb665a57418023d54d2c4d5d555c9faf539a192ebba7'  # R18 build of the pinned input (R17 daab653a)
+R12_ADDON_SHA = 'd8736450cc81c2c03daaf219fbd5a046dad82b57e1d54fd8263fe2832a4d3c88'  # R19 build of the pinned input (R18 43cb89c3, R17 daab653a)
 WORK = ROOT / 'work/temp/entry-native-harness'
 OUT = Path(__file__).resolve().parents[1] / 'test-results'
 results = {'checks': []}
@@ -96,7 +96,7 @@ generations = list((WORK / 'build').glob('missions/*/MISSION_SET_MANIFEST.json')
 check(run.returncode == 0 and len(generations) == 1, 'R12 build succeeds')
 generation = generations[0].parent
 check(sha(generation / 'Packages/Missions/Missions.targets.addon.lua_B') == R12_ADDON_SHA,
-      'the built addon is the pinned R18 addon (43cb89c3; R17 daab653a, R15/R16 70fff0b6, R14 4c70b5ec, R12 8e0e1871)')
+      'the built addon is the pinned R19 addon (d8736450; R18 43cb89c3, R17 daab653a, R15/R16 70fff0b6, R14 4c70b5ec, R12 8e0e1871)')
 source = (generation / 'source/Missions.targets.addon.luau').read_text(encoding='utf-8')
 
 # 2. One case per entry-template row of the registry.

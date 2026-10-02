@@ -1989,7 +1989,16 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
                 if (native_rows.contains(row_id)) continue;
                 own.emplace_back(row_id, drive.at("scale").get<double>());
             }
-            if (own.empty()) continue;
+            // R19: a master every drive of which the engine writer owns (Railjack kill goals since R19) drives nothing here,
+            // but it is still a value of this member (engine_params.json names it, the bootstrapper delivers it): it stays
+            // compiled, with no drives, in the target of its own module, so the settings-declarations gate keeps holding
+            // (declared == compiled) and the addon never applies it.
+            if (own.empty()) {
+                bool every_drive_native = !master->at("drives").empty();
+                for (const auto& drive : master->at("drives"))
+                    if (!native_rows.contains(drive.at("tunable_id").get<std::string>())) every_drive_native = false;
+                if (!every_drive_native || master->at("body_key") != body) continue;
+            }
             target_drives[id] = own;
             target_masters.push_back(id);
         }

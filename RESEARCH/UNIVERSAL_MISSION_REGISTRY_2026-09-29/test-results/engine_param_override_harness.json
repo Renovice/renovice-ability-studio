@@ -9,7 +9,7 @@
       "pass": true
     },
     {
-      "name": "Missions.targets.addon.lua_B is the pinned R18 build (43cb89c3)",
+      "name": "Missions.targets.addon.lua_B is the pinned R18 build (d8736450)",
       "pass": true
     },
     {
@@ -21,15 +21,15 @@
       "pass": true
     },
     {
-      "name": "engine_params.json is the pinned R18 build (13cb0290)",
+      "name": "engine_params.json is the pinned R18 build (eafd2ddf)",
       "pass": true
     },
     {
-      "name": "manifest records engine_params.json (11 overrides, 6 modules, master railjack.kill_goals_scale) and the engine-param-overrides gate",
+      "name": "manifest records engine_params.json (17 overrides, 8 modules, master railjack.kill_goals_scale) and the engine-param-overrides gate",
       "pass": true
     },
     {
-      "name": "registry: the six R15 EXPOSED rows, the R17 Gas City row and the two R18 Pontis rows are admitted ENGINE_PARAM_OVERRIDE_V1 (['exterminate.archwing_kill_mult', 'exterminate.kills_scale', 'interception.round_end_timer', 'interception.score_goal_scale', 'interception.scoring_speed', 'railjack.corpus_fighter_limit_scale', 'railjack.pontis_ash_enemies_scale', 'railjack.pontis_garuda_enemies_scale', 'sabotage.gascity_meltdown_time_scale'])",
+      "name": "registry: the six R15 EXPOSED rows, the R17 Gas City row, the two R18 Pontis rows and the two R19 Grineer Railjack rows are admitted ENGINE_PARAM_OVERRIDE_V1 (['exterminate.archwing_kill_mult', 'exterminate.kills_scale', 'interception.round_end_timer', 'interception.score_goal_scale', 'interception.scoring_speed', 'railjack.corpus_fighter_limit_scale', 'railjack.crewship_kills_scale', 'railjack.fighter_kills_scale', 'railjack.pontis_ash_enemies_scale', 'railjack.pontis_garuda_enemies_scale', 'sabotage.gascity_meltdown_time_scale'])",
       "pass": true
     },
     {
@@ -81,15 +81,47 @@
       "pass": true
     },
     {
+      "name": "railjack.crewship_kills_scale majorKillGoals: admitted row, module e773280ca7743441, hash 8cf8f4a0, mode scale_count",
+      "pass": true
+    },
+    {
+      "name": "railjack.crewship_kills_scale kuvaLichKillGoal: admitted row, module e773280ca7743441, hash 240bcba8, mode scale_count",
+      "pass": true
+    },
+    {
+      "name": "railjack.fighter_kills_scale minorKillGoals: admitted row, module feb4ca192ef69f0a, hash 288044d3, mode scale_count",
+      "pass": true
+    },
+    {
+      "name": "railjack.fighter_kills_scale minorKillGoalsMax: admitted row, module feb4ca192ef69f0a, hash e290a5e6, mode scale_count",
+      "pass": true
+    },
+    {
+      "name": "railjack.fighter_kills_scale kuvaLichKillGoalMin: admitted row, module feb4ca192ef69f0a, hash d4a29101, mode scale_count",
+      "pass": true
+    },
+    {
+      "name": "railjack.fighter_kills_scale kuvaLichKillGoalMax: admitted row, module feb4ca192ef69f0a, hash 1026ad29, mode scale_count",
+      "pass": true
+    },
+    {
       "name": "every parameter global of every admitted row has exactly one override (no partial row)",
       "pass": true
     },
     {
-      "name": "R17/R18: only the natively owned rows the Railjack master drives (Corpus fighters, both Pontis rows) name a master",
+      "name": "R17/R18/R19: exactly the natively owned rows the Railjack master drives (Corpus fighters, both Pontis rows, Grineer crewships and fighters) name a master",
       "pass": true
     },
     {
-      "name": "the bootstrapper R17 gate fixture (fixtures/MissionsR17) is the R17 build (R18 adds no bootstrapper change)",
+      "name": "R19: every row the Railjack master drives is owned at the engine writer (no addon drive left)",
+      "pass": true
+    },
+    {
+      "name": "R19: the addon compiles the Railjack master once (its own module, no drives) and drives neither Grineer row",
+      "pass": true
+    },
+    {
+      "name": "the bootstrapper R19 gate fixture (fixtures/MissionsR19) is this build (engine_params.json, package.json)",
       "pass": true
     },
     {
@@ -97,7 +129,7 @@
       "pass": true
     },
     {
-      "name": "harness: 48 Luau checks over the six R16 rows, the R17 Gas City row and the R17 Railjack master",
+      "name": "harness: 65 Luau checks over the six R16 rows, the R17 Gas City row, the R18 Pontis rows, the R19 Grineer Railjack rows and the Railjack master (writer-owned, live numbers)",
       "pass": true
     }
   ]

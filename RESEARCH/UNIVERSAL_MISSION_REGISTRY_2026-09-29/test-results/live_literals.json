@@ -139,7 +139,7 @@
     "masters": 18,
     "literals_json_sha256": "786c7b94a7c296758b8c94d40c3fcd69cb1a5dcbcda661a2cc7f15093cc1cbe6",
     "package_json_sha256": "150c0d1642d9208f97fc46df7a14ce411b60120cb4280d30f991aaf179978ff7",
-    "generation": "work/temp/live-literals-tests/recipe/missions/95B2C194326D"
+    "generation": "work\\temp\\live-literals-tests\\recipe\\missions\\ADF019512529"
   },
   "old_bootstrapper": {
     "revision": "6227cc0",

@@ -1,0 +1,18 @@
+{
+ "schema": "RENOVICE mission registry: ENGINE_PARAM_OVERRIDE admissions (contract R19, same gate as R16)",
+ "build": "2026.09.28.13.06",
+ "gate": "ENGINE_PARAM_OVERRIDE_V1",
+ "source": "work/research/railjack-kill-goals-r19-2026-10-02/README.md (live session pid 7128, R17 DLL 304b57de, package daab653a)",
+ "rows": [
+  {
+   "tunable_id": "railjack.fighter_kills_scale",
+   "exposure": "EXPOSED (live): R15 classed the read REACHES (KillFighters P9 -> P8 -> P6 reads minorKillGoals, minorKillGoalsMax, kuvaLichKillGoalMin/Max before the first yield), but the entry write did not reach the goal in game",
+   "evidence": "Session pid 7128 (Grineer Railjack Exterminate, RailJackEarthCombinedExterminateNoPoiProc, Steel Path): EE 1218.260 'minorKillGoals {20/35/55/70/85/95} -> {2/4/6/7/9/10}' from the entry hook (renovice_source.log.1 L62330-62332, native entry of P9, retire after use); 19 fighters died in the objective's first 79 s (ENGINE_DAMAGE end records, HealthAfter 0; the damage log stops there) and the objective reached half of its goal only at 1356.6 (state 2) and finished at 1451.7, i.e. a goal near the stock 55-85, not 6-9. The engine writer pushed the same parameter (hashes 288044d3/e290a5e6, function slot P9 of feb4ca192ef69f0a, 6 elements) before the entry in the next instance (renovice_source.log L45012-45023). The writer is the parameter's only source; owning the value there does not depend on how the readers reach it."
+  },
+  {
+   "tunable_id": "railjack.crewship_kills_scale",
+   "exposure": "EXPOSED (live, same shape): KillCrewShips P9 -> P8 -> P6 reads majorKillGoals and kuvaLichKillGoal before the first yield, the same entry route that did not reach the fighter goal",
+   "evidence": "Same module shape and entry route as railjack.fighter_kills_scale (proto 9 -> 8 -> 6, encounter parameters from H.Misc, apply_param before the entry). No completed live run with the row enabled yet (session pid 7128: x1 from the master at its stock in the completed run; the x0.1 runs at 1948 s and 2096 s ended before a crewship died), so it is owned at the writer with the fighter row instead of keeping the refuted route."
+  }
+ ]
+}

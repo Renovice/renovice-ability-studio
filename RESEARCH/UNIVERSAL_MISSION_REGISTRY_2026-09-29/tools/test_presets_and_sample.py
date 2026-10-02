@@ -2,13 +2,13 @@
 preset, rebuilds of the Phase 2b/2d/2e sample settings with default settings and with the live-acceptance opt-in
 (compared with their recorded manifests, folders left untouched) and the Phase 2f/2g sample group builds. Writes only to
 work/staging and the Phase 1 research folder.
-No game or server folder is written. Requires the built CLI (work/builds/ability-editor/current)."""
+No game or server folder is written. Requires the built CLI (RENOVICE_EDITOR_CLI, else work/builds/ability-editor/current)."""
 from pathlib import Path
-import copy, hashlib, json, shutil, subprocess
+import copy, hashlib, json, os, shutil, subprocess
 
 ROOT = Path(__file__).resolve().parents[6]
 EDITOR = ROOT / 'repos/apps/ability-editor'
-CLI = ROOT / 'work/builds/ability-editor/current/bin/renovice_ability_editor_cli.exe'
+CLI = Path(os.environ.get('RENOVICE_EDITOR_CLI', ROOT / 'work/builds/ability-editor/current/bin/renovice_ability_editor_cli.exe'))
 STAGING = ROOT / 'work/staging/aer44'  # short: generated names are long and Windows MAX_PATH applies
 OUT = Path(__file__).resolve().parents[1] / 'test-results'  # results.json only (committed)
 WORK = STAGING / 'inputs'  # generated projects and logs (not committed)
@@ -338,8 +338,8 @@ print(f"PASS phase2i sample: {len(decl2i)} declarations in {len(groups2i)} group
 # (phase2i CustomScripts/Settings/Missions.json, ee4fa704) through missions_settings_to_build.py. Compared with the staged
 # install set when it exists (never rewritten here).
 import missions_settings_to_build as REBUILD  # noqa: E402
-# R18 (2026-10-02): + the two Pontis tower rows (R17 26E56E26).
-ENGINE_PARAMS_R17 = '13CB029064EF4C29141A0BBEC37E3DAF5888A5271FAE141BC9282DB9C07C0341'
+# R19 (2026-10-02): + the Grineer Railjack fighter and crewship rows (R18 13CB0290: + the two Pontis tower rows; R17 26E56E26).
+ENGINE_PARAMS_R17 = 'EAFD2DDF3B3916AAD7A0DD4D1B09090A2A6CA74192DDE69DD0E3AFBF72AA259B'
 # R17: the registry layout of R16 (c48c819) tells the R17 "All <type> missions" layout changes from anything else.
 R16_REGISTRY = json.loads(subprocess.run(['git', '-C', str(EDITOR), 'show', 'c48c819:REGISTRIES/mission_build_u44.json'],
                                          capture_output=True, check=True).stdout.decode('utf-8'))

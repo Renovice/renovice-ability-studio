@@ -43,7 +43,9 @@ INPUT_LF_SHA = 'dccde5fddf2649c2be4c93789cecab4cc1d1759dc9d01d0117cba25f5a7ca4b6
 # R17 (2026-10-01): the same input builds daab653a (Deepmines rows left the addon for reader pins, the Gas City row became
 # the meltdown-time scale, the Railjack master was added); R15/R16 built 70fff0b6606e452e...
 # R18 (2026-10-02): + the two Pontis tower entry rows (43cb89c3) and the R18 literal masters (786c7b94).
-R14_ADDON_SHA = '43cb89c3a3f230c75d9fdb665a57418023d54d2c4d5d555c9faf539a192ebba7'
+# R19 (2026-10-02): the Railjack master compiled without drives in its own target (fighter/crewship rows owned at the
+# engine writer) (d8736450).
+R14_ADDON_SHA = 'd8736450cc81c2c03daaf219fbd5a046dad82b57e1d54fd8263fe2832a4d3c88'
 # R17 adds the Deepmines reader pins and the "All <type> missions" literal masters (028fdcd2); R15/R16 shipped a16b2520...,
 # R11-R14 d9b3a764...
 LITERALS_SHA = '786c7b94a7c296758b8c94d40c3fcd69cb1a5dcbcda661a2cc7f15093cc1cbe6'
@@ -92,7 +94,7 @@ generations = list((WORK / 'build').glob('missions/*/MISSION_SET_MANIFEST.json')
 check(run.returncode == 0 and len(generations) == 1, 'full package build succeeds')
 generation = generations[0].parent
 package = generation / 'Packages/Missions'
-check(sha(package / 'Missions.targets.addon.lua_B') == R14_ADDON_SHA, f'the built addon is the pinned R18 addon ({R14_ADDON_SHA[:8]}; R17 daab653a, R15/R16 70fff0b6, R14 4c70b5ec)')
+check(sha(package / 'Missions.targets.addon.lua_B') == R14_ADDON_SHA, f'the built addon is the pinned R19 addon ({R14_ADDON_SHA[:8]}; R18 43cb89c3, R17 daab653a, R15/R16 70fff0b6, R14 4c70b5ec)')
 check(sha(package / 'literals.json') == LITERALS_SHA, 'literals.json is the pinned R18 recipe file (786c7b94; R17 028fdcd2, R15/R16 a16b2520, R11-R14 d9b3a764)')
 source = (generation / 'source/Missions.targets.addon.luau').read_text(encoding='utf-8')
 declared = json.loads((package / 'package.json').read_text(encoding='utf-8'))['members']['Missions.targets.addon.lua_B']['settings']['values']

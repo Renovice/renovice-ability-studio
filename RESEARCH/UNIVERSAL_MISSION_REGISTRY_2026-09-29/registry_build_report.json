@@ -327,6 +327,16 @@
       ],
       "railjack.pontis_garuda_enemies_scale": [
         "spaceEnemyCountPerVariant"
+      ],
+      "railjack.fighter_kills_scale": [
+        "minorKillGoals",
+        "minorKillGoalsMax",
+        "kuvaLichKillGoalMin",
+        "kuvaLichKillGoalMax"
+      ],
+      "railjack.crewship_kills_scale": [
+        "majorKillGoals",
+        "kuvaLichKillGoal"
       ]
     }
   },
@@ -850,7 +860,7 @@
   "modules": 67,
   "corpus_files": 67,
   "metadata_snapshot_sha256": "33D3D0EA8ED3FB4E4FB54A6101683701C353CA909D597C60EC2D7ADF1212A7D2",
-  "registry_sha256": "7FCAC1AB8DA4890312B4704B99298EB731624BC7EF9D781153ABA69C8AC488F3",
+  "registry_sha256": "44025FDE22BAC636B98A4EBDB2560ED94E257576B9AD920D6971518C02EDC505",
   "ui": {
     "groups": 103,
     "editors": {

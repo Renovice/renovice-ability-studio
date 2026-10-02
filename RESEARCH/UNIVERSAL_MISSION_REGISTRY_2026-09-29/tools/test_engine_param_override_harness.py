@@ -13,6 +13,12 @@ R17 (2026-10-01): one more admitted row (Gas City meltdown time: hackTime and mo
 a natively owned row (Railjack kill goals over the Corpus fighter limit: engine_params.json names the master; the addon
 leaves that row out of its master drives, the bootstrapper withholds only the row, never the master).
 
+R19 (2026-10-02): the Grineer Railjack fighter and crewship goals move to the writer too. R15 classed their reads REACHES
+(read inside the entry call), but the live session pid 7128 logged the addon's entry write ({20/35/55/70/85/95} ->
+{2/4/6/7/9/10}) and the objective still ran to a stock-size goal. Every Railjack row the master drives is now natively owned:
+the addon keeps the master compiled (no drives) and writes nothing with the hook installed; the exact live numbers are the
+expected writer output (master + rows at 0.1, a row on at x1 wins, a master at its stock writes nothing).
+
 This gate:
   1. builds the pinned build input with the generator CLI: the addon, package.json, literals.json and engine_params.json
      are the pinned R17 build;
@@ -48,18 +54,15 @@ CLI = Path(os.environ.get('RENOVICE_EDITOR_CLI', ROOT / 'work/builds/ability-edi
 LUAU = ROOT / 'repos/toolchains/de-luau-toolchain/bin/luau.exe'
 INPUT = EDITOR / 'RESEARCH/MISSIONS_R13_NATIVE_ENTRY_2026-10-01/inputs/rebuild_input.r12.json'
 INPUT_LF_SHA = 'dccde5fddf2649c2be4c93789cecab4cc1d1759dc9d01d0117cba25f5a7ca4b6'  # LF content (checkout-independent)
-# R18 build of the pinned input (R17: addon daab653a, package.json fb43906b, literals.json 028fdcd2, engine_params 26e56e26;
+# R19 build of the pinned input (R18: addon 43cb89c3, engine_params 13cb0290, package.json and literals.json unchanged;
+# R17: addon daab653a, package.json fb43906b, literals.json 028fdcd2, engine_params 26e56e26;
 # R15/R16: addon 70fff0b6, package.json 44fc0b53, literals.json a16b2520, engine_params ae090c33).
-R15 = {'Missions.targets.addon.lua_B': '43cb89c3a3f230c75d9fdb665a57418023d54d2c4d5d555c9faf539a192ebba7',
+R15 = {'Missions.targets.addon.lua_B': 'd8736450cc81c2c03daaf219fbd5a046dad82b57e1d54fd8263fe2832a4d3c88',
        'package.json': '150c0d1642d9208f97fc46df7a14ce411b60120cb4280d30f991aaf179978ff7',
        'literals.json': '786c7b94a7c296758b8c94d40c3fcd69cb1a5dcbcda661a2cc7f15093cc1cbe6'}
-ENGINE_PARAMS_SHA = '13cb029064ef4c29141a0bbec37e3daf5888a5271fae141bc9282db9c07c0341'
-# R18 needs no bootstrapper change: the bootstrapper's gate fixture stays the R17 build (its own gate runs on it); the R18
-# package itself goes through the bootstrapper scanner in verify_addon_settings.ps1 -Package (staging evidence).
-R17_FIXTURE = {'engine_params.json': '26e56e26775dfec42b0ca3aa725a5b23163b4671b2fa1128abf43b1538e3bf7c',
-               'package.json': 'fb43906b7c6d1532fe550a4639bbcda85a0cd1c315996c3b3815be01a3cff9f3'}
-# The bootstrapper gate fixture (R17; the R16 fixture stays in fixtures/Missions).
-BOOTSTRAPPER_FIXTURE = ROOT / 'repos/runtime/bootstrapper-runtime-wt-r16/RENOVICE_TOOLCHAIN/engine_params/fixtures/MissionsR17'
+ENGINE_PARAMS_SHA = 'eafd2ddf3b3916aad7a0dd4d1b09090a2a6ca74192dde69dd0e3afbf72aa259b'
+# The bootstrapper gate fixture of this build (R19, fixtures/MissionsR19; the R16 and R17 fixtures stay in their folders).
+BOOTSTRAPPER_FIXTURE = ROOT / 'repos/runtime/bootstrapper-runtime-wt-r19/RENOVICE_TOOLCHAIN/engine_params/fixtures/MissionsR19'
 WORK = ROOT / 'work/temp/engine-param-override-harness'
 OUT = Path(__file__).resolve().parents[1] / 'test-results'
 results = {'checks': []}
@@ -83,6 +86,16 @@ CASES = {
                                           'expect': {'spaceEnemyCountPerVariant': [2, 2, 3, 3, 3]}},
     'railjack.pontis_garuda_enemies_scale': {'observed': {'spaceEnemyCountPerVariant': [4, 4, 5, 5, 6, 6, 7]}, 'value': 0.5,
                                              'expect': {'spaceEnemyCountPerVariant': [2, 2, 3, 3, 3, 3, 4]}},
+    # R19: the Grineer Railjack Exterminate goals, with the lists the engine wrote in the live session pid 7128 (Steel Path,
+    # six tiers). Fighters at x0.1 are the exact live entry-write numbers; crewships at x0.5 (x0.1 floors every tier at 1,
+    # which would hide the compounding negative control below).
+    'railjack.fighter_kills_scale': {'observed': {'minorKillGoals': [20, 35, 55, 70, 85, 95], 'minorKillGoalsMax': [35, 55, 85, 90, 95, 105],
+                                                  'kuvaLichKillGoalMin': 50, 'kuvaLichKillGoalMax': 60},
+                                     'value': 0.1,
+                                     'expect': {'minorKillGoals': [2, 4, 6, 7, 9, 10], 'minorKillGoalsMax': [4, 6, 9, 9, 10, 11],
+                                                'kuvaLichKillGoalMin': 5, 'kuvaLichKillGoalMax': 6}},
+    'railjack.crewship_kills_scale': {'observed': {'majorKillGoals': [2, 4, 6, 7, 8, 9], 'kuvaLichKillGoal': 3}, 'value': 0.5,
+                                      'expect': {'majorKillGoals': [1, 2, 3, 4, 4, 5], 'kuvaLichKillGoal': 2}},
 }
 
 
@@ -136,17 +149,17 @@ for name, digest in R15.items():
 check(sha(package / 'engine_params.json') == ENGINE_PARAMS_SHA, f'engine_params.json is the pinned R18 build ({ENGINE_PARAMS_SHA[:8]})')
 manifest = json.loads(generations[0].read_text(encoding='utf-8'))
 record = manifest['package'].get('engine_params') or {}
-check(record.get('sha256', '').lower() == ENGINE_PARAMS_SHA and record.get('overrides') == 11 and record.get('modules') == 6
+check(record.get('sha256', '').lower() == ENGINE_PARAMS_SHA and record.get('overrides') == 17 and record.get('modules') == 8
       and record.get('masters') == ['railjack.kill_goals_scale']
       and any(g['name'] == 'engine-param-overrides' and g['pass'] for g in manifest['package']['gates']),
-      'manifest records engine_params.json (11 overrides, 6 modules, master railjack.kill_goals_scale) and the engine-param-overrides gate')
+      'manifest records engine_params.json (17 overrides, 8 modules, master railjack.kill_goals_scale) and the engine-param-overrides gate')
 
 # 2. Re-check the declarations against the registry.
 recipe = json.loads((package / 'engine_params.json').read_text(encoding='utf-8'))
 registry = json.loads((EDITOR / 'REGISTRIES/mission_build_u44.json').read_text(encoding='utf-8'))
 rows = {r['tunable_id']: r for r in registry['tunables']}
 admitted = {tid for tid, r in rows.items() if isinstance(r.get('owner'), dict) and 'engine_override' in r['owner']}
-check(admitted == set(CASES), f'registry: the six R15 EXPOSED rows, the R17 Gas City row and the two R18 Pontis rows are admitted ENGINE_PARAM_OVERRIDE_V1 ({sorted(admitted)})')
+check(admitted == set(CASES), f'registry: the six R15 EXPOSED rows, the R17 Gas City row, the two R18 Pontis rows and the two R19 Grineer Railjack rows are admitted ENGINE_PARAM_OVERRIDE_V1 ({sorted(admitted)})')
 check(recipe['format'] == 'RENOVICE_ENGINE_PARAMS_V1' and recipe['package'] == 'package:missions'
       and recipe['build'] == registry['build'] and recipe['member'] == 'Missions.targets.addon.lua_B',
       'recipe header: format, package id, client build, addon member')
@@ -168,12 +181,23 @@ check(all(covered.get(tid) == {g['name'] for g in rows[tid]['owner']['globals']}
 check([(o['value'], o['parameter']) for o in recipe['overrides'] if 'master' in o]
       == [('railjack.corpus_fighter_limit_scale', 'minorKillGoals'), ('railjack.corpus_fighter_limit_scale', 'minorKillGoalsMax'),
           ('railjack.pontis_ash_enemies_scale', 'spaceEnemyCountPerVariant'),
-          ('railjack.pontis_garuda_enemies_scale', 'spaceEnemyCountPerVariant')],
-      'R17/R18: only the natively owned rows the Railjack master drives (Corpus fighters, both Pontis rows) name a master')
+          ('railjack.pontis_garuda_enemies_scale', 'spaceEnemyCountPerVariant'),
+          ('railjack.crewship_kills_scale', 'majorKillGoals'), ('railjack.crewship_kills_scale', 'kuvaLichKillGoal'),
+          ('railjack.fighter_kills_scale', 'minorKillGoals'), ('railjack.fighter_kills_scale', 'minorKillGoalsMax'),
+          ('railjack.fighter_kills_scale', 'kuvaLichKillGoalMin'), ('railjack.fighter_kills_scale', 'kuvaLichKillGoalMax')],
+      'R17/R18/R19: exactly the natively owned rows the Railjack master drives (Corpus fighters, both Pontis rows, Grineer crewships '
+      'and fighters) name a master')
+master_row = registry['ui_masters']['railjack.kill_goals_scale']
+check({d['tunable_id'] for d in master_row['drives']} == {o['value'] for o in recipe['overrides'] if o.get('master') == 'railjack.kill_goals_scale'},
+      'R19: every row the Railjack master drives is owned at the engine writer (no addon drive left)')
+addon_source = (generation / 'source/Missions.targets.addon.luau').read_text(encoding='utf-8')
+check(addon_source.count('["railjack.kill_goals_scale"] = { value = ') == 1 and '["railjack.fighter_kills_scale"] = { master =' not in addon_source
+      and '["railjack.crewship_kills_scale"] = { master =' not in addon_source,
+      'R19: the addon compiles the Railjack master once (its own module, no drives) and drives neither Grineer row')
 if BOOTSTRAPPER_FIXTURE.is_dir():
-    check(sha(BOOTSTRAPPER_FIXTURE / 'engine_params.json') == R17_FIXTURE['engine_params.json']
-          and sha(BOOTSTRAPPER_FIXTURE / 'package.json') == R17_FIXTURE['package.json'],
-          'the bootstrapper R17 gate fixture (fixtures/MissionsR17) is the R17 build (R18 adds no bootstrapper change)')
+    check(sha(BOOTSTRAPPER_FIXTURE / 'engine_params.json') == ENGINE_PARAMS_SHA
+          and sha(BOOTSTRAPPER_FIXTURE / 'package.json') == R15['package.json'],
+          'the bootstrapper R19 gate fixture (fixtures/MissionsR19) is this build (engine_params.json, package.json)')
 else:
     print('INFO\tbootstrapper worktree absent; fixture identity not compared')
 
@@ -294,44 +318,62 @@ for _, case in ipairs(CASES) do
         ok(not both[1], case.id .. ": native + addon on the same value compounds (" .. case.mode .. "): the withholding is required")
     end
 end
--- R17: the Railjack master drives the Grineer rows in the addon and the Corpus row at the engine writer. With the hook
--- installed the bootstrapper withholds only the Corpus row; the master is delivered. The addon must scale the Grineer
--- fighters and write NOTHING for the Corpus row (else the native master value and the addon write would compound).
+-- R17/R19: the Railjack master drives the Corpus, Pontis and (R19) Grineer rows at the engine writer only. With the hook
+-- installed the bootstrapper withholds the rows and delivers the master; the addon must write NOTHING for any of them (else
+-- the native master value and the addon write would compound).
 do
-    local master = { ["railjack.kill_goals_scale"] = { enabled = true, value = 0.5, stock = 1 } }
+    local master = { ["railjack.kill_goals_scale"] = { enabled = true, value = 0.1, stock = 1 } }
     local addon = ADDON_MODULE()
-    local corpus = addon.targets[CORPUS_KEY]
-    corpus.activate({ settings = master })
-    printed = {}
-    local env = { minorKillGoals = { 20, 35, 55, 85, 110 }, minorKillGoalsMax = { 35, 55, 85, 110, 130 } }
-    for _, prototype in ipairs(CORPUS_PROTOTYPES) do
-        local hook = corpus.hooks.luaCalls[prototype]
-        if hook ~= nil then hook.before(prototype, {}, {}, nil, env) end
+    for _, item in ipairs(MASTER_TARGETS) do
+        local target = addon.targets[item.key]
+        target.activate({ settings = master })
+        printed = {}
+        local env = {}
+        for name, level in pairs(item.observed) do env[name] = level end
+        for _, prototype in ipairs(item.prototypes) do
+            local hook = target.hooks.luaCalls[prototype]
+            if hook ~= nil then hook.before(prototype, {}, {}, nil, env) end
+        end
+        local untouched = true
+        for name, level in pairs(item.observed) do untouched = untouched and env[name] == level end
+        ok(untouched and prints_for(item.id) == 0,
+            "R19: the master alone writes nothing from the addon into " .. item.id .. " (owned at the writer, no double application)")
+        target.cleanup()
     end
-    ok(same(env.minorKillGoals, { 20, 35, 55, 85, 110 }) and prints_for("railjack.corpus_fighter_limit_scale") == 0,
-        "R17: the master alone writes nothing into the natively owned Corpus row from the addon (no double application)")
-    local native = { minorKillGoals = {}, minorKillGoalsMax = {} }
-    for i, n in ipairs({ 20, 35, 55, 85, 110 }) do native.minorKillGoals[i] = override("scale_count", n, 0.5) end
-    ok(same(native.minorKillGoals, { 10, 18, 28, 43, 55 }), "R17: the engine writer applies the master (0.5) to the Corpus row")
-    corpus.cleanup()
-    local fighters = addon.targets[FIGHTERS_KEY]
-    fighters.activate({ settings = master })
-    local fenv = { minorKillGoals = { 20, 35 }, minorKillGoalsMax = { 35, 55 }, kuvaLichKillGoalMin = 50, kuvaLichKillGoalMax = 60 }
-    for _, prototype in ipairs(FIGHTERS_PROTOTYPES) do
-        local hook = fighters.hooks.luaCalls[prototype]
-        if hook ~= nil then hook.before(prototype, {}, {}, nil, fenv) end
-    end
-    ok(same(fenv.minorKillGoals, { 10, 18 }) and fenv.kuvaLichKillGoalMin == 25,
-        "R17: the same master scales the Grineer fighter goals in the addon (another module)")
-    fighters.cleanup()
 end
+-- R19: the writer's plan (renovice/engine_params_core.hpp resolve_entries) and its output for the live lists.
+-- A row's own delivered value wins; else master x scale when the master is not at its stock; else the level value stays.
+local function resolve(row, master, scale)
+    if row ~= nil then return row end
+    if master ~= nil and master.value ~= master.stock then return master.value * scale end
+    return nil
+end
+local function written(list, v)
+    local out = {}
+    for i, n in ipairs(list) do out[i] = v == nil and n or override("scale_count", n, v) end
+    return out
+end
+local SP_MINOR, SP_MINOR_MAX, SP_MAJOR = { 20, 35, 55, 70, 85, 95 }, { 35, 55, 85, 90, 95, 105 }, { 2, 4, 6, 7, 8, 9 }
+local m01, m1 = { value = 0.1, stock = 1 }, { value = 1, stock = 1 }
+local v = resolve(0.1, m01, 1)
+ok(same(written(SP_MINOR, v), { 2, 4, 6, 7, 9, 10 }) and same(written(SP_MINOR_MAX, v), { 4, 6, 9, 9, 10, 11 })
+    and override("scale_count", 50, v) == 5 and override("scale_count", 60, v) == 6,
+    "R19 master 0.1 + fighters 0.1: the writer stores {2/4/6/7/9/10}, {4/6/9/9/10/11}, 5, 6 (the live entry-write numbers)")
+ok(same(written(SP_MAJOR, resolve(0.1, m01, 1)), { 1, 1, 1, 1, 1, 1 }) and override("scale_count", 3, resolve(0.1, m01, 1)) == 1,
+    "R19 master 0.1 + crewships 0.1: the writer stores {1/1/1/1/1/1} and 1 (at least one)")
+ok(same(written(SP_MAJOR, resolve(nil, m01, 1)), { 1, 1, 1, 1, 1, 1 }) and same(written(SP_MINOR, resolve(nil, m01, 1)), { 2, 4, 6, 7, 9, 10 }),
+    "R19 master 0.1 alone (rows off): the master drives both Grineer rows at the writer")
+ok(resolve(nil, m1, 1) == nil and same(written(SP_MAJOR, resolve(nil, m1, 1)), SP_MAJOR),
+    "R19 master on at its stock x1, rows off (the R17 live run 1 settings): no override, the level lists stay (stock goal)")
+ok(same(written(SP_MAJOR, resolve(1, m01, 1)), SP_MAJOR) and same(written(SP_MAJOR, resolve(0.5, m01, 1)), { 1, 2, 3, 4, 4, 5 }),
+    "R19 a row that is on wins over the master (x1 keeps the level list, x0.5 halves it)")
 emit(failures == 0 and "ENGINE PARAM OVERRIDE HARNESS PASS" or "ENGINE PARAM OVERRIDE HARNESS FAIL")
 '''
 script = WORK / 'engine_param_override_harness.luau'
-corpus_row, fighters_row = rows['railjack.corpus_fighter_limit_scale'], rows['railjack.fighter_kills_scale']
-extra = ('CORPUS_KEY = ' + lua(corpus_row['owner']['body_key']) + '\nCORPUS_PROTOTYPES = '
-         + lua([e['prototype'] for e in corpus_row['owner']['entries']]) + '\nFIGHTERS_KEY = ' + lua(fighters_row['owner']['body_key'])
-         + '\nFIGHTERS_PROTOTYPES = ' + lua([e['prototype'] for e in fighters_row['owner']['entries']]) + '\n')
+master_targets = [{'id': d['tunable_id'], 'key': rows[d['tunable_id']]['owner']['body_key'],
+                   'prototypes': [e['prototype'] for e in rows[d['tunable_id']]['owner']['entries']],
+                   'observed': CASES[d['tunable_id']]['observed']} for d in master_row['drives']]
+extra = 'MASTER_TARGETS = ' + lua(master_targets) + '\n'
 script.write_text('ADDON_MODULE = function(...)\n' + source + '\nend\n' + 'CASES = ' + lua(cases) + '\n' + extra + harness,
                   encoding='utf-8')
 check(LUAU.is_file(), 'toolchain luau.exe present')
@@ -342,7 +384,8 @@ for line in lines:
 if run.stderr.strip():
     print('HARNESS-STDERR\t' + run.stderr.strip())
 check(run.returncode == 0 and 'ENGINE PARAM OVERRIDE HARNESS PASS' in lines and not any(l.startswith('FAIL') for l in lines),
-      f'harness: {sum(l.startswith("PASS") for l in lines)} Luau checks over the six R16 rows, the R17 Gas City row and the R17 Railjack master')
+      f'harness: {sum(l.startswith("PASS") for l in lines)} Luau checks over the six R16 rows, the R17 Gas City row, the R18 Pontis rows, '
+      'the R19 Grineer Railjack rows and the Railjack master (writer-owned, live numbers)')
 OUT.mkdir(parents=True, exist_ok=True)
 (OUT / 'engine_param_override_harness.json').write_text(json.dumps(results, indent=2) + '\n', encoding='utf-8')
 print('ENGINE PARAM OVERRIDE HARNESS GATE PASS')

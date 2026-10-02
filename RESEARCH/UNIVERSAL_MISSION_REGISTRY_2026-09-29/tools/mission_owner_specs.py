@@ -97,6 +97,14 @@ R18_DRAFTS_SHA256 = '7CF89970AF76936B735306B13BB1EA028A97F574444EEB0230BC897D960
 R18_PROVENANCE = 'research:mission-coverage-audit-2026-10-02 (contract R18)'
 R18_OVERRIDES = R18 / 'inputs/r18_engine_overrides.json'
 R18_OVERRIDES_SHA256 = '6BE472F4DA39F41A2DE09446E1B96E1FAC261D0132D1A547D1695E7BDE8BE773'  # LF-normalized content
+# Contract R19 (2026-10-02, live Railjack report): the Grineer Railjack fighter and crewship goals (KillFighters /
+# KillCrewShips encounter parameters) were classed REACHES by R15, but the live session pid 7128 logged the entry write and
+# the objective still used the stock goal. Both rows are owned at the engine writer (R16 gate) like the other Railjack rows;
+# the entry write stays the fallback for a DLL without the hook. Record RESEARCH/MISSIONS_R19_RAILJACK_ENGINE_OWNER_2026-10-02;
+# input pinned by its LF content.
+R19 = EDITOR / 'RESEARCH/MISSIONS_R19_RAILJACK_ENGINE_OWNER_2026-10-02'
+R19_OVERRIDES = R19 / 'inputs/r19_engine_overrides.json'
+R19_OVERRIDES_SHA256 = 'AD86E8EC77FDB11BAF4033436E72961C26170BC65D1717A1765A418E12580A38'  # LF-normalized content
 # R15 IMPORT_READ_PIN_V1: a single-name GETIMPORT of a hashed global (U44 dispatch byte 0x35, canonical 0x46) is rewritten
 # into `LOADN A, value` twice (the instruction word and its aux word), through two LIVE_LITERALS_V1 instruction sites flagged
 # `rewrites_instruction`. Admissible only when every instruction of the module that names the hash is one of the pinned
@@ -467,7 +475,8 @@ def engine_overrides(out, report):
     """R16: marks the admitted EXPOSED script-parameter rows as natively owned (ENGINE_PARAM_OVERRIDE_V1)."""
     specs = [load_drafts(R16_OVERRIDES, R16_OVERRIDES_SHA256, 'R16'),
              load_drafts(R17_OVERRIDES, R17_OVERRIDES_SHA256, 'R17'),  # R17: same gate, one more row
-             load_drafts(R18_OVERRIDES, R18_OVERRIDES_SHA256, 'R18')]  # R18: the two Pontis tower rows
+             load_drafts(R18_OVERRIDES, R18_OVERRIDES_SHA256, 'R18'),  # R18: the two Pontis tower rows
+             load_drafts(R19_OVERRIDES, R19_OVERRIDES_SHA256, 'R19')]  # R19: Grineer fighter and crewship goals (live-refuted entry route)
     if any(spec.get('gate') != ENGINE_OVERRIDE_GATE for spec in specs):
         raise ValueError('R16: engine override input names another gate')
     by_id = {r['tunable_id']: r for r in out}
