@@ -65,9 +65,15 @@ def run_verify_missions(cli: Path, workspace: Path, registry_path: Path, stock_f
             shutil.copyfile(src, corpus / rec['file'])
     note = ''
     snapshot = workspace / registry['corpus'] / registry['metadata_snapshot']['file']
-    if packages_bin_sha and packages_bin_sha.lower() == registry['packages_bin_sha256'].lower():
+    same_pbin = packages_bin_sha and packages_bin_sha.lower() == registry['packages_bin_sha256'].lower()
+    if same_pbin and snapshot.is_file():
         shutil.copyfile(snapshot, corpus / registry['metadata_snapshot']['file'])
         note = 'METADATA_SNAPSHOT.json carried over (installed Packages.bin has the registry SHA-256)'
+    elif same_pbin:
+        # A registry rebased across a Packages.bin change has no snapshot for the new Packages.bin: its metadata rows
+        # were moved to review (left out of the rebased registry) until the metadata update path re-derives them.
+        note = (f'no METADATA_SNAPSHOT.json for Packages.bin {packages_bin_sha[:16]} (rebased across a Packages.bin '
+                'change): metadata rows are under review and cannot verify')
     else:
         note = (f'installed Packages.bin {str(packages_bin_sha)[:16]} differs from the registry '
                 f'{registry["packages_bin_sha256"][:16]}: metadata rows cannot verify')
