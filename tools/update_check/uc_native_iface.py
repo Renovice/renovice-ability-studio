@@ -27,7 +27,7 @@ DEFAULT = {
     'format': 'RENOVICE_NATIVE_INTERFACE_V1',
     'entry': 'RENOVICE_TOOLCHAIN/native_update/renovice_native_update.py',
     'runner': 'python',
-    'args': ['--game', '{game}', '--out', '{out}'],
+    'args': ['--game', '{game}', '--exe', '{exe}', '--out', '{out}'],
     'build_args': ['--apply', '--build'],
     'result': 'native_update_report.json',
     'exit_codes': {'0': 'OK', '1': 'REVIEW', '2': 'BUILD FAILED', '3': 'TOOL ERROR'},

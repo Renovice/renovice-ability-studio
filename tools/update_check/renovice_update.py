@@ -44,6 +44,7 @@ import uc_native_iface as NATIVE  # noqa: E402
 import uc_pe  # noqa: E402
 import uc_plan  # noqa: E402
 import uc_rebuild  # noqa: E402
+import uc_sideload  # noqa: E402
 
 EDITOR = TOOL_DIR.parents[1]
 REPORT_FORMAT = 'RENOVICE_UPDATE_RESULT_V1'
@@ -102,6 +103,18 @@ def run(args, log) -> int:
         raise SystemExit('refusing to stage inside the game folder')
     stage.mkdir(parents=True, exist_ok=True)
     temp.mkdir(parents=True, exist_ok=True)
+    # A client that does not search its own folder for static imports never loads the proxy DLL: analyse (and stage) the
+    # executable with DependentLoadFlags cleared, the change upstream's Sideloadify makes after every update.
+    exe_installed = exe
+    flags = uc_sideload.dependent_load_flags(exe.read_bytes())
+    sideloaded = None
+    if uc_sideload.blocks_proxy(flags):
+        sideloaded = temp / 'sideload' / 'Warframe.x64.exe'
+        sideloaded.parent.mkdir(parents=True, exist_ok=True)
+        sideloaded.write_bytes(uc_sideload.sideload(exe.read_bytes()))
+        log(f'sideload: DependentLoadFlags 0x{flags:x} blocks the proxy DLL; analysing the patched executable '
+            f'{sha_file(sideloaded)[:16]} (staged with the original as rollback)')
+        exe = sideloaded
     opmap = B.load_opcode_profile((ws / wsj['repos']['de_luau_toolchain'] / 'src' / 'de_opcode_profile.h').read_text())
     oodle = ws / wsj['vendor']['misc_tools'] / 'warframe-cache-tools' / 'lib' / 'oo2core_9.dll'
     cache = ws / wsj['work']['temp'] / 'update-check'
@@ -183,6 +196,20 @@ def run(args, log) -> int:
             staging.files.append({'install': f['install_path'].replace('\\', '/'), 'sha256': f['sha256'],
                                   'bytes': f['bytes'], 'replaces': sha_file(cur) if cur.is_file() else None,
                                   'why': 'native side (bootstrapper)'})
+
+    if sideloaded is not None:
+        dst = staging.root / 'install' / 'Warframe.x64.exe'
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(sideloaded, dst)
+        rb = staging.root / 'rollback' / 'Warframe.x64.exe'
+        rb.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(exe_installed, rb)
+        staging.files.append({'install': 'Warframe.x64.exe', 'sha256': sha_file(sideloaded),
+                              'bytes': sideloaded.stat().st_size, 'replaces': sha_file(exe_installed),
+                              'why': f'sideload: DependentLoadFlags 0x{flags:x} -> 0 so Windows loads WTSAPI32.dll from '
+                                     'the game folder (same change as upstream Sideloadify)'})
+    report['sideload'] = {'dependent_load_flags': flags, 'patched': sideloaded is not None,
+                          'installed_sha256': sha_file(exe_installed), 'analysed_sha256': sha_file(exe)}
 
     # 5. combined set and report ------------------------------------------------------------------------------------------
     deps = plan['dependencies']

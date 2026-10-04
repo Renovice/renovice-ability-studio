@@ -28,6 +28,7 @@ import subprocess
 import zlib
 from pathlib import Path
 
+import uc_sideload
 from uc_bytecode import name_hash
 from uc_pe import pattern_regex
 from uc_report import OK, BROKEN, UNKNOWN
@@ -345,6 +346,7 @@ class NativeChecks:
         self.game_version = None
 
     def run(self, dll_path: Path):
+        self.dll_search()
         self.build_identity()
         self.allowlists()
         self.engine_damage()
@@ -357,6 +359,18 @@ class NativeChecks:
         self.wts_proxy(dll_path)
         self.census()
         return self.collected
+
+    # proxy DLL loadability (uc_sideload) -------------------------------------------------------------------------------
+    def dll_search(self):
+        flags = uc_sideload.dependent_load_flags(self.img.file)
+        blocked = uc_sideload.blocks_proxy(flags)
+        self.r.add('build', 'build.dll_search', 'Client loads the proxy DLL from the game folder',
+                   BROKEN if blocked else OK,
+                   f'DependentLoadFlags 0x{flags:x} excludes the game folder: Windows never loads WTSAPI32.dll, the game '
+                   'stops with "Please run Warframe from the Launcher". renovice_update.py stages the patched executable '
+                   '(Sideloadify\'s one-field change); or run OpenWF\\Download Latest DLL.ps1 (it also replaces the DLL)'
+                   if blocked else f'DependentLoadFlags 0x{flags:x}',
+                   [LUA_STACK_FEATURE, 'OpenWF bootstrapper start'], dependent_load_flags=flags)
 
     # build identity and allowlists -------------------------------------------------------------------------------------
     def build_identity(self):
