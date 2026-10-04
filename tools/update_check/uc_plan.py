@@ -31,6 +31,7 @@ import uc_bytecode as B
 import uc_content
 import uc_remap as RM
 import uc_artifacts as ART
+import uc_metadata as UM
 
 TOOL_DIR = Path(__file__).resolve().parent
 EDITOR = TOOL_DIR.parents[1]
@@ -131,7 +132,8 @@ def load_authored() -> dict:
 
 def make_plan(*, ws: Path, wsj: dict, baseline: dict, baseline_name: str, registry: dict, old: OldStock, new: NewStock,
               custom: Path, opmap, seed: int, build_b: str, build_label_b: str, packages_bin_b: str | None,
-              work: Path, corpus_rel: str, temp: Path, log=print, force: dict | None = None) -> dict:
+              work: Path, corpus_rel: str, temp: Path, log=print, force: dict | None = None,
+              packages_bin_data: bytes | None = None) -> dict:
     """Step 2. Returns the plan dict; writes the rebased registry candidate and the build-B corpus into `work`."""
     sys.path.insert(0, str(REGISTRAR))
     import rebase_registry as RR  # noqa: E402 - registrar tools (deluau, anchors, addon_owner, hook_plan, ...)
@@ -180,8 +182,19 @@ def make_plan(*, ws: Path, wsj: dict, baseline: dict, baseline_name: str, regist
         b = new.bytes(rec['file'])          # a moved module is not carried over automatically (review)
         if b is not None:
             (corpus / rec['file']).write_bytes(b)
+    # metadata snapshot of build B (uc_metadata): re-stamped when Packages.bin is unchanged, else re-decoded from it
+    snap_name = registry['metadata_snapshot']['file']
+    snap_a_path = ws / registry['corpus'] / snap_name
+    if hashlib.sha256(snap_a_path.read_bytes()).hexdigest().upper() != registry['metadata_snapshot']['sha256'].upper():
+        raise SystemExit(f'plan: {snap_a_path} does not have the registry SHA-256')
+    snap_b = None
+    if packages_bin_b:
+        snap_b = UM.snapshot_for_build(json.loads(snap_a_path.read_text(encoding='utf-8')), build=build_b,
+                                       packages_bin_sha256=packages_bin_b, packages_bin=packages_bin_data, ws=ws,
+                                       wsj=wsj, work=work / 'metadata', log=log)
     rb = RR.Rebase(registry, old_dir, corpus, opmap, build=build_b, build_label=build_label_b,
-                   packages_bin_sha256=packages_bin_b, corpus_rel=corpus_rel, log=log, force=force)
+                   packages_bin_sha256=packages_bin_b, corpus_rel=corpus_rel, log=log, force=force,
+                   metadata_snapshot_b=snap_b)
     rebased, decisions, absent = rb.run()
     for d in decisions:
         items = d.get('items', [])
@@ -192,14 +205,17 @@ def make_plan(*, ws: Path, wsj: dict, baseline: dict, baseline_name: str, regist
                 f'{next(iter(x.values()))} -> {x["new"]}' for x in moved[:2]) + (' ...' if len(moved) > 2 else ''))
                    if moved else f're-keyed, {len(items)} pins at the same place') if items else '',
             modules=[m['file'] for m in d.get('modules', []) if m['status'] != 'unchanged'])
-    # keep only the corpus files the rebased registry names (plus the metadata snapshot when Packages.bin is unchanged)
+    # keep only the corpus files the rebased registry names, plus the build-B metadata snapshot
     keep = {rec['file'] for rec in rebased['modules'].values()}
     for f in corpus.glob('*.lua_B'):
         if f.name not in keep:
             f.unlink()
-    snap = ws / registry['corpus'] / registry['metadata_snapshot']['file']
-    if not packages_bin_b or packages_bin_b.lower() == registry['packages_bin_sha256'].lower():
-        shutil.copyfile(snap, corpus / registry['metadata_snapshot']['file'])
+    if snap_b is not None:
+        (corpus / snap_name).write_text(json.dumps(snap_b, indent=1, ensure_ascii=False) + '\n', encoding='utf-8')
+        rebased['metadata_snapshot'] = {'file': snap_name,
+                                        'sha256': hashlib.sha256((corpus / snap_name).read_bytes()).hexdigest().upper()}
+    else:                       # Packages.bin unreadable: the old snapshot as is (metadata rows verify only on build A)
+        shutil.copyfile(snap_a_path, corpus / snap_name)
     (work / 'mission_build_u44.rebased.json').write_bytes(RR.dump(rebased))
     (work / 'registry_rebase_decisions.json').write_text(json.dumps({'format': RR.FORMAT, 'absent': absent,
                                                                      'decisions': decisions}, indent=1), encoding='utf-8')

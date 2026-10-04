@@ -113,8 +113,12 @@ class Outcome:
 
 class Rebase:
     def __init__(self, registry: dict, old_dir: Path, new_dir: Path, opmap, *, build: str, build_label: str,
-                 packages_bin_sha256: str | None, corpus_rel: str, log=print, force: dict | None = None):
+                 packages_bin_sha256: str | None, corpus_rel: str, log=print, force: dict | None = None,
+                 metadata_snapshot_b: dict | None = None):
         self.reg = registry
+        # build-B metadata snapshot types (update tool uc_metadata.snapshot_for_build); None = metadata rows go to review
+        # when Packages.bin changed
+        self.metadata_b = metadata_snapshot_b['types'] if metadata_snapshot_b else None
         self.force = dict(force or {})              # tunable id -> reason: sent to review by a later gate (verify-missions)
         self.old_dir, self.new_dir = Path(old_dir), Path(new_dir)
         self.opmap = opmap
@@ -585,21 +589,69 @@ class Rebase:
     # -- metadata ----------------------------------------------------------------------------------------------------
     def metadata(self, row, out):
         owner = row['owner']
+        rebased = None
         if self.packages_bin and self.packages_bin.lower() != owner['packages_bin_sha256'].lower():
-            raise Problem(REVIEW, f'Packages.bin changed ({owner["packages_bin_sha256"][:16]} -> {self.packages_bin[:16]}): '
-                                  'metadata rows follow the metadata update path (re-derive the snapshot)')
+            if self.metadata_b is None:
+                raise Problem(REVIEW, f'Packages.bin changed ({owner["packages_bin_sha256"][:16]} -> {self.packages_bin[:16]}): '
+                                      'metadata rows follow the metadata update path (re-derive the snapshot)')
+            rebased = self.metadata_owner(row, out)
         c = owner['consumer']
         mm = self.map(c['body_key'])
         if mm.status == 'removed':
             raise Problem(DROPPED, f'consumer module {c["file"]} is not in the new build')
         if mm.status == 'unchanged':
-            return owner
-        new = copy.deepcopy(owner)
+            return rebased or owner
+        new = copy.deepcopy(rebased or owner)
         if struct.pack('<I', int(c['name_hash'], 16)) not in mm.mb.data:
             raise Problem(DROPPED, f'the consumer no longer references the hashed global {c["global"]}')
         if 'readers' in c:
             new['consumer']['readers'] = self.readers(c['body_key'], c['readers'], out, 'consumer')
         new['consumer'].update(body_key=mm.mb.key, stock_sha256=mm.mb.sha256.upper())
+        return new
+
+    def metadata_owner(self, row, out):
+        """Owner of a METADATA_PATCH row on the new Packages.bin (snapshot of build B, update tool uc_metadata). Every
+        entry of the control (primary field + `also`) must still exist, hold one common value, name the same consumer
+        script, and the exact preimage line must be in the new composed text. A changed number is taken over as the
+        new stock (STOCK_CHANGED, like a literal whose every site reads the new value)."""
+        owner = row['owner']
+        rec = self.metadata_b.get(owner['type'])
+        if rec is None:
+            raise Problem(REVIEW, f'owner type {owner["type"]} is not in the new Packages.bin')
+        norm = lambda p: p.strip('/').removesuffix('.lua').replace('/', '.')  # noqa: E731 - '/A/B.lua' == 'A.B'
+        consumer = norm(owner['consumer']['module_path'])
+        entries = [owner['field']] + [a['field'] for a in owner.get('also', [])]
+        values = {}
+        for path in entries:
+            if path not in rec['fields']:
+                raise Problem(REVIEW, f'{path} no longer exists in {owner["type"]} (its Scripts entries changed)')
+            script = rec['scripts'].get(path)
+            if script is None or norm(script) != consumer:
+                raise Problem(REVIEW, f'{path} now belongs to {script}, not the registered consumer '
+                                      f'{owner["consumer"]["module_path"]}')
+            values[path] = rec['fields'][path]
+        if len(set(values.values())) != 1:
+            raise Problem(REVIEW, f'the entries of this control now hold different values {sorted(set(values.values()))}')
+        value = values[owner['field']]
+        param = owner['field'].rsplit('.', 1)[1]
+        line = f'{param}={value}'
+        if line not in rec['text'].splitlines():
+            raise Problem(REVIEW, f'preimage line {line} is not in the new composed text of {owner["type"]}')
+        new = copy.deepcopy(owner)
+        new['packages_bin_sha256'] = self.packages_bin
+        if value != owner['stock_text']:
+            try:
+                number = float(value.strip('"'))
+            except ValueError:
+                raise Problem(REVIEW, f'{param} is now the non-numeric value {value!r} (was {owner["stock_text"]})')
+            new['stock_text'], new['preimage'] = value, line
+            for a in new.get('also', []):
+                a['stock_text'], a['preimage'] = value, line
+            out.stock = (row['stock'], _num(number))
+            out.notes.append(f'STOCK_CHANGED {owner["stock_text"]} -> {value}: {param} in {owner["type"]} '
+                             '(new Packages.bin; same field, same consumer)')
+        else:
+            out.notes.append('Packages.bin changed; the field, its value, the preimage line and the consumer are unchanged')
         return new
 
     # -- driver ------------------------------------------------------------------------------------------------------
@@ -635,6 +687,8 @@ class Rebase:
                     if owner is not row['owner']:
                         new_row = dict(row, owner=owner)
                         out.worse(AUTO)
+                        if out.stock:
+                            new_row['stock'] = out.stock[1]
                 elif all(m.status == 'unchanged' for m in maps):
                     pass
                 else:

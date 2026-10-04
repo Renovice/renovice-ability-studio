@@ -122,7 +122,7 @@ def run(args, log) -> int:
         pbin = uc_cache.extract_named(game, 'H.Misc.toc', '/Packages.bin', oodle)
         packages_bin = hashlib.sha256(pbin).hexdigest() if pbin else None
     except Exception:  # noqa: BLE001
-        packages_bin = None
+        pbin, packages_bin = None, None
     build_label = registry['build_label'] if build_b == registry['build'] else f'client {build_b}'
     seed = int(registry['name_hash_seed'], 16)
     check_args = ['--game', str(game), '--exe', str(exe), '--baseline', str(baseline_path),
@@ -151,7 +151,8 @@ def run(args, log) -> int:
     corpus_rel = os.path.relpath(plan_work / 'corpus', ws).replace('\\', '/')
     inputs = dict(ws=ws, wsj=wsj, baseline=baseline, baseline_name=baseline_name, registry=registry, old=old, new=new,
                   custom=custom, opmap=opmap, seed=seed, build_b=build_b, build_label_b=build_label,
-                  packages_bin_b=packages_bin, work=plan_work, corpus_rel=corpus_rel, temp=cache, log=log)
+                  packages_bin_b=packages_bin, packages_bin_data=pbin, work=plan_work, corpus_rel=corpus_rel, temp=cache,
+                  log=log)
     plan = uc_plan.make_plan(**inputs)
     plan['_inputs'] = inputs
 

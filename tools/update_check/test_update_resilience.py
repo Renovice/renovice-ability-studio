@@ -42,6 +42,7 @@ import renovice_update as RU  # noqa: E402
 import renovice_update_check as UC  # noqa: E402
 import uc_bytecode as B  # noqa: E402
 import uc_cache  # noqa: E402
+import uc_pe  # noqa: E402
 import uc_synthetic as S  # noqa: E402
 
 GAME = UC.DEFAULT_GAME
@@ -55,6 +56,13 @@ def main() -> int:
     opmap = B.load_opcode_profile((ws / wsj['repos']['de_luau_toolchain'] / 'src' / 'de_opcode_profile.h').read_text())
     registry = json.loads((TOOL.parents[1] / 'REGISTRIES' / 'mission_build_u44.json').read_text(encoding='utf-8'))
     rows = {r['tunable_id']: r for r in registry['tunables']}
+    # Every expectation is relative to the certified build: the installed client must be the registry's build. After a
+    # Warframe update that holds again once the update set is adopted (renovice_update.py --adopt, after the live test).
+    installed = uc_pe.Image((GAME / 'Warframe.x64.exe').read_bytes()).product_version()
+    if installed != registry['build']:
+        print(f'NOT APPLICABLE: the installed client is {installed}, the registry is certified for {registry["build"]}; '
+              'adopt the update set first (renovice_update.py --adopt <stage>) and rerun')
+        return 2
     root = ws / wsj['work']['temp'] / 'update-resilience-test'
     if root.exists():
         shutil.rmtree(root)
