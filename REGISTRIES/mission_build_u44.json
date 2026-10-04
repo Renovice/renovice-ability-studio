@@ -1,13 +1,13 @@
 {
   "schema": 2,
   "format": "RENOVICE_MISSION_TUNABLE_REGISTRY_V2",
-  "build": "2026.09.28.13.06",
-  "build_label": "Hotfix 44.0.2",
-  "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
-  "corpus": "shared/corpus/de-luau-u44.0.2-authoring",
+  "build": "2026.09.30.14.45",
+  "build_label": "client 2026.09.30.14.45",
+  "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+  "corpus": "shared/corpus/de-luau-2026.09.30.14.45-authoring",
   "metadata_snapshot": {
     "file": "METADATA_SNAPSHOT.json",
-    "sha256": "33D3D0EA8ED3FB4E4FB54A6101683701C353CA909D597C60EC2D7ADF1212A7D2"
+    "sha256": "B9E31DE4D3EC5A752E2C2C319C93B4983FAA13F9A37E76CCDF2380F29A3FC4D1"
   },
   "server_root": "../OpenWF Server 23.09.2026/SpaceNinjaServer",
   "name_hash_seed": "768e5ed0",
@@ -4856,12 +4856,6 @@
       "size": 29829,
       "module_path": "Lotus.Scripts.Levels.1999Defense"
     },
-    "a7d46fb5b6bca6d7": {
-      "file": "Lotus_Scripts_DarkSectors_DarkSectors.lua_B",
-      "sha256": "5EA543E500D508D2A4431D72A1500099A51F6A54690E39F39C2966D00B73E118",
-      "size": 61759,
-      "module_path": "Lotus.Scripts.DarkSectors.DarkSectors"
-    },
     "a807aae359ffc1eb": {
       "file": "Lotus_Scripts_MobileDefense.lua_B",
       "sha256": "4DCFA0B5633B93BC3AF57F04AB5DE4F1CC492FCFD2AE4DE61B9B473E5F1B2DA1",
@@ -6543,6 +6537,12 @@
       "size": 4570,
       "module_path": "Lotus.Scripts.CrewShip.Encounters.KillCrewShipsExterminateObjective"
     },
+    "e9799664e1cb8d4b": {
+      "file": "Lotus_Scripts_DarkSectors_DarkSectors.lua_B",
+      "sha256": "326DB25104B76686AA9E7A0EBA0B5A718D9B33F10DFB2B73583C0D69B8492D9F",
+      "size": 61985,
+      "module_path": "Lotus.Scripts.DarkSectors.DarkSectors"
+    },
     "ea590b792c6a689a": {
       "file": "Lotus_Scripts_Rescue.lua_B",
       "sha256": "2A768C7F6FAA32C8E567B0E256FDDC2427023040A78F03BE41C3F4BC09CDCE33",
@@ -8121,7 +8121,7 @@
         "field": "Scripts.0.Script._CRUCIBLE_REMIND_COUNTDOWN",
         "stock_text": "60",
         "preimage": "_CRUCIBLE_REMIND_COUNTDOWN=60",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "4177b4847467236d",
           "stock_sha256": "0DA3F5D2C05509D4D8ED3F12588F77D501CD099A5A90E2BAEF0C60460CAA1104",
@@ -8184,7 +8184,7 @@
         "field": "Scripts.0.Script._CRUCIBLE_REMIND_COUNTDOWN",
         "stock_text": "60",
         "preimage": "_CRUCIBLE_REMIND_COUNTDOWN=60",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "4177b4847467236d",
           "stock_sha256": "0DA3F5D2C05509D4D8ED3F12588F77D501CD099A5A90E2BAEF0C60460CAA1104",
@@ -8247,7 +8247,7 @@
         "field": "Scripts.0.Script._TRANSMUTER_GOAL",
         "stock_text": "1",
         "preimage": "_TRANSMUTER_GOAL=1",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "4177b4847467236d",
           "stock_sha256": "0DA3F5D2C05509D4D8ED3F12588F77D501CD099A5A90E2BAEF0C60460CAA1104",
@@ -8310,7 +8310,7 @@
         "field": "Scripts.0.Script._TRANSMUTER_GOAL",
         "stock_text": "1",
         "preimage": "_TRANSMUTER_GOAL=1",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "4177b4847467236d",
           "stock_sha256": "0DA3F5D2C05509D4D8ED3F12588F77D501CD099A5A90E2BAEF0C60460CAA1104",
@@ -8373,7 +8373,7 @@
         "field": "Scripts.0.Script._rewardInterval",
         "stock_text": "1",
         "preimage": "_rewardInterval=1",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "4177b4847467236d",
           "stock_sha256": "0DA3F5D2C05509D4D8ED3F12588F77D501CD099A5A90E2BAEF0C60460CAA1104",
@@ -8436,7 +8436,7 @@
         "field": "Scripts.0.Script._rewardInterval",
         "stock_text": "1",
         "preimage": "_rewardInterval=1",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "4177b4847467236d",
           "stock_sha256": "0DA3F5D2C05509D4D8ED3F12588F77D501CD099A5A90E2BAEF0C60460CAA1104",
@@ -9948,7 +9948,7 @@
         "field": "Scripts.0.Script._boostTimeModifier",
         "stock_text": "3",
         "preimage": "_boostTimeModifier=3",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "62bff9c05056c1eb",
           "stock_sha256": "07747FEB6149F476E9DA94885F7E64FCBEA143347D85ED5D18E25407FB610E49",
@@ -10009,7 +10009,7 @@
         "field": "Scripts.0.Script._elevatorAnimationTime",
         "stock_text": "150",
         "preimage": "_elevatorAnimationTime=150",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "62bff9c05056c1eb",
           "stock_sha256": "07747FEB6149F476E9DA94885F7E64FCBEA143347D85ED5D18E25407FB610E49",
@@ -10070,7 +10070,7 @@
         "field": "Scripts.0.Script._elevatorShield",
         "stock_text": "100",
         "preimage": "_elevatorShield=100",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "62bff9c05056c1eb",
           "stock_sha256": "07747FEB6149F476E9DA94885F7E64FCBEA143347D85ED5D18E25407FB610E49",
@@ -10131,7 +10131,7 @@
         "field": "Scripts.0.Script._addingFuelAmmount",
         "stock_text": "20",
         "preimage": "_addingFuelAmmount=20",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "62bff9c05056c1eb",
           "stock_sha256": "07747FEB6149F476E9DA94885F7E64FCBEA143347D85ED5D18E25407FB610E49",
@@ -10192,7 +10192,7 @@
         "field": "Scripts.0.Script._elevatorBoostDuration",
         "stock_text": "10",
         "preimage": "_elevatorBoostDuration=10",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "62bff9c05056c1eb",
           "stock_sha256": "07747FEB6149F476E9DA94885F7E64FCBEA143347D85ED5D18E25407FB610E49",
@@ -10253,7 +10253,7 @@
         "field": "Scripts.0.Script._maxDefaultCapacity",
         "stock_text": "50",
         "preimage": "_maxDefaultCapacity=50",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "62bff9c05056c1eb",
           "stock_sha256": "07747FEB6149F476E9DA94885F7E64FCBEA143347D85ED5D18E25407FB610E49",
@@ -11768,7 +11768,7 @@
         "field": "PickUpScript._boonCollectablesThreshold",
         "stock_text": "3",
         "preimage": "_boonCollectablesThreshold=3",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "095718c8c70b1eb4",
           "stock_sha256": "F95988346AC03CD340B4CD99D87BC9891837D8B8545246777B673E29E67FB48F",
@@ -12205,7 +12205,7 @@
         "field": "Scripts.0.Script._numTargets",
         "stock_text": "10",
         "preimage": "_numTargets=10",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "d21d8867b9549b2a",
           "stock_sha256": "937062CA4270AF333FC920F54F85AEF68747337BDA974425FC81DAFBEF3706B4",
@@ -12724,7 +12724,7 @@
         "field": "Scripts.0.Script._baseExcavatorHealth",
         "stock_text": "1500",
         "preimage": "_baseExcavatorHealth=1500",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "415a57536412719f",
           "stock_sha256": "C641B897157618608088A5CFBD1D5688ACE5C12822F8ADAADF95089C6491D0E8",
@@ -12794,7 +12794,7 @@
         "field": "Scripts.0.Script._baseExcavatorShields",
         "stock_text": "500",
         "preimage": "_baseExcavatorShields=500",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "415a57536412719f",
           "stock_sha256": "C641B897157618608088A5CFBD1D5688ACE5C12822F8ADAADF95089C6491D0E8",
@@ -12982,7 +12982,7 @@
         "field": "Scripts.0.Script._sharedHealthPoolLevelPowerSolo",
         "stock_text": "0.34999999",
         "preimage": "_sharedHealthPoolLevelPowerSolo=0.34999999",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "415a57536412719f",
           "stock_sha256": "C641B897157618608088A5CFBD1D5688ACE5C12822F8ADAADF95089C6491D0E8",
@@ -13052,7 +13052,7 @@
         "field": "Scripts.0.Script._sharedHealthPoolLevelPower",
         "stock_text": "0.30000001",
         "preimage": "_sharedHealthPoolLevelPower=0.30000001",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "415a57536412719f",
           "stock_sha256": "C641B897157618608088A5CFBD1D5688ACE5C12822F8ADAADF95089C6491D0E8",
@@ -13205,7 +13205,7 @@
         "field": "Scripts.0.Script._excavatorSpawnInvulnerabilityDuration",
         "stock_text": "0",
         "preimage": "_excavatorSpawnInvulnerabilityDuration=0",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "415a57536412719f",
           "stock_sha256": "C641B897157618608088A5CFBD1D5688ACE5C12822F8ADAADF95089C6491D0E8",
@@ -13444,7 +13444,7 @@
         "field": "Scripts.0.Script._beaconChaseTargetTime",
         "stock_text": "25",
         "preimage": "_beaconChaseTargetTime=25",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "026200d9d8fd40a3",
           "stock_sha256": "D3EEE8D0F393AF6E9EAD211E3FD602D4863A3F87017C85B869A87A133E70F702",
@@ -13505,7 +13505,7 @@
         "field": "Scripts.0.Script._isDescent",
         "stock_text": "1",
         "preimage": "_isDescent=1",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "026200d9d8fd40a3",
           "stock_sha256": "D3EEE8D0F393AF6E9EAD211E3FD602D4863A3F87017C85B869A87A133E70F702",
@@ -18479,7 +18479,7 @@
         "field": "Scripts.0.Script._markerThreshold",
         "stock_text": "5",
         "preimage": "_markerThreshold=5",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "1a1354d153712f9d",
           "stock_sha256": "0FB53A2C0946ACC3476DF7E16C5A3AAEEA1B6384A2D4EFA2D7360F4C155DBF10",
@@ -22953,7 +22953,7 @@
         "field": "Scripts.0.Script._targetMaxLevelHardmodeBump",
         "stock_text": "25",
         "preimage": "_targetMaxLevelHardmodeBump=25",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "1a1354d153712f9d",
           "stock_sha256": "0FB53A2C0946ACC3476DF7E16C5A3AAEEA1B6384A2D4EFA2D7360F4C155DBF10",
@@ -23016,7 +23016,7 @@
         "field": "Scripts.0.Script._targetMaxLevelFalloffIntensity",
         "stock_text": "15",
         "preimage": "_targetMaxLevelFalloffIntensity=15",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "1a1354d153712f9d",
           "stock_sha256": "0FB53A2C0946ACC3476DF7E16C5A3AAEEA1B6384A2D4EFA2D7360F4C155DBF10",
@@ -23077,7 +23077,7 @@
         "field": "Scripts.0.Script._targetMaxLevelFalloffPoint",
         "stock_text": "50",
         "preimage": "_targetMaxLevelFalloffPoint=50",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "1a1354d153712f9d",
           "stock_sha256": "0FB53A2C0946ACC3476DF7E16C5A3AAEEA1B6384A2D4EFA2D7360F4C155DBF10",
@@ -33331,7 +33331,7 @@
         "field": "Scripts.0.Script._isCdBurnOn",
         "stock_text": "1",
         "preimage": "_isCdBurnOn=1",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "97ddf9f92301da45",
           "stock_sha256": "E9020E9A558445B366C0F9D214BEC615204118D2F438FCA3D3839AD9B0B63B00",
@@ -37888,7 +37888,7 @@
         "field": "OnFirstTouchedScript._duration",
         "stock_text": "60",
         "preimage": "_duration=60",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "e3288fa4e8afbc06",
           "stock_sha256": "634857104D2306D4B800370D2875A698202483F83FC01B6E9586CB88B093D67C",
@@ -38588,7 +38588,7 @@
         "field": "Scripts.0.Script._baseNumberOfMutations",
         "stock_text": "5",
         "preimage": "_baseNumberOfMutations=5",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "0f1c3a74c7c91fab",
           "stock_sha256": "2DFC64FF77D4B1A364662D41CEB9DB54EE9F21F00A4880FE757BC6B68EA36C92",
@@ -38653,7 +38653,7 @@
         "field": "Scripts.0.Script._baseNumberOfMutations",
         "stock_text": "2",
         "preimage": "_baseNumberOfMutations=2",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "0f1c3a74c7c91fab",
           "stock_sha256": "2DFC64FF77D4B1A364662D41CEB9DB54EE9F21F00A4880FE757BC6B68EA36C92",
@@ -39023,7 +39023,7 @@
         "field": "Scripts.0.Script._searchingRoundsBeforeBoss",
         "stock_text": "1",
         "preimage": "_searchingRoundsBeforeBoss=1",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "0f1c3a74c7c91fab",
           "stock_sha256": "2DFC64FF77D4B1A364662D41CEB9DB54EE9F21F00A4880FE757BC6B68EA36C92",
@@ -39088,7 +39088,7 @@
         "field": "Scripts.0.Script._searchingRoundsBeforeBoss",
         "stock_text": "1",
         "preimage": "_searchingRoundsBeforeBoss=1",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "0f1c3a74c7c91fab",
           "stock_sha256": "2DFC64FF77D4B1A364662D41CEB9DB54EE9F21F00A4880FE757BC6B68EA36C92",
@@ -39153,7 +39153,7 @@
         "field": "Scripts.0.Script._kalymosSearchSpotRange",
         "stock_text": "150",
         "preimage": "_kalymosSearchSpotRange=150",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "0f1c3a74c7c91fab",
           "stock_sha256": "2DFC64FF77D4B1A364662D41CEB9DB54EE9F21F00A4880FE757BC6B68EA36C92",
@@ -39218,7 +39218,7 @@
         "field": "Scripts.0.Script._kalymosSearchSpotRange",
         "stock_text": "150",
         "preimage": "_kalymosSearchSpotRange=150",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "0f1c3a74c7c91fab",
           "stock_sha256": "2DFC64FF77D4B1A364662D41CEB9DB54EE9F21F00A4880FE757BC6B68EA36C92",
@@ -39283,7 +39283,7 @@
         "field": "Scripts.0.Script._searchTime",
         "stock_text": "60",
         "preimage": "_searchTime=60",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "0f1c3a74c7c91fab",
           "stock_sha256": "2DFC64FF77D4B1A364662D41CEB9DB54EE9F21F00A4880FE757BC6B68EA36C92",
@@ -39348,7 +39348,7 @@
         "field": "Scripts.0.Script._searchTime",
         "stock_text": "100",
         "preimage": "_searchTime=100",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "0f1c3a74c7c91fab",
           "stock_sha256": "2DFC64FF77D4B1A364662D41CEB9DB54EE9F21F00A4880FE757BC6B68EA36C92",
@@ -39413,7 +39413,7 @@
         "field": "Scripts.0.Script._baseTentacleHealth",
         "stock_text": "5000",
         "preimage": "_baseTentacleHealth=5000",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "0f1c3a74c7c91fab",
           "stock_sha256": "2DFC64FF77D4B1A364662D41CEB9DB54EE9F21F00A4880FE757BC6B68EA36C92",
@@ -39478,7 +39478,7 @@
         "field": "Scripts.0.Script._baseTentacleHealth",
         "stock_text": "5000",
         "preimage": "_baseTentacleHealth=5000",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "0f1c3a74c7c91fab",
           "stock_sha256": "2DFC64FF77D4B1A364662D41CEB9DB54EE9F21F00A4880FE757BC6B68EA36C92",
@@ -39543,7 +39543,7 @@
         "field": "Scripts.0.Script._wanderRadius",
         "stock_text": "15",
         "preimage": "_wanderRadius=15",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "0f1c3a74c7c91fab",
           "stock_sha256": "2DFC64FF77D4B1A364662D41CEB9DB54EE9F21F00A4880FE757BC6B68EA36C92",
@@ -39608,7 +39608,7 @@
         "field": "Scripts.0.Script._wanderRadius",
         "stock_text": "15",
         "preimage": "_wanderRadius=15",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "0f1c3a74c7c91fab",
           "stock_sha256": "2DFC64FF77D4B1A364662D41CEB9DB54EE9F21F00A4880FE757BC6B68EA36C92",
@@ -39673,7 +39673,7 @@
         "field": "Scripts.0.Script._wanderTime",
         "stock_text": "5",
         "preimage": "_wanderTime=5",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "0f1c3a74c7c91fab",
           "stock_sha256": "2DFC64FF77D4B1A364662D41CEB9DB54EE9F21F00A4880FE757BC6B68EA36C92",
@@ -39738,7 +39738,7 @@
         "field": "Scripts.0.Script._wanderTime",
         "stock_text": "10",
         "preimage": "_wanderTime=10",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "0f1c3a74c7c91fab",
           "stock_sha256": "2DFC64FF77D4B1A364662D41CEB9DB54EE9F21F00A4880FE757BC6B68EA36C92",
@@ -51509,7 +51509,7 @@
         "field": "Scripts.0.Script._heatDecreaseAmount",
         "stock_text": "0.2",
         "preimage": "_heatDecreaseAmount=0.2",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "1704b2348bad3f42",
           "stock_sha256": "1B47C8F93955D2131A64A050E6EBAC38190AA9CE3C9AF7095FE467C56326E3F0",
@@ -51572,7 +51572,7 @@
         "field": "Scripts.0.Script._heatDecreaseAmount",
         "stock_text": "0.2",
         "preimage": "_heatDecreaseAmount=0.2",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "1704b2348bad3f42",
           "stock_sha256": "1B47C8F93955D2131A64A050E6EBAC38190AA9CE3C9AF7095FE467C56326E3F0",
@@ -51635,7 +51635,7 @@
         "field": "Scripts.0.Script._HEAT_INCREASE",
         "stock_text": "0.025",
         "preimage": "_HEAT_INCREASE=0.025",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "1704b2348bad3f42",
           "stock_sha256": "1B47C8F93955D2131A64A050E6EBAC38190AA9CE3C9AF7095FE467C56326E3F0",
@@ -51698,7 +51698,7 @@
         "field": "Scripts.0.Script._HEAT_INCREASE",
         "stock_text": "0.025",
         "preimage": "_HEAT_INCREASE=0.025",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "1704b2348bad3f42",
           "stock_sha256": "1B47C8F93955D2131A64A050E6EBAC38190AA9CE3C9AF7095FE467C56326E3F0",
@@ -51761,7 +51761,7 @@
         "field": "Scripts.0.Script._inRangeMultiplier",
         "stock_text": "10",
         "preimage": "_inRangeMultiplier=10",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "1704b2348bad3f42",
           "stock_sha256": "1B47C8F93955D2131A64A050E6EBAC38190AA9CE3C9AF7095FE467C56326E3F0",
@@ -51824,7 +51824,7 @@
         "field": "Scripts.0.Script._inRangeMultiplier",
         "stock_text": "10",
         "preimage": "_inRangeMultiplier=10",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "1704b2348bad3f42",
           "stock_sha256": "1B47C8F93955D2131A64A050E6EBAC38190AA9CE3C9AF7095FE467C56326E3F0",
@@ -51887,7 +51887,7 @@
         "field": "Scripts.0.Script._SCAN_RATE",
         "stock_text": "0.25",
         "preimage": "_SCAN_RATE=0.25",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "1704b2348bad3f42",
           "stock_sha256": "1B47C8F93955D2131A64A050E6EBAC38190AA9CE3C9AF7095FE467C56326E3F0",
@@ -51950,7 +51950,7 @@
         "field": "Scripts.0.Script._SCAN_RATE",
         "stock_text": "0.25",
         "preimage": "_SCAN_RATE=0.25",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "1704b2348bad3f42",
           "stock_sha256": "1B47C8F93955D2131A64A050E6EBAC38190AA9CE3C9AF7095FE467C56326E3F0",
@@ -52013,7 +52013,7 @@
         "field": "Scripts.0.Script._startMissionDelay",
         "stock_text": "80",
         "preimage": "_startMissionDelay=80",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "1704b2348bad3f42",
           "stock_sha256": "1B47C8F93955D2131A64A050E6EBAC38190AA9CE3C9AF7095FE467C56326E3F0",
@@ -52076,7 +52076,7 @@
         "field": "Scripts.0.Script._startMissionDelay",
         "stock_text": "80",
         "preimage": "_startMissionDelay=80",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "1704b2348bad3f42",
           "stock_sha256": "1B47C8F93955D2131A64A050E6EBAC38190AA9CE3C9AF7095FE467C56326E3F0",
@@ -52139,7 +52139,7 @@
         "field": "Scripts.0.Script._VENT_SEARCH_DISTANCE",
         "stock_text": "100",
         "preimage": "_VENT_SEARCH_DISTANCE=100",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "1704b2348bad3f42",
           "stock_sha256": "1B47C8F93955D2131A64A050E6EBAC38190AA9CE3C9AF7095FE467C56326E3F0",
@@ -52202,7 +52202,7 @@
         "field": "Scripts.0.Script._VENT_SEARCH_DISTANCE",
         "stock_text": "100",
         "preimage": "_VENT_SEARCH_DISTANCE=100",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "1704b2348bad3f42",
           "stock_sha256": "1B47C8F93955D2131A64A050E6EBAC38190AA9CE3C9AF7095FE467C56326E3F0",
@@ -52265,7 +52265,7 @@
         "field": "Scripts.0.Script._VENTS_TO_REVEAL",
         "stock_text": "3",
         "preimage": "_VENTS_TO_REVEAL=3",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "1704b2348bad3f42",
           "stock_sha256": "1B47C8F93955D2131A64A050E6EBAC38190AA9CE3C9AF7095FE467C56326E3F0",
@@ -52328,7 +52328,7 @@
         "field": "Scripts.0.Script._VENTS_TO_REVEAL",
         "stock_text": "3",
         "preimage": "_VENTS_TO_REVEAL=3",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "1704b2348bad3f42",
           "stock_sha256": "1B47C8F93955D2131A64A050E6EBAC38190AA9CE3C9AF7095FE467C56326E3F0",
@@ -54813,7 +54813,7 @@
         "field": "Scripts.0.Script._enemyPowerFill",
         "stock_text": "1",
         "preimage": "_enemyPowerFill=1",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "0c498e078835f9fe",
           "stock_sha256": "036522B0202AB810737F23C765E45050CB02F87B10F9C293932B3BE8DA24F85F",
@@ -55131,7 +55131,7 @@
         "field": "Scripts.0.Script._questPowerMultiplier",
         "stock_text": "8",
         "preimage": "_questPowerMultiplier=8",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "0c498e078835f9fe",
           "stock_sha256": "036522B0202AB810737F23C765E45050CB02F87B10F9C293932B3BE8DA24F85F",
@@ -55195,8 +55195,8 @@
       "evidence": "DarkSectors (Sanctuary and Elite Onslaught; Elite when the mission seed is not \"0\") efficiency is stored as _T.MissionTimer; 300 units = 100 percent; the clamp and both percentage divisions change together.",
       "research_draft_id": "onslaught.efficiency_max",
       "owner": {
-        "body_key": "a7d46fb5b6bca6d7",
-        "stock_sha256": "5EA543E500D508D2A4431D72A1500099A51F6A54690E39F39C2966D00B73E118",
+        "body_key": "e9799664e1cb8d4b",
+        "stock_sha256": "326DB25104B76686AA9E7A0EBA0B5A718D9B33F10DFB2B73583C0D69B8492D9F",
         "file": "Lotus_Scripts_DarkSectors_DarkSectors.lua_B",
         "module_path": "Lotus.Scripts.DarkSectors.DarkSectors",
         "sites": [
@@ -55204,7 +55204,7 @@
             "kind": "instruction",
             "prototype": 29,
             "instruction": 17,
-            "offset": 17338,
+            "offset": 17512,
             "expected": [
               8,
               5,
@@ -55220,7 +55220,7 @@
             "kind": "number_constant",
             "prototype": 29,
             "constant": 18,
-            "offset": 17707,
+            "offset": 17881,
             "expected": [
               0,
               0,
@@ -55251,7 +55251,7 @@
             "kind": "number_constant",
             "prototype": 11,
             "constant": 25,
-            "offset": 7001,
+            "offset": 7076,
             "expected": [
               0,
               0,
@@ -55327,8 +55327,8 @@
       "evidence": "DarkSectors (Sanctuary and Elite Onslaught; Elite when the mission seed is not \"0\") proto 30 instruction 164.",
       "research_draft_id": "onslaught.efficiency_per_kill",
       "owner": {
-        "body_key": "a7d46fb5b6bca6d7",
-        "stock_sha256": "5EA543E500D508D2A4431D72A1500099A51F6A54690E39F39C2966D00B73E118",
+        "body_key": "e9799664e1cb8d4b",
+        "stock_sha256": "326DB25104B76686AA9E7A0EBA0B5A718D9B33F10DFB2B73583C0D69B8492D9F",
         "file": "Lotus_Scripts_DarkSectors_DarkSectors.lua_B",
         "module_path": "Lotus.Scripts.DarkSectors.DarkSectors",
         "sites": [
@@ -55336,7 +55336,7 @@
             "kind": "instruction",
             "prototype": 30,
             "instruction": 164,
-            "offset": 18762,
+            "offset": 18936,
             "expected": [
               8,
               4,
@@ -55398,8 +55398,8 @@
       "evidence": "DarkSectors (Sanctuary and Elite Onslaught; Elite when the mission seed is not \"0\") proto 50 instruction 1.",
       "research_draft_id": "onslaught.efficiency_per_pickup",
       "owner": {
-        "body_key": "a7d46fb5b6bca6d7",
-        "stock_sha256": "5EA543E500D508D2A4431D72A1500099A51F6A54690E39F39C2966D00B73E118",
+        "body_key": "e9799664e1cb8d4b",
+        "stock_sha256": "326DB25104B76686AA9E7A0EBA0B5A718D9B33F10DFB2B73583C0D69B8492D9F",
         "file": "Lotus_Scripts_DarkSectors_DarkSectors.lua_B",
         "module_path": "Lotus.Scripts.DarkSectors.DarkSectors",
         "sites": [
@@ -55407,7 +55407,7 @@
             "kind": "instruction",
             "prototype": 50,
             "instruction": 1,
-            "offset": 50135,
+            "offset": 50359,
             "expected": [
               8,
               2,
@@ -55469,8 +55469,8 @@
       "evidence": "DarkSectors (Sanctuary and Elite Onslaught; Elite when the mission seed is not \"0\") proto 30 instruction 122.",
       "research_draft_id": "onslaught.efficiency_per_special_kill",
       "owner": {
-        "body_key": "a7d46fb5b6bca6d7",
-        "stock_sha256": "5EA543E500D508D2A4431D72A1500099A51F6A54690E39F39C2966D00B73E118",
+        "body_key": "e9799664e1cb8d4b",
+        "stock_sha256": "326DB25104B76686AA9E7A0EBA0B5A718D9B33F10DFB2B73583C0D69B8492D9F",
         "file": "Lotus_Scripts_DarkSectors_DarkSectors.lua_B",
         "module_path": "Lotus.Scripts.DarkSectors.DarkSectors",
         "sites": [
@@ -55478,7 +55478,7 @@
             "kind": "instruction",
             "prototype": 30,
             "instruction": 122,
-            "offset": 18534,
+            "offset": 18708,
             "expected": [
               8,
               4,
@@ -55540,16 +55540,16 @@
       "evidence": "DarkSectors (Sanctuary and Elite Onslaught; Elite when the mission seed is not \"0\") proto 44 L5154 sets NextPortalTimer = 150 per zone; OnUpdate (proto 55) L6627-6650 counts it down and opens the conduit; protos 21 and 11 carry the same default. Proto 6 (return 150) is dead. Every LOADN 150 in the module is listed; 20:21 and 44:1257 and 11:52 are other values.",
       "research_draft_id": "onslaught.zone_time",
       "owner": {
-        "body_key": "a7d46fb5b6bca6d7",
-        "stock_sha256": "5EA543E500D508D2A4431D72A1500099A51F6A54690E39F39C2966D00B73E118",
+        "body_key": "e9799664e1cb8d4b",
+        "stock_sha256": "326DB25104B76686AA9E7A0EBA0B5A718D9B33F10DFB2B73583C0D69B8492D9F",
         "file": "Lotus_Scripts_DarkSectors_DarkSectors.lua_B",
         "module_path": "Lotus.Scripts.DarkSectors.DarkSectors",
         "sites": [
           {
             "kind": "instruction",
             "prototype": 44,
-            "instruction": 1151,
-            "offset": 32401,
+            "instruction": 1154,
+            "offset": 32595,
             "expected": [
               8,
               16,
@@ -55565,7 +55565,7 @@
             "kind": "instruction",
             "prototype": 21,
             "instruction": 3,
-            "offset": 12988,
+            "offset": 13063,
             "expected": [
               8,
               0,
@@ -55581,7 +55581,7 @@
             "kind": "instruction",
             "prototype": 11,
             "instruction": 32,
-            "offset": 6669,
+            "offset": 6744,
             "expected": [
               8,
               4,
@@ -55642,8 +55642,8 @@
       "evidence": "DarkSectors (Sanctuary and Elite Onslaught; Elite when the mission seed is not \"0\") proto 33 instruction 5 DIVK k3 = 2.0: rewards per floor(Wave/2); K_CONSTANT_EXCLUSIVE_V1 PASS.",
       "research_draft_id": "onslaught.zones_per_reward",
       "owner": {
-        "body_key": "a7d46fb5b6bca6d7",
-        "stock_sha256": "5EA543E500D508D2A4431D72A1500099A51F6A54690E39F39C2966D00B73E118",
+        "body_key": "e9799664e1cb8d4b",
+        "stock_sha256": "326DB25104B76686AA9E7A0EBA0B5A718D9B33F10DFB2B73583C0D69B8492D9F",
         "file": "Lotus_Scripts_DarkSectors_DarkSectors.lua_B",
         "module_path": "Lotus.Scripts.DarkSectors.DarkSectors",
         "sites": [
@@ -55651,7 +55651,7 @@
             "kind": "number_constant",
             "prototype": 33,
             "constant": 3,
-            "offset": 20452,
+            "offset": 20626,
             "expected": [
               0,
               0,
@@ -67209,7 +67209,7 @@
         "field": "Scripts.0.Script._bossOfferingNum",
         "stock_text": "0",
         "preimage": "_bossOfferingNum=0",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "1ef96aede7fe612e",
           "stock_sha256": "4BEA96C94D8A22A6578139C47919E05D4A191D97A6A88CF371ED150BB11ED946",
@@ -67271,7 +67271,7 @@
         "field": "Scripts.0.Script._defendHutsOfferingNum",
         "stock_text": "2",
         "preimage": "_defendHutsOfferingNum=2",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "1ef96aede7fe612e",
           "stock_sha256": "4BEA96C94D8A22A6578139C47919E05D4A191D97A6A88CF371ED150BB11ED946",
@@ -67333,7 +67333,7 @@
         "field": "Scripts.0.Script._numOfferings",
         "stock_text": "1",
         "preimage": "_numOfferings=1",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "1ef96aede7fe612e",
           "stock_sha256": "4BEA96C94D8A22A6578139C47919E05D4A191D97A6A88CF371ED150BB11ED946",
@@ -67395,7 +67395,7 @@
         "field": "Scripts.0.Script._offeringGenerationTime",
         "stock_text": "30",
         "preimage": "_offeringGenerationTime=30",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "1ef96aede7fe612e",
           "stock_sha256": "4BEA96C94D8A22A6578139C47919E05D4A191D97A6A88CF371ED150BB11ED946",
@@ -67455,7 +67455,7 @@
         "field": "Scripts.0.Script._pickupAnimPlayRate",
         "stock_text": "2.5",
         "preimage": "_pickupAnimPlayRate=2.5",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "1ef96aede7fe612e",
           "stock_sha256": "4BEA96C94D8A22A6578139C47919E05D4A191D97A6A88CF371ED150BB11ED946",
@@ -67517,7 +67517,7 @@
         "field": "Scripts.0.Script._spawnPointFilterDistance",
         "stock_text": "35",
         "preimage": "_spawnPointFilterDistance=35",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "1ef96aede7fe612e",
           "stock_sha256": "4BEA96C94D8A22A6578139C47919E05D4A191D97A6A88CF371ED150BB11ED946",
@@ -76110,7 +76110,7 @@
         "field": "Scripts.0.Script._isDuviriVoidFlood",
         "stock_text": "0",
         "preimage": "_isDuviriVoidFlood=0",
-        "packages_bin_sha256": "d0c66fc45872561a164f187449f0d76ce6d6e372550c45eb2178c383304955b6",
+        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
         "consumer": {
           "body_key": "fc711ff621a75552",
           "stock_sha256": "738AA59C66F935235C812CBA1AE6ECD361FDF700D5723C0928B88A2E11D89261",
