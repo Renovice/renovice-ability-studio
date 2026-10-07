@@ -90,6 +90,21 @@ class NewStock:
             out |= {f.name for f in self.overlay.glob('*.lua_B')}
         return out
 
+    def file_for_key(self, key: str) -> str | None:
+        """Build-B file whose content key is `key` (extraction manifest.json; overlay files keyed from their bytes)."""
+        if not hasattr(self, '_by_key'):
+            self._by_key = {}
+            manifest = self.folder / 'manifest.json'
+            if manifest.is_file():
+                for rec in json.loads(manifest.read_text(encoding='utf-8')).get('modules', []):
+                    if rec.get('key') and rec.get('file'):
+                        self._by_key[rec['key']] = rec['file']
+            if self.overlay:
+                for f in self.overlay.glob('*.lua_B'):
+                    self._by_key = {k: v for k, v in self._by_key.items() if v != f.name}
+                    self._by_key[B.content_key(f.read_bytes())] = f.name
+        return self._by_key.get(key)
+
 
 class Maps:
     """ModuleMap per file (A from OldStock, B from NewStock); a module whose file vanished is looked up by its base
@@ -254,7 +269,11 @@ def make_plan(*, ws: Path, wsj: dict, baseline: dict, baseline_name: str, regist
             spec = replacement_specs.get(s.rel, {})
             rec = {'file': s.rel, 'key': key, 'module': file, 'source_project': spec.get('source_project'),
                    'label': s.label}
-            if mm is None:
+            if mm is None and new.file_for_key(key):
+                # installed after the baseline was written: the exact target is still in build B, so it still applies
+                rec.update(action='unchanged', module=new.file_for_key(key),
+                           notes='target not in the baseline; build B holds the same content key')
+            elif mm is None:
                 rec.update(action='review', reason='target module unknown to the baseline (no build-A bytes)')
             elif mm.status == 'unchanged':
                 rec.update(action='unchanged')
@@ -280,7 +299,10 @@ def make_plan(*, ws: Path, wsj: dict, baseline: dict, baseline_name: str, regist
             spec = authored_by_file.get(s.rel)
             rec = {'file': s.rel, 'key': key, 'module': file, 'label': s.label, 'package': s.package,
                    'hooks': s.hooks.get(key, {}) if s.hooks else {}, 'spec': spec}
-            if mm is None:
+            if mm is None and new.file_for_key(key):
+                rec.update(action='unchanged', module=new.file_for_key(key),
+                           notes='target not in the baseline; build B holds the same content key')
+            elif mm is None:
                 rec.update(action='review', reason='target module unknown to the baseline (no build-A bytes)')
             elif mm.status == 'unchanged':
                 rec.update(action='unchanged')
