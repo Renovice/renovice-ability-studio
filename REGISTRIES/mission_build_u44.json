@@ -1,13 +1,13 @@
 {
   "schema": 2,
   "format": "RENOVICE_MISSION_TUNABLE_REGISTRY_V2",
-  "build": "2026.09.30.14.45",
-  "build_label": "client 2026.09.30.14.45",
-  "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
-  "corpus": "shared/corpus/de-luau-2026.09.30.14.45-authoring",
+  "build": "2026.10.06.16.12",
+  "build_label": "client 2026.10.06.16.12",
+  "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+  "corpus": "shared/corpus/de-luau-2026.10.06.16.12-authoring",
   "metadata_snapshot": {
     "file": "METADATA_SNAPSHOT.json",
-    "sha256": "B9E31DE4D3EC5A752E2C2C319C93B4983FAA13F9A37E76CCDF2380F29A3FC4D1"
+    "sha256": "349369A474C86B32A6EE9BE83891BAEE6E0E26D3CCE7F0A1DF4E1F22C53BFBBE"
   },
   "server_root": "../OpenWF Server 23.09.2026/SpaceNinjaServer",
   "name_hash_seed": "768e5ed0",
@@ -19,6 +19,108 @@
     "immediate": "server config reload; nothing is applied by the generator"
   },
   "modules": {
+    "0028dbbd094c97e4": {
+      "file": "Lotus_Scripts_MobileDefense.lua_B",
+      "sha256": "1915A2F30C2AAB0D614AF33F3308BCD89349177FF1799B09D31C68E4BB5C1468",
+      "size": 32586,
+      "module_path": "Lotus.Scripts.MobileDefense",
+      "root_tables": {
+        "root:i16:R5": {
+          "gate": "ROOT_TABLE_UPVALUE_V1",
+          "prototype": 24,
+          "instruction": 16,
+          "register": 5,
+          "op": "NEWTABLE",
+          "containers": [],
+          "hooks": [
+            {
+              "prototype": 19,
+              "upvalue": 10,
+              "path": [],
+              "capture": "VAL:R5",
+              "closure_instruction": 155
+            }
+          ],
+          "minimal_hooks": {
+            "gate": "ROOT_TABLE_MINIMAL_HOOKS_V1",
+            "method": "minimal-search",
+            "prototypes": [
+              19
+            ],
+            "reaching_capturers": [
+              19
+            ],
+            "forced": [],
+            "coverage": {
+              "19": "hooked"
+            },
+            "escaping_capturers": [],
+            "downstream_after_escape": [],
+            "reach_events": [
+              "19:dynamic-key",
+              "19:write",
+              "24:setlist"
+            ],
+            "static_weight": {
+              "chosen": 1,
+              "full": 1
+            },
+            "root_children": [
+              19
+            ],
+            "retire_safe": true,
+            "retire_blockers": []
+          }
+        },
+        "root:i22:R6": {
+          "gate": "ROOT_TABLE_UPVALUE_V1",
+          "prototype": 24,
+          "instruction": 22,
+          "register": 6,
+          "op": "NEWTABLE",
+          "containers": [],
+          "hooks": [
+            {
+              "prototype": 19,
+              "upvalue": 11,
+              "path": [],
+              "capture": "VAL:R6",
+              "closure_instruction": 155
+            }
+          ],
+          "minimal_hooks": {
+            "gate": "ROOT_TABLE_MINIMAL_HOOKS_V1",
+            "method": "minimal-search",
+            "prototypes": [
+              19
+            ],
+            "reaching_capturers": [
+              19
+            ],
+            "forced": [],
+            "coverage": {
+              "19": "hooked"
+            },
+            "escaping_capturers": [],
+            "downstream_after_escape": [],
+            "reach_events": [
+              "19:dynamic-key",
+              "19:write",
+              "24:setlist"
+            ],
+            "static_weight": {
+              "chosen": 1,
+              "full": 1
+            },
+            "root_children": [
+              19
+            ],
+            "retire_safe": true,
+            "retire_blockers": []
+          }
+        }
+      }
+    },
     "026200d9d8fd40a3": {
       "file": "Lotus_Types_Scripts_Tau_CoH_CoHInterception.lua_B",
       "sha256": "D3EEE8D0F393AF6E9EAD211E3FD602D4863A3F87017C85B869A87A133E70F702",
@@ -88,12 +190,6 @@
       "sha256": "73107506E80FF7853AE0C4E77D56682707492328BE9EEC80067C5EDB86529453",
       "size": 59798,
       "module_path": "Lotus.Scripts.Libs.ConquestLib"
-    },
-    "08b5127df00778f0": {
-      "file": "Lotus_Scripts_LotusGameRules.lua_B",
-      "sha256": "AFA3F397525A368D52A3A2B8B687074A216893603AB92E82F1AAE08FE9D973E6",
-      "size": 64554,
-      "module_path": "Lotus.Scripts.LotusGameRules"
     },
     "095718c8c70b1eb4": {
       "file": "Lotus_Scripts_Duviri_Gameplay_DuviriEndless.lua_B",
@@ -2988,6 +3084,12 @@
         }
       }
     },
+    "4f8c9ec50143a4ba": {
+      "file": "Lotus_Scripts_ExtractionTimer.lua_B",
+      "sha256": "620D27218183CC3BEE10B9C06F82A582ED217686E41C8EE2060E6F4D7B4E4B24",
+      "size": 20004,
+      "module_path": "Lotus.Scripts.ExtractionTimer"
+    },
     "52145531e84e69ca": {
       "file": "Lotus_Scripts_JadeShadowsPart2Mission_MissionEncounters_GS1Space.lua_B",
       "sha256": "E2A94D090512390C8A3226D74057891675819714575ED89854757E4AD767A4CF",
@@ -4856,108 +4958,6 @@
       "size": 29829,
       "module_path": "Lotus.Scripts.Levels.1999Defense"
     },
-    "a807aae359ffc1eb": {
-      "file": "Lotus_Scripts_MobileDefense.lua_B",
-      "sha256": "4DCFA0B5633B93BC3AF57F04AB5DE4F1CC492FCFD2AE4DE61B9B473E5F1B2DA1",
-      "size": 32520,
-      "module_path": "Lotus.Scripts.MobileDefense",
-      "root_tables": {
-        "root:i16:R5": {
-          "gate": "ROOT_TABLE_UPVALUE_V1",
-          "prototype": 24,
-          "instruction": 16,
-          "register": 5,
-          "op": "NEWTABLE",
-          "containers": [],
-          "hooks": [
-            {
-              "prototype": 19,
-              "upvalue": 10,
-              "path": [],
-              "capture": "VAL:R5",
-              "closure_instruction": 155
-            }
-          ],
-          "minimal_hooks": {
-            "gate": "ROOT_TABLE_MINIMAL_HOOKS_V1",
-            "method": "minimal-search",
-            "prototypes": [
-              19
-            ],
-            "reaching_capturers": [
-              19
-            ],
-            "forced": [],
-            "coverage": {
-              "19": "hooked"
-            },
-            "escaping_capturers": [],
-            "downstream_after_escape": [],
-            "reach_events": [
-              "19:dynamic-key",
-              "19:write",
-              "24:setlist"
-            ],
-            "static_weight": {
-              "chosen": 1,
-              "full": 1
-            },
-            "root_children": [
-              19
-            ],
-            "retire_safe": true,
-            "retire_blockers": []
-          }
-        },
-        "root:i22:R6": {
-          "gate": "ROOT_TABLE_UPVALUE_V1",
-          "prototype": 24,
-          "instruction": 22,
-          "register": 6,
-          "op": "NEWTABLE",
-          "containers": [],
-          "hooks": [
-            {
-              "prototype": 19,
-              "upvalue": 11,
-              "path": [],
-              "capture": "VAL:R6",
-              "closure_instruction": 155
-            }
-          ],
-          "minimal_hooks": {
-            "gate": "ROOT_TABLE_MINIMAL_HOOKS_V1",
-            "method": "minimal-search",
-            "prototypes": [
-              19
-            ],
-            "reaching_capturers": [
-              19
-            ],
-            "forced": [],
-            "coverage": {
-              "19": "hooked"
-            },
-            "escaping_capturers": [],
-            "downstream_after_escape": [],
-            "reach_events": [
-              "19:dynamic-key",
-              "19:write",
-              "24:setlist"
-            ],
-            "static_weight": {
-              "chosen": 1,
-              "full": 1
-            },
-            "root_children": [
-              19
-            ],
-            "retire_safe": true,
-            "retire_blockers": []
-          }
-        }
-      }
-    },
     "ac839a89c06bf0bb": {
       "file": "Lotus_Scripts_Zariman_Encounters_DynamicAssassinateEndless.lua_B",
       "sha256": "B21D3BA8240AE36EB2F508062F1E295CDA6021132FDFC15E19CBB143E194B8C7",
@@ -6507,6 +6507,12 @@
         }
       }
     },
+    "d2c2c3c6cf537dff": {
+      "file": "Lotus_Scripts_LotusGameRules.lua_B",
+      "sha256": "9EFD3DFABB4620D238FDD0E4ACCD039379BCD64428AC0692DEFF8BF03937C190",
+      "size": 64640,
+      "module_path": "Lotus.Scripts.LotusGameRules"
+    },
     "d3b1322792d45f0e": {
       "file": "Lotus_Scripts_SabotageModular.lua_B",
       "sha256": "97EAA77546B6152DBED926348E3F2D493DF343E19A4A855812FE095EFDCC988A",
@@ -6518,12 +6524,6 @@
       "sha256": "1C890AEF543F03EAFDA6647352432A97FC0E648283E1A9AA5A833499D31CF6C4",
       "size": 8998,
       "module_path": "Lotus.Scripts.SabotageForest"
-    },
-    "e3288fa4e8afbc06": {
-      "file": "Lotus_Scripts_ExtractionTimer.lua_B",
-      "sha256": "634857104D2306D4B800370D2875A698202483F83FC01B6E9586CB88B093D67C",
-      "size": 19325,
-      "module_path": "Lotus.Scripts.ExtractionTimer"
     },
     "e4bb611e00823d46": {
       "file": "Lotus_Scripts_Venus_NokkoColony_Encounters_AreaDefense.lua_B",
@@ -8121,7 +8121,7 @@
         "field": "Scripts.0.Script._CRUCIBLE_REMIND_COUNTDOWN",
         "stock_text": "60",
         "preimage": "_CRUCIBLE_REMIND_COUNTDOWN=60",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "4177b4847467236d",
           "stock_sha256": "0DA3F5D2C05509D4D8ED3F12588F77D501CD099A5A90E2BAEF0C60460CAA1104",
@@ -8184,7 +8184,7 @@
         "field": "Scripts.0.Script._CRUCIBLE_REMIND_COUNTDOWN",
         "stock_text": "60",
         "preimage": "_CRUCIBLE_REMIND_COUNTDOWN=60",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "4177b4847467236d",
           "stock_sha256": "0DA3F5D2C05509D4D8ED3F12588F77D501CD099A5A90E2BAEF0C60460CAA1104",
@@ -8247,7 +8247,7 @@
         "field": "Scripts.0.Script._TRANSMUTER_GOAL",
         "stock_text": "1",
         "preimage": "_TRANSMUTER_GOAL=1",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "4177b4847467236d",
           "stock_sha256": "0DA3F5D2C05509D4D8ED3F12588F77D501CD099A5A90E2BAEF0C60460CAA1104",
@@ -8310,7 +8310,7 @@
         "field": "Scripts.0.Script._TRANSMUTER_GOAL",
         "stock_text": "1",
         "preimage": "_TRANSMUTER_GOAL=1",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "4177b4847467236d",
           "stock_sha256": "0DA3F5D2C05509D4D8ED3F12588F77D501CD099A5A90E2BAEF0C60460CAA1104",
@@ -8373,7 +8373,7 @@
         "field": "Scripts.0.Script._rewardInterval",
         "stock_text": "1",
         "preimage": "_rewardInterval=1",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "4177b4847467236d",
           "stock_sha256": "0DA3F5D2C05509D4D8ED3F12588F77D501CD099A5A90E2BAEF0C60460CAA1104",
@@ -8436,7 +8436,7 @@
         "field": "Scripts.0.Script._rewardInterval",
         "stock_text": "1",
         "preimage": "_rewardInterval=1",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "4177b4847467236d",
           "stock_sha256": "0DA3F5D2C05509D4D8ED3F12588F77D501CD099A5A90E2BAEF0C60460CAA1104",
@@ -9948,7 +9948,7 @@
         "field": "Scripts.0.Script._boostTimeModifier",
         "stock_text": "3",
         "preimage": "_boostTimeModifier=3",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "62bff9c05056c1eb",
           "stock_sha256": "07747FEB6149F476E9DA94885F7E64FCBEA143347D85ED5D18E25407FB610E49",
@@ -10009,7 +10009,7 @@
         "field": "Scripts.0.Script._elevatorAnimationTime",
         "stock_text": "150",
         "preimage": "_elevatorAnimationTime=150",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "62bff9c05056c1eb",
           "stock_sha256": "07747FEB6149F476E9DA94885F7E64FCBEA143347D85ED5D18E25407FB610E49",
@@ -10070,7 +10070,7 @@
         "field": "Scripts.0.Script._elevatorShield",
         "stock_text": "100",
         "preimage": "_elevatorShield=100",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "62bff9c05056c1eb",
           "stock_sha256": "07747FEB6149F476E9DA94885F7E64FCBEA143347D85ED5D18E25407FB610E49",
@@ -10131,7 +10131,7 @@
         "field": "Scripts.0.Script._addingFuelAmmount",
         "stock_text": "20",
         "preimage": "_addingFuelAmmount=20",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "62bff9c05056c1eb",
           "stock_sha256": "07747FEB6149F476E9DA94885F7E64FCBEA143347D85ED5D18E25407FB610E49",
@@ -10192,7 +10192,7 @@
         "field": "Scripts.0.Script._elevatorBoostDuration",
         "stock_text": "10",
         "preimage": "_elevatorBoostDuration=10",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "62bff9c05056c1eb",
           "stock_sha256": "07747FEB6149F476E9DA94885F7E64FCBEA143347D85ED5D18E25407FB610E49",
@@ -10253,7 +10253,7 @@
         "field": "Scripts.0.Script._maxDefaultCapacity",
         "stock_text": "50",
         "preimage": "_maxDefaultCapacity=50",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "62bff9c05056c1eb",
           "stock_sha256": "07747FEB6149F476E9DA94885F7E64FCBEA143347D85ED5D18E25407FB610E49",
@@ -11768,7 +11768,7 @@
         "field": "PickUpScript._boonCollectablesThreshold",
         "stock_text": "3",
         "preimage": "_boonCollectablesThreshold=3",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "095718c8c70b1eb4",
           "stock_sha256": "F95988346AC03CD340B4CD99D87BC9891837D8B8545246777B673E29E67FB48F",
@@ -12205,7 +12205,7 @@
         "field": "Scripts.0.Script._numTargets",
         "stock_text": "10",
         "preimage": "_numTargets=10",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "d21d8867b9549b2a",
           "stock_sha256": "937062CA4270AF333FC920F54F85AEF68747337BDA974425FC81DAFBEF3706B4",
@@ -12724,7 +12724,7 @@
         "field": "Scripts.0.Script._baseExcavatorHealth",
         "stock_text": "1500",
         "preimage": "_baseExcavatorHealth=1500",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "415a57536412719f",
           "stock_sha256": "C641B897157618608088A5CFBD1D5688ACE5C12822F8ADAADF95089C6491D0E8",
@@ -12794,7 +12794,7 @@
         "field": "Scripts.0.Script._baseExcavatorShields",
         "stock_text": "500",
         "preimage": "_baseExcavatorShields=500",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "415a57536412719f",
           "stock_sha256": "C641B897157618608088A5CFBD1D5688ACE5C12822F8ADAADF95089C6491D0E8",
@@ -12982,7 +12982,7 @@
         "field": "Scripts.0.Script._sharedHealthPoolLevelPowerSolo",
         "stock_text": "0.34999999",
         "preimage": "_sharedHealthPoolLevelPowerSolo=0.34999999",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "415a57536412719f",
           "stock_sha256": "C641B897157618608088A5CFBD1D5688ACE5C12822F8ADAADF95089C6491D0E8",
@@ -13052,7 +13052,7 @@
         "field": "Scripts.0.Script._sharedHealthPoolLevelPower",
         "stock_text": "0.30000001",
         "preimage": "_sharedHealthPoolLevelPower=0.30000001",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "415a57536412719f",
           "stock_sha256": "C641B897157618608088A5CFBD1D5688ACE5C12822F8ADAADF95089C6491D0E8",
@@ -13205,7 +13205,7 @@
         "field": "Scripts.0.Script._excavatorSpawnInvulnerabilityDuration",
         "stock_text": "0",
         "preimage": "_excavatorSpawnInvulnerabilityDuration=0",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "415a57536412719f",
           "stock_sha256": "C641B897157618608088A5CFBD1D5688ACE5C12822F8ADAADF95089C6491D0E8",
@@ -13444,7 +13444,7 @@
         "field": "Scripts.0.Script._beaconChaseTargetTime",
         "stock_text": "25",
         "preimage": "_beaconChaseTargetTime=25",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "026200d9d8fd40a3",
           "stock_sha256": "D3EEE8D0F393AF6E9EAD211E3FD602D4863A3F87017C85B869A87A133E70F702",
@@ -13505,7 +13505,7 @@
         "field": "Scripts.0.Script._isDescent",
         "stock_text": "1",
         "preimage": "_isDescent=1",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "026200d9d8fd40a3",
           "stock_sha256": "D3EEE8D0F393AF6E9EAD211E3FD602D4863A3F87017C85B869A87A133E70F702",
@@ -18479,7 +18479,7 @@
         "field": "Scripts.0.Script._markerThreshold",
         "stock_text": "5",
         "preimage": "_markerThreshold=5",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "1a1354d153712f9d",
           "stock_sha256": "0FB53A2C0946ACC3476DF7E16C5A3AAEEA1B6384A2D4EFA2D7360F4C155DBF10",
@@ -22953,7 +22953,7 @@
         "field": "Scripts.0.Script._targetMaxLevelHardmodeBump",
         "stock_text": "25",
         "preimage": "_targetMaxLevelHardmodeBump=25",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "1a1354d153712f9d",
           "stock_sha256": "0FB53A2C0946ACC3476DF7E16C5A3AAEEA1B6384A2D4EFA2D7360F4C155DBF10",
@@ -23016,7 +23016,7 @@
         "field": "Scripts.0.Script._targetMaxLevelFalloffIntensity",
         "stock_text": "15",
         "preimage": "_targetMaxLevelFalloffIntensity=15",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "1a1354d153712f9d",
           "stock_sha256": "0FB53A2C0946ACC3476DF7E16C5A3AAEEA1B6384A2D4EFA2D7360F4C155DBF10",
@@ -23077,7 +23077,7 @@
         "field": "Scripts.0.Script._targetMaxLevelFalloffPoint",
         "stock_text": "50",
         "preimage": "_targetMaxLevelFalloffPoint=50",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "1a1354d153712f9d",
           "stock_sha256": "0FB53A2C0946ACC3476DF7E16C5A3AAEEA1B6384A2D4EFA2D7360F4C155DBF10",
@@ -33331,7 +33331,7 @@
         "field": "Scripts.0.Script._isCdBurnOn",
         "stock_text": "1",
         "preimage": "_isCdBurnOn=1",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "97ddf9f92301da45",
           "stock_sha256": "E9020E9A558445B366C0F9D214BEC615204118D2F438FCA3D3839AD9B0B63B00",
@@ -37625,8 +37625,8 @@
       "owner_kind": "LUA_PROTO_LITERAL",
       "backend": "EXACT_LITERAL",
       "owner": {
-        "body_key": "08b5127df00778f0",
-        "stock_sha256": "AFA3F397525A368D52A3A2B8B687074A216893603AB92E82F1AAE08FE9D973E6",
+        "body_key": "d2c2c3c6cf537dff",
+        "stock_sha256": "9EFD3DFABB4620D238FDD0E4ACCD039379BCD64428AC0692DEFF8BF03937C190",
         "file": "Lotus_Scripts_LotusGameRules.lua_B",
         "module_path": "Lotus.Scripts.LotusGameRules",
         "sites": [
@@ -37634,7 +37634,7 @@
             "kind": "number_constant",
             "prototype": 40,
             "constant": 15,
-            "offset": 44703,
+            "offset": 44789,
             "expected": [
               0,
               0,
@@ -37711,8 +37711,8 @@
       "owner_kind": "LUA_PROTO_LITERAL",
       "backend": "EXACT_LITERAL",
       "owner": {
-        "body_key": "08b5127df00778f0",
-        "stock_sha256": "AFA3F397525A368D52A3A2B8B687074A216893603AB92E82F1AAE08FE9D973E6",
+        "body_key": "d2c2c3c6cf537dff",
+        "stock_sha256": "9EFD3DFABB4620D238FDD0E4ACCD039379BCD64428AC0692DEFF8BF03937C190",
         "file": "Lotus_Scripts_LotusGameRules.lua_B",
         "module_path": "Lotus.Scripts.LotusGameRules",
         "sites": [
@@ -37720,7 +37720,7 @@
             "kind": "instruction",
             "prototype": 40,
             "instruction": 113,
-            "offset": 44602,
+            "offset": 44688,
             "expected": [
               8,
               11,
@@ -37791,8 +37791,8 @@
       "owner_kind": "LUA_PROTO_LITERAL",
       "backend": "EXACT_LITERAL",
       "owner": {
-        "body_key": "08b5127df00778f0",
-        "stock_sha256": "AFA3F397525A368D52A3A2B8B687074A216893603AB92E82F1AAE08FE9D973E6",
+        "body_key": "d2c2c3c6cf537dff",
+        "stock_sha256": "9EFD3DFABB4620D238FDD0E4ACCD039379BCD64428AC0692DEFF8BF03937C190",
         "file": "Lotus_Scripts_LotusGameRules.lua_B",
         "module_path": "Lotus.Scripts.LotusGameRules",
         "sites": [
@@ -37800,7 +37800,7 @@
             "kind": "number_constant",
             "prototype": 42,
             "constant": 66,
-            "offset": 48178,
+            "offset": 48264,
             "expected": [
               154,
               153,
@@ -37888,10 +37888,10 @@
         "field": "OnFirstTouchedScript._duration",
         "stock_text": "60",
         "preimage": "_duration=60",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
-          "body_key": "e3288fa4e8afbc06",
-          "stock_sha256": "634857104D2306D4B800370D2875A698202483F83FC01B6E9586CB88B093D67C",
+          "body_key": "4f8c9ec50143a4ba",
+          "stock_sha256": "620D27218183CC3BEE10B9C06F82A582ED217686E41C8EE2060E6F4D7B4E4B24",
           "file": "Lotus_Scripts_ExtractionTimer.lua_B",
           "module_path": "Lotus.Scripts.ExtractionTimer",
           "function": "ExtractionTriggerFirstTouched",
@@ -37902,7 +37902,7 @@
               "key": "duration",
               "prototype": 11,
               "instructions": [
-                527
+                567
               ]
             }
           ]
@@ -37954,16 +37954,16 @@
       "evidence": "ExtractionTimer proto 11 readable L1519-1530: countdown = Ternary(v20_24(), 60, duration); v20_24 (proto 6) is IsEndlessMission (maxWaveNum == 0 and an endless mission type); reached from ExtractionTriggerFirstTouched/FirstUntouched only.",
       "research_draft_id": "extraction.countdown_endless",
       "owner": {
-        "body_key": "e3288fa4e8afbc06",
-        "stock_sha256": "634857104D2306D4B800370D2875A698202483F83FC01B6E9586CB88B093D67C",
+        "body_key": "4f8c9ec50143a4ba",
+        "stock_sha256": "620D27218183CC3BEE10B9C06F82A582ED217686E41C8EE2060E6F4D7B4E4B24",
         "file": "Lotus_Scripts_ExtractionTimer.lua_B",
         "module_path": "Lotus.Scripts.ExtractionTimer",
         "sites": [
           {
             "kind": "instruction",
             "prototype": 11,
-            "instruction": 526,
-            "offset": 6448,
+            "instruction": 566,
+            "offset": 6819,
             "expected": [
               8,
               16,
@@ -38018,8 +38018,8 @@
       "owner_kind": "LUA_PROTO_LITERAL",
       "backend": "EXACT_LITERAL",
       "owner": {
-        "body_key": "08b5127df00778f0",
-        "stock_sha256": "AFA3F397525A368D52A3A2B8B687074A216893603AB92E82F1AAE08FE9D973E6",
+        "body_key": "d2c2c3c6cf537dff",
+        "stock_sha256": "9EFD3DFABB4620D238FDD0E4ACCD039379BCD64428AC0692DEFF8BF03937C190",
         "file": "Lotus_Scripts_LotusGameRules.lua_B",
         "module_path": "Lotus.Scripts.LotusGameRules",
         "sites": [
@@ -38027,7 +38027,7 @@
             "kind": "number_constant",
             "prototype": 14,
             "constant": 7,
-            "offset": 21822,
+            "offset": 21850,
             "expected": [
               154,
               153,
@@ -38067,7 +38067,7 @@
             "kind": "number_constant",
             "prototype": 15,
             "constant": 8,
-            "offset": 22222,
+            "offset": 22250,
             "expected": [
               154,
               153,
@@ -38143,8 +38143,8 @@
       "owner_kind": "LUA_PROTO_LITERAL",
       "backend": "EXACT_LITERAL",
       "owner": {
-        "body_key": "08b5127df00778f0",
-        "stock_sha256": "AFA3F397525A368D52A3A2B8B687074A216893603AB92E82F1AAE08FE9D973E6",
+        "body_key": "d2c2c3c6cf537dff",
+        "stock_sha256": "9EFD3DFABB4620D238FDD0E4ACCD039379BCD64428AC0692DEFF8BF03937C190",
         "file": "Lotus_Scripts_LotusGameRules.lua_B",
         "module_path": "Lotus.Scripts.LotusGameRules",
         "sites": [
@@ -38152,7 +38152,7 @@
             "kind": "instruction",
             "prototype": 14,
             "instruction": 1,
-            "offset": 21644,
+            "offset": 21672,
             "expected": [
               8,
               4,
@@ -38179,7 +38179,7 @@
             "kind": "instruction",
             "prototype": 15,
             "instruction": 1,
-            "offset": 21946,
+            "offset": 21974,
             "expected": [
               8,
               4,
@@ -38206,7 +38206,7 @@
             "kind": "instruction",
             "prototype": 15,
             "instruction": 18,
-            "offset": 22034,
+            "offset": 22062,
             "expected": [
               8,
               6,
@@ -38233,7 +38233,7 @@
             "kind": "instruction",
             "prototype": 16,
             "instruction": 51,
-            "offset": 22616,
+            "offset": 22644,
             "expected": [
               8,
               7,
@@ -38260,7 +38260,7 @@
             "kind": "instruction",
             "prototype": 16,
             "instruction": 44,
-            "offset": 22572,
+            "offset": 22600,
             "expected": [
               8,
               5,
@@ -38287,7 +38287,7 @@
             "kind": "instruction",
             "prototype": 16,
             "instruction": 48,
-            "offset": 22600,
+            "offset": 22628,
             "expected": [
               8,
               5,
@@ -38312,7 +38312,7 @@
             "kind": "number_constant",
             "prototype": 14,
             "constant": 2,
-            "offset": 21792,
+            "offset": 21820,
             "expected": [
               0,
               0,
@@ -38343,7 +38343,7 @@
             "kind": "number_constant",
             "prototype": 15,
             "constant": 3,
-            "offset": 22199,
+            "offset": 22227,
             "expected": [
               0,
               0,
@@ -38588,7 +38588,7 @@
         "field": "Scripts.0.Script._baseNumberOfMutations",
         "stock_text": "5",
         "preimage": "_baseNumberOfMutations=5",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "0f1c3a74c7c91fab",
           "stock_sha256": "2DFC64FF77D4B1A364662D41CEB9DB54EE9F21F00A4880FE757BC6B68EA36C92",
@@ -38653,7 +38653,7 @@
         "field": "Scripts.0.Script._baseNumberOfMutations",
         "stock_text": "2",
         "preimage": "_baseNumberOfMutations=2",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "0f1c3a74c7c91fab",
           "stock_sha256": "2DFC64FF77D4B1A364662D41CEB9DB54EE9F21F00A4880FE757BC6B68EA36C92",
@@ -39023,7 +39023,7 @@
         "field": "Scripts.0.Script._searchingRoundsBeforeBoss",
         "stock_text": "1",
         "preimage": "_searchingRoundsBeforeBoss=1",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "0f1c3a74c7c91fab",
           "stock_sha256": "2DFC64FF77D4B1A364662D41CEB9DB54EE9F21F00A4880FE757BC6B68EA36C92",
@@ -39088,7 +39088,7 @@
         "field": "Scripts.0.Script._searchingRoundsBeforeBoss",
         "stock_text": "1",
         "preimage": "_searchingRoundsBeforeBoss=1",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "0f1c3a74c7c91fab",
           "stock_sha256": "2DFC64FF77D4B1A364662D41CEB9DB54EE9F21F00A4880FE757BC6B68EA36C92",
@@ -39153,7 +39153,7 @@
         "field": "Scripts.0.Script._kalymosSearchSpotRange",
         "stock_text": "150",
         "preimage": "_kalymosSearchSpotRange=150",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "0f1c3a74c7c91fab",
           "stock_sha256": "2DFC64FF77D4B1A364662D41CEB9DB54EE9F21F00A4880FE757BC6B68EA36C92",
@@ -39218,7 +39218,7 @@
         "field": "Scripts.0.Script._kalymosSearchSpotRange",
         "stock_text": "150",
         "preimage": "_kalymosSearchSpotRange=150",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "0f1c3a74c7c91fab",
           "stock_sha256": "2DFC64FF77D4B1A364662D41CEB9DB54EE9F21F00A4880FE757BC6B68EA36C92",
@@ -39283,7 +39283,7 @@
         "field": "Scripts.0.Script._searchTime",
         "stock_text": "60",
         "preimage": "_searchTime=60",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "0f1c3a74c7c91fab",
           "stock_sha256": "2DFC64FF77D4B1A364662D41CEB9DB54EE9F21F00A4880FE757BC6B68EA36C92",
@@ -39348,7 +39348,7 @@
         "field": "Scripts.0.Script._searchTime",
         "stock_text": "100",
         "preimage": "_searchTime=100",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "0f1c3a74c7c91fab",
           "stock_sha256": "2DFC64FF77D4B1A364662D41CEB9DB54EE9F21F00A4880FE757BC6B68EA36C92",
@@ -39413,7 +39413,7 @@
         "field": "Scripts.0.Script._baseTentacleHealth",
         "stock_text": "5000",
         "preimage": "_baseTentacleHealth=5000",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "0f1c3a74c7c91fab",
           "stock_sha256": "2DFC64FF77D4B1A364662D41CEB9DB54EE9F21F00A4880FE757BC6B68EA36C92",
@@ -39478,7 +39478,7 @@
         "field": "Scripts.0.Script._baseTentacleHealth",
         "stock_text": "5000",
         "preimage": "_baseTentacleHealth=5000",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "0f1c3a74c7c91fab",
           "stock_sha256": "2DFC64FF77D4B1A364662D41CEB9DB54EE9F21F00A4880FE757BC6B68EA36C92",
@@ -39543,7 +39543,7 @@
         "field": "Scripts.0.Script._wanderRadius",
         "stock_text": "15",
         "preimage": "_wanderRadius=15",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "0f1c3a74c7c91fab",
           "stock_sha256": "2DFC64FF77D4B1A364662D41CEB9DB54EE9F21F00A4880FE757BC6B68EA36C92",
@@ -39608,7 +39608,7 @@
         "field": "Scripts.0.Script._wanderRadius",
         "stock_text": "15",
         "preimage": "_wanderRadius=15",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "0f1c3a74c7c91fab",
           "stock_sha256": "2DFC64FF77D4B1A364662D41CEB9DB54EE9F21F00A4880FE757BC6B68EA36C92",
@@ -39673,7 +39673,7 @@
         "field": "Scripts.0.Script._wanderTime",
         "stock_text": "5",
         "preimage": "_wanderTime=5",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "0f1c3a74c7c91fab",
           "stock_sha256": "2DFC64FF77D4B1A364662D41CEB9DB54EE9F21F00A4880FE757BC6B68EA36C92",
@@ -39738,7 +39738,7 @@
         "field": "Scripts.0.Script._wanderTime",
         "stock_text": "10",
         "preimage": "_wanderTime=10",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "0f1c3a74c7c91fab",
           "stock_sha256": "2DFC64FF77D4B1A364662D41CEB9DB54EE9F21F00A4880FE757BC6B68EA36C92",
@@ -51509,7 +51509,7 @@
         "field": "Scripts.0.Script._heatDecreaseAmount",
         "stock_text": "0.2",
         "preimage": "_heatDecreaseAmount=0.2",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "1704b2348bad3f42",
           "stock_sha256": "1B47C8F93955D2131A64A050E6EBAC38190AA9CE3C9AF7095FE467C56326E3F0",
@@ -51572,7 +51572,7 @@
         "field": "Scripts.0.Script._heatDecreaseAmount",
         "stock_text": "0.2",
         "preimage": "_heatDecreaseAmount=0.2",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "1704b2348bad3f42",
           "stock_sha256": "1B47C8F93955D2131A64A050E6EBAC38190AA9CE3C9AF7095FE467C56326E3F0",
@@ -51635,7 +51635,7 @@
         "field": "Scripts.0.Script._HEAT_INCREASE",
         "stock_text": "0.025",
         "preimage": "_HEAT_INCREASE=0.025",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "1704b2348bad3f42",
           "stock_sha256": "1B47C8F93955D2131A64A050E6EBAC38190AA9CE3C9AF7095FE467C56326E3F0",
@@ -51698,7 +51698,7 @@
         "field": "Scripts.0.Script._HEAT_INCREASE",
         "stock_text": "0.025",
         "preimage": "_HEAT_INCREASE=0.025",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "1704b2348bad3f42",
           "stock_sha256": "1B47C8F93955D2131A64A050E6EBAC38190AA9CE3C9AF7095FE467C56326E3F0",
@@ -51761,7 +51761,7 @@
         "field": "Scripts.0.Script._inRangeMultiplier",
         "stock_text": "10",
         "preimage": "_inRangeMultiplier=10",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "1704b2348bad3f42",
           "stock_sha256": "1B47C8F93955D2131A64A050E6EBAC38190AA9CE3C9AF7095FE467C56326E3F0",
@@ -51824,7 +51824,7 @@
         "field": "Scripts.0.Script._inRangeMultiplier",
         "stock_text": "10",
         "preimage": "_inRangeMultiplier=10",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "1704b2348bad3f42",
           "stock_sha256": "1B47C8F93955D2131A64A050E6EBAC38190AA9CE3C9AF7095FE467C56326E3F0",
@@ -51887,7 +51887,7 @@
         "field": "Scripts.0.Script._SCAN_RATE",
         "stock_text": "0.25",
         "preimage": "_SCAN_RATE=0.25",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "1704b2348bad3f42",
           "stock_sha256": "1B47C8F93955D2131A64A050E6EBAC38190AA9CE3C9AF7095FE467C56326E3F0",
@@ -51950,7 +51950,7 @@
         "field": "Scripts.0.Script._SCAN_RATE",
         "stock_text": "0.25",
         "preimage": "_SCAN_RATE=0.25",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "1704b2348bad3f42",
           "stock_sha256": "1B47C8F93955D2131A64A050E6EBAC38190AA9CE3C9AF7095FE467C56326E3F0",
@@ -52013,7 +52013,7 @@
         "field": "Scripts.0.Script._startMissionDelay",
         "stock_text": "80",
         "preimage": "_startMissionDelay=80",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "1704b2348bad3f42",
           "stock_sha256": "1B47C8F93955D2131A64A050E6EBAC38190AA9CE3C9AF7095FE467C56326E3F0",
@@ -52076,7 +52076,7 @@
         "field": "Scripts.0.Script._startMissionDelay",
         "stock_text": "80",
         "preimage": "_startMissionDelay=80",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "1704b2348bad3f42",
           "stock_sha256": "1B47C8F93955D2131A64A050E6EBAC38190AA9CE3C9AF7095FE467C56326E3F0",
@@ -52139,7 +52139,7 @@
         "field": "Scripts.0.Script._VENT_SEARCH_DISTANCE",
         "stock_text": "100",
         "preimage": "_VENT_SEARCH_DISTANCE=100",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "1704b2348bad3f42",
           "stock_sha256": "1B47C8F93955D2131A64A050E6EBAC38190AA9CE3C9AF7095FE467C56326E3F0",
@@ -52202,7 +52202,7 @@
         "field": "Scripts.0.Script._VENT_SEARCH_DISTANCE",
         "stock_text": "100",
         "preimage": "_VENT_SEARCH_DISTANCE=100",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "1704b2348bad3f42",
           "stock_sha256": "1B47C8F93955D2131A64A050E6EBAC38190AA9CE3C9AF7095FE467C56326E3F0",
@@ -52265,7 +52265,7 @@
         "field": "Scripts.0.Script._VENTS_TO_REVEAL",
         "stock_text": "3",
         "preimage": "_VENTS_TO_REVEAL=3",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "1704b2348bad3f42",
           "stock_sha256": "1B47C8F93955D2131A64A050E6EBAC38190AA9CE3C9AF7095FE467C56326E3F0",
@@ -52328,7 +52328,7 @@
         "field": "Scripts.0.Script._VENTS_TO_REVEAL",
         "stock_text": "3",
         "preimage": "_VENTS_TO_REVEAL=3",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "1704b2348bad3f42",
           "stock_sha256": "1B47C8F93955D2131A64A050E6EBAC38190AA9CE3C9AF7095FE467C56326E3F0",
@@ -52387,8 +52387,8 @@
       "owner_kind": "LUA_PROTO_LITERAL",
       "backend": "EXACT_LITERAL",
       "owner": {
-        "body_key": "a807aae359ffc1eb",
-        "stock_sha256": "4DCFA0B5633B93BC3AF57F04AB5DE4F1CC492FCFD2AE4DE61B9B473E5F1B2DA1",
+        "body_key": "0028dbbd094c97e4",
+        "stock_sha256": "1915A2F30C2AAB0D614AF33F3308BCD89349177FF1799B09D31C68E4BB5C1468",
         "file": "Lotus_Scripts_MobileDefense.lua_B",
         "module_path": "Lotus.Scripts.MobileDefense",
         "sites": [
@@ -52396,7 +52396,7 @@
             "kind": "number_constant",
             "prototype": 22,
             "constant": 61,
-            "offset": 24057,
+            "offset": 24123,
             "expected": [
               0,
               0,
@@ -52482,8 +52482,8 @@
       "owner_kind": "LUA_PROTO_LITERAL",
       "backend": "EXACT_LITERAL",
       "owner": {
-        "body_key": "a807aae359ffc1eb",
-        "stock_sha256": "4DCFA0B5633B93BC3AF57F04AB5DE4F1CC492FCFD2AE4DE61B9B473E5F1B2DA1",
+        "body_key": "0028dbbd094c97e4",
+        "stock_sha256": "1915A2F30C2AAB0D614AF33F3308BCD89349177FF1799B09D31C68E4BB5C1468",
         "file": "Lotus_Scripts_MobileDefense.lua_B",
         "module_path": "Lotus.Scripts.MobileDefense",
         "sites": [
@@ -52491,7 +52491,7 @@
             "kind": "number_constant",
             "prototype": 22,
             "constant": 52,
-            "offset": 24017,
+            "offset": 24083,
             "expected": [
               205,
               204,
@@ -52567,16 +52567,16 @@
       "owner_kind": "LUA_PROTO_LITERAL",
       "backend": "EXACT_LITERAL",
       "owner": {
-        "body_key": "a807aae359ffc1eb",
-        "stock_sha256": "4DCFA0B5633B93BC3AF57F04AB5DE4F1CC492FCFD2AE4DE61B9B473E5F1B2DA1",
+        "body_key": "0028dbbd094c97e4",
+        "stock_sha256": "1915A2F30C2AAB0D614AF33F3308BCD89349177FF1799B09D31C68E4BB5C1468",
         "file": "Lotus_Scripts_MobileDefense.lua_B",
         "module_path": "Lotus.Scripts.MobileDefense",
         "sites": [
           {
             "kind": "number_constant",
             "prototype": 13,
-            "constant": 50,
-            "offset": 7825,
+            "constant": 52,
+            "offset": 7852,
             "expected": [
               0,
               0,
@@ -52593,15 +52593,15 @@
             "gate": {
               "gate": "K_CONSTANT_EXCLUSIVE_V1",
               "prototype": 13,
-              "constant": 50,
+              "constant": 52,
               "uses": [
                 {
-                  "instruction": 196,
+                  "instruction": 200,
                   "op": "FASTCALL2K",
                   "operand": "aux"
                 },
                 {
-                  "instruction": 197,
+                  "instruction": 201,
                   "op": "LOADK",
                   "operand": "Bx"
                 }
@@ -52658,8 +52658,8 @@
       "owner_kind": "LUA_ROOT_TABLE",
       "backend": "EXACT_LITERAL",
       "owner": {
-        "body_key": "a807aae359ffc1eb",
-        "stock_sha256": "4DCFA0B5633B93BC3AF57F04AB5DE4F1CC492FCFD2AE4DE61B9B473E5F1B2DA1",
+        "body_key": "0028dbbd094c97e4",
+        "stock_sha256": "1915A2F30C2AAB0D614AF33F3308BCD89349177FF1799B09D31C68E4BB5C1468",
         "file": "Lotus_Scripts_MobileDefense.lua_B",
         "module_path": "Lotus.Scripts.MobileDefense",
         "sites": [
@@ -52667,7 +52667,7 @@
             "kind": "instruction",
             "prototype": 24,
             "instruction": 38,
-            "offset": 30742,
+            "offset": 30808,
             "expected": [
               8,
               11,
@@ -52740,8 +52740,8 @@
       "owner_kind": "LUA_ROOT_TABLE",
       "backend": "TARGET_ADDON",
       "owner": {
-        "body_key": "a807aae359ffc1eb",
-        "stock_sha256": "4DCFA0B5633B93BC3AF57F04AB5DE4F1CC492FCFD2AE4DE61B9B473E5F1B2DA1",
+        "body_key": "0028dbbd094c97e4",
+        "stock_sha256": "1915A2F30C2AAB0D614AF33F3308BCD89349177FF1799B09D31C68E4BB5C1468",
         "file": "Lotus_Scripts_MobileDefense.lua_B",
         "module_path": "Lotus.Scripts.MobileDefense",
         "template": "ROOT_TABLE_FIELD",
@@ -52751,7 +52751,7 @@
             "field": 1,
             "table_id": "root:i22:R6",
             "value_kind": "instruction",
-            "value_offset": 30666,
+            "value_offset": 30732,
             "expected": [
               8,
               7,
@@ -52777,8 +52777,8 @@
       "evidence": "readable L46-55 root; consumer proto 19 L1944-1969 floor(Lerp(min[i], max[i], difficulty)). Pattern pins the complete root block i15..i28; count=1.",
       "backend_note": "Root-table field(s) root:i22:R6.1 written through the target-addon lane (ROOT_TABLE_UPVALUE_V1); exact literal form kept in literal_owner for merged replacements.",
       "literal_owner": {
-        "body_key": "a807aae359ffc1eb",
-        "stock_sha256": "4DCFA0B5633B93BC3AF57F04AB5DE4F1CC492FCFD2AE4DE61B9B473E5F1B2DA1",
+        "body_key": "0028dbbd094c97e4",
+        "stock_sha256": "1915A2F30C2AAB0D614AF33F3308BCD89349177FF1799B09D31C68E4BB5C1468",
         "file": "Lotus_Scripts_MobileDefense.lua_B",
         "module_path": "Lotus.Scripts.MobileDefense",
         "sites": [
@@ -52786,7 +52786,7 @@
             "kind": "instruction",
             "prototype": 24,
             "instruction": 23,
-            "offset": 30666,
+            "offset": 30732,
             "expected": [
               8,
               7,
@@ -52859,8 +52859,8 @@
       "owner_kind": "LUA_ROOT_TABLE",
       "backend": "TARGET_ADDON",
       "owner": {
-        "body_key": "a807aae359ffc1eb",
-        "stock_sha256": "4DCFA0B5633B93BC3AF57F04AB5DE4F1CC492FCFD2AE4DE61B9B473E5F1B2DA1",
+        "body_key": "0028dbbd094c97e4",
+        "stock_sha256": "1915A2F30C2AAB0D614AF33F3308BCD89349177FF1799B09D31C68E4BB5C1468",
         "file": "Lotus_Scripts_MobileDefense.lua_B",
         "module_path": "Lotus.Scripts.MobileDefense",
         "template": "ROOT_TABLE_FIELD",
@@ -52870,7 +52870,7 @@
             "field": 2,
             "table_id": "root:i22:R6",
             "value_kind": "instruction",
-            "value_offset": 30670,
+            "value_offset": 30736,
             "expected": [
               8,
               8,
@@ -52896,8 +52896,8 @@
       "evidence": "readable L46-55 root; consumer proto 19 L1944-1969 floor(Lerp(min[i], max[i], difficulty)). Pattern pins the complete root block i15..i28; count=1.",
       "backend_note": "Root-table field(s) root:i22:R6.2 written through the target-addon lane (ROOT_TABLE_UPVALUE_V1); exact literal form kept in literal_owner for merged replacements.",
       "literal_owner": {
-        "body_key": "a807aae359ffc1eb",
-        "stock_sha256": "4DCFA0B5633B93BC3AF57F04AB5DE4F1CC492FCFD2AE4DE61B9B473E5F1B2DA1",
+        "body_key": "0028dbbd094c97e4",
+        "stock_sha256": "1915A2F30C2AAB0D614AF33F3308BCD89349177FF1799B09D31C68E4BB5C1468",
         "file": "Lotus_Scripts_MobileDefense.lua_B",
         "module_path": "Lotus.Scripts.MobileDefense",
         "sites": [
@@ -52905,7 +52905,7 @@
             "kind": "instruction",
             "prototype": 24,
             "instruction": 24,
-            "offset": 30670,
+            "offset": 30736,
             "expected": [
               8,
               8,
@@ -52978,8 +52978,8 @@
       "owner_kind": "LUA_ROOT_TABLE",
       "backend": "TARGET_ADDON",
       "owner": {
-        "body_key": "a807aae359ffc1eb",
-        "stock_sha256": "4DCFA0B5633B93BC3AF57F04AB5DE4F1CC492FCFD2AE4DE61B9B473E5F1B2DA1",
+        "body_key": "0028dbbd094c97e4",
+        "stock_sha256": "1915A2F30C2AAB0D614AF33F3308BCD89349177FF1799B09D31C68E4BB5C1468",
         "file": "Lotus_Scripts_MobileDefense.lua_B",
         "module_path": "Lotus.Scripts.MobileDefense",
         "template": "ROOT_TABLE_FIELD",
@@ -52989,7 +52989,7 @@
             "field": 3,
             "table_id": "root:i22:R6",
             "value_kind": "instruction",
-            "value_offset": 30674,
+            "value_offset": 30740,
             "expected": [
               8,
               9,
@@ -53015,8 +53015,8 @@
       "evidence": "readable L46-55 root; consumer proto 19 L1944-1969 floor(Lerp(min[i], max[i], difficulty)). Pattern pins the complete root block i15..i28; count=1.",
       "backend_note": "Root-table field(s) root:i22:R6.3 written through the target-addon lane (ROOT_TABLE_UPVALUE_V1); exact literal form kept in literal_owner for merged replacements.",
       "literal_owner": {
-        "body_key": "a807aae359ffc1eb",
-        "stock_sha256": "4DCFA0B5633B93BC3AF57F04AB5DE4F1CC492FCFD2AE4DE61B9B473E5F1B2DA1",
+        "body_key": "0028dbbd094c97e4",
+        "stock_sha256": "1915A2F30C2AAB0D614AF33F3308BCD89349177FF1799B09D31C68E4BB5C1468",
         "file": "Lotus_Scripts_MobileDefense.lua_B",
         "module_path": "Lotus.Scripts.MobileDefense",
         "sites": [
@@ -53024,7 +53024,7 @@
             "kind": "instruction",
             "prototype": 24,
             "instruction": 25,
-            "offset": 30674,
+            "offset": 30740,
             "expected": [
               8,
               9,
@@ -53097,8 +53097,8 @@
       "owner_kind": "LUA_ROOT_TABLE",
       "backend": "TARGET_ADDON",
       "owner": {
-        "body_key": "a807aae359ffc1eb",
-        "stock_sha256": "4DCFA0B5633B93BC3AF57F04AB5DE4F1CC492FCFD2AE4DE61B9B473E5F1B2DA1",
+        "body_key": "0028dbbd094c97e4",
+        "stock_sha256": "1915A2F30C2AAB0D614AF33F3308BCD89349177FF1799B09D31C68E4BB5C1468",
         "file": "Lotus_Scripts_MobileDefense.lua_B",
         "module_path": "Lotus.Scripts.MobileDefense",
         "template": "ROOT_TABLE_FIELD",
@@ -53108,7 +53108,7 @@
             "field": 4,
             "table_id": "root:i22:R6",
             "value_kind": "instruction",
-            "value_offset": 30678,
+            "value_offset": 30744,
             "expected": [
               8,
               10,
@@ -53134,8 +53134,8 @@
       "evidence": "readable L46-55 root; consumer proto 19 L1944-1969 floor(Lerp(min[i], max[i], difficulty)). Pattern pins the complete root block i15..i28; count=1.",
       "backend_note": "Root-table field(s) root:i22:R6.4 written through the target-addon lane (ROOT_TABLE_UPVALUE_V1); exact literal form kept in literal_owner for merged replacements.",
       "literal_owner": {
-        "body_key": "a807aae359ffc1eb",
-        "stock_sha256": "4DCFA0B5633B93BC3AF57F04AB5DE4F1CC492FCFD2AE4DE61B9B473E5F1B2DA1",
+        "body_key": "0028dbbd094c97e4",
+        "stock_sha256": "1915A2F30C2AAB0D614AF33F3308BCD89349177FF1799B09D31C68E4BB5C1468",
         "file": "Lotus_Scripts_MobileDefense.lua_B",
         "module_path": "Lotus.Scripts.MobileDefense",
         "sites": [
@@ -53143,7 +53143,7 @@
             "kind": "instruction",
             "prototype": 24,
             "instruction": 26,
-            "offset": 30678,
+            "offset": 30744,
             "expected": [
               8,
               10,
@@ -53218,8 +53218,8 @@
       "owner_kind": "LUA_ROOT_TABLE",
       "backend": "TARGET_ADDON",
       "owner": {
-        "body_key": "a807aae359ffc1eb",
-        "stock_sha256": "4DCFA0B5633B93BC3AF57F04AB5DE4F1CC492FCFD2AE4DE61B9B473E5F1B2DA1",
+        "body_key": "0028dbbd094c97e4",
+        "stock_sha256": "1915A2F30C2AAB0D614AF33F3308BCD89349177FF1799B09D31C68E4BB5C1468",
         "file": "Lotus_Scripts_MobileDefense.lua_B",
         "module_path": "Lotus.Scripts.MobileDefense",
         "template": "ROOT_TABLE_FIELD",
@@ -53229,7 +53229,7 @@
             "field": 1,
             "table_id": "root:i16:R5",
             "value_kind": "instruction",
-            "value_offset": 30634,
+            "value_offset": 30700,
             "expected": [
               8,
               6,
@@ -53255,8 +53255,8 @@
       "evidence": "readable L46-55 root; consumer proto 19 L1944-1969 floor(Lerp(min[i], max[i], difficulty)). Pattern pins the complete root block i15..i28; count=1.",
       "backend_note": "Root-table field(s) root:i16:R5.1 written through the target-addon lane (ROOT_TABLE_UPVALUE_V1); exact literal form kept in literal_owner for merged replacements.",
       "literal_owner": {
-        "body_key": "a807aae359ffc1eb",
-        "stock_sha256": "4DCFA0B5633B93BC3AF57F04AB5DE4F1CC492FCFD2AE4DE61B9B473E5F1B2DA1",
+        "body_key": "0028dbbd094c97e4",
+        "stock_sha256": "1915A2F30C2AAB0D614AF33F3308BCD89349177FF1799B09D31C68E4BB5C1468",
         "file": "Lotus_Scripts_MobileDefense.lua_B",
         "module_path": "Lotus.Scripts.MobileDefense",
         "sites": [
@@ -53264,7 +53264,7 @@
             "kind": "instruction",
             "prototype": 24,
             "instruction": 17,
-            "offset": 30634,
+            "offset": 30700,
             "expected": [
               8,
               6,
@@ -53337,8 +53337,8 @@
       "owner_kind": "LUA_ROOT_TABLE",
       "backend": "TARGET_ADDON",
       "owner": {
-        "body_key": "a807aae359ffc1eb",
-        "stock_sha256": "4DCFA0B5633B93BC3AF57F04AB5DE4F1CC492FCFD2AE4DE61B9B473E5F1B2DA1",
+        "body_key": "0028dbbd094c97e4",
+        "stock_sha256": "1915A2F30C2AAB0D614AF33F3308BCD89349177FF1799B09D31C68E4BB5C1468",
         "file": "Lotus_Scripts_MobileDefense.lua_B",
         "module_path": "Lotus.Scripts.MobileDefense",
         "template": "ROOT_TABLE_FIELD",
@@ -53348,7 +53348,7 @@
             "field": 2,
             "table_id": "root:i16:R5",
             "value_kind": "instruction",
-            "value_offset": 30638,
+            "value_offset": 30704,
             "expected": [
               8,
               7,
@@ -53374,8 +53374,8 @@
       "evidence": "readable L46-55 root; consumer proto 19 L1944-1969 floor(Lerp(min[i], max[i], difficulty)). Pattern pins the complete root block i15..i28; count=1.",
       "backend_note": "Root-table field(s) root:i16:R5.2 written through the target-addon lane (ROOT_TABLE_UPVALUE_V1); exact literal form kept in literal_owner for merged replacements.",
       "literal_owner": {
-        "body_key": "a807aae359ffc1eb",
-        "stock_sha256": "4DCFA0B5633B93BC3AF57F04AB5DE4F1CC492FCFD2AE4DE61B9B473E5F1B2DA1",
+        "body_key": "0028dbbd094c97e4",
+        "stock_sha256": "1915A2F30C2AAB0D614AF33F3308BCD89349177FF1799B09D31C68E4BB5C1468",
         "file": "Lotus_Scripts_MobileDefense.lua_B",
         "module_path": "Lotus.Scripts.MobileDefense",
         "sites": [
@@ -53383,7 +53383,7 @@
             "kind": "instruction",
             "prototype": 24,
             "instruction": 18,
-            "offset": 30638,
+            "offset": 30704,
             "expected": [
               8,
               7,
@@ -53456,8 +53456,8 @@
       "owner_kind": "LUA_ROOT_TABLE",
       "backend": "TARGET_ADDON",
       "owner": {
-        "body_key": "a807aae359ffc1eb",
-        "stock_sha256": "4DCFA0B5633B93BC3AF57F04AB5DE4F1CC492FCFD2AE4DE61B9B473E5F1B2DA1",
+        "body_key": "0028dbbd094c97e4",
+        "stock_sha256": "1915A2F30C2AAB0D614AF33F3308BCD89349177FF1799B09D31C68E4BB5C1468",
         "file": "Lotus_Scripts_MobileDefense.lua_B",
         "module_path": "Lotus.Scripts.MobileDefense",
         "template": "ROOT_TABLE_FIELD",
@@ -53467,7 +53467,7 @@
             "field": 3,
             "table_id": "root:i16:R5",
             "value_kind": "instruction",
-            "value_offset": 30642,
+            "value_offset": 30708,
             "expected": [
               8,
               8,
@@ -53493,8 +53493,8 @@
       "evidence": "readable L46-55 root; consumer proto 19 L1944-1969 floor(Lerp(min[i], max[i], difficulty)). Pattern pins the complete root block i15..i28; count=1.",
       "backend_note": "Root-table field(s) root:i16:R5.3 written through the target-addon lane (ROOT_TABLE_UPVALUE_V1); exact literal form kept in literal_owner for merged replacements.",
       "literal_owner": {
-        "body_key": "a807aae359ffc1eb",
-        "stock_sha256": "4DCFA0B5633B93BC3AF57F04AB5DE4F1CC492FCFD2AE4DE61B9B473E5F1B2DA1",
+        "body_key": "0028dbbd094c97e4",
+        "stock_sha256": "1915A2F30C2AAB0D614AF33F3308BCD89349177FF1799B09D31C68E4BB5C1468",
         "file": "Lotus_Scripts_MobileDefense.lua_B",
         "module_path": "Lotus.Scripts.MobileDefense",
         "sites": [
@@ -53502,7 +53502,7 @@
             "kind": "instruction",
             "prototype": 24,
             "instruction": 19,
-            "offset": 30642,
+            "offset": 30708,
             "expected": [
               8,
               8,
@@ -53575,8 +53575,8 @@
       "owner_kind": "LUA_ROOT_TABLE",
       "backend": "TARGET_ADDON",
       "owner": {
-        "body_key": "a807aae359ffc1eb",
-        "stock_sha256": "4DCFA0B5633B93BC3AF57F04AB5DE4F1CC492FCFD2AE4DE61B9B473E5F1B2DA1",
+        "body_key": "0028dbbd094c97e4",
+        "stock_sha256": "1915A2F30C2AAB0D614AF33F3308BCD89349177FF1799B09D31C68E4BB5C1468",
         "file": "Lotus_Scripts_MobileDefense.lua_B",
         "module_path": "Lotus.Scripts.MobileDefense",
         "template": "ROOT_TABLE_FIELD",
@@ -53586,7 +53586,7 @@
             "field": 4,
             "table_id": "root:i16:R5",
             "value_kind": "instruction",
-            "value_offset": 30646,
+            "value_offset": 30712,
             "expected": [
               8,
               9,
@@ -53612,8 +53612,8 @@
       "evidence": "readable L46-55 root; consumer proto 19 L1944-1969 floor(Lerp(min[i], max[i], difficulty)). Pattern pins the complete root block i15..i28; count=1.",
       "backend_note": "Root-table field(s) root:i16:R5.4 written through the target-addon lane (ROOT_TABLE_UPVALUE_V1); exact literal form kept in literal_owner for merged replacements.",
       "literal_owner": {
-        "body_key": "a807aae359ffc1eb",
-        "stock_sha256": "4DCFA0B5633B93BC3AF57F04AB5DE4F1CC492FCFD2AE4DE61B9B473E5F1B2DA1",
+        "body_key": "0028dbbd094c97e4",
+        "stock_sha256": "1915A2F30C2AAB0D614AF33F3308BCD89349177FF1799B09D31C68E4BB5C1468",
         "file": "Lotus_Scripts_MobileDefense.lua_B",
         "module_path": "Lotus.Scripts.MobileDefense",
         "sites": [
@@ -53621,7 +53621,7 @@
             "kind": "instruction",
             "prototype": 24,
             "instruction": 20,
-            "offset": 30646,
+            "offset": 30712,
             "expected": [
               8,
               9,
@@ -53696,8 +53696,8 @@
       "owner_kind": "LUA_PROTO_LITERAL",
       "backend": "EXACT_LITERAL",
       "owner": {
-        "body_key": "a807aae359ffc1eb",
-        "stock_sha256": "4DCFA0B5633B93BC3AF57F04AB5DE4F1CC492FCFD2AE4DE61B9B473E5F1B2DA1",
+        "body_key": "0028dbbd094c97e4",
+        "stock_sha256": "1915A2F30C2AAB0D614AF33F3308BCD89349177FF1799B09D31C68E4BB5C1468",
         "file": "Lotus_Scripts_MobileDefense.lua_B",
         "module_path": "Lotus.Scripts.MobileDefense",
         "sites": [
@@ -53705,7 +53705,7 @@
             "kind": "instruction",
             "prototype": 19,
             "instruction": 237,
-            "offset": 13430,
+            "offset": 13462,
             "expected": [
               8,
               23,
@@ -53780,8 +53780,8 @@
       "owner_kind": "LUA_PROTO_LITERAL",
       "backend": "EXACT_LITERAL",
       "owner": {
-        "body_key": "a807aae359ffc1eb",
-        "stock_sha256": "4DCFA0B5633B93BC3AF57F04AB5DE4F1CC492FCFD2AE4DE61B9B473E5F1B2DA1",
+        "body_key": "0028dbbd094c97e4",
+        "stock_sha256": "1915A2F30C2AAB0D614AF33F3308BCD89349177FF1799B09D31C68E4BB5C1468",
         "file": "Lotus_Scripts_MobileDefense.lua_B",
         "module_path": "Lotus.Scripts.MobileDefense",
         "sites": [
@@ -53789,7 +53789,7 @@
             "kind": "instruction",
             "prototype": 19,
             "instruction": 234,
-            "offset": 13418,
+            "offset": 13450,
             "expected": [
               8,
               23,
@@ -53864,15 +53864,15 @@
       "owner_kind": "LUA_PROTO_LITERAL",
       "backend": "EXACT_LITERAL",
       "owner": {
-        "body_key": "a807aae359ffc1eb",
-        "stock_sha256": "4DCFA0B5633B93BC3AF57F04AB5DE4F1CC492FCFD2AE4DE61B9B473E5F1B2DA1",
+        "body_key": "0028dbbd094c97e4",
+        "stock_sha256": "1915A2F30C2AAB0D614AF33F3308BCD89349177FF1799B09D31C68E4BB5C1468",
         "file": "Lotus_Scripts_MobileDefense.lua_B",
         "module_path": "Lotus.Scripts.MobileDefense",
         "sites": [
           {
             "kind": "instruction",
             "prototype": 22,
-            "offset": 21642,
+            "offset": 21708,
             "expected": [
               8,
               18,
@@ -53932,15 +53932,15 @@
       "owner_kind": "LUA_PROTO_LITERAL",
       "backend": "EXACT_LITERAL",
       "owner": {
-        "body_key": "a807aae359ffc1eb",
-        "stock_sha256": "4DCFA0B5633B93BC3AF57F04AB5DE4F1CC492FCFD2AE4DE61B9B473E5F1B2DA1",
+        "body_key": "0028dbbd094c97e4",
+        "stock_sha256": "1915A2F30C2AAB0D614AF33F3308BCD89349177FF1799B09D31C68E4BB5C1468",
         "file": "Lotus_Scripts_MobileDefense.lua_B",
         "module_path": "Lotus.Scripts.MobileDefense",
         "sites": [
           {
             "kind": "instruction",
             "prototype": 22,
-            "offset": 21638,
+            "offset": 21704,
             "expected": [
               8,
               17,
@@ -54813,7 +54813,7 @@
         "field": "Scripts.0.Script._enemyPowerFill",
         "stock_text": "1",
         "preimage": "_enemyPowerFill=1",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "0c498e078835f9fe",
           "stock_sha256": "036522B0202AB810737F23C765E45050CB02F87B10F9C293932B3BE8DA24F85F",
@@ -55131,7 +55131,7 @@
         "field": "Scripts.0.Script._questPowerMultiplier",
         "stock_text": "8",
         "preimage": "_questPowerMultiplier=8",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "0c498e078835f9fe",
           "stock_sha256": "036522B0202AB810737F23C765E45050CB02F87B10F9C293932B3BE8DA24F85F",
@@ -67209,7 +67209,7 @@
         "field": "Scripts.0.Script._bossOfferingNum",
         "stock_text": "0",
         "preimage": "_bossOfferingNum=0",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "1ef96aede7fe612e",
           "stock_sha256": "4BEA96C94D8A22A6578139C47919E05D4A191D97A6A88CF371ED150BB11ED946",
@@ -67271,7 +67271,7 @@
         "field": "Scripts.0.Script._defendHutsOfferingNum",
         "stock_text": "2",
         "preimage": "_defendHutsOfferingNum=2",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "1ef96aede7fe612e",
           "stock_sha256": "4BEA96C94D8A22A6578139C47919E05D4A191D97A6A88CF371ED150BB11ED946",
@@ -67333,7 +67333,7 @@
         "field": "Scripts.0.Script._numOfferings",
         "stock_text": "1",
         "preimage": "_numOfferings=1",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "1ef96aede7fe612e",
           "stock_sha256": "4BEA96C94D8A22A6578139C47919E05D4A191D97A6A88CF371ED150BB11ED946",
@@ -67395,7 +67395,7 @@
         "field": "Scripts.0.Script._offeringGenerationTime",
         "stock_text": "30",
         "preimage": "_offeringGenerationTime=30",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "1ef96aede7fe612e",
           "stock_sha256": "4BEA96C94D8A22A6578139C47919E05D4A191D97A6A88CF371ED150BB11ED946",
@@ -67455,7 +67455,7 @@
         "field": "Scripts.0.Script._pickupAnimPlayRate",
         "stock_text": "2.5",
         "preimage": "_pickupAnimPlayRate=2.5",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "1ef96aede7fe612e",
           "stock_sha256": "4BEA96C94D8A22A6578139C47919E05D4A191D97A6A88CF371ED150BB11ED946",
@@ -67517,7 +67517,7 @@
         "field": "Scripts.0.Script._spawnPointFilterDistance",
         "stock_text": "35",
         "preimage": "_spawnPointFilterDistance=35",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "1ef96aede7fe612e",
           "stock_sha256": "4BEA96C94D8A22A6578139C47919E05D4A191D97A6A88CF371ED150BB11ED946",
@@ -76110,7 +76110,7 @@
         "field": "Scripts.0.Script._isDuviriVoidFlood",
         "stock_text": "0",
         "preimage": "_isDuviriVoidFlood=0",
-        "packages_bin_sha256": "4a43a30de9f972eaf91223a61a7e785e784400bf316d6395eb6d3018e1a2dd3a",
+        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
         "consumer": {
           "body_key": "fc711ff621a75552",
           "stock_sha256": "738AA59C66F935235C812CBA1AE6ECD361FDF700D5723C0928B88A2E11D89261",
@@ -76999,9 +76999,9 @@
     "mobile_defense": {
       "title": "Mobile Defense",
       "lane": "EXACT_LITERAL",
-      "body_key": "a807aae359ffc1eb",
+      "body_key": "0028dbbd094c97e4",
       "file": "Lotus_Scripts_MobileDefense.lua_B",
-      "sha256": "4DCFA0B5633B93BC3AF57F04AB5DE4F1CC492FCFD2AE4DE61B9B473E5F1B2DA1",
+      "sha256": "1915A2F30C2AAB0D614AF33F3308BCD89349177FF1799B09D31C68E4BB5C1468",
       "module_path": "Lotus.Scripts.MobileDefense",
       "parameters": {
         "minimum_total_time": {
@@ -82513,7 +82513,7 @@
       "stock": 80,
       "min": 1,
       "max": 10922,
-      "body_key": "a807aae359ffc1eb",
+      "body_key": "0028dbbd094c97e4",
       "drives": [
         {
           "tunable_id": "mobiledefense.total_time.maximum",
@@ -82529,7 +82529,7 @@
         }
       ],
       "body_keys": [
-        "a807aae359ffc1eb",
+        "0028dbbd094c97e4",
         "1f41c5821d2c5240"
       ],
       "path": [
@@ -82555,7 +82555,7 @@
       "stock": 10,
       "min": 1,
       "max": 32767,
-      "body_key": "a807aae359ffc1eb",
+      "body_key": "0028dbbd094c97e4",
       "drives": [
         {
           "tunable_id": "mobiledefense.enemy_counts.max.p1",
@@ -82588,7 +82588,7 @@
       "stock": 16,
       "min": 1,
       "max": 32767,
-      "body_key": "a807aae359ffc1eb",
+      "body_key": "0028dbbd094c97e4",
       "drives": [
         {
           "tunable_id": "mobiledefense.enemy_counts.max.p2",
@@ -82621,7 +82621,7 @@
       "stock": 22,
       "min": 1,
       "max": 32767,
-      "body_key": "a807aae359ffc1eb",
+      "body_key": "0028dbbd094c97e4",
       "drives": [
         {
           "tunable_id": "mobiledefense.enemy_counts.max.p3",
@@ -82654,7 +82654,7 @@
       "stock": 28,
       "min": 1,
       "max": 32767,
-      "body_key": "a807aae359ffc1eb",
+      "body_key": "0028dbbd094c97e4",
       "drives": [
         {
           "tunable_id": "mobiledefense.enemy_counts.max.p4",
