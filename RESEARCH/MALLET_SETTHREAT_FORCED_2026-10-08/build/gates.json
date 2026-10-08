@@ -1,0 +1,78 @@
+{
+ "build": "2026.10.06.16.12",
+ "gates": [
+  {
+   "member": "ec368d4901690a15 (Octavia Mallet No Cover + threat 5).lua_B",
+   "gate": "stock-key",
+   "pass": true,
+   "detail": "Lotus_Powersuits_Bard_Abilities_BardMusic.lua_B key ec368d4901690a15, sha256 c713c4d6bf32adb06f7b3ff71d03f00feb53ccd0b651bd2cdf2382106882299f"
+  },
+  {
+   "member": "ec368d4901690a15 (Octavia Mallet No Cover + threat 5).lua_B",
+   "gate": "expected-old-word P16 i568",
+   "pass": true,
+   "detail": "041f0100"
+  },
+  {
+   "member": "ec368d4901690a15 (Octavia Mallet No Cover + threat 5).lua_B",
+   "gate": "expected-old-word P16 i570",
+   "pass": true,
+   "detail": "041f0100"
+  },
+  {
+   "member": "ec368d4901690a15 (Octavia Mallet No Cover + threat 5).lua_B",
+   "gate": "expected-old-word P18 i25",
+   "pass": true,
+   "detail": "14060200"
+  },
+  {
+   "member": "ec368d4901690a15 (Octavia Mallet No Cover + threat 5).lua_B",
+   "gate": "parse-u44",
+   "pass": true,
+   "detail": "22 prototypes, walk errors []"
+  },
+  {
+   "member": "ec368d4901690a15 (Octavia Mallet No Cover + threat 5).lua_B",
+   "gate": "byte-diff",
+   "pass": true,
+   "detail": "4 bytes differ at [12669, 12681, 16276, 16278]"
+  },
+  {
+   "member": "ec368d4901690a15 (Octavia Mallet No Cover + threat 5).lua_B",
+   "gate": "same-shape+edit-script",
+   "pass": true,
+   "detail": "edits [(16, 568), (16, 570), (18, 25)]"
+  },
+  {
+   "member": "ec368d4901690a15 (Octavia Mallet No Cover + threat 5).lua_B",
+   "gate": "self-rebase",
+   "pass": true,
+   "detail": "auto"
+  },
+  {
+   "member": "ec368d4901690a15 (Octavia Mallet No Cover + threat 5).lua_B",
+   "gate": "shifted-rebase",
+   "pass": true,
+   "detail": "edits [{'old': 'P16 i568', 'new': 'P18 i571'}, {'old': 'P16 i570', 'new': 'P18 i576'}, {'old': 'P18 i25', 'new': 'P20 i28'}]"
+  },
+  {
+   "member": "ec368d4901690a15 (Octavia Mallet No Cover + threat 5).lua_B",
+   "gate": "de-roundtrip",
+   "pass": true,
+   "detail": "nps=22   consts re-encode exact: 22/22  FULL BODY identical: True"
+  },
+  {
+   "member": "ec368d4901690a15 (Octavia Mallet No Cover + threat 5).lua_B",
+   "gate": "const-identity",
+   "pass": true,
+   "detail": "CONST_IDENTITY protos_stock=22 protos_candidate=22 hash_equal=22 string_equal=22 keyuse_equal=22 verdict=PASS"
+  },
+  {
+   "member": "ec368d4901690a15 (Octavia Mallet No Cover + threat 5).lua_B",
+   "gate": "cfg-identity (report)",
+   "pass": null,
+   "detail": "exit 1: proto 18 CFG_DIFF kind=LABEL depth=23 stock[27]=\"CALL 2 0\" candidate[25]=\"LOAD N:5\" class=\"LABEL CALL -> LOAD\" | CFG_CLASSES {LABEL CALL -> LOAD:1;LABEL LOAD -> LOAD:1} | CFG_IDENTITY protos_stock=22 protos_candidate=22 cfg_equal=20 model_errors=0 candidate_dispatch_webs=0 verdict=FAIL"
+  }
+ ],
+ "all_pass": true
+}
