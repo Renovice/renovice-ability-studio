@@ -109,7 +109,8 @@ def server_detail(owner: dict, server_root: Path) -> str:
         if same:
             notes.append(f'{owner[f]}: only the line endings differ (pinned as {same[0]}); the content is unchanged')
         elif owner[pre] in raw.decode('utf-8', 'replace'):
-            notes.append(f'{owner[f]}: content changed, the preimage is still present')
+            notes.append(f'{owner[f]}: content changed, the preimage is still present '
+                         '(run tools/update_check/repin_server_rows.py)')
         else:
             notes.append(f'{owner[f]}: the preimage is gone (re-derive the server owner)')
     return ('; ' + '; '.join(notes)) if notes else ''

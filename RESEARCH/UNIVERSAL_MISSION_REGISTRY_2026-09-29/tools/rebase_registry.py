@@ -681,7 +681,10 @@ class Rebase:
             new_row = row
             try:
                 if row['backend'] == 'SERVER_CONFIG':
-                    pass
+                    owner = server_repin(row['owner'], ROOT / self.reg['server_root'], out.notes)
+                    if owner is not row['owner']:
+                        new_row = dict(row, owner=owner)
+                        out.worse(AUTO)
                 elif row['backend'] == 'METADATA_PATCH':
                     owner = self.metadata(row, out)
                     if owner is not row['owner']:
@@ -859,6 +862,33 @@ class Rebase:
             addon['source_rewrites'] = [[f'prototype == {gen}', f'prototype == {pb}'], [f'[{gen}] =', f'[{pb}] ='],
                                         [f'proto{gen}', f'proto{pb}'], [f'prototype {gen}', f'prototype {pb}']]
         addon['current_prototype'] = pb
+
+
+def server_repin(owner: dict, server_root: Path, notes: list | None = None) -> dict:
+    """SERVER_CONFIG owner on the current server source (2026-10-08). Each pinned file is LF-normalized and hashed; a
+    file whose hash changed is re-pinned only when its exact preimage line still occurs exactly once (the reader of the
+    config key is untouched; the rest of the file is someone else's code). Otherwise Problem(REVIEW)."""
+    new = None
+    for f, sha, pre in (('schema_file', 'schema_sha256', 'schema_preimage'),
+                        ('consumer_file', 'consumer_sha256', 'consumer_preimage')):
+        path = server_root / owner[f]
+        if not path.is_file():
+            raise Problem(REVIEW, f'server source {owner[f]} is missing')
+        text = path.read_bytes().replace(b'\r\n', b'\n')
+        digest = sha_upper(text)
+        if digest == owner[sha].upper():
+            continue
+        hits = text.decode('utf-8', 'replace').count(owner[pre])
+        if hits != 1:
+            raise Problem(REVIEW, f'{owner[f]} changed and its preimage {owner[pre]!r} occurs {hits} times '
+                                  '(re-derive the server owner)')
+        new = new or copy.deepcopy(owner)
+        new[sha] = digest
+        new['sha256_text'] = 'LF'
+        if notes is not None:
+            notes.append(f'SERVER_REPIN {owner[f]}: content changed elsewhere, preimage still unique '
+                         f'({owner[sha][:12]} -> {digest[:12]})')
+    return new or owner
 
 
 def dump(registry: dict) -> bytes:
