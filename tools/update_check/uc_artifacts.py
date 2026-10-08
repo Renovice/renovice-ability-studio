@@ -6,10 +6,12 @@ Replacements (`<16-hex key> (<name>).lua_B`, a whole stock module with edits):
   headers, constants and code sizes; only instruction words differ): every edited instruction is found again in build B
   through the module map (uc_remap), the build-B stock word there must equal the build-A stock word (the same
   instruction), branch targets of edited jumps are re-aimed through the map, and the new words are written into a copy
-  of the build-B stock module. Proof: the result parses, differs from build-B stock exactly at the edited words, and every
-  edited prototype that maps exactly has the fingerprint of the replacement's own prototype. Anything else (a full
-  rewrite, new functions, string or constant edits, an edited instruction that changed in build B) is REVIEW with the
-  exact reason: rebuild it from its source project.
+  of the build-B stock module. A changed NUMBER constant (same table size and index, tag 2 on both sides) is an edit too:
+  the mapped build-B prototype must hold the same build-A value at that index, and the new value is written there.
+  Proof: the result parses, differs from build-B stock exactly in the edited prototypes, and every edited prototype that
+  maps exactly has the fingerprint of the replacement's own prototype. Anything else (a full rewrite, new functions,
+  string or other constant edits, an edited instruction or constant that changed in build B) is REVIEW with the exact
+  reason: rebuild it from its source project.
 
 Authored target addons (`<key>.<Name>.target.addon.lua_B`, built from a source by `derecomp recompile-u44`):
   The source is named by authored_addons.json and must rebuild the installed bytes exactly (identity gate). Its target
@@ -41,8 +43,11 @@ def _sha(b: bytes) -> str:
 
 
 # -- replacements ---------------------------------------------------------------------------------------------------
-def edit_script(stock: B.Module, repl: B.Module) -> tuple[list, str]:
-    """[(prototype, logical, old raw word, new raw word)] or ([], reason why it is not an instruction-level edit)."""
+def edit_script(stock: B.Module, repl: B.Module, constants: list | None = None) -> tuple[list, str]:
+    """[(prototype, logical, old raw word, new raw word)] or ([], reason why it is not an instruction-level edit).
+
+    With `constants` (a list), changed number constants are accepted and appended to it as
+    (prototype, constant index, old value, new value); without it any constant change is refused."""
     if len(stock.protos) != len(repl.protos):
         return [], f'prototype count {len(stock.protos)} -> {len(repl.protos)} (a full rewrite, not an instruction edit)'
     if stock.pool != repl.pool:
@@ -51,8 +56,12 @@ def edit_script(stock: B.Module, repl: B.Module) -> tuple[list, str]:
     for a, b in zip(stock.protos, repl.protos):
         if a.header != b.header or a.sizecode != b.sizecode or len(a.consts) != len(b.consts) or a.kids != b.kids:
             return [], f'prototype {a.index} header, size, constants or children differ (not an instruction edit)'
-        if any((x.tag, x.value) != (y.tag, y.value) for x, y in zip(a.consts, b.consts)):
-            return [], f'prototype {a.index} constants differ (constant edits are not rebased automatically)'
+        for k, (x, y) in enumerate(zip(a.consts, b.consts)):
+            if (x.tag, x.value) == (y.tag, y.value):
+                continue
+            if constants is None or x.tag != 2 or y.tag != 2:
+                return [], f'prototype {a.index} constants differ (only number constant edits are rebased automatically)'
+            constants.append((a.index, k, x.value, y.value))
         if len(a.instructions) != len(b.instructions) or \
                 [len(stock.word(a, i)) for i in range(len(a.instructions))] != \
                 [len(repl.word(b, i)) for i in range(len(b.instructions))]:
@@ -75,13 +84,31 @@ def _word_index(p: B.Proto, m: B.Module) -> tuple[list[int], dict[int, int]]:
 
 def rebase_replacement(stock_a: B.Module, repl: B.Module, stock_b: B.Module, mm: RM.ModuleMap) -> dict:
     """Result dict: action, reason/notes, bytes (when auto), edits."""
-    edits, why = edit_script(stock_a, repl)
+    constants: list = []
+    edits, why = edit_script(stock_a, repl, constants)
     if why:
         return {'action': REVIEW, 'reason': why + '; rebuild it from its source project against the new stock'}
-    if not edits:
+    if not edits and not constants:
         return {'action': REVIEW, 'reason': 'the replacement equals its stock module (nothing to rebase)'}
     data = bytearray(stock_b.data)
     notes, confidence, moved = [], 'exact', []
+    for p, k, old, new in constants:
+        pm = mm.proto(p)
+        if pm.b is None:
+            return {'action': REVIEW if pm.kind == 'ambiguous' else DROPPED,
+                    'reason': f'edited prototype {p} is {pm.kind} in the new build: {pm.note}'}
+        if pm.kind == 'similar':
+            confidence = 'similar'
+        qb = stock_b.protos[pm.b]
+        if k >= len(qb.consts) or qb.consts[k].tag != 2 or qb.consts[k].value != old:
+            cur = qb.consts[k].value if k < len(qb.consts) else 'missing'
+            return {'action': REVIEW, 'reason': f'the stock constant the replacement edits changed at P{p} K{k} '
+                                                f'({old!r} -> {cur!r})'}
+        start = stock_b.constant_offset(qb, k)
+        data[start:start + 8] = struct.pack('<d', new)
+        moved.append({'old': f'P{p} K{k}', 'new': f'P{pm.b} K{k}'})
+        if p != pm.b:
+            notes.append(f'constant P{p} K{k} -> P{pm.b} K{k}')
     for p, i, old, new in edits:
         pm = mm.proto(p)
         if pm.b is None:
@@ -120,12 +147,13 @@ def rebase_replacement(stock_a: B.Module, repl: B.Module, stock_b: B.Module, mm:
     result = B.Module(bytes(data), stock_a.opmap)
     if result.walk_errors() or len(result.protos) != len(stock_b.protos):
         return {'action': REVIEW, 'reason': 'the rebased module does not parse'}
-    edited = {mm.proto(p).b for p, *_ in edits}
+    edited_a = {p for p, *_ in edits} | {p for p, *_ in constants}
+    edited = {mm.proto(p).b for p in edited_a}
     for q in result.protos:
         same = result.fingerprint(q) == stock_b.fingerprint(stock_b.protos[q.index])
         if (q.index in edited) == same:
             return {'action': REVIEW, 'reason': f'prototype {q.index} differs from the new stock where no edit was mapped'}
-    for p, *_ in edits:
+    for p in edited_a:
         pm = mm.proto(p)
         if pm.kind == 'exact' and result.fingerprint(result.protos[pm.b]) != repl.fingerprint(repl.protos[p]):
             return {'action': REVIEW, 'reason': f'edited prototype {p} -> {pm.b} is not identical to the replacement\'s'}

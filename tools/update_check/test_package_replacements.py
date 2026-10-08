@@ -13,6 +13,9 @@ Checks:
                 without a key prefix stays `inject` (the runtime rejects it as one-shot-inject-not-allowed-in-package)
   rebase        an instruction-level edit of the module, rebased onto a synthetic shifted build (one new function
                 first), is AUTO and keeps the edit at the moved prototype
+  constants     a number constant edit (alone, and together with an instruction edit) rebases AUTO onto the shifted
+                build with the new value at the moved prototype; it is REVIEW when the build-B stock constant changed;
+                edit_script without a constants list still refuses it (2026-10-08, Icebind Cryothermia ramp)
 
     python repos/apps/ability-editor/tools/update_check/test_package_replacements.py
 Exit code 0 when every expectation holds.
@@ -21,6 +24,7 @@ from __future__ import annotations
 
 import json
 import shutil
+import struct
 import subprocess
 import sys
 import tempfile
@@ -41,6 +45,9 @@ SOURCE = '''function Gate(count, max)
 end
 function Other(a)
   return a + 1
+end
+function Ramp(seconds)
+  return seconds * 0.05
 end
 '''
 
@@ -112,6 +119,63 @@ def main() -> int:
               res.get('reason') or res.get('edits'))
         check('rebased artifact keeps the file label after the new key',
               (res.get('new_key', '') + member[16:]) == f'{shifted.key} (solo gate).lua_B')
+
+        # number constant edits: Ramp's 0.05 -> 0.01, alone and together with the Gate instruction edit
+        ramp = next(q for q in stock.protos if any(c.tag == 2 and c.value == 0.05 for c in q.consts))
+        k = next(i for i, c in enumerate(ramp.consts) if c.tag == 2 and c.value == 0.05)
+        at = stock.constant_offset(ramp, k)
+
+        def with_constant(base: bytes, value: float) -> bytes:
+            out = bytearray(base)
+            out[at:at + 8] = struct.pack('<d', value)
+            return bytes(out)
+
+        for label, base in (('constant-only', stock.data), ('instruction + constant', repl.data)):
+            edited = B.Module(with_constant(base, 0.01), opmap)
+            consts: list = []
+            edits, why = ART.edit_script(stock, edited, consts)
+            check(f'{label}: edit_script lists the number constant edit',
+                  not why and consts == [(ramp.index, k, 0.05, 0.01)], why or consts)
+            res = ART.rebase_replacement(stock, edited, shifted, RM.ModuleMap(stock, shifted, 'm.lua_B'))
+            ok = res['action'] == 'auto'
+            if ok:
+                out = B.Module(res['bytes'], opmap)
+                q = out.protos[ramp.index + 1]
+                others = [(c.tag, c.value) for i, c in enumerate(q.consts) if i != k]
+                base_q = shifted.protos[ramp.index + 1]
+                ok = (q.consts[k].value == 0.01 and others == [(c.tag, c.value) for i, c in enumerate(base_q.consts)
+                                                                  if i != k])
+                if label != 'constant-only':
+                    ok &= out.protos[gate.index + 1].instructions[logical][2] == 0x33
+            check(f'{label}: rebases AUTO onto the shifted build with the new value', ok,
+                  res.get('reason') or res.get('edits'))
+        check('edit_script without a constants list still refuses a constant edit',
+              ART.edit_script(stock, B.Module(with_constant(stock.data, 0.01), opmap))[1] != '')
+        changed_b = shifted
+        qb = changed_b.protos[ramp.index + 1]
+        kb_at = changed_b.constant_offset(qb, k)
+        drifted = bytearray(changed_b.data)
+        drifted[kb_at:kb_at + 8] = struct.pack('<d', 0.07)
+        drifted_b = B.Module(bytes(drifted), opmap)
+        res = ART.rebase_replacement(stock, B.Module(with_constant(stock.data, 0.01), opmap), drifted_b,
+                                     RM.ModuleMap(stock, drifted_b, 'm.lua_B'))
+        check('constant edit fails closed (REVIEW) on a build whose stock constant changed',
+              res['action'] == 'review', res.get('reason'))
+
+        class ExactMap:  # every prototype maps to itself: reaches the constant guard directly
+            def __init__(self, mm):
+                self.mm = mm
+
+            def proto(self, p):
+                return type('P', (), {'b': p + 1, 'kind': 'exact', 'note': ''})()
+
+            def instruction(self, p, i):
+                return self.mm.instruction(p, i)
+
+        res = ART.rebase_replacement(stock, B.Module(with_constant(stock.data, 0.01), opmap), drifted_b,
+                                     ExactMap(RM.ModuleMap(stock, shifted, 'm.lua_B')))
+        check('constant guard: REVIEW when the mapped stock constant holds another value',
+              res['action'] == 'review' and 'stock constant' in res.get('reason', ''), res.get('reason'))
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
     print(f'{sum(results)}/{len(results)} PASS')

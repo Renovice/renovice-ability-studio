@@ -1,5 +1,5 @@
 {
- "bootstrapper_commit": "6ef65a6dc05bc71f7e67791ab5bbb0aa9e4d3bbb",
+ "bootstrapper_commit": "2fbc904d71c62cd5ccf6124fe2f878775e9ad066",
  "build": "2026.10.06.16.12",
  "corpus_walk": {
   "failing": [
