@@ -13,7 +13,8 @@ Dependencies covered:
   nativeCalls        the callsites of the installed authored addons (NAMECALL of the same method in the mapped function)
   literals.json      the installed recipe values (regenerated from the rebased rows)
   engine_params.json the installed engine-parameter overrides (hash + readers of the rebased rows)
-  replacements       the installed full-module replacements (instruction-level edit rebase, or review)
+  replacements       the installed full-module replacements, loose or package members (instruction-level edit rebase,
+                     or review)
   authored addons    the installed authored target addons (source rewrite + rebuild in step 3)
 
 Read-only towards the game. Writes only into the caller's work folder.
@@ -283,7 +284,8 @@ def make_plan(*, ws: Path, wsj: dict, baseline: dict, baseline_name: str, regist
                 r = ART.rebase_replacement(mm.ma, B.Module(s.file.read_bytes(), opmap), mm.mb, mm)
                 rec.update({k: v for k, v in r.items() if k != 'bytes'})
                 if r['action'] == 'auto':
-                    out = work / 'replacements' / f'{r["new_key"]} ({s.label.split(": ", 1)[-1]}).lua_B'
+                    # the file keeps its own name after the 16-hex key (a package member's row label is not its file label)
+                    out = work / 'replacements' / (r['new_key'] + s.file.name[16:])
                     out.parent.mkdir(parents=True, exist_ok=True)
                     out.write_bytes(r['bytes'])
                     rec.update(artifact=str(out), artifact_name=out.name, sha256=_sha(r['bytes']), size=len(r['bytes']))

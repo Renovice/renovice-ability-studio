@@ -5,7 +5,9 @@ Inventory rules mirror the runtime (bootstrapper renovice/injection_core.hpp, re
   Inject\\<16-hex key>.<name>.target.addon.lua_B         target addon of that key
   Inject\\<name>.targets.addon.lua_B                     multi-target addon: every lowercase 16-hex string in the
                                                          bytecode string pool is a declared target key
-  Packages\\<name>\\package.json + members               the same lanes inside a package
+  Packages\\<name>\\package.json + members               the same lanes inside a package (packages_core.hpp
+                                                         classify_member: an ordinary `<16-hex key>...lua_B` member is
+                                                         a root replacement; the row state is package:<folder>)
   Packages\\<name>\\literals.json / engine_params.json   recipe modules (checked in the missions area)
 
 Hooks are read from the installed addon bytes themselves: the addon is decompiled with the toolchain
@@ -105,10 +107,10 @@ def inventory(custom: Path) -> list[Script]:
         except (OSError, ValueError):
             manifest = {}
         pname = manifest.get('name', pkg.name)
-        pstate = state('package:' + pname)
+        pstate = state('package:' + pkg.name)      # script_control.cpp: one policy ID per package FOLDER
         for f in sorted(pkg.glob('*.lua_B')):
             member = manifest.get('members', {}).get(f.name, {})
-            s = _classify(f, f'Packages/{pkg.name}/{f.name}', pname, state)
+            s = _classify(f, f'Packages/{pkg.name}/{f.name}', pname, state, in_package=True)
             s.label = f'{pname}: {member.get("label") or s.label}'
             s.state = f'package {pstate}'      # member switches are retired since contract R13 (ignored by the DLL)
             out.append(s)
@@ -117,7 +119,7 @@ def inventory(custom: Path) -> list[Script]:
     return out
 
 
-def _classify(f: Path, rel: str, package: str, state) -> Script:
+def _classify(f: Path, rel: str, package: str, state, in_package: bool = False) -> Script:
     name = f.name.lower()
     m = KEY.match(f.name)
     if '.targets.addon' in name:
@@ -132,6 +134,11 @@ def _classify(f: Path, rel: str, package: str, state) -> Script:
                       state('target-addon:' + f.name))
     if '.addon' in name:
         return Script('managed-addon', f, rel, [], f'Managed addon: {f.stem}', package, state('addon:' + f.name))
+    if in_package and m and int(m.group(1), 16):
+        # packages_core.hpp classify_member: an ordinary package member with a nonzero 16-hex prefix is a root
+        # replacement of that content key (a one-shot Inject chunk is not admissible in a package)
+        return Script('replacement', f, rel, [m.group(1).lower()], f'Replacement: {_label(f.name)}', package,
+                      state('replacement:' + f.name))
     return Script('inject', f, rel, [], f'Inject: {f.stem}', package, state('inject:' + f.name))
 
 

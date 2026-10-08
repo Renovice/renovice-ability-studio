@@ -8,8 +8,9 @@ Applies the auto items of the step-2 plan, then gates the result:
      are left out) -> Packages/Missions (package.json, literals.json, engine_params.json, Missions.targets.addon.lua_B);
      every BUILD_GATES entry must PASS;
   4. the 12 presets through the registry path (`build`, reference artifacts, not installed);
-  5. authored addons (uc_artifacts.rebuild_addon) and replacements (uc_artifacts.rebase_replacement results of step 2);
-     Frost/Octavia package.json: member renamed to the new key, settings.build = build B;
+  5. authored addons (uc_artifacts.rebuild_addon) and replacements (uc_artifacts.rebase_replacement results of step 2,
+     staged in place: CustomScripts/ or the member's package folder);
+     non-Missions package.json (Frost, Octavia, Icebind Solo): members renamed to the new key, settings.build = build B;
   6. ScriptStates.json with renamed entries keeping their state;
   7. Settings compatibility: every saved value id of Settings/*.json (read-only) is declared by the new packages and its
      value fits the new limits (value ids are tunable/master ids and never change across builds);
@@ -361,9 +362,12 @@ def rebuild(*, ws: Path, wsj: dict, plan: dict, plan_work: Path, registry: dict,
     result['addons'] = addon_results
     for rec in plan['artifacts']['replacements']:
         if rec['action'] == 'auto' and rec.get('artifact'):
-            stage.put(rec['artifact_name'], Path(rec['artifact']).read_bytes(), f'{rec["label"]} rebased onto the new stock')
-            stage.remove(rec['file'], 'replaced by the rebased replacement ' + rec['artifact_name'])
-            renamed[rec['file']] = rec['artifact_name']
+            # in place: a loose replacement stays in CustomScripts, a package member in its package folder
+            new_rel = str(Path(rec['file']).parent / rec['artifact_name']).replace('\\', '/')
+            stage.put(new_rel, Path(rec['artifact']).read_bytes(), f'{rec["label"]} rebased onto the new stock')
+            if new_rel != rec['file']:
+                stage.remove(rec['file'], 'replaced by the rebased replacement ' + rec['artifact_name'])
+                renamed[rec['file']] = new_rel
     # Frost / Octavia (and any other non-Missions package): member names and build label
     for name in plan['artifacts']['packages']:
         if name == 'Missions':
