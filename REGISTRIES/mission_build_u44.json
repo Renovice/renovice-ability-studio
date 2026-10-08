@@ -63443,10 +63443,10 @@
         "config_key": "worldState.creditBoostMultiplier",
         "server_root": "../OpenWF Server 23.09.2026/SpaceNinjaServer",
         "schema_file": "src/services/configService.ts",
-        "schema_sha256": "1DF7CE8F90B691A0F47D11C33E326AB3E9CB79BD95CD6F0114825FB8FAFE6AC4",
+        "schema_sha256": "E7A4BE2B1EEDB91FCE269D1A343FD4D9A83AC9FEE189EBDE19582E1910719E28",
         "schema_preimage": "creditBoostMultiplier?: number;",
         "consumer_file": "src/services/missionInventoryUpdateService.ts",
-        "consumer_sha256": "466C123BDB278C9E2D9B49962AA4FF0B8024E3AEA95590A37D1818752B7E14DC",
+        "consumer_sha256": "68DDC682212BA2AE3E58A469E3F66EA0255B324B15590461E4F21DC221441DC2",
         "consumer_preimage": "if (config.worldState?.creditBoostMultiplier) {",
         "sha256_text": "LF"
       },
