@@ -3958,15 +3958,36 @@ namespace renovice
                 "Venus/Nokko build changes only the SetObjTimer argument and two linked threshold result instructions");
             fs::remove_all(nokko_build_fixture);
 
-            // Universal mission tunable registry for client 44.0.2 (2026.09.28.13.06) and the group-by-body-key generator.
+            // Universal mission tunable registry of the current certified client build and the group-by-body-key generator.
             {
                 const Json registry = load_mission_registry(editor_root);
+                // Module keys change with every client build: the self-test resolves them from the current registry by
+                // stock file name (2026-10-09; the 44.0.2 literals failed after the 44.1.0 / 44.1.1 adoptions).
+                const auto key_of = [&registry](const std::string& file) {
+                    for (const auto& [key, record] : registry.at("modules").items())
+                        if (record.at("file") == file) return key;
+                    throw std::runtime_error("self-test: no registry module for " + file);
+                };
+                const auto upper_key = [&key_of](const std::string& file) {
+                    std::string key = key_of(file);
+                    for (auto& c : key) c = static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
+                    return key;
+                };
                 const MissionPaths mission_roots = mission_paths(registry, editor_root);
                 const Json verification = verify_mission_registry(editor_root);
                 check(verification.at("status") == "PASS" && verification.at("fail") == 0
                         && verification.at("pass") == registry.at("tunables").size(),
-                    "every mission registry row verifies against its 44.0.2 stock evidence (SHA-256 + exact preimage)");
-                check(registry.at("build") == "2026.09.28.13.06", "mission registry build label is 44.0.2 (2026.09.28.13.06)");
+                    "every mission registry row verifies against its stock evidence (SHA-256 + exact preimage)");
+                // The registry names its client build and its corpus (44.0.2 used de-luau-u44.0.2-authoring; adopted builds use
+                // de-luau-<build>-authoring, renovice_update.py --adopt).
+                {
+                    const auto build = registry.at("build").get<std::string>();
+                    const auto corpus = registry.at("corpus").get<std::string>();
+                    check(std::regex_match(build, std::regex(R"(20\d\d\.\d\d\.\d\d\.\d\d\.\d\d)"))
+                            && (corpus == "shared/corpus/de-luau-" + build + "-authoring"
+                                || (build == "2026.09.28.13.06" && corpus == "shared/corpus/de-luau-u44.0.2-authoring")),
+                          "mission registry build label " + build + " is a client build label and names its corpus " + corpus);
+                }
                 const fs::path mission_fixture = fs::temp_directory_path()
                     / ("renovice_mission_registry_selftest_" + std::to_string(GetCurrentProcessId()));
                 fs::remove_all(mission_fixture);
@@ -3997,7 +4018,7 @@ namespace renovice
 
                 const MissionSetResult merged = build_mission_settings(
                     settings({{"excavation.dig_duration", 50}, {"excavation.dig_duration_elite_alert", 70}}), editor_root, mission_fixture, true);
-                bool merged_ok = merged.success && merged.artifacts.size() == 1 && merged.artifacts.front().body_key == "f7444e3c621ff018"
+                bool merged_ok = merged.success && merged.artifacts.size() == 1 && merged.artifacts.front().body_key == key_of("Lotus_Scripts_Modes_ExcavationMission.lua_B")
                     && merged.artifacts.front().tunables.size() == 2 && merged.server_config_diff.empty();
                 if (merged_ok)
                 {
@@ -4019,7 +4040,7 @@ namespace renovice
                     "while renovice.target.lua_call is not LIVE_CONFIRMED, rows with an exact literal form build as one exact replacement");
                 const MissionSetResult cascade = build_mission_settings(
                     probe_settings({{"void_cascade.pillar_duration", 45}, {"void_cascade.alert_reward_interval", 5}}), editor_root, mission_fixture, true);
-                bool cascade_ok = cascade.success && cascade.artifacts.size() == 1 && cascade.artifacts.front().target_keys == std::vector<std::string>{"32c344afa33be174"}
+                bool cascade_ok = cascade.success && cascade.artifacts.size() == 1 && cascade.artifacts.front().target_keys == std::vector<std::string>{key_of("Lotus_Scripts_Modes_ZarimanSurvivalMission.lua_B")}
                     && cascade.artifacts.front().backend == "TARGET_ADDON"
                     && mission_tunable(registry, "void_cascade.pillar_duration").contains("literal_owner");
                 if (cascade_ok)
@@ -4085,7 +4106,7 @@ namespace renovice
 
                 const MissionNaming group_naming{"missions-selftest", "missions", "missions", "RENOVICE_Missions.txt", false, "", {}};
                 Json hash_mismatch = registry;
-                hash_mismatch["modules"]["f7444e3c621ff018"]["sha256"] = std::string(64, '0');
+                hash_mismatch["modules"][key_of("Lotus_Scripts_Modes_ExcavationMission.lua_B")]["sha256"] = std::string(64, '0');
                 const MissionSetResult rejected_hash = build_mission_set(hash_mismatch, Json{{"excavation.dig_duration", 50}},
                     group_naming, editor_root, mission_fixture, true, nullptr);
                 check(!rejected_hash.success && contains_text(rejected_hash.diagnostics.front().message, "stock"),
@@ -4098,17 +4119,17 @@ namespace renovice
                 check(!rejected_preimage.success && contains_text(rejected_preimage.diagnostics.front().message, "preimage"),
                     "an exact preimage mismatch fails closed");
                 Json competing = registry;
-                competing["modules"]["f7444e3c621ff018"]["addon"] = registry.at("modules").at("f10a043e7f825db2").at("addon");
-                competing["modules"]["f7444e3c621ff018"]["addon"]["values"] = {{"reward_interval_seconds", "excavation.selftest_addon"}};
+                competing["modules"][key_of("Lotus_Scripts_Modes_ExcavationMission.lua_B")]["addon"] = registry.at("modules").at(key_of("Lotus_Scripts_Modes_SurvivalMission.lua_B")).at("addon");
+                competing["modules"][key_of("Lotus_Scripts_Modes_ExcavationMission.lua_B")]["addon"]["values"] = {{"reward_interval_seconds", "excavation.selftest_addon"}};
                 Json fake = mission_tunable(registry, "survival.reward_interval");
                 fake["owner"].erase("fields");  // template-only addon row: no generic or literal form on this body
                 fake["owner"].erase("gate");
                 fake["tunable_id"] = "excavation.selftest_addon";
                 fake["ui"]["group"] = "excavation";  // Phase 2i: a row's ui group is its tunable_id family, labels unique per group
                 fake["ui"]["short_label"] = "Self-test addon row";
-                fake["owner"]["body_key"] = "f7444e3c621ff018";
-                fake["owner"]["stock_sha256"] = registry.at("modules").at("f7444e3c621ff018").at("sha256");
-                fake["owner"]["file"] = registry.at("modules").at("f7444e3c621ff018").at("file");
+                fake["owner"]["body_key"] = key_of("Lotus_Scripts_Modes_ExcavationMission.lua_B");
+                fake["owner"]["stock_sha256"] = registry.at("modules").at(key_of("Lotus_Scripts_Modes_ExcavationMission.lua_B")).at("sha256");
+                fake["owner"]["file"] = registry.at("modules").at(key_of("Lotus_Scripts_Modes_ExcavationMission.lua_B")).at("file");
                 competing["tunables"].push_back(fake);
                 const MissionSetResult rejected_competing = build_mission_set(competing,
                     Json{{"excavation.dig_duration", 50}, {"excavation.selftest_addon", 150}}, group_naming, editor_root, mission_fixture, true, nullptr);
@@ -4265,8 +4286,8 @@ namespace renovice
                     };
                     const auto alert_table = mission_tunable(registry, std::string("survival.alert_interval")).at("owner").at("fields").at(0).at("table_id").get<std::string>();
                     check(rejects_addon([&](Json& r) { alert_field(r)["expected"][7] = 0; }, "initialiser preimage changed")
-                            && rejects_addon([&](Json& r) { r["modules"]["f10a043e7f825db2"]["root_tables"][alert_table]["hooks"] = Json::array(); }, "no hooked capturer")
-                            && rejects_addon([&](Json& r) { r["modules"]["f10a043e7f825db2"]["root_tables"][alert_table].erase("gate"); }, "no gate evidence")
+                            && rejects_addon([&](Json& r) { r["modules"][key_of("Lotus_Scripts_Modes_SurvivalMission.lua_B")]["root_tables"][alert_table]["hooks"] = Json::array(); }, "no hooked capturer")
+                            && rejects_addon([&](Json& r) { r["modules"][key_of("Lotus_Scripts_Modes_SurvivalMission.lua_B")]["root_tables"][alert_table].erase("gate"); }, "no gate evidence")
                             && rejects_addon([&](Json& r) { alert_field(r)["field_reads"] = 0; }, "no consumer read"),
                         "the root-table addon gate rejects a drifted initialiser, a table without hooks, missing gate evidence and an unread field");
                 }
@@ -4413,7 +4434,7 @@ namespace renovice
                 {
                     const Json values{{"survival.reward_interval", 150}, {"purgatory.difficulty1.warrior_level", 15},
                                       {"lantern.tier_up_interval", 60}, {"void_flood.fractures_per_round.normal", 4}};
-                    const std::set<std::string> expected_keys{"6fa60841c9e0f207", "caec63d8e739b693", "f10a043e7f825db2"};
+                    const std::set<std::string> expected_keys{key_of("Lotus_Scripts_Modes_Purgatory.lua_B"), key_of("Lotus_Scripts_Modes_HalloweenLanternEndless.lua_B"), key_of("Lotus_Scripts_Modes_SurvivalMission.lua_B")};
                     const MissionSetResult unified = build_mission_settings(probe_settings(values), editor_root, mission_fixture, true);
                     const MissionArtifact* multi = nullptr;
                     std::size_t addon_count = 0, replacement_count = 0;
@@ -4442,9 +4463,9 @@ namespace renovice
                             && manifest.at("scripts_menu").at("policy_id") == "target-addon:missions.targets.addon.lua_b"
                             && manifest.at("runtime_hook").at("built_by_explicit_opt_in") == true
                             && !manifest.contains("stock_artifact") && manifest.at("targets").size() == 3
-                            && superseded == std::set<std::string>{"6fa60841c9e0f207.missions.target.addon.lua_B",
-                                                                   "caec63d8e739b693.missions.target.addon.lua_B",
-                                                                   "f10a043e7f825db2.missions.target.addon.lua_B"}
+                            && superseded == std::set<std::string>{key_of("Lotus_Scripts_Modes_Purgatory.lua_B") + ".missions.target.addon.lua_B",
+                                                                   key_of("Lotus_Scripts_Modes_HalloweenLanternEndless.lua_B") + ".missions.target.addon.lua_B",
+                                                                   key_of("Lotus_Scripts_Modes_SurvivalMission.lua_B") + ".missions.target.addon.lua_B"}
                             && contains_text(unified.gate_log, "multi-target-declared-keys\nPASS declared=3 expected=3");
                     }
                     check(unified_ok, "addon rows of three modules build ONE Missions.targets.addon.lua_B (compiled pool declares exactly their "
@@ -4465,7 +4486,7 @@ namespace renovice
                             for (const auto& entry : fs::directory_iterator(packaged.package_directory)) files.insert(entry.path().filename().string());
                         package_ok = package_ok
                             && files == std::set<std::string>{"package.json", "Missions.targets.addon.lua_B",
-                                                              "fc711ff621a75552 (missions_exact-replacement).lua_B"};
+                                                              key_of("Lotus_Scripts_Modes_ZarimanCorruptionMission.lua_B") + " (missions_exact-replacement).lua_B"};
                         if (package_ok)
                         {
                             const Json package_json = Json::parse(read_text(packaged.package_directory / "package.json"));
@@ -4473,7 +4494,7 @@ namespace renovice
                             std::map<std::string, std::string> loose_hashes;
                             for (const auto& item : unified.artifacts) loose_hashes[item.artifact.filename().string()] = item.sha256;
                             const Json& addon_values = package_json.at("members").at("Missions.targets.addon.lua_B").at("settings").at("values");
-                            const Json& flood_values = package_json.at("members").at("fc711ff621a75552 (missions_exact-replacement).lua_B")
+                            const Json& flood_values = package_json.at("members").at(key_of("Lotus_Scripts_Modes_ZarimanCorruptionMission.lua_B") + " (missions_exact-replacement).lua_B")
                                                            .at("settings").at("values");
                             std::set<std::string> group_ids;
                             for (const auto& group : package_json.at("settings").at("groups")) group_ids.insert(group.at("id").get<std::string>());
@@ -4515,16 +4536,25 @@ namespace renovice
                                 && package_json.at("members").contains("Missions.targets.addon.lua_B")
                                 && package_json.at("members").at("Missions.targets.addon.lua_B").at("label")
                                        == "Values: Lantern, Purgatory, Survival"
-                                && package_json.at("members").at("fc711ff621a75552 (missions_exact-replacement).lua_B").at("label")
+                                && package_json.at("members").at(key_of("Lotus_Scripts_Modes_ZarimanCorruptionMission.lua_B") + " (missions_exact-replacement).lua_B").at("label")
                                        == "Void Flood (script replacement)"
                                 && [&]() {
                                        // The technical detail moved from the 40-character row label to the manifest record.
-                                       std::set<std::string> details;
-                                       for (const auto& member : set_manifest.at("package").at("members"))
-                                           details.insert(member.value("detail", std::string()));
-                                       return details == std::set<std::string>{
-                                                  "Mission tunables: Purgatory, HalloweenLanternEndless, SurvivalMission",
-                                                  "Exact replacement: ZarimanCorruptionMission (void_flood.fractures_per_round.normal)"};
+                                       // The module list follows body-key order, which changes with the client build: compare
+                                       // it as a set (2026-10-09).
+                                       std::set<std::string> details, modules;
+                                       const std::string tunables = "Mission tunables: ";
+                                       for (const auto& member : set_manifest.at("package").at("members")) {
+                                           const auto detail = member.value("detail", std::string());
+                                           if (detail.rfind(tunables, 0) != 0) { details.insert(detail); continue; }
+                                           std::stringstream list(detail.substr(tunables.size()));
+                                           for (std::string name; std::getline(list, name, ',');)
+                                               modules.insert(name.substr(name.find_first_not_of(' ')));
+                                           details.insert(tunables);
+                                       }
+                                       return details == std::set<std::string>{tunables,
+                                                  "Exact replacement: ZarimanCorruptionMission (void_flood.fractures_per_round.normal)"}
+                                           && modules == std::set<std::string>{"Purgatory", "HalloweenLanternEndless", "SurvivalMission"};
                                    }()
                                 && set_manifest.at("output_layout") == "package"
                                 && set_manifest.at("package").at("scripts_menu").at("policy_id") == "package:missions"
@@ -4557,7 +4587,7 @@ namespace renovice
                             }
                             one_group.push_back("void_flood.fractures_per_round.normal");
                             const auto wide = package_member_label(registry, "TARGET_ADDON", many, "Missions.targets.addon.lua_B", {});
-                            const auto first = package_member_label(registry, "EXACT_LITERAL", one_group, "fc711ff621a75552", {});
+                            const auto first = package_member_label(registry, "EXACT_LITERAL", one_group, key_of("Lotus_Scripts_Modes_ZarimanCorruptionMission.lua_B"), {});
                             const auto second = package_member_label(registry, "EXACT_LITERAL", one_group, "0123456789abcdef",
                                                                      {ascii_lower_text(first)});
                             check(many.size() > 3 && wide == "Mission values: " + std::to_string(many.size()) + " sections"
@@ -4600,7 +4630,7 @@ namespace renovice
                                                                                                  {"aliases", Json::array()}}); },
                                                "group spy is declared but no value uses it")
                                     && rejects([&](Json& j) { j["members"][addon_file]["settings"]["enabled"] = true; }, "exactly")
-                                    && rejects([&](Json& j) { j["members"]["fc711ff621a75552 (missions_exact-replacement).lua_B"]["settings"]["values"]
+                                    && rejects([&](Json& j) { j["members"][key_of("Lotus_Scripts_Modes_ZarimanCorruptionMission.lua_B") + " (missions_exact-replacement).lua_B"]["settings"]["values"]
                                                                    ["survival.reward_interval"] = value(j); }, "declared twice"),
                                 "the settings declaration schema check rejects unknown/missing fields, over-long text, out-of-range stock, "
                                 "undeclared or unused groups, fractional ints, enums without options, unknown lanes/apply classes and "
@@ -4613,7 +4643,7 @@ namespace renovice
                                 return validate_settings_declarations(changed).empty();
                             };
                             const auto flood = [&](Json& j) -> Json& {
-                                return j["members"]["fc711ff621a75552 (missions_exact-replacement).lua_B"]["settings"]["values"]
+                                return j["members"][key_of("Lotus_Scripts_Modes_ZarimanCorruptionMission.lua_B") + " (missions_exact-replacement).lua_B"]["settings"]["values"]
                                         ["void_flood.fractures_per_round.normal"];
                             };
                             bool generator_omits = true;
@@ -4943,7 +4973,7 @@ print("MULTI-TARGET HARNESS PASS cases=" .. #cases .. " idle=" .. #idle .. " ret
                     // prototypes; the full capturer list (10 prototypes, incl. the hot tick 68) is not emitted.
                     {
                         const auto hooks = unified_ok ? multi_target_source_hooks(unified_source) : std::map<std::string, std::set<int>>{};
-                        const Json& plan = registry.at("modules").at("f10a043e7f825db2").at("root_tables").at("root:i19:R9").at("minimal_hooks");
+                        const Json& plan = registry.at("modules").at(key_of("Lotus_Scripts_Modes_SurvivalMission.lua_B")).at("root_tables").at("root:i19:R9").at("minimal_hooks");
                         std::set<int> minimal;
                         for (const auto& prototype : plan.at("prototypes")) minimal.insert(prototype.get<int>());
                         check(unified_ok && hooks.contains("Lotus.Scripts.Modes.SurvivalMission")
@@ -5040,19 +5070,19 @@ print("MULTI-TARGET HARNESS PASS cases=" .. #cases .. " idle=" .. #idle .. " ret
                               "rejected by the hook-retire read-back");
                         // Registry structure: a minimal hook outside the capturer list fails verify.
                         Json bad = registry;
-                        bad["modules"]["f10a043e7f825db2"]["root_tables"]["root:i19:R9"]["minimal_hooks"]["prototypes"] = Json::array({68, 200});
+                        bad["modules"][key_of("Lotus_Scripts_Modes_SurvivalMission.lua_B")]["root_tables"]["root:i19:R9"]["minimal_hooks"]["prototypes"] = Json::array({68, 200});
                         bool rejected = false;
-                        try { verify_root_table_fields(mission_tunable(bad, "survival.reward_interval"), bad.at("modules").at("f10a043e7f825db2"),
-                                                       read_text(mission_roots.corpus / bad.at("modules").at("f10a043e7f825db2").at("file").get<std::string>())); }
+                        try { verify_root_table_fields(mission_tunable(bad, "survival.reward_interval"), bad.at("modules").at(key_of("Lotus_Scripts_Modes_SurvivalMission.lua_B")),
+                                                       read_text(mission_roots.corpus / bad.at("modules").at(key_of("Lotus_Scripts_Modes_SurvivalMission.lua_B")).at("file").get<std::string>())); }
                         catch (const std::exception& e) { rejected = contains_text(e.what(), "hook plan names a prototype"); }
                         check(rejected, "a minimal hook plan naming a prototype that is not a capturer hook is rejected by verify-missions");
                         // Contract R14: scaled root-table rows. The registered rows verify; a field stock that its initialiser
                         // does not encode, a scaled field without a stock, a field stock on an unscaled row, a row stock other
                         // than 1, a scale_count field that is not a whole number and an unknown mode are rejected.
                         {
-                            const auto flood_bytes = read_text(mission_roots.corpus / registry.at("modules").at("fc711ff621a75552").at("file").get<std::string>());
+                            const auto flood_bytes = read_text(mission_roots.corpus / registry.at("modules").at(key_of("Lotus_Scripts_Modes_ZarimanCorruptionMission.lua_B")).at("file").get<std::string>());
                             const auto verify_flood = [&](const Json& row) -> std::string {
-                                try { verify_root_table_fields(row, registry.at("modules").at("fc711ff621a75552"), flood_bytes); }
+                                try { verify_root_table_fields(row, registry.at("modules").at(key_of("Lotus_Scripts_Modes_ZarimanCorruptionMission.lua_B")), flood_bytes); }
                                 catch (const std::exception& e) { return e.what(); }
                                 return "PASS";
                             };
@@ -5093,11 +5123,11 @@ print("MULTI-TARGET HARNESS PASS cases=" .. #cases .. " idle=" .. #idle .. " ret
                         for (const auto& row : registry.at("tunables"))
                             if (row.at("backend") == "TARGET_ADDON" && (row.at("owner").contains("fields") || entry_template_row(row))) {
                                 ++addon_rows;
-                                if (row.at("owner").at("body_key") == "fc711ff621a75552") ++flood_rows;
+                                if (row.at("owner").at("body_key") == key_of("Lotus_Scripts_Modes_ZarimanCorruptionMission.lua_B")) ++flood_rows;
                                 else if (row.at("ui").contains("hidden")) ++hidden_rows;
                             }
                         for (const auto& [id, master] : registry.at("ui_masters").items())
-                            if (master.at("lane") == "addon" && master.at("body_key") != "fc711ff621a75552") ++addon_masters;
+                            if (master.at("lane") == "addon" && master.at("body_key") != key_of("Lotus_Scripts_Modes_ZarimanCorruptionMission.lua_B")) ++addon_masters;
                         const std::size_t declared_addon = addon_rows - flood_rows - hidden_rows + addon_masters;
                         if (full_ok) {
                             const Json package_json = Json::parse(read_text(full.package_directory / "package.json"));
@@ -5335,6 +5365,12 @@ print("MASTER HARNESS PASS cases=" .. #cases)
                             std::string entry_detail = entry_ok || entry_build.diagnostics.empty() ? std::string() : " " + entry_build.diagnostics.front().message;
                             if (entry_ok) {
                                 std::ostringstream harness;
+                                harness << "local KEY_DEFENSE = \"" << key_of("Lotus_Scripts_WaveDefend.lua_B") << "\"\n";
+                                harness << "local KEY_TERRITORY = \"" << key_of("Lotus_Scripts_Modes_TerritoryMission.lua_B") << "\"\n";
+                                harness << "local KEY_INTEL = \"" << key_of("Lotus_Scripts_Intel.lua_B") << "\"\n";
+                                harness << "local KEY_ALARM = \"" << key_of("Lotus_Scripts_TriggerAlarm.lua_B") << "\"\n";
+                                harness << "local KEY_FIGHTERS = \"" << key_of("Lotus_Scripts_CrewShip_Encounters_KillFightersExterminateEncounter.lua_B") << "\"\n";
+                                harness << "local KEY_CREWSHIPS = \"" << key_of("Lotus_Scripts_CrewShip_Encounters_KillCrewShipsExterminateObjective.lua_B") << "\"\n";
                                 harness << "local function chunk()\n" << read_text(entry_addon->source) << "end\n" << R"LUA(
 local failures = 0
 local function check(condition, label)
@@ -5351,12 +5387,12 @@ local lines = {}
 local base_print = print
 print = function(text) lines[#lines + 1] = text end
 local addon = chunk()
-local defense = addon.targets["1a1354d153712f9d"]
-local territory = addon.targets["c9605470a8c47d8d"]
-local intel = addon.targets["ee15b583788c3e7d"]
-local alarm = addon.targets["c05987eccd08c1ca"]
-local fighters = addon.targets["feb4ca192ef69f0a"]
-local crewships = addon.targets["e773280ca7743441"]
+local defense = addon.targets[KEY_DEFENSE]
+local territory = addon.targets[KEY_TERRITORY]
+local intel = addon.targets[KEY_INTEL]
+local alarm = addon.targets[KEY_ALARM]
+local fighters = addon.targets[KEY_FIGHTERS]
+local crewships = addon.targets[KEY_CREWSHIPS]
 local context = { settings = {
     ["railjack.fighter_kills_scale"] = { enabled = true, value = 0.5, stock = 1 },
     ["railjack.crewship_kills_scale"] = { enabled = true, value = 0.1, stock = 1 },
@@ -5492,7 +5528,7 @@ if failures == 0 then print("R10 ENTRY HARNESS PASS") else print("R10 ENTRY HARN
                             if (literal_ok) {
                                 const Json package_json = Json::parse(read_text(literal.package_directory / "package.json"));
                                 const Json migration = Json::parse(read_text(literal.directory / "Settings" / "Missions.json"));
-                                const Json plan = Json::parse(read_text(literal.directory / "source" / "a807aae359ffc1eb.plan.json"));
+                                const Json plan = Json::parse(read_text(literal.directory / "source" / (key_of("Lotus_Scripts_MobileDefense.lua_B") + ".plan.json")));
                                 const Json normalized = Json::parse(read_text(literal.directory / "mission_settings.json"));
                                 const Json set_manifest = Json::parse(read_text(literal.manifest));
                                 std::set<std::string> excluded_ids;
@@ -5500,8 +5536,8 @@ if failures == 0 then print("R10 ENTRY HARNESS PASS") else print("R10 ENTRY HARN
                                     excluded_ids.insert(entry.at("tunable_id").get<std::string>());
                                 std::set<int> operands;
                                 for (const auto& edit : plan.at("edits")) operands.insert(edit.at("operand").get<int>());
-                                const Json& md = package_json.at("members").at("a807aae359ffc1eb (missions_exact-replacement).lua_B").at("settings").at("values");
-                                const Json& dig = package_json.at("members").at("f7444e3c621ff018 (missions_exact-replacement).lua_B").at("settings").at("values");
+                                const Json& md = package_json.at("members").at(key_of("Lotus_Scripts_MobileDefense.lua_B") + " (missions_exact-replacement).lua_B").at("settings").at("values");
+                                const Json& dig = package_json.at("members").at(key_of("Lotus_Scripts_Modes_ExcavationMission.lua_B") + " (missions_exact-replacement).lua_B").at("settings").at("values");
                                 literal_ok = md.size() == 1 && md.contains("mobiledefense.time_per_terminal")
                                     && md.at("mobiledefense.time_per_terminal").at("lane") == "literal" && dig.size() == 1 && dig.contains("excavation.dig_time")
                                     && plan.at("edits").size() == 2 && operands == std::set<int>{60}
@@ -5559,13 +5595,13 @@ if failures == 0 then print("R10 ENTRY HARNESS PASS") else print("R10 ENTRY HARN
                     try { static_cast<void>(multi_target_declared_keys(std::string{'\x09', '\x03', '\x01', '\x10'} + std::string(16, '0'))); }
                     catch (const std::exception&) { zero_rejected = true; }
                     check(unified_ok && !multi_target_stray_hex(unified_source + "-- 0123456789abcdef\n", expected_keys).empty()
-                            && !multi_target_stray_hex(unified_source + "-- f10a043e7f825db2\n", expected_keys).empty()
+                            && !multi_target_stray_hex(unified_source + "-- " + key_of("Lotus_Scripts_Modes_SurvivalMission.lua_B") + "\n", expected_keys).empty()
                             && !multi_target_stray_hex(unified_source + "-- 0123456789abcdef0\n", expected_keys).empty()
-                            && multi_target_stray_hex(unified_source + "-- F10A043E7F825DB2\n", expected_keys).empty()
+                            && multi_target_stray_hex(unified_source + "-- " + upper_key("Lotus_Scripts_Modes_SurvivalMission.lua_B") + "\n", expected_keys).empty()
                             && multi_target_declared_keys(pool) == std::set<std::string>{"0123456789abcdef"} && zero_rejected,
                         "stray or repeated lowercase 16-hex text is rejected, uppercase is ignored, and the pool reader matches the loader rules");
                     Json stray_registry = registry;
-                    stray_registry["modules"]["6fa60841c9e0f207"]["module_path"] = "Lotus.Scripts.Modes.Purgatory0123456789abcdef";
+                    stray_registry["modules"][key_of("Lotus_Scripts_Modes_Purgatory.lua_B")]["module_path"] = "Lotus.Scripts.Modes.Purgatory0123456789abcdef";
                     const MissionSetResult stray = build_mission_set(stray_registry, values,
                         MissionNaming{"missions-selftest", "missions", "missions", "RENOVICE_Missions.txt", false, "", {"renovice.target.lua_call"}},
                         editor_root, mission_fixture, true, nullptr);
@@ -5605,7 +5641,7 @@ if failures == 0 then print("R10 ENTRY HARNESS PASS") else print("R10 ENTRY HARN
                 preset_project["mission_profile"] = {{"build", registry.at("build")}, {"id", "descendia_excavation"}, {"values", {{"dig_duration", 15}}}};
                 const BuildResult preset_build = build_staged_exact_mission_replacement(preset_project, editor_root, mission_fixture, true);
                 check(preset_build.success && preset_build.generated_bytecode.filename().string()
-                        == "415a57536412719f (mission_descendia_excavation_timers_exact-replacement).lua_B"
+                        == key_of("Lotus_Types_Gameplay_DevilTower_LiteGameModes_CoHExcavationLite.lua_B") + " (mission_descendia_excavation_timers_exact-replacement).lua_B"
                         && fs::exists(preset_build.manifest) && preset_build.manifest.filename() == "BUILD_MANIFEST.json",
                     "an existing preset builds through the registry path with its established artifact name and manifest");
                 Json stale_preset = preset_project;

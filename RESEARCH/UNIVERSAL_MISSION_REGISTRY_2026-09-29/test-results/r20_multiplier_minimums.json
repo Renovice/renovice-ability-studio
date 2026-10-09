@@ -9,19 +9,19 @@
       "pass": true
     },
     {
-      "name": "Missions.targets.addon.lua_B is the pinned R20 build (a943cd3e)",
+      "name": "Missions.targets.addon.lua_B is the pinned R20 build (76c10eaa)",
       "pass": true
     },
     {
-      "name": "engine_params.json is the pinned R20 build (20323777)",
+      "name": "engine_params.json is the pinned R20 build (731029cf)",
       "pass": true
     },
     {
-      "name": "package.json is the pinned R20 build (fd89daca)",
+      "name": "package.json is the pinned R20 build (f577faa0)",
       "pass": true
     },
     {
-      "name": "literals.json is the pinned R20 build (9beaa438)",
+      "name": "literals.json is the pinned R20 build (0de8885a)",
       "pass": true
     },
     {

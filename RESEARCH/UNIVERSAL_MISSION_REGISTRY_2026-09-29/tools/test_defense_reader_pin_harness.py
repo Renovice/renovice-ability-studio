@@ -38,6 +38,7 @@ while not (ROOT / 'WORKSPACE.json').exists():
     ROOT = ROOT.parent
 sys.path.insert(0, str(HERE))
 from deluau import Module  # noqa: E402
+CURRENT_BUILD = __import__('json').loads((Path(__file__).resolve().parents[3] / 'REGISTRIES/mission_build_u44.json').read_text(encoding='utf-8'))['build']  # 2026-10-09: current registry build
 
 CLI = Path(os.environ.get('RENOVICE_EDITOR_CLI', ROOT / 'work/builds/ability-editor/current/bin/renovice_ability_editor_cli.exe'))
 LUAU = ROOT / 'repos/toolchains/de-luau-toolchain/bin/luau.exe'
@@ -115,7 +116,7 @@ shutil.rmtree(WORK, ignore_errors=True)
 WORK.mkdir(parents=True)
 pinned = {}
 for n in (1, 2, 5):
-    spec = {'format': 'RENOVICE_MISSION_SETTINGS_V1', 'build': '2026.09.28.13.06', 'values': {'defense.waves_per_reward': n},
+    spec = {'format': 'RENOVICE_MISSION_SETTINGS_V1', 'build': CURRENT_BUILD, 'values': {'defense.waves_per_reward': n},
             'allow_unproven_hook_bindings': ['renovice.target.lua_call'], 'output_layout': 'package',
             'package_scope': 'all_addon_values', 'literal_mode': 'recipe', 'literal_scope': 'headline'}
     (WORK / f'input_{n}.json').write_text(json.dumps(spec, indent=2) + '\n', encoding='utf-8')

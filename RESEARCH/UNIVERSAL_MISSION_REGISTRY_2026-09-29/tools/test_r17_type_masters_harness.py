@@ -42,6 +42,7 @@ while not (ROOT / 'WORKSPACE.json').exists():
     ROOT = ROOT.parent
 sys.path.insert(0, str(HERE))
 from deluau import Module  # noqa: E402
+CURRENT_BUILD = __import__('json').loads((Path(__file__).resolve().parents[3] / 'REGISTRIES/mission_build_u44.json').read_text(encoding='utf-8'))['build']  # 2026-10-09: current registry build
 
 CLI = Path(os.environ.get('RENOVICE_EDITOR_CLI', ROOT / 'work/builds/ability-editor/current/bin/renovice_ability_editor_cli.exe'))
 LUAU = ROOT / 'repos/toolchains/de-luau-toolchain/bin/luau.exe'
@@ -173,7 +174,7 @@ check(first(defend_start, 'Name__186dbec4') is not None and first(defend_start, 
       'Deepmines: DefendStart reads the bonus threshold inside its loop, which sleeps (EXPOSED)')
 
 # 3. A build with the R17 values on, and its synthesized modules.
-spec = {'format': 'RENOVICE_MISSION_SETTINGS_V1', 'build': '2026.09.28.13.06',
+spec = {'format': 'RENOVICE_MISSION_SETTINGS_V1', 'build': CURRENT_BUILD,
         'values': {'control_area.hold_time': 45, 'control_area_nokko.bonus_threshold': 25,
                    'sabotage.gascity_meltdown_time_scale': 2, 'sabotage.random_extraction_timer': 120,
                    'railjack.kill_goals_scale': 0.5},

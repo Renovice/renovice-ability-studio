@@ -23,6 +23,19 @@ corpus = ROOT / registry['corpus']
 cases = 0
 
 
+def key_of(file):
+    """Module body key by stock file name: keys change with every client build (2026-10-09; the 44.0.2 Survival key
+    f10a043e7f825db2 is a62aa7eea1c4f27b on 44.1.1, where the hook plan facts below are unchanged)."""
+    keys = [k for k, m in registry['modules'].items() if m['file'] == file]
+    assert len(keys) == 1, (file, keys)
+    return keys[0]
+
+
+SURVIVAL = key_of('Lotus_Scripts_Modes_SurvivalMission.lua_B')
+DISRUPTION = key_of('Lotus_Scripts_Modes_SentientArtifactMission.lua_B')
+SHRINE_LITE = key_of('Lotus_Types_Gameplay_DevilTower_LiteGameModes_CoHShrineDefenseLite.lua_B')
+
+
 def plan(body):
     module = registry['modules'][body]
     owned = {}
@@ -35,7 +48,7 @@ def plan(body):
 
 
 # 1 + 2: Survival
-module, (plans, flow, (calls, escapes, reach, root_called, freq)) = plan('f10a043e7f825db2')
+module, (plans, flow, (calls, escapes, reach, root_called, freq)) = plan(SURVIVAL)
 p = plans['root:i19:R9']
 assert p['hooks'] == [31, 61, 67, 69], p['hooks']
 assert p['forced'] == [31, 69] and 31 in escapes and 69 in escapes, p['forced']
@@ -50,13 +63,13 @@ assert set(p['reaching_capturers']) <= cov
 cases += 1
 
 # 3: SETUPVAL escape
-module, (plans, *_ignored) = plan('b6d8c45f9424d376')
+module, (plans, *_ignored) = plan(DISRUPTION)
 p = plans['root:i421:R44']
 assert '73:escape:setupval' in p['reach_events'] and p['downstream_after_escape'] == [39] and p['hooks'] == [73], p
 cases += 1
 
 # 4: nested access order
-module = registry['modules']['1ef96aede7fe612e']
+module = registry['modules'][SHRINE_LITE]
 assert all(h['path'] == [1, 'RespawnDelay'] for h in module['root_tables']['root:i145:R60']['hooks'])
 assert all(h['path'] == [5, 'MaxEnemies'] for h in module['root_tables']['root:i182:R60']['hooks'])
 assert all(h['path'] == [1] for h in module['root_tables']['root:i144:R59']['hooks'])
@@ -79,10 +92,10 @@ for body, module in registry['modules'].items():
 cases += 1
 # 6: contract R3 retire evidence. Survival root:i19:R9 hooks are root children of a fixed root table (retire-safe); a
 # container write on a nested table's path is classified as a retire blocker, a container read is not.
-module, (plans, flow, *_rest) = plan('f10a043e7f825db2')
+module, (plans, flow, *_rest) = plan(SURVIVAL)
 p = plans['root:i19:R9']
 assert p['retire_safe'] and p['root_children'] == p['hooks'] and not p['retire_blockers'], p
-module, (plans, flow, *_rest) = plan('1ef96aede7fe612e')
+module, (plans, flow, *_rest) = plan(SHRINE_LITE)
 tid = 'root:i145:R60'
 SETTABLE, GETTABLE = 0x2a, 0x01
 assert flow._table_use(20, bytes([SETTABLE, 1, 2, 3]), 2, 'table', ('T', tid, 0)) == 'container:dynamic-write'

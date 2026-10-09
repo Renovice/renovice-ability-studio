@@ -46,6 +46,7 @@ while not (ROOT / 'WORKSPACE.json').exists():
     ROOT = ROOT.parent
 sys.path.insert(0, str(HERE))
 from deluau import Module  # noqa: E402
+from harness_input import current_input, current_spec  # noqa: E402  (same folder; 2026-10-09 current build)
 
 CLI = Path(os.environ.get('RENOVICE_EDITOR_CLI', ROOT / 'work/builds/ability-editor/current/bin/renovice_ability_editor_cli.exe'))
 LUAU = ROOT / 'repos/toolchains/de-luau-toolchain/bin/luau.exe'
@@ -54,10 +55,11 @@ SDK = ROOT / 'shared/semantic-sdk/symbols.tsv'
 NORMALIZE = runpy.run_path(str(EDITOR / 'RESEARCH/U44_AUTHORING_2026-09-27/scripts/inspect_current.py'))['normalize']
 INPUT = EDITOR / 'RESEARCH/MISSIONS_R13_NATIVE_ENTRY_2026-10-01/inputs/rebuild_input.r12.json'
 INPUT_LF_SHA = 'dccde5fddf2649c2be4c93789cecab4cc1d1759dc9d01d0117cba25f5a7ca4b6'
-PINS = {'Missions.targets.addon.lua_B': 'a943cd3e5ca053368fd3604cd96d6cbde768090f283ac2ee33db60d0f1ad9340',
-        'package.json': 'fd89dacae8cfd9cec10af9c06af22dcd2835a6e8c88a2842206fdb8c3904eda0',
-        'literals.json': '9beaa4385ee3efe39daf0f3788bcf19b41aa500af1cd7705b03e3ab4df0392e8',
-        'engine_params.json': '20323777391827278dea4494f6f123ac0ba2846cf2b65f4a886c4eaed61e1bad'}  # R21, unchanged
+# 2026-10-09: re-pinned to the 44.1.1 registry with R23 (addon 76c10eaa, package f577faa0, literals 0de8885a, engine params 731029cf; R22 on 44.0.2 was a943cd3e / fd89daca / 9beaa438 / 20323777).
+PINS = {'Missions.targets.addon.lua_B': '76c10eaa1df91ad71e86afe27147694beb28045957e3785b39ed0b7b64df88a0',
+        'package.json': 'f577faa0283988151a0c1a6defa58e87e9b2b15c256b4320c6cf7b873e8ff25f',
+        'literals.json': '0de8885a1bbb4a550a72491f37ee33b14ed442b60d8d87552011e4cbf2a01b90',
+        'engine_params.json': '731029cf03071416ae4bfb379dc7e801155f570d01ab527567e9cf695d48c472'}  # R21, unchanged
 KEY = '32c344afa33be174'
 STOCK_SHA = '15ce88bf63c0a721bc978997ad7e7fba39ea4fadee00da8ce5d66e2df6319d50'
 MASTER, ROW, REWARD, ALERT = 'void_cascade.exolizer_speed', 'void_cascade.pillar_duration', 'void_cascade.reward_interval', \
@@ -96,9 +98,9 @@ def lua(value):
 
 
 def build(values, tag):
-    spec = json.loads(INPUT.read_text(encoding='utf-8'))
+    spec = current_spec(INPUT)
     if values is not None:
-        spec = {'format': 'RENOVICE_MISSION_SETTINGS_V1', 'build': '2026.09.28.13.06', 'values': values,
+        spec = {'format': 'RENOVICE_MISSION_SETTINGS_V1', 'build': current_spec(INPUT)['build'], 'values': values,
                 'allow_unproven_hook_bindings': ['renovice.target.lua_call'], 'output_layout': 'package',
                 'package_scope': 'all_addon_values', 'literal_mode': 'recipe', 'literal_scope': 'headline'}
     path = WORK / f'input_{tag}.json'

@@ -719,9 +719,17 @@ try
         Check(mode == missionProject.AuthoringMode, id + " preserves its artifact lane when the GUI saves it");
     }
     // Universal mission registry: build label, lanes and every metadata row are data-driven and exact.
-    Check(MissionBuildProfile.Build(workspace.EditorRoot) == "2026.09.28.13.06", "mission build label is read from the 44.0.2 registry");
+    // The registry is re-certified for every client build (renovice_update.py --adopt): compare against its own data
+    // instead of a fixed build label and module key (2026-10-09; the 44.0.2 literals failed after the 44.1.x adoptions).
+    var registryFile = JsonNode.Parse(File.ReadAllText(Path.Combine(workspace.EditorRoot, "REGISTRIES", "mission_build_u44.json")))!;
+    var registryBuild = (string)registryFile["build"]!;
+    var conquestKey = registryFile["modules"]!.AsObject()
+        .Single(m => (string?)m.Value!["file"] == "Lotus_Scripts_Libs_ConquestLib.lua_B").Key;
+    Check(MissionBuildProfile.Build(workspace.EditorRoot) == registryBuild
+            && System.Text.RegularExpressions.Regex.IsMatch(registryBuild, @"^20\d\d\.\d\d\.\d\d\.\d\d\.\d\d$"),
+        "mission build label is read from the registry (" + registryBuild + ")");
     Check(currentMissions.All(p => p.Lane is "EXACT_LITERAL" or "TARGET_ADDON" or "METADATA_PATCH"), "every mission preset carries a verified registry lane");
-    Check(archimedea.ModuleBodyKey == "076a7b443af7fdb8", "EDA / ETA preset targets the re-registered 44.0.2 ConquestLib body");
+    Check(archimedea.ModuleBodyKey == conquestKey, "EDA / ETA preset targets the registry's ConquestLib body (" + conquestKey + ")");
     using (var missionRegistry = MissionBuildProfile.Read(workspace.EditorRoot))
     {
         var registryRoot = missionRegistry.RootElement;

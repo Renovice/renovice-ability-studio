@@ -54,8 +54,11 @@ OUT.mkdir(parents=True, exist_ok=True)
 WORK.mkdir(parents=True, exist_ok=True)
 results = {'build': registry['build'], 'presets': [], 'rejections': 0}
 # Preset artifacts must stay byte-identical to the previously recorded run (presets keep their established lanes).
-previous_presets = {p['preset']: p['sha256'] for p in json.loads((OUT / 'results.json').read_text())['presets']} \
-    if (OUT / 'results.json').exists() else {}
+# Only a run on the SAME client build is comparable: a new build changes the stock bodies the presets are built from
+# (2026-10-09: the recorded 44.0.2 run made every 44.1.x run fail).
+_previous = json.loads((OUT / 'results.json').read_text()) if (OUT / 'results.json').exists() else {}
+previous_presets = {p['preset']: p['sha256'] for p in _previous.get('presets', [])} \
+    if _previous.get('build') == registry['build'] else {}
 for pid, preset in registry['missions'].items():
     p = copy.deepcopy(base)
     p['id'] = f'm.{pid}'

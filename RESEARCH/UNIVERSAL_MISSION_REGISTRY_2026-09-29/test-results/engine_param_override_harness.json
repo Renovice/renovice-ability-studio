@@ -9,19 +9,19 @@
       "pass": true
     },
     {
-      "name": "Missions.targets.addon.lua_B is the pinned R22 build (a943cd3e; R20/R21 d8736450 / acc2256e / 96a97899)",
+      "name": "Missions.targets.addon.lua_B is the pinned R22 build (76c10eaa; R20/R21 d8736450 / acc2256e / 96a97899)",
       "pass": true
     },
     {
-      "name": "package.json is the pinned R22 build (fd89daca; R20/R21 d8736450 / acc2256e / 96a97899)",
+      "name": "package.json is the pinned R22 build (f577faa0; R20/R21 d8736450 / acc2256e / 96a97899)",
       "pass": true
     },
     {
-      "name": "literals.json is the pinned R22 build (9beaa438; R20/R21 d8736450 / acc2256e / 96a97899)",
+      "name": "literals.json is the pinned R22 build (0de8885a; R20/R21 d8736450 / acc2256e / 96a97899)",
       "pass": true
     },
     {
-      "name": "engine_params.json is the pinned R21 build (20323777)",
+      "name": "engine_params.json is the pinned R21 build (731029cf)",
       "pass": true
     },
     {
@@ -37,7 +37,7 @@
       "pass": true
     },
     {
-      "name": "R21: the 8 MissionInfo rows stay on MISSION_INFO_FIELD_AT_ENTRY (maxWaveNum, not a level parameter) (['defense.waves_to_finish', 'excavation.excavators_to_finish', 'interception.rounds_to_finish', 'loopdefend.phases_to_finish', 'spy.vaults_required', 'survival.fixed_length_minutes', 'void_cascade.exolizers_to_finish', 'void_flood.tanks_to_finish'])",
+      "name": "R21: the 8 normal-node and 6 Icebind (R23) MissionInfo rows stay on MISSION_INFO_FIELD_AT_ENTRY (maxWaveNum, not a level parameter) (['defense.waves_to_finish', 'disruption.icebind_conduits', 'disruption.icebind_conduits_kuvapath', 'excavation.excavators_to_finish', 'excavation.icebind_excavators', 'excavation.icebind_excavators_kuvapath', 'interception.rounds_to_finish', 'loopdefend.phases_to_finish', 'spy.vaults_required', 'survival.fixed_length_minutes', 'survival.icebind_minutes', 'survival.icebind_minutes_kuvapath', 'void_cascade.exolizers_to_finish', 'void_flood.tanks_to_finish'])",
       "pass": true
     },
     {
@@ -146,10 +146,6 @@
     },
     {
       "name": "R19: the addon compiles the Railjack master once (its own module, no drives) and drives neither Grineer row",
-      "pass": true
-    },
-    {
-      "name": "the bootstrapper R21 gate fixture (fixtures/MissionsR21) holds the engine_params.json of this build (unchanged since R21) and the R20/R21 package.json",
       "pass": true
     },
     {

@@ -29,6 +29,7 @@ work/temp/void-flood-tank-harness and this tool's test-results folder. Reads no 
 """
 from pathlib import Path
 import hashlib, json, os, shutil, subprocess, sys
+from harness_input import current_input, current_spec  # noqa: E402  (same folder; 2026-10-09 current build)
 
 EDITOR = Path(__file__).resolve().parents[3]
 ROOT = EDITOR
@@ -45,13 +46,14 @@ INPUT_LF_SHA = 'dccde5fddf2649c2be4c93789cecab4cc1d1759dc9d01d0117cba25f5a7ca4b6
 # R18 (2026-10-02): + the two Pontis tower entry rows (43cb89c3) and the R18 literal masters (786c7b94).
 # R19 (2026-10-02): the Railjack master compiled without drives in its own target (fighter/crewship rows owned at the
 # engine writer) (d8736450).
-# R22 (2026-10-02): + the Void Cascade exolizer speed master (a943cd3e).
-R14_ADDON_SHA = 'a943cd3e5ca053368fd3604cd96d6cbde768090f283ac2ee33db60d0f1ad9340'
+# R22 (2026-10-02): + the Void Cascade exolizer speed master (76c10eaa).
+# 2026-10-09: re-pinned to the 44.1.1 registry with R23 (addon 76c10eaa, package f577faa0, literals 0de8885a, engine params 731029cf; R22 on 44.0.2 was a943cd3e / fd89daca / 9beaa438 / 20323777).
+R14_ADDON_SHA = '76c10eaa1df91ad71e86afe27147694beb28045957e3785b39ed0b7b64df88a0'
 # R17 adds the Deepmines reader pins and the "All <type> missions" literal masters (028fdcd2); R15/R16 shipped a16b2520...,
 # R11-R14 d9b3a764...
 # R20 (2026-10-02): minimums of the Kela and Gas City factor literals (96a97899).
 # R22 (2026-10-02): + the Void Cascade reward interval (9beaa438).
-LITERALS_SHA = '9beaa4385ee3efe39daf0f3788bcf19b41aa500af1cd7705b03e3ab4df0392e8'
+LITERALS_SHA = '0de8885a1bbb4a550a72491f37ee33b14ed442b60d8d87552011e4cbf2a01b90'
 KEY = 'fc711ff621a75552'
 ROWS = {'void_flood.deposit_speed_scale': 'scale', 'void_flood.tank_capacity_scale': 'scale_count',
         'void_flood.orb_value_scale': 'scale', 'void_flood.drain_speed_scale': 'scale'}
@@ -91,7 +93,7 @@ def lua(value):
 check(hashlib.sha256(INPUT.read_bytes().replace(b'\r\n', b'\n')).hexdigest() == INPUT_LF_SHA, 'pinned full-package build input (LF content)')
 shutil.rmtree(WORK, ignore_errors=True)
 WORK.mkdir(parents=True)
-run = subprocess.run([str(CLI), 'build-missions', str(INPUT), '--staging', str(WORK / 'build'), '--editor-root', str(EDITOR)],
+run = subprocess.run([str(CLI), 'build-missions', str(current_input(INPUT, WORK)), '--staging', str(WORK / 'build'), '--editor-root', str(EDITOR)],
                      capture_output=True, text=True)
 generations = list((WORK / 'build').glob('missions/*/MISSION_SET_MANIFEST.json'))
 check(run.returncode == 0 and len(generations) == 1, 'full package build succeeds')

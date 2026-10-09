@@ -9,7 +9,7 @@
       "pass": true
     },
     {
-      "name": "the built addon is the pinned R22 addon (a943cd3e; R19-R21 d8736450, R18 43cb89c3, R17 daab653a, R15/R16 70fff0b6, R14 4c70b5ec)",
+      "name": "the built addon is the pinned R22 addon (76c10eaa; R19-R21 d8736450, R18 43cb89c3, R17 daab653a, R15/R16 70fff0b6, R14 4c70b5ec)",
       "pass": true
     },
     {

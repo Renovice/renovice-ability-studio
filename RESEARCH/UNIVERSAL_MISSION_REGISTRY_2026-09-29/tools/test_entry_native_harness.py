@@ -27,6 +27,7 @@ to work/temp/entry-native-harness and this tool's test-results folder. Reads no 
 """
 from pathlib import Path
 import hashlib, json, os, shutil, subprocess, sys
+from harness_input import current_input, current_spec  # noqa: E402  (same folder; 2026-10-09 current build)
 
 EDITOR = Path(__file__).resolve().parents[3]
 ROOT = EDITOR
@@ -42,7 +43,8 @@ INPUT_LF_SHA = 'dccde5fddf2649c2be4c93789cecab4cc1d1759dc9d01d0117cba25f5a7ca4b6
 # the R14 build of this input was 4c70b5ec200f9409ca034546aea37555c8f6081cd6661978c3a41e347b7ccbba (installed 2026-10-01).
 # R17 (2026-10-01): the Deepmines rows left the addon (reader pins, live literals) and the Gas City row was replaced by the
 # meltdown-time scale over hackTime and modeTimer; the R15/R16 build of this input was 70fff0b6606e452e... (installed).
-R12_ADDON_SHA = 'a943cd3e5ca053368fd3604cd96d6cbde768090f283ac2ee33db60d0f1ad9340'  # R22 build of the pinned input (R19-R21 d8736450, R18 43cb89c3, R17 daab653a)
+# 2026-10-09: re-pinned to the 44.1.1 registry with R23 (addon 76c10eaa, package f577faa0, literals 0de8885a, engine params 731029cf; R22 on 44.0.2 was a943cd3e / fd89daca / 9beaa438 / 20323777).
+R12_ADDON_SHA = '76c10eaa1df91ad71e86afe27147694beb28045957e3785b39ed0b7b64df88a0'  # R22 build of the pinned input (R19-R21 d8736450, R18 43cb89c3, R17 daab653a)
 WORK = ROOT / 'work/temp/entry-native-harness'
 OUT = Path(__file__).resolve().parents[1] / 'test-results'
 results = {'checks': []}
@@ -90,13 +92,13 @@ check(hashlib.sha256(INPUT.read_bytes().replace(b'\r\n', b'\n')).hexdigest() == 
       'pinned R12 build input (LF content)')
 shutil.rmtree(WORK, ignore_errors=True)
 WORK.mkdir(parents=True)
-run = subprocess.run([str(CLI), 'build-missions', str(INPUT), '--staging', str(WORK / 'build'), '--editor-root', str(EDITOR)],
+run = subprocess.run([str(CLI), 'build-missions', str(current_input(INPUT, WORK)), '--staging', str(WORK / 'build'), '--editor-root', str(EDITOR)],
                      capture_output=True, text=True)
 generations = list((WORK / 'build').glob('missions/*/MISSION_SET_MANIFEST.json'))
 check(run.returncode == 0 and len(generations) == 1, 'R12 build succeeds')
 generation = generations[0].parent
 check(sha(generation / 'Packages/Missions/Missions.targets.addon.lua_B') == R12_ADDON_SHA,
-      'the built addon is the pinned R22 addon (a943cd3e; R19-R21 d8736450, R18 43cb89c3, R17 daab653a, R15/R16 70fff0b6, R14 4c70b5ec, R12 8e0e1871)')
+      'the built addon is the pinned R22 addon (76c10eaa; R19-R21 d8736450, R18 43cb89c3, R17 daab653a, R15/R16 70fff0b6, R14 4c70b5ec, R12 8e0e1871)')
 source = (generation / 'source/Missions.targets.addon.luau').read_text(encoding='utf-8')
 
 # 2. One case per entry-template row of the registry.
@@ -106,6 +108,10 @@ for row in registry['tunables']:
     owner = row.get('owner') or {}
     template = owner.get('template') if isinstance(owner, dict) else None
     if template not in ('SCRIPT_PARAM_GLOBAL_AT_ENTRY', 'MISSION_INFO_FIELD_AT_ENTRY'):
+        continue
+    # R23 (2026-10-09): the Icebind MissionInfo variant writes only on an Icebind mission; its own harness
+    # (test_icebind_goals_harness.py) runs it against an Icebind MissionInfo. This one keeps the normal-node rows.
+    if owner.get('variant') == 'KUVA_PATH_MISSION':
         continue
     case = {'id': row['tunable_id'], 'key': owner['body_key'], 'stock': row['stock'],
             'prototypes': [e['prototype'] for e in owner['entries']]}
