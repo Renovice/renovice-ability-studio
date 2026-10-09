@@ -29,7 +29,8 @@ work/temp/void-flood-tank-harness and this tool's test-results folder. Reads no 
 """
 from pathlib import Path
 import hashlib, json, os, shutil, subprocess, sys
-from harness_input import current_input, current_spec  # noqa: E402  (same folder; 2026-10-09 current build)
+from harness_input import current_input, current_spec, package_pins  # noqa: E402  (same folder; 2026-10-09)
+_PINS = package_pins()  # the package the current registry builds (test-results/package_pins.json; --repin)
 
 EDITOR = Path(__file__).resolve().parents[3]
 ROOT = EDITOR
@@ -47,13 +48,13 @@ INPUT_LF_SHA = 'dccde5fddf2649c2be4c93789cecab4cc1d1759dc9d01d0117cba25f5a7ca4b6
 # R19 (2026-10-02): the Railjack master compiled without drives in its own target (fighter/crewship rows owned at the
 # engine writer) (d8736450).
 # R22 (2026-10-02): + the Void Cascade exolizer speed master (76c10eaa).
-# 2026-10-09: re-pinned to the 44.1.1 registry with R23 (addon 76c10eaa, package f577faa0, literals 0de8885a, engine params 731029cf; R22 on 44.0.2 was a943cd3e / fd89daca / 9beaa438 / 20323777).
-R14_ADDON_SHA = '76c10eaa1df91ad71e86afe27147694beb28045957e3785b39ed0b7b64df88a0'
+# 2026-10-09: pins read from test-results/package_pins.json (harness_input.py --repin; the R22 44.0.2 values were a943cd3e / fd89daca / 9beaa438 / 20323777).
+R14_ADDON_SHA = _PINS['Missions.targets.addon.lua_B']
 # R17 adds the Deepmines reader pins and the "All <type> missions" literal masters (028fdcd2); R15/R16 shipped a16b2520...,
 # R11-R14 d9b3a764...
 # R20 (2026-10-02): minimums of the Kela and Gas City factor literals (96a97899).
 # R22 (2026-10-02): + the Void Cascade reward interval (9beaa438).
-LITERALS_SHA = '0de8885a1bbb4a550a72491f37ee33b14ed442b60d8d87552011e4cbf2a01b90'
+LITERALS_SHA = _PINS['literals.json']
 KEY = 'fc711ff621a75552'
 ROWS = {'void_flood.deposit_speed_scale': 'scale', 'void_flood.tank_capacity_scale': 'scale_count',
         'void_flood.orb_value_scale': 'scale', 'void_flood.drain_speed_scale': 'scale'}

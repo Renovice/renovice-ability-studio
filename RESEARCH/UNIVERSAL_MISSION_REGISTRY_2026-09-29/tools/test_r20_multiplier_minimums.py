@@ -26,7 +26,8 @@ work/temp/r20-minimums-gate and this tool's test-results folder. Reads no game o
 """
 from pathlib import Path
 import hashlib, json, os, shutil, subprocess, sys
-from harness_input import current_input, current_spec  # noqa: E402  (same folder; 2026-10-09 current build)
+from harness_input import current_input, current_spec, package_pins  # noqa: E402  (same folder; 2026-10-09)
+_PINS = package_pins()  # the package the current registry builds (test-results/package_pins.json; --repin)
 
 EDITOR = Path(__file__).resolve().parents[3]
 ROOT = EDITOR
@@ -39,11 +40,11 @@ INPUT_LF_SHA = 'dccde5fddf2649c2be4c93789cecab4cc1d1759dc9d01d0117cba25f5a7ca4b6
 R20_INPUT = EDITOR / 'RESEARCH/MISSIONS_R20_MULTIPLIER_MINIMUMS_2026-10-02/inputs/r20_minimums.json'
 # R22 (2026-10-02): the Void Cascade exolizer speed master (an x value with a recorded floor, below) and the reward-interval
 # live literal; R20/R21 built d8736450 / acc2256e / 96a97899.
-# 2026-10-09: re-pinned to the 44.1.1 registry with R23 (addon 76c10eaa, package f577faa0, literals 0de8885a, engine params 731029cf; R22 on 44.0.2 was a943cd3e / fd89daca / 9beaa438 / 20323777).
-PINS = {'Missions.targets.addon.lua_B': '76c10eaa1df91ad71e86afe27147694beb28045957e3785b39ed0b7b64df88a0',  # R22 (R19-R21 d8736450)
-        'engine_params.json': '731029cf03071416ae4bfb379dc7e801155f570d01ab527567e9cf695d48c472',            # R21 (R19/R20 eafd2ddf)
-        'package.json': 'f577faa0283988151a0c1a6defa58e87e9b2b15c256b4320c6cf7b873e8ff25f',                  # R22 (R20/R21 acc2256e)
-        'literals.json': '0de8885a1bbb4a550a72491f37ee33b14ed442b60d8d87552011e4cbf2a01b90'}                 # R22 (R20/R21 96a97899)
+# 2026-10-09: pins read from test-results/package_pins.json (harness_input.py --repin; the R22 44.0.2 values were a943cd3e / fd89daca / 9beaa438 / 20323777).
+PINS = {'Missions.targets.addon.lua_B': _PINS['Missions.targets.addon.lua_B'],  # R22 (R19-R21 d8736450)
+        'engine_params.json': _PINS['engine_params.json'],            # R21 (R19/R20 eafd2ddf)
+        'package.json': _PINS['package.json'],                  # R22 (R20/R21 acc2256e)
+        'literals.json': _PINS['literals.json']}                 # R22 (R20/R21 96a97899)
 # R22 floors outside the R20 input, each with its code reason (record RESEARCH/MISSIONS_R22_EXOLIZER_PROGRESS_2026-10-02):
 # the exolizer speed is an inverse master (duration = 90 / speed); TimerMgr adds the frame time to a float32 sum, which keeps
 # moving up to 2048 fps while the duration stays below 16384 s (0.006 -> 15000 s; 0.005 -> 18000 s stalls above 1024 fps).

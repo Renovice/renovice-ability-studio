@@ -46,7 +46,8 @@ while not (ROOT / 'WORKSPACE.json').exists():
     ROOT = ROOT.parent
 sys.path.insert(0, str(HERE))
 from deluau import Module  # noqa: E402
-from harness_input import current_input, current_spec  # noqa: E402  (same folder; 2026-10-09 current build)
+from harness_input import current_input, current_spec, package_pins  # noqa: E402  (same folder; 2026-10-09)
+_PINS = package_pins()  # the package the current registry builds (test-results/package_pins.json; --repin)
 
 CLI = Path(os.environ.get('RENOVICE_EDITOR_CLI', ROOT / 'work/builds/ability-editor/current/bin/renovice_ability_editor_cli.exe'))
 LUAU = ROOT / 'repos/toolchains/de-luau-toolchain/bin/luau.exe'
@@ -55,11 +56,11 @@ SDK = ROOT / 'shared/semantic-sdk/symbols.tsv'
 NORMALIZE = runpy.run_path(str(EDITOR / 'RESEARCH/U44_AUTHORING_2026-09-27/scripts/inspect_current.py'))['normalize']
 INPUT = EDITOR / 'RESEARCH/MISSIONS_R13_NATIVE_ENTRY_2026-10-01/inputs/rebuild_input.r12.json'
 INPUT_LF_SHA = 'dccde5fddf2649c2be4c93789cecab4cc1d1759dc9d01d0117cba25f5a7ca4b6'
-# 2026-10-09: re-pinned to the 44.1.1 registry with R23 (addon 76c10eaa, package f577faa0, literals 0de8885a, engine params 731029cf; R22 on 44.0.2 was a943cd3e / fd89daca / 9beaa438 / 20323777).
-PINS = {'Missions.targets.addon.lua_B': '76c10eaa1df91ad71e86afe27147694beb28045957e3785b39ed0b7b64df88a0',
-        'package.json': 'f577faa0283988151a0c1a6defa58e87e9b2b15c256b4320c6cf7b873e8ff25f',
-        'literals.json': '0de8885a1bbb4a550a72491f37ee33b14ed442b60d8d87552011e4cbf2a01b90',
-        'engine_params.json': '731029cf03071416ae4bfb379dc7e801155f570d01ab527567e9cf695d48c472'}  # R21, unchanged
+# 2026-10-09: pins read from test-results/package_pins.json (harness_input.py --repin; the R22 44.0.2 values were a943cd3e / fd89daca / 9beaa438 / 20323777).
+PINS = {'Missions.targets.addon.lua_B': _PINS['Missions.targets.addon.lua_B'],
+        'package.json': _PINS['package.json'],
+        'literals.json': _PINS['literals.json'],
+        'engine_params.json': _PINS['engine_params.json']}  # R21, unchanged
 KEY = '32c344afa33be174'
 STOCK_SHA = '15ce88bf63c0a721bc978997ad7e7fba39ea4fadee00da8ce5d66e2df6319d50'
 MASTER, ROW, REWARD, ALERT = 'void_cascade.exolizer_speed', 'void_cascade.pillar_duration', 'void_cascade.reward_interval', \

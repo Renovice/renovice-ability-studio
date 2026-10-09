@@ -53,7 +53,8 @@ to work/temp/engine-param-override-harness and this tool's test-results folder. 
 """
 from pathlib import Path
 import hashlib, json, os, shutil, subprocess, sys
-from harness_input import current_input, current_spec  # noqa: E402  (same folder; 2026-10-09 current build)
+from harness_input import current_input, current_spec, package_pins  # noqa: E402  (same folder; 2026-10-09)
+_PINS = package_pins()  # the package the current registry builds (test-results/package_pins.json; --repin)
 
 EDITOR = Path(__file__).resolve().parents[3]
 ROOT = EDITOR
@@ -70,14 +71,14 @@ INPUT_LF_SHA = 'dccde5fddf2649c2be4c93789cecab4cc1d1759dc9d01d0117cba25f5a7ca4b6
 # R19 package.json 150c0d16, literals.json 786c7b94 (also the bootstrapper R19 fixture's package.json).
 # R22 (2026-10-02): the Void Cascade exolizer speed master (inverse drive, addon) and the reward-interval live literal;
 # R20/R21 built d8736450 / acc2256e / 96a97899. engine_params.json is unchanged (R21).
-# 2026-10-09: re-pinned to the 44.1.1 registry with R23 (addon 76c10eaa, package f577faa0, literals 0de8885a, engine params 731029cf; R22 on 44.0.2 was a943cd3e / fd89daca / 9beaa438 / 20323777).
-R15 = {'Missions.targets.addon.lua_B': '76c10eaa1df91ad71e86afe27147694beb28045957e3785b39ed0b7b64df88a0',
-       'package.json': 'f577faa0283988151a0c1a6defa58e87e9b2b15c256b4320c6cf7b873e8ff25f',
-       'literals.json': '0de8885a1bbb4a550a72491f37ee33b14ed442b60d8d87552011e4cbf2a01b90'}
+# 2026-10-09: pins read from test-results/package_pins.json (harness_input.py --repin; the R22 44.0.2 values were a943cd3e / fd89daca / 9beaa438 / 20323777).
+R15 = {'Missions.targets.addon.lua_B': _PINS['Missions.targets.addon.lua_B'],
+       'package.json': _PINS['package.json'],
+       'literals.json': _PINS['literals.json']}
 R19_FIXTURE_PACKAGE = '150c0d1642d9208f97fc46df7a14ce411b60120cb4280d30f991aaf179978ff7'
 # R21 (2026-10-02): only engine_params.json changes (R19/R20 eafd2ddf: 17 overrides, 8 modules); addon, package.json and
 # literals.json are the R20 files byte for byte.
-ENGINE_PARAMS_SHA = '731029cf03071416ae4bfb379dc7e801155f570d01ab527567e9cf695d48c472'
+ENGINE_PARAMS_SHA = _PINS['engine_params.json']
 # The bootstrapper gate fixture of this build (R21, fixtures/MissionsR21: engine_params.json and the R20 package.json; the
 # R16, R17 and R19 fixtures stay in their folders).
 BOOTSTRAPPER_FIXTURE = ROOT / 'repos/runtime/bootstrapper-runtime-wt-r19/RENOVICE_TOOLCHAIN/engine_params/fixtures/MissionsR21'

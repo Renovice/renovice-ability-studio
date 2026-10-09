@@ -45,6 +45,7 @@ import uc_pe  # noqa: E402
 import uc_plan  # noqa: E402
 import uc_rebuild  # noqa: E402
 import uc_sideload  # noqa: E402
+import uc_adopt  # noqa: E402
 
 EDITOR = TOOL_DIR.parents[1]
 REPORT_FORMAT = 'RENOVICE_UPDATE_RESULT_V1'
@@ -56,7 +57,8 @@ def sha_file(p: Path) -> str:
 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split('\n\n')[0])
-    ap.add_argument('--game', type=Path, default=UC.DEFAULT_GAME, help='installed Warframe folder (read only)')
+    ap.add_argument('--game', type=Path, help='Warframe folder to read (default for an update run: the Steam folder; '
+                    '--adopt needs the folder the set is INSTALLED in, e.g. the Documents copy)')
     ap.add_argument('--exe', type=Path, help='client executable (default <game>/Warframe.x64.exe)')
     ap.add_argument('--custom-scripts', type=Path, help='installed CustomScripts (default <game>/OpenWF/CustomScripts)')
     ap.add_argument('--stock-dir', type=Path, help='build-B modules folder instead of the Cache.Windows extraction')
@@ -70,15 +72,31 @@ def main(argv=None) -> int:
     ap.add_argument('--native-build', action='store_true', help='let the native side apply its auto items and build the DLL')
     ap.add_argument('--skip-native', action='store_true')
     ap.add_argument('--skip-step1', action='store_true', help='do not run the step-1 check before the remap')
-    ap.add_argument('--adopt', type=Path, help='adopt a staged set\'s rebased registry and corpus into the repository')
+    ap.add_argument('--adopt', type=Path, help='after the live test: adopt a staged set (registry, corpus, authored '
+                    'registrations, harness pins and, with --game, the update-check baseline)')
+    ap.add_argument('--add-to-stage', type=Path, metavar='STAGE', help='add one file to a staged set (with --file, '
+                    '--install-path, --note; optional --replaces, --source-project, --ships-disabled)')
+    ap.add_argument('--file', type=Path, help='--add-to-stage: the file to add')
+    ap.add_argument('--install-path', help='--add-to-stage: its path in the game folder, e.g. OpenWF/CustomScripts/...')
+    ap.add_argument('--replaces', help='--add-to-stage: the installed path it supersedes (goes to remove.txt)')
+    ap.add_argument('--source-project', help='--add-to-stage: workspace-relative project the file is rebuilt from')
+    ap.add_argument('--note', default='', help='--add-to-stage: what the file is')
+    ap.add_argument('--ships-disabled', action='store_true', help='--add-to-stage: package member switched off')
     ap.add_argument('--keep-temp', action='store_true', help='keep work/temp/upd-<time> (staged editor root, generator, '
                                                             'simulated install) after the run')
     ap.add_argument('--quiet', action='store_true')
     args = ap.parse_args(argv)
     log = (lambda *a, **k: None) if args.quiet else (lambda *a, **k: print(*a, **k, file=sys.stderr))
     try:
+        if args.add_to_stage:
+            if not (args.file and args.install_path):
+                raise SystemExit('--add-to-stage needs --file and --install-path')
+            uc_adopt.add_to_stage(args.add_to_stage, args.file, args.install_path, args.replaces, args.source_project,
+                                  args.note, args.ships_disabled, print)
+            return 0
         if args.adopt:
-            return adopt(args.adopt, log)
+            rc = adopt(args.adopt, log)
+            return rc or uc_adopt.complete_adoption(args.adopt, args.game, print)
         return run(args, log)
     except SystemExit:
         raise
@@ -91,7 +109,7 @@ def run(args, log) -> int:
     t0 = time.time()
     ws = UC.workspace_root()
     wsj = json.loads((ws / 'WORKSPACE.json').read_text(encoding='utf-8'))
-    game = args.game
+    game = args.game or UC.DEFAULT_GAME
     exe = args.exe or game / 'Warframe.x64.exe'
     custom = args.custom_scripts or game / 'OpenWF' / 'CustomScripts'
     img = uc_pe.Image(exe.read_bytes())
@@ -361,7 +379,7 @@ def adopt(stage: Path, log) -> int:
     shutil.copytree(stage / 'evidence' / 'registry' / 'corpus', dst)
     reg['corpus'] = corpus_rel
     reg_path.write_bytes(RR.dump(reg))
-    print(f'adopted: {reg_path} (build {reg["build"]}), corpus {corpus_rel}; next: renovice_update_check.py --write-baseline')
+    print(f'adopted: {reg_path} (build {reg["build"]}), corpus {corpus_rel}')
     return 0
 
 

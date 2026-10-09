@@ -27,7 +27,8 @@ to work/temp/entry-native-harness and this tool's test-results folder. Reads no 
 """
 from pathlib import Path
 import hashlib, json, os, shutil, subprocess, sys
-from harness_input import current_input, current_spec  # noqa: E402  (same folder; 2026-10-09 current build)
+from harness_input import current_input, current_spec, package_pins  # noqa: E402  (same folder; 2026-10-09)
+_PINS = package_pins()  # the package the current registry builds (test-results/package_pins.json; --repin)
 
 EDITOR = Path(__file__).resolve().parents[3]
 ROOT = EDITOR
@@ -43,8 +44,8 @@ INPUT_LF_SHA = 'dccde5fddf2649c2be4c93789cecab4cc1d1759dc9d01d0117cba25f5a7ca4b6
 # the R14 build of this input was 4c70b5ec200f9409ca034546aea37555c8f6081cd6661978c3a41e347b7ccbba (installed 2026-10-01).
 # R17 (2026-10-01): the Deepmines rows left the addon (reader pins, live literals) and the Gas City row was replaced by the
 # meltdown-time scale over hackTime and modeTimer; the R15/R16 build of this input was 70fff0b6606e452e... (installed).
-# 2026-10-09: re-pinned to the 44.1.1 registry with R23 (addon 76c10eaa, package f577faa0, literals 0de8885a, engine params 731029cf; R22 on 44.0.2 was a943cd3e / fd89daca / 9beaa438 / 20323777).
-R12_ADDON_SHA = '76c10eaa1df91ad71e86afe27147694beb28045957e3785b39ed0b7b64df88a0'  # R22 build of the pinned input (R19-R21 d8736450, R18 43cb89c3, R17 daab653a)
+# 2026-10-09: pins read from test-results/package_pins.json (harness_input.py --repin; the R22 44.0.2 values were a943cd3e / fd89daca / 9beaa438 / 20323777).
+R12_ADDON_SHA = _PINS['Missions.targets.addon.lua_B']  # R22 build of the pinned input (R19-R21 d8736450, R18 43cb89c3, R17 daab653a)
 WORK = ROOT / 'work/temp/entry-native-harness'
 OUT = Path(__file__).resolve().parents[1] / 'test-results'
 results = {'checks': []}
