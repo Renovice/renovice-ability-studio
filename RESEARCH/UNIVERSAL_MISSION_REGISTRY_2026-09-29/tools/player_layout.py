@@ -176,6 +176,9 @@ put('disruption.interval_between_rounds', ['Disruption', 'Timers'], 'Time betwee
 put('disruption.interval_between_rounds.relic', ['Disruption', 'Timers'], 'Relics: between rounds')
 put('disruption.default_round_count', ['Disruption', 'Objectives'], 'Rounds to finish')
 put('disruption.sortie_round_count', ['Disruption', 'Objectives'], 'Sortie: rounds to finish')
+put('disruption.icebind_goal', ['Disruption', 'Objectives'], 'Icebind: conduits')  # R23 master
+put('disruption.icebind_conduits', ['Disruption', 'Advanced', 'Icebind conduits'], 'Mode script')  # R23
+put('disruption.icebind_conduits_kuvapath', ['Disruption', 'Advanced', 'Icebind conduits'], 'Icebind script')  # R23
 players('disruption.max_enemies.{}', ['Disruption', 'Enemies', 'Max enemies at once'])
 for _variant, _name in (('standard', 'Standard'), ('sentient', 'Sentient'), ('entrati_lab', 'Entrati lab')):
     players(f'disruption.max_enemies_by_players.{_variant}.{{}}', ['Disruption', 'Enemies', 'Max enemies at once', _name])
@@ -198,6 +201,9 @@ for i in (1, 2, 3, 4):
 # ---- Excavation (the master drives the three variants; the literal rows are built from it, never declared)
 master_row('excavation.dig_time', 'Excavation', 'Excavation: dig time')  # R17: first on the page
 put('excavation.excavators_to_finish', ['Excavation', 'Objectives'], 'Excavators to finish')  # R10
+put('excavation.icebind_goal', ['Excavation', 'Objectives'], 'Icebind: excavators')  # R23 master
+put('excavation.icebind_excavators', ['Excavation', 'Advanced', 'Icebind excavators'], 'Mode script')  # R23
+put('excavation.icebind_excavators_kuvapath', ['Excavation', 'Advanced', 'Icebind excavators'], 'Icebind script')  # R23
 put('excavation.dig_duration', ['Excavation', 'Timers', 'Dig time by variant'], 'Standard')
 put('excavation.dig_duration_elite_alert', ['Excavation', 'Timers', 'Dig time by variant'], 'Elite Alert')
 put('excavation.dig_duration_old_world_salvage', ['Excavation', 'Timers', 'Dig time by variant'], 'Old World Salvage')
@@ -346,6 +352,9 @@ for i in (1, 2, 3):
 master_row('survival.reward_interval', 'Survival', 'Survival: time between rewards')
 put('survival.alert_interval', ['Survival', 'Timers'], 'Alert mission length')
 put('survival.fixed_length_minutes', ['Survival', 'Timers'], 'Fixed length')  # R10
+put('survival.icebind_goal', ['Survival', 'Timers'], 'Icebind: minutes')  # R23 master
+put('survival.icebind_minutes', ['Survival', 'Advanced', 'Icebind minutes'], 'Mode script')  # R23
+put('survival.icebind_minutes_kuvapath', ['Survival', 'Advanced', 'Icebind minutes'], 'Icebind script')  # R23
 put('survival.duviri_fixed_length', ['Survival', 'Timers'], 'Duviri: Survival length')  # R8 live literal
 LIFE = ['Survival', 'Timers', 'Life support']
 for tid, row in (('capsule_initial_time', 'At mission start'), ('capsule_max_time', 'Capacity at 100%'),

@@ -1,0 +1,627 @@
+{
+ "schema": "RENOVICE_MISSION_TUNABLE_REGISTRY_V2 tunables[] drafts (contract R23)",
+ "build": "2026.10.08.13.05",
+ "supersedes": {},
+ "rows": [
+  {
+   "tunable_id": "disruption.icebind_conduits",
+   "phase1_tunable_id": null,
+   "label": "Conduits to finish (Icebind, Disruption script)",
+   "mission_type": "Disruption",
+   "variant": "Icebind (KuvaPath, location KuvaPathMission, missionType 33)",
+   "shared_with": "one master drives the row pair (mission script and Icebind script)",
+   "owner_kind": "MISSION_INFO_FIELD",
+   "backend": "TARGET_ADDON",
+   "owner": {
+    "body_key": "b6d8c45f9424d376",
+    "stock_sha256": "B3E18CB43701ADEAAC4E41293DD3F2F332071D84C766ABDCD45B0084EB0CEDA3",
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "module_path": "/Lotus/Scripts/Modes/SentientArtifactMission.lua",
+    "template": "MISSION_INFO_FIELD_AT_ENTRY",
+    "gate": "CAPTURE_GRAPH_ENTRY_V1",
+    "field": "maxWaveNum",
+    "variant": "KUVA_PATH_MISSION",
+    "location": "KuvaPathMission",
+    "mission_type": 33,
+    "variant_stock": 8,
+    "accessor": {
+     "get": "gGameRules:GetMission()  (gGameRules = Name__d7e3ec85, GetMission = Name__aeab7b8b)",
+     "set": "gGameRules:SetMission(mission)  (SetMission = Name__e9228c58)",
+     "host": "gRegion:IsMaster()  (gRegion = Name__b364fd20, IsMaster = Name__ce228771)",
+     "stock_precedent": "R10 MISSION_INFO_FIELD_AT_ENTRY (Lotus.Scripts.Duviri.DuviriMissions proto 18, Lotus.Scripts.Eidolon.EidolonMissions proto 25: host GetMission, write maxWaveNum, SetMission)"
+    },
+    "entries": [
+     {
+      "prototype": 85,
+      "function": "Mission",
+      "role": "Disruption level trigger (host and client)"
+     }
+    ],
+    "readers": [
+     {
+      "key": "maxWaveNum",
+      "prototype": 9,
+      "instructions": [
+       29
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 55,
+      "instructions": [
+       69,
+       76
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 81,
+      "instructions": [
+       1236,
+       1242
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 82,
+      "instructions": [
+       60,
+       66
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 84,
+      "instructions": [
+       359,
+       365,
+       547,
+       554
+      ]
+     }
+    ],
+    "dead_readers": [
+     {
+      "prototype": 8,
+      "instructions": [
+       4,
+       11
+      ]
+     },
+     {
+      "prototype": 10,
+      "instructions": [
+       8,
+       14
+      ]
+     }
+    ],
+    "write_rule": {
+     "when": "host (gRegion:IsMaster()) and m.location == Symbol(\"KuvaPathMission\") and m.missionType == 33 and m.maxWaveNum == 8 (the Icebind stock: KuvaKeysLib MISSIONS[type].MaxWaveNum, copied by GenerateKey and BuildMissionInfo); another number is left alone with one line",
+     "how": "local m = gGameRules:GetMission(); m.maxWaveNum = N; gGameRules:SetMission(m)",
+     "once": "idempotent: skip when already equal (the other script of the pair may have written first)",
+     "cleanup": "none (the MissionInfo is mission-scoped and rebuilt for the next mission)"
+    },
+    "meaning": "Icebind Disruption: conduits to finish. SentientArtifactMission uses maxWaveNum > 0 as fixedLength and as the extraction goal against the total conduits completed (proto 84 Ternary(maxWaveNum > 0, maxWaveNum, 4))"
+   },
+   "unit": "conduits",
+   "stock": 8,
+   "limits": {
+    "minimum": 1,
+    "maximum": 1000,
+    "integer": true,
+    "basis": "Icebind goal: at least 1; maximum as the normal-node row of this mode"
+   },
+   "confidence": "CONFIRMED_STATIC (write mechanism: R10 stock precedent; live probe pending)",
+   "evidence": "SentientArtifactMission 44.1.1 (b6d8c45f9424d376): global Mission (P85, root i1101) reaches every live reader (P9, P55, P81, P82, P84) through captured closures; P8 (root R70) and P10 (root R72) are never captured, published or read after creation (NO USE). The info snapshot v61.info is taken inside the Mission chain. Tool: work/research/icebind-goals-2026-10-09/tools/goal_owners.py (bytecode capture graph; reproduces the R10 Excavation and Survival owners). Icebind identity: LotusGameRules 44.1.1 sets _T.IsKuvaPathMission when mission.location == LotusUtilities.KUVA_PATH_MISSION_LOCATION (Symbol(\"KuvaPathMission\")); the per-type stock is KuvaKeysLib MISSIONS (Survival 10, Excavation 6, MobileDefense 540, Disruption 8; a literal patch is impossible for 8 and 10: their number constants are shared with other templates)."
+  },
+  {
+   "tunable_id": "disruption.icebind_conduits_kuvapath",
+   "phase1_tunable_id": null,
+   "label": "Conduits to finish (Icebind, Icebind script)",
+   "mission_type": "Disruption",
+   "variant": "Icebind (KuvaPath, location KuvaPathMission, missionType 33)",
+   "shared_with": "one master drives the row pair (mission script and Icebind script)",
+   "owner_kind": "MISSION_INFO_FIELD",
+   "backend": "TARGET_ADDON",
+   "owner": {
+    "body_key": "248d54e0074e52c2",
+    "stock_sha256": "51C7EAFE3CF173940BDADD6B949FC75201DEBA73A554E0BEDB64613CDA4C8267",
+    "file": "Lotus_Scripts_KuvaPath_KuvaPath.lua_B",
+    "module_path": "/Lotus/Scripts/KuvaPath/KuvaPath.lua",
+    "template": "MISSION_INFO_FIELD_AT_ENTRY",
+    "gate": "CAPTURE_GRAPH_ENTRY_V1",
+    "field": "maxWaveNum",
+    "variant": "KUVA_PATH_MISSION",
+    "location": "KuvaPathMission",
+    "mission_type": 33,
+    "variant_stock": 8,
+    "accessor": {
+     "get": "gGameRules:GetMission()  (gGameRules = Name__d7e3ec85, GetMission = Name__aeab7b8b)",
+     "set": "gGameRules:SetMission(mission)  (SetMission = Name__e9228c58)",
+     "host": "gRegion:IsMaster()  (gRegion = Name__b364fd20, IsMaster = Name__ce228771)",
+     "stock_precedent": "R10 MISSION_INFO_FIELD_AT_ENTRY (Lotus.Scripts.Duviri.DuviriMissions proto 18, Lotus.Scripts.Eidolon.EidolonMissions proto 25: host GetMission, write maxWaveNum, SetMission)"
+    },
+    "entries": [
+     {
+      "prototype": 73,
+      "function": "KuvaPath",
+      "role": "Icebind level trigger; captures MasterInit (P65), which takes the GetMission() snapshot every reader uses"
+     }
+    ],
+    "readers": [
+     {
+      "key": "maxWaveNum",
+      "prototype": 0,
+      "instructions": [
+       5
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 1,
+      "instructions": [
+       5
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 2,
+      "instructions": [
+       9
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 3,
+      "instructions": [
+       7
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 4,
+      "instructions": [
+       5
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 5,
+      "instructions": [
+       5
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 7,
+      "instructions": [
+       5
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 42,
+      "instructions": [
+       9,
+       40,
+       55
+      ]
+     }
+    ],
+    "dead_readers": [],
+    "write_rule": {
+     "when": "host (gRegion:IsMaster()) and m.location == Symbol(\"KuvaPathMission\") and m.missionType == 33 and m.maxWaveNum == 8 (the Icebind stock: KuvaKeysLib MISSIONS[type].MaxWaveNum, copied by GenerateKey and BuildMissionInfo); another number is left alone with one line",
+     "how": "local m = gGameRules:GetMission(); m.maxWaveNum = N; gGameRules:SetMission(m)",
+     "once": "idempotent: skip when already equal (the other script of the pair may have written first)",
+     "cleanup": "none (the MissionInfo is mission-scoped and rebuilt for the next mission)"
+    },
+    "meaning": "Icebind Disruption: KuvaPath completes the mission when the net var AmalgamArtifactTotal >= maxWaveNum (P42) and paces its side-objective phases by maxWaveNum / (#Events + 1) (phase check of type 33)"
+   },
+   "unit": "conduits",
+   "stock": 8,
+   "limits": {
+    "minimum": 1,
+    "maximum": 1000,
+    "integer": true,
+    "basis": "Icebind goal: at least 1; maximum as the normal-node row of this mode"
+   },
+   "confidence": "CONFIRMED_STATIC (write mechanism: R10 stock precedent; live probe pending)",
+   "evidence": "KuvaPath 44.1.1 (248d54e0074e52c2): global KuvaPath (P73, root i544) captures MasterInit (P65, U9). MasterInit stores v53 = gGameRules:GetMission() (the snapshot every maxWaveNum reader reads) and holds the per-mission-type phase-check tables (root R81/R82, MasterInit U23) whose functions P0-P5 and P7 read v53.maxWaveNum; P42 (mission-complete check) is reached from KuvaPath. The Icebind Solo squad-scaling member replaces this module with instruction edits only (same prototypes), so the entry hook keeps its prototype. Tool: work/research/icebind-goals-2026-10-09/tools/goal_owners.py (bytecode capture graph; reproduces the R10 Excavation and Survival owners). Icebind identity: LotusGameRules 44.1.1 sets _T.IsKuvaPathMission when mission.location == LotusUtilities.KUVA_PATH_MISSION_LOCATION (Symbol(\"KuvaPathMission\")); the per-type stock is KuvaKeysLib MISSIONS (Survival 10, Excavation 6, MobileDefense 540, Disruption 8; a literal patch is impossible for 8 and 10: their number constants are shared with other templates)."
+  },
+  {
+   "tunable_id": "excavation.icebind_excavators",
+   "phase1_tunable_id": null,
+   "label": "Excavators to finish (Icebind, Excavation script)",
+   "mission_type": "Excavation",
+   "variant": "Icebind (KuvaPath, location KuvaPathMission, missionType 17)",
+   "shared_with": "one master drives the row pair (mission script and Icebind script)",
+   "owner_kind": "MISSION_INFO_FIELD",
+   "backend": "TARGET_ADDON",
+   "owner": {
+    "body_key": "f7444e3c621ff018",
+    "stock_sha256": "DF9FB3206E468652DC7A101E26118ADF2E039F35B69E228C26BB6BBD3A6F4701",
+    "file": "Lotus_Scripts_Modes_ExcavationMission.lua_B",
+    "module_path": "/Lotus/Scripts/Modes/ExcavationMission.lua",
+    "template": "MISSION_INFO_FIELD_AT_ENTRY",
+    "gate": "CAPTURE_GRAPH_ENTRY_V1",
+    "field": "maxWaveNum",
+    "variant": "KUVA_PATH_MISSION",
+    "location": "KuvaPathMission",
+    "mission_type": 17,
+    "variant_stock": 6,
+    "accessor": {
+     "get": "gGameRules:GetMission()  (gGameRules = Name__d7e3ec85, GetMission = Name__aeab7b8b)",
+     "set": "gGameRules:SetMission(mission)  (SetMission = Name__e9228c58)",
+     "host": "gRegion:IsMaster()  (gRegion = Name__b364fd20, IsMaster = Name__ce228771)",
+     "stock_precedent": "R10 MISSION_INFO_FIELD_AT_ENTRY (Lotus.Scripts.Duviri.DuviriMissions proto 18, Lotus.Scripts.Eidolon.EidolonMissions proto 25: host GetMission, write maxWaveNum, SetMission)"
+    },
+    "entries": [
+     {
+      "prototype": 35,
+      "function": "Excavation",
+      "role": "level trigger; host"
+     },
+     {
+      "prototype": 36,
+      "function": "ExcavationHUD",
+      "role": "HUD trigger"
+     },
+     {
+      "prototype": 43,
+      "function": "ExcavatorAvatar",
+      "role": "excavator avatar script (spawned after start)"
+     }
+    ],
+    "readers": [
+     {
+      "key": "maxWaveNum",
+      "prototype": 28,
+      "instructions": [
+       112
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 32,
+      "instructions": [
+       58
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 36,
+      "instructions": [
+       96
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 43,
+      "instructions": [
+       861
+      ]
+     }
+    ],
+    "dead_readers": [],
+    "write_rule": {
+     "when": "host (gRegion:IsMaster()) and m.location == Symbol(\"KuvaPathMission\") and m.missionType == 17 and m.maxWaveNum == 6 (the Icebind stock: KuvaKeysLib MISSIONS[type].MaxWaveNum, copied by GenerateKey and BuildMissionInfo); another number is left alone with one line",
+     "how": "local m = gGameRules:GetMission(); m.maxWaveNum = N; gGameRules:SetMission(m)",
+     "once": "idempotent: skip when already equal (the other script of the pair may have written first)",
+     "cleanup": "none (the MissionInfo is mission-scoped and rebuilt for the next mission)"
+    },
+    "meaning": "Icebind Excavation: cryotic goal = maxWaveNum x 100 in ExcavationMission (R10 meaning)"
+   },
+   "unit": "excavators",
+   "stock": 6,
+   "limits": {
+    "minimum": 1,
+    "maximum": 1000,
+    "integer": true,
+    "basis": "Icebind goal: at least 1; maximum as the normal-node row of this mode"
+   },
+   "confidence": "CONFIRMED_STATIC (write mechanism: R10 stock precedent; live probe pending)",
+   "evidence": "R10 owner of excavation.excavators_to_finish, rebased to 44.1.1 (f7444e3c621ff018, module unchanged): Excavation reaches P28 and P32, ExcavationHUD P36 and P32, ExcavatorAvatar P43 and P32. Tool: work/research/icebind-goals-2026-10-09/tools/goal_owners.py (bytecode capture graph; reproduces the R10 Excavation and Survival owners). Icebind identity: LotusGameRules 44.1.1 sets _T.IsKuvaPathMission when mission.location == LotusUtilities.KUVA_PATH_MISSION_LOCATION (Symbol(\"KuvaPathMission\")); the per-type stock is KuvaKeysLib MISSIONS (Survival 10, Excavation 6, MobileDefense 540, Disruption 8; a literal patch is impossible for 8 and 10: their number constants are shared with other templates)."
+  },
+  {
+   "tunable_id": "excavation.icebind_excavators_kuvapath",
+   "phase1_tunable_id": null,
+   "label": "Excavators to finish (Icebind, Icebind script)",
+   "mission_type": "Excavation",
+   "variant": "Icebind (KuvaPath, location KuvaPathMission, missionType 17)",
+   "shared_with": "one master drives the row pair (mission script and Icebind script)",
+   "owner_kind": "MISSION_INFO_FIELD",
+   "backend": "TARGET_ADDON",
+   "owner": {
+    "body_key": "248d54e0074e52c2",
+    "stock_sha256": "51C7EAFE3CF173940BDADD6B949FC75201DEBA73A554E0BEDB64613CDA4C8267",
+    "file": "Lotus_Scripts_KuvaPath_KuvaPath.lua_B",
+    "module_path": "/Lotus/Scripts/KuvaPath/KuvaPath.lua",
+    "template": "MISSION_INFO_FIELD_AT_ENTRY",
+    "gate": "CAPTURE_GRAPH_ENTRY_V1",
+    "field": "maxWaveNum",
+    "variant": "KUVA_PATH_MISSION",
+    "location": "KuvaPathMission",
+    "mission_type": 17,
+    "variant_stock": 6,
+    "accessor": {
+     "get": "gGameRules:GetMission()  (gGameRules = Name__d7e3ec85, GetMission = Name__aeab7b8b)",
+     "set": "gGameRules:SetMission(mission)  (SetMission = Name__e9228c58)",
+     "host": "gRegion:IsMaster()  (gRegion = Name__b364fd20, IsMaster = Name__ce228771)",
+     "stock_precedent": "R10 MISSION_INFO_FIELD_AT_ENTRY (Lotus.Scripts.Duviri.DuviriMissions proto 18, Lotus.Scripts.Eidolon.EidolonMissions proto 25: host GetMission, write maxWaveNum, SetMission)"
+    },
+    "entries": [
+     {
+      "prototype": 73,
+      "function": "KuvaPath",
+      "role": "Icebind level trigger; captures MasterInit (P65), which takes the GetMission() snapshot every reader uses"
+     }
+    ],
+    "readers": [
+     {
+      "key": "maxWaveNum",
+      "prototype": 0,
+      "instructions": [
+       5
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 1,
+      "instructions": [
+       5
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 2,
+      "instructions": [
+       9
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 3,
+      "instructions": [
+       7
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 4,
+      "instructions": [
+       5
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 5,
+      "instructions": [
+       5
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 7,
+      "instructions": [
+       5
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 42,
+      "instructions": [
+       9,
+       40,
+       55
+      ]
+     }
+    ],
+    "dead_readers": [],
+    "write_rule": {
+     "when": "host (gRegion:IsMaster()) and m.location == Symbol(\"KuvaPathMission\") and m.missionType == 17 and m.maxWaveNum == 6 (the Icebind stock: KuvaKeysLib MISSIONS[type].MaxWaveNum, copied by GenerateKey and BuildMissionInfo); another number is left alone with one line",
+     "how": "local m = gGameRules:GetMission(); m.maxWaveNum = N; gGameRules:SetMission(m)",
+     "once": "idempotent: skip when already equal (the other script of the pair may have written first)",
+     "cleanup": "none (the MissionInfo is mission-scoped and rebuilt for the next mission)"
+    },
+    "meaning": "Icebind Excavation: KuvaPath completes when DigsScore >= maxWaveNum x 100 (P42) and paces phases by it"
+   },
+   "unit": "excavators",
+   "stock": 6,
+   "limits": {
+    "minimum": 1,
+    "maximum": 1000,
+    "integer": true,
+    "basis": "Icebind goal: at least 1; maximum as the normal-node row of this mode"
+   },
+   "confidence": "CONFIRMED_STATIC (write mechanism: R10 stock precedent; live probe pending)",
+   "evidence": "KuvaPath 44.1.1 (248d54e0074e52c2): global KuvaPath (P73, root i544) captures MasterInit (P65, U9). MasterInit stores v53 = gGameRules:GetMission() (the snapshot every maxWaveNum reader reads) and holds the per-mission-type phase-check tables (root R81/R82, MasterInit U23) whose functions P0-P5 and P7 read v53.maxWaveNum; P42 (mission-complete check) is reached from KuvaPath. The Icebind Solo squad-scaling member replaces this module with instruction edits only (same prototypes), so the entry hook keeps its prototype. Tool: work/research/icebind-goals-2026-10-09/tools/goal_owners.py (bytecode capture graph; reproduces the R10 Excavation and Survival owners). Icebind identity: LotusGameRules 44.1.1 sets _T.IsKuvaPathMission when mission.location == LotusUtilities.KUVA_PATH_MISSION_LOCATION (Symbol(\"KuvaPathMission\")); the per-type stock is KuvaKeysLib MISSIONS (Survival 10, Excavation 6, MobileDefense 540, Disruption 8; a literal patch is impossible for 8 and 10: their number constants are shared with other templates)."
+  },
+  {
+   "tunable_id": "survival.icebind_minutes",
+   "phase1_tunable_id": null,
+   "label": "Minutes to finish (Icebind, Survival script)",
+   "mission_type": "Survival",
+   "variant": "Icebind (KuvaPath, location KuvaPathMission, missionType 2)",
+   "shared_with": "one master drives the row pair (mission script and Icebind script)",
+   "owner_kind": "MISSION_INFO_FIELD",
+   "backend": "TARGET_ADDON",
+   "owner": {
+    "body_key": "a62aa7eea1c4f27b",
+    "stock_sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
+    "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
+    "module_path": "/Lotus/Scripts/Modes/SurvivalMission.lua",
+    "template": "MISSION_INFO_FIELD_AT_ENTRY",
+    "gate": "CAPTURE_GRAPH_ENTRY_V1",
+    "field": "maxWaveNum",
+    "variant": "KUVA_PATH_MISSION",
+    "location": "KuvaPathMission",
+    "mission_type": 2,
+    "variant_stock": 10,
+    "accessor": {
+     "get": "gGameRules:GetMission()  (gGameRules = Name__d7e3ec85, GetMission = Name__aeab7b8b)",
+     "set": "gGameRules:SetMission(mission)  (SetMission = Name__e9228c58)",
+     "host": "gRegion:IsMaster()  (gRegion = Name__b364fd20, IsMaster = Name__ce228771)",
+     "stock_precedent": "R10 MISSION_INFO_FIELD_AT_ENTRY (Lotus.Scripts.Duviri.DuviriMissions proto 18, Lotus.Scripts.Eidolon.EidolonMissions proto 25: host GetMission, write maxWaveNum, SetMission)"
+    },
+    "entries": [
+     {
+      "prototype": 70,
+      "function": "Mission",
+      "role": "Survival level trigger"
+     }
+    ],
+    "readers": [
+     {
+      "key": "maxWaveNum",
+      "prototype": 61,
+      "instructions": [
+       163,
+       180,
+       187
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 62,
+      "instructions": [
+       66
+      ]
+     }
+    ],
+    "dead_readers": [],
+    "write_rule": {
+     "when": "host (gRegion:IsMaster()) and m.location == Symbol(\"KuvaPathMission\") and m.missionType == 2 and m.maxWaveNum == 10 (the Icebind stock: KuvaKeysLib MISSIONS[type].MaxWaveNum, copied by GenerateKey and BuildMissionInfo); another number is left alone with one line",
+     "how": "local m = gGameRules:GetMission(); m.maxWaveNum = N; gGameRules:SetMission(m)",
+     "once": "idempotent: skip when already equal (the other script of the pair may have written first)",
+     "cleanup": "none (the MissionInfo is mission-scoped and rebuilt for the next mission)"
+    },
+    "meaning": "Icebind Survival: SurvivalMission fixedLength = min(maxWaveNum x 60, 3600) s (R10 meaning); at most 60 minutes"
+   },
+   "unit": "min",
+   "stock": 10,
+   "limits": {
+    "minimum": 1,
+    "maximum": 60,
+    "integer": true,
+    "basis": "Icebind goal: at least 1; maximum as the normal-node row of this mode"
+   },
+   "confidence": "CONFIRMED_STATIC (write mechanism: R10 stock precedent; live probe pending)",
+   "evidence": "R10 owner of survival.fixed_length_minutes, rebased to 44.1.1 (a62aa7eea1c4f27b): Mission (P70) reaches P61 and P62. Tool: work/research/icebind-goals-2026-10-09/tools/goal_owners.py (bytecode capture graph; reproduces the R10 Excavation and Survival owners). Icebind identity: LotusGameRules 44.1.1 sets _T.IsKuvaPathMission when mission.location == LotusUtilities.KUVA_PATH_MISSION_LOCATION (Symbol(\"KuvaPathMission\")); the per-type stock is KuvaKeysLib MISSIONS (Survival 10, Excavation 6, MobileDefense 540, Disruption 8; a literal patch is impossible for 8 and 10: their number constants are shared with other templates)."
+  },
+  {
+   "tunable_id": "survival.icebind_minutes_kuvapath",
+   "phase1_tunable_id": null,
+   "label": "Minutes to finish (Icebind, Icebind script)",
+   "mission_type": "Survival",
+   "variant": "Icebind (KuvaPath, location KuvaPathMission, missionType 2)",
+   "shared_with": "one master drives the row pair (mission script and Icebind script)",
+   "owner_kind": "MISSION_INFO_FIELD",
+   "backend": "TARGET_ADDON",
+   "owner": {
+    "body_key": "248d54e0074e52c2",
+    "stock_sha256": "51C7EAFE3CF173940BDADD6B949FC75201DEBA73A554E0BEDB64613CDA4C8267",
+    "file": "Lotus_Scripts_KuvaPath_KuvaPath.lua_B",
+    "module_path": "/Lotus/Scripts/KuvaPath/KuvaPath.lua",
+    "template": "MISSION_INFO_FIELD_AT_ENTRY",
+    "gate": "CAPTURE_GRAPH_ENTRY_V1",
+    "field": "maxWaveNum",
+    "variant": "KUVA_PATH_MISSION",
+    "location": "KuvaPathMission",
+    "mission_type": 2,
+    "variant_stock": 10,
+    "accessor": {
+     "get": "gGameRules:GetMission()  (gGameRules = Name__d7e3ec85, GetMission = Name__aeab7b8b)",
+     "set": "gGameRules:SetMission(mission)  (SetMission = Name__e9228c58)",
+     "host": "gRegion:IsMaster()  (gRegion = Name__b364fd20, IsMaster = Name__ce228771)",
+     "stock_precedent": "R10 MISSION_INFO_FIELD_AT_ENTRY (Lotus.Scripts.Duviri.DuviriMissions proto 18, Lotus.Scripts.Eidolon.EidolonMissions proto 25: host GetMission, write maxWaveNum, SetMission)"
+    },
+    "entries": [
+     {
+      "prototype": 73,
+      "function": "KuvaPath",
+      "role": "Icebind level trigger; captures MasterInit (P65), which takes the GetMission() snapshot every reader uses"
+     }
+    ],
+    "readers": [
+     {
+      "key": "maxWaveNum",
+      "prototype": 0,
+      "instructions": [
+       5
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 1,
+      "instructions": [
+       5
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 2,
+      "instructions": [
+       9
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 3,
+      "instructions": [
+       7
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 4,
+      "instructions": [
+       5
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 5,
+      "instructions": [
+       5
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 7,
+      "instructions": [
+       5
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 42,
+      "instructions": [
+       9,
+       40,
+       55
+      ]
+     }
+    ],
+    "dead_readers": [],
+    "write_rule": {
+     "when": "host (gRegion:IsMaster()) and m.location == Symbol(\"KuvaPathMission\") and m.missionType == 2 and m.maxWaveNum == 10 (the Icebind stock: KuvaKeysLib MISSIONS[type].MaxWaveNum, copied by GenerateKey and BuildMissionInfo); another number is left alone with one line",
+     "how": "local m = gGameRules:GetMission(); m.maxWaveNum = N; gGameRules:SetMission(m)",
+     "once": "idempotent: skip when already equal (the other script of the pair may have written first)",
+     "cleanup": "none (the MissionInfo is mission-scoped and rebuilt for the next mission)"
+    },
+    "meaning": "Icebind Survival: KuvaPath completes when TimeElapsed >= maxWaveNum x 60 s (P42) and paces phases by it"
+   },
+   "unit": "min",
+   "stock": 10,
+   "limits": {
+    "minimum": 1,
+    "maximum": 60,
+    "integer": true,
+    "basis": "Icebind goal: at least 1; maximum as the normal-node row of this mode"
+   },
+   "confidence": "CONFIRMED_STATIC (write mechanism: R10 stock precedent; live probe pending)",
+   "evidence": "KuvaPath 44.1.1 (248d54e0074e52c2): global KuvaPath (P73, root i544) captures MasterInit (P65, U9). MasterInit stores v53 = gGameRules:GetMission() (the snapshot every maxWaveNum reader reads) and holds the per-mission-type phase-check tables (root R81/R82, MasterInit U23) whose functions P0-P5 and P7 read v53.maxWaveNum; P42 (mission-complete check) is reached from KuvaPath. The Icebind Solo squad-scaling member replaces this module with instruction edits only (same prototypes), so the entry hook keeps its prototype. Tool: work/research/icebind-goals-2026-10-09/tools/goal_owners.py (bytecode capture graph; reproduces the R10 Excavation and Survival owners). Icebind identity: LotusGameRules 44.1.1 sets _T.IsKuvaPathMission when mission.location == LotusUtilities.KUVA_PATH_MISSION_LOCATION (Symbol(\"KuvaPathMission\")); the per-type stock is KuvaKeysLib MISSIONS (Survival 10, Excavation 6, MobileDefense 540, Disruption 8; a literal patch is impossible for 8 and 10: their number constants are shared with other templates)."
+  }
+ ]
+}

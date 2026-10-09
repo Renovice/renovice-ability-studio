@@ -146,6 +146,7 @@ EXCLUDED_PARTS = [
 ]
 ENTRY_GATE = 'CAPTURE_GRAPH_ENTRY_V1'
 MISSION_INFO = 'MISSION_INFO_FIELD_AT_ENTRY'
+MISSION_INFO_KUVA_PATH = 'KUVA_PATH_MISSION'  # R23: the Icebind variant of a MissionInfo row (generator: same name)
 SCRIPT_PARAM = 'SCRIPT_PARAM_GLOBAL_AT_ENTRY'
 ENTRY_TEMPLATES = (MISSION_INFO, SCRIPT_PARAM)
 # R11: scale_count = a whole-number count or a plain list of counts, each x value, rounded, at least 1.
@@ -546,11 +547,28 @@ def entry_row(ctx, m, key, rec, d, base, lim, where):
                      accessor={n: f'{ctx.namehash(n):08x}' for n in MISSION_INFO_ACCESSOR},
                      write_rule=o['write_rule'], meaning=o.get('meaning', ''),
                      stock_precedent=o['accessor'].get('stock_precedent', ''))
-        # The stock value is the MissionInfo default 0 (endless on normal nodes); 0 is also "no write" (the default).
-        if d['stock'] != 0:
-            raise ValueError(f'{where}: a MissionInfo count row must have stock 0 (normal nodes)')
-        lim['minimum'] = 0
-        lim['basis'] = '0 = the game default (endless on normal nodes); range from the research draft'
+        variant = o.get('variant')
+        if variant is None:
+            # The stock value is the MissionInfo default 0 (endless on normal nodes); 0 is also "no write" (the default).
+            if d['stock'] != 0:
+                raise ValueError(f'{where}: a MissionInfo count row must have stock 0 (normal nodes)')
+            lim['minimum'] = 0
+            lim['basis'] = '0 = the game default (endless on normal nodes); range from the research draft'
+        else:
+            # R23 (2026-10-09): Icebind rows. Written only on an Icebind mission of this type whose field still holds the
+            # Icebind stock (KuvaKeysLib MISSIONS[type].MaxWaveNum); the stock is that value, the minimum at least 1.
+            if variant != MISSION_INFO_KUVA_PATH:
+                raise ValueError(f'{where}: unknown MissionInfo variant {variant!r}')
+            if not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]*', o['location']):
+                raise ValueError(f'{where}: invalid Icebind location {o["location"]!r}')
+            if not isinstance(o['mission_type'], int) or o['mission_type'] <= 0:
+                raise ValueError(f'{where}: an Icebind row needs a positive integer mission_type')
+            if not d['stock'] > 0 or num(o['variant_stock']) != num(d['stock']):
+                raise ValueError(f'{where}: an Icebind row needs a positive stock equal to its variant_stock')
+            if lim['minimum'] < 1:
+                raise ValueError(f'{where}: an Icebind row needs a minimum of at least 1')
+            owner.update(variant=variant, location=o['location'], mission_type=o['mission_type'],
+                         variant_stock=num(o['variant_stock']))
     else:
         mode = o['mode']
         if mode not in PARAM_MODES:

@@ -1,0 +1,72 @@
+{
+  "checks": [
+    {
+      "name": "registry is the 44.1.1 build",
+      "pass": true
+    },
+    {
+      "name": "disruption.icebind_conduits: Icebind variant, type 33, stock 8",
+      "pass": true
+    },
+    {
+      "name": "disruption.icebind_conduits_kuvapath: Icebind variant, type 33, stock 8",
+      "pass": true
+    },
+    {
+      "name": "disruption.icebind_conduits_kuvapath: written at the KuvaPath entry (P73)",
+      "pass": true
+    },
+    {
+      "name": "disruption.icebind_goal: drives the row pair at scale 1, stock 8",
+      "pass": true
+    },
+    {
+      "name": "excavation.icebind_excavators: Icebind variant, type 17, stock 6",
+      "pass": true
+    },
+    {
+      "name": "excavation.icebind_excavators_kuvapath: Icebind variant, type 17, stock 6",
+      "pass": true
+    },
+    {
+      "name": "excavation.icebind_excavators_kuvapath: written at the KuvaPath entry (P73)",
+      "pass": true
+    },
+    {
+      "name": "excavation.icebind_goal: drives the row pair at scale 1, stock 6",
+      "pass": true
+    },
+    {
+      "name": "survival.icebind_minutes: Icebind variant, type 2, stock 10",
+      "pass": true
+    },
+    {
+      "name": "survival.icebind_minutes_kuvapath: Icebind variant, type 2, stock 10",
+      "pass": true
+    },
+    {
+      "name": "survival.icebind_minutes_kuvapath: written at the KuvaPath entry (P73)",
+      "pass": true
+    },
+    {
+      "name": "survival.icebind_goal: drives the row pair at scale 1, stock 10",
+      "pass": true
+    },
+    {
+      "name": "R23 build with the three Icebind masters on succeeds",
+      "pass": true
+    },
+    {
+      "name": "one Icebind MissionInfo helper in the addon",
+      "pass": true
+    },
+    {
+      "name": "toolchain luau.exe present",
+      "pass": true
+    },
+    {
+      "name": "harness: 27 checks over the three Icebind mission types",
+      "pass": true
+    }
+  ]
+}

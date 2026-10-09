@@ -8104,6 +8104,12 @@
       "sha256": "870D531DF5117518E6A5D600D8C266BAE8EE3E61C0B03746A831580BFD69A2DE",
       "size": 5098,
       "module_path": "Lotus.Scripts.CrewShip.Encounters.KillFightersExterminateEncounter"
+    },
+    "248d54e0074e52c2": {
+      "file": "Lotus_Scripts_KuvaPath_KuvaPath.lua_B",
+      "sha256": "51C7EAFE3CF173940BDADD6B949FC75201DEBA73A554E0BEDB64613CDA4C8267",
+      "size": 59037,
+      "module_path": "Lotus.Scripts.KuvaPath.KuvaPath"
     }
   },
   "tunables": [
@@ -8821,7 +8827,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 429,
+        "rank": 438,
         "path": [
           "Arbitration",
           "Advanced"
@@ -8891,7 +8897,7 @@
         "unit": "",
         "min": 1,
         "max": 2,
-        "rank": 432,
+        "rank": 441,
         "path": [
           "Archimedea",
           "Objectives",
@@ -8962,7 +8968,7 @@
         "unit": "",
         "min": 1,
         "max": 8,
-        "rank": 433,
+        "rank": 442,
         "path": [
           "Archimedea",
           "Objectives",
@@ -9318,7 +9324,7 @@
         "unit": "",
         "min": 1,
         "max": 4,
-        "rank": 434,
+        "rank": 443,
         "path": [
           "Archimedea",
           "Objectives",
@@ -9389,7 +9395,7 @@
         "unit": "min",
         "min": 1,
         "max": 60,
-        "rank": 431,
+        "rank": 440,
         "path": [
           "Archimedea",
           "Objectives",
@@ -9460,7 +9466,7 @@
         "unit": "",
         "min": 1,
         "max": 6,
-        "rank": 436,
+        "rank": 445,
         "path": [
           "Archimedea",
           "Objectives",
@@ -9816,7 +9822,7 @@
         "unit": "min",
         "min": 1,
         "max": 60,
-        "rank": 435,
+        "rank": 444,
         "path": [
           "Archimedea",
           "Objectives",
@@ -9925,7 +9931,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 437,
+        "rank": 446,
         "path": [
           "Archwing",
           "Timers"
@@ -10409,7 +10415,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 505,
+        "rank": 514,
         "path": [
           "Assassination",
           "Advanced"
@@ -10496,7 +10502,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 502,
+        "rank": 511,
         "path": [
           "Assassination",
           "Enemies"
@@ -10570,7 +10576,7 @@
         "unit": "",
         "min": 1,
         "max": 9999,
-        "rank": 503,
+        "rank": 512,
         "path": [
           "Assassination",
           "Advanced"
@@ -10659,7 +10665,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 504,
+        "rank": 513,
         "path": [
           "Assassination",
           "Advanced"
@@ -10746,7 +10752,7 @@
         "unit": "x",
         "min": 0.001,
         "max": 100,
-        "rank": 499,
+        "rank": 508,
         "path": [
           "Assassination",
           "Enemies",
@@ -10834,7 +10840,7 @@
         "unit": "x",
         "min": 0.001,
         "max": 100,
-        "rank": 500,
+        "rank": 509,
         "path": [
           "Assassination",
           "Enemies",
@@ -10922,7 +10928,7 @@
         "unit": "x",
         "min": 0.001,
         "max": 100,
-        "rank": 501,
+        "rank": 510,
         "path": [
           "Assassination",
           "Enemies",
@@ -23875,7 +23881,7 @@
         "unit": "x",
         "min": 0,
         "max": 1000,
-        "rank": 153,
+        "rank": 156,
         "path": [
           "Disruption",
           "Advanced"
@@ -25670,7 +25676,7 @@
         "unit": "s",
         "min": 0,
         "max": 1000,
-        "rank": 152,
+        "rank": 155,
         "path": [
           "Disruption",
           "Enemies"
@@ -25985,7 +25991,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 148,
+        "rank": 151,
         "path": [
           "Disruption",
           "Enemies",
@@ -26078,7 +26084,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 149,
+        "rank": 152,
         "path": [
           "Disruption",
           "Enemies",
@@ -26171,7 +26177,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 150,
+        "rank": 153,
         "path": [
           "Disruption",
           "Enemies",
@@ -26264,7 +26270,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 151,
+        "rank": 154,
         "path": [
           "Disruption",
           "Enemies",
@@ -26357,7 +26363,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 144,
+        "rank": 147,
         "path": [
           "Disruption",
           "Enemies",
@@ -26450,7 +26456,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 145,
+        "rank": 148,
         "path": [
           "Disruption",
           "Enemies",
@@ -26543,7 +26549,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 146,
+        "rank": 149,
         "path": [
           "Disruption",
           "Enemies",
@@ -26636,7 +26642,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 147,
+        "rank": 150,
         "path": [
           "Disruption",
           "Enemies",
@@ -26727,7 +26733,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 140,
+        "rank": 143,
         "path": [
           "Disruption",
           "Enemies",
@@ -26818,7 +26824,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 141,
+        "rank": 144,
         "path": [
           "Disruption",
           "Enemies",
@@ -26909,7 +26915,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 142,
+        "rank": 145,
         "path": [
           "Disruption",
           "Enemies",
@@ -27000,7 +27006,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 143,
+        "rank": 146,
         "path": [
           "Disruption",
           "Enemies",
@@ -28705,7 +28711,7 @@
         "unit": "",
         "min": 0,
         "max": 8000,
-        "rank": 154,
+        "rank": 157,
         "path": [
           "Disruption",
           "Advanced"
@@ -28816,7 +28822,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 166,
+        "rank": 169,
         "path": [
           "Entrati Swarm",
           "Advanced",
@@ -28927,7 +28933,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 167,
+        "rank": 170,
         "path": [
           "Entrati Swarm",
           "Advanced",
@@ -29038,7 +29044,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 168,
+        "rank": 171,
         "path": [
           "Entrati Swarm",
           "Advanced",
@@ -29149,7 +29155,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 169,
+        "rank": 172,
         "path": [
           "Entrati Swarm",
           "Advanced",
@@ -29263,7 +29269,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 170,
+        "rank": 173,
         "path": [
           "Entrati Swarm",
           "Advanced",
@@ -29377,7 +29383,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 171,
+        "rank": 174,
         "path": [
           "Entrati Swarm",
           "Advanced",
@@ -29491,7 +29497,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 172,
+        "rank": 175,
         "path": [
           "Entrati Swarm",
           "Advanced",
@@ -29605,7 +29611,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 173,
+        "rank": 176,
         "path": [
           "Entrati Swarm",
           "Advanced",
@@ -29832,7 +29838,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 156,
+        "rank": 159,
         "path": [
           "Entrati Swarm",
           "Objectives",
@@ -29921,7 +29927,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 157,
+        "rank": 160,
         "path": [
           "Entrati Swarm",
           "Objectives",
@@ -30010,7 +30016,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 158,
+        "rank": 161,
         "path": [
           "Entrati Swarm",
           "Objectives",
@@ -30099,7 +30105,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 159,
+        "rank": 162,
         "path": [
           "Entrati Swarm",
           "Objectives",
@@ -30188,7 +30194,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 160,
+        "rank": 163,
         "path": [
           "Entrati Swarm",
           "Objectives",
@@ -30279,7 +30285,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 161,
+        "rank": 164,
         "path": [
           "Entrati Swarm",
           "Objectives",
@@ -30370,7 +30376,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 162,
+        "rank": 165,
         "path": [
           "Entrati Swarm",
           "Objectives",
@@ -30461,7 +30467,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 163,
+        "rank": 166,
         "path": [
           "Entrati Swarm",
           "Objectives",
@@ -30552,7 +30558,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 164,
+        "rank": 167,
         "path": [
           "Entrati Swarm",
           "Objectives",
@@ -30643,7 +30649,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 165,
+        "rank": 168,
         "path": [
           "Entrati Swarm",
           "Objectives",
@@ -30931,7 +30937,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 182,
+        "rank": 188,
         "path": [
           "Exterminate",
           "Timers"
@@ -31156,7 +31162,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 183,
+        "rank": 189,
         "path": [
           "Exterminate",
           "Objectives",
@@ -31266,7 +31272,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 184,
+        "rank": 190,
         "path": [
           "Exterminate",
           "Objectives",
@@ -31376,7 +31382,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 185,
+        "rank": 191,
         "path": [
           "Exterminate",
           "Objectives",
@@ -31486,7 +31492,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 186,
+        "rank": 192,
         "path": [
           "Exterminate",
           "Objectives",
@@ -32061,7 +32067,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 176,
+        "rank": 182,
         "path": [
           "Excavation",
           "Timers",
@@ -32131,7 +32137,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 177,
+        "rank": 183,
         "path": [
           "Excavation",
           "Timers",
@@ -32201,7 +32207,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 178,
+        "rank": 184,
         "path": [
           "Excavation",
           "Timers",
@@ -32288,7 +32294,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 179,
+        "rank": 185,
         "path": [
           "Excavation",
           "Objectives"
@@ -32428,7 +32434,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 175,
+        "rank": 178,
         "path": [
           "Excavation",
           "Objectives"
@@ -32677,7 +32683,7 @@
         "min": 0.001,
         "max": 10,
         "stock_check": "none",
-        "rank": 181,
+        "rank": 187,
         "path": [
           "Exterminate",
           "Advanced"
@@ -32787,7 +32793,7 @@
         "min": 0.001,
         "max": 10,
         "stock_check": "none",
-        "rank": 180,
+        "rank": 186,
         "path": [
           "Exterminate"
         ],
@@ -32899,7 +32905,7 @@
         "unit": "x",
         "min": 0.001,
         "max": 32767,
-        "rank": 208,
+        "rank": 214,
         "path": [
           "Faceoff",
           "Advanced",
@@ -33010,7 +33016,7 @@
         "unit": "x",
         "min": 0.001,
         "max": 32767,
-        "rank": 209,
+        "rank": 215,
         "path": [
           "Faceoff",
           "Advanced",
@@ -33121,7 +33127,7 @@
         "unit": "x",
         "min": 0.001,
         "max": 32767,
-        "rank": 210,
+        "rank": 216,
         "path": [
           "Faceoff",
           "Advanced",
@@ -33232,7 +33238,7 @@
         "unit": "x",
         "min": 0.001,
         "max": 32767,
-        "rank": 211,
+        "rank": 217,
         "path": [
           "Faceoff",
           "Advanced",
@@ -33308,7 +33314,7 @@
         "unit": "",
         "min": 1,
         "max": 1000,
-        "rank": 195,
+        "rank": 201,
         "path": [
           "Faceoff",
           "Objectives"
@@ -33453,7 +33459,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 215,
+        "rank": 221,
         "path": [
           "Faceoff",
           "Advanced",
@@ -33529,7 +33535,7 @@
         "unit": "s",
         "min": 1,
         "max": 1500,
-        "rank": 212,
+        "rank": 218,
         "path": [
           "Faceoff",
           "Advanced",
@@ -33654,7 +33660,7 @@
         "unit": "s",
         "min": 0,
         "max": 30000,
-        "rank": 187,
+        "rank": 193,
         "path": [
           "Faceoff",
           "Timers"
@@ -33729,7 +33735,7 @@
         "unit": "s",
         "min": 1,
         "max": 15000,
-        "rank": 188,
+        "rank": 194,
         "path": [
           "Faceoff",
           "Timers"
@@ -33804,7 +33810,7 @@
         "unit": "",
         "min": 1,
         "max": 1000,
-        "rank": 214,
+        "rank": 220,
         "path": [
           "Faceoff",
           "Advanced",
@@ -33880,7 +33886,7 @@
         "unit": "",
         "min": 1,
         "max": 1000,
-        "rank": 213,
+        "rank": 219,
         "path": [
           "Faceoff",
           "Advanced",
@@ -34005,7 +34011,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 194,
+        "rank": 200,
         "path": [
           "Faceoff",
           "Objectives"
@@ -34080,7 +34086,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 218,
+        "rank": 224,
         "path": [
           "Faceoff",
           "Advanced",
@@ -34156,7 +34162,7 @@
         "unit": "s",
         "min": 1,
         "max": 1500,
-        "rank": 217,
+        "rank": 223,
         "path": [
           "Faceoff",
           "Advanced",
@@ -34281,7 +34287,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 216,
+        "rank": 222,
         "path": [
           "Faceoff",
           "Advanced",
@@ -34357,7 +34363,7 @@
         "unit": "",
         "min": 1,
         "max": 1000,
-        "rank": 193,
+        "rank": 199,
         "path": [
           "Faceoff",
           "Objectives"
@@ -34432,7 +34438,7 @@
         "unit": "s",
         "min": 1,
         "max": 2000,
-        "rank": 219,
+        "rank": 225,
         "path": [
           "Faceoff",
           "Advanced",
@@ -34508,7 +34514,7 @@
         "unit": "s",
         "min": 1,
         "max": 1000,
-        "rank": 220,
+        "rank": 226,
         "path": [
           "Faceoff",
           "Advanced",
@@ -34584,7 +34590,7 @@
         "unit": "s",
         "min": 1,
         "max": 15000,
-        "rank": 189,
+        "rank": 195,
         "path": [
           "Faceoff",
           "Timers"
@@ -34659,7 +34665,7 @@
         "unit": "",
         "min": 1,
         "max": 1000,
-        "rank": 221,
+        "rank": 227,
         "path": [
           "Faceoff",
           "Advanced",
@@ -34735,7 +34741,7 @@
         "unit": "",
         "min": 1,
         "max": 10000,
-        "rank": 222,
+        "rank": 228,
         "path": [
           "Faceoff",
           "Advanced",
@@ -34811,7 +34817,7 @@
         "unit": "",
         "min": 1,
         "max": 1000,
-        "rank": 223,
+        "rank": 229,
         "path": [
           "Faceoff",
           "Advanced",
@@ -34887,7 +34893,7 @@
         "unit": "",
         "min": 1,
         "max": 1500,
-        "rank": 224,
+        "rank": 230,
         "path": [
           "Faceoff",
           "Advanced",
@@ -35012,7 +35018,7 @@
         "unit": "",
         "min": 0,
         "max": 16000,
-        "rank": 191,
+        "rank": 197,
         "path": [
           "Faceoff",
           "Objectives",
@@ -35137,7 +35143,7 @@
         "unit": "",
         "min": 0,
         "max": 13000,
-        "rank": 192,
+        "rank": 198,
         "path": [
           "Faceoff",
           "Objectives",
@@ -35213,7 +35219,7 @@
         "unit": "m",
         "min": 1,
         "max": 10000,
-        "rank": 228,
+        "rank": 234,
         "path": [
           "Faceoff",
           "Advanced",
@@ -35289,7 +35295,7 @@
         "unit": "",
         "min": 1,
         "max": 1000,
-        "rank": 226,
+        "rank": 232,
         "path": [
           "Faceoff",
           "Advanced",
@@ -35400,7 +35406,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 200,
+        "rank": 206,
         "path": [
           "Faceoff",
           "Enemies",
@@ -35512,7 +35518,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 201,
+        "rank": 207,
         "path": [
           "Faceoff",
           "Enemies",
@@ -35624,7 +35630,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 202,
+        "rank": 208,
         "path": [
           "Faceoff",
           "Enemies",
@@ -35736,7 +35742,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 203,
+        "rank": 209,
         "path": [
           "Faceoff",
           "Enemies",
@@ -35862,7 +35868,7 @@
         "unit": "m",
         "min": 0,
         "max": 2500,
-        "rank": 227,
+        "rank": 233,
         "path": [
           "Faceoff",
           "Advanced",
@@ -35973,7 +35979,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 204,
+        "rank": 210,
         "path": [
           "Faceoff",
           "Enemies",
@@ -36085,7 +36091,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 205,
+        "rank": 211,
         "path": [
           "Faceoff",
           "Enemies",
@@ -36197,7 +36203,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 206,
+        "rank": 212,
         "path": [
           "Faceoff",
           "Enemies",
@@ -36309,7 +36315,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 207,
+        "rank": 213,
         "path": [
           "Faceoff",
           "Enemies",
@@ -36386,7 +36392,7 @@
         "unit": "",
         "min": 1,
         "max": 1000,
-        "rank": 225,
+        "rank": 231,
         "path": [
           "Faceoff",
           "Advanced",
@@ -36841,7 +36847,7 @@
         "unit": "s",
         "min": 0,
         "max": 42000,
-        "rank": 229,
+        "rank": 235,
         "path": [
           "Five Fates",
           "Timers"
@@ -36914,7 +36920,7 @@
         "unit": "s",
         "min": 1,
         "max": 360000,
-        "rank": 230,
+        "rank": 236,
         "path": [
           "Five Fates",
           "Timers"
@@ -36987,7 +36993,7 @@
         "unit": "s",
         "min": 1,
         "max": 18000,
-        "rank": 231,
+        "rank": 237,
         "path": [
           "Five Fates",
           "Timers"
@@ -37109,7 +37115,7 @@
         "unit": "s",
         "min": 0,
         "max": 24000,
-        "rank": 232,
+        "rank": 238,
         "path": [
           "Five Fates",
           "Timers"
@@ -37182,7 +37188,7 @@
         "unit": "s",
         "min": 1,
         "max": 18000,
-        "rank": 233,
+        "rank": 239,
         "path": [
           "Five Fates",
           "Timers"
@@ -37999,7 +38005,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 492,
+        "rank": 501,
         "path": [
           "All missions",
           "Timers"
@@ -38482,7 +38488,7 @@
         "unit": "HP",
         "min": 1,
         "max": 32767,
-        "rank": 445,
+        "rank": 454,
         "path": [
           "Hijack",
           "Objectives"
@@ -38565,7 +38571,7 @@
         "unit": "HP",
         "min": 1,
         "max": 32767,
-        "rank": 446,
+        "rank": 455,
         "path": [
           "Hijack",
           "Objectives"
@@ -38771,7 +38777,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 463,
+        "rank": 472,
         "path": [
           "Legacyte Harvest",
           "Objectives",
@@ -38847,7 +38853,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 462,
+        "rank": 471,
         "path": [
           "Legacyte Harvest",
           "Objectives",
@@ -38923,7 +38929,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 460,
+        "rank": 469,
         "path": [
           "Legacyte Harvest",
           "Objectives",
@@ -38999,7 +39005,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 461,
+        "rank": 470,
         "path": [
           "Legacyte Harvest",
           "Objectives",
@@ -39894,7 +39900,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 234,
+        "rank": 240,
         "path": [
           "Infested Salvage",
           "Enemies",
@@ -40009,7 +40015,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 235,
+        "rank": 241,
         "path": [
           "Infested Salvage",
           "Enemies",
@@ -40124,7 +40130,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 236,
+        "rank": 242,
         "path": [
           "Infested Salvage",
           "Enemies",
@@ -40239,7 +40245,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 237,
+        "rank": 243,
         "path": [
           "Infested Salvage",
           "Enemies",
@@ -40355,7 +40361,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 242,
+        "rank": 248,
         "path": [
           "Infested Salvage",
           "Advanced",
@@ -40471,7 +40477,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 243,
+        "rank": 249,
         "path": [
           "Infested Salvage",
           "Advanced",
@@ -40587,7 +40593,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 244,
+        "rank": 250,
         "path": [
           "Infested Salvage",
           "Advanced",
@@ -40703,7 +40709,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 245,
+        "rank": 251,
         "path": [
           "Infested Salvage",
           "Advanced",
@@ -40818,7 +40824,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 238,
+        "rank": 244,
         "path": [
           "Infested Salvage",
           "Enemies",
@@ -40933,7 +40939,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 239,
+        "rank": 245,
         "path": [
           "Infested Salvage",
           "Enemies",
@@ -41048,7 +41054,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 240,
+        "rank": 246,
         "path": [
           "Infested Salvage",
           "Enemies",
@@ -41163,7 +41169,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 241,
+        "rank": 247,
         "path": [
           "Infested Salvage",
           "Enemies",
@@ -41687,7 +41693,7 @@
         "min": 1,
         "max": 3600,
         "stock_check": "none",
-        "rank": 451,
+        "rank": 460,
         "path": [
           "Interception",
           "Timers"
@@ -41823,7 +41829,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 452,
+        "rank": 461,
         "path": [
           "Interception",
           "Objectives"
@@ -41980,7 +41986,7 @@
         "min": 0.001,
         "max": 20,
         "stock_check": "none",
-        "rank": 450,
+        "rank": 459,
         "path": [
           "Interception"
         ],
@@ -42150,7 +42156,7 @@
         "min": 0.1,
         "max": 20,
         "stock_check": "none",
-        "rank": 453,
+        "rank": 462,
         "path": [
           "Interception",
           "Advanced"
@@ -42227,7 +42233,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 248,
+        "rank": 254,
         "path": [
           "Lantern",
           "Timers"
@@ -42326,7 +42332,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 247,
+        "rank": 253,
         "path": [
           "Lantern",
           "Timers"
@@ -42448,7 +42454,7 @@
         "unit": "x",
         "min": 0,
         "max": 1000,
-        "rank": 259,
+        "rank": 265,
         "path": [
           "Lantern",
           "Advanced",
@@ -42571,7 +42577,7 @@
         "unit": "x",
         "min": 0,
         "max": 1000,
-        "rank": 260,
+        "rank": 266,
         "path": [
           "Lantern",
           "Advanced",
@@ -42694,7 +42700,7 @@
         "unit": "x",
         "min": 0,
         "max": 1000,
-        "rank": 261,
+        "rank": 267,
         "path": [
           "Lantern",
           "Advanced",
@@ -42817,7 +42823,7 @@
         "unit": "x",
         "min": 0,
         "max": 1000,
-        "rank": 262,
+        "rank": 268,
         "path": [
           "Lantern",
           "Advanced",
@@ -43311,7 +43317,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 258,
+        "rank": 264,
         "path": [
           "Lantern",
           "Advanced"
@@ -43416,7 +43422,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 249,
+        "rank": 255,
         "path": [
           "Lantern",
           "Objectives"
@@ -43521,7 +43527,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 250,
+        "rank": 256,
         "path": [
           "Lantern",
           "Enemies",
@@ -43627,7 +43633,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 251,
+        "rank": 257,
         "path": [
           "Lantern",
           "Enemies",
@@ -43733,7 +43739,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 252,
+        "rank": 258,
         "path": [
           "Lantern",
           "Enemies",
@@ -43839,7 +43845,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 253,
+        "rank": 259,
         "path": [
           "Lantern",
           "Enemies",
@@ -43953,7 +43959,7 @@
         "unit": "m",
         "min": 0,
         "max": 1000,
-        "rank": 254,
+        "rank": 260,
         "path": [
           "Lantern",
           "Advanced",
@@ -44059,7 +44065,7 @@
         "unit": "m",
         "min": 1,
         "max": 32767,
-        "rank": 255,
+        "rank": 261,
         "path": [
           "Lantern",
           "Advanced",
@@ -44173,7 +44179,7 @@
         "unit": "m",
         "min": 0,
         "max": 1000,
-        "rank": 256,
+        "rank": 262,
         "path": [
           "Lantern",
           "Advanced",
@@ -44287,7 +44293,7 @@
         "unit": "m",
         "min": 0,
         "max": 1000,
-        "rank": 257,
+        "rank": 263,
         "path": [
           "Lantern",
           "Advanced",
@@ -44410,7 +44416,7 @@
         "unit": "s",
         "min": 0,
         "max": 9000,
-        "rank": 246,
+        "rank": 252,
         "path": [
           "Lantern",
           "Timers"
@@ -44534,7 +44540,7 @@
         "unit": "s",
         "min": 0,
         "max": 1000,
-        "rank": 293,
+        "rank": 299,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -44646,7 +44652,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 287,
+        "rank": 293,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -44758,7 +44764,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 288,
+        "rank": 294,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -44870,7 +44876,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 289,
+        "rank": 295,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -44984,7 +44990,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 290,
+        "rank": 296,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -45060,7 +45066,7 @@
         "unit": "s",
         "min": 1,
         "max": 1000,
-        "rank": 295,
+        "rank": 301,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -45136,7 +45142,7 @@
         "unit": "s",
         "min": 1,
         "max": 1000,
-        "rank": 294,
+        "rank": 300,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -45212,7 +45218,7 @@
         "unit": "",
         "min": 1,
         "max": 1000,
-        "rank": 291,
+        "rank": 297,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -45288,7 +45294,7 @@
         "unit": "",
         "min": 1,
         "max": 1000,
-        "rank": 292,
+        "rank": 298,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -45429,7 +45435,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 271,
+        "rank": 277,
         "path": [
           "Mirror Defense",
           "Enemies",
@@ -45571,7 +45577,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 272,
+        "rank": 278,
         "path": [
           "Mirror Defense",
           "Enemies",
@@ -45713,7 +45719,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 273,
+        "rank": 279,
         "path": [
           "Mirror Defense",
           "Enemies",
@@ -45857,7 +45863,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 274,
+        "rank": 280,
         "path": [
           "Mirror Defense",
           "Enemies",
@@ -46001,7 +46007,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 279,
+        "rank": 285,
         "path": [
           "Mirror Defense",
           "Enemies",
@@ -46145,7 +46151,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 280,
+        "rank": 286,
         "path": [
           "Mirror Defense",
           "Enemies",
@@ -46289,7 +46295,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 281,
+        "rank": 287,
         "path": [
           "Mirror Defense",
           "Enemies",
@@ -46434,7 +46440,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 282,
+        "rank": 288,
         "path": [
           "Mirror Defense",
           "Enemies",
@@ -46576,7 +46582,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 275,
+        "rank": 281,
         "path": [
           "Mirror Defense",
           "Enemies",
@@ -46718,7 +46724,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 276,
+        "rank": 282,
         "path": [
           "Mirror Defense",
           "Enemies",
@@ -46860,7 +46866,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 277,
+        "rank": 283,
         "path": [
           "Mirror Defense",
           "Enemies",
@@ -47004,7 +47010,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 278,
+        "rank": 284,
         "path": [
           "Mirror Defense",
           "Enemies",
@@ -47148,7 +47154,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 283,
+        "rank": 289,
         "path": [
           "Mirror Defense",
           "Enemies",
@@ -47292,7 +47298,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 284,
+        "rank": 290,
         "path": [
           "Mirror Defense",
           "Enemies",
@@ -47436,7 +47442,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 285,
+        "rank": 291,
         "path": [
           "Mirror Defense",
           "Enemies",
@@ -47581,7 +47587,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 286,
+        "rank": 292,
         "path": [
           "Mirror Defense",
           "Enemies",
@@ -47957,7 +47963,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 312,
+        "rank": 318,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -48082,7 +48088,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 311,
+        "rank": 317,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -48207,7 +48213,7 @@
         "unit": "s",
         "min": 0,
         "max": 300000,
-        "rank": 310,
+        "rank": 316,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -48332,7 +48338,7 @@
         "unit": "s",
         "min": 0,
         "max": 6000,
-        "rank": 309,
+        "rank": 315,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -48459,7 +48465,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 315,
+        "rank": 321,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -48586,7 +48592,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 314,
+        "rank": 320,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -48713,7 +48719,7 @@
         "unit": "s",
         "min": 0,
         "max": 4500,
-        "rank": 313,
+        "rank": 319,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -48856,7 +48862,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 316,
+        "rank": 322,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -49000,7 +49006,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 317,
+        "rank": 323,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -49144,7 +49150,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 318,
+        "rank": 324,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -49289,7 +49295,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 319,
+        "rank": 325,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -49646,7 +49652,7 @@
         "unit": "",
         "min": 1,
         "max": 1000,
-        "rank": 307,
+        "rank": 313,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -49771,7 +49777,7 @@
         "unit": "s",
         "min": 0,
         "max": 4000,
-        "rank": 304,
+        "rank": 310,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -49896,7 +49902,7 @@
         "unit": "s",
         "min": 0,
         "max": 1000,
-        "rank": 305,
+        "rank": 311,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -50021,7 +50027,7 @@
         "unit": "s",
         "min": 0,
         "max": 1000,
-        "rank": 306,
+        "rank": 312,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -50146,7 +50152,7 @@
         "unit": "s",
         "min": 0,
         "max": 102000,
-        "rank": 303,
+        "rank": 309,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -50271,7 +50277,7 @@
         "unit": "s",
         "min": 0,
         "max": 90000,
-        "rank": 302,
+        "rank": 308,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -50398,7 +50404,7 @@
         "unit": "",
         "min": 0,
         "max": 1500,
-        "rank": 308,
+        "rank": 314,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -50523,7 +50529,7 @@
         "unit": "HP",
         "min": 0,
         "max": 20000,
-        "rank": 298,
+        "rank": 304,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -50648,7 +50654,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 299,
+        "rank": 305,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -50773,7 +50779,7 @@
         "unit": "HP",
         "min": 0,
         "max": 10000,
-        "rank": 296,
+        "rank": 302,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -50898,7 +50904,7 @@
         "unit": "s",
         "min": 0,
         "max": 2000,
-        "rank": 297,
+        "rank": 303,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -50974,7 +50980,7 @@
         "unit": "x",
         "min": 0,
         "max": 1000,
-        "rank": 300,
+        "rank": 306,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -51050,7 +51056,7 @@
         "unit": "x",
         "min": 0.001,
         "max": 1000,
-        "rank": 301,
+        "rank": 307,
         "path": [
           "Mirror Defense",
           "Advanced",
@@ -51160,7 +51166,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 264,
+        "rank": 270,
         "path": [
           "Mirror Defense",
           "Timers"
@@ -51269,7 +51275,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 265,
+        "rank": 271,
         "path": [
           "Mirror Defense",
           "Timers"
@@ -51485,7 +51491,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 266,
+        "rank": 272,
         "path": [
           "Mirror Defense",
           "Objectives"
@@ -52639,7 +52645,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 324,
+        "rank": 330,
         "path": [
           "Mobile Defense",
           "Objectives"
@@ -52838,7 +52844,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 330,
+        "rank": 336,
         "path": [
           "Mobile Defense",
           "Enemies",
@@ -52957,7 +52963,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 331,
+        "rank": 337,
         "path": [
           "Mobile Defense",
           "Enemies",
@@ -53076,7 +53082,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 332,
+        "rank": 338,
         "path": [
           "Mobile Defense",
           "Enemies",
@@ -53197,7 +53203,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 333,
+        "rank": 339,
         "path": [
           "Mobile Defense",
           "Enemies",
@@ -53316,7 +53322,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 334,
+        "rank": 340,
         "path": [
           "Mobile Defense",
           "Enemies",
@@ -53435,7 +53441,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 335,
+        "rank": 341,
         "path": [
           "Mobile Defense",
           "Enemies",
@@ -53554,7 +53560,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 336,
+        "rank": 342,
         "path": [
           "Mobile Defense",
           "Enemies",
@@ -53675,7 +53681,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 337,
+        "rank": 343,
         "path": [
           "Mobile Defense",
           "Enemies",
@@ -53912,7 +53918,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 321,
+        "rank": 327,
         "path": [
           "Mobile Defense",
           "Timers",
@@ -53980,7 +53986,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 322,
+        "rank": 328,
         "path": [
           "Mobile Defense",
           "Timers",
@@ -54062,7 +54068,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 440,
+        "rank": 449,
         "path": [
           "Hack-Station Defense",
           "Timers",
@@ -54144,7 +54150,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 442,
+        "rank": 451,
         "path": [
           "Hack-Station Defense",
           "Timers",
@@ -54226,7 +54232,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 439,
+        "rank": 448,
         "path": [
           "Hack-Station Defense",
           "Timers",
@@ -54308,7 +54314,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 441,
+        "rank": 450,
         "path": [
           "Hack-Station Defense",
           "Timers",
@@ -54470,7 +54476,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 443,
+        "rank": 452,
         "path": [
           "Hack-Station Defense",
           "Objectives"
@@ -54932,7 +54938,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 447,
+        "rank": 456,
         "path": [
           "Netracell",
           "Objectives"
@@ -55108,7 +55114,7 @@
         "unit": "",
         "min": 0,
         "max": 10000,
-        "rank": 448,
+        "rank": 457,
         "path": [
           "Netracell",
           "Objectives"
@@ -55302,7 +55308,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 498,
+        "rank": 507,
         "path": [
           "Sanctuary Onslaught",
           "Advanced"
@@ -55372,7 +55378,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 494,
+        "rank": 503,
         "path": [
           "Sanctuary Onslaught",
           "Objectives",
@@ -55443,7 +55449,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 496,
+        "rank": 505,
         "path": [
           "Sanctuary Onslaught",
           "Objectives",
@@ -55514,7 +55520,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 495,
+        "rank": 504,
         "path": [
           "Sanctuary Onslaught",
           "Objectives",
@@ -55617,7 +55623,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 493,
+        "rank": 502,
         "path": [
           "Sanctuary Onslaught",
           "Timers"
@@ -55702,7 +55708,7 @@
         "unit": "",
         "min": 1,
         "max": 100,
-        "rank": 497,
+        "rank": 506,
         "path": [
           "Sanctuary Onslaught",
           "Rewards / drops"
@@ -55829,7 +55835,7 @@
         "unit": "",
         "min": 0,
         "max": 3600,
-        "rank": 345,
+        "rank": 351,
         "path": [
           "Orphix Venom",
           "Objectives"
@@ -55905,7 +55911,7 @@
         "unit": "",
         "min": 1,
         "max": 1000,
-        "rank": 347,
+        "rank": 353,
         "path": [
           "Orphix Venom",
           "Enemies"
@@ -56030,7 +56036,7 @@
         "unit": "s",
         "min": 0,
         "max": 9000,
-        "rank": 344,
+        "rank": 350,
         "path": [
           "Orphix Venom",
           "Timers",
@@ -56107,7 +56113,7 @@
         "unit": "s",
         "min": 1,
         "max": 5000,
-        "rank": 343,
+        "rank": 349,
         "path": [
           "Orphix Venom",
           "Timers",
@@ -56184,7 +56190,7 @@
         "unit": "",
         "min": 1,
         "max": 1000,
-        "rank": 348,
+        "rank": 354,
         "path": [
           "Orphix Venom",
           "Rewards / drops"
@@ -56260,7 +56266,7 @@
         "unit": "",
         "min": 1,
         "max": 5000,
-        "rank": 349,
+        "rank": 355,
         "path": [
           "Orphix Venom",
           "Advanced"
@@ -56375,7 +56381,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 346,
+        "rank": 352,
         "path": [
           "Orphix Venom",
           "Objectives"
@@ -56448,7 +56454,7 @@
         "unit": "x",
         "min": 0,
         "max": 1000,
-        "rank": 364,
+        "rank": 370,
         "path": [
           "Purgatory",
           "Advanced",
@@ -56522,7 +56528,7 @@
         "unit": "",
         "min": 1,
         "max": 1000,
-        "rank": 363,
+        "rank": 369,
         "path": [
           "Purgatory",
           "Advanced",
@@ -56596,7 +56602,7 @@
         "unit": "",
         "min": 1,
         "max": 1000,
-        "rank": 362,
+        "rank": 368,
         "path": [
           "Purgatory",
           "Advanced",
@@ -56670,7 +56676,7 @@
         "unit": "x",
         "min": 0,
         "max": 1000,
-        "rank": 367,
+        "rank": 373,
         "path": [
           "Purgatory",
           "Advanced",
@@ -56744,7 +56750,7 @@
         "unit": "",
         "min": 1,
         "max": 1000,
-        "rank": 366,
+        "rank": 372,
         "path": [
           "Purgatory",
           "Advanced",
@@ -56818,7 +56824,7 @@
         "unit": "",
         "min": 1,
         "max": 2500,
-        "rank": 365,
+        "rank": 371,
         "path": [
           "Purgatory",
           "Advanced",
@@ -56892,7 +56898,7 @@
         "unit": "x",
         "min": 0,
         "max": 1000,
-        "rank": 370,
+        "rank": 376,
         "path": [
           "Purgatory",
           "Advanced",
@@ -56966,7 +56972,7 @@
         "unit": "",
         "min": 1,
         "max": 1500,
-        "rank": 369,
+        "rank": 375,
         "path": [
           "Purgatory",
           "Advanced",
@@ -57040,7 +57046,7 @@
         "unit": "",
         "min": 1,
         "max": 5000,
-        "rank": 368,
+        "rank": 374,
         "path": [
           "Purgatory",
           "Advanced",
@@ -57123,7 +57129,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 352,
+        "rank": 358,
         "path": [
           "Purgatory",
           "Enemies"
@@ -57283,7 +57289,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 350,
+        "rank": 356,
         "path": [
           "Purgatory",
           "Timers"
@@ -57450,7 +57456,7 @@
         "unit": "s",
         "min": 0,
         "max": 1000,
-        "rank": 351,
+        "rank": 357,
         "path": [
           "Purgatory",
           "Timers"
@@ -57555,7 +57561,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 356,
+        "rank": 362,
         "path": [
           "Purgatory",
           "Rewards / drops",
@@ -57661,7 +57667,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 357,
+        "rank": 363,
         "path": [
           "Purgatory",
           "Rewards / drops",
@@ -57767,7 +57773,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 358,
+        "rank": 364,
         "path": [
           "Purgatory",
           "Rewards / drops",
@@ -57873,7 +57879,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 359,
+        "rank": 365,
         "path": [
           "Purgatory",
           "Rewards / drops",
@@ -57979,7 +57985,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 360,
+        "rank": 366,
         "path": [
           "Purgatory",
           "Rewards / drops",
@@ -58085,7 +58091,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 361,
+        "rank": 367,
         "path": [
           "Purgatory",
           "Rewards / drops",
@@ -58330,7 +58336,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 355,
+        "rank": 361,
         "path": [
           "Purgatory",
           "Enemies",
@@ -58413,7 +58419,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 354,
+        "rank": 360,
         "path": [
           "Purgatory",
           "Enemies",
@@ -58524,7 +58530,7 @@
         "unit": "x",
         "min": 0.134,
         "max": 32767,
-        "rank": 372,
+        "rank": 378,
         "path": [
           "Purge",
           "Advanced",
@@ -58635,7 +58641,7 @@
         "unit": "x",
         "min": 0.134,
         "max": 32767,
-        "rank": 373,
+        "rank": 379,
         "path": [
           "Purge",
           "Advanced",
@@ -58833,7 +58839,7 @@
         "unit": "x",
         "min": 0.134,
         "max": 32767,
-        "rank": 374,
+        "rank": 380,
         "path": [
           "Purge",
           "Advanced",
@@ -59001,7 +59007,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 371,
+        "rank": 377,
         "path": [
           "Purge",
           "Objectives"
@@ -59536,7 +59542,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 449,
+        "rank": 458,
         "path": [
           "Pursuit",
           "Timers"
@@ -60599,7 +60605,7 @@
         "min": 0.001,
         "max": 10,
         "stock_check": "none",
-        "rank": 509,
+        "rank": 518,
         "path": [
           "Railjack",
           "Objectives"
@@ -60731,7 +60737,7 @@
         "min": 0.001,
         "max": 10,
         "stock_check": "none",
-        "rank": 508,
+        "rank": 517,
         "path": [
           "Railjack",
           "Objectives"
@@ -60904,7 +60910,7 @@
         "min": 0.001,
         "max": 10,
         "stock_check": "none",
-        "rank": 507,
+        "rank": 516,
         "path": [
           "Railjack",
           "Objectives"
@@ -61018,7 +61024,7 @@
         "min": 0.001,
         "max": 10,
         "stock_check": "none",
-        "rank": 510,
+        "rank": 519,
         "path": [
           "Railjack",
           "Objectives",
@@ -61134,7 +61140,7 @@
         "min": 0.001,
         "max": 10,
         "stock_check": "none",
-        "rank": 511,
+        "rank": 520,
         "path": [
           "Railjack",
           "Objectives",
@@ -61286,7 +61292,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 457,
+        "rank": 466,
         "path": [
           "Rescue",
           "Timers",
@@ -61359,7 +61365,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 458,
+        "rank": 467,
         "path": [
           "Rescue",
           "Timers",
@@ -61733,7 +61739,7 @@
         "unit": "m/s",
         "min": 0.1,
         "max": 1000,
-        "rank": 475,
+        "rank": 484,
         "path": [
           "Rush",
           "Timers"
@@ -61805,7 +61811,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 469,
+        "rank": 478,
         "path": [
           "Sabotage",
           "Timers"
@@ -61892,7 +61898,7 @@
         "unit": "x",
         "min": 0.001,
         "max": 100,
-        "rank": 472,
+        "rank": 481,
         "path": [
           "Sabotage",
           "Advanced",
@@ -61980,7 +61986,7 @@
         "unit": "x",
         "min": 0.001,
         "max": 100,
-        "rank": 473,
+        "rank": 482,
         "path": [
           "Sabotage",
           "Advanced",
@@ -62115,7 +62121,7 @@
         "min": 0.001,
         "max": 20,
         "stock_check": "none",
-        "rank": 466,
+        "rank": 475,
         "path": [
           "Sabotage",
           "Timers"
@@ -62188,7 +62194,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 467,
+        "rank": 476,
         "path": [
           "Sabotage",
           "Timers"
@@ -62277,7 +62283,7 @@
         "unit": "s",
         "min": 4,
         "max": 32767,
-        "rank": 468,
+        "rank": 477,
         "path": [
           "Sabotage",
           "Timers"
@@ -62383,7 +62389,7 @@
         "min": 1,
         "max": 3600,
         "stock_check": "none",
-        "rank": 474,
+        "rank": 483,
         "path": [
           "Sabotage",
           "Advanced"
@@ -62455,7 +62461,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 465,
+        "rank": 474,
         "path": [
           "Sabotage",
           "Timers"
@@ -62527,7 +62533,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 471,
+        "rank": 480,
         "path": [
           "Sabotage",
           "Enemies"
@@ -62599,7 +62605,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 470,
+        "rank": 479,
         "path": [
           "Sabotage",
           "Timers"
@@ -62880,7 +62886,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 325,
+        "rank": 331,
         "path": [
           "Mobile Defense",
           "Objectives"
@@ -62964,7 +62970,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 323,
+        "rank": 329,
         "path": [
           "Mobile Defense",
           "Timers"
@@ -63077,7 +63083,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 338,
+        "rank": 344,
         "path": [
           "Mobile Defense",
           "Enemies",
@@ -63191,7 +63197,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 339,
+        "rank": 345,
         "path": [
           "Mobile Defense",
           "Enemies",
@@ -63305,7 +63311,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 340,
+        "rank": 346,
         "path": [
           "Mobile Defense",
           "Enemies",
@@ -63420,7 +63426,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 341,
+        "rank": 347,
         "path": [
           "Mobile Defense",
           "Enemies",
@@ -69658,7 +69664,7 @@
         "min": 0.001,
         "max": 20,
         "stock_check": "none",
-        "rank": 454,
+        "rank": 463,
         "path": [
           "Spy"
         ],
@@ -69900,7 +69906,7 @@
         "unit": "",
         "min": 0,
         "max": 5,
-        "rank": 455,
+        "rank": 464,
         "path": [
           "Spy",
           "Advanced"
@@ -69978,7 +69984,7 @@
         "unit": "s",
         "min": 1,
         "max": 60000,
-        "rank": 376,
+        "rank": 382,
         "path": [
           "Survival",
           "Timers"
@@ -70104,7 +70110,7 @@
         "unit": "x",
         "min": 0,
         "max": 1000,
-        "rank": 390,
+        "rank": 399,
         "path": [
           "Survival",
           "Rewards / drops"
@@ -70179,7 +70185,7 @@
         "unit": "s",
         "min": 1,
         "max": 3000,
-        "rank": 384,
+        "rank": 393,
         "path": [
           "Survival",
           "Timers",
@@ -70255,7 +70261,7 @@
         "unit": "s",
         "min": 1,
         "max": 15000,
-        "rank": 379,
+        "rank": 388,
         "path": [
           "Survival",
           "Timers",
@@ -70331,7 +70337,7 @@
         "unit": "s",
         "min": 1,
         "max": 9000,
-        "rank": 383,
+        "rank": 392,
         "path": [
           "Survival",
           "Timers",
@@ -70407,7 +70413,7 @@
         "unit": "s",
         "min": 1,
         "max": 15000,
-        "rank": 380,
+        "rank": 389,
         "path": [
           "Survival",
           "Timers",
@@ -70483,7 +70489,7 @@
         "unit": "s",
         "min": 1,
         "max": 4500,
-        "rank": 381,
+        "rank": 390,
         "path": [
           "Survival",
           "Timers",
@@ -70562,7 +70568,7 @@
         "unit": "x",
         "min": 0,
         "max": 1000,
-        "rank": 392,
+        "rank": 401,
         "path": [
           "Survival",
           "Rewards / drops"
@@ -70639,7 +70645,7 @@
         "unit": "x",
         "min": 0,
         "max": 1000,
-        "rank": 391,
+        "rank": 400,
         "path": [
           "Survival",
           "Rewards / drops"
@@ -70726,7 +70732,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 378,
+        "rank": 387,
         "path": [
           "Survival",
           "Timers"
@@ -70925,7 +70931,7 @@
         "unit": "min",
         "min": 0,
         "max": 60,
-        "rank": 377,
+        "rank": 383,
         "path": [
           "Survival",
           "Timers"
@@ -71003,7 +71009,7 @@
         "unit": "s",
         "min": 1,
         "max": 60000,
-        "rank": 403,
+        "rank": 412,
         "path": [
           "Survival",
           "Advanced",
@@ -71081,7 +71087,7 @@
         "unit": "s",
         "min": 1,
         "max": 60000,
-        "rank": 402,
+        "rank": 411,
         "path": [
           "Survival",
           "Advanced",
@@ -71159,7 +71165,7 @@
         "unit": "",
         "min": 1,
         "max": 1000,
-        "rank": 404,
+        "rank": 413,
         "path": [
           "Survival",
           "Advanced",
@@ -71237,7 +71243,7 @@
         "unit": "",
         "min": 1,
         "max": 1500,
-        "rank": 405,
+        "rank": 414,
         "path": [
           "Survival",
           "Advanced",
@@ -71362,7 +71368,7 @@
         "unit": "s",
         "min": 0,
         "max": 4000,
-        "rank": 399,
+        "rank": 408,
         "path": [
           "Survival",
           "Advanced",
@@ -71438,7 +71444,7 @@
         "unit": "s",
         "min": 1,
         "max": 1000,
-        "rank": 400,
+        "rank": 409,
         "path": [
           "Survival",
           "Advanced",
@@ -71563,7 +71569,7 @@
         "unit": "x",
         "min": 0,
         "max": 1000,
-        "rank": 401,
+        "rank": 410,
         "path": [
           "Survival",
           "Advanced",
@@ -71690,7 +71696,7 @@
         "unit": "s",
         "min": 0,
         "max": 102000,
-        "rank": 398,
+        "rank": 407,
         "path": [
           "Survival",
           "Advanced",
@@ -71817,7 +71823,7 @@
         "unit": "s",
         "min": 0,
         "max": 90000,
-        "rank": 397,
+        "rank": 406,
         "path": [
           "Survival",
           "Advanced",
@@ -71942,7 +71948,7 @@
         "unit": "x",
         "min": 0,
         "max": 1000,
-        "rank": 388,
+        "rank": 397,
         "path": [
           "Survival",
           "Rewards / drops"
@@ -72066,7 +72072,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 389,
+        "rank": 398,
         "path": [
           "Survival",
           "Rewards / drops"
@@ -72190,7 +72196,7 @@
         "unit": "x",
         "min": 0,
         "max": 1000,
-        "rank": 386,
+        "rank": 395,
         "path": [
           "Survival",
           "Rewards / drops"
@@ -72265,7 +72271,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 387,
+        "rank": 396,
         "path": [
           "Survival",
           "Rewards / drops"
@@ -72326,7 +72332,7 @@
         "unit": "s",
         "min": 0,
         "max": 32767,
-        "rank": 395,
+        "rank": 404,
         "path": [
           "Survival",
           "Advanced"
@@ -72413,7 +72419,7 @@
         "unit": "s",
         "min": 0,
         "max": 32767,
-        "rank": 382,
+        "rank": 391,
         "path": [
           "Survival",
           "Timers",
@@ -72489,7 +72495,7 @@
         "unit": "s",
         "min": 1,
         "max": 30000,
-        "rank": 385,
+        "rank": 394,
         "path": [
           "Survival",
           "Timers",
@@ -72565,7 +72571,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 396,
+        "rank": 405,
         "path": [
           "Survival",
           "Advanced"
@@ -72652,7 +72658,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 375,
+        "rank": 381,
         "path": [
           "Survival"
         ],
@@ -72780,7 +72786,7 @@
         "unit": "x",
         "min": 0,
         "max": 1000,
-        "rank": 393,
+        "rank": 402,
         "path": [
           "Survival",
           "Rewards / drops"
@@ -72858,7 +72864,7 @@
         "unit": "x",
         "min": 0,
         "max": 1000,
-        "rank": 394,
+        "rank": 403,
         "path": [
           "Survival",
           "Rewards / drops"
@@ -72935,7 +72941,7 @@
         "unit": "s",
         "min": 0.5,
         "max": 32767,
-        "rank": 491,
+        "rank": 500,
         "path": [
           "Void Armageddon",
           "Advanced"
@@ -73007,7 +73013,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 482,
+        "rank": 491,
         "path": [
           "Void Armageddon",
           "Objectives",
@@ -73080,7 +73086,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 483,
+        "rank": 492,
         "path": [
           "Void Armageddon",
           "Objectives",
@@ -73153,7 +73159,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 484,
+        "rank": 493,
         "path": [
           "Void Armageddon",
           "Objectives",
@@ -73226,7 +73232,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 485,
+        "rank": 494,
         "path": [
           "Void Armageddon",
           "Objectives",
@@ -73299,7 +73305,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 486,
+        "rank": 495,
         "path": [
           "Void Armageddon",
           "Enemies",
@@ -73372,7 +73378,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 487,
+        "rank": 496,
         "path": [
           "Void Armageddon",
           "Enemies",
@@ -73445,7 +73451,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 488,
+        "rank": 497,
         "path": [
           "Void Armageddon",
           "Enemies",
@@ -73518,7 +73524,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 489,
+        "rank": 498,
         "path": [
           "Void Armageddon",
           "Enemies",
@@ -73596,7 +73602,7 @@
         "unit": "s",
         "min": 0.5,
         "max": 32767,
-        "rank": 478,
+        "rank": 487,
         "path": [
           "Void Armageddon",
           "Timers"
@@ -73673,7 +73679,7 @@
         "unit": "s",
         "min": 0.5,
         "max": 32767,
-        "rank": 477,
+        "rank": 486,
         "path": [
           "Void Armageddon",
           "Timers"
@@ -73750,7 +73756,7 @@
         "unit": "s",
         "min": 0.5,
         "max": 32767,
-        "rank": 479,
+        "rank": 488,
         "path": [
           "Void Armageddon",
           "Timers"
@@ -73827,7 +73833,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 490,
+        "rank": 499,
         "path": [
           "Void Armageddon",
           "Rewards / drops"
@@ -73904,7 +73910,7 @@
         "unit": "s",
         "min": 0.5,
         "max": 32767,
-        "rank": 480,
+        "rank": 489,
         "path": [
           "Void Armageddon",
           "Timers"
@@ -73981,7 +73987,7 @@
         "unit": "s",
         "min": 0.5,
         "max": 32767,
-        "rank": 476,
+        "rank": 485,
         "path": [
           "Void Armageddon"
         ],
@@ -74059,7 +74065,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 481,
+        "rank": 490,
         "path": [
           "Void Armageddon",
           "Objectives"
@@ -74154,7 +74160,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 414,
+        "rank": 423,
         "path": [
           "Void Cascade",
           "Rewards / drops"
@@ -74268,7 +74274,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 409,
+        "rank": 418,
         "path": [
           "Void Cascade",
           "Objectives",
@@ -74383,7 +74389,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 410,
+        "rank": 419,
         "path": [
           "Void Cascade",
           "Objectives",
@@ -74498,7 +74504,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 411,
+        "rank": 420,
         "path": [
           "Void Cascade",
           "Objectives",
@@ -74613,7 +74619,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 412,
+        "rank": 421,
         "path": [
           "Void Cascade",
           "Objectives",
@@ -74724,7 +74730,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 408,
+        "rank": 417,
         "path": [
           "Void Cascade",
           "Objectives"
@@ -74850,7 +74856,7 @@
         "unit": "s",
         "min": 1,
         "max": 32767,
-        "rank": 407,
+        "rank": 416,
         "path": [
           "Void Cascade",
           "Timers"
@@ -74925,7 +74931,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 413,
+        "rank": 422,
         "path": [
           "Void Cascade",
           "Rewards / drops"
@@ -75000,7 +75006,7 @@
         "unit": "",
         "min": 1,
         "max": 1000,
-        "rank": 424,
+        "rank": 433,
         "path": [
           "Void Flood",
           "Advanced"
@@ -75077,7 +75083,7 @@
         "unit": "",
         "min": 1,
         "max": 1000,
-        "rank": 425,
+        "rank": 434,
         "path": [
           "Void Flood",
           "Advanced"
@@ -75152,7 +75158,7 @@
         "unit": "",
         "min": 1,
         "max": 10000,
-        "rank": 426,
+        "rank": 435,
         "path": [
           "Void Flood",
           "Advanced"
@@ -75293,7 +75299,7 @@
         "unit": "x",
         "min": 0.001,
         "max": 100,
-        "rank": 415,
+        "rank": 424,
         "path": [
           "Void Flood"
         ],
@@ -75374,7 +75380,7 @@
         "unit": "x",
         "min": 0,
         "max": 100,
-        "rank": 422,
+        "rank": 431,
         "path": [
           "Void Flood",
           "Objectives"
@@ -75614,7 +75620,7 @@
         "unit": "x",
         "min": 0,
         "max": 1000,
-        "rank": 423,
+        "rank": 432,
         "path": [
           "Void Flood",
           "Advanced"
@@ -75738,7 +75744,7 @@
         "unit": "s",
         "min": 0,
         "max": 20000,
-        "rank": 416,
+        "rank": 425,
         "path": [
           "Void Flood",
           "Timers"
@@ -75813,7 +75819,7 @@
         "unit": "s",
         "min": 1,
         "max": 6000,
-        "rank": 417,
+        "rank": 426,
         "path": [
           "Void Flood",
           "Timers"
@@ -75926,7 +75932,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 428,
+        "rank": 437,
         "path": [
           "Void Flood",
           "Objectives"
@@ -76009,7 +76015,7 @@
         "unit": "",
         "min": 1,
         "max": 32767,
-        "rank": 418,
+        "rank": 427,
         "path": [
           "Void Flood",
           "Objectives"
@@ -76087,7 +76093,7 @@
         "unit": "",
         "min": 1,
         "max": 1000,
-        "rank": 427,
+        "rank": 436,
         "path": [
           "Void Flood",
           "Advanced"
@@ -76280,7 +76286,7 @@
         "unit": "x",
         "min": 0.06,
         "max": 100,
-        "rank": 421,
+        "rank": 430,
         "path": [
           "Void Flood",
           "Objectives"
@@ -76402,7 +76408,7 @@
         "unit": "x",
         "min": 0.001,
         "max": 100,
-        "rank": 420,
+        "rank": 429,
         "path": [
           "Void Flood",
           "Objectives"
@@ -76513,7 +76519,7 @@
         "unit": "",
         "min": 0,
         "max": 1000,
-        "rank": 419,
+        "rank": 428,
         "path": [
           "Void Flood",
           "Objectives"
@@ -76992,6 +76998,902 @@
         ],
         "row": "Chemical-noise drones per launch",
         "rank": 100000
+      }
+    },
+    {
+      "tunable_id": "disruption.icebind_conduits",
+      "phase1_tunable_id": null,
+      "label": "Conduits to finish (Icebind, Disruption script)",
+      "mission_type": "Disruption",
+      "variant": "Icebind (KuvaPath, location KuvaPathMission, missionType 33)",
+      "shared_with": "one master drives the row pair (mission script and Icebind script)",
+      "owner_kind": "MISSION_INFO_FIELD",
+      "backend": "TARGET_ADDON",
+      "unit": "conduits",
+      "stock": 8,
+      "confidence": "CONFIRMED_STATIC (write mechanism: R10 stock precedent; live probe pending)",
+      "provenance": "research:icebind-goals-2026-10-09 (contract R23)",
+      "evidence": "SentientArtifactMission 44.1.1 (b6d8c45f9424d376): global Mission (P85, root i1101) reaches every live reader (P9, P55, P81, P82, P84) through captured closures; P8 (root R70) and P10 (root R72) are never captured, published or read after creation (NO USE). The info snapshot v61.info is taken inside the Mission chain. Tool: work/research/icebind-goals-2026-10-09/tools/goal_owners.py (bytecode capture graph; reproduces the R10 Excavation and Survival owners). Icebind identity: LotusGameRules 44.1.1 sets _T.IsKuvaPathMission when mission.location == LotusUtilities.KUVA_PATH_MISSION_LOCATION (Symbol(\"KuvaPathMission\")); the per-type stock is KuvaKeysLib MISSIONS (Survival 10, Excavation 6, MobileDefense 540, Disruption 8; a literal patch is impossible for 8 and 10: their number constants are shared with other templates).",
+      "research_draft_id": "disruption.icebind_conduits",
+      "owner": {
+        "body_key": "b6d8c45f9424d376",
+        "stock_sha256": "B3E18CB43701ADEAAC4E41293DD3F2F332071D84C766ABDCD45B0084EB0CEDA3",
+        "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+        "module_path": "Lotus.Scripts.Modes.SentientArtifactMission",
+        "template": "MISSION_INFO_FIELD_AT_ENTRY",
+        "gate": "CAPTURE_GRAPH_ENTRY_V1",
+        "entries": [
+          {
+            "prototype": 85,
+            "created_by": "root",
+            "closure_instruction": 1101,
+            "root_child": true,
+            "function": "Mission",
+            "role": "Disruption level trigger (host and client)"
+          }
+        ],
+        "readers": [
+          {
+            "key": "maxWaveNum",
+            "prototype": 9,
+            "instructions": [
+              29
+            ]
+          },
+          {
+            "key": "maxWaveNum",
+            "prototype": 55,
+            "instructions": [
+              69,
+              76
+            ]
+          },
+          {
+            "key": "maxWaveNum",
+            "prototype": 81,
+            "instructions": [
+              1236,
+              1242
+            ]
+          },
+          {
+            "key": "maxWaveNum",
+            "prototype": 82,
+            "instructions": [
+              60,
+              66
+            ]
+          },
+          {
+            "key": "maxWaveNum",
+            "prototype": 84,
+            "instructions": [
+              359,
+              365,
+              547,
+              554
+            ]
+          }
+        ],
+        "dead_readers": [
+          {
+            "prototype": 8,
+            "instructions": [
+              4,
+              11
+            ]
+          },
+          {
+            "prototype": 10,
+            "instructions": [
+              8,
+              14
+            ]
+          }
+        ],
+        "field": "maxWaveNum",
+        "host_only": true,
+        "identity_fields": [
+          "alertId",
+          "invasionId",
+          "syndicateTag",
+          "goalId",
+          "sortieId",
+          "nightmare"
+        ],
+        "accessor": {
+          "gGameRules": "d7e3ec85",
+          "GetMission": "aeab7b8b",
+          "SetMission": "e9228c58",
+          "gRegion": "b364fd20",
+          "IsMaster": "ce228771",
+          "IsValid": "b26a1114",
+          "print": "0811edde"
+        },
+        "write_rule": {
+          "when": "host (gRegion:IsMaster()) and m.location == Symbol(\"KuvaPathMission\") and m.missionType == 33 and m.maxWaveNum == 8 (the Icebind stock: KuvaKeysLib MISSIONS[type].MaxWaveNum, copied by GenerateKey and BuildMissionInfo); another number is left alone with one line",
+          "how": "local m = gGameRules:GetMission(); m.maxWaveNum = N; gGameRules:SetMission(m)",
+          "once": "idempotent: skip when already equal (the other script of the pair may have written first)",
+          "cleanup": "none (the MissionInfo is mission-scoped and rebuilt for the next mission)"
+        },
+        "meaning": "Icebind Disruption: conduits to finish. SentientArtifactMission uses maxWaveNum > 0 as fixedLength and as the extraction goal against the total conduits completed (proto 84 Ternary(maxWaveNum > 0, maxWaveNum, 4))",
+        "stock_precedent": "R10 MISSION_INFO_FIELD_AT_ENTRY (Lotus.Scripts.Duviri.DuviriMissions proto 18, Lotus.Scripts.Eidolon.EidolonMissions proto 25: host GetMission, write maxWaveNum, SetMission)",
+        "variant": "KUVA_PATH_MISSION",
+        "location": "KuvaPathMission",
+        "mission_type": 33,
+        "variant_stock": 8
+      },
+      "limits": {
+        "minimum": 1,
+        "maximum": 1000,
+        "integer": true,
+        "basis": "Icebind goal: at least 1; maximum as the normal-node row of this mode"
+      },
+      "applies": "next_mission",
+      "backend_note": "MISSION_INFO_FIELD_AT_ENTRY: written at the entry of prototype(s) 85 (gate CAPTURE_GRAPH_ENTRY_V1).",
+      "ui": {
+        "group": "disruption_advanced",
+        "mt_codes": [],
+        "short_label": "Icebind conduits (mode)",
+        "label_source": "player_text",
+        "scope_text": "Conduits to complete in an Icebind Disruption run, read by the mode script, the Icebind master sets both rows. Overrides the value above for this case.",
+        "aliases": [
+          "Icebind"
+        ],
+        "lane": "addon",
+        "applies": "next_mission",
+        "type": "int",
+        "editor": "INPUTCOUNT",
+        "unit": "",
+        "min": 1,
+        "max": 1000,
+        "rank": 137,
+        "path": [
+          "Disruption",
+          "Advanced",
+          "Icebind conduits"
+        ],
+        "row": "Mode script",
+        "r5_scope_text": "Conduits to complete in an Icebind Disruption run, read by the mode script; the Icebind master sets both rows; stock 8 conduits"
+      }
+    },
+    {
+      "tunable_id": "disruption.icebind_conduits_kuvapath",
+      "phase1_tunable_id": null,
+      "label": "Conduits to finish (Icebind, Icebind script)",
+      "mission_type": "Disruption",
+      "variant": "Icebind (KuvaPath, location KuvaPathMission, missionType 33)",
+      "shared_with": "one master drives the row pair (mission script and Icebind script)",
+      "owner_kind": "MISSION_INFO_FIELD",
+      "backend": "TARGET_ADDON",
+      "unit": "conduits",
+      "stock": 8,
+      "confidence": "CONFIRMED_STATIC (write mechanism: R10 stock precedent; live probe pending)",
+      "provenance": "research:icebind-goals-2026-10-09 (contract R23)",
+      "evidence": "KuvaPath 44.1.1 (248d54e0074e52c2): global KuvaPath (P73, root i544) captures MasterInit (P65, U9). MasterInit stores v53 = gGameRules:GetMission() (the snapshot every maxWaveNum reader reads) and holds the per-mission-type phase-check tables (root R81/R82, MasterInit U23) whose functions P0-P5 and P7 read v53.maxWaveNum; P42 (mission-complete check) is reached from KuvaPath. The Icebind Solo squad-scaling member replaces this module with instruction edits only (same prototypes), so the entry hook keeps its prototype. Tool: work/research/icebind-goals-2026-10-09/tools/goal_owners.py (bytecode capture graph; reproduces the R10 Excavation and Survival owners). Icebind identity: LotusGameRules 44.1.1 sets _T.IsKuvaPathMission when mission.location == LotusUtilities.KUVA_PATH_MISSION_LOCATION (Symbol(\"KuvaPathMission\")); the per-type stock is KuvaKeysLib MISSIONS (Survival 10, Excavation 6, MobileDefense 540, Disruption 8; a literal patch is impossible for 8 and 10: their number constants are shared with other templates).",
+      "research_draft_id": "disruption.icebind_conduits_kuvapath",
+      "owner": {
+        "body_key": "248d54e0074e52c2",
+        "stock_sha256": "51C7EAFE3CF173940BDADD6B949FC75201DEBA73A554E0BEDB64613CDA4C8267",
+        "file": "Lotus_Scripts_KuvaPath_KuvaPath.lua_B",
+        "module_path": "Lotus.Scripts.KuvaPath.KuvaPath",
+        "template": "MISSION_INFO_FIELD_AT_ENTRY",
+        "gate": "CAPTURE_GRAPH_ENTRY_V1",
+        "entries": [
+          {
+            "prototype": 73,
+            "created_by": "root",
+            "closure_instruction": 544,
+            "root_child": true,
+            "function": "KuvaPath",
+            "role": "Icebind level trigger; captures MasterInit (P65), which takes the GetMission() snapshot every reader uses"
+          }
+        ],
+        "readers": [
+          {
+            "key": "maxWaveNum",
+            "prototype": 0,
+            "instructions": [
+              5
+            ]
+          },
+          {
+            "key": "maxWaveNum",
+            "prototype": 1,
+            "instructions": [
+              5
+            ]
+          },
+          {
+            "key": "maxWaveNum",
+            "prototype": 2,
+            "instructions": [
+              9
+            ]
+          },
+          {
+            "key": "maxWaveNum",
+            "prototype": 3,
+            "instructions": [
+              7
+            ]
+          },
+          {
+            "key": "maxWaveNum",
+            "prototype": 4,
+            "instructions": [
+              5
+            ]
+          },
+          {
+            "key": "maxWaveNum",
+            "prototype": 5,
+            "instructions": [
+              5
+            ]
+          },
+          {
+            "key": "maxWaveNum",
+            "prototype": 7,
+            "instructions": [
+              5
+            ]
+          },
+          {
+            "key": "maxWaveNum",
+            "prototype": 42,
+            "instructions": [
+              9,
+              40,
+              55
+            ]
+          }
+        ],
+        "dead_readers": [],
+        "field": "maxWaveNum",
+        "host_only": true,
+        "identity_fields": [
+          "alertId",
+          "invasionId",
+          "syndicateTag",
+          "goalId",
+          "sortieId",
+          "nightmare"
+        ],
+        "accessor": {
+          "gGameRules": "d7e3ec85",
+          "GetMission": "aeab7b8b",
+          "SetMission": "e9228c58",
+          "gRegion": "b364fd20",
+          "IsMaster": "ce228771",
+          "IsValid": "b26a1114",
+          "print": "0811edde"
+        },
+        "write_rule": {
+          "when": "host (gRegion:IsMaster()) and m.location == Symbol(\"KuvaPathMission\") and m.missionType == 33 and m.maxWaveNum == 8 (the Icebind stock: KuvaKeysLib MISSIONS[type].MaxWaveNum, copied by GenerateKey and BuildMissionInfo); another number is left alone with one line",
+          "how": "local m = gGameRules:GetMission(); m.maxWaveNum = N; gGameRules:SetMission(m)",
+          "once": "idempotent: skip when already equal (the other script of the pair may have written first)",
+          "cleanup": "none (the MissionInfo is mission-scoped and rebuilt for the next mission)"
+        },
+        "meaning": "Icebind Disruption: KuvaPath completes the mission when the net var AmalgamArtifactTotal >= maxWaveNum (P42) and paces its side-objective phases by maxWaveNum / (#Events + 1) (phase check of type 33)",
+        "stock_precedent": "R10 MISSION_INFO_FIELD_AT_ENTRY (Lotus.Scripts.Duviri.DuviriMissions proto 18, Lotus.Scripts.Eidolon.EidolonMissions proto 25: host GetMission, write maxWaveNum, SetMission)",
+        "variant": "KUVA_PATH_MISSION",
+        "location": "KuvaPathMission",
+        "mission_type": 33,
+        "variant_stock": 8
+      },
+      "limits": {
+        "minimum": 1,
+        "maximum": 1000,
+        "integer": true,
+        "basis": "Icebind goal: at least 1; maximum as the normal-node row of this mode"
+      },
+      "applies": "next_mission",
+      "backend_note": "MISSION_INFO_FIELD_AT_ENTRY: written at the entry of prototype(s) 73 (gate CAPTURE_GRAPH_ENTRY_V1).",
+      "ui": {
+        "group": "disruption_advanced",
+        "mt_codes": [],
+        "short_label": "Icebind conduits (Icebind)",
+        "label_source": "player_text",
+        "scope_text": "Conduits to complete in an Icebind Disruption run, read by the Icebind script, the Icebind master sets both rows. Overrides the value above for this case.",
+        "aliases": [
+          "Icebind"
+        ],
+        "lane": "addon",
+        "applies": "next_mission",
+        "type": "int",
+        "editor": "INPUTCOUNT",
+        "unit": "",
+        "min": 1,
+        "max": 1000,
+        "rank": 138,
+        "path": [
+          "Disruption",
+          "Advanced",
+          "Icebind conduits"
+        ],
+        "row": "Icebind script",
+        "r5_scope_text": "Conduits to complete in an Icebind Disruption run, read by the Icebind script; the Icebind master sets both rows; stock 8 conduits"
+      }
+    },
+    {
+      "tunable_id": "excavation.icebind_excavators",
+      "phase1_tunable_id": null,
+      "label": "Excavators to finish (Icebind, Excavation script)",
+      "mission_type": "Excavation",
+      "variant": "Icebind (KuvaPath, location KuvaPathMission, missionType 17)",
+      "shared_with": "one master drives the row pair (mission script and Icebind script)",
+      "owner_kind": "MISSION_INFO_FIELD",
+      "backend": "TARGET_ADDON",
+      "unit": "excavators",
+      "stock": 6,
+      "confidence": "CONFIRMED_STATIC (write mechanism: R10 stock precedent; live probe pending)",
+      "provenance": "research:icebind-goals-2026-10-09 (contract R23)",
+      "evidence": "R10 owner of excavation.excavators_to_finish, rebased to 44.1.1 (f7444e3c621ff018, module unchanged): Excavation reaches P28 and P32, ExcavationHUD P36 and P32, ExcavatorAvatar P43 and P32. Tool: work/research/icebind-goals-2026-10-09/tools/goal_owners.py (bytecode capture graph; reproduces the R10 Excavation and Survival owners). Icebind identity: LotusGameRules 44.1.1 sets _T.IsKuvaPathMission when mission.location == LotusUtilities.KUVA_PATH_MISSION_LOCATION (Symbol(\"KuvaPathMission\")); the per-type stock is KuvaKeysLib MISSIONS (Survival 10, Excavation 6, MobileDefense 540, Disruption 8; a literal patch is impossible for 8 and 10: their number constants are shared with other templates).",
+      "research_draft_id": "excavation.icebind_excavators",
+      "owner": {
+        "body_key": "f7444e3c621ff018",
+        "stock_sha256": "DF9FB3206E468652DC7A101E26118ADF2E039F35B69E228C26BB6BBD3A6F4701",
+        "file": "Lotus_Scripts_Modes_ExcavationMission.lua_B",
+        "module_path": "Lotus.Scripts.Modes.ExcavationMission",
+        "template": "MISSION_INFO_FIELD_AT_ENTRY",
+        "gate": "CAPTURE_GRAPH_ENTRY_V1",
+        "entries": [
+          {
+            "prototype": 35,
+            "created_by": "root",
+            "closure_instruction": 442,
+            "root_child": true,
+            "function": "Excavation",
+            "role": "level trigger; host"
+          },
+          {
+            "prototype": 36,
+            "created_by": "root",
+            "closure_instruction": 460,
+            "root_child": true,
+            "function": "ExcavationHUD",
+            "role": "HUD trigger"
+          },
+          {
+            "prototype": 43,
+            "created_by": "root",
+            "closure_instruction": 523,
+            "root_child": true,
+            "function": "ExcavatorAvatar",
+            "role": "excavator avatar script (spawned after start)"
+          }
+        ],
+        "readers": [
+          {
+            "key": "maxWaveNum",
+            "prototype": 28,
+            "instructions": [
+              112
+            ]
+          },
+          {
+            "key": "maxWaveNum",
+            "prototype": 32,
+            "instructions": [
+              58
+            ]
+          },
+          {
+            "key": "maxWaveNum",
+            "prototype": 36,
+            "instructions": [
+              96
+            ]
+          },
+          {
+            "key": "maxWaveNum",
+            "prototype": 43,
+            "instructions": [
+              861
+            ]
+          }
+        ],
+        "dead_readers": [],
+        "field": "maxWaveNum",
+        "host_only": true,
+        "identity_fields": [
+          "alertId",
+          "invasionId",
+          "syndicateTag",
+          "goalId",
+          "sortieId",
+          "nightmare"
+        ],
+        "accessor": {
+          "gGameRules": "d7e3ec85",
+          "GetMission": "aeab7b8b",
+          "SetMission": "e9228c58",
+          "gRegion": "b364fd20",
+          "IsMaster": "ce228771",
+          "IsValid": "b26a1114",
+          "print": "0811edde"
+        },
+        "write_rule": {
+          "when": "host (gRegion:IsMaster()) and m.location == Symbol(\"KuvaPathMission\") and m.missionType == 17 and m.maxWaveNum == 6 (the Icebind stock: KuvaKeysLib MISSIONS[type].MaxWaveNum, copied by GenerateKey and BuildMissionInfo); another number is left alone with one line",
+          "how": "local m = gGameRules:GetMission(); m.maxWaveNum = N; gGameRules:SetMission(m)",
+          "once": "idempotent: skip when already equal (the other script of the pair may have written first)",
+          "cleanup": "none (the MissionInfo is mission-scoped and rebuilt for the next mission)"
+        },
+        "meaning": "Icebind Excavation: cryotic goal = maxWaveNum x 100 in ExcavationMission (R10 meaning)",
+        "stock_precedent": "R10 MISSION_INFO_FIELD_AT_ENTRY (Lotus.Scripts.Duviri.DuviriMissions proto 18, Lotus.Scripts.Eidolon.EidolonMissions proto 25: host GetMission, write maxWaveNum, SetMission)",
+        "variant": "KUVA_PATH_MISSION",
+        "location": "KuvaPathMission",
+        "mission_type": 17,
+        "variant_stock": 6
+      },
+      "limits": {
+        "minimum": 1,
+        "maximum": 1000,
+        "integer": true,
+        "basis": "Icebind goal: at least 1; maximum as the normal-node row of this mode"
+      },
+      "applies": "next_mission",
+      "backend_note": "MISSION_INFO_FIELD_AT_ENTRY: written at the entry of prototype(s) 35, 36, 43 (gate CAPTURE_GRAPH_ENTRY_V1).",
+      "ui": {
+        "group": "excavation_advanced",
+        "mt_codes": [],
+        "short_label": "Icebind excavators (mode)",
+        "label_source": "player_text",
+        "scope_text": "Excavators to complete in an Icebind Excavation run, read by the mode script, the Icebind master sets both rows. Overrides the value above for this case.",
+        "aliases": [
+          "Icebind"
+        ],
+        "lane": "addon",
+        "applies": "next_mission",
+        "type": "int",
+        "editor": "INPUTCOUNT",
+        "unit": "",
+        "min": 1,
+        "max": 1000,
+        "rank": 180,
+        "path": [
+          "Excavation",
+          "Advanced",
+          "Icebind excavators"
+        ],
+        "row": "Mode script",
+        "r5_scope_text": "Excavators to complete in an Icebind Excavation run, read by the mode script; the Icebind master sets both rows; stock 6 excavators"
+      }
+    },
+    {
+      "tunable_id": "excavation.icebind_excavators_kuvapath",
+      "phase1_tunable_id": null,
+      "label": "Excavators to finish (Icebind, Icebind script)",
+      "mission_type": "Excavation",
+      "variant": "Icebind (KuvaPath, location KuvaPathMission, missionType 17)",
+      "shared_with": "one master drives the row pair (mission script and Icebind script)",
+      "owner_kind": "MISSION_INFO_FIELD",
+      "backend": "TARGET_ADDON",
+      "unit": "excavators",
+      "stock": 6,
+      "confidence": "CONFIRMED_STATIC (write mechanism: R10 stock precedent; live probe pending)",
+      "provenance": "research:icebind-goals-2026-10-09 (contract R23)",
+      "evidence": "KuvaPath 44.1.1 (248d54e0074e52c2): global KuvaPath (P73, root i544) captures MasterInit (P65, U9). MasterInit stores v53 = gGameRules:GetMission() (the snapshot every maxWaveNum reader reads) and holds the per-mission-type phase-check tables (root R81/R82, MasterInit U23) whose functions P0-P5 and P7 read v53.maxWaveNum; P42 (mission-complete check) is reached from KuvaPath. The Icebind Solo squad-scaling member replaces this module with instruction edits only (same prototypes), so the entry hook keeps its prototype. Tool: work/research/icebind-goals-2026-10-09/tools/goal_owners.py (bytecode capture graph; reproduces the R10 Excavation and Survival owners). Icebind identity: LotusGameRules 44.1.1 sets _T.IsKuvaPathMission when mission.location == LotusUtilities.KUVA_PATH_MISSION_LOCATION (Symbol(\"KuvaPathMission\")); the per-type stock is KuvaKeysLib MISSIONS (Survival 10, Excavation 6, MobileDefense 540, Disruption 8; a literal patch is impossible for 8 and 10: their number constants are shared with other templates).",
+      "research_draft_id": "excavation.icebind_excavators_kuvapath",
+      "owner": {
+        "body_key": "248d54e0074e52c2",
+        "stock_sha256": "51C7EAFE3CF173940BDADD6B949FC75201DEBA73A554E0BEDB64613CDA4C8267",
+        "file": "Lotus_Scripts_KuvaPath_KuvaPath.lua_B",
+        "module_path": "Lotus.Scripts.KuvaPath.KuvaPath",
+        "template": "MISSION_INFO_FIELD_AT_ENTRY",
+        "gate": "CAPTURE_GRAPH_ENTRY_V1",
+        "entries": [
+          {
+            "prototype": 73,
+            "created_by": "root",
+            "closure_instruction": 544,
+            "root_child": true,
+            "function": "KuvaPath",
+            "role": "Icebind level trigger; captures MasterInit (P65), which takes the GetMission() snapshot every reader uses"
+          }
+        ],
+        "readers": [
+          {
+            "key": "maxWaveNum",
+            "prototype": 0,
+            "instructions": [
+              5
+            ]
+          },
+          {
+            "key": "maxWaveNum",
+            "prototype": 1,
+            "instructions": [
+              5
+            ]
+          },
+          {
+            "key": "maxWaveNum",
+            "prototype": 2,
+            "instructions": [
+              9
+            ]
+          },
+          {
+            "key": "maxWaveNum",
+            "prototype": 3,
+            "instructions": [
+              7
+            ]
+          },
+          {
+            "key": "maxWaveNum",
+            "prototype": 4,
+            "instructions": [
+              5
+            ]
+          },
+          {
+            "key": "maxWaveNum",
+            "prototype": 5,
+            "instructions": [
+              5
+            ]
+          },
+          {
+            "key": "maxWaveNum",
+            "prototype": 7,
+            "instructions": [
+              5
+            ]
+          },
+          {
+            "key": "maxWaveNum",
+            "prototype": 42,
+            "instructions": [
+              9,
+              40,
+              55
+            ]
+          }
+        ],
+        "dead_readers": [],
+        "field": "maxWaveNum",
+        "host_only": true,
+        "identity_fields": [
+          "alertId",
+          "invasionId",
+          "syndicateTag",
+          "goalId",
+          "sortieId",
+          "nightmare"
+        ],
+        "accessor": {
+          "gGameRules": "d7e3ec85",
+          "GetMission": "aeab7b8b",
+          "SetMission": "e9228c58",
+          "gRegion": "b364fd20",
+          "IsMaster": "ce228771",
+          "IsValid": "b26a1114",
+          "print": "0811edde"
+        },
+        "write_rule": {
+          "when": "host (gRegion:IsMaster()) and m.location == Symbol(\"KuvaPathMission\") and m.missionType == 17 and m.maxWaveNum == 6 (the Icebind stock: KuvaKeysLib MISSIONS[type].MaxWaveNum, copied by GenerateKey and BuildMissionInfo); another number is left alone with one line",
+          "how": "local m = gGameRules:GetMission(); m.maxWaveNum = N; gGameRules:SetMission(m)",
+          "once": "idempotent: skip when already equal (the other script of the pair may have written first)",
+          "cleanup": "none (the MissionInfo is mission-scoped and rebuilt for the next mission)"
+        },
+        "meaning": "Icebind Excavation: KuvaPath completes when DigsScore >= maxWaveNum x 100 (P42) and paces phases by it",
+        "stock_precedent": "R10 MISSION_INFO_FIELD_AT_ENTRY (Lotus.Scripts.Duviri.DuviriMissions proto 18, Lotus.Scripts.Eidolon.EidolonMissions proto 25: host GetMission, write maxWaveNum, SetMission)",
+        "variant": "KUVA_PATH_MISSION",
+        "location": "KuvaPathMission",
+        "mission_type": 17,
+        "variant_stock": 6
+      },
+      "limits": {
+        "minimum": 1,
+        "maximum": 1000,
+        "integer": true,
+        "basis": "Icebind goal: at least 1; maximum as the normal-node row of this mode"
+      },
+      "applies": "next_mission",
+      "backend_note": "MISSION_INFO_FIELD_AT_ENTRY: written at the entry of prototype(s) 73 (gate CAPTURE_GRAPH_ENTRY_V1).",
+      "ui": {
+        "group": "excavation_advanced",
+        "mt_codes": [],
+        "short_label": "Icebind excavators (Icebind)",
+        "label_source": "player_text",
+        "scope_text": "Excavators to complete in an Icebind Excavation run, read by the Icebind script, the Icebind master sets both rows. Overrides the value above for this case.",
+        "aliases": [
+          "Icebind"
+        ],
+        "lane": "addon",
+        "applies": "next_mission",
+        "type": "int",
+        "editor": "INPUTCOUNT",
+        "unit": "",
+        "min": 1,
+        "max": 1000,
+        "rank": 181,
+        "path": [
+          "Excavation",
+          "Advanced",
+          "Icebind excavators"
+        ],
+        "row": "Icebind script",
+        "r5_scope_text": "Excavators to complete in an Icebind Excavation run, read by the Icebind script; the Icebind master sets both rows; stock 6 excavators"
+      }
+    },
+    {
+      "tunable_id": "survival.icebind_minutes",
+      "phase1_tunable_id": null,
+      "label": "Minutes to finish (Icebind, Survival script)",
+      "mission_type": "Survival",
+      "variant": "Icebind (KuvaPath, location KuvaPathMission, missionType 2)",
+      "shared_with": "one master drives the row pair (mission script and Icebind script)",
+      "owner_kind": "MISSION_INFO_FIELD",
+      "backend": "TARGET_ADDON",
+      "unit": "min",
+      "stock": 10,
+      "confidence": "CONFIRMED_STATIC (write mechanism: R10 stock precedent; live probe pending)",
+      "provenance": "research:icebind-goals-2026-10-09 (contract R23)",
+      "evidence": "R10 owner of survival.fixed_length_minutes, rebased to 44.1.1 (a62aa7eea1c4f27b): Mission (P70) reaches P61 and P62. Tool: work/research/icebind-goals-2026-10-09/tools/goal_owners.py (bytecode capture graph; reproduces the R10 Excavation and Survival owners). Icebind identity: LotusGameRules 44.1.1 sets _T.IsKuvaPathMission when mission.location == LotusUtilities.KUVA_PATH_MISSION_LOCATION (Symbol(\"KuvaPathMission\")); the per-type stock is KuvaKeysLib MISSIONS (Survival 10, Excavation 6, MobileDefense 540, Disruption 8; a literal patch is impossible for 8 and 10: their number constants are shared with other templates).",
+      "research_draft_id": "survival.icebind_minutes",
+      "owner": {
+        "body_key": "a62aa7eea1c4f27b",
+        "stock_sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
+        "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
+        "module_path": "Lotus.Scripts.Modes.SurvivalMission",
+        "template": "MISSION_INFO_FIELD_AT_ENTRY",
+        "gate": "CAPTURE_GRAPH_ENTRY_V1",
+        "entries": [
+          {
+            "prototype": 70,
+            "created_by": "root",
+            "closure_instruction": 839,
+            "root_child": true,
+            "function": "Mission",
+            "role": "Survival level trigger"
+          }
+        ],
+        "readers": [
+          {
+            "key": "maxWaveNum",
+            "prototype": 61,
+            "instructions": [
+              163,
+              180,
+              187
+            ]
+          },
+          {
+            "key": "maxWaveNum",
+            "prototype": 62,
+            "instructions": [
+              66
+            ]
+          }
+        ],
+        "dead_readers": [],
+        "field": "maxWaveNum",
+        "host_only": true,
+        "identity_fields": [
+          "alertId",
+          "invasionId",
+          "syndicateTag",
+          "goalId",
+          "sortieId",
+          "nightmare"
+        ],
+        "accessor": {
+          "gGameRules": "d7e3ec85",
+          "GetMission": "aeab7b8b",
+          "SetMission": "e9228c58",
+          "gRegion": "b364fd20",
+          "IsMaster": "ce228771",
+          "IsValid": "b26a1114",
+          "print": "0811edde"
+        },
+        "write_rule": {
+          "when": "host (gRegion:IsMaster()) and m.location == Symbol(\"KuvaPathMission\") and m.missionType == 2 and m.maxWaveNum == 10 (the Icebind stock: KuvaKeysLib MISSIONS[type].MaxWaveNum, copied by GenerateKey and BuildMissionInfo); another number is left alone with one line",
+          "how": "local m = gGameRules:GetMission(); m.maxWaveNum = N; gGameRules:SetMission(m)",
+          "once": "idempotent: skip when already equal (the other script of the pair may have written first)",
+          "cleanup": "none (the MissionInfo is mission-scoped and rebuilt for the next mission)"
+        },
+        "meaning": "Icebind Survival: SurvivalMission fixedLength = min(maxWaveNum x 60, 3600) s (R10 meaning); at most 60 minutes",
+        "stock_precedent": "R10 MISSION_INFO_FIELD_AT_ENTRY (Lotus.Scripts.Duviri.DuviriMissions proto 18, Lotus.Scripts.Eidolon.EidolonMissions proto 25: host GetMission, write maxWaveNum, SetMission)",
+        "variant": "KUVA_PATH_MISSION",
+        "location": "KuvaPathMission",
+        "mission_type": 2,
+        "variant_stock": 10
+      },
+      "limits": {
+        "minimum": 1,
+        "maximum": 60,
+        "integer": true,
+        "basis": "Icebind goal: at least 1; maximum as the normal-node row of this mode"
+      },
+      "applies": "next_mission",
+      "backend_note": "MISSION_INFO_FIELD_AT_ENTRY: written at the entry of prototype(s) 70 (gate CAPTURE_GRAPH_ENTRY_V1).",
+      "ui": {
+        "group": "survival_advanced",
+        "mt_codes": [],
+        "short_label": "Icebind minutes (mode)",
+        "label_source": "player_text",
+        "scope_text": "Minutes to survive in an Icebind Survival run, read by the mode script, the Icebind master sets both rows. Overrides the value above for this case.",
+        "aliases": [
+          "Icebind"
+        ],
+        "lane": "addon",
+        "applies": "next_mission",
+        "type": "int",
+        "editor": "INPUTCOUNT",
+        "unit": "min",
+        "min": 1,
+        "max": 60,
+        "rank": 385,
+        "path": [
+          "Survival",
+          "Advanced",
+          "Icebind minutes"
+        ],
+        "row": "Mode script",
+        "r5_scope_text": "Minutes to survive in an Icebind Survival run, read by the mode script; the Icebind master sets both rows; stock 10 min"
+      }
+    },
+    {
+      "tunable_id": "survival.icebind_minutes_kuvapath",
+      "phase1_tunable_id": null,
+      "label": "Minutes to finish (Icebind, Icebind script)",
+      "mission_type": "Survival",
+      "variant": "Icebind (KuvaPath, location KuvaPathMission, missionType 2)",
+      "shared_with": "one master drives the row pair (mission script and Icebind script)",
+      "owner_kind": "MISSION_INFO_FIELD",
+      "backend": "TARGET_ADDON",
+      "unit": "min",
+      "stock": 10,
+      "confidence": "CONFIRMED_STATIC (write mechanism: R10 stock precedent; live probe pending)",
+      "provenance": "research:icebind-goals-2026-10-09 (contract R23)",
+      "evidence": "KuvaPath 44.1.1 (248d54e0074e52c2): global KuvaPath (P73, root i544) captures MasterInit (P65, U9). MasterInit stores v53 = gGameRules:GetMission() (the snapshot every maxWaveNum reader reads) and holds the per-mission-type phase-check tables (root R81/R82, MasterInit U23) whose functions P0-P5 and P7 read v53.maxWaveNum; P42 (mission-complete check) is reached from KuvaPath. The Icebind Solo squad-scaling member replaces this module with instruction edits only (same prototypes), so the entry hook keeps its prototype. Tool: work/research/icebind-goals-2026-10-09/tools/goal_owners.py (bytecode capture graph; reproduces the R10 Excavation and Survival owners). Icebind identity: LotusGameRules 44.1.1 sets _T.IsKuvaPathMission when mission.location == LotusUtilities.KUVA_PATH_MISSION_LOCATION (Symbol(\"KuvaPathMission\")); the per-type stock is KuvaKeysLib MISSIONS (Survival 10, Excavation 6, MobileDefense 540, Disruption 8; a literal patch is impossible for 8 and 10: their number constants are shared with other templates).",
+      "research_draft_id": "survival.icebind_minutes_kuvapath",
+      "owner": {
+        "body_key": "248d54e0074e52c2",
+        "stock_sha256": "51C7EAFE3CF173940BDADD6B949FC75201DEBA73A554E0BEDB64613CDA4C8267",
+        "file": "Lotus_Scripts_KuvaPath_KuvaPath.lua_B",
+        "module_path": "Lotus.Scripts.KuvaPath.KuvaPath",
+        "template": "MISSION_INFO_FIELD_AT_ENTRY",
+        "gate": "CAPTURE_GRAPH_ENTRY_V1",
+        "entries": [
+          {
+            "prototype": 73,
+            "created_by": "root",
+            "closure_instruction": 544,
+            "root_child": true,
+            "function": "KuvaPath",
+            "role": "Icebind level trigger; captures MasterInit (P65), which takes the GetMission() snapshot every reader uses"
+          }
+        ],
+        "readers": [
+          {
+            "key": "maxWaveNum",
+            "prototype": 0,
+            "instructions": [
+              5
+            ]
+          },
+          {
+            "key": "maxWaveNum",
+            "prototype": 1,
+            "instructions": [
+              5
+            ]
+          },
+          {
+            "key": "maxWaveNum",
+            "prototype": 2,
+            "instructions": [
+              9
+            ]
+          },
+          {
+            "key": "maxWaveNum",
+            "prototype": 3,
+            "instructions": [
+              7
+            ]
+          },
+          {
+            "key": "maxWaveNum",
+            "prototype": 4,
+            "instructions": [
+              5
+            ]
+          },
+          {
+            "key": "maxWaveNum",
+            "prototype": 5,
+            "instructions": [
+              5
+            ]
+          },
+          {
+            "key": "maxWaveNum",
+            "prototype": 7,
+            "instructions": [
+              5
+            ]
+          },
+          {
+            "key": "maxWaveNum",
+            "prototype": 42,
+            "instructions": [
+              9,
+              40,
+              55
+            ]
+          }
+        ],
+        "dead_readers": [],
+        "field": "maxWaveNum",
+        "host_only": true,
+        "identity_fields": [
+          "alertId",
+          "invasionId",
+          "syndicateTag",
+          "goalId",
+          "sortieId",
+          "nightmare"
+        ],
+        "accessor": {
+          "gGameRules": "d7e3ec85",
+          "GetMission": "aeab7b8b",
+          "SetMission": "e9228c58",
+          "gRegion": "b364fd20",
+          "IsMaster": "ce228771",
+          "IsValid": "b26a1114",
+          "print": "0811edde"
+        },
+        "write_rule": {
+          "when": "host (gRegion:IsMaster()) and m.location == Symbol(\"KuvaPathMission\") and m.missionType == 2 and m.maxWaveNum == 10 (the Icebind stock: KuvaKeysLib MISSIONS[type].MaxWaveNum, copied by GenerateKey and BuildMissionInfo); another number is left alone with one line",
+          "how": "local m = gGameRules:GetMission(); m.maxWaveNum = N; gGameRules:SetMission(m)",
+          "once": "idempotent: skip when already equal (the other script of the pair may have written first)",
+          "cleanup": "none (the MissionInfo is mission-scoped and rebuilt for the next mission)"
+        },
+        "meaning": "Icebind Survival: KuvaPath completes when TimeElapsed >= maxWaveNum x 60 s (P42) and paces phases by it",
+        "stock_precedent": "R10 MISSION_INFO_FIELD_AT_ENTRY (Lotus.Scripts.Duviri.DuviriMissions proto 18, Lotus.Scripts.Eidolon.EidolonMissions proto 25: host GetMission, write maxWaveNum, SetMission)",
+        "variant": "KUVA_PATH_MISSION",
+        "location": "KuvaPathMission",
+        "mission_type": 2,
+        "variant_stock": 10
+      },
+      "limits": {
+        "minimum": 1,
+        "maximum": 60,
+        "integer": true,
+        "basis": "Icebind goal: at least 1; maximum as the normal-node row of this mode"
+      },
+      "applies": "next_mission",
+      "backend_note": "MISSION_INFO_FIELD_AT_ENTRY: written at the entry of prototype(s) 73 (gate CAPTURE_GRAPH_ENTRY_V1).",
+      "ui": {
+        "group": "survival_advanced",
+        "mt_codes": [],
+        "short_label": "Icebind minutes (Icebind)",
+        "label_source": "player_text",
+        "scope_text": "Minutes to survive in an Icebind Survival run, read by the Icebind script, the Icebind master sets both rows. Overrides the value above for this case.",
+        "aliases": [
+          "Icebind"
+        ],
+        "lane": "addon",
+        "applies": "next_mission",
+        "type": "int",
+        "editor": "INPUTCOUNT",
+        "unit": "min",
+        "min": 1,
+        "max": 60,
+        "rank": 386,
+        "path": [
+          "Survival",
+          "Advanced",
+          "Icebind minutes"
+        ],
+        "row": "Icebind script",
+        "r5_scope_text": "Minutes to survive in an Icebind Survival run, read by the Icebind script; the Icebind master sets both rows; stock 10 min"
       }
     }
   ],
@@ -82170,7 +83072,7 @@
       "short_label": "Exterminate: kills needed",
       "label_source": "player_text",
       "scope_text": "Kills to finish the Faceoff Exterminate objective (the game picks a random number between the two ends below). This sets both ends; an end you change keeps its value.",
-      "rank": 190,
+      "rank": 196,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -82204,7 +83106,7 @@
       "short_label": "Max enemies at once (solo)",
       "label_source": "player_text",
       "scope_text": "Faceoff enemies alive at once with 1 player, all enemy levels. Steel Path uses the squad value; the variants below override it.",
-      "rank": 196,
+      "rank": 202,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -82237,7 +83139,7 @@
       "short_label": "Max enemies at once (duo)",
       "label_source": "player_text",
       "scope_text": "Faceoff enemies alive at once with 2 players, all enemy levels. Steel Path uses the squad value; the variants below override it.",
-      "rank": 197,
+      "rank": 203,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -82270,7 +83172,7 @@
       "short_label": "Max enemies at once (trio)",
       "label_source": "player_text",
       "scope_text": "Faceoff enemies alive at once with 3 players, all enemy levels. Steel Path uses the squad value; the variants below override it.",
-      "rank": 198,
+      "rank": 204,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -82303,7 +83205,7 @@
       "short_label": "Max enemies at once (squad)",
       "label_source": "player_text",
       "scope_text": "Faceoff enemies alive at once with 4 players, all enemy levels. The variants below override it.",
-      "rank": 199,
+      "rank": 205,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -82336,7 +83238,7 @@
       "short_label": "Max enemies at once (solo)",
       "label_source": "player_text",
       "scope_text": "Mirror Defense enemies alive at once with 1 player, regular and Infested. Steel Path uses the squad value; the variants below override it.",
-      "rank": 267,
+      "rank": 273,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -82378,7 +83280,7 @@
       "short_label": "Max enemies at once (duo)",
       "label_source": "player_text",
       "scope_text": "Mirror Defense enemies alive at once with 2 players, regular and Infested. Steel Path uses the squad value; the variants below override it.",
-      "rank": 268,
+      "rank": 274,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -82420,7 +83322,7 @@
       "short_label": "Max enemies at once (trio)",
       "label_source": "player_text",
       "scope_text": "Mirror Defense enemies alive at once with 3 players, regular and Infested. Steel Path uses the squad value; the variants below override it.",
-      "rank": 269,
+      "rank": 275,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -82462,7 +83364,7 @@
       "short_label": "Max enemies at once (squad)",
       "label_source": "player_text",
       "scope_text": "Mirror Defense enemies alive at once with 4 players, regular and Infested. Steel Path uses the squad value; the variants below override it.",
-      "rank": 270,
+      "rank": 276,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -82504,7 +83406,7 @@
       "short_label": "Time per terminal",
       "label_source": "player_text",
       "scope_text": "Upload time of each Mobile Defense terminal and of each Sentient Anomaly area. A number you type applies on every node and in the Sentient Anomaly.",
-      "rank": 320,
+      "rank": 326,
       "lane": "literal",
       "applies": "next_mission",
       "type": "int",
@@ -82546,7 +83448,7 @@
       "short_label": "Max enemies at once (solo)",
       "label_source": "player_text",
       "scope_text": "Mobile Defense enemies alive at once with 1 player, easy and hard nodes. The variants below override it.",
-      "rank": 326,
+      "rank": 332,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -82579,7 +83481,7 @@
       "short_label": "Max enemies at once (duo)",
       "label_source": "player_text",
       "scope_text": "Mobile Defense enemies alive at once with 2 players, easy and hard nodes. The variants below override it.",
-      "rank": 327,
+      "rank": 333,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -82612,7 +83514,7 @@
       "short_label": "Max enemies at once (trio)",
       "label_source": "player_text",
       "scope_text": "Mobile Defense enemies alive at once with 3 players, easy and hard nodes. The variants below override it.",
-      "rank": 328,
+      "rank": 334,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -82645,7 +83547,7 @@
       "short_label": "Max enemies at once (squad)",
       "label_source": "player_text",
       "scope_text": "Mobile Defense enemies alive at once with 4 players, easy and hard nodes. The variants below override it.",
-      "rank": 329,
+      "rank": 335,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -82678,7 +83580,7 @@
       "short_label": "Time between Orphix spawns",
       "label_source": "player_text",
       "scope_text": "Seconds between Orphix spawns, normal and event. The default is 50 s, 90 s during the Orphix Venom event; the variants below override it.",
-      "rank": 342,
+      "rank": 348,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "int",
@@ -83119,7 +84021,7 @@
       "short_label": "Dig time per excavator",
       "label_source": "player_text",
       "scope_text": "Seconds each excavator digs in every Excavation variant, Descendia Excavation floors included. A number you type applies to all four.",
-      "rank": 174,
+      "rank": 177,
       "lane": "literal",
       "applies": "next_mission",
       "type": "int",
@@ -83333,7 +84235,7 @@
       "short_label": "Max enemies at once (solo)",
       "label_source": "player_text",
       "scope_text": "Disruption enemies alive at once with 1 player, standard, Sentient and Entrati lab, both ends of the range. A number you type replaces the whole range; the variants below override it.",
-      "rank": 136,
+      "rank": 139,
       "lane": "literal",
       "applies": "next_mission",
       "type": "int",
@@ -83383,7 +84285,7 @@
       "short_label": "Max enemies at once (duo)",
       "label_source": "player_text",
       "scope_text": "Disruption enemies alive at once with 2 players, standard, Sentient and Entrati lab, both ends of the range. A number you type replaces the whole range; the variants below override it.",
-      "rank": 137,
+      "rank": 140,
       "lane": "literal",
       "applies": "next_mission",
       "type": "int",
@@ -83433,7 +84335,7 @@
       "short_label": "Max enemies at once (trio)",
       "label_source": "player_text",
       "scope_text": "Disruption enemies alive at once with 3 players, standard, Sentient and Entrati lab, both ends of the range. A number you type replaces the whole range; the variants below override it.",
-      "rank": 138,
+      "rank": 141,
       "lane": "literal",
       "applies": "next_mission",
       "type": "int",
@@ -83483,7 +84385,7 @@
       "short_label": "Max enemies at once (squad)",
       "label_source": "player_text",
       "scope_text": "Disruption enemies alive at once with 4 players, standard, Sentient and Entrati lab, both ends of the range. A number you type replaces the whole range; the variants below override it.",
-      "rank": 139,
+      "rank": 142,
       "lane": "literal",
       "applies": "next_mission",
       "type": "int",
@@ -83533,7 +84435,7 @@
       "short_label": "Time between spawns",
       "label_source": "player_text",
       "scope_text": "Seconds between Purgatory spawn batches (sets the random range to this value). A number you type replaces the whole range; the variants below override it.",
-      "rank": 353,
+      "rank": 359,
       "lane": "literal",
       "applies": "next_mission",
       "type": "int",
@@ -83566,7 +84468,7 @@
       "short_label": "Defend time per station",
       "label_source": "player_text",
       "scope_text": "Seconds to defend each hack station, all node levels (sets the random range). A number you type replaces the whole range; the variants below override it.",
-      "rank": 438,
+      "rank": 447,
       "lane": "literal",
       "applies": "next_mission",
       "type": "int",
@@ -83650,7 +84552,7 @@
       "short_label": "Kill goals",
       "label_source": "player_text",
       "scope_text": "Multiplies every Railjack kill goal: Grineer fighters and crewships, the Corpus fighter limit and the Pontis tower space enemies (each at least 1). A row below that is on wins for its missions.",
-      "rank": 506,
+      "rank": 515,
       "lane": "addon",
       "applies": "next_mission",
       "type": "float",
@@ -83703,7 +84605,7 @@
       "short_label": "Exolizer progress speed",
       "label_source": "player_text",
       "scope_text": "Speeds up every exolizer, also in The Circuit (x2 = 45 s instead of 90 s): rewards come sooner, each one holds back the cascade for less time. The minimum keeps its timer moving.",
-      "rank": 406,
+      "rank": 415,
       "lane": "addon",
       "applies": "live_next_read",
       "type": "float",
@@ -83734,7 +84636,7 @@
       "short_label": "Time per phase (all)",
       "label_source": "player_text",
       "scope_text": "Seconds each Mirror Defense phase lasts in normal and Jade missions. A number you type replaces the whole range; the variants below override it.",
-      "rank": 263,
+      "rank": 269,
       "lane": "literal",
       "applies": "next_mission",
       "type": "int",
@@ -83768,7 +84670,7 @@
       "short_label": "Hostage timer (all nodes)",
       "label_source": "player_text",
       "scope_text": "Seconds before the hostage dies on every Rescue node. A number you type replaces the whole range; the variants below override it.",
-      "rank": 456,
+      "rank": 465,
       "lane": "literal",
       "applies": "next_mission",
       "type": "int",
@@ -83802,7 +84704,7 @@
       "short_label": "Captures to finish (all)",
       "label_source": "player_text",
       "scope_text": "Legacytes to capture in every Legacyte Harvest variant with a capture count. A number you type replaces the whole range; the variants below override it.",
-      "rank": 459,
+      "rank": 468,
       "lane": "literal",
       "applies": "next_mission",
       "type": "int",
@@ -83912,7 +84814,7 @@
       "short_label": "Payload health (all)",
       "label_source": "player_text",
       "scope_text": "Health of the Hijack payload in every mission including goal missions. A number you type replaces the whole range; the variants below override it.",
-      "rank": 444,
+      "rank": 453,
       "lane": "literal",
       "applies": "next_mission",
       "type": "int",
@@ -83946,7 +84848,7 @@
       "short_label": "Survival length (all)",
       "label_source": "player_text",
       "scope_text": "Minutes of the Survival stage in Deep and Temporal Archimedea. The variants below override it.",
-      "rank": 430,
+      "rank": 439,
       "lane": "literal",
       "applies": "next_mission",
       "type": "int",
@@ -83979,7 +84881,7 @@
       "short_label": "Tears per stage (all)",
       "label_source": "player_text",
       "scope_text": "Tears to collect in every Entrati Swarm stage, with or without the collect-tears challenge. A number you type applies to all five stages.",
-      "rank": 155,
+      "rank": 158,
       "lane": "literal",
       "applies": "next_mission",
       "type": "int",
@@ -84045,7 +84947,7 @@
       "short_label": "Escape timer (all)",
       "label_source": "player_text",
       "scope_text": "Escape countdown after the sabotage on Corpus and Grineer ships and in Orokin Sabotage. The Gas City meltdown has its own row below.",
-      "rank": 464,
+      "rank": 473,
       "lane": "literal",
       "applies": "next_mission",
       "type": "int",
@@ -84077,12 +84979,120 @@
       "quick_on_page": true,
       "default_label": "30-300 s",
       "r5_scope_text": "Escape countdown after the sabotage on Corpus and Grineer ships and in Orokin Sabotage; stock 300 s (Orokin 30)"
+    },
+    "disruption.icebind_goal": {
+      "group": "disruption",
+      "short_label": "Icebind: conduits to finish",
+      "label_source": "player_text",
+      "scope_text": "Conduits to complete in an Icebind Disruption run, applies from the next run. The variants below override it.",
+      "rank": 136,
+      "lane": "addon",
+      "applies": "next_mission",
+      "type": "int",
+      "editor": "INPUTCOUNT",
+      "unit": "",
+      "stock": 8,
+      "min": 1,
+      "max": 1000,
+      "body_key": "b6d8c45f9424d376",
+      "drives": [
+        {
+          "tunable_id": "disruption.icebind_conduits",
+          "scale": 1
+        },
+        {
+          "tunable_id": "disruption.icebind_conduits_kuvapath",
+          "scale": 1
+        }
+      ],
+      "body_keys": [
+        "b6d8c45f9424d376",
+        "248d54e0074e52c2"
+      ],
+      "path": [
+        "Disruption",
+        "Objectives"
+      ],
+      "row": "Icebind: conduits",
+      "r5_scope_text": "Conduits to complete in an Icebind Disruption run; applies from the next run; stock 8 conduits"
+    },
+    "excavation.icebind_goal": {
+      "group": "excavation",
+      "short_label": "Icebind: excavators to finish",
+      "label_source": "player_text",
+      "scope_text": "Excavators to complete in an Icebind Excavation run, applies from the next run. The variants below override it.",
+      "rank": 179,
+      "lane": "addon",
+      "applies": "next_mission",
+      "type": "int",
+      "editor": "INPUTCOUNT",
+      "unit": "",
+      "stock": 6,
+      "min": 1,
+      "max": 1000,
+      "body_key": "f7444e3c621ff018",
+      "drives": [
+        {
+          "tunable_id": "excavation.icebind_excavators",
+          "scale": 1
+        },
+        {
+          "tunable_id": "excavation.icebind_excavators_kuvapath",
+          "scale": 1
+        }
+      ],
+      "body_keys": [
+        "f7444e3c621ff018",
+        "248d54e0074e52c2"
+      ],
+      "path": [
+        "Excavation",
+        "Objectives"
+      ],
+      "row": "Icebind: excavators",
+      "r5_scope_text": "Excavators to complete in an Icebind Excavation run; applies from the next run; stock 6 excavators"
+    },
+    "survival.icebind_goal": {
+      "group": "survival",
+      "short_label": "Icebind: minutes to finish",
+      "label_source": "player_text",
+      "scope_text": "Minutes to survive in an Icebind Survival run, applies from the next run. The variants below override it.",
+      "rank": 384,
+      "lane": "addon",
+      "applies": "next_mission",
+      "type": "int",
+      "editor": "INPUTCOUNT",
+      "unit": "min",
+      "stock": 10,
+      "min": 1,
+      "max": 60,
+      "body_key": "a62aa7eea1c4f27b",
+      "drives": [
+        {
+          "tunable_id": "survival.icebind_minutes",
+          "scale": 1
+        },
+        {
+          "tunable_id": "survival.icebind_minutes_kuvapath",
+          "scale": 1
+        }
+      ],
+      "body_keys": [
+        "a62aa7eea1c4f27b",
+        "248d54e0074e52c2"
+      ],
+      "path": [
+        "Survival",
+        "Timers"
+      ],
+      "row": "Icebind: minutes",
+      "r5_scope_text": "Minutes to survive in an Icebind Survival run; applies from the next run; stock 10 min"
     }
   },
   "ui_player_text": {
     "format": "RENOVICE_MISSION_PLAYER_TEXT_V1",
     "tool": "RESEARCH/UNIVERSAL_MISSION_REGISTRY_2026-09-29/tools/player_text.py",
-    "data_sha256": "D03E0DC517CAA73DB5D4B45D40E3255B3C601BAF560BC1FF25498A08636181D9",
+    "data_sha256": "584C4428F6A9F42C4EF7E487C447E548DE15BE23ED7F6A8F3B787FC594ADCC54",
     "label_max": 33,
     "row_max": 40,
     "tooltip_max": 300,
@@ -84131,8 +85141,8 @@
       "NpcHardCap",
       "fixedLength"
     ],
-    "rows": 462,
-    "masters": 50,
+    "rows": 468,
+    "masters": 53,
     "hidden": 5,
     "advanced_suffix": "_advanced",
     "live_literal_headline": [
@@ -84289,7 +85299,7 @@
     "default_label_max": 20,
     "row_budget": 40,
     "description_max": 200,
-    "placed": 512,
+    "placed": 521,
     "types": {
       "alchemy": [
         "Alchemy",

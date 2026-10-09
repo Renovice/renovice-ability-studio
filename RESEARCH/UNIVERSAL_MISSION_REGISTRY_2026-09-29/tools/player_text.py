@@ -530,6 +530,10 @@ import player_text_r17  # noqa: E402  (same folder)
 player_text_r17.register(row, master)
 LIVE_LITERAL_HEADLINE += player_text_r17.HEADLINE
 
+# ---- Contract R23 (2026-10-09): Icebind goals, one master per mission type over the row pair (player_text_r23.py).
+import player_text_r23  # noqa: E402  (same folder)
+player_text_r23.register(row, master)
+
 # Group labels (sections). Existing ui_groups labels stay; advanced sections are "<label>: advanced" or the short form.
 ADVANCED_LABELS = {'escalation': '1999 Escalation: advanced', 'shrine': 'Shrine Defense: advanced',
                    'coh_destroy_targets': 'Destroy Targets: advanced', 'fivefates': 'Five Fates: advanced',

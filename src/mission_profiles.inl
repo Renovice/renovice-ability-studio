@@ -145,6 +145,18 @@ constexpr const char* kMinimalHooksGate = "ROOT_TABLE_MINIMAL_HOOKS_V1";
 constexpr const char* kEntryGate = "CAPTURE_GRAPH_ENTRY_V1";
 constexpr const char* kMissionInfoTemplate = "MISSION_INFO_FIELD_AT_ENTRY";
 constexpr const char* kScriptParamTemplate = "SCRIPT_PARAM_GLOBAL_AT_ENTRY";
+// R23 (2026-10-09): a MissionInfo row may name the variant KUVA_PATH_MISSION (Icebind). It writes the field only when
+// the mission's location is the Icebind location (the test LotusGameRules uses to set _T.IsKuvaPathMission), its
+// missionType is the row's, and the field still holds the Icebind stock (KuvaKeysLib MISSIONS[type].MaxWaveNum); every
+// other mission is left alone. The normal-node rule (field 0 and no alert/sortie/...) stays the default variant.
+constexpr const char* kMissionInfoKuvaPathVariant = "KUVA_PATH_MISSION";
+
+std::string mission_info_variant(const Json& owner) {
+    const auto variant = owner.value("variant", std::string());
+    if (!variant.empty() && variant != kMissionInfoKuvaPathVariant)
+        throw std::runtime_error("unknown MissionInfo variant " + variant);
+    return variant;
+}
 
 bool entry_template_row(const Json& row) {
     if (row.at("backend") != "TARGET_ADDON") return false;
@@ -309,7 +321,19 @@ void verify_entry_owner(const Json& registry, const Json& row, const std::string
         const auto field = owner.at("field").get<std::string>();
         if (!std::regex_match(field, identifier)) throw std::runtime_error("invalid MissionInfo field name");
         if (!owner.value("host_only", false)) throw std::runtime_error("a MissionInfo write must be host only");
-        if (row.at("stock").get<double>() != 0) throw std::runtime_error("a MissionInfo count row must have stock 0 (the normal-node default)");
+        if (mission_info_variant(owner).empty()) {
+            if (row.at("stock").get<double>() != 0) throw std::runtime_error("a MissionInfo count row must have stock 0 (the normal-node default)");
+        } else {
+            const auto location = owner.at("location").get<std::string>();
+            if (!std::regex_match(location, identifier)) throw std::runtime_error("invalid Icebind MissionInfo location");
+            if (!owner.at("mission_type").is_number_integer() || owner.at("mission_type").get<int>() <= 0)
+                throw std::runtime_error("an Icebind MissionInfo row needs a positive integer mission_type");
+            const double stock = row.at("stock").get<double>();
+            if (!(stock > 0) || owner.at("variant_stock").get<double>() != stock)
+                throw std::runtime_error("an Icebind MissionInfo row needs a positive stock equal to its variant_stock");
+            if (row.at("limits").at("minimum").get<double>() < 1)
+                throw std::runtime_error("an Icebind MissionInfo row needs a minimum of at least 1");
+        }
         if (bytes.find(field) == std::string::npos) throw std::runtime_error("module does not name the MissionInfo field " + field);
         for (const auto& reader : owner.at("readers"))
             if (reader.at("key") != field) throw std::runtime_error("a MissionInfo reader names another field");
@@ -1654,6 +1678,31 @@ std::string mission_info_helper(const std::string& field) {
            "end\n";
 }
 
+// R23: missionInfoKuvaPath_<field>(tag, value, location, missionType, stock): host only; on an Icebind mission of this
+// type (location == Symbol(location), missionType equal) whose field still holds the Icebind stock, writes the field
+// through the game's own setter and prints one line; skips when the field already holds the value (an entry of the
+// other module of the same row pair wrote it first). Another number is left alone with one line (fail closed).
+std::string mission_info_kuva_path_helper(const std::string& field) {
+    return "local function missionInfoKuvaPath_" + field + "(tag, value, location, missionType, stock)\n"
+           "    local region = gRegion\n"
+           "    if region == nil or not region:IsMaster() then return end\n"
+           "    local rules = gGameRules\n"
+           "    if rules == nil then return end\n"
+           "    local mission = rules:GetMission()\n"
+           "    if mission == nil then return end\n"
+           "    if mission.location ~= Symbol(location) or mission.missionType ~= missionType then return end\n"
+           "    local now = mission." + field + "\n"
+           "    if now == value then return end\n"
+           "    if now ~= stock then\n"
+           "        print(\"RENOVICE Missions: \" .. tag .. \" " + field + " is \" .. tostring(now) .. \", not the Icebind stock \" .. tostring(stock) .. \"; left unchanged\")\n"
+           "        return\n"
+           "    end\n"
+           "    mission." + field + " = value\n"
+           "    rules:SetMission(mission)\n"
+           "    print(\"RENOVICE Missions: \" .. tag .. \" " + field + " \" .. tostring(stock) .. \" -> \" .. tostring(value))\n"
+           "end\n";
+}
+
 constexpr const char* kScriptParameterHelper =
     "local function scriptParameter(tag, mode, read, write)\n"
     "    local records = setmetatable({}, { __mode = \"k\" }) -- environment -> { observed, written }, or false\n"
@@ -1833,7 +1882,7 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
     // R10: script-parameter globals of the called instance are read and written as hashed fields of its environment
     // table. The directive hashes EVERY field access with that name in this file, so the build gate
     // `entry-parameter-keys` checks that the names occur only in the generated accessors.
-    std::set<std::string> parameter_names, info_fields;
+    std::set<std::string> parameter_names, info_fields, kuva_info_fields;
     bool count_parameters = false;  // R11: a scale_count row needs scriptCountParameter
     bool scaled_fields = false;     // R14: a scaled root-table row needs the per-field stock form of ownedTable
     for (const auto& [body, rows] : bodies)
@@ -1843,8 +1892,10 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
             if (row->at("owner").at("template") == kScriptParamTemplate) {
                 for (const auto& global : row->at("owner").at("globals")) parameter_names.insert(global.at("name").get<std::string>());
                 if (row->at("owner").at("mode") == "scale_count") count_parameters = true;
-            } else
+            } else if (mission_info_variant(row->at("owner")).empty())
                 info_fields.insert(row->at("owner").at("field").get<std::string>());
+            else
+                kuva_info_fields.insert(row->at("owner").at("field").get<std::string>());
         }
     // R22: an inverse master drive this addon applies (a row the engine writer owns gets its master there) needs the
     // inverse-capable effectiveSettings; builds without one keep the R5 text byte for byte.
@@ -1987,6 +2038,7 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
         << "    return bind, restore\n"
         << "end\n";
     for (const auto& field : info_fields) out << "\n" << mission_info_helper(field);
+    for (const auto& field : kuva_info_fields) out << "\n" << mission_info_kuva_path_helper(field);
     if (!parameter_names.empty()) out << "\n" << kScriptParameterHelper;
     if (count_parameters) out << "\n" << kScriptCountParameterHelper;
     std::size_t target = 0;
@@ -2135,9 +2187,17 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
                 out << "    end\n";
             } else {
                 const auto field = owner.at("field").get<std::string>();
-                out << "    local function apply" << slot << "() -- " << kMissionInfoTemplate << " " << field << "\n"
-                    << "        missionInfo_" << field << "(" << lua_quote(id) << ", current[" << lua_quote(id) << "].value)\n"
-                    << "    end\n";
+                if (mission_info_variant(owner).empty())
+                    out << "    local function apply" << slot << "() -- " << kMissionInfoTemplate << " " << field << "\n"
+                        << "        missionInfo_" << field << "(" << lua_quote(id) << ", current[" << lua_quote(id) << "].value)\n"
+                        << "    end\n";
+                else
+                    out << "    local function apply" << slot << "() -- " << kMissionInfoTemplate << " " << kMissionInfoKuvaPathVariant
+                        << " " << field << "\n"
+                        << "        missionInfoKuvaPath_" << field << "(" << lua_quote(id) << ", current[" << lua_quote(id) << "].value, "
+                        << lua_quote(owner.at("location").get<std::string>()) << ", " << owner.at("mission_type").get<int>() << ", "
+                        << format_number(owner.at("variant_stock").get<double>()) << ")\n"
+                        << "    end\n";
             }
             for (const auto& entry : owner.at("entries")) {
                 if (!entry.value("root_child", false))
