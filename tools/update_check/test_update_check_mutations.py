@@ -20,6 +20,7 @@ Exit code 0 when every expectation holds.
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import shutil
 import sys
@@ -30,6 +31,7 @@ sys.path.insert(0, str(TOOL))
 import renovice_update_check as UC  # noqa: E402
 import uc_bytecode as B  # noqa: E402
 import uc_cache  # noqa: E402
+import uc_native  # noqa: E402
 import uc_pe  # noqa: E402
 
 GAME = UC.DEFAULT_GAME
@@ -84,6 +86,16 @@ def main() -> int:
         return B.Module((stock / name).read_bytes(), opmap)
 
     # control -----------------------------------------------------------------------------------------------------------
+    # Build-specific identities come from the current data, not from the build the test was written on (2026-10-09:
+    # 44.1.x changed the SurvivalMission content key and the engine-parameter writer address).
+    registry = json.loads((UC.EDITOR / 'REGISTRIES/mission_build_u44.json').read_text(encoding='utf-8'))
+    key = {m['file']: k for k, m in registry['modules'].items()}
+    survival, territory = key['Lotus_Scripts_Modes_SurvivalMission.lua_B'], key['Lotus_Scripts_Modes_TerritoryMission.lua_B']
+    exe_sha = hashlib.sha256((GAME / 'Warframe.x64.exe').read_bytes()).hexdigest()
+    wsj = json.loads((ws / 'WORKSPACE.json').read_text(encoding='utf-8'))
+    builds = uc_native.parse_engine_params_builds(
+        (ws / wsj['repos']['bootstrapper_runtime'] / 'renovice/engine_params_builds.hpp').read_text(encoding='utf-8'))
+    push_value = next(b for b in builds if exe_sha in b['digests'])['push_value_rva']
     rep = run_case('control', root, [])
     blocking = [i for i in rep['items'] if i['status'] == 'BROKEN' and i['check'] != 'missions.registry_row.server']
     results.append(('control', 'no BROKEN client-build item', not blocking))
@@ -97,9 +109,9 @@ def main() -> int:
     expect('shifted-prototype', rep, 'SurvivalMission content key changed',
            find(rep, 'BROKEN', 'scripts.content_key', 'SurvivalMission', 'content key changed', 'Missions: Survival'))
     expect('shifted-prototype', rep, 'luaCalls[67] fingerprint mismatch, identical prototype now 68',
-           find(rep, 'BROKEN', 'hooks.lua_call', 'f10a043e7f825db2 luaCalls[67]', 'prototype 67 fingerprint mismatch',
+           find(rep, 'BROKEN', 'hooks.lua_call', f'{survival} luaCalls[67]', 'prototype 67 fingerprint mismatch',
                 'Missions: Survival') and
-           find(rep, 'BROKEN', 'hooks.lua_call', 'f10a043e7f825db2 luaCalls[67]', 'identical prototype is now 68'))
+           find(rep, 'BROKEN', 'hooks.lua_call', f'{survival} luaCalls[67]', 'identical prototype is now 68'))
     expect('shifted-prototype', rep, 'verify-missions rows on SurvivalMission fail on the stock SHA-256',
            find(rep, 'BROKEN', 'missions.registry_row', 'survival.', 'stock SHA-256 mismatch'))
 
@@ -132,12 +144,12 @@ def main() -> int:
     data = B.rebuild_with_protos(m, [i for i in range(len(m.protos)) if i != 35])
     rep = run_case('removed-function', root, overlay('removed-function', {'Lotus_Scripts_Modes_TerritoryMission.lua_B': data}))
     expect('removed-function', rep, 'luaCalls[35]: no prototype with the baseline fingerprint remains',
-           find(rep, 'BROKEN', 'hooks.lua_call', 'c9605470a8c47d8d luaCalls[35]', 'function changed or removed',
+           find(rep, 'BROKEN', 'hooks.lua_call', f'{territory} luaCalls[35]', 'function changed or removed',
                 'Missions: Interception'))
     expect('removed-function', rep, 'luaCalls[37]: identical prototype is now 36',
-           find(rep, 'BROKEN', 'hooks.lua_call', 'c9605470a8c47d8d luaCalls[37]', 'identical prototype is now 36'))
+           find(rep, 'BROKEN', 'hooks.lua_call', f'{territory} luaCalls[37]', 'identical prototype is now 36'))
     expect('removed-function', rep, 'engine_params.json override on TerritoryMission broken',
-           find(rep, 'BROKEN', 'missions.engine_param', 'c9605470a8c47d8d', 'not in this build'))
+           find(rep, 'BROKEN', 'missions.engine_param', territory, 'not in this build'))
 
     # executable signature range ----------------------------------------------------------------------------------------
     exe = bytearray((GAME / 'Warframe.x64.exe').read_bytes())
@@ -152,7 +164,7 @@ def main() -> int:
     slot = img.import_slot('KERNEL32.dll', 'EnterCriticalSection')
     enter = next(t for t in thunks if img.rel32_target(t + 9) == slot)
     exe[file_offset(enter) + 1] ^= 0x01                               # mov rcx,[rcx] -> another opcode byte
-    exe[file_offset(0x191A010) + 4] ^= 0x01                           # push_value prologue
+    exe[file_offset(push_value) + 4] ^= 0x01                          # push_value prologue
     d = root / 'exe-signature'
     d.mkdir(parents=True, exist_ok=True)
     (d / 'Warframe.x64.exe').write_bytes(bytes(exe))
@@ -160,7 +172,7 @@ def main() -> int:
     expect('exe-signature', rep, 'DE_VM_AUTHORITY lock-enter: 0 matches',
            find(rep, 'BROKEN', 'native.de_vm_authority', 'lock-enter', 'matches=0', 'DE Lua API'))
     expect('exe-signature', rep, 'engine param push_value range mismatch',
-           find(rep, 'BROKEN', 'native.engine_params.range', '0x191a010', 'push-value-prologue-or-type-dispatch-mismatch'))
+           find(rep, 'BROKEN', 'native.engine_params.range', f'0x{push_value:x}', 'push-value-prologue-or-type-dispatch-mismatch'))
     expect('exe-signature', rep, 'changed executable is not in the supported-build allowlist',
            find(rep, 'BROKEN', 'build.allowlist.hotfix', 'supported_client_sha256_44', 'is not in the installed'))
     expect('exe-signature', rep, 'per-build ENGINE_DAMAGE table has no registration',

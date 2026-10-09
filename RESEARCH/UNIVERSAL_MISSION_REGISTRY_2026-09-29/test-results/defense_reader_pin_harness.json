@@ -5,7 +5,7 @@
       "pass": true
     },
     {
-      "name": "stock WaveDefend 44.0.2 body (SHA-256 0fb53a2c...)",
+      "name": "stock WaveDefend body = the registry module (0fb53a2c...)",
       "pass": true
     },
     {
@@ -21,11 +21,11 @@
       "pass": true
     },
     {
-      "name": "stock P36 i238 at 42025 is U44 GETIMPORT (raw 0x35) into R7",
+      "name": "stock P36 i307 at 42401 is U44 GETIMPORT (raw 0x35) into R12",
       "pass": true
     },
     {
-      "name": "stock P36 i307 at 42401 is U44 GETIMPORT (raw 0x35) into R12",
+      "name": "stock P36 i238 at 42025 is U44 GETIMPORT (raw 0x35) into R7",
       "pass": true
     },
     {
@@ -45,11 +45,11 @@
       "pass": true
     },
     {
-      "name": "N=1: P36 i238 is LOADN R7, 1 twice (instruction word and former aux word)",
+      "name": "N=1: P36 i307 is LOADN R12, 1 twice (instruction word and former aux word)",
       "pass": true
     },
     {
-      "name": "N=1: P36 i307 is LOADN R12, 1 twice (instruction word and former aux word)",
+      "name": "N=1: P36 i238 is LOADN R7, 1 twice (instruction word and former aux word)",
       "pass": true
     },
     {
@@ -85,11 +85,11 @@
       "pass": true
     },
     {
-      "name": "N=2: P36 i238 is LOADN R7, 2 twice (instruction word and former aux word)",
+      "name": "N=2: P36 i307 is LOADN R12, 2 twice (instruction word and former aux word)",
       "pass": true
     },
     {
-      "name": "N=2: P36 i307 is LOADN R12, 2 twice (instruction word and former aux word)",
+      "name": "N=2: P36 i238 is LOADN R7, 2 twice (instruction word and former aux word)",
       "pass": true
     },
     {
@@ -125,11 +125,11 @@
       "pass": true
     },
     {
-      "name": "N=5: P36 i238 is LOADN R7, 5 twice (instruction word and former aux word)",
+      "name": "N=5: P36 i307 is LOADN R12, 5 twice (instruction word and former aux word)",
       "pass": true
     },
     {
-      "name": "N=5: P36 i307 is LOADN R12, 5 twice (instruction word and former aux word)",
+      "name": "N=5: P36 i238 is LOADN R7, 5 twice (instruction word and former aux word)",
       "pass": true
     },
     {
@@ -149,11 +149,11 @@
       "pass": true
     },
     {
-      "name": "render stock (derecomp 65c46572)",
+      "name": "render stock (derecomp 701a2adf)",
       "pass": true
     },
     {
-      "name": "render pinned1 (derecomp 65c46572)",
+      "name": "render pinned1 (derecomp 701a2adf)",
       "pass": true
     },
     {
@@ -169,14 +169,6 @@
       "pass": true
     },
     {
-      "name": "installed R14 addon source (staged evidence, LF content pinned)",
-      "pass": true
-    },
-    {
-      "name": "R14 addon writes environment.minWavesToComplete at the P50 entry",
-      "pass": true
-    },
-    {
       "name": "R15 addon source built",
       "pass": true
     },
@@ -189,7 +181,7 @@
       "pass": true
     },
     {
-      "name": "harness: 7 Luau checks (R14 observed order reproduces live; R15 pinned reader)",
+      "name": "harness: 4 Luau checks (R14 observed order reproduces live; R15 pinned reader)",
       "pass": true
     }
   ],
@@ -200,6 +192,7 @@
     "frame_48[918] = (frame_48[917] % frame_48[916])",
     "if frame_48[918] ~= 0 then"
   ],
+  "historical": "R14 comparison proven on client 2026.09.28.13.06 (2026-10-01); its source work/staging/combined-r14/evidence/generator/Missions.targets.addon.luau is no longer available, not re-run",
   "pinned_values": {
     "1": 1,
     "2": 2,

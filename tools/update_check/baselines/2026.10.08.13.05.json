@@ -1,5 +1,5 @@
 {
- "bootstrapper_commit": "20adc8b1d153d54757036f525f3f6646934ed235",
+ "bootstrapper_commit": "0e604b9c1456ceeb0cef5d7a0265cac001428447",
  "build": "2026.10.08.13.05",
  "corpus_walk": {
   "failing": [
@@ -106,7 +106,7 @@
    }
   },
   "Packages/Missions/Missions.targets.addon.lua_B": {
-   "sha256": "342d66c89d5b89a14ba04c78690fca8f2d91d0bd2da898162c20700db093c08a",
+   "sha256": "76c10eaa1df91ad71e86afe27147694beb28045957e3785b39ed0b7b64df88a0",
    "targets": {
     "0028dbbd094c97e4": {
      "luaCalls": [
@@ -149,6 +149,12 @@
     "1f41c5821d2c5240": {
      "luaCalls": [
       8
+     ],
+     "nativeCalls": {}
+    },
+    "248d54e0074e52c2": {
+     "luaCalls": [
+      73
      ],
      "nativeCalls": {}
     },
@@ -303,7 +309,8 @@
     "b6d8c45f9424d376": {
      "luaCalls": [
       79,
-      81
+      81,
+      85
      ],
      "nativeCalls": {}
     },

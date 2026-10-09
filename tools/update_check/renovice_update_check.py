@@ -22,6 +22,7 @@ import argparse
 import datetime
 import hashlib
 import json
+import os
 import subprocess
 import sys
 import time
@@ -45,7 +46,11 @@ import uc_report as R  # noqa: E402
 from uc_report import OK, BROKEN, UNKNOWN  # noqa: E402
 
 EDITOR = TOOL_DIR.parents[1]
-DEFAULT_GAME = Path(r'C:\Program Files (x86)\Steam\steamapps\common\Warframe')
+STEAM_GAME = Path(r'C:\Program Files (x86)\Steam\steamapps\common\Warframe')  # what Steam updates: the update source
+# 2026-10-09: the check reads the folder the RENOVICE set is INSTALLED in and played from (a copy of the Steam folder;
+# the Steam folder keeps the unpatched executable and no proxy DLL, so checking it reports every native item BROKEN).
+# RENOVICE_GAME overrides it.
+DEFAULT_GAME = Path(os.environ.get('RENOVICE_GAME') or Path.home() / 'OneDrive' / 'Dokumenter' / 'Warframe')
 BASELINES = TOOL_DIR / 'baselines'
 BASELINE_FORMAT = 'RENOVICE_UPDATE_CHECK_BASELINE_V2'   # V2 (step 2): stock pack, literal-site and initialiser context
 # decompile -> recompile -> const-identity probes: referenced modules whose U44 raw-hash round trip passes on 44.0.2
@@ -143,7 +148,7 @@ def load_baseline(path: Path | None, build: str, log) -> tuple[dict, str]:
 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split('\n\n')[0])
-    ap.add_argument('--game', type=Path, default=DEFAULT_GAME, help='installed Warframe folder (read only)')
+    ap.add_argument('--game', type=Path, default=DEFAULT_GAME, help='installed Warframe folder (read only; default: RENOVICE_GAME, else the Documents copy)')
     ap.add_argument('--exe', type=Path, help='Warframe.x64.exe to check (default: <game>/Warframe.x64.exe)')
     ap.add_argument('--dll', type=Path, help='installed proxy DLL (default: <game>/WTSAPI32.dll)')
     ap.add_argument('--custom-scripts', type=Path, help='CustomScripts folder (default: <game>/OpenWF/CustomScripts)')

@@ -9,23 +9,7 @@
       "pass": true
     },
     {
-      "name": "baked exact-replacement members byte-identical to the staged set (5 files; R10 changes only the addon member)",
-      "pass": true
-    },
-    {
       "name": "R18: the baked build leaves the cross-module rows of the Mobile Defense and Excavation masters stock and records them",
-      "pass": true
-    },
-    {
-      "name": "baked package.json declares every staged value plus exactly the 61 R10/R11/R17/R18/R22 addon values",
-      "pass": true
-    },
-    {
-      "name": "baked declarations equal the staged ones except the two R9 master descriptions, the R10 category levels and the R17 layout (11 values changed by the R16 -> R17 registry layout, 4 collapsed under a type master)",
-      "pass": true
-    },
-    {
-      "name": "baked values file: every staged entry unchanged; the R10 values are added off at their defaults",
       "pass": true
     },
     {
@@ -45,23 +29,27 @@
       "pass": true
     },
     {
-      "name": "recipe synthesis of a807aae359ffc1eb equals the staged baked replacement",
+      "name": "the baked build replaces 5 headline literal modules",
       "pass": true
     },
     {
-      "name": "recipe synthesis of fc711ff621a75552 equals the staged baked replacement",
+      "name": "recipe synthesis of 0028dbbd094c97e4 equals the baked replacement of the same input",
       "pass": true
     },
     {
-      "name": "recipe synthesis of f7444e3c621ff018 equals the staged baked replacement",
+      "name": "recipe synthesis of 8a0b0819de60df01 equals the baked replacement of the same input",
       "pass": true
     },
     {
-      "name": "recipe synthesis of b3a5a18d68d61e16 equals the staged baked replacement",
+      "name": "recipe synthesis of b3a5a18d68d61e16 equals the baked replacement of the same input",
       "pass": true
     },
     {
-      "name": "recipe synthesis of 8a0b0819de60df01 equals the staged baked replacement",
+      "name": "recipe synthesis of f7444e3c621ff018 equals the baked replacement of the same input",
+      "pass": true
+    },
+    {
+      "name": "recipe synthesis of fc711ff621a75552 equals the baked replacement of the same input",
       "pass": true
     },
     {
@@ -133,18 +121,19 @@
       "pass": true
     }
   ],
+  "historical": "section 1 staged R7/R10/R17/R20 comparison proven on client 2026.09.28.13.06 (2026-10-02); work/staging/missions-full-package is no longer available, not re-run",
   "recipe": {
     "values": 136,
     "modules": 44,
     "masters": 18,
-    "literals_json_sha256": "9beaa4385ee3efe39daf0f3788bcf19b41aa500af1cd7705b03e3ab4df0392e8",
-    "package_json_sha256": "fd89dacae8cfd9cec10af9c06af22dcd2835a6e8c88a2842206fdb8c3904eda0",
-    "generation": "work\\temp\\live-literals-tests\\recipe\\missions\\7793C7146D42"
+    "literals_json_sha256": "0de8885a1bbb4a550a72491f37ee33b14ed442b60d8d87552011e4cbf2a01b90",
+    "package_json_sha256": "f577faa0283988151a0c1a6defa58e87e9b2b15c256b4320c6cf7b873e8ff25f",
+    "generation": "work\\temp\\live-literals-tests\\recipe\\missions\\2D4E53AC956C"
   },
   "old_bootstrapper": {
     "revision": "6227cc0",
     "admit": [
-      "LOG\tRENOVICE PACKAGE ACCEPT trigger=startup package=Missions id=package:missions members=1 replacements=0 target_addons=1 target_keys=35 lanes=replacement+inject"
+      "LOG\tRENOVICE PACKAGE ACCEPT trigger=startup package=Missions id=package:missions members=1 replacements=0 target_addons=1 target_keys=36 lanes=replacement+inject"
     ],
     "settings_tail": [
       "PASS\tdeclaration rejects: settings-unknown-field=extra",

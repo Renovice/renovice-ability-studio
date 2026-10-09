@@ -1,11 +1,11 @@
 {
-  "build": "2026.09.28.13.06",
+  "build": "2026.10.08.13.05",
   "presets": [
     {
       "preset": "mobile_defense",
       "lane": "EXACT_LITERAL",
-      "artifact": "a807aae359ffc1eb (mission_mobile_defense_timers_exact-replacement).lua_B",
-      "sha256": "9DC9D6FB76B9FEDC7BD7F057FCD75D77E98AE5A63CCEFF71803F1DD502DAD368",
+      "artifact": "0028dbbd094c97e4 (mission_mobile_defense_timers_exact-replacement).lua_B",
+      "sha256": "70903B9583F9E750970937720A929FB267D2D93301F8404F85FDA5D09D73EC26",
       "identical_to_previous_run": true
     },
     {
@@ -60,7 +60,7 @@
     {
       "preset": "survival",
       "lane": "TARGET_ADDON",
-      "artifact": "f10a043e7f825db2.mission_survival.target.addon.lua_B",
+      "artifact": "a62aa7eea1c4f27b.mission_survival.target.addon.lua_B",
       "sha256": "B7590C6990A64C47230504674E94CEC3DB2DF4427D74B5605BF6E8E2BE210FCA",
       "identical_to_previous_run": true
     },
@@ -87,81 +87,75 @@
     }
   ],
   "rejections": 36,
+  "historical": "byte comparisons with the dated samples work/research/universal-mission-editor-2026-09-29/phase2*-sample and the staged full package work/staging/missions-full-package proven on client 2026.09.28.13.06 (2026-09-29 .. 2026-10-02); not re-run on another build",
   "sample2b_rebuild": {
     "default": {
       "result": "REJECTED",
-      "reason": "ERROR [MISSION_BUILD_PROFILE] NEEDS_BINDING: body key f10a043e7f825db2: survival.reward_interval can be written only by a target addon (no exact literal form), and that addon acts only through hook binding renovice.target.lua_call, which is OFFLINE_VERIFIED (not LIVE_CONFIRMED) in REGISTRIES/hook_registry.tsv. The 2026-09-29 44.0.2 live test showed the addon attaching without any luaCalls.before dispatch, so it would change nothing. To stage it for a live acceptance run only, add \"allow_unproven_hook_bindings\": [\"renovice.target.lua_call\"] to the mission settings"
+      "reason": "ERROR [MISSION_BUILD_PROFILE] NEEDS_BINDING: body key a62aa7eea1c4f27b: survival.reward_interval can be written only by a target addon (no exact literal form), and that addon acts only through hook binding renovice.target.lua_call, which is OFFLINE_VERIFIED (not LIVE_CONFIRMED) in REGISTRIES/hook_registry.tsv. The 2026-09-29 44.0.2 live test showed the addon attaching without any luaCalls.before dispatch, so it would change nothing. To stage it for a live acceptance run only, add \"allow_unproven_hook_bindings\": [\"renovice.target.lua_call\"] to the mission settings"
     },
-    "opt_in_probe": [
-      {
-        "body_key": "076a7b443af7fdb8",
-        "tunables": [
-          "archimedea.eta_survival_minutes"
-        ],
-        "backend_before": "EXACT_LITERAL",
-        "backend_now": "EXACT_LITERAL",
-        "identical": true,
-        "sha256_now": "2832158E3B243C4F508AD882ED69A9339FE7F062DF76A709CBE90C58E5522D9D",
-        "multi_target_artifact": null,
-        "runtime_hook": null
-      },
-      {
-        "body_key": "a807aae359ffc1eb",
-        "tunables": [
-          "mobiledefense.total_time.maximum",
-          "mobiledefense.total_time.minimum"
-        ],
-        "backend_before": "EXACT_LITERAL",
-        "backend_now": "EXACT_LITERAL",
-        "identical": true,
-        "sha256_now": "9DC9D6FB76B9FEDC7BD7F057FCD75D77E98AE5A63CCEFF71803F1DD502DAD368",
-        "multi_target_artifact": null,
-        "runtime_hook": null
-      },
-      {
-        "body_key": "f7444e3c621ff018",
-        "tunables": [
-          "excavation.dig_duration",
-          "excavation.dig_duration_elite_alert"
-        ],
-        "backend_before": "EXACT_LITERAL",
-        "backend_now": "EXACT_LITERAL",
-        "identical": true,
-        "sha256_now": "D2A8537B7EA0259D4ECE33F7A5C456F7E7E643CAB4CC0FCF6B0027926128B0BA",
-        "multi_target_artifact": null,
-        "runtime_hook": null
-      },
-      {
-        "body_key": "f10a043e7f825db2",
-        "tunables": [
-          "survival.reward_interval"
-        ],
-        "backend_before": "TARGET_ADDON",
-        "backend_now": "TARGET_ADDON",
-        "identical": false,
-        "sha256_now": "2EA1A8D892FB7814ACBBF9504C1882AAFD5E28C8FFD1408FBC835CA41BD888DC",
-        "multi_target_artifact": "artifacts/Missions.targets.addon.lua_B",
-        "runtime_hook": {
-          "binding": "renovice.target.lua_call",
-          "built_by_explicit_opt_in": true,
-          "live_confirmed": false,
-          "registry_status": "OFFLINE_VERIFIED"
+    "opt_in_probe": {
+      "artifacts": [
+        {
+          "body_key": "0028dbbd094c97e4",
+          "tunables": [
+            "mobiledefense.total_time.maximum",
+            "mobiledefense.total_time.minimum"
+          ],
+          "backend": "EXACT_LITERAL",
+          "sha256": "70903B9583F9E750970937720A929FB267D2D93301F8404F85FDA5D09D73EC26",
+          "multi_target_artifact": null,
+          "runtime_hook": null
+        },
+        {
+          "body_key": "076a7b443af7fdb8",
+          "tunables": [
+            "archimedea.eta_survival_minutes"
+          ],
+          "backend": "EXACT_LITERAL",
+          "sha256": "2832158E3B243C4F508AD882ED69A9339FE7F062DF76A709CBE90C58E5522D9D",
+          "multi_target_artifact": null,
+          "runtime_hook": null
+        },
+        {
+          "body_key": "f7444e3c621ff018",
+          "tunables": [
+            "excavation.dig_duration",
+            "excavation.dig_duration_elite_alert"
+          ],
+          "backend": "EXACT_LITERAL",
+          "sha256": "D2A8537B7EA0259D4ECE33F7A5C456F7E7E643CAB4CC0FCF6B0027926128B0BA",
+          "multi_target_artifact": null,
+          "runtime_hook": null
+        },
+        {
+          "body_key": "a62aa7eea1c4f27b",
+          "tunables": [
+            "survival.reward_interval"
+          ],
+          "backend": "TARGET_ADDON",
+          "sha256": "5F8AD42669CB51594705FF0826340E52E2A60FAD91FBE08CF61520AED8777774",
+          "multi_target_artifact": "artifacts/Missions.targets.addon.lua_B",
+          "runtime_hook": {
+            "binding": "renovice.target.lua_call",
+            "built_by_explicit_opt_in": true,
+            "live_confirmed": false,
+            "registry_status": "OFFLINE_VERIFIED"
+          }
+        },
+        {
+          "body_key": "metadata",
+          "tunables": [
+            "netracell.enemy_power_fill",
+            "shrine.offering_generation_time"
+          ],
+          "backend": "METADATA_PATCH",
+          "sha256": "F6FDB56BA18466485CF7669A90C048DC676CA8A59A8574D010DF128F1AC571B8",
+          "multi_target_artifact": null,
+          "runtime_hook": null
         }
-      },
-      {
-        "body_key": "metadata",
-        "tunables": [
-          "netracell.enemy_power_fill",
-          "shrine.offering_generation_time"
-        ],
-        "backend_before": "METADATA_PATCH",
-        "backend_now": "METADATA_PATCH",
-        "identical": true,
-        "sha256_now": "F6FDB56BA18466485CF7669A90C048DC676CA8A59A8574D010DF128F1AC571B8",
-        "multi_target_artifact": null,
-        "runtime_hook": null
-      }
-    ]
+      ],
+      "state": "identical to the 2026.10.08.13.05 reference"
+    }
   },
   "sample2d_rebuild": {
     "default": {
@@ -172,10 +166,8 @@
           "tunables": [
             "netracell.power_required.base"
           ],
-          "backend_before": "EXACT_LITERAL",
-          "backend_now": "EXACT_LITERAL",
-          "identical": true,
-          "sha256_now": "8D0EDA35362FA8F8FE62918F3628799080455EA029257BDE1534ACAD45DCC564",
+          "backend": "EXACT_LITERAL",
+          "sha256": "8D0EDA35362FA8F8FE62918F3628799080455EA029257BDE1534ACAD45DCC564",
           "multi_target_artifact": null,
           "runtime_hook": null
         },
@@ -184,10 +176,8 @@
           "tunables": [
             "defense.inter_wave_sleep"
           ],
-          "backend_before": "EXACT_LITERAL",
-          "backend_now": "EXACT_LITERAL",
-          "identical": true,
-          "sha256_now": "BFE46442738A5D38B9492B84832720A13486D0D3655056781739DF1F3B488782",
+          "backend": "EXACT_LITERAL",
+          "sha256": "BFE46442738A5D38B9492B84832720A13486D0D3655056781739DF1F3B488782",
           "multi_target_artifact": null,
           "runtime_hook": null
         },
@@ -196,10 +186,18 @@
           "tunables": [
             "orphix.sortie_rounds"
           ],
-          "backend_before": "EXACT_LITERAL",
-          "backend_now": "EXACT_LITERAL",
-          "identical": true,
-          "sha256_now": "8F536A417CA00581D3146EB94B77954AF70592E94F441750DDF94D3EF8ED0D18",
+          "backend": "EXACT_LITERAL",
+          "sha256": "8F536A417CA00581D3146EB94B77954AF70592E94F441750DDF94D3EF8ED0D18",
+          "multi_target_artifact": null,
+          "runtime_hook": null
+        },
+        {
+          "body_key": "a62aa7eea1c4f27b",
+          "tunables": [
+            "survival.elite_alert_pickup_mult"
+          ],
+          "backend": "EXACT_LITERAL",
+          "sha256": "2080C0EB770FA1E725ACA840003F90DC864B77C7DC19D90DC9A179CF0813ACAB",
           "multi_target_artifact": null,
           "runtime_hook": null
         },
@@ -210,22 +208,8 @@
             "disruption.default_round_count",
             "disruption.round_timeout"
           ],
-          "backend_before": "EXACT_LITERAL",
-          "backend_now": "EXACT_LITERAL",
-          "identical": true,
-          "sha256_now": "BE99A12BCD3927DDA2B037A47BF97E9D5227FC4F7CB3299CA728A1542204AB56",
-          "multi_target_artifact": null,
-          "runtime_hook": null
-        },
-        {
-          "body_key": "f10a043e7f825db2",
-          "tunables": [
-            "survival.elite_alert_pickup_mult"
-          ],
-          "backend_before": "EXACT_LITERAL",
-          "backend_now": "EXACT_LITERAL",
-          "identical": true,
-          "sha256_now": "DE20BA0CDC32404AC3E434BFAE52D7F3FE8BA2BC9B960553B93C6B22299FB9D2",
+          "backend": "EXACT_LITERAL",
+          "sha256": "BE99A12BCD3927DDA2B037A47BF97E9D5227FC4F7CB3299CA728A1542204AB56",
           "multi_target_artifact": null,
           "runtime_hook": null
         },
@@ -234,10 +218,8 @@
           "tunables": [
             "excavation.resource_goal_default"
           ],
-          "backend_before": "EXACT_LITERAL",
-          "backend_now": "EXACT_LITERAL",
-          "identical": true,
-          "sha256_now": "B9F98E43FC02621DDFF0C1B654CA1043A46A6B2E37CED914F0EBD8334AEE8D6A",
+          "backend": "EXACT_LITERAL",
+          "sha256": "B9F98E43FC02621DDFF0C1B654CA1043A46A6B2E37CED914F0EBD8334AEE8D6A",
           "multi_target_artifact": null,
           "runtime_hook": null
         },
@@ -246,10 +228,8 @@
           "tunables": [
             "hijack.payload_health"
           ],
-          "backend_before": "EXACT_LITERAL",
-          "backend_now": "EXACT_LITERAL",
-          "identical": true,
-          "sha256_now": "6D7C70D43CD1A7F2A3DF4E0BCE7A190CA048A5CFB65B06A07BBC3E9CFF2F2273",
+          "backend": "EXACT_LITERAL",
+          "sha256": "6D7C70D43CD1A7F2A3DF4E0BCE7A190CA048A5CFB65B06A07BBC3E9CFF2F2273",
           "multi_target_artifact": null,
           "runtime_hook": null
         },
@@ -258,10 +238,8 @@
           "tunables": [
             "void_flood.fill_timer.timeToFillMax"
           ],
-          "backend_before": "EXACT_LITERAL",
-          "backend_now": "EXACT_LITERAL",
-          "identical": true,
-          "sha256_now": "D8F3C4E77D48271C255671AF32AF1A825CA8FF70CD8847B170280ACD5DAF4330",
+          "backend": "EXACT_LITERAL",
+          "sha256": "D8F3C4E77D48271C255671AF32AF1A825CA8FF70CD8847B170280ACD5DAF4330",
           "multi_target_artifact": null,
           "runtime_hook": null
         },
@@ -272,205 +250,184 @@
             "infested_capture.search_time.wf1999",
             "meltdown.heat_increase.descendia"
           ],
-          "backend_before": "METADATA_PATCH",
-          "backend_now": "METADATA_PATCH",
-          "identical": true,
-          "sha256_now": "7EE0AD908459601E38EE73ADFE74978F2CA893A8814B14B3BD0B7E85AFD6566F",
+          "backend": "METADATA_PATCH",
+          "sha256": "7EE0AD908459601E38EE73ADFE74978F2CA893A8814B14B3BD0B7E85AFD6566F",
           "multi_target_artifact": null,
           "runtime_hook": null
         }
-      ]
+      ],
+      "state": "identical to the 2026.10.08.13.05 reference"
     },
-    "opt_in_probe": [
-      {
-        "body_key": "0c498e078835f9fe",
-        "tunables": [
-          "netracell.power_required.base"
-        ],
-        "backend_before": "EXACT_LITERAL",
-        "backend_now": "EXACT_LITERAL",
-        "identical": true,
-        "sha256_now": "8D0EDA35362FA8F8FE62918F3628799080455EA029257BDE1534ACAD45DCC564",
-        "multi_target_artifact": null,
-        "runtime_hook": null
-      },
-      {
-        "body_key": "1a1354d153712f9d",
-        "tunables": [
-          "defense.inter_wave_sleep"
-        ],
-        "backend_before": "EXACT_LITERAL",
-        "backend_now": "EXACT_LITERAL",
-        "identical": true,
-        "sha256_now": "BFE46442738A5D38B9492B84832720A13486D0D3655056781739DF1F3B488782",
-        "multi_target_artifact": null,
-        "runtime_hook": null
-      },
-      {
-        "body_key": "721710696afea305",
-        "tunables": [
-          "orphix.sortie_rounds"
-        ],
-        "backend_before": "EXACT_LITERAL",
-        "backend_now": "EXACT_LITERAL",
-        "identical": true,
-        "sha256_now": "8F536A417CA00581D3146EB94B77954AF70592E94F441750DDF94D3EF8ED0D18",
-        "multi_target_artifact": null,
-        "runtime_hook": null
-      },
-      {
-        "body_key": "b6d8c45f9424d376",
-        "tunables": [
-          "disruption.boss_health_multiplier",
-          "disruption.default_round_count",
-          "disruption.round_timeout"
-        ],
-        "backend_before": "EXACT_LITERAL",
-        "backend_now": "EXACT_LITERAL",
-        "identical": true,
-        "sha256_now": "BE99A12BCD3927DDA2B037A47BF97E9D5227FC4F7CB3299CA728A1542204AB56",
-        "multi_target_artifact": null,
-        "runtime_hook": null
-      },
-      {
-        "body_key": "f10a043e7f825db2",
-        "tunables": [
-          "survival.elite_alert_pickup_mult"
-        ],
-        "backend_before": "EXACT_LITERAL",
-        "backend_now": "EXACT_LITERAL",
-        "identical": true,
-        "sha256_now": "DE20BA0CDC32404AC3E434BFAE52D7F3FE8BA2BC9B960553B93C6B22299FB9D2",
-        "multi_target_artifact": null,
-        "runtime_hook": null
-      },
-      {
-        "body_key": "f7444e3c621ff018",
-        "tunables": [
-          "excavation.resource_goal_default"
-        ],
-        "backend_before": "EXACT_LITERAL",
-        "backend_now": "EXACT_LITERAL",
-        "identical": true,
-        "sha256_now": "B9F98E43FC02621DDFF0C1B654CA1043A46A6B2E37CED914F0EBD8334AEE8D6A",
-        "multi_target_artifact": null,
-        "runtime_hook": null
-      },
-      {
-        "body_key": "fb346b59e2b7687a",
-        "tunables": [
-          "hijack.payload_health"
-        ],
-        "backend_before": "EXACT_LITERAL",
-        "backend_now": "EXACT_LITERAL",
-        "identical": true,
-        "sha256_now": "6D7C70D43CD1A7F2A3DF4E0BCE7A190CA048A5CFB65B06A07BBC3E9CFF2F2273",
-        "multi_target_artifact": null,
-        "runtime_hook": null
-      },
-      {
-        "body_key": "fc711ff621a75552",
-        "tunables": [
-          "void_flood.fill_timer.timeToFillMax"
-        ],
-        "backend_before": "EXACT_LITERAL",
-        "backend_now": "TARGET_ADDON",
-        "identical": false,
-        "sha256_now": "2AC8431895B6581F6409A34182DE5342EDC2A80C1C734B74D86433418C87B63D",
-        "multi_target_artifact": "artifacts/Missions.targets.addon.lua_B",
-        "runtime_hook": {
-          "binding": "renovice.target.lua_call",
-          "built_by_explicit_opt_in": true,
-          "live_confirmed": false,
-          "registry_status": "OFFLINE_VERIFIED"
+    "opt_in_probe": {
+      "artifacts": [
+        {
+          "body_key": "0c498e078835f9fe",
+          "tunables": [
+            "netracell.power_required.base"
+          ],
+          "backend": "EXACT_LITERAL",
+          "sha256": "8D0EDA35362FA8F8FE62918F3628799080455EA029257BDE1534ACAD45DCC564",
+          "multi_target_artifact": null,
+          "runtime_hook": null
+        },
+        {
+          "body_key": "1a1354d153712f9d",
+          "tunables": [
+            "defense.inter_wave_sleep"
+          ],
+          "backend": "EXACT_LITERAL",
+          "sha256": "BFE46442738A5D38B9492B84832720A13486D0D3655056781739DF1F3B488782",
+          "multi_target_artifact": null,
+          "runtime_hook": null
+        },
+        {
+          "body_key": "721710696afea305",
+          "tunables": [
+            "orphix.sortie_rounds"
+          ],
+          "backend": "EXACT_LITERAL",
+          "sha256": "8F536A417CA00581D3146EB94B77954AF70592E94F441750DDF94D3EF8ED0D18",
+          "multi_target_artifact": null,
+          "runtime_hook": null
+        },
+        {
+          "body_key": "a62aa7eea1c4f27b",
+          "tunables": [
+            "survival.elite_alert_pickup_mult"
+          ],
+          "backend": "EXACT_LITERAL",
+          "sha256": "2080C0EB770FA1E725ACA840003F90DC864B77C7DC19D90DC9A179CF0813ACAB",
+          "multi_target_artifact": null,
+          "runtime_hook": null
+        },
+        {
+          "body_key": "b6d8c45f9424d376",
+          "tunables": [
+            "disruption.boss_health_multiplier",
+            "disruption.default_round_count",
+            "disruption.round_timeout"
+          ],
+          "backend": "EXACT_LITERAL",
+          "sha256": "BE99A12BCD3927DDA2B037A47BF97E9D5227FC4F7CB3299CA728A1542204AB56",
+          "multi_target_artifact": null,
+          "runtime_hook": null
+        },
+        {
+          "body_key": "f7444e3c621ff018",
+          "tunables": [
+            "excavation.resource_goal_default"
+          ],
+          "backend": "EXACT_LITERAL",
+          "sha256": "B9F98E43FC02621DDFF0C1B654CA1043A46A6B2E37CED914F0EBD8334AEE8D6A",
+          "multi_target_artifact": null,
+          "runtime_hook": null
+        },
+        {
+          "body_key": "fb346b59e2b7687a",
+          "tunables": [
+            "hijack.payload_health"
+          ],
+          "backend": "EXACT_LITERAL",
+          "sha256": "6D7C70D43CD1A7F2A3DF4E0BCE7A190CA048A5CFB65B06A07BBC3E9CFF2F2273",
+          "multi_target_artifact": null,
+          "runtime_hook": null
+        },
+        {
+          "body_key": "fc711ff621a75552",
+          "tunables": [
+            "void_flood.fill_timer.timeToFillMax"
+          ],
+          "backend": "TARGET_ADDON",
+          "sha256": "2AC8431895B6581F6409A34182DE5342EDC2A80C1C734B74D86433418C87B63D",
+          "multi_target_artifact": "artifacts/Missions.targets.addon.lua_B",
+          "runtime_hook": {
+            "binding": "renovice.target.lua_call",
+            "built_by_explicit_opt_in": true,
+            "live_confirmed": false,
+            "registry_status": "OFFLINE_VERIFIED"
+          }
+        },
+        {
+          "body_key": "metadata",
+          "tunables": [
+            "coh_excavation.base_health",
+            "infested_capture.search_time.wf1999",
+            "meltdown.heat_increase.descendia"
+          ],
+          "backend": "METADATA_PATCH",
+          "sha256": "7EE0AD908459601E38EE73ADFE74978F2CA893A8814B14B3BD0B7E85AFD6566F",
+          "multi_target_artifact": null,
+          "runtime_hook": null
         }
-      },
-      {
-        "body_key": "metadata",
-        "tunables": [
-          "coh_excavation.base_health",
-          "infested_capture.search_time.wf1999",
-          "meltdown.heat_increase.descendia"
-        ],
-        "backend_before": "METADATA_PATCH",
-        "backend_now": "METADATA_PATCH",
-        "identical": true,
-        "sha256_now": "7EE0AD908459601E38EE73ADFE74978F2CA893A8814B14B3BD0B7E85AFD6566F",
-        "multi_target_artifact": null,
-        "runtime_hook": null
-      }
-    ]
+      ],
+      "state": "identical to the 2026.10.08.13.05 reference"
+    }
   },
   "sample2e_rebuild": {
     "default": {
       "result": "REJECTED",
       "reason": "ERROR [MISSION_BUILD_PROFILE] NEEDS_BINDING: body key 6fa60841c9e0f207: purgatory.difficulty1.warrior_level can be written only by a target addon (no exact literal form), and that addon acts only through hook binding renovice.target.lua_call, which is OFFLINE_VERIFIED (not LIVE_CONFIRMED) in REGISTRIES/hook_registry.tsv. The 2026-09-29 44.0.2 live test showed the addon attaching without any luaCalls.before dispatch, so it would change nothing. To stage it for a live acceptance run only, add \"allow_unproven_hook_bindings\": [\"renovice.target.lua_call\"] to the mission settings"
     },
-    "opt_in_probe": [
-      {
-        "body_key": "fc711ff621a75552",
-        "tunables": [
-          "void_flood.fractures_per_round.normal"
-        ],
-        "backend_before": "EXACT_LITERAL",
-        "backend_now": "EXACT_LITERAL",
-        "identical": true,
-        "sha256_now": "E979F5E7906F0D88E49C42B4191ECA6AFDC1237FDDD91D52CBF427DB3FA9F6D2",
-        "multi_target_artifact": null,
-        "runtime_hook": null
-      },
-      {
-        "body_key": "6fa60841c9e0f207",
-        "tunables": [
-          "purgatory.difficulty1.warrior_level"
-        ],
-        "backend_before": "TARGET_ADDON",
-        "backend_now": "TARGET_ADDON",
-        "identical": false,
-        "sha256_now": "E77C1BE47829BB9543DDDE4ABD5442EE117EB6228F2A88D4341E3348B9813B9B",
-        "multi_target_artifact": "artifacts/Missions.targets.addon.lua_B",
-        "runtime_hook": {
-          "binding": "renovice.target.lua_call",
-          "built_by_explicit_opt_in": true,
-          "live_confirmed": false,
-          "registry_status": "OFFLINE_VERIFIED"
+    "opt_in_probe": {
+      "artifacts": [
+        {
+          "body_key": "fc711ff621a75552",
+          "tunables": [
+            "void_flood.fractures_per_round.normal"
+          ],
+          "backend": "EXACT_LITERAL",
+          "sha256": "E979F5E7906F0D88E49C42B4191ECA6AFDC1237FDDD91D52CBF427DB3FA9F6D2",
+          "multi_target_artifact": null,
+          "runtime_hook": null
+        },
+        {
+          "body_key": "6fa60841c9e0f207",
+          "tunables": [
+            "purgatory.difficulty1.warrior_level"
+          ],
+          "backend": "TARGET_ADDON",
+          "sha256": "5F3BDF30D0AC9AD620FFDA484C670FD9665C49C04DF2035E3351DFA530F64137",
+          "multi_target_artifact": "artifacts/Missions.targets.addon.lua_B",
+          "runtime_hook": {
+            "binding": "renovice.target.lua_call",
+            "built_by_explicit_opt_in": true,
+            "live_confirmed": false,
+            "registry_status": "OFFLINE_VERIFIED"
+          }
+        },
+        {
+          "body_key": "a62aa7eea1c4f27b",
+          "tunables": [
+            "survival.reward_interval"
+          ],
+          "backend": "TARGET_ADDON",
+          "sha256": "5F3BDF30D0AC9AD620FFDA484C670FD9665C49C04DF2035E3351DFA530F64137",
+          "multi_target_artifact": "artifacts/Missions.targets.addon.lua_B",
+          "runtime_hook": {
+            "binding": "renovice.target.lua_call",
+            "built_by_explicit_opt_in": true,
+            "live_confirmed": false,
+            "registry_status": "OFFLINE_VERIFIED"
+          }
+        },
+        {
+          "body_key": "caec63d8e739b693",
+          "tunables": [
+            "lantern.tier_up_interval"
+          ],
+          "backend": "TARGET_ADDON",
+          "sha256": "5F3BDF30D0AC9AD620FFDA484C670FD9665C49C04DF2035E3351DFA530F64137",
+          "multi_target_artifact": "artifacts/Missions.targets.addon.lua_B",
+          "runtime_hook": {
+            "binding": "renovice.target.lua_call",
+            "built_by_explicit_opt_in": true,
+            "live_confirmed": false,
+            "registry_status": "OFFLINE_VERIFIED"
+          }
         }
-      },
-      {
-        "body_key": "caec63d8e739b693",
-        "tunables": [
-          "lantern.tier_up_interval"
-        ],
-        "backend_before": "TARGET_ADDON",
-        "backend_now": "TARGET_ADDON",
-        "identical": false,
-        "sha256_now": "E77C1BE47829BB9543DDDE4ABD5442EE117EB6228F2A88D4341E3348B9813B9B",
-        "multi_target_artifact": "artifacts/Missions.targets.addon.lua_B",
-        "runtime_hook": {
-          "binding": "renovice.target.lua_call",
-          "built_by_explicit_opt_in": true,
-          "live_confirmed": false,
-          "registry_status": "OFFLINE_VERIFIED"
-        }
-      },
-      {
-        "body_key": "f10a043e7f825db2",
-        "tunables": [
-          "survival.reward_interval"
-        ],
-        "backend_before": "TARGET_ADDON",
-        "backend_now": "TARGET_ADDON",
-        "identical": false,
-        "sha256_now": "E77C1BE47829BB9543DDDE4ABD5442EE117EB6228F2A88D4341E3348B9813B9B",
-        "multi_target_artifact": "artifacts/Missions.targets.addon.lua_B",
-        "runtime_hook": {
-          "binding": "renovice.target.lua_call",
-          "built_by_explicit_opt_in": true,
-          "live_confirmed": false,
-          "registry_status": "OFFLINE_VERIFIED"
-        }
-      }
-    ]
+      ],
+      "state": "identical to the 2026.10.08.13.05 reference"
+    }
   },
   "phase2f_sample": {
     "values": {
@@ -504,10 +461,10 @@
       }
     ],
     "rejected": {
-      "survival.reward_interval": "ERROR [MISSION_BUILD_PROFILE] NEEDS_BINDING: body key f10a043e7f825db2: survival.reward_interval can be written only by a target addon (no exact literal form), and that addon acts only through hook binding renovice.target.lua_call, which is OFFLINE_VERIFIED (not LIVE_CONFIRMED) in REGISTRIES/hook_registry.tsv. The 2026-09-29 44.0.2 live test showed the addon attaching without any luaCalls.before dispatch, so it would change nothing. To stage it for a live acceptance run only, add \"allow_unproven_hook_bindings\": [\"renovice.target.lua_call\"] to the mission settings",
+      "survival.reward_interval": "ERROR [MISSION_BUILD_PROFILE] NEEDS_BINDING: body key a62aa7eea1c4f27b: survival.reward_interval can be written only by a target addon (no exact literal form), and that addon acts only through hook binding renovice.target.lua_call, which is OFFLINE_VERIFIED (not LIVE_CONFIRMED) in REGISTRIES/hook_registry.tsv. The 2026-09-29 44.0.2 live test showed the addon attaching without any luaCalls.before dispatch, so it would change nothing. To stage it for a live acceptance run only, add \"allow_unproven_hook_bindings\": [\"renovice.target.lua_call\"] to the mission settings",
       "purgatory.difficulty1.warrior_level": "ERROR [MISSION_BUILD_PROFILE] NEEDS_BINDING: body key 6fa60841c9e0f207: purgatory.difficulty1.warrior_level can be written only by a target addon (no exact literal form), and that addon acts only through hook binding renovice.target.lua_call, which is OFFLINE_VERIFIED (not LIVE_CONFIRMED) in REGISTRIES/hook_registry.tsv. The 2026-09-29 44.0.2 live test showed the addon attaching without any luaCalls.before dispatch, so it would change nothing. To stage it for a live acceptance run only, add \"allow_unproven_hook_bindings\": [\"renovice.target.lua_call\"] to the mission settings"
     },
-    "location": "work/research/universal-mission-editor-2026-09-29/phase2f-sample"
+    "state": "identical to the 2026.10.08.13.05 reference"
   },
   "phase2g_sample": {
     "values": {
@@ -569,28 +526,7 @@
               "tables": 1
             },
             {
-              "body_key": "caec63d8e739b693",
-              "full_capturer_prototypes": 4,
-              "hooked_tables": [
-                "root:i75:R36"
-              ],
-              "idle_retire_prototypes": [
-                14
-              ],
-              "module_path": "Lotus.Scripts.Modes.HalloweenLanternEndless",
-              "prototypes": [
-                14
-              ],
-              "retire_all_prototypes": [
-                14
-              ],
-              "retiring_prototypes": [
-                14
-              ],
-              "tables": 1
-            },
-            {
-              "body_key": "f10a043e7f825db2",
+              "body_key": "a62aa7eea1c4f27b",
               "full_capturer_prototypes": 10,
               "hooked_tables": [
                 "root:i19:R9"
@@ -621,6 +557,27 @@
                 69
               ],
               "tables": 1
+            },
+            {
+              "body_key": "caec63d8e739b693",
+              "full_capturer_prototypes": 4,
+              "hooked_tables": [
+                "root:i75:R36"
+              ],
+              "idle_retire_prototypes": [
+                14
+              ],
+              "module_path": "Lotus.Scripts.Modes.HalloweenLanternEndless",
+              "prototypes": [
+                14
+              ],
+              "retire_all_prototypes": [
+                14
+              ],
+              "retiring_prototypes": [
+                14
+              ],
+              "tables": 1
             }
           ],
           "values": 3
@@ -638,19 +595,19 @@
           "policy_id": "target-addon:missions.targets.addon.lua_b",
           "row": "[ADDON] Missions"
         },
-        "sha256": "E77C1BE47829BB9543DDDE4ABD5442EE117EB6228F2A88D4341E3348B9813B9B",
+        "sha256": "5F3BDF30D0AC9AD620FFDA484C670FD9665C49C04DF2035E3351DFA530F64137",
         "size": 5584,
         "target_keys": [
           "6fa60841c9e0f207",
-          "caec63d8e739b693",
-          "f10a043e7f825db2"
+          "a62aa7eea1c4f27b",
+          "caec63d8e739b693"
         ],
         "targets": [
           {
             "body_key": "6fa60841c9e0f207",
             "module_path": "Lotus.Scripts.Modes.Purgatory",
             "stock_artifact": {
-              "path": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared/corpus/de-luau-u44.0.2-authoring\\Lotus_Scripts_Modes_Purgatory.lua_B",
+              "path": "<workspace>\\shared/corpus/de-luau-2026.10.08.13.05-authoring\\Lotus_Scripts_Modes_Purgatory.lua_B",
               "sha256": "6B0ECD7C47B23A0C2C0A4598E4D9B044E070F51E76DAA149A14F0E12AA244FE9"
             },
             "supersedes": "6fa60841c9e0f207.missions.target.addon.lua_B",
@@ -659,38 +616,37 @@
             ]
           },
           {
+            "body_key": "a62aa7eea1c4f27b",
+            "module_path": "Lotus.Scripts.Modes.SurvivalMission",
+            "stock_artifact": {
+              "path": "<workspace>\\shared/corpus/de-luau-2026.10.08.13.05-authoring\\Lotus_Scripts_Modes_SurvivalMission.lua_B",
+              "sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7"
+            },
+            "supersedes": "a62aa7eea1c4f27b.missions.target.addon.lua_B",
+            "tunables": [
+              "survival.reward_interval"
+            ]
+          },
+          {
             "body_key": "caec63d8e739b693",
             "module_path": "Lotus.Scripts.Modes.HalloweenLanternEndless",
             "stock_artifact": {
-              "path": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared/corpus/de-luau-u44.0.2-authoring\\Lotus_Scripts_Modes_HalloweenLanternEndless.lua_B",
+              "path": "<workspace>\\shared/corpus/de-luau-2026.10.08.13.05-authoring\\Lotus_Scripts_Modes_HalloweenLanternEndless.lua_B",
               "sha256": "1E5A6E3919A93D78521E2E2F59501DCC06DFA55B0673190450542DC00B3875E2"
             },
             "supersedes": "caec63d8e739b693.missions.target.addon.lua_B",
             "tunables": [
               "lantern.tier_up_interval"
             ]
-          },
-          {
-            "body_key": "f10a043e7f825db2",
-            "module_path": "Lotus.Scripts.Modes.SurvivalMission",
-            "stock_artifact": {
-              "path": "C:\\Users\\Bartek\\OneDrive\\Dokumenter\\Warframe RE PROJECT RENOVICE\\shared/corpus/de-luau-u44.0.2-authoring\\Lotus_Scripts_Modes_SurvivalMission.lua_B",
-              "sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D"
-            },
-            "supersedes": "f10a043e7f825db2.missions.target.addon.lua_B",
-            "tunables": [
-              "survival.reward_interval"
-            ]
           }
         ],
         "tunables": [
           "purgatory.difficulty1.warrior_level",
-          "lantern.tier_up_interval",
-          "survival.reward_interval"
+          "survival.reward_interval",
+          "lantern.tier_up_interval"
         ]
       }
-    ],
-    "location": "work/research/universal-mission-editor-2026-09-29/phase2g-sample"
+    ]
   },
   "phase2h_sample": {
     "values": {
@@ -719,7 +675,7 @@
       "intended_live_relative_path": "OpenWF/CustomScripts/Packages/Missions",
       "manifest": {
         "path": "Packages/Missions/package.json",
-        "sha256": "BD7E1CF6B6A634D0ACBB15D432F1A3272FDC4D25D3FE29903E7137641D1702AA"
+        "sha256": "E34CD3908BF28136AF5FAA9C3E0E96D64CC8512B3B34D540A916148CCE6CA9D6"
       },
       "members": [
         {
@@ -733,11 +689,11 @@
         },
         {
           "backend": "TARGET_ADDON",
-          "detail": "Mission tunables: Purgatory, HalloweenLanternEndless, SurvivalMission",
+          "detail": "Mission tunables: Purgatory, SurvivalMission, HalloweenLanternEndless",
           "file": "Missions.targets.addon.lua_B",
           "intended_live_relative_path": "OpenWF/CustomScripts/Packages/Missions/Missions.targets.addon.lua_B",
           "label": "Values: Lantern, Purgatory, Survival",
-          "sha256": "E77C1BE47829BB9543DDDE4ABD5442EE117EB6228F2A88D4341E3348B9813B9B",
+          "sha256": "5F3BDF30D0AC9AD620FFDA484C670FD9665C49C04DF2035E3351DFA530F64137",
           "size": 5584
         }
       ],
@@ -761,11 +717,11 @@
           "format": "RENOVICE_SCRIPT_SETTINGS_V1",
           "intended_live_relative_path": "OpenWF/CustomScripts/Settings/Missions.json",
           "path": "Settings/Missions.json",
-          "sha256": "D04358782CA7FBB7C1C363B59D7FF81917ABF0DA5E902136A74A10061B51C8C5"
+          "sha256": "8F1BABCB98252C6BBD1385862EA5FF3F4B63E78297A7D2BAC51A9E6F2CDB9653"
         }
       }
     },
-    "location": "work/research/universal-mission-editor-2026-09-29/phase2h-sample"
+    "state": "identical to the 2026.10.08.13.05 reference"
   },
   "phase2i_sample": {
     "values": {
@@ -794,7 +750,7 @@
       "intended_live_relative_path": "OpenWF/CustomScripts/Packages/Missions",
       "manifest": {
         "path": "Packages/Missions/package.json",
-        "sha256": "BD7E1CF6B6A634D0ACBB15D432F1A3272FDC4D25D3FE29903E7137641D1702AA"
+        "sha256": "E34CD3908BF28136AF5FAA9C3E0E96D64CC8512B3B34D540A916148CCE6CA9D6"
       },
       "members": [
         {
@@ -808,11 +764,11 @@
         },
         {
           "backend": "TARGET_ADDON",
-          "detail": "Mission tunables: Purgatory, HalloweenLanternEndless, SurvivalMission",
+          "detail": "Mission tunables: Purgatory, SurvivalMission, HalloweenLanternEndless",
           "file": "Missions.targets.addon.lua_B",
           "intended_live_relative_path": "OpenWF/CustomScripts/Packages/Missions/Missions.targets.addon.lua_B",
           "label": "Values: Lantern, Purgatory, Survival",
-          "sha256": "E77C1BE47829BB9543DDDE4ABD5442EE117EB6228F2A88D4341E3348B9813B9B",
+          "sha256": "5F3BDF30D0AC9AD620FFDA484C670FD9665C49C04DF2035E3351DFA530F64137",
           "size": 5584
         }
       ],
@@ -836,14 +792,14 @@
           "format": "RENOVICE_SCRIPT_SETTINGS_V1",
           "intended_live_relative_path": "OpenWF/CustomScripts/Settings/Missions.json",
           "path": "Settings/Missions.json",
-          "sha256": "D04358782CA7FBB7C1C363B59D7FF81917ABF0DA5E902136A74A10061B51C8C5"
+          "sha256": "8F1BABCB98252C6BBD1385862EA5FF3F4B63E78297A7D2BAC51A9E6F2CDB9653"
         }
       }
     },
     "example_settings": {
       "format": "RENOVICE_SCRIPT_SETTINGS_V1",
       "package": "package:missions",
-      "build": "2026.09.28.13.06",
+      "build": "2026.10.08.13.05",
       "use_stock": false,
       "groups": {
         "lantern": true,
@@ -866,12 +822,12 @@
         }
       }
     },
-    "location": "work/research/universal-mission-editor-2026-09-29/phase2i-sample"
+    "state": "identical to the 2026.10.08.13.05 reference"
   },
   "phase2k_full_package": {
     "settings": {
       "format": "RENOVICE_MISSION_SETTINGS_V1",
-      "build": "2026.09.28.13.06",
+      "build": "2026.10.08.13.05",
       "values": {
         "survival.reward_interval": 150,
         "void_flood.fractures_per_round.normal": 4,
@@ -896,13 +852,13 @@
       "enabled": 1,
       "full_capturer_hooks": 137,
       "gate": "ROOT_TABLE_MINIMAL_HOOKS_V1",
-      "hooked_targets": 32,
-      "hooks": 92,
-      "idle_retire_hooks": 92,
-      "retire_all_hooks": 92,
+      "hooked_targets": 33,
+      "hooks": 94,
+      "idle_retire_hooks": 94,
+      "retire_all_hooks": 94,
       "retire_all_sentinel": "RENOVICE_RETIRE_ALL",
       "retire_sentinel": "RENOVICE_RETIRE",
-      "retiring_hooks": 92,
+      "retiring_hooks": 94,
       "targets": [
         {
           "body_key": "070fa0ad32d6da72",
@@ -1052,6 +1008,25 @@
             8
           ],
           "tables": 1
+        },
+        {
+          "body_key": "248d54e0074e52c2",
+          "full_capturer_prototypes": 0,
+          "hooked_tables": [],
+          "idle_retire_prototypes": [
+            73
+          ],
+          "module_path": "Lotus.Scripts.KuvaPath.KuvaPath",
+          "prototypes": [
+            73
+          ],
+          "retire_all_prototypes": [
+            73
+          ],
+          "retiring_prototypes": [
+            73
+          ],
+          "tables": 0
         },
         {
           "body_key": "32c344afa33be174",
@@ -1428,6 +1403,64 @@
           "tables": 9
         },
         {
+          "body_key": "a62aa7eea1c4f27b",
+          "full_capturer_prototypes": 22,
+          "hooked_tables": [
+            "root:i10:R7",
+            "root:i18:R8",
+            "root:i19:R9",
+            "root:i20:R10",
+            "root:i63:R11",
+            "root:i70:R14"
+          ],
+          "idle_retire_prototypes": [
+            23,
+            31,
+            34,
+            59,
+            61,
+            67,
+            69,
+            70,
+            72
+          ],
+          "module_path": "Lotus.Scripts.Modes.SurvivalMission",
+          "prototypes": [
+            23,
+            31,
+            34,
+            59,
+            61,
+            67,
+            69,
+            70,
+            72
+          ],
+          "retire_all_prototypes": [
+            23,
+            31,
+            34,
+            59,
+            61,
+            67,
+            69,
+            70,
+            72
+          ],
+          "retiring_prototypes": [
+            23,
+            31,
+            34,
+            59,
+            61,
+            67,
+            69,
+            70,
+            72
+          ],
+          "tables": 6
+        },
+        {
           "body_key": "ac839a89c06bf0bb",
           "full_capturer_prototypes": 19,
           "hooked_tables": [
@@ -1576,20 +1609,24 @@
           ],
           "idle_retire_prototypes": [
             79,
-            81
+            81,
+            85
           ],
           "module_path": "Lotus.Scripts.Modes.SentientArtifactMission",
           "prototypes": [
             79,
-            81
+            81,
+            85
           ],
           "retire_all_prototypes": [
             79,
-            81
+            81,
+            85
           ],
           "retiring_prototypes": [
             79,
-            81
+            81,
+            85
           ],
           "tables": 2
         },
@@ -1757,64 +1794,6 @@
           "tables": 0
         },
         {
-          "body_key": "f10a043e7f825db2",
-          "full_capturer_prototypes": 22,
-          "hooked_tables": [
-            "root:i10:R7",
-            "root:i18:R8",
-            "root:i19:R9",
-            "root:i20:R10",
-            "root:i63:R11",
-            "root:i70:R14"
-          ],
-          "idle_retire_prototypes": [
-            23,
-            31,
-            34,
-            59,
-            61,
-            67,
-            69,
-            70,
-            72
-          ],
-          "module_path": "Lotus.Scripts.Modes.SurvivalMission",
-          "prototypes": [
-            23,
-            31,
-            34,
-            59,
-            61,
-            67,
-            69,
-            70,
-            72
-          ],
-          "retire_all_prototypes": [
-            23,
-            31,
-            34,
-            59,
-            61,
-            67,
-            69,
-            70,
-            72
-          ],
-          "retiring_prototypes": [
-            23,
-            31,
-            34,
-            59,
-            61,
-            67,
-            69,
-            70,
-            72
-          ],
-          "tables": 6
-        },
-        {
           "body_key": "fc9ba92edb027648",
           "full_capturer_prototypes": 1,
           "hooked_tables": [
@@ -1856,7 +1835,7 @@
           "tables": 0
         }
       ],
-      "values": 321
+      "values": 326
     },
     "declarations": {
       "enabled_addon_values": 1,
@@ -1902,35 +1881,35 @@
           "tunable_id": "interception.score_rate"
         },
         {
-          "reason": "body key a807aae359ffc1eb is built as an exact replacement (mobiledefense.total_time.maximum, mobiledefense.total_time.minimum) and one body key may own only one artifact; disable that replacement value and rebuild to declare this value",
+          "reason": "body key 0028dbbd094c97e4 is built as an exact replacement (mobiledefense.total_time.maximum, mobiledefense.total_time.minimum) and one body key may own only one artifact; disable that replacement value and rebuild to declare this value",
           "tunable_id": "mobiledefense.enemy_counts.max.p1"
         },
         {
-          "reason": "body key a807aae359ffc1eb is built as an exact replacement (mobiledefense.total_time.maximum, mobiledefense.total_time.minimum) and one body key may own only one artifact; disable that replacement value and rebuild to declare this value",
+          "reason": "body key 0028dbbd094c97e4 is built as an exact replacement (mobiledefense.total_time.maximum, mobiledefense.total_time.minimum) and one body key may own only one artifact; disable that replacement value and rebuild to declare this value",
           "tunable_id": "mobiledefense.enemy_counts.max.p2"
         },
         {
-          "reason": "body key a807aae359ffc1eb is built as an exact replacement (mobiledefense.total_time.maximum, mobiledefense.total_time.minimum) and one body key may own only one artifact; disable that replacement value and rebuild to declare this value",
+          "reason": "body key 0028dbbd094c97e4 is built as an exact replacement (mobiledefense.total_time.maximum, mobiledefense.total_time.minimum) and one body key may own only one artifact; disable that replacement value and rebuild to declare this value",
           "tunable_id": "mobiledefense.enemy_counts.max.p3"
         },
         {
-          "reason": "body key a807aae359ffc1eb is built as an exact replacement (mobiledefense.total_time.maximum, mobiledefense.total_time.minimum) and one body key may own only one artifact; disable that replacement value and rebuild to declare this value",
+          "reason": "body key 0028dbbd094c97e4 is built as an exact replacement (mobiledefense.total_time.maximum, mobiledefense.total_time.minimum) and one body key may own only one artifact; disable that replacement value and rebuild to declare this value",
           "tunable_id": "mobiledefense.enemy_counts.max.p4"
         },
         {
-          "reason": "body key a807aae359ffc1eb is built as an exact replacement (mobiledefense.total_time.maximum, mobiledefense.total_time.minimum) and one body key may own only one artifact; disable that replacement value and rebuild to declare this value",
+          "reason": "body key 0028dbbd094c97e4 is built as an exact replacement (mobiledefense.total_time.maximum, mobiledefense.total_time.minimum) and one body key may own only one artifact; disable that replacement value and rebuild to declare this value",
           "tunable_id": "mobiledefense.enemy_counts.min.p1"
         },
         {
-          "reason": "body key a807aae359ffc1eb is built as an exact replacement (mobiledefense.total_time.maximum, mobiledefense.total_time.minimum) and one body key may own only one artifact; disable that replacement value and rebuild to declare this value",
+          "reason": "body key 0028dbbd094c97e4 is built as an exact replacement (mobiledefense.total_time.maximum, mobiledefense.total_time.minimum) and one body key may own only one artifact; disable that replacement value and rebuild to declare this value",
           "tunable_id": "mobiledefense.enemy_counts.min.p2"
         },
         {
-          "reason": "body key a807aae359ffc1eb is built as an exact replacement (mobiledefense.total_time.maximum, mobiledefense.total_time.minimum) and one body key may own only one artifact; disable that replacement value and rebuild to declare this value",
+          "reason": "body key 0028dbbd094c97e4 is built as an exact replacement (mobiledefense.total_time.maximum, mobiledefense.total_time.minimum) and one body key may own only one artifact; disable that replacement value and rebuild to declare this value",
           "tunable_id": "mobiledefense.enemy_counts.min.p3"
         },
         {
-          "reason": "body key a807aae359ffc1eb is built as an exact replacement (mobiledefense.total_time.maximum, mobiledefense.total_time.minimum) and one body key may own only one artifact; disable that replacement value and rebuild to declare this value",
+          "reason": "body key 0028dbbd094c97e4 is built as an exact replacement (mobiledefense.total_time.maximum, mobiledefense.total_time.minimum) and one body key may own only one artifact; disable that replacement value and rebuild to declare this value",
           "tunable_id": "mobiledefense.enemy_counts.min.p4"
         },
         {
@@ -1986,6 +1965,14 @@
           "tunable_id": "void_flood.tanks_to_finish"
         },
         {
+          "reason": "body key f7444e3c621ff018 is built as an exact replacement (excavation.dig_duration, excavation.dig_duration_elite_alert, excavation.dig_duration_old_world_salvage) and one body key may own only one artifact; disable that replacement value and rebuild to declare this value",
+          "tunable_id": "excavation.icebind_excavators"
+        },
+        {
+          "reason": "master knob: driven rows excavation.icebind_excavators are not declared addon rows in this build",
+          "tunable_id": "excavation.icebind_goal"
+        },
+        {
           "reason": "master knob: driven rows mobiledefense.enemy_counts.max.p1, mobiledefense.enemy_counts.min.p1 are not declared addon rows in this build",
           "tunable_id": "mobiledefense.max_enemies.p1"
         },
@@ -2003,23 +1990,25 @@
         }
       ],
       "format": "RENOVICE_SETTINGS_DECL_V1",
-      "groups": 45,
-      "masters": 30,
+      "groups": 46,
+      "masters": 32,
       "scope": "all_addon_values",
-      "values": 354
+      "values": 361
     },
     "files": {
+      "Packages/Missions/0028dbbd094c97e4 (missions_exact-replacement).lua_B": "C58BFC0E765BA96F4C3E0C0F817A53948B21EA92C069573B5187EAB8208C48B2",
       "Packages/Missions/8a0b0819de60df01 (missions_exact-replacement).lua_B": "F0436757C021BDD7C9121DD57031791D0F8EB9AADA9939727E488C783C1E134B",
-      "Packages/Missions/a807aae359ffc1eb (missions_exact-replacement).lua_B": "FFF653E0EFB3E6A4074B668D1EC3050A3FA1AE0A0ED3C06F7614521E3AD0E847",
       "Packages/Missions/b3a5a18d68d61e16 (missions_exact-replacement).lua_B": "E2E8BB2F5B67AEC1540245B18AC1786A4AB3EBE485D51FAAFC27ECB6ADD27E57",
+      "Packages/Missions/engine_params.json": "731029CF03071416AE4BFB379DC7E801155F570D01AB527567E9CF695D48C472",
       "Packages/Missions/f7444e3c621ff018 (missions_exact-replacement).lua_B": "66B4F9349C0EC7FB45A457DFC2EED5D49C102C7B79E0C1183A6A874E8E7830E7",
       "Packages/Missions/fc711ff621a75552 (missions_exact-replacement).lua_B": "E979F5E7906F0D88E49C42B4191ECA6AFDC1237FDDD91D52CBF427DB3FA9F6D2",
-      "Packages/Missions/Missions.targets.addon.lua_B": "C9DC3D17DE8707AB21CF14761B79FF2D53EF44B5355EA21A300C179DE778E311",
-      "Packages/Missions/package.json": "985F98C8BFA728F4D406CE226F6804ED70CB6E49FECCB8A1EF4D672C3A0AEDE4",
-      "Settings/Missions.json": "39E8ED19D974F8C571AD946711E58CDF3EAE03B5E71A8908B3829460273F6D78"
+      "Packages/Missions/Missions.targets.addon.lua_B": "6DA1C9774BB107797F0F7CD68E82371303F51EB6560129C67D4C06559DEDC62C",
+      "Packages/Missions/package.json": "57A89A746B092D2991B740603DB730CC3135AA52169E7A66BFAC3A83201DC6CA",
+      "Settings/Missions.json": "9EA220A62C17685F20E4EE911FD20000FFF68558D4379CBF06C81C6B95937351"
     },
-    "state": "staged exact replacements identical; R10/R17 add 61 addon values (all off); R9/R10 description and category-level changes, 15 R17 layout changes and 12 R20 minimums only (folder untouched)"
+    "state": "identical to the 2026.10.08.13.05 reference"
   },
-  "phase2g_sample_state": "identical except the intentional Phase 2i change of Missions.targets.addon.lua_B (folder untouched)",
-  "phase2h_sample_state": "identical except the intentional Phase 2i change of Missions.targets.addon.lua_B, package.json to the recorded sample (folder untouched)"
+  "phase2g_sample_state": "identical to the 2026.10.08.13.05 reference",
+  "phase2h_sample_state": "identical to the 2026.10.08.13.05 reference",
+  "sample_references": "RESEARCH/UNIVERSAL_MISSION_REGISTRY_2026-09-29/references/2026.10.08.13.05/samples.json"
 }

@@ -1,5 +1,9 @@
 """Offline regression for LIVE_LITERALS_V1 recipe emission (2026-09-30, contract CONTRACT_PHASE1.md Revision R8).
 
+Build-agnostic (2026-10-09): every section runs on the current registry build. The comparisons with the staged R7 set of
+client 2026.09.28.13.06 (section 1 after the baked build, and the pinned R7 bytes of the synthesis) are historical: they
+run only while work/staging/missions-full-package exists and are otherwise recorded as proven on that client.
+
 1. Baked mode is unchanged: the rebuild input of the staged full package (work/staging/missions-full-package, R7) builds
    byte-identical exact-replacement members and values-file entries (the exact-replacement builder runs on the shared patch
    core). Merged R7 + R8 (contract R9): the declarations differ only by the two R9 master descriptions. Contract R10: the
@@ -29,6 +33,8 @@ work/temp/live-literals-tests and this tool's test-results folder. No game or se
 """
 from pathlib import Path
 import hashlib, json, os, shutil, subprocess, sys, tarfile, io
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import harness_input as HI  # noqa: E402
 
 EDITOR = Path(__file__).resolve().parents[3]
 ROOT = EDITOR
@@ -74,22 +80,21 @@ def build(settings, name):
 
 
 WORK.mkdir(parents=True, exist_ok=True)
-base = json.loads((STAGED / 'evidence/rebuild_input.mission_settings.json').read_text(encoding='utf-8'))
+# 2026-10-09: the input is the staged R7 rebuild input when that set still exists, else the harnesses' pinned input
+# (same headline values); either is relabelled for the current registry build (harness_input.current_spec).
+STAGED_SET = (STAGED / 'evidence/rebuild_input.mission_settings.json').exists()
+base = HI.current_spec(STAGED / 'evidence/rebuild_input.mission_settings.json' if STAGED_SET else HI.INPUT)
+for field in ('literal_mode', 'literal_scope'):
+    base.pop(field, None)
 
 # 1. Baked mode unchanged.
 run, generation = build(base, 'baked')
 check(run.returncode == 0 and generation is not None, 'baked build succeeds')
-staged_members = {p.name: sha(p) for p in (STAGED / 'Packages/Missions').iterdir()}
 built_members = {p.name: sha(p) for p in (generation / 'Packages/Missions').iterdir()}
+baked_build = generation  # its exact-replacement members are the reference of the recipe synthesis (section 2)
 # Contract R16 (2026-10-01): the package also carries engine_params.json (ENGINE_PARAM_OVERRIDE declarations of the EXPOSED
 # script-parameter rows; not a member, ignored by older DLLs). Its content is gated by test_engine_param_override_harness.py.
 check(built_members.pop('engine_params.json', None) is not None, 'R16: the baked package carries engine_params.json (not a member)')
-R9_TEXT = {'mobiledefense.time_per_terminal', 'excavation.dig_time'}  # contract R9: master descriptions (typed number replaces the range)
-ADDON = 'Missions.targets.addon.lua_B'
-check({k: v for k, v in staged_members.items() if k not in ('package.json', ADDON)} ==
-      {k: v for k, v in built_members.items() if k not in ('package.json', ADDON)}
-      and staged_members.keys() == built_members.keys(),
-      f'baked exact-replacement members byte-identical to the staged set ({len(built_members) - 2} files; R10 changes only the addon member)')
 # R18: a baked build expands a cross-module literal master in its own module only; the other modules' rows stay stock and are
 # recorded (no second switch, no displaced addon values of those modules).
 baked_excluded = {e['tunable_id']: e['reason'] for e in
@@ -99,87 +104,103 @@ check(all('a baked build' in baked_excluded.get(row, '') for row in ('sentientmd
       'R18: the baked build leaves the cross-module rows of the Mobile Defense and Excavation masters stock and records them')
 
 
-def declared_values(path):
-    manifest = json.loads(Path(path).read_text(encoding='utf-8'))
-    return manifest, {k: v for m in manifest['members'].values() for k, v in m.get('settings', {}).get('values', {}).items()}
+# The rest of section 1 compares with the staged R7 set of client 2026.09.28.13.06 (historical evidence; see the top).
+if STAGED_SET:
+    staged_members = {p.name: sha(p) for p in (STAGED / 'Packages/Missions').iterdir()}
+    R9_TEXT = {'mobiledefense.time_per_terminal', 'excavation.dig_time'}  # contract R9: master descriptions (typed number replaces the range)
+    ADDON = 'Missions.targets.addon.lua_B'
+    check({k: v for k, v in staged_members.items() if k not in ('package.json', ADDON)} ==
+          {k: v for k, v in built_members.items() if k not in ('package.json', ADDON)}
+          and staged_members.keys() == built_members.keys(),
+          f'baked exact-replacement members byte-identical to the staged set ({len(built_members) - 2} files; R10 changes only the addon member)')
 
 
-staged_manifest, staged_values = declared_values(STAGED / 'Packages/Missions/package.json')
-built_manifest, built_values = declared_values(generation / 'Packages/Missions/package.json')
-registry_rows = {r['tunable_id']: r for r in json.loads((EDITOR / 'REGISTRIES/mission_build_u44.json').read_text(encoding='utf-8'))['tunables']}
-# R10: the addon values the baked full package gains. A body built as a baked replacement here (the five staged exact
-# replacements) keeps one artifact per module, so its R10 entry rows are excluded like its other addon rows.
-REPLACED = {name[:16] for name in staged_members if name.endswith('(missions_exact-replacement).lua_B')}
-# R17: the registry layout of R16 (c48c819), to tell the R17 layout changes from anything else.
-R16_REGISTRY = json.loads(subprocess.run(['git', '-C', str(EDITOR), 'show', 'c48c819:REGISTRIES/mission_build_u44.json'],
-                                         capture_output=True, check=True).stdout.decode('utf-8'))
-LAYOUT_FIELDS = ('path', 'row', 'quick', 'quick_on_page', 'scope_text', 'default_label', 'short_label')
+    def declared_values(path):
+        manifest = json.loads(Path(path).read_text(encoding='utf-8'))
+        return manifest, {k: v for m in manifest['members'].values() for k, v in m.get('settings', {}).get('values', {}).items()}
 
 
-def layout_of(registry, tid):
-    ui = registry['ui_masters'].get(tid) or next((r['ui'] for r in registry['tunables'] if r['tunable_id'] == tid), {})
-    return {f: ui.get(f) for f in LAYOUT_FIELDS}
-# R11: the Railjack kill-goal rows (research:railjack-kills-2026-09-30) are addon values too; R12: Defense waves per reward.
-R10_ADDED = ({t for t, r in registry_rows.items() if r['provenance'].startswith(('research:mission-owners-2026-09-30',
-                                                                                'research:railjack-kills-2026-09-30',
-                                                                                'research:defense-reward-interval-2026-10-01'))
-              and r['backend'] == 'TARGET_ADDON' and r['owner']['body_key'] not in REPLACED}
-             | {f'defense.{n}.p{k}' for n in ('simultaneous_enemies_max', 'simultaneous_enemies_min', 'simultaneous_enemies_infested.max',
-                                              'simultaneous_enemies_infested.min', 'simultaneous_enemies_duviri.min') for k in range(1, 5)}
-             | {f'defense.max_enemies.p{k}' for k in range(1, 5)}
-             # R17: the Gas City meltdown row (replaces the R10 hack-time row) and the cross-module Railjack master.
-             | {t for t, r in registry_rows.items() if r['provenance'].startswith(('research:mission-settings-r17-2026-10-01',
-                                                                                  # R18: the two Pontis tower rows
-                                                                                  'research:mission-coverage-audit-2026-10-02'))
-                and r['backend'] == 'TARGET_ADDON' and r['owner']['body_key'] not in REPLACED}
-             | {'railjack.kill_goals_scale'}
-             # R22: the Void Cascade "All Void Cascade missions" master (exolizer progress speed, inverse drive, addon lane).
-             | {'void_cascade.exolizer_speed'})
-# R10: page sets whose mission type now has more than one category keep their category level (r7_collapse_paths).
-R10_PATH = {f'defense.simultaneous_enemies_duviri.max.p{k}' for k in range(1, 5)} | {f'escalation.keys_per_players.p{k}' for k in range(1, 5)}
-changed = {k for k in staged_values if staged_values[k] != built_values.get(k)}
-current_registry = json.loads((EDITOR / 'REGISTRIES/mission_build_u44.json').read_text(encoding='utf-8'))
-R17_LAYOUT = {k for k in staged_values if layout_of(R16_REGISTRY, k) != layout_of(current_registry, k)}
-R17_MASTER_TYPES = {d['path'][0] for d in built_values.values() if d.get('quick_on_page')}
-R17_COLLAPSE = {k for k in changed - R17_LAYOUT - R10_PATH
-                if built_values[k]['path'][0] in R17_MASTER_TYPES and len(built_values[k]['path']) == len(staged_values[k]['path']) - 1
-                and {f: v for f, v in staged_values[k].items() if f != 'path'} == {f: v for f, v in built_values[k].items() if f != 'path'}
-                and staged_values[k]['path'][1] in ('Timers', 'Objectives', 'Enemies', 'Rewards / drops')
-                and [e for e in staged_values[k]['path'] if e != staged_values[k]['path'][1]] == built_values[k]['path']}
-check(set(built_values) - set(staged_values) == R10_ADDED and not set(staged_values) - set(built_values),
-      f'baked package.json declares every staged value plus exactly the {len(R10_ADDED)} R10/R11/R17/R18/R22 addon values')
-# R20 (2026-10-02, multiplier minimums): a declaration may differ in `min`, `type` and its description where the R20 input
-# names the value (or a master over named rows), with exactly the R20 minimum.
-R20_ROWS = {r['tunable_id']: r for r in json.loads((EDITOR / 'RESEARCH/MISSIONS_R20_MULTIPLIER_MINIMUMS_2026-10-02/inputs/'
-                                                    'r20_minimums.json').read_text(encoding='utf-8'))['rows']}
+    staged_manifest, staged_values = declared_values(STAGED / 'Packages/Missions/package.json')
+    built_manifest, built_values = declared_values(generation / 'Packages/Missions/package.json')
+    registry_rows = {r['tunable_id']: r for r in json.loads((EDITOR / 'REGISTRIES/mission_build_u44.json').read_text(encoding='utf-8'))['tunables']}
+    # R10: the addon values the baked full package gains. A body built as a baked replacement here (the five staged exact
+    # replacements) keeps one artifact per module, so its R10 entry rows are excluded like its other addon rows.
+    REPLACED = {name[:16] for name in staged_members if name.endswith('(missions_exact-replacement).lua_B')}
+    # R17: the registry layout of R16 (c48c819), to tell the R17 layout changes from anything else.
+    R16_REGISTRY = json.loads(subprocess.run(['git', '-C', str(EDITOR), 'show', 'c48c819:REGISTRIES/mission_build_u44.json'],
+                                             capture_output=True, check=True).stdout.decode('utf-8'))
+    LAYOUT_FIELDS = ('path', 'row', 'quick', 'quick_on_page', 'scope_text', 'default_label', 'short_label')
 
 
-def r20_only(k):
-    want = R20_ROWS.get(k)
-    master = current_registry['ui_masters'].get(k)
-    if want is None and not (master and any(d['tunable_id'] in R20_ROWS for d in master['drives'])):
-        return False
-    low = want['minimum'] if want else master['min']
-    kind = ('int' if want.get('integer', want['was']['integer']) else 'float') if want else master['type']
-    rest = lambda d: {f: v for f, v in d.items() if f not in ('scope', 'path', 'min', 'type')}
-    return built_values[k]['min'] == low and built_values[k]['type'] == kind and rest(staged_values[k]) == rest(built_values[k])
+    def layout_of(registry, tid):
+        ui = registry['ui_masters'].get(tid) or next((r['ui'] for r in registry['tunables'] if r['tunable_id'] == tid), {})
+        return {f: ui.get(f) for f in LAYOUT_FIELDS}
+    # R11: the Railjack kill-goal rows (research:railjack-kills-2026-09-30) are addon values too; R12: Defense waves per reward.
+    R10_ADDED = ({t for t, r in registry_rows.items() if r['provenance'].startswith(('research:mission-owners-2026-09-30',
+                                                                                    'research:railjack-kills-2026-09-30',
+                                                                                    'research:defense-reward-interval-2026-10-01'))
+                  and r['backend'] == 'TARGET_ADDON' and r['owner']['body_key'] not in REPLACED}
+                 | {f'defense.{n}.p{k}' for n in ('simultaneous_enemies_max', 'simultaneous_enemies_min', 'simultaneous_enemies_infested.max',
+                                                  'simultaneous_enemies_infested.min', 'simultaneous_enemies_duviri.min') for k in range(1, 5)}
+                 | {f'defense.max_enemies.p{k}' for k in range(1, 5)}
+                 # R17: the Gas City meltdown row (replaces the R10 hack-time row) and the cross-module Railjack master.
+                 | {t for t, r in registry_rows.items() if r['provenance'].startswith(('research:mission-settings-r17-2026-10-01',
+                                                                                      # R18: the two Pontis tower rows
+                                                                                      'research:mission-coverage-audit-2026-10-02'))
+                    and r['backend'] == 'TARGET_ADDON' and r['owner']['body_key'] not in REPLACED}
+                 | {'railjack.kill_goals_scale'}
+                 # R22: the Void Cascade "All Void Cascade missions" master (exolizer progress speed, inverse drive, addon lane).
+                 | {'void_cascade.exolizer_speed'})
+    # R10: page sets whose mission type now has more than one category keep their category level (r7_collapse_paths).
+    R10_PATH = {f'defense.simultaneous_enemies_duviri.max.p{k}' for k in range(1, 5)} | {f'escalation.keys_per_players.p{k}' for k in range(1, 5)}
+    changed = {k for k in staged_values if staged_values[k] != built_values.get(k)}
+    current_registry = json.loads((EDITOR / 'REGISTRIES/mission_build_u44.json').read_text(encoding='utf-8'))
+    R17_LAYOUT = {k for k in staged_values if layout_of(R16_REGISTRY, k) != layout_of(current_registry, k)}
+    R17_MASTER_TYPES = {d['path'][0] for d in built_values.values() if d.get('quick_on_page')}
+    R17_COLLAPSE = {k for k in changed - R17_LAYOUT - R10_PATH
+                    if built_values[k]['path'][0] in R17_MASTER_TYPES and len(built_values[k]['path']) == len(staged_values[k]['path']) - 1
+                    and {f: v for f, v in staged_values[k].items() if f != 'path'} == {f: v for f, v in built_values[k].items() if f != 'path'}
+                    and staged_values[k]['path'][1] in ('Timers', 'Objectives', 'Enemies', 'Rewards / drops')
+                    and [e for e in staged_values[k]['path'] if e != staged_values[k]['path'][1]] == built_values[k]['path']}
+    check(set(built_values) - set(staged_values) == R10_ADDED and not set(staged_values) - set(built_values),
+          f'baked package.json declares every staged value plus exactly the {len(R10_ADDED)} R10/R11/R17/R18/R22 addon values')
+    # R20 (2026-10-02, multiplier minimums): a declaration may differ in `min`, `type` and its description where the R20 input
+    # names the value (or a master over named rows), with exactly the R20 minimum.
+    R20_ROWS = {r['tunable_id']: r for r in json.loads((EDITOR / 'RESEARCH/MISSIONS_R20_MULTIPLIER_MINIMUMS_2026-10-02/inputs/'
+                                                        'r20_minimums.json').read_text(encoding='utf-8'))['rows']}
 
 
-R20_MINIMUMS = {k for k in changed if r20_only(k)}
-check(changed <= R9_TEXT | R10_PATH | R17_LAYOUT | R17_COLLAPSE | R20_MINIMUMS and R17_LAYOUT & changed
-      and all({f: v for f, v in staged_values[k].items() if f != 'scope'} == {f: v for f, v in built_values[k].items() if f != 'scope'}
-              for k in R9_TEXT - R17_LAYOUT)
-      and all({f: v for f, v in staged_values[k].items() if f != 'path'} == {f: v for f, v in built_values[k].items() if f != 'path'}
-              and built_values[k]['path'][1] in ('Enemies', 'Objectives') for k in R10_PATH)
-      and staged_manifest['description'] == built_manifest['description'],
-      'baked declarations equal the staged ones except the two R9 master descriptions, the R10 category levels and the R17 '
-      f'layout ({len(R17_LAYOUT & changed)} values changed by the R16 -> R17 registry layout, {len(R17_COLLAPSE)} collapsed under a type '
-      'master)')
-staged_file = json.loads((STAGED / 'Settings/Missions.json').read_text(encoding='utf-8'))['values']
-built_file = json.loads((generation / 'Settings/Missions.json').read_text(encoding='utf-8'))['values']
-check(all(built_file.get(k) == v for k, v in staged_file.items()) and set(built_file) - set(staged_file) == R10_ADDED
-      and not any(built_file[k]['enabled'] for k in R10_ADDED),
-      'baked values file: every staged entry unchanged; the R10 values are added off at their defaults')
+    def r20_only(k):
+        want = R20_ROWS.get(k)
+        master = current_registry['ui_masters'].get(k)
+        if want is None and not (master and any(d['tunable_id'] in R20_ROWS for d in master['drives'])):
+            return False
+        low = want['minimum'] if want else master['min']
+        kind = ('int' if want.get('integer', want['was']['integer']) else 'float') if want else master['type']
+        rest = lambda d: {f: v for f, v in d.items() if f not in ('scope', 'path', 'min', 'type')}
+        return built_values[k]['min'] == low and built_values[k]['type'] == kind and rest(staged_values[k]) == rest(built_values[k])
+
+
+    R20_MINIMUMS = {k for k in changed if r20_only(k)}
+    check(changed <= R9_TEXT | R10_PATH | R17_LAYOUT | R17_COLLAPSE | R20_MINIMUMS and R17_LAYOUT & changed
+          and all({f: v for f, v in staged_values[k].items() if f != 'scope'} == {f: v for f, v in built_values[k].items() if f != 'scope'}
+                  for k in R9_TEXT - R17_LAYOUT)
+          and all({f: v for f, v in staged_values[k].items() if f != 'path'} == {f: v for f, v in built_values[k].items() if f != 'path'}
+                  and built_values[k]['path'][1] in ('Enemies', 'Objectives') for k in R10_PATH)
+          and staged_manifest['description'] == built_manifest['description'],
+          'baked declarations equal the staged ones except the two R9 master descriptions, the R10 category levels and the R17 '
+          f'layout ({len(R17_LAYOUT & changed)} values changed by the R16 -> R17 registry layout, {len(R17_COLLAPSE)} collapsed under a type '
+          'master)')
+    staged_file = json.loads((STAGED / 'Settings/Missions.json').read_text(encoding='utf-8'))['values']
+    built_file = json.loads((generation / 'Settings/Missions.json').read_text(encoding='utf-8'))['values']
+    check(all(built_file.get(k) == v for k, v in staged_file.items()) and set(built_file) - set(staged_file) == R10_ADDED
+          and not any(built_file[k]['enabled'] for k in R10_ADDED),
+          'baked values file: every staged entry unchanged; the R10 values are added off at their defaults')
+else:
+    results['historical'] = ('section 1 staged R7/R10/R17/R20 comparison proven on client 2026.09.28.13.06 '
+                             f'(2026-10-02); {STAGED.relative_to(ROOT).as_posix()} is no longer available, not re-run')
+    print('HISTORICAL\t' + results['historical'])
+
 
 # 2. Recipe mode.
 recipe_input = dict(base, literal_mode='recipe', literal_scope='headline')
@@ -194,9 +215,18 @@ headline = registry['ui_player_text']['live_literal_headline']
 check(set(recipe['values']) == set(headline), f'every registry headline literal value is declared ({len(headline)})')
 check(all(v['declaration']['lane'] == 'literal' and v['declaration']['applies'] == 'next_mission' for v in recipe['values'].values()),
       'recipe declarations are literal lane, applies next_mission')
-for body, digest in BAKED.items():
+# The synthesis is compared with the baked exact replacements the same input builds on the current build (section 1; the
+# module keys are those of the current client). BAKED pins the staged R7 bytes of client 2026.09.28.13.06 and is compared
+# only while that set exists. The recipe also synthesizes the R18 cross-module rows a baked build leaves stock.
+baked_replacements = {p.name[:16]: sha(p) for p in (baked_build / 'Packages/Missions').glob('* (missions_exact-replacement).lua_B')}
+check(len(baked_replacements) == len(BAKED), f'the baked build replaces {len(BAKED)} headline literal modules')
+for body, digest in sorted(baked_replacements.items()):
     synthesized = generation / 'live-literals' / f'{body}.synthesized.lua_B'
-    check(synthesized.exists() and sha(synthesized) == digest, f'recipe synthesis of {body} equals the staged baked replacement')
+    check(synthesized.exists() and sha(synthesized) == digest, f'recipe synthesis of {body} equals the baked replacement of the same input')
+if STAGED_SET:
+    for body, digest in BAKED.items():
+        synthesized = generation / 'live-literals' / f'{body}.synthesized.lua_B'
+        check(synthesized.exists() and sha(synthesized) == digest, f'recipe synthesis of {body} equals the staged baked replacement')
 manifest = json.loads((generation / 'MISSION_SET_MANIFEST.json').read_text(encoding='utf-8'))
 excluded = manifest['package']['settings']['declarations']['excluded_values']
 check(not any('is built as an exact replacement' in e['reason'] for e in excluded),

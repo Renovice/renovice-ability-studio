@@ -1,10 +1,20 @@
-"""Offline regression for the 44.0.2 mission registry: 12 preset builds through the registry path, 3 rejections per
+"""Offline regression for the current mission registry: 12 preset builds through the registry path, 3 rejections per
 preset, rebuilds of the Phase 2b/2d/2e sample settings with default settings and with the live-acceptance opt-in
 (compared with their recorded manifests, folders left untouched) and the Phase 2f/2g sample group builds. Writes only to
-work/staging and the Phase 1 research folder.
-No game or server folder is written. Requires the built CLI (RENOVICE_EDITOR_CLI, else work/builds/ability-editor/current)."""
+work/staging and this tool's test-results and references folders.
+No game or server folder is written. Requires the built CLI (RENOVICE_EDITOR_CLI, else work/builds/ability-editor/current).
+
+Build-agnostic (2026-10-09): everything runs on the CURRENT registry build. The sample settings are kept in the repository
+(../references/inputs, copied unchanged from the dated work/research/universal-mission-editor-2026-09-29/phase2*-sample
+folders) and relabelled for the current build. The artifact SHA-256 of every sample build is the reference of its client
+build (../references/<build>/samples.json): the first run on a build records it, every later run on that build must be
+byte-identical. The byte comparisons with the dated sample folders and the staged full package (work/staging/
+missions-full-package) were proven on client 2026.09.28.13.06 and are recorded as historical; the full package is pinned
+by the harness package pins (harness_input.py, ../test-results/package_pins.json) instead."""
 from pathlib import Path
-import copy, hashlib, json, os, shutil, subprocess
+import copy, hashlib, json, os, shutil, subprocess, sys
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import harness_input as HI  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[6]
 EDITOR = ROOT / 'repos/apps/ability-editor'
@@ -12,8 +22,11 @@ CLI = Path(os.environ.get('RENOVICE_EDITOR_CLI', ROOT / 'work/builds/ability-edi
 STAGING = ROOT / 'work/staging/aer44'  # short: generated names are long and Windows MAX_PATH applies
 OUT = Path(__file__).resolve().parents[1] / 'test-results'  # results.json only (committed)
 WORK = STAGING / 'inputs'  # generated projects and logs (not committed)
-SAMPLE = ROOT / 'work/research/universal-mission-editor-2026-09-29/phase2b-sample'
 registry = json.loads((EDITOR / 'REGISTRIES/mission_build_u44.json').read_text(encoding='utf-8'))
+REFS = Path(__file__).resolve().parents[1] / 'references'
+INPUTS = REFS / 'inputs'  # sample settings of client 2026.09.28.13.06, relabelled per run (relabel)
+SAMPLE_REFS = REFS / registry['build'] / 'samples.json'
+DATED = 'work/research/universal-mission-editor-2026-09-29/phase2*-sample'
 base = json.loads((EDITOR / 'EXAMPLES/mallet_linked_overguard_addon.json').read_text(encoding='utf-8'))
 MODES = {'EXACT_LITERAL': 'MANAGED_MISSION_EXACT_REPLACEMENT', 'METADATA_PATCH': 'MANAGED_MISSION_METADATA_PATCH'}
 FASTER = {
@@ -28,7 +41,6 @@ FASTER = {
     'archimedea': {'eta_survival_minutes': 5, 'eta_defense_waves': 3, 'eda_survival_minutes': 5, 'eda_mirror_defenses': 2,
                    'eda_alchemy_mixtures': 1, 'eda_disruption_conduits': 4},
 }
-SAMPLE2D = ROOT / 'work/research/universal-mission-editor-2026-09-29/phase2d-sample'
 PHASE2D_VALUES = {  # new modes; every Phase 2d owner mechanism in one settings file
     'disruption.default_round_count': 6,           # one tunable, 7 LOADN sites (fixedLength + Ternary fallbacks)
     'disruption.boss_health_multiplier': 0.5,      # root config table template f64 (single-use template gate)
@@ -52,7 +64,10 @@ def run(*args):
 
 OUT.mkdir(parents=True, exist_ok=True)
 WORK.mkdir(parents=True, exist_ok=True)
-results = {'build': registry['build'], 'presets': [], 'rejections': 0}
+results = {'build': registry['build'], 'presets': [], 'rejections': 0,
+           'historical': f'byte comparisons with the dated samples {DATED} and the staged full package '
+                         'work/staging/missions-full-package proven on client 2026.09.28.13.06 (2026-09-29 .. '
+                         '2026-10-02); not re-run on another build'}
 # Preset artifacts must stay byte-identical to the previously recorded run (presets keep their established lanes).
 # Only a run on the SAME client build is comparable: a new build changes the stock bodies the presets are built from
 # (2026-10-09: the recorded 44.0.2 run made every 44.1.x run fail).
@@ -94,8 +109,6 @@ for pid, preset in registry['missions'].items():
 # live-acceptance opt-in. Earlier samples (Phase 2b, 2d, 2e) stay untouched as dated evidence: their settings are rebuilt
 # into staging with the default settings (rejection recorded when NEEDS_BINDING) and with the opt-in, and every artifact
 # is compared with the recorded manifest.
-SAMPLE2E = ROOT / 'work/research/universal-mission-editor-2026-09-29/phase2e-sample'
-SAMPLE2F = ROOT / 'work/research/universal-mission-editor-2026-09-29/phase2f-sample'
 LUA_CALL = 'renovice.target.lua_call'
 PHASE2E_VALUES = {
     'survival.reward_interval': 150,               # addon-only root-table field (constant shared with killPlayerTime)
@@ -120,6 +133,10 @@ def probe(settings):
     return dict(settings, allow_unproven_hook_bindings=[LUA_CALL])
 
 
+def registry_row(tid):
+    return next(r for r in registry['tunables'] if r['tunable_id'] == tid)
+
+
 def per_body(manifest):
     """Per-body view of a set manifest. Phase 2g: one multi-target addon covers several body keys; each covered body is
     compared against its recorded single-key artifact (never byte-identical: the file format changed by design)."""
@@ -139,62 +156,74 @@ def per_body(manifest):
 INTENTIONAL_2I = {'Missions.targets.addon.lua_B', 'package.json'}
 
 
-def sample(folder, settings, name, extra_files, intentional=frozenset()):
-    """Builds a sample into staging. A recorded sample folder is dated evidence and is never rewritten: its artifacts
-    must be byte-identical to the rebuild, except the files named in `intentional` (recorded as intentional changes). Only
-    a missing folder is created (settings, extra files, generation, sums)."""
+# The references belong to one registry (like the harness package pins): an R step that changes the registry changes the
+# samples on purpose, so a reference of another registry fails with the re-record instruction (`--record`).
+_stored = json.loads(SAMPLE_REFS.read_text(encoding='utf-8')) if SAMPLE_REFS.exists() else {}
+if '--record' in sys.argv[1:]:
+    _stored = {}
+elif _stored and _stored.get('registry_sha256') != HI.registry_sha256():
+    raise SystemExit(f'sample references in {SAMPLE_REFS} belong to registry {str(_stored.get("registry_sha256"))[:16]}, the '
+                     f'current registry is {HI.registry_sha256()[:16]}: re-record with `python {Path(__file__).name} --record`')
+_sample_refs = _stored.get('samples', {})
+_sample_refs_changed = False
+
+
+def relabel(settings):
+    """A sample settings file of client 2026.09.28.13.06 for the current registry build (ids it no longer has dropped)."""
+    ids = {r['tunable_id'] for r in registry['tunables']} | set(registry['ui_masters'])
+    out = dict(settings, build=registry['build'], values={k: v for k, v in settings['values'].items() if k in ids})
+    assert out['values'] == settings['values'], ('a sample value is no longer in the registry', set(settings['values']) - ids)
+    return out
+
+
+def reference(name, built):
+    """`built` ({file: SHA-256}) is the reference of this client build: recorded by the first run on the build, compared
+    byte for byte by every later run."""
+    global _sample_refs_changed
+    recorded = _sample_refs.get(name)
+    if recorded is None:
+        _sample_refs[name] = dict(sorted(built.items()))
+        _sample_refs_changed = True
+        return f'recorded as the {registry["build"]} reference'
+    assert recorded == built, (name, f'differs from the {registry["build"]} reference',
+                               sorted(k for k in set(recorded) | set(built) if recorded.get(k) != built.get(k)))
+    return f'identical to the {registry["build"]} reference'
+
+
+def artifact_hashes(generation):
+    return {p.name: hashlib.sha256(p.read_bytes()).hexdigest().upper() for p in (generation / 'artifacts').iterdir()}
+
+
+def sample(settings, name):
     generation, manifest = build(settings, name)
     assert generation is not None, manifest
-    built = {p.name: hashlib.sha256(p.read_bytes()).hexdigest().upper() for p in (generation / 'artifacts').iterdir()}
-    if (folder / 'SHA256SUMS.json').exists():
-        recorded = json.loads((folder / 'SHA256SUMS.json').read_text())
-        recorded = {k.split('/')[-1]: v for k, v in recorded.items() if k.startswith('generation/artifacts/')}
-        assert sorted(recorded) == sorted(built), (folder.name, 'artifact set changed', recorded, built)
-        changed = sorted(k for k in built if built[k] != recorded[k])
-        assert set(changed) <= set(intentional), (folder.name, 'rebuilt artifacts differ from the recorded sample', changed)
-        if changed:
-            return manifest, 'identical except the intentional Phase 2i change of ' + ', '.join(changed) + ' (folder untouched)'
-        return manifest, 'identical to the recorded sample (folder untouched)'
-    folder.mkdir(parents=True)
-    (folder / 'mission_settings.json').write_text(json.dumps(settings, indent=2) + '\n')
-    for file_name, value in extra_files.items():
-        (folder / file_name).write_text(json.dumps(value, indent=2) + '\n')
-    shutil.copytree(generation, folder / 'generation')
-    hashes = {p.relative_to(folder).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest().upper()
-              for p in sorted(folder.rglob('*')) if p.is_file()}
-    (folder / 'SHA256SUMS.json').write_text(json.dumps(hashes, indent=2) + '\n')
-    return manifest, 'created'
+    return manifest, reference(name, artifact_hashes(generation))
 
 
-def compare(recorded, manifest):
-    before = {a['body_key']: a for a in recorded['artifacts']}
-    now = per_body(manifest)
-    assert sorted(before) == sorted(a['body_key'] for a in now)
-    return [{'body_key': a['body_key'], 'tunables': a['tunables'], 'backend_before': before[a['body_key']]['backend'],
-             'backend_now': a['backend'], 'identical': before[a['body_key']]['sha256'] == a['sha256'], 'sha256_now': a['sha256'],
-             'multi_target_artifact': a.get('multi_target'), 'runtime_hook': a.get('runtime_hook')} for a in now]
+def summary(manifest):
+    return [{'body_key': a['body_key'], 'tunables': a['tunables'], 'backend': a['backend'], 'sha256': a['sha256'],
+             'multi_target_artifact': a.get('multi_target'), 'runtime_hook': a.get('runtime_hook')} for a in per_body(manifest)]
 
 
-for folder, name in [(SAMPLE, 'sample2b'), (SAMPLE2D, 'sample2d'), (SAMPLE2E, 'sample2e')]:
-    settings = json.loads((folder / 'mission_settings.json').read_text())
-    recorded = json.loads((folder / 'generation/MISSION_SET_MANIFEST.json').read_text())
+for name in ('sample2b', 'sample2d', 'sample2e'):
+    settings = relabel(json.loads((INPUTS / f'phase{name[-2:]}.mission_settings.json').read_text(encoding='utf-8')))
     generation, default = build(settings, name)
     entry = {}
     if generation is None:
         assert 'NEEDS_BINDING' in default and LUA_CALL in default, default
         entry['default'] = {'result': 'REJECTED', 'reason': next(l for l in default.splitlines() if 'NEEDS_BINDING' in l).strip()}
     else:
-        entry['default'] = {'result': 'PASS', 'artifacts': compare(recorded, default)}
+        entry['default'] = {'result': 'PASS', 'artifacts': summary(default), 'state': reference(name, artifact_hashes(generation))}
         assert all(a['backend'] != 'TARGET_ADDON' for a in default['artifacts']), 'default build staged an unproven addon'
     generation, opted = build(probe(settings), name + '-probe')
     assert generation is not None, opted
-    entry['opt_in_probe'] = compare(recorded, opted)
+    entry['opt_in_probe'] = {'artifacts': summary(opted), 'state': reference(name + '-probe', artifact_hashes(generation))}
     for a in opted['artifacts']:
         if a['backend'] == 'TARGET_ADDON':
             assert a['runtime_hook']['registry_status'] == 'OFFLINE_VERIFIED' and a['runtime_hook']['built_by_explicit_opt_in']
     results[name + '_rebuild'] = entry
-    print('PASS', name, 'default:', entry['default']['result'], '| opt-in probe identical:',
-          sum(c['identical'] for c in entry['opt_in_probe']), 'of', len(entry['opt_in_probe']), flush=True)
+    print('PASS', name, 'default:', entry['default']['result'], '| opt-in probe:', len(entry['opt_in_probe']['artifacts']),
+          'bodies,', entry['opt_in_probe']['state'], flush=True)
 
 # Phase 2f sample: the Phase 2e values rebuilt with default settings. Survival reward interval and Purgatory warrior level
 # have no exact literal form, so they are rejected with NEEDS_BINDING and left out; Void Flood and Lantern build as exact
@@ -207,16 +236,15 @@ for tid in ('survival.reward_interval', 'purgatory.difficulty1.warrior_level'):
     assert generation is None and 'NEEDS_BINDING' in text and tid in text and LUA_CALL in text, text
     rejected[tid] = next(l for l in text.splitlines() if 'NEEDS_BINDING' in l).strip()
 settings2f = dict(base_settings, values=buildable)
-manifest2f, state2f = sample(SAMPLE2F, settings2f, 'sample2f', {'rejected_rows.json': {'requested': PHASE2E_VALUES, 'rejected': rejected}})
+manifest2f, state2f = sample(settings2f, 'sample2f')
 assert [a['backend'] for a in manifest2f['artifacts']] == ['EXACT_LITERAL', 'EXACT_LITERAL'], manifest2f['artifacts']
 assert sorted(t for a in manifest2f['artifacts'] for t in a['tunables']) == sorted(buildable)
 results['phase2f_sample'] = {'values': buildable, 'artifacts': manifest2f['artifacts'], 'rejected': rejected,
-                             'location': SAMPLE2F.relative_to(ROOT).as_posix()}
+                             'state': state2f}
 print(f"PASS phase2f sample artifacts={len(manifest2f['artifacts'])} rejected={sorted(rejected)} ({state2f})")
 
 # Phase 2g sample: the live-test set with the explicit opt-in. Every addon-lane body key goes into ONE multi-target addon
 # (Inject/Missions.targets.addon.lua_B); the Void Flood fracture count stays a separate exact replacement.
-SAMPLE2G = ROOT / 'work/research/universal-mission-editor-2026-09-29/phase2g-sample'
 PHASE2G_VALUES = {
     'survival.reward_interval': 150,               # Survival root table (shared constant with killPlayerTime), addon only
     'purgatory.difficulty1.warrior_level': 15,     # Purgatory nested difficulty table, addon only
@@ -224,28 +252,31 @@ PHASE2G_VALUES = {
     'void_flood.fractures_per_round.normal': 4,    # root local, exact replacement
 }
 settings2g = probe(dict(base_settings, values=PHASE2G_VALUES))
-manifest2g, state2g = sample(SAMPLE2G, settings2g, 'sample2g', {}, INTENTIONAL_2I)
+manifest2g, state2g = sample(settings2g, 'sample2g')
 addons = [a for a in manifest2g['artifacts'] if a['backend'] == 'TARGET_ADDON']
 literals = [a for a in manifest2g['artifacts'] if a['backend'] == 'EXACT_LITERAL']
 assert len(addons) == 1 and len(literals) == 1 and len(manifest2g['artifacts']) == 2, manifest2g['artifacts']
 assert addons[0]['path'] == 'artifacts/Missions.targets.addon.lua_B', addons[0]['path']
-assert sorted(addons[0]['target_keys']) == ['6fa60841c9e0f207', 'caec63d8e739b693', 'f10a043e7f825db2'], addons[0]['target_keys']
+# The addon covers the bodies of the three addon-lane values; the Void Flood body is the exact replacement (keys from the
+# registry: Survival's key changes with the client build).
+assert sorted(addons[0]['target_keys']) == sorted({registry_row(t)['owner']['body_key'] for t in PHASE2G_VALUES
+                                                   if t != 'void_flood.fractures_per_round.normal'}), addons[0]['target_keys']
 assert addons[0]['runtime_hook']['registry_status'] == 'OFFLINE_VERIFIED' and addons[0]['runtime_hook']['built_by_explicit_opt_in']
-assert literals[0]['body_key'] == 'fc711ff621a75552'
+VOID_FLOOD = registry_row('void_flood.fractures_per_round.normal')['owner']['body_key']
+assert literals[0]['body_key'] == VOID_FLOOD
 results['phase2g_sample'] = {'values': PHASE2G_VALUES, 'allow_unproven_hook_bindings': [LUA_CALL],
-                             'artifacts': manifest2g['artifacts'], 'location': SAMPLE2G.relative_to(ROOT).as_posix()}
+                             'artifacts': manifest2g['artifacts']}
 
 # Phase 2h sample: the Phase 2g settings with "output_layout": "package". The same Lua artifacts, byte for byte, are also
 # emitted as ONE optional bootstrapper folder package Packages/Missions/ (bootstrapper feat/script-packages-2026-09-29):
 # package.json + Missions.targets.addon.lua_B + the Void Flood exact replacement; one Scripts row [PACKAGE] Missions.
-SAMPLE2H = ROOT / 'work/research/universal-mission-editor-2026-09-29/phase2h-sample'
 settings2h = dict(settings2g, output_layout='package')
 generation2h, manifest2h = build(settings2h, 'sample2h')
 assert generation2h is not None, manifest2h
 package2h = generation2h / 'Packages' / 'Missions'
 members2h = sorted(p.name for p in package2h.iterdir() if p.name != 'package.json')
 assert sorted(p.name for p in package2h.iterdir()) == sorted(members2h + ['package.json']), list(package2h.iterdir())
-assert members2h == sorted(['Missions.targets.addon.lua_B', 'fc711ff621a75552 (missions_exact-replacement).lua_B']), members2h
+assert members2h == sorted(['Missions.targets.addon.lua_B', f'{VOID_FLOOD} (missions_exact-replacement).lua_B']), members2h
 loose2g = {Path(a['path']).name: a['sha256'] for a in manifest2g['artifacts']}
 package_hashes = {name: hashlib.sha256((package2h / name).read_bytes()).hexdigest().upper() for name in members2h}
 assert package_hashes == {name: loose2g[name] for name in members2h}, ('package members differ from the loose build', package_hashes)
@@ -256,32 +287,15 @@ assert sorted(package_json['members']) == members2h
 assert manifest2h['output_layout'] == 'package' and manifest2h['package']['scripts_menu']['policy_id'] == 'package:missions'
 assert all(a['intended_live_relative_path'].startswith('OpenWF/CustomScripts/Packages/Missions/')
            for a in manifest2h['artifacts'] if a['backend'] in ('TARGET_ADDON', 'EXACT_LITERAL'))
-if (SAMPLE2H / 'SHA256SUMS.json').exists():
-    recorded = json.loads((SAMPLE2H / 'SHA256SUMS.json').read_text())
-    recorded = {k.split('/')[-1]: v for k, v in recorded.items() if k.startswith('Packages/Missions/')}
-    rebuilt = dict(package_hashes, **{'package.json': hashlib.sha256((package2h / 'package.json').read_bytes()).hexdigest().upper()})
-    assert sorted(recorded) == sorted(rebuilt), ('package member set changed', recorded, rebuilt)
-    changed2h = sorted(k for k in rebuilt if rebuilt[k] != recorded[k])
-    assert set(changed2h) <= INTENTIONAL_2I, ('rebuilt package differs from the recorded Phase 2h sample', changed2h)
-    state2h = ('identical except the intentional Phase 2i change of ' + ', '.join(changed2h) if changed2h else 'identical') + \
-        ' to the recorded sample (folder untouched)'
-else:
-    SAMPLE2H.mkdir(parents=True)
-    (SAMPLE2H / 'mission_settings.json').write_text(json.dumps(settings2h, indent=2) + '\n')
-    shutil.copytree(generation2h, SAMPLE2H / 'generation')
-    shutil.copytree(generation2h / 'Packages', SAMPLE2H / 'Packages')  # install-ready: copy Packages\ into OpenWF\CustomScripts\
-    sums = {p.relative_to(SAMPLE2H).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest().upper()
-            for p in sorted(SAMPLE2H.rglob('*')) if p.is_file()}
-    (SAMPLE2H / 'SHA256SUMS.json').write_text(json.dumps(sums, indent=2) + '\n')
-    state2h = 'created'
+state2h = reference('sample2h', dict(package_hashes, **{'package.json': hashlib.sha256((package2h / 'package.json')
+                                                                                    .read_bytes()).hexdigest().upper()}))
 results['phase2h_sample'] = {'values': PHASE2G_VALUES, 'allow_unproven_hook_bindings': [LUA_CALL], 'output_layout': 'package',
-                             'package': manifest2h['package'], 'location': SAMPLE2H.relative_to(ROOT).as_posix()}
+                             'package': manifest2h['package'], 'state': state2h}
 print(f"PASS phase2h sample: Packages/Missions with {len(members2h)} members, byte-identical to phase 2g ({state2h})")
 # Phase 2i sample: the Phase 2h settings rebuilt with settings declarations. Packages/Missions/ is install-ready;
 # CustomScripts/Settings/Missions.json is the hand-editable values file for the Phase 2 live test (Survival reward interval
 # 150 enabled, Purgatory warrior level present but disabled, Lantern absent = stock, Void Flood replacement value kept
 # enabled so its one-value member stays on).
-SAMPLE2I = ROOT / 'work/research/universal-mission-editor-2026-09-29/phase2i-sample'
 generation2i, manifest2i = build(settings2h, 'sample2i')
 assert generation2i is not None, manifest2i
 package2i = generation2i / 'Packages' / 'Missions'
@@ -311,81 +325,25 @@ for vid, entry in EXAMPLE2I['values'].items():  # the example must validate agai
     assert d['type'] != 'int' or float(entry['value']).is_integer(), vid
 assert set(EXAMPLE2I['groups']) <= set(groups2i)
 package_files2i = sorted(p.name for p in package2i.iterdir())
-if (SAMPLE2I / 'SHA256SUMS.json').exists():
-    recorded = json.loads((SAMPLE2I / 'SHA256SUMS.json').read_text())
-    recorded = {k.split('/')[-1]: v for k, v in recorded.items() if k.startswith('Packages/Missions/')}
-    rebuilt = {n: hashlib.sha256((package2i / n).read_bytes()).hexdigest().upper() for n in package_files2i}
-    # Phase 2j changed the member labels in package.json and Phase 2k the addon (minimal hooks, compiled enabled flag);
-    # every other file (the Void Flood replacement) must stay byte-identical.
-    assert sorted(recorded) == sorted(rebuilt), ('package file set changed', recorded, rebuilt)
-    changed2i = sorted(k for k in rebuilt if rebuilt[k] != recorded[k])
-    assert set(changed2i) <= INTENTIONAL_2I, ('rebuilt package differs from the recorded Phase 2i sample', changed2i)
-    state2i = ('identical except the intentional Phase 2j/2k change of ' + ', '.join(changed2i) if changed2i else 'identical') + \
-        ' to the recorded sample (folder untouched)'
-else:
-    SAMPLE2I.mkdir(parents=True)
-    (SAMPLE2I / 'mission_settings.json').write_text(json.dumps(settings2h, indent=2) + '\n')
-    shutil.copytree(generation2i, SAMPLE2I / 'generation')
-    shutil.copytree(generation2i / 'Packages', SAMPLE2I / 'Packages')
-    (SAMPLE2I / 'CustomScripts' / 'Settings').mkdir(parents=True)
-    (SAMPLE2I / 'CustomScripts' / 'Settings' / 'Missions.json').write_text(json.dumps(EXAMPLE2I, indent=2) + '\n')
-    sums = {p.relative_to(SAMPLE2I).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest().upper()
-            for p in sorted(SAMPLE2I.rglob('*')) if p.is_file()}
-    (SAMPLE2I / 'SHA256SUMS.json').write_text(json.dumps(sums, indent=2) + '\n')
-    state2i = 'created'
+state2i = reference('sample2i', {n: hashlib.sha256((package2i / n).read_bytes()).hexdigest().upper() for n in package_files2i})
+# The live-test values file of client 2026.09.28.13.06 (ee4fa704, in ../references/inputs) is this example; Phase 2k
+# rebuilds the full package from it, relabelled for the current build.
+VALUES2I = json.loads((INPUTS / 'phase2i.Missions.json').read_text(encoding='utf-8'))
+# (group ids may be renamed by later R steps, e.g. purgatory -> purgatory_advanced: every group is on in both files)
+assert {k: v for k, v in VALUES2I.items() if k not in ('build', 'groups')} == {k: v for k, v in EXAMPLE2I.items()
+                                                                              if k not in ('build', 'groups')} \
+    and all(VALUES2I['groups'].values()) and all(EXAMPLE2I['groups'].values()), 'the recorded live-test values file is not the example'
+(WORK / 'phase2i.Missions.json').write_text(json.dumps(EXAMPLE2I, indent=2) + '\n')
 results['phase2i_sample'] = {'values': PHASE2G_VALUES, 'allow_unproven_hook_bindings': [LUA_CALL], 'output_layout': 'package',
                              'package': manifest2i['package'], 'example_settings': EXAMPLE2I,
-                             'location': SAMPLE2I.relative_to(ROOT).as_posix()}
+                             'state': state2i}
 print(f"PASS phase2i sample: {len(decl2i)} declarations in {len(groups2i)} groups, migration + example settings ({state2i})")
 # Phase 2k: the FULL Missions package (package_scope all_addon_values) rebuilt from the installed live-test values file
 # (phase2i CustomScripts/Settings/Missions.json, ee4fa704) through missions_settings_to_build.py. Compared with the staged
 # install set when it exists (never rewritten here).
 import missions_settings_to_build as REBUILD  # noqa: E402
-# R21 (2026-10-02): + Spy vault alarm and Sabotage surprise extraction (R19/R20 EAFD2DDF: + the Grineer Railjack fighter and
-# crewship rows; R18 13CB0290: + the two Pontis tower rows; R17 26E56E26).
-ENGINE_PARAMS_R17 = '20323777391827278DEA4494F6F123AC0BA2846CF2B65F4A886C4EAED61E1BAD'
-# R17: the registry layout of R16 (c48c819) tells the R17 "All <type> missions" layout changes from anything else.
-R16_REGISTRY = json.loads(subprocess.run(['git', '-C', str(EDITOR), 'show', 'c48c819:REGISTRIES/mission_build_u44.json'],
-                                         capture_output=True, check=True).stdout.decode('utf-8'))
-CURRENT_REGISTRY = json.loads((EDITOR / 'REGISTRIES/mission_build_u44.json').read_text(encoding='utf-8'))
-
-
-def _layout(registry, tid):
-    ui = registry['ui_masters'].get(tid) or next((r['ui'] for r in registry['tunables'] if r['tunable_id'] == tid), {})
-    return {f: ui.get(f) for f in ('path', 'row', 'quick', 'quick_on_page', 'scope_text', 'default_label', 'short_label')}
-
-
-def _r17_explained(old_values, new_values, changed):
-    """R17 changes: a layout that differs between the R16 and the current registry, or a category level a type page drops
-    because it now holds its "All <type> missions" master (r7_collapse_paths)."""
-    layout = {k for k in changed if _layout(R16_REGISTRY, k) != _layout(CURRENT_REGISTRY, k)}
-    master_types = {d['path'][0] for d in new_values.values() if d.get('quick_on_page')}
-    collapse = {k for k in changed - layout if new_values[k]['path'][0] in master_types
-                and len(new_values[k]['path']) == len(old_values[k]['path']) - 1
-                and {f: v for f, v in old_values[k].items() if f != 'path'} == {f: v for f, v in new_values[k].items() if f != 'path'}}
-    return layout | collapse
-# R20 (2026-10-02, multiplier minimums): the R20 input names every changed minimum (and the whole-number multipliers that
-# became fractional); a master's minimum follows its driven rows. A declaration may differ from an older staged one in
-# `min`, `type` and its description only where R20 says so.
-R20_ROWS = {r['tunable_id']: r for r in json.loads((EDITOR / 'RESEARCH/MISSIONS_R20_MULTIPLIER_MINIMUMS_2026-10-02/inputs/'
-                                                    'r20_minimums.json').read_text(encoding='utf-8'))['rows']}
-
-
-def _r20_explained(old_values, new_values, changed):
-    out = set()
-    for k in changed:
-        want = R20_ROWS.get(k)
-        master = CURRENT_REGISTRY['ui_masters'].get(k)
-        if want is None and not (master and any(d['tunable_id'] in R20_ROWS for d in master['drives'])):
-            continue
-        low = want['minimum'] if want else master['min']
-        kind = ('int' if want.get('integer', want['was']['integer']) else 'float') if want else master['type']
-        rest = lambda d: {f: v for f, v in d.items() if f not in ('scope', 'path', 'min', 'type')}
-        if new_values[k]['min'] == low and new_values[k]['type'] == kind and rest(old_values[k]) == rest(new_values[k]):
-            out.add(k)
-    return out
-STAGE2K = ROOT / 'work/staging/missions-full-package'
-settings2k = REBUILD.convert(SAMPLE2I / 'CustomScripts' / 'Settings' / 'Missions.json')
+PINS = HI.package_pins()  # the four package files the pinned harness input builds on the current registry
+settings2k = REBUILD.convert(WORK / 'phase2i.Missions.json')
 assert settings2k['values'] == {'survival.reward_interval': 150, 'void_flood.fractures_per_round.normal': 4}, settings2k['values']
 # Contract R5 (2026-09-30): the staged package also carries the literal headline timers with the user's earlier choices,
 # built but shipped off (Mobile Defense 20 s per terminal, Excavation 50 s dig, Control Area 30 s). The staged
@@ -408,58 +366,12 @@ assert (package2k / 'package.json').stat().st_size <= 512 * 1024
 files2k = {'Packages/Missions/' + p.name: p for p in package2k.iterdir()}
 files2k['Settings/Missions.json'] = generation2k / 'Settings' / 'Missions.json'
 hashes2k = {k: hashlib.sha256(p.read_bytes()).hexdigest().upper() for k, p in files2k.items()}
-# Contract R16 (2026-10-01): engine_params.json (ENGINE_PARAM_OVERRIDE declarations, not a member) is new; the staged install
-# set predates it. Its content is gated by test_engine_param_override_harness.py (same recipe as the package build).
-# R17 (2026-10-01): + the Gas City meltdown row (2 parameters) and the Railjack master on the Corpus row (R16 AE090C33).
-engine_params2k = hashes2k.pop('Packages/Missions/engine_params.json', None)
-assert engine_params2k == ENGINE_PARAMS_R17, engine_params2k
-if (STAGE2K / 'SHA256SUMS.json').exists():
-    staged = json.loads((STAGE2K / 'SHA256SUMS.json').read_text())
-    staged = {k: v for k, v in staged.items() if k in hashes2k}
-    # Merged R7 + R8 (contract R9, 2026-09-30): the two literal masters with a range default say that a typed number
-    # replaces the whole range. That description is the only intentional change of the baked package.json.
-    R9_TEXT = {'mobiledefense.time_per_terminal', 'excavation.dig_time'}
-    differing = {k for k in hashes2k if staged.get(k) != hashes2k[k]}
-    if differing == {'Packages/Missions/package.json'}:
-        def _values(path):
-            manifest = json.loads(Path(path).read_text(encoding='utf-8'))
-            return manifest, {k: v for m in manifest['members'].values() for k, v in m.get('settings', {}).get('values', {}).items()}
-        old_manifest, old_values = _values(STAGE2K / 'Packages/Missions/package.json')
-        new_manifest, new_values = _values(package2k / 'package.json')
-        changed = {k for k in old_values if old_values[k] != new_values.get(k)}
-        assert old_values.keys() == new_values.keys() and changed == R9_TEXT and all(
-            {f: v for f, v in old_values[k].items() if f != 'scope'} == {f: v for f, v in new_values[k].items() if f != 'scope'}
-            for k in changed) and old_manifest['settings'] == new_manifest['settings'], \
-            ('rebuilt full package.json differs from the staged one beyond the R9 descriptions', changed)
-        state2k = 'identical to the staged install set except the intentional R9 description change of package.json (folder untouched)'
-    elif differing == {'Packages/Missions/Missions.targets.addon.lua_B', 'Packages/Missions/package.json', 'Settings/Missions.json'}:
-        # Contract R10 (2026-09-30): the addon member gains the R10 addon values (mission-owner research rows and the Defense
-        # caps unlocked by the flow-sensitive gate). Every staged declaration and values-file entry is unchanged except the R9
-        # descriptions and the category level two set pages keep now that their mission type has more categories; every
-        # exact-replacement member is byte-identical.
-        def _values(path):
-            manifest = json.loads(Path(path).read_text(encoding='utf-8'))
-            return manifest, {k: v for m in manifest['members'].values() for k, v in m.get('settings', {}).get('values', {}).items()}
-        old_manifest, old_values = _values(STAGE2K / 'Packages/Missions/package.json')
-        new_manifest, new_values = _values(package2k / 'package.json')
-        R10_PATH = {f'defense.simultaneous_enemies_duviri.max.p{k}' for k in range(1, 5)} | {f'escalation.keys_per_players.p{k}' for k in range(1, 5)}
-        changed = {k for k in old_values if old_values[k] != new_values.get(k)}
-        added = set(new_values) - set(old_values)
-        old_file = json.loads((STAGE2K / 'Settings/Missions.json').read_text(encoding='utf-8'))['values']
-        new_file = json.loads((generation2k / 'Settings' / 'Missions.json').read_text(encoding='utf-8'))['values']
-        r17 = _r17_explained(old_values, new_values, changed)  # R17 (2026-10-01)
-        r20 = _r20_explained(old_values, new_values, changed)  # R20 (2026-10-02)
-        assert not set(old_values) - set(new_values) and changed <= R9_TEXT | R10_PATH | r17 | r20 and all(
-            {f: v for f, v in old_values[k].items() if f not in ('scope', 'path')} ==
-            {f: v for f, v in new_values[k].items() if f not in ('scope', 'path')} for k in changed - r17 - r20),             ('rebuilt full package.json differs from the staged one beyond R9, R10, R17 and R20', changed - r17 - r20)
-        assert all(new_file.get(k) == v for k, v in old_file.items()) and set(new_file) - set(old_file) == added and             not any(new_file[k]['enabled'] for k in added), 'values file: staged entries changed or R10 entries enabled'
-        state2k = (f'staged exact replacements identical; R10/R17 add {len(added)} addon values (all off); R9/R10 description and '
-                   f'category-level changes, {len(r17)} R17 layout changes and {len(r20)} R20 minimums only (folder untouched)')
-    else:
-        assert staged == hashes2k, ('rebuilt full package differs from the staged install set', staged, hashes2k)
-        state2k = 'identical to the staged install set (folder untouched)'
-else:
-    state2k = 'no staged install set to compare'
+# This input has the values of the pinned harness input (MISSIONS_R13 rebuild_input.r12.json) built baked (the values
+# file sets no literal_mode); the pins are its recipe build, so only engine_params.json is shared with them (its content
+# is gated by test_engine_param_override_harness.py). The whole baked package is the per-build reference sample2k.
+assert settings2k['values'] == HI.current_spec(HI.INPUT)['values'], 'the Phase 2k input no longer has the pinned values'
+assert hashes2k['Packages/Missions/engine_params.json'].lower() == PINS['engine_params.json'], 'engine_params.json differs from its pin'
+state2k = reference('sample2k', hashes2k)
 results['phase2k_full_package'] = {'settings': settings2k, 'hook_plan': addon2k['hook_plan'],
                                    'declarations': manifest2k['package']['settings']['declarations'], 'files': hashes2k,
                                    'state': state2k}
@@ -468,6 +380,14 @@ print(f"PASS phase2k full package: {manifest2k['package']['settings']['declarati
       f"{addon2k['hook_plan']['hooked_targets']} hooked target(s), {addon2k['hook_plan']['hooks']} hooks ({state2k})")
 results['phase2g_sample_state'] = state2g
 results['phase2h_sample_state'] = state2h
-(OUT / 'results.json').write_text(json.dumps(results, indent=2) + '\n')
+if _sample_refs_changed:
+    SAMPLE_REFS.parent.mkdir(parents=True, exist_ok=True)
+    SAMPLE_REFS.write_bytes((json.dumps({'format': 'RENOVICE_SAMPLE_REFERENCES_V1', 'build': registry['build'],
+                                         'registry_sha256': HI.registry_sha256(),
+                                         'samples': dict(sorted(_sample_refs.items()))}, indent=1) + '\n').encode('utf-8'))
+results['sample_references'] = SAMPLE_REFS.relative_to(EDITOR).as_posix()
+# Committed file: workspace paths are written relative (<workspace>), never with the local user folder.
+(OUT / 'results.json').write_bytes((json.dumps(results, indent=2) + '\n')
+                                   .replace(json.dumps(str(ROOT))[1:-1], '<workspace>').encode('utf-8'))
 print(f"PASS phase2g sample: 1 multi-target addon ({len(addons[0]['target_keys'])} targets) + {len(literals)} replacement ({state2g})")
 print(f"PASS {len(results['presets'])} preset builds, {results['rejections']} rejections")

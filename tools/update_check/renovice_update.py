@@ -109,7 +109,7 @@ def run(args, log) -> int:
     t0 = time.time()
     ws = UC.workspace_root()
     wsj = json.loads((ws / 'WORKSPACE.json').read_text(encoding='utf-8'))
-    game = args.game or UC.DEFAULT_GAME
+    game = args.game or UC.STEAM_GAME
     exe = args.exe or game / 'Warframe.x64.exe'
     custom = args.custom_scripts or game / 'OpenWF' / 'CustomScripts'
     img = uc_pe.Image(exe.read_bytes())
@@ -117,7 +117,9 @@ def run(args, log) -> int:
     stamp = datetime.datetime.now().strftime('%Y%m%d-%H%M%S')
     temp = ws / wsj['work']['temp'] / f'upd-{stamp}'
     stage = args.out or ws / wsj['work']['staging'] / f'update-{build_b}-{stamp}'
-    if str(stage.resolve()).lower().startswith(str(game.resolve()).lower()):
+    # A path test, not a text prefix: the workspace "...\Dokumenter\Warframe RE PROJECT RENOVICE" is not inside the
+    # installed copy "...\Dokumenter\Warframe" (2026-10-09).
+    if Path(str(stage.resolve()).lower()).is_relative_to(Path(str(game.resolve()).lower())):
         raise SystemExit('refusing to stage inside the game folder')
     stage.mkdir(parents=True, exist_ok=True)
     temp.mkdir(parents=True, exist_ok=True)

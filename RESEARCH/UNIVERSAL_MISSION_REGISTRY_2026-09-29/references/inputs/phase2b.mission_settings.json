@@ -1,0 +1,15 @@
+{
+  "format": "RENOVICE_MISSION_SETTINGS_V1",
+  "build": "2026.09.28.13.06",
+  "values": {
+    "netracell.enemy_power_fill": 2,
+    "shrine.offering_generation_time": 15,
+    "mobiledefense.total_time.minimum": 90,
+    "mobiledefense.total_time.maximum": 120,
+    "survival.reward_interval": 150,
+    "server.credit_boost_multiplier": 2,
+    "excavation.dig_duration": 50,
+    "excavation.dig_duration_elite_alert": 70,
+    "archimedea.eta_survival_minutes": 5
+  }
+}

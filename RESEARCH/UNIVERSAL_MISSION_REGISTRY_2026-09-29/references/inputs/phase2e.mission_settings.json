@@ -1,0 +1,10 @@
+{
+  "format": "RENOVICE_MISSION_SETTINGS_V1",
+  "build": "2026.09.28.13.06",
+  "values": {
+    "survival.reward_interval": 150,
+    "void_flood.fractures_per_round.normal": 4,
+    "lantern.tier_up_interval": 60,
+    "purgatory.difficulty1.warrior_level": 15
+  }
+}

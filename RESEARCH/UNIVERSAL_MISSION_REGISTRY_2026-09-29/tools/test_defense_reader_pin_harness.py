@@ -45,13 +45,18 @@ LUAU = ROOT / 'repos/toolchains/de-luau-toolchain/bin/luau.exe'
 DERECOMP = ROOT / 'repos/toolchains/de-luau-toolchain/bin/derecomp.exe'
 SDK = ROOT / 'shared/semantic-sdk/symbols.tsv'
 NORMALIZE = runpy.run_path(str(EDITOR / 'RESEARCH/U44_AUTHORING_2026-09-27/scripts/inspect_current.py'))['normalize']
-STOCK = ROOT / 'shared/corpus/de-luau-u44.0.2-authoring/Lotus_Scripts_WaveDefend.lua_B'
-STOCK_SHA = '0fb53a2c0946acc3476df7e16c5a3aaeea1b6384a2d4efa2d7360f4c155dbf10'
-KEY = '1a1354d153712f9d'
+# 2026-10-09: the WaveDefend body, its key and the four reader sites come from the CURRENT registry row (the 44.0.2
+# literals were the same body; a future build re-derives them through the update rebase, not here).
+_REGISTRY = json.loads((EDITOR / 'REGISTRIES/mission_build_u44.json').read_text(encoding='utf-8'))
+_ROW = next(r for r in _REGISTRY['tunables'] if r['tunable_id'] == 'defense.waves_per_reward')
+KEY = _ROW['owner']['body_key']
+STOCK = ROOT / _REGISTRY['corpus'] / _REGISTRY['modules'][KEY]['file']
+STOCK_SHA = _REGISTRY['modules'][KEY]['sha256'].lower()
 # The installed R14 addon source (staged evidence, built from the pinned R12 input; artifact 4c70b5ec...).
 R14_SOURCE = ROOT / 'work/staging/combined-r14/evidence/generator/Missions.targets.addon.luau'
 R14_SOURCE_LF_SHA = '51c76862eae9bc15f582b3521523b194e415f9f49b75f3297cc65393e57f55ed'  # LF content
-SITES = [(48, 1122), (48, 960), (36, 238), (36, 307)]   # (prototype, instruction) of the four readers
+SITES = sorted({(s['prototype'], s['instruction']) for s in _ROW['owner']['sites']}, key=lambda x: (-x[0], -x[1]))
+# (prototype, instruction) of the four readers, from the registry row (44.0.2 and 44.1.1: P48 i1122/i960, P36 i238/i307)
 WORK = ROOT / 'work/temp/defense-reader-pin-harness'
 OUT = HERE.parent / 'test-results'
 results = {'checks': []}
@@ -81,7 +86,7 @@ def namehash(name):
 H = namehash('minWavesToComplete')
 check(H == 0x69d6d911, 'U44 name hash of minWavesToComplete is 69d6d911 (seed 768e5ed0)')
 stock = STOCK.read_bytes()
-check(sha(stock) == STOCK_SHA, 'stock WaveDefend 44.0.2 body (SHA-256 0fb53a2c...)')
+check(sha(stock) == STOCK_SHA, f'stock WaveDefend body = the registry module ({STOCK_SHA[:8]}...)')
 stock_m = Module(stock)
 
 
@@ -165,9 +170,17 @@ check(block[:2] == ['frame_48[915] = 1', 'frame_48[916] = 1'] and block[3] == 'f
 results['pinned_decision_block'] = block
 
 # 3. The decision path in the observed order, for the installed R14 addon and the R15 addon.
-r14_source = R14_SOURCE.read_text(encoding='utf-8')
-check(sha(r14_source.replace('\r\n', '\n').encode()) == R14_SOURCE_LF_SHA, 'installed R14 addon source (staged evidence, LF content pinned)')
-check('environment.minWavesToComplete = value' in r14_source, 'R14 addon writes environment.minWavesToComplete at the P50 entry')
+# The R14 comparison is a HISTORICAL proof (client 44.0.2, 2026-10-01): its addon source was staged evidence in
+# work/staging/combined-r14, which no longer exists. When it is absent, that part is recorded as historical and the
+# current addon (the R15 reader pin) is still checked in full.
+r14_source = R14_SOURCE.read_text(encoding='utf-8') if R14_SOURCE.exists() else None
+if r14_source is None:
+    results['historical'] = ('R14 comparison proven on client 2026.09.28.13.06 (2026-10-01); its source '
+                             f'{R14_SOURCE.relative_to(ROOT).as_posix()} is no longer available, not re-run')
+    print('HISTORICAL\t' + results['historical'])
+else:
+    check(sha(r14_source.replace('\r\n', '\n').encode()) == R14_SOURCE_LF_SHA, 'installed R14 addon source (staged evidence, LF content pinned)')
+    check('environment.minWavesToComplete = value' in r14_source, 'R14 addon writes environment.minWavesToComplete at the P50 entry')
 r15_build = list((WORK / 'build_1').glob('missions/*/source/Missions.targets.addon.luau'))
 check(len(r15_build) == 1, 'R15 addon source built')
 r15_source = r15_build[0].read_text(encoding='utf-8')
@@ -206,7 +219,7 @@ local function checkpoints(env, read, waves, reapply_each_wave)
     return table.concat(out, ",")
 end
 local function run(addon_module, value, reapply_once, reapply_each_wave, read)
-    local target = addon_module().targets["1a1354d153712f9d"]
+    local target = addon_module().targets[WAVEDEFEND_KEY]
     local settings = {}
     if value ~= nil then settings["defense.waves_per_reward"] = { enabled = true, value = value, stock = 3 } end
     target.activate({ settings = settings })
@@ -222,7 +235,8 @@ local function run(addon_module, value, reapply_once, reapply_each_wave, read)
 end
 local from_env = function(env) return env.minWavesToComplete end
 
--- R14 (installed): the decision input is the environment.
+-- R14 (installed then): the decision input is the environment. Historical: runs only when its source is available.
+if R14_ADDON ~= nil then
 local cps, after = run(R14_ADDON, 1, false, false, from_env)
 ok(after == 1 and cps == "1,2,3,4,5,6,7,8,9,10,11,12", "R14 without engine re-application: every wave (what the R13 harness checked)")
 cps, after = run(R14_ADDON, 1, true, false, from_env)
@@ -230,6 +244,7 @@ ok(after == 1 and cps == "3,6,9,12", "R14 in the observed order (hook writes 1, 
 local line = false
 for _, text in ipairs(printed) do line = line or text == "RENOVICE Missions: defense.waves_per_reward minWavesToComplete 3 -> 1" end
 ok(line, "R14 prints the live line 'minWavesToComplete 3 -> 1' although the decision does not see it")
+end
 
 -- R15: the decision input is the pinned reader (value decoded from the synthesized bytes).
 for n, expect in pairs(EXPECT) do
@@ -249,8 +264,9 @@ def series(n):
 
 expect = {n: series(n) for n in pinned}
 script = WORK / 'defense_reader_pin_harness.luau'
-script.write_text('R14_ADDON = function(...)\n' + r14_source + '\nend\n'
+script.write_text(('R14_ADDON = function(...)\n' + r14_source + '\nend\n' if r14_source is not None else 'R14_ADDON = nil\n')
                   + 'R15_ADDON = function(...)\n' + r15_source + '\nend\n'
+                  + f'WAVEDEFEND_KEY = "{KEY}"\n'
                   + 'PINNED = {' + ', '.join(f'[{n}] = {v}' for n, v in pinned_value.items()) + '}\n'
                   + 'EXPECT = {' + ', '.join(f'[{n}] = "{e}"' for n, e in expect.items()) + '}\n' + harness, encoding='utf-8')
 check(LUAU.is_file(), 'toolchain luau.exe present')

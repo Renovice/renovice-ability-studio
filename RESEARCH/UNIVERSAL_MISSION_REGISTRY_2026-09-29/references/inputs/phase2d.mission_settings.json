@@ -1,0 +1,19 @@
+{
+  "format": "RENOVICE_MISSION_SETTINGS_V1",
+  "build": "2026.09.28.13.06",
+  "values": {
+    "disruption.default_round_count": 6,
+    "disruption.boss_health_multiplier": 0.5,
+    "disruption.round_timeout": 120,
+    "excavation.resource_goal_default": 300,
+    "void_flood.fill_timer.timeToFillMax": 150,
+    "orphix.sortie_rounds": 8,
+    "hijack.payload_health": 20000,
+    "netracell.power_required.base": 100,
+    "survival.elite_alert_pickup_mult": 1,
+    "defense.inter_wave_sleep": 3,
+    "infested_capture.search_time.wf1999": 50,
+    "meltdown.heat_increase.descendia": 0.0125,
+    "coh_excavation.base_health": 3000
+  }
+}

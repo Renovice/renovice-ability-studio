@@ -45,7 +45,7 @@ import uc_cache  # noqa: E402
 import uc_pe  # noqa: E402
 import uc_synthetic as S  # noqa: E402
 
-GAME = UC.DEFAULT_GAME
+GAME = UC.DEFAULT_GAME  # the installed set (renovice_update.py itself defaults to the Steam folder)
 
 
 def main() -> int:
@@ -110,7 +110,7 @@ def main() -> int:
     write('Lotus_Interface_OmegaRerollSelection.lua_B', S.add_pool_string(m, pool_text))
 
     # -- control -----------------------------------------------------------------------------------------------------
-    code = RU.main(['--out', str(root / 'control'), '--skip-native', '--skip-step1', '--quiet'])
+    code = RU.main(['--game', str(GAME), '--out', str(root / 'control'), '--skip-native', '--skip-step1', '--quiet'])
     rep = json.loads((root / 'control' / 'UPDATE_REPORT.json').read_text(encoding='utf-8'))
     a = rep['plan']['summary']['actions']
     check('control', 'exit 0, ALL AUTO, every gate PASS', code == 0 and rep['result'] == 'ALL AUTO', rep['result'])
@@ -122,7 +122,7 @@ def main() -> int:
           (TOOL.parents[1] / 'REGISTRIES' / 'mission_build_u44.json').read_bytes().split(b'"corpus"')[0])
 
     # -- synthetic build ----------------------------------------------------------------------------------------------
-    code = RU.main(['--stock-overlay', str(overlay), '--out', str(root / 'synthetic'), '--skip-native', '--quiet'])
+    code = RU.main(['--game', str(GAME), '--stock-overlay', str(overlay), '--out', str(root / 'synthetic'), '--skip-native', '--quiet'])
     out = root / 'synthetic'
     rep = json.loads((out / 'UPDATE_REPORT.json').read_text(encoding='utf-8'))
     plan = json.loads((out / 'evidence' / 'remap_plan.json').read_text(encoding='utf-8'))
@@ -140,7 +140,9 @@ def main() -> int:
     for name in ('verify-missions', 'build-missions', 'presets', 'settings-compat', 'step1-after'):
         check('synthetic', f'gate {name} PASS', gates.get(name, {}).get('pass'), gates.get(name, {}).get('detail'))
     # inserted prototypes
-    surv = [t for t in rrows if t.startswith('survival.')]
+    # The SurvivalMission rows (R23: survival.icebind_minutes_kuvapath lives in KuvaPath, an unchanged module).
+    surv_key = rows['survival.reward_interval']['owner']['body_key']
+    surv = [t for t in rrows if t.startswith('survival.') and rows.get(t, {}).get('owner', {}).get('body_key') == surv_key]
     check('inserted-prototypes', 'every Survival row carried over (auto, exact)',
           surv and all(row(t).get('action') == 'auto' and row(t).get('confidence') == 'exact' for t in surv),
           [(t, row(t).get('action'), row(t).get('reason')) for t in surv if row(t).get('action') != 'auto'][:3])
@@ -181,8 +183,10 @@ def main() -> int:
           and mal.get('artifact_name', '').startswith(mal.get('new_key', '?')), mal.get('reason'))
     nc = next((x for x in rep['replacements'] if 'No Cover' in x['file']), {})
     check('moved-callsite', 'No Cover replacement rebased: edits i568/i570 -> i571/i573',
-          nc.get('action') == 'auto' and nc.get('edits') == [{'old': 'P16 i568', 'new': 'P16 i571'},
-                                                            {'old': 'P16 i570', 'new': 'P16 i573'}], nc)
+          # (2026-10-08 threat-5 version: + an edit in P18, which the P16 insertion does not move)
+          nc.get('action') == 'auto' and [e for e in nc.get('edits', []) if e['old'] != e['new']] ==
+          [{'old': 'P16 i568', 'new': 'P16 i571'}, {'old': 'P16 i570', 'new': 'P16 i573'}]
+          and all(not e['old'].startswith('P16 ') for e in nc.get('edits', []) if e['old'] == e['new']), nc)
     staged = {f['install'] for f in rep['files']}
     check('moved-callsite', 'install set: renamed Mallet member, Octavia package.json, old file in remove.txt',
           any(p.endswith(mal.get('artifact_name', '?')) for p in staged)
