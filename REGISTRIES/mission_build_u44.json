@@ -1,13 +1,13 @@
 {
   "schema": 2,
   "format": "RENOVICE_MISSION_TUNABLE_REGISTRY_V2",
-  "build": "2026.10.06.16.12",
-  "build_label": "client 2026.10.06.16.12",
-  "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
-  "corpus": "shared/corpus/de-luau-2026.10.06.16.12-authoring",
+  "build": "2026.10.08.13.05",
+  "build_label": "client 2026.10.08.13.05",
+  "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
+  "corpus": "shared/corpus/de-luau-2026.10.08.13.05-authoring",
   "metadata_snapshot": {
     "file": "METADATA_SNAPSHOT.json",
-    "sha256": "349369A474C86B32A6EE9BE83891BAEE6E0E26D3CCE7F0A1DF4E1F22C53BFBBE"
+    "sha256": "5551D740141E0EB8F487212C216EFB8DD86A0AF6AC74F55E1DFEA338A9F838C7"
   },
   "server_root": "../OpenWF Server 23.09.2026/SpaceNinjaServer",
   "name_hash_seed": "768e5ed0",
@@ -4946,6 +4946,636 @@
       "size": 30707,
       "module_path": "Lotus.Scripts.SabotageOrokin"
     },
+    "a62aa7eea1c4f27b": {
+      "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
+      "sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
+      "size": 137674,
+      "module_path": "Lotus.Scripts.Modes.SurvivalMission",
+      "addon": {
+        "template": "MISSION_SURVIVAL_TIMERS_LUA_CALL",
+        "authoring_mode": "MANAGED_LUA_CALL_ADDON",
+        "ability_identifier": "SURVIVAL_TIMER_PATCH",
+        "hook_binding": "renovice.target.lua_call",
+        "hook_evidence_id": "WF-SURVIVAL-PROTO64-CAPTURES-2026-09-09",
+        "generation": {
+          "prototype": 64,
+          "elapsed_reward_upvalue": 19,
+          "pickup_config_upvalue": 22,
+          "reward_config_upvalue": 70
+        },
+        "current_prototype": 67,
+        "source_rewrites": [
+          [
+            "prototype == 64",
+            "prototype == 67"
+          ],
+          [
+            "[64] =",
+            "[67] ="
+          ],
+          [
+            "proto64",
+            "proto67"
+          ],
+          [
+            "prototype 64",
+            "prototype 67"
+          ]
+        ],
+        "values": {
+          "reward_interval_seconds": "survival.reward_interval",
+          "life_support_per_pickup_seconds": "survival.pickup_time_added",
+          "reward_progress_per_pickup_seconds": "survival.pickup_reward_progress"
+        },
+        "legacy_body_key": "1e3647332a578b78"
+      },
+      "root_tables": {
+        "root:i10:R7": {
+          "gate": "ROOT_TABLE_UPVALUE_V1",
+          "prototype": 79,
+          "instruction": 10,
+          "register": 7,
+          "op": "DUPTABLE",
+          "containers": [],
+          "hooks": [
+            {
+              "prototype": 23,
+              "upvalue": 6,
+              "path": [],
+              "capture": "VAL:R7",
+              "closure_instruction": 333
+            },
+            {
+              "prototype": 37,
+              "upvalue": 3,
+              "path": [],
+              "capture": "VAL:R7",
+              "closure_instruction": 416
+            },
+            {
+              "prototype": 52,
+              "upvalue": 11,
+              "path": [],
+              "capture": "VAL:R7",
+              "closure_instruction": 531
+            },
+            {
+              "prototype": 59,
+              "upvalue": 9,
+              "path": [],
+              "capture": "VAL:R7",
+              "closure_instruction": 585
+            },
+            {
+              "prototype": 60,
+              "upvalue": 5,
+              "path": [],
+              "capture": "VAL:R7",
+              "closure_instruction": 600
+            },
+            {
+              "prototype": 61,
+              "upvalue": 58,
+              "path": [],
+              "capture": "VAL:R7",
+              "closure_instruction": 606
+            },
+            {
+              "prototype": 67,
+              "upvalue": 24,
+              "path": [],
+              "capture": "VAL:R7",
+              "closure_instruction": 718
+            },
+            {
+              "prototype": 69,
+              "upvalue": 14,
+              "path": [],
+              "capture": "VAL:R7",
+              "closure_instruction": 806
+            },
+            {
+              "prototype": 72,
+              "upvalue": 1,
+              "path": [],
+              "capture": "VAL:R7",
+              "closure_instruction": 857
+            }
+          ],
+          "minimal_hooks": {
+            "gate": "ROOT_TABLE_MINIMAL_HOOKS_V1",
+            "method": "minimal-search",
+            "prototypes": [
+              23,
+              59,
+              61,
+              67,
+              69,
+              72
+            ],
+            "reaching_capturers": [
+              23,
+              37,
+              52,
+              59,
+              60,
+              61,
+              67,
+              69,
+              72
+            ],
+            "forced": [
+              59,
+              69,
+              72
+            ],
+            "coverage": {
+              "23": "hooked",
+              "37": "called-only-inside-67",
+              "52": "called-only-inside-67",
+              "59": "hooked",
+              "60": "called-only-inside-67",
+              "61": "hooked",
+              "67": "hooked",
+              "69": "hooked",
+              "72": "hooked"
+            },
+            "escaping_capturers": [
+              59,
+              69,
+              72
+            ],
+            "downstream_after_escape": [],
+            "reach_events": [
+              "23:read",
+              "37:read",
+              "52:read",
+              "59:read",
+              "60:write",
+              "61:write",
+              "67:read",
+              "69:read",
+              "72:read"
+            ],
+            "static_weight": {
+              "chosen": 30505,
+              "full": 30805
+            },
+            "root_children": [
+              23,
+              59,
+              61,
+              67,
+              69,
+              72
+            ],
+            "retire_safe": true,
+            "retire_blockers": []
+          }
+        },
+        "root:i18:R8": {
+          "gate": "ROOT_TABLE_UPVALUE_V1",
+          "prototype": 79,
+          "instruction": 18,
+          "register": 8,
+          "op": "DUPTABLE",
+          "containers": [],
+          "hooks": [
+            {
+              "prototype": 37,
+              "upvalue": 6,
+              "path": [],
+              "capture": "VAL:R8",
+              "closure_instruction": 416
+            },
+            {
+              "prototype": 61,
+              "upvalue": 59,
+              "path": [],
+              "capture": "VAL:R8",
+              "closure_instruction": 606
+            },
+            {
+              "prototype": 67,
+              "upvalue": 22,
+              "path": [],
+              "capture": "VAL:R8",
+              "closure_instruction": 718
+            }
+          ],
+          "minimal_hooks": {
+            "gate": "ROOT_TABLE_MINIMAL_HOOKS_V1",
+            "method": "minimal-search",
+            "prototypes": [
+              61,
+              67
+            ],
+            "reaching_capturers": [
+              37,
+              61,
+              67
+            ],
+            "forced": [],
+            "coverage": {
+              "37": "called-only-inside-67",
+              "61": "hooked",
+              "67": "hooked"
+            },
+            "escaping_capturers": [],
+            "downstream_after_escape": [],
+            "reach_events": [
+              "37:read",
+              "61:write",
+              "67:read"
+            ],
+            "static_weight": {
+              "chosen": 201,
+              "full": 301
+            },
+            "root_children": [
+              61,
+              67
+            ],
+            "retire_safe": true,
+            "retire_blockers": []
+          }
+        },
+        "root:i19:R9": {
+          "gate": "ROOT_TABLE_UPVALUE_V1",
+          "prototype": 79,
+          "instruction": 19,
+          "register": 9,
+          "op": "DUPTABLE",
+          "containers": [],
+          "hooks": [
+            {
+              "prototype": 31,
+              "upvalue": 9,
+              "path": [],
+              "capture": "VAL:R9",
+              "closure_instruction": 377
+            },
+            {
+              "prototype": 33,
+              "upvalue": 3,
+              "path": [],
+              "capture": "VAL:R9",
+              "closure_instruction": 393
+            },
+            {
+              "prototype": 55,
+              "upvalue": 3,
+              "path": [],
+              "capture": "VAL:R9",
+              "closure_instruction": 553
+            },
+            {
+              "prototype": 58,
+              "upvalue": 5,
+              "path": [],
+              "capture": "VAL:R9",
+              "closure_instruction": 579
+            },
+            {
+              "prototype": 60,
+              "upvalue": 3,
+              "path": [],
+              "capture": "VAL:R9",
+              "closure_instruction": 600
+            },
+            {
+              "prototype": 61,
+              "upvalue": 27,
+              "path": [],
+              "capture": "VAL:R9",
+              "closure_instruction": 606
+            },
+            {
+              "prototype": 62,
+              "upvalue": 7,
+              "path": [],
+              "capture": "VAL:R9",
+              "closure_instruction": 678
+            },
+            {
+              "prototype": 67,
+              "upvalue": 70,
+              "path": [],
+              "capture": "VAL:R9",
+              "closure_instruction": 718
+            },
+            {
+              "prototype": 68,
+              "upvalue": 9,
+              "path": [],
+              "capture": "VAL:R9",
+              "closure_instruction": 790
+            },
+            {
+              "prototype": 69,
+              "upvalue": 26,
+              "path": [],
+              "capture": "VAL:R9",
+              "closure_instruction": 806
+            }
+          ],
+          "minimal_hooks": {
+            "gate": "ROOT_TABLE_MINIMAL_HOOKS_V1",
+            "method": "minimal-search",
+            "prototypes": [
+              31,
+              61,
+              67,
+              69
+            ],
+            "reaching_capturers": [
+              31,
+              33,
+              55,
+              58,
+              60,
+              61,
+              67,
+              69
+            ],
+            "forced": [
+              31,
+              69
+            ],
+            "coverage": {
+              "31": "hooked",
+              "33": "called-only-inside-67",
+              "55": "called-only-inside-67",
+              "58": "never-called",
+              "60": "called-only-inside-67",
+              "61": "hooked",
+              "67": "hooked",
+              "69": "hooked"
+            },
+            "escaping_capturers": [
+              31,
+              69
+            ],
+            "downstream_after_escape": [],
+            "reach_events": [
+              "31:read",
+              "33:read",
+              "55:read",
+              "58:read",
+              "60:write",
+              "61:read",
+              "61:write",
+              "67:read",
+              "69:read"
+            ],
+            "static_weight": {
+              "chosen": 10203,
+              "full": 10704
+            },
+            "root_children": [
+              31,
+              61,
+              67,
+              69
+            ],
+            "retire_safe": true,
+            "retire_blockers": []
+          }
+        },
+        "root:i20:R10": {
+          "gate": "ROOT_TABLE_UPVALUE_V1",
+          "prototype": 79,
+          "instruction": 20,
+          "register": 10,
+          "op": "DUPTABLE",
+          "containers": [],
+          "hooks": [
+            {
+              "prototype": 34,
+              "upvalue": 4,
+              "path": [],
+              "capture": "VAL:R10",
+              "closure_instruction": 399
+            },
+            {
+              "prototype": 35,
+              "upvalue": 4,
+              "path": [],
+              "capture": "VAL:R10",
+              "closure_instruction": 404
+            },
+            {
+              "prototype": 36,
+              "upvalue": 1,
+              "path": [],
+              "capture": "VAL:R10",
+              "closure_instruction": 412
+            },
+            {
+              "prototype": 38,
+              "upvalue": 6,
+              "path": [],
+              "capture": "VAL:R10",
+              "closure_instruction": 426
+            },
+            {
+              "prototype": 39,
+              "upvalue": 3,
+              "path": [],
+              "capture": "VAL:R10",
+              "closure_instruction": 438
+            },
+            {
+              "prototype": 61,
+              "upvalue": 4,
+              "path": [],
+              "capture": "VAL:R10",
+              "closure_instruction": 606
+            }
+          ],
+          "minimal_hooks": {
+            "gate": "ROOT_TABLE_MINIMAL_HOOKS_V1",
+            "method": "minimal-search",
+            "prototypes": [
+              34,
+              61
+            ],
+            "reaching_capturers": [
+              34,
+              61
+            ],
+            "forced": [],
+            "coverage": {
+              "34": "hooked",
+              "61": "hooked"
+            },
+            "escaping_capturers": [],
+            "downstream_after_escape": [],
+            "reach_events": [
+              "34:read",
+              "61:write"
+            ],
+            "static_weight": {
+              "chosen": 301,
+              "full": 10702
+            },
+            "root_children": [
+              34,
+              61
+            ],
+            "retire_safe": true,
+            "retire_blockers": []
+          }
+        },
+        "root:i63:R11": {
+          "gate": "ROOT_TABLE_UPVALUE_V1",
+          "prototype": 79,
+          "instruction": 63,
+          "register": 11,
+          "op": "DUPTABLE",
+          "containers": [],
+          "hooks": [
+            {
+              "prototype": 23,
+              "upvalue": 14,
+              "path": [],
+              "capture": "VAL:R11",
+              "closure_instruction": 333
+            },
+            {
+              "prototype": 50,
+              "upvalue": 1,
+              "path": [],
+              "capture": "VAL:R11",
+              "closure_instruction": 517
+            },
+            {
+              "prototype": 52,
+              "upvalue": 3,
+              "path": [],
+              "capture": "VAL:R11",
+              "closure_instruction": 531
+            },
+            {
+              "prototype": 61,
+              "upvalue": 57,
+              "path": [],
+              "capture": "VAL:R11",
+              "closure_instruction": 606
+            }
+          ],
+          "minimal_hooks": {
+            "gate": "ROOT_TABLE_MINIMAL_HOOKS_V1",
+            "method": "minimal-search",
+            "prototypes": [
+              61
+            ],
+            "reaching_capturers": [
+              61
+            ],
+            "forced": [],
+            "coverage": {
+              "61": "hooked"
+            },
+            "escaping_capturers": [],
+            "downstream_after_escape": [],
+            "reach_events": [
+              "61:read"
+            ],
+            "static_weight": {
+              "chosen": 101,
+              "full": 1030502
+            },
+            "root_children": [
+              61
+            ],
+            "retire_safe": true,
+            "retire_blockers": []
+          }
+        },
+        "root:i70:R14": {
+          "gate": "ROOT_TABLE_UPVALUE_V1",
+          "prototype": 79,
+          "instruction": 70,
+          "register": 14,
+          "op": "DUPTABLE",
+          "containers": [],
+          "hooks": [
+            {
+              "prototype": 58,
+              "upvalue": 2,
+              "path": [],
+              "capture": "VAL:R14",
+              "closure_instruction": 579
+            },
+            {
+              "prototype": 65,
+              "upvalue": 2,
+              "path": [],
+              "capture": "VAL:R14",
+              "closure_instruction": 710
+            },
+            {
+              "prototype": 67,
+              "upvalue": 69,
+              "path": [],
+              "capture": "VAL:R14",
+              "closure_instruction": 718
+            },
+            {
+              "prototype": 69,
+              "upvalue": 24,
+              "path": [],
+              "capture": "VAL:R14",
+              "closure_instruction": 806
+            }
+          ],
+          "minimal_hooks": {
+            "gate": "ROOT_TABLE_MINIMAL_HOOKS_V1",
+            "method": "minimal-search",
+            "prototypes": [
+              67,
+              69
+            ],
+            "reaching_capturers": [
+              58,
+              65,
+              67,
+              69
+            ],
+            "forced": [
+              69
+            ],
+            "coverage": {
+              "58": "never-called",
+              "65": "called-only-inside-67",
+              "67": "hooked",
+              "69": "hooked"
+            },
+            "escaping_capturers": [
+              69
+            ],
+            "downstream_after_escape": [],
+            "reach_events": [
+              "58:read",
+              "65:read",
+              "67:read",
+              "69:read"
+            ],
+            "static_weight": {
+              "chosen": 101,
+              "full": 301
+            },
+            "root_children": [
+              67,
+              69
+            ],
+            "retire_safe": true,
+            "retire_blockers": []
+          }
+        }
+      }
+    },
     "a6e6445b96dde942": {
       "file": "Lotus_Scripts_Modes_ArchwingPursuitMode.lua_B",
       "sha256": "74F207DCD4CA5704185B2EDD4E10E0F6941692F79335C9541AB0F5B88BD89E01",
@@ -6655,636 +7285,6 @@
       "size": 57876,
       "module_path": "Lotus.Scripts.Intel"
     },
-    "f10a043e7f825db2": {
-      "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
-      "sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D",
-      "size": 137662,
-      "module_path": "Lotus.Scripts.Modes.SurvivalMission",
-      "addon": {
-        "template": "MISSION_SURVIVAL_TIMERS_LUA_CALL",
-        "authoring_mode": "MANAGED_LUA_CALL_ADDON",
-        "ability_identifier": "SURVIVAL_TIMER_PATCH",
-        "hook_binding": "renovice.target.lua_call",
-        "hook_evidence_id": "WF-SURVIVAL-PROTO64-CAPTURES-2026-09-09",
-        "generation": {
-          "prototype": 64,
-          "elapsed_reward_upvalue": 19,
-          "pickup_config_upvalue": 22,
-          "reward_config_upvalue": 70
-        },
-        "current_prototype": 67,
-        "source_rewrites": [
-          [
-            "prototype == 64",
-            "prototype == 67"
-          ],
-          [
-            "[64] =",
-            "[67] ="
-          ],
-          [
-            "proto64",
-            "proto67"
-          ],
-          [
-            "prototype 64",
-            "prototype 67"
-          ]
-        ],
-        "values": {
-          "reward_interval_seconds": "survival.reward_interval",
-          "life_support_per_pickup_seconds": "survival.pickup_time_added",
-          "reward_progress_per_pickup_seconds": "survival.pickup_reward_progress"
-        },
-        "legacy_body_key": "1e3647332a578b78"
-      },
-      "root_tables": {
-        "root:i10:R7": {
-          "gate": "ROOT_TABLE_UPVALUE_V1",
-          "prototype": 79,
-          "instruction": 10,
-          "register": 7,
-          "op": "DUPTABLE",
-          "containers": [],
-          "hooks": [
-            {
-              "prototype": 23,
-              "upvalue": 6,
-              "path": [],
-              "capture": "VAL:R7",
-              "closure_instruction": 332
-            },
-            {
-              "prototype": 37,
-              "upvalue": 3,
-              "path": [],
-              "capture": "VAL:R7",
-              "closure_instruction": 415
-            },
-            {
-              "prototype": 52,
-              "upvalue": 11,
-              "path": [],
-              "capture": "VAL:R7",
-              "closure_instruction": 530
-            },
-            {
-              "prototype": 59,
-              "upvalue": 9,
-              "path": [],
-              "capture": "VAL:R7",
-              "closure_instruction": 584
-            },
-            {
-              "prototype": 60,
-              "upvalue": 5,
-              "path": [],
-              "capture": "VAL:R7",
-              "closure_instruction": 599
-            },
-            {
-              "prototype": 61,
-              "upvalue": 58,
-              "path": [],
-              "capture": "VAL:R7",
-              "closure_instruction": 605
-            },
-            {
-              "prototype": 67,
-              "upvalue": 24,
-              "path": [],
-              "capture": "VAL:R7",
-              "closure_instruction": 717
-            },
-            {
-              "prototype": 69,
-              "upvalue": 14,
-              "path": [],
-              "capture": "VAL:R7",
-              "closure_instruction": 805
-            },
-            {
-              "prototype": 72,
-              "upvalue": 1,
-              "path": [],
-              "capture": "VAL:R7",
-              "closure_instruction": 856
-            }
-          ],
-          "minimal_hooks": {
-            "gate": "ROOT_TABLE_MINIMAL_HOOKS_V1",
-            "method": "minimal-search",
-            "prototypes": [
-              23,
-              59,
-              61,
-              67,
-              69,
-              72
-            ],
-            "reaching_capturers": [
-              23,
-              37,
-              52,
-              59,
-              60,
-              61,
-              67,
-              69,
-              72
-            ],
-            "forced": [
-              59,
-              69,
-              72
-            ],
-            "coverage": {
-              "23": "hooked",
-              "37": "called-only-inside-67",
-              "52": "called-only-inside-67",
-              "59": "hooked",
-              "60": "called-only-inside-67",
-              "61": "hooked",
-              "67": "hooked",
-              "69": "hooked",
-              "72": "hooked"
-            },
-            "escaping_capturers": [
-              59,
-              69,
-              72
-            ],
-            "downstream_after_escape": [],
-            "reach_events": [
-              "23:read",
-              "37:read",
-              "52:read",
-              "59:read",
-              "60:write",
-              "61:write",
-              "67:read",
-              "69:read",
-              "72:read"
-            ],
-            "static_weight": {
-              "chosen": 30505,
-              "full": 30805
-            },
-            "root_children": [
-              23,
-              59,
-              61,
-              67,
-              69,
-              72
-            ],
-            "retire_safe": true,
-            "retire_blockers": []
-          }
-        },
-        "root:i18:R8": {
-          "gate": "ROOT_TABLE_UPVALUE_V1",
-          "prototype": 79,
-          "instruction": 18,
-          "register": 8,
-          "op": "DUPTABLE",
-          "containers": [],
-          "hooks": [
-            {
-              "prototype": 37,
-              "upvalue": 6,
-              "path": [],
-              "capture": "VAL:R8",
-              "closure_instruction": 415
-            },
-            {
-              "prototype": 61,
-              "upvalue": 59,
-              "path": [],
-              "capture": "VAL:R8",
-              "closure_instruction": 605
-            },
-            {
-              "prototype": 67,
-              "upvalue": 22,
-              "path": [],
-              "capture": "VAL:R8",
-              "closure_instruction": 717
-            }
-          ],
-          "minimal_hooks": {
-            "gate": "ROOT_TABLE_MINIMAL_HOOKS_V1",
-            "method": "minimal-search",
-            "prototypes": [
-              61,
-              67
-            ],
-            "reaching_capturers": [
-              37,
-              61,
-              67
-            ],
-            "forced": [],
-            "coverage": {
-              "37": "called-only-inside-67",
-              "61": "hooked",
-              "67": "hooked"
-            },
-            "escaping_capturers": [],
-            "downstream_after_escape": [],
-            "reach_events": [
-              "37:read",
-              "61:write",
-              "67:read"
-            ],
-            "static_weight": {
-              "chosen": 201,
-              "full": 301
-            },
-            "root_children": [
-              61,
-              67
-            ],
-            "retire_safe": true,
-            "retire_blockers": []
-          }
-        },
-        "root:i19:R9": {
-          "gate": "ROOT_TABLE_UPVALUE_V1",
-          "prototype": 79,
-          "instruction": 19,
-          "register": 9,
-          "op": "DUPTABLE",
-          "containers": [],
-          "hooks": [
-            {
-              "prototype": 31,
-              "upvalue": 9,
-              "path": [],
-              "capture": "VAL:R9",
-              "closure_instruction": 376
-            },
-            {
-              "prototype": 33,
-              "upvalue": 3,
-              "path": [],
-              "capture": "VAL:R9",
-              "closure_instruction": 392
-            },
-            {
-              "prototype": 55,
-              "upvalue": 3,
-              "path": [],
-              "capture": "VAL:R9",
-              "closure_instruction": 552
-            },
-            {
-              "prototype": 58,
-              "upvalue": 5,
-              "path": [],
-              "capture": "VAL:R9",
-              "closure_instruction": 578
-            },
-            {
-              "prototype": 60,
-              "upvalue": 3,
-              "path": [],
-              "capture": "VAL:R9",
-              "closure_instruction": 599
-            },
-            {
-              "prototype": 61,
-              "upvalue": 27,
-              "path": [],
-              "capture": "VAL:R9",
-              "closure_instruction": 605
-            },
-            {
-              "prototype": 62,
-              "upvalue": 7,
-              "path": [],
-              "capture": "VAL:R9",
-              "closure_instruction": 677
-            },
-            {
-              "prototype": 67,
-              "upvalue": 70,
-              "path": [],
-              "capture": "VAL:R9",
-              "closure_instruction": 717
-            },
-            {
-              "prototype": 68,
-              "upvalue": 9,
-              "path": [],
-              "capture": "VAL:R9",
-              "closure_instruction": 789
-            },
-            {
-              "prototype": 69,
-              "upvalue": 26,
-              "path": [],
-              "capture": "VAL:R9",
-              "closure_instruction": 805
-            }
-          ],
-          "minimal_hooks": {
-            "gate": "ROOT_TABLE_MINIMAL_HOOKS_V1",
-            "method": "minimal-search",
-            "prototypes": [
-              31,
-              61,
-              67,
-              69
-            ],
-            "reaching_capturers": [
-              31,
-              33,
-              55,
-              58,
-              60,
-              61,
-              67,
-              69
-            ],
-            "forced": [
-              31,
-              69
-            ],
-            "coverage": {
-              "31": "hooked",
-              "33": "called-only-inside-67",
-              "55": "called-only-inside-67",
-              "58": "never-called",
-              "60": "called-only-inside-67",
-              "61": "hooked",
-              "67": "hooked",
-              "69": "hooked"
-            },
-            "escaping_capturers": [
-              31,
-              69
-            ],
-            "downstream_after_escape": [],
-            "reach_events": [
-              "31:read",
-              "33:read",
-              "55:read",
-              "58:read",
-              "60:write",
-              "61:read",
-              "61:write",
-              "67:read",
-              "69:read"
-            ],
-            "static_weight": {
-              "chosen": 10203,
-              "full": 10704
-            },
-            "root_children": [
-              31,
-              61,
-              67,
-              69
-            ],
-            "retire_safe": true,
-            "retire_blockers": []
-          }
-        },
-        "root:i20:R10": {
-          "gate": "ROOT_TABLE_UPVALUE_V1",
-          "prototype": 79,
-          "instruction": 20,
-          "register": 10,
-          "op": "DUPTABLE",
-          "containers": [],
-          "hooks": [
-            {
-              "prototype": 34,
-              "upvalue": 4,
-              "path": [],
-              "capture": "VAL:R10",
-              "closure_instruction": 398
-            },
-            {
-              "prototype": 35,
-              "upvalue": 4,
-              "path": [],
-              "capture": "VAL:R10",
-              "closure_instruction": 403
-            },
-            {
-              "prototype": 36,
-              "upvalue": 1,
-              "path": [],
-              "capture": "VAL:R10",
-              "closure_instruction": 411
-            },
-            {
-              "prototype": 38,
-              "upvalue": 6,
-              "path": [],
-              "capture": "VAL:R10",
-              "closure_instruction": 425
-            },
-            {
-              "prototype": 39,
-              "upvalue": 3,
-              "path": [],
-              "capture": "VAL:R10",
-              "closure_instruction": 437
-            },
-            {
-              "prototype": 61,
-              "upvalue": 4,
-              "path": [],
-              "capture": "VAL:R10",
-              "closure_instruction": 605
-            }
-          ],
-          "minimal_hooks": {
-            "gate": "ROOT_TABLE_MINIMAL_HOOKS_V1",
-            "method": "minimal-search",
-            "prototypes": [
-              34,
-              61
-            ],
-            "reaching_capturers": [
-              34,
-              61
-            ],
-            "forced": [],
-            "coverage": {
-              "34": "hooked",
-              "61": "hooked"
-            },
-            "escaping_capturers": [],
-            "downstream_after_escape": [],
-            "reach_events": [
-              "34:read",
-              "61:write"
-            ],
-            "static_weight": {
-              "chosen": 301,
-              "full": 10702
-            },
-            "root_children": [
-              34,
-              61
-            ],
-            "retire_safe": true,
-            "retire_blockers": []
-          }
-        },
-        "root:i63:R11": {
-          "gate": "ROOT_TABLE_UPVALUE_V1",
-          "prototype": 79,
-          "instruction": 63,
-          "register": 11,
-          "op": "DUPTABLE",
-          "containers": [],
-          "hooks": [
-            {
-              "prototype": 23,
-              "upvalue": 14,
-              "path": [],
-              "capture": "VAL:R11",
-              "closure_instruction": 332
-            },
-            {
-              "prototype": 50,
-              "upvalue": 1,
-              "path": [],
-              "capture": "VAL:R11",
-              "closure_instruction": 516
-            },
-            {
-              "prototype": 52,
-              "upvalue": 3,
-              "path": [],
-              "capture": "VAL:R11",
-              "closure_instruction": 530
-            },
-            {
-              "prototype": 61,
-              "upvalue": 57,
-              "path": [],
-              "capture": "VAL:R11",
-              "closure_instruction": 605
-            }
-          ],
-          "minimal_hooks": {
-            "gate": "ROOT_TABLE_MINIMAL_HOOKS_V1",
-            "method": "minimal-search",
-            "prototypes": [
-              61
-            ],
-            "reaching_capturers": [
-              61
-            ],
-            "forced": [],
-            "coverage": {
-              "61": "hooked"
-            },
-            "escaping_capturers": [],
-            "downstream_after_escape": [],
-            "reach_events": [
-              "61:read"
-            ],
-            "static_weight": {
-              "chosen": 101,
-              "full": 1030502
-            },
-            "root_children": [
-              61
-            ],
-            "retire_safe": true,
-            "retire_blockers": []
-          }
-        },
-        "root:i70:R14": {
-          "gate": "ROOT_TABLE_UPVALUE_V1",
-          "prototype": 79,
-          "instruction": 70,
-          "register": 14,
-          "op": "DUPTABLE",
-          "containers": [],
-          "hooks": [
-            {
-              "prototype": 58,
-              "upvalue": 2,
-              "path": [],
-              "capture": "VAL:R14",
-              "closure_instruction": 578
-            },
-            {
-              "prototype": 65,
-              "upvalue": 2,
-              "path": [],
-              "capture": "VAL:R14",
-              "closure_instruction": 709
-            },
-            {
-              "prototype": 67,
-              "upvalue": 69,
-              "path": [],
-              "capture": "VAL:R14",
-              "closure_instruction": 717
-            },
-            {
-              "prototype": 69,
-              "upvalue": 24,
-              "path": [],
-              "capture": "VAL:R14",
-              "closure_instruction": 805
-            }
-          ],
-          "minimal_hooks": {
-            "gate": "ROOT_TABLE_MINIMAL_HOOKS_V1",
-            "method": "minimal-search",
-            "prototypes": [
-              67,
-              69
-            ],
-            "reaching_capturers": [
-              58,
-              65,
-              67,
-              69
-            ],
-            "forced": [
-              69
-            ],
-            "coverage": {
-              "58": "never-called",
-              "65": "called-only-inside-67",
-              "67": "hooked",
-              "69": "hooked"
-            },
-            "escaping_capturers": [
-              69
-            ],
-            "downstream_after_escape": [],
-            "reach_events": [
-              "58:read",
-              "65:read",
-              "67:read",
-              "69:read"
-            ],
-            "static_weight": {
-              "chosen": 101,
-              "full": 301
-            },
-            "root_children": [
-              67,
-              69
-            ],
-            "retire_safe": true,
-            "retire_blockers": []
-          }
-        }
-      }
-    },
     "f7444e3c621ff018": {
       "file": "Lotus_Scripts_Modes_ExcavationMission.lua_B",
       "sha256": "DF9FB3206E468652DC7A101E26118ADF2E039F35B69E228C26BB6BBD3A6F4701",
@@ -8121,7 +8121,7 @@
         "field": "Scripts.0.Script._CRUCIBLE_REMIND_COUNTDOWN",
         "stock_text": "60",
         "preimage": "_CRUCIBLE_REMIND_COUNTDOWN=60",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "4177b4847467236d",
           "stock_sha256": "0DA3F5D2C05509D4D8ED3F12588F77D501CD099A5A90E2BAEF0C60460CAA1104",
@@ -8184,7 +8184,7 @@
         "field": "Scripts.0.Script._CRUCIBLE_REMIND_COUNTDOWN",
         "stock_text": "60",
         "preimage": "_CRUCIBLE_REMIND_COUNTDOWN=60",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "4177b4847467236d",
           "stock_sha256": "0DA3F5D2C05509D4D8ED3F12588F77D501CD099A5A90E2BAEF0C60460CAA1104",
@@ -8247,7 +8247,7 @@
         "field": "Scripts.0.Script._TRANSMUTER_GOAL",
         "stock_text": "1",
         "preimage": "_TRANSMUTER_GOAL=1",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "4177b4847467236d",
           "stock_sha256": "0DA3F5D2C05509D4D8ED3F12588F77D501CD099A5A90E2BAEF0C60460CAA1104",
@@ -8310,7 +8310,7 @@
         "field": "Scripts.0.Script._TRANSMUTER_GOAL",
         "stock_text": "1",
         "preimage": "_TRANSMUTER_GOAL=1",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "4177b4847467236d",
           "stock_sha256": "0DA3F5D2C05509D4D8ED3F12588F77D501CD099A5A90E2BAEF0C60460CAA1104",
@@ -8373,7 +8373,7 @@
         "field": "Scripts.0.Script._rewardInterval",
         "stock_text": "1",
         "preimage": "_rewardInterval=1",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "4177b4847467236d",
           "stock_sha256": "0DA3F5D2C05509D4D8ED3F12588F77D501CD099A5A90E2BAEF0C60460CAA1104",
@@ -8436,7 +8436,7 @@
         "field": "Scripts.0.Script._rewardInterval",
         "stock_text": "1",
         "preimage": "_rewardInterval=1",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "4177b4847467236d",
           "stock_sha256": "0DA3F5D2C05509D4D8ED3F12588F77D501CD099A5A90E2BAEF0C60460CAA1104",
@@ -9948,7 +9948,7 @@
         "field": "Scripts.0.Script._boostTimeModifier",
         "stock_text": "3",
         "preimage": "_boostTimeModifier=3",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "62bff9c05056c1eb",
           "stock_sha256": "07747FEB6149F476E9DA94885F7E64FCBEA143347D85ED5D18E25407FB610E49",
@@ -10009,7 +10009,7 @@
         "field": "Scripts.0.Script._elevatorAnimationTime",
         "stock_text": "150",
         "preimage": "_elevatorAnimationTime=150",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "62bff9c05056c1eb",
           "stock_sha256": "07747FEB6149F476E9DA94885F7E64FCBEA143347D85ED5D18E25407FB610E49",
@@ -10070,7 +10070,7 @@
         "field": "Scripts.0.Script._elevatorShield",
         "stock_text": "100",
         "preimage": "_elevatorShield=100",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "62bff9c05056c1eb",
           "stock_sha256": "07747FEB6149F476E9DA94885F7E64FCBEA143347D85ED5D18E25407FB610E49",
@@ -10131,7 +10131,7 @@
         "field": "Scripts.0.Script._addingFuelAmmount",
         "stock_text": "20",
         "preimage": "_addingFuelAmmount=20",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "62bff9c05056c1eb",
           "stock_sha256": "07747FEB6149F476E9DA94885F7E64FCBEA143347D85ED5D18E25407FB610E49",
@@ -10192,7 +10192,7 @@
         "field": "Scripts.0.Script._elevatorBoostDuration",
         "stock_text": "10",
         "preimage": "_elevatorBoostDuration=10",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "62bff9c05056c1eb",
           "stock_sha256": "07747FEB6149F476E9DA94885F7E64FCBEA143347D85ED5D18E25407FB610E49",
@@ -10253,7 +10253,7 @@
         "field": "Scripts.0.Script._maxDefaultCapacity",
         "stock_text": "50",
         "preimage": "_maxDefaultCapacity=50",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "62bff9c05056c1eb",
           "stock_sha256": "07747FEB6149F476E9DA94885F7E64FCBEA143347D85ED5D18E25407FB610E49",
@@ -11768,7 +11768,7 @@
         "field": "PickUpScript._boonCollectablesThreshold",
         "stock_text": "3",
         "preimage": "_boonCollectablesThreshold=3",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "095718c8c70b1eb4",
           "stock_sha256": "F95988346AC03CD340B4CD99D87BC9891837D8B8545246777B673E29E67FB48F",
@@ -12205,7 +12205,7 @@
         "field": "Scripts.0.Script._numTargets",
         "stock_text": "10",
         "preimage": "_numTargets=10",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "d21d8867b9549b2a",
           "stock_sha256": "937062CA4270AF333FC920F54F85AEF68747337BDA974425FC81DAFBEF3706B4",
@@ -12724,7 +12724,7 @@
         "field": "Scripts.0.Script._baseExcavatorHealth",
         "stock_text": "1500",
         "preimage": "_baseExcavatorHealth=1500",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "415a57536412719f",
           "stock_sha256": "C641B897157618608088A5CFBD1D5688ACE5C12822F8ADAADF95089C6491D0E8",
@@ -12794,7 +12794,7 @@
         "field": "Scripts.0.Script._baseExcavatorShields",
         "stock_text": "500",
         "preimage": "_baseExcavatorShields=500",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "415a57536412719f",
           "stock_sha256": "C641B897157618608088A5CFBD1D5688ACE5C12822F8ADAADF95089C6491D0E8",
@@ -12982,7 +12982,7 @@
         "field": "Scripts.0.Script._sharedHealthPoolLevelPowerSolo",
         "stock_text": "0.34999999",
         "preimage": "_sharedHealthPoolLevelPowerSolo=0.34999999",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "415a57536412719f",
           "stock_sha256": "C641B897157618608088A5CFBD1D5688ACE5C12822F8ADAADF95089C6491D0E8",
@@ -13052,7 +13052,7 @@
         "field": "Scripts.0.Script._sharedHealthPoolLevelPower",
         "stock_text": "0.30000001",
         "preimage": "_sharedHealthPoolLevelPower=0.30000001",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "415a57536412719f",
           "stock_sha256": "C641B897157618608088A5CFBD1D5688ACE5C12822F8ADAADF95089C6491D0E8",
@@ -13205,7 +13205,7 @@
         "field": "Scripts.0.Script._excavatorSpawnInvulnerabilityDuration",
         "stock_text": "0",
         "preimage": "_excavatorSpawnInvulnerabilityDuration=0",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "415a57536412719f",
           "stock_sha256": "C641B897157618608088A5CFBD1D5688ACE5C12822F8ADAADF95089C6491D0E8",
@@ -13444,7 +13444,7 @@
         "field": "Scripts.0.Script._beaconChaseTargetTime",
         "stock_text": "25",
         "preimage": "_beaconChaseTargetTime=25",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "026200d9d8fd40a3",
           "stock_sha256": "D3EEE8D0F393AF6E9EAD211E3FD602D4863A3F87017C85B869A87A133E70F702",
@@ -13505,7 +13505,7 @@
         "field": "Scripts.0.Script._isDescent",
         "stock_text": "1",
         "preimage": "_isDescent=1",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "026200d9d8fd40a3",
           "stock_sha256": "D3EEE8D0F393AF6E9EAD211E3FD602D4863A3F87017C85B869A87A133E70F702",
@@ -18479,7 +18479,7 @@
         "field": "Scripts.0.Script._markerThreshold",
         "stock_text": "5",
         "preimage": "_markerThreshold=5",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "1a1354d153712f9d",
           "stock_sha256": "0FB53A2C0946ACC3476DF7E16C5A3AAEEA1B6384A2D4EFA2D7360F4C155DBF10",
@@ -22953,7 +22953,7 @@
         "field": "Scripts.0.Script._targetMaxLevelHardmodeBump",
         "stock_text": "25",
         "preimage": "_targetMaxLevelHardmodeBump=25",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "1a1354d153712f9d",
           "stock_sha256": "0FB53A2C0946ACC3476DF7E16C5A3AAEEA1B6384A2D4EFA2D7360F4C155DBF10",
@@ -23016,7 +23016,7 @@
         "field": "Scripts.0.Script._targetMaxLevelFalloffIntensity",
         "stock_text": "15",
         "preimage": "_targetMaxLevelFalloffIntensity=15",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "1a1354d153712f9d",
           "stock_sha256": "0FB53A2C0946ACC3476DF7E16C5A3AAEEA1B6384A2D4EFA2D7360F4C155DBF10",
@@ -23077,7 +23077,7 @@
         "field": "Scripts.0.Script._targetMaxLevelFalloffPoint",
         "stock_text": "50",
         "preimage": "_targetMaxLevelFalloffPoint=50",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "1a1354d153712f9d",
           "stock_sha256": "0FB53A2C0946ACC3476DF7E16C5A3AAEEA1B6384A2D4EFA2D7360F4C155DBF10",
@@ -33331,7 +33331,7 @@
         "field": "Scripts.0.Script._isCdBurnOn",
         "stock_text": "1",
         "preimage": "_isCdBurnOn=1",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "97ddf9f92301da45",
           "stock_sha256": "E9020E9A558445B366C0F9D214BEC615204118D2F438FCA3D3839AD9B0B63B00",
@@ -37888,7 +37888,7 @@
         "field": "OnFirstTouchedScript._duration",
         "stock_text": "60",
         "preimage": "_duration=60",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "4f8c9ec50143a4ba",
           "stock_sha256": "620D27218183CC3BEE10B9C06F82A582ED217686E41C8EE2060E6F4D7B4E4B24",
@@ -38588,7 +38588,7 @@
         "field": "Scripts.0.Script._baseNumberOfMutations",
         "stock_text": "5",
         "preimage": "_baseNumberOfMutations=5",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "0f1c3a74c7c91fab",
           "stock_sha256": "2DFC64FF77D4B1A364662D41CEB9DB54EE9F21F00A4880FE757BC6B68EA36C92",
@@ -38653,7 +38653,7 @@
         "field": "Scripts.0.Script._baseNumberOfMutations",
         "stock_text": "2",
         "preimage": "_baseNumberOfMutations=2",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "0f1c3a74c7c91fab",
           "stock_sha256": "2DFC64FF77D4B1A364662D41CEB9DB54EE9F21F00A4880FE757BC6B68EA36C92",
@@ -39023,7 +39023,7 @@
         "field": "Scripts.0.Script._searchingRoundsBeforeBoss",
         "stock_text": "1",
         "preimage": "_searchingRoundsBeforeBoss=1",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "0f1c3a74c7c91fab",
           "stock_sha256": "2DFC64FF77D4B1A364662D41CEB9DB54EE9F21F00A4880FE757BC6B68EA36C92",
@@ -39088,7 +39088,7 @@
         "field": "Scripts.0.Script._searchingRoundsBeforeBoss",
         "stock_text": "1",
         "preimage": "_searchingRoundsBeforeBoss=1",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "0f1c3a74c7c91fab",
           "stock_sha256": "2DFC64FF77D4B1A364662D41CEB9DB54EE9F21F00A4880FE757BC6B68EA36C92",
@@ -39153,7 +39153,7 @@
         "field": "Scripts.0.Script._kalymosSearchSpotRange",
         "stock_text": "150",
         "preimage": "_kalymosSearchSpotRange=150",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "0f1c3a74c7c91fab",
           "stock_sha256": "2DFC64FF77D4B1A364662D41CEB9DB54EE9F21F00A4880FE757BC6B68EA36C92",
@@ -39218,7 +39218,7 @@
         "field": "Scripts.0.Script._kalymosSearchSpotRange",
         "stock_text": "150",
         "preimage": "_kalymosSearchSpotRange=150",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "0f1c3a74c7c91fab",
           "stock_sha256": "2DFC64FF77D4B1A364662D41CEB9DB54EE9F21F00A4880FE757BC6B68EA36C92",
@@ -39283,7 +39283,7 @@
         "field": "Scripts.0.Script._searchTime",
         "stock_text": "60",
         "preimage": "_searchTime=60",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "0f1c3a74c7c91fab",
           "stock_sha256": "2DFC64FF77D4B1A364662D41CEB9DB54EE9F21F00A4880FE757BC6B68EA36C92",
@@ -39348,7 +39348,7 @@
         "field": "Scripts.0.Script._searchTime",
         "stock_text": "100",
         "preimage": "_searchTime=100",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "0f1c3a74c7c91fab",
           "stock_sha256": "2DFC64FF77D4B1A364662D41CEB9DB54EE9F21F00A4880FE757BC6B68EA36C92",
@@ -39413,7 +39413,7 @@
         "field": "Scripts.0.Script._baseTentacleHealth",
         "stock_text": "5000",
         "preimage": "_baseTentacleHealth=5000",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "0f1c3a74c7c91fab",
           "stock_sha256": "2DFC64FF77D4B1A364662D41CEB9DB54EE9F21F00A4880FE757BC6B68EA36C92",
@@ -39478,7 +39478,7 @@
         "field": "Scripts.0.Script._baseTentacleHealth",
         "stock_text": "5000",
         "preimage": "_baseTentacleHealth=5000",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "0f1c3a74c7c91fab",
           "stock_sha256": "2DFC64FF77D4B1A364662D41CEB9DB54EE9F21F00A4880FE757BC6B68EA36C92",
@@ -39543,7 +39543,7 @@
         "field": "Scripts.0.Script._wanderRadius",
         "stock_text": "15",
         "preimage": "_wanderRadius=15",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "0f1c3a74c7c91fab",
           "stock_sha256": "2DFC64FF77D4B1A364662D41CEB9DB54EE9F21F00A4880FE757BC6B68EA36C92",
@@ -39608,7 +39608,7 @@
         "field": "Scripts.0.Script._wanderRadius",
         "stock_text": "15",
         "preimage": "_wanderRadius=15",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "0f1c3a74c7c91fab",
           "stock_sha256": "2DFC64FF77D4B1A364662D41CEB9DB54EE9F21F00A4880FE757BC6B68EA36C92",
@@ -39673,7 +39673,7 @@
         "field": "Scripts.0.Script._wanderTime",
         "stock_text": "5",
         "preimage": "_wanderTime=5",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "0f1c3a74c7c91fab",
           "stock_sha256": "2DFC64FF77D4B1A364662D41CEB9DB54EE9F21F00A4880FE757BC6B68EA36C92",
@@ -39738,7 +39738,7 @@
         "field": "Scripts.0.Script._wanderTime",
         "stock_text": "10",
         "preimage": "_wanderTime=10",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "0f1c3a74c7c91fab",
           "stock_sha256": "2DFC64FF77D4B1A364662D41CEB9DB54EE9F21F00A4880FE757BC6B68EA36C92",
@@ -51509,7 +51509,7 @@
         "field": "Scripts.0.Script._heatDecreaseAmount",
         "stock_text": "0.2",
         "preimage": "_heatDecreaseAmount=0.2",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "1704b2348bad3f42",
           "stock_sha256": "1B47C8F93955D2131A64A050E6EBAC38190AA9CE3C9AF7095FE467C56326E3F0",
@@ -51572,7 +51572,7 @@
         "field": "Scripts.0.Script._heatDecreaseAmount",
         "stock_text": "0.2",
         "preimage": "_heatDecreaseAmount=0.2",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "1704b2348bad3f42",
           "stock_sha256": "1B47C8F93955D2131A64A050E6EBAC38190AA9CE3C9AF7095FE467C56326E3F0",
@@ -51635,7 +51635,7 @@
         "field": "Scripts.0.Script._HEAT_INCREASE",
         "stock_text": "0.025",
         "preimage": "_HEAT_INCREASE=0.025",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "1704b2348bad3f42",
           "stock_sha256": "1B47C8F93955D2131A64A050E6EBAC38190AA9CE3C9AF7095FE467C56326E3F0",
@@ -51698,7 +51698,7 @@
         "field": "Scripts.0.Script._HEAT_INCREASE",
         "stock_text": "0.025",
         "preimage": "_HEAT_INCREASE=0.025",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "1704b2348bad3f42",
           "stock_sha256": "1B47C8F93955D2131A64A050E6EBAC38190AA9CE3C9AF7095FE467C56326E3F0",
@@ -51761,7 +51761,7 @@
         "field": "Scripts.0.Script._inRangeMultiplier",
         "stock_text": "10",
         "preimage": "_inRangeMultiplier=10",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "1704b2348bad3f42",
           "stock_sha256": "1B47C8F93955D2131A64A050E6EBAC38190AA9CE3C9AF7095FE467C56326E3F0",
@@ -51824,7 +51824,7 @@
         "field": "Scripts.0.Script._inRangeMultiplier",
         "stock_text": "10",
         "preimage": "_inRangeMultiplier=10",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "1704b2348bad3f42",
           "stock_sha256": "1B47C8F93955D2131A64A050E6EBAC38190AA9CE3C9AF7095FE467C56326E3F0",
@@ -51887,7 +51887,7 @@
         "field": "Scripts.0.Script._SCAN_RATE",
         "stock_text": "0.25",
         "preimage": "_SCAN_RATE=0.25",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "1704b2348bad3f42",
           "stock_sha256": "1B47C8F93955D2131A64A050E6EBAC38190AA9CE3C9AF7095FE467C56326E3F0",
@@ -51950,7 +51950,7 @@
         "field": "Scripts.0.Script._SCAN_RATE",
         "stock_text": "0.25",
         "preimage": "_SCAN_RATE=0.25",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "1704b2348bad3f42",
           "stock_sha256": "1B47C8F93955D2131A64A050E6EBAC38190AA9CE3C9AF7095FE467C56326E3F0",
@@ -52013,7 +52013,7 @@
         "field": "Scripts.0.Script._startMissionDelay",
         "stock_text": "80",
         "preimage": "_startMissionDelay=80",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "1704b2348bad3f42",
           "stock_sha256": "1B47C8F93955D2131A64A050E6EBAC38190AA9CE3C9AF7095FE467C56326E3F0",
@@ -52076,7 +52076,7 @@
         "field": "Scripts.0.Script._startMissionDelay",
         "stock_text": "80",
         "preimage": "_startMissionDelay=80",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "1704b2348bad3f42",
           "stock_sha256": "1B47C8F93955D2131A64A050E6EBAC38190AA9CE3C9AF7095FE467C56326E3F0",
@@ -52139,7 +52139,7 @@
         "field": "Scripts.0.Script._VENT_SEARCH_DISTANCE",
         "stock_text": "100",
         "preimage": "_VENT_SEARCH_DISTANCE=100",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "1704b2348bad3f42",
           "stock_sha256": "1B47C8F93955D2131A64A050E6EBAC38190AA9CE3C9AF7095FE467C56326E3F0",
@@ -52202,7 +52202,7 @@
         "field": "Scripts.0.Script._VENT_SEARCH_DISTANCE",
         "stock_text": "100",
         "preimage": "_VENT_SEARCH_DISTANCE=100",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "1704b2348bad3f42",
           "stock_sha256": "1B47C8F93955D2131A64A050E6EBAC38190AA9CE3C9AF7095FE467C56326E3F0",
@@ -52265,7 +52265,7 @@
         "field": "Scripts.0.Script._VENTS_TO_REVEAL",
         "stock_text": "3",
         "preimage": "_VENTS_TO_REVEAL=3",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "1704b2348bad3f42",
           "stock_sha256": "1B47C8F93955D2131A64A050E6EBAC38190AA9CE3C9AF7095FE467C56326E3F0",
@@ -52328,7 +52328,7 @@
         "field": "Scripts.0.Script._VENTS_TO_REVEAL",
         "stock_text": "3",
         "preimage": "_VENTS_TO_REVEAL=3",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "1704b2348bad3f42",
           "stock_sha256": "1B47C8F93955D2131A64A050E6EBAC38190AA9CE3C9AF7095FE467C56326E3F0",
@@ -54813,7 +54813,7 @@
         "field": "Scripts.0.Script._enemyPowerFill",
         "stock_text": "1",
         "preimage": "_enemyPowerFill=1",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "0c498e078835f9fe",
           "stock_sha256": "036522B0202AB810737F23C765E45050CB02F87B10F9C293932B3BE8DA24F85F",
@@ -55131,7 +55131,7 @@
         "field": "Scripts.0.Script._questPowerMultiplier",
         "stock_text": "8",
         "preimage": "_questPowerMultiplier=8",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "0c498e078835f9fe",
           "stock_sha256": "036522B0202AB810737F23C765E45050CB02F87B10F9C293932B3BE8DA24F85F",
@@ -63443,7 +63443,7 @@
         "config_key": "worldState.creditBoostMultiplier",
         "server_root": "../OpenWF Server 23.09.2026/SpaceNinjaServer",
         "schema_file": "src/services/configService.ts",
-        "schema_sha256": "E7A4BE2B1EEDB91FCE269D1A343FD4D9A83AC9FEE189EBDE19582E1910719E28",
+        "schema_sha256": "B310A08B3FA4E7F4AFA9CA6AAD5FFEE966ED34E22F7F6DAF19E241F1D78319B5",
         "schema_preimage": "creditBoostMultiplier?: number;",
         "consumer_file": "src/services/missionInventoryUpdateService.ts",
         "consumer_sha256": "68DDC682212BA2AE3E58A469E3F66EA0255B324B15590461E4F21DC221441DC2",
@@ -67209,7 +67209,7 @@
         "field": "Scripts.0.Script._bossOfferingNum",
         "stock_text": "0",
         "preimage": "_bossOfferingNum=0",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "1ef96aede7fe612e",
           "stock_sha256": "4BEA96C94D8A22A6578139C47919E05D4A191D97A6A88CF371ED150BB11ED946",
@@ -67271,7 +67271,7 @@
         "field": "Scripts.0.Script._defendHutsOfferingNum",
         "stock_text": "2",
         "preimage": "_defendHutsOfferingNum=2",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "1ef96aede7fe612e",
           "stock_sha256": "4BEA96C94D8A22A6578139C47919E05D4A191D97A6A88CF371ED150BB11ED946",
@@ -67333,7 +67333,7 @@
         "field": "Scripts.0.Script._numOfferings",
         "stock_text": "1",
         "preimage": "_numOfferings=1",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "1ef96aede7fe612e",
           "stock_sha256": "4BEA96C94D8A22A6578139C47919E05D4A191D97A6A88CF371ED150BB11ED946",
@@ -67395,7 +67395,7 @@
         "field": "Scripts.0.Script._offeringGenerationTime",
         "stock_text": "30",
         "preimage": "_offeringGenerationTime=30",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "1ef96aede7fe612e",
           "stock_sha256": "4BEA96C94D8A22A6578139C47919E05D4A191D97A6A88CF371ED150BB11ED946",
@@ -67455,7 +67455,7 @@
         "field": "Scripts.0.Script._pickupAnimPlayRate",
         "stock_text": "2.5",
         "preimage": "_pickupAnimPlayRate=2.5",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "1ef96aede7fe612e",
           "stock_sha256": "4BEA96C94D8A22A6578139C47919E05D4A191D97A6A88CF371ED150BB11ED946",
@@ -67517,7 +67517,7 @@
         "field": "Scripts.0.Script._spawnPointFilterDistance",
         "stock_text": "35",
         "preimage": "_spawnPointFilterDistance=35",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "1ef96aede7fe612e",
           "stock_sha256": "4BEA96C94D8A22A6578139C47919E05D4A191D97A6A88CF371ED150BB11ED946",
@@ -69920,8 +69920,8 @@
       "owner_kind": "LUA_ROOT_TABLE",
       "backend": "TARGET_ADDON",
       "owner": {
-        "body_key": "f10a043e7f825db2",
-        "stock_sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D",
+        "body_key": "a62aa7eea1c4f27b",
+        "stock_sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
         "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
         "module_path": "Lotus.Scripts.Modes.SurvivalMission",
         "template": "ROOT_TABLE_FIELD",
@@ -69931,7 +69931,7 @@
             "field": "alertInterval",
             "table_id": "root:i19:R9",
             "value_kind": "number_constant",
-            "value_offset": 131001,
+            "value_offset": 131010,
             "expected": [
               0,
               0,
@@ -69997,8 +69997,8 @@
       "owner_kind": "LUA_ROOT_TABLE",
       "backend": "TARGET_ADDON",
       "owner": {
-        "body_key": "f10a043e7f825db2",
-        "stock_sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D",
+        "body_key": "a62aa7eea1c4f27b",
+        "stock_sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
         "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
         "module_path": "Lotus.Scripts.Modes.SurvivalMission",
         "template": "ROOT_TABLE_FIELD",
@@ -70008,7 +70008,7 @@
             "field": "alertlsDropMult",
             "table_id": "root:i18:R8",
             "value_kind": "number_constant",
-            "value_offset": 130889,
+            "value_offset": 130898,
             "expected": [
               205,
               204,
@@ -70039,8 +70039,8 @@
       "evidence": "readable L62; consumers proto 37 L4297-4298 (lerped for 600<fixedLength<1200) and L4307-4308 (fixedLength<=600). Template gate PASS.",
       "backend_note": "Root-table field(s) root:i18:R8.alertlsDropMult written through the target-addon lane (ROOT_TABLE_UPVALUE_V1); exact literal form kept in literal_owner for merged replacements.",
       "literal_owner": {
-        "body_key": "f10a043e7f825db2",
-        "stock_sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D",
+        "body_key": "a62aa7eea1c4f27b",
+        "stock_sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
         "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
         "module_path": "Lotus.Scripts.Modes.SurvivalMission",
         "sites": [
@@ -70048,7 +70048,7 @@
             "kind": "number_constant",
             "prototype": 79,
             "constant": 25,
-            "offset": 130889,
+            "offset": 130898,
             "expected": [
               205,
               204,
@@ -70123,8 +70123,8 @@
       "owner_kind": "LUA_ROOT_TABLE",
       "backend": "TARGET_ADDON",
       "owner": {
-        "body_key": "f10a043e7f825db2",
-        "stock_sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D",
+        "body_key": "a62aa7eea1c4f27b",
+        "stock_sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
         "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
         "module_path": "Lotus.Scripts.Modes.SurvivalMission",
         "template": "ROOT_TABLE_FIELD",
@@ -70134,7 +70134,7 @@
             "field": "incomingTime",
             "table_id": "root:i10:R7",
             "value_kind": "number_constant",
-            "value_offset": 130782,
+            "value_offset": 130791,
             "expected": [
               0,
               0,
@@ -70199,8 +70199,8 @@
       "owner_kind": "LUA_ROOT_TABLE",
       "backend": "TARGET_ADDON",
       "owner": {
-        "body_key": "f10a043e7f825db2",
-        "stock_sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D",
+        "body_key": "a62aa7eea1c4f27b",
+        "stock_sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
         "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
         "module_path": "Lotus.Scripts.Modes.SurvivalMission",
         "template": "ROOT_TABLE_FIELD",
@@ -70210,7 +70210,7 @@
             "field": "initialTimeLeft",
             "table_id": "root:i10:R7",
             "value_kind": "number_constant",
-            "value_offset": 130744,
+            "value_offset": 130753,
             "expected": [
               0,
               0,
@@ -70275,8 +70275,8 @@
       "owner_kind": "LUA_ROOT_TABLE",
       "backend": "TARGET_ADDON",
       "owner": {
-        "body_key": "f10a043e7f825db2",
-        "stock_sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D",
+        "body_key": "a62aa7eea1c4f27b",
+        "stock_sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
         "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
         "module_path": "Lotus.Scripts.Modes.SurvivalMission",
         "template": "ROOT_TABLE_FIELD",
@@ -70286,7 +70286,7 @@
             "field": "interval",
             "table_id": "root:i10:R7",
             "value_kind": "number_constant",
-            "value_offset": 130770,
+            "value_offset": 130779,
             "expected": [
               0,
               0,
@@ -70351,8 +70351,8 @@
       "owner_kind": "LUA_ROOT_TABLE",
       "backend": "TARGET_ADDON",
       "owner": {
-        "body_key": "f10a043e7f825db2",
-        "stock_sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D",
+        "body_key": "a62aa7eea1c4f27b",
+        "stock_sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
         "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
         "module_path": "Lotus.Scripts.Modes.SurvivalMission",
         "template": "ROOT_TABLE_FIELD",
@@ -70362,7 +70362,7 @@
             "field": "maxTimeAvailable",
             "table_id": "root:i10:R7",
             "value_kind": "number_constant",
-            "value_offset": 130744,
+            "value_offset": 130753,
             "expected": [
               0,
               0,
@@ -70427,8 +70427,8 @@
       "owner_kind": "LUA_ROOT_TABLE",
       "backend": "TARGET_ADDON",
       "owner": {
-        "body_key": "f10a043e7f825db2",
-        "stock_sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D",
+        "body_key": "a62aa7eea1c4f27b",
+        "stock_sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
         "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
         "module_path": "Lotus.Scripts.Modes.SurvivalMission",
         "template": "ROOT_TABLE_FIELD",
@@ -70438,7 +70438,7 @@
             "field": "timeAdded",
             "table_id": "root:i10:R7",
             "value_kind": "number_constant",
-            "value_offset": 130758,
+            "value_offset": 130767,
             "expected": [
               0,
               0,
@@ -70503,8 +70503,8 @@
       "owner_kind": "LUA_ROOT_TABLE",
       "backend": "TARGET_ADDON",
       "owner": {
-        "body_key": "f10a043e7f825db2",
-        "stock_sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D",
+        "body_key": "a62aa7eea1c4f27b",
+        "stock_sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
         "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
         "module_path": "Lotus.Scripts.Modes.SurvivalMission",
         "template": "ROOT_TABLE_FIELD",
@@ -70514,7 +70514,7 @@
             "field": "duviriQuestMultiplier",
             "table_id": "root:i18:R8",
             "value_kind": "number_constant",
-            "value_offset": 130901,
+            "value_offset": 130910,
             "expected": [
               0,
               0,
@@ -70581,8 +70581,8 @@
       "owner_kind": "LUA_ROOT_TABLE",
       "backend": "TARGET_ADDON",
       "owner": {
-        "body_key": "f10a043e7f825db2",
-        "stock_sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D",
+        "body_key": "a62aa7eea1c4f27b",
+        "stock_sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
         "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
         "module_path": "Lotus.Scripts.Modes.SurvivalMission",
         "template": "ROOT_TABLE_FIELD",
@@ -70592,7 +70592,7 @@
             "field": "duviriSurvivalMultiplier",
             "table_id": "root:i18:R8",
             "value_kind": "number_constant",
-            "value_offset": 130913,
+            "value_offset": 130922,
             "expected": [
               51,
               51,
@@ -70658,8 +70658,8 @@
       "owner_kind": "LUA_PROTO_LITERAL",
       "backend": "EXACT_LITERAL",
       "owner": {
-        "body_key": "f10a043e7f825db2",
-        "stock_sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D",
+        "body_key": "a62aa7eea1c4f27b",
+        "stock_sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
         "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
         "module_path": "Lotus.Scripts.Modes.SurvivalMission",
         "sites": [
@@ -70667,7 +70667,7 @@
             "kind": "instruction",
             "prototype": 61,
             "instruction": 172,
-            "offset": 75499,
+            "offset": 75504,
             "expected": [
               8,
               4,
@@ -70745,8 +70745,8 @@
       "owner_kind": "LUA_PROTO_LITERAL",
       "backend": "EXACT_LITERAL",
       "owner": {
-        "body_key": "f10a043e7f825db2",
-        "stock_sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D",
+        "body_key": "a62aa7eea1c4f27b",
+        "stock_sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
         "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
         "module_path": "Lotus.Scripts.Modes.SurvivalMission",
         "sites": [
@@ -70754,7 +70754,7 @@
             "kind": "number_constant",
             "prototype": 67,
             "constant": 77,
-            "offset": 103712,
+            "offset": 103717,
             "expected": [
               0,
               0,
@@ -70838,8 +70838,8 @@
       "evidence": "bytecode census of GETTABLEKS maxWaveNum per prototype (tools/key_census.py); reachability (tools/callers.py capture graph): every live reader is reached only from the listed entries; dead readers are closures with no capture, global or table store (tools/closure_reach.py: NO USE).",
       "research_draft_id": "survival.fixed_length_minutes",
       "owner": {
-        "body_key": "f10a043e7f825db2",
-        "stock_sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D",
+        "body_key": "a62aa7eea1c4f27b",
+        "stock_sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
         "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
         "module_path": "Lotus.Scripts.Modes.SurvivalMission",
         "template": "MISSION_INFO_FIELD_AT_ENTRY",
@@ -70848,7 +70848,7 @@
           {
             "prototype": 70,
             "created_by": "root",
-            "closure_instruction": 838,
+            "closure_instruction": 839,
             "root_child": true,
             "function": "Mission",
             "role": "level trigger; snapshots info in proto 61 L9490"
@@ -70945,8 +70945,8 @@
       "owner_kind": "LUA_ROOT_TABLE",
       "backend": "TARGET_ADDON",
       "owner": {
-        "body_key": "f10a043e7f825db2",
-        "stock_sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D",
+        "body_key": "a62aa7eea1c4f27b",
+        "stock_sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
         "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
         "module_path": "Lotus.Scripts.Modes.SurvivalMission",
         "template": "ROOT_TABLE_FIELD",
@@ -70956,7 +70956,7 @@
             "field": "enrageTime",
             "table_id": "root:i63:R11",
             "value_kind": "number_constant",
-            "value_offset": 131001,
+            "value_offset": 131010,
             "expected": [
               0,
               0,
@@ -71023,8 +71023,8 @@
       "owner_kind": "LUA_ROOT_TABLE",
       "backend": "TARGET_ADDON",
       "owner": {
-        "body_key": "f10a043e7f825db2",
-        "stock_sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D",
+        "body_key": "a62aa7eea1c4f27b",
+        "stock_sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
         "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
         "module_path": "Lotus.Scripts.Modes.SurvivalMission",
         "template": "ROOT_TABLE_FIELD",
@@ -71034,7 +71034,7 @@
             "field": "levelUpTime",
             "table_id": "root:i63:R11",
             "value_kind": "number_constant",
-            "value_offset": 131001,
+            "value_offset": 131010,
             "expected": [
               0,
               0,
@@ -71101,8 +71101,8 @@
       "owner_kind": "LUA_ROOT_TABLE",
       "backend": "TARGET_ADDON",
       "owner": {
-        "body_key": "f10a043e7f825db2",
-        "stock_sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D",
+        "body_key": "a62aa7eea1c4f27b",
+        "stock_sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
         "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
         "module_path": "Lotus.Scripts.Modes.SurvivalMission",
         "template": "ROOT_TABLE_FIELD",
@@ -71112,7 +71112,7 @@
             "field": "alertLevelMaxBoost",
             "table_id": "root:i20:R10",
             "value_kind": "number_constant",
-            "value_offset": 131072,
+            "value_offset": 131081,
             "expected": [
               0,
               0,
@@ -71179,8 +71179,8 @@
       "owner_kind": "LUA_ROOT_TABLE",
       "backend": "TARGET_ADDON",
       "owner": {
-        "body_key": "f10a043e7f825db2",
-        "stock_sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D",
+        "body_key": "a62aa7eea1c4f27b",
+        "stock_sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
         "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
         "module_path": "Lotus.Scripts.Modes.SurvivalMission",
         "template": "ROOT_TABLE_FIELD",
@@ -71190,7 +71190,7 @@
             "field": "sortieLevelMaxBoost",
             "table_id": "root:i20:R10",
             "value_kind": "number_constant",
-            "value_offset": 131171,
+            "value_offset": 131180,
             "expected": [
               0,
               0,
@@ -71257,8 +71257,8 @@
       "owner_kind": "LUA_ROOT_TABLE",
       "backend": "TARGET_ADDON",
       "owner": {
-        "body_key": "f10a043e7f825db2",
-        "stock_sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D",
+        "body_key": "a62aa7eea1c4f27b",
+        "stock_sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
         "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
         "module_path": "Lotus.Scripts.Modes.SurvivalMission",
         "template": "ROOT_TABLE_FIELD",
@@ -71268,7 +71268,7 @@
             "field": "enrageInterval",
             "table_id": "root:i20:R10",
             "value_kind": "number_constant",
-            "value_offset": 131132,
+            "value_offset": 131141,
             "expected": [
               0,
               0,
@@ -71299,8 +71299,8 @@
       "evidence": "readable L64; consumer proto 34 L3855-3880: step = max(floor(enrageInterval - (t-enrageTime)/enrageInterval*enrageIntervalScale), enrageIntervalMin); level = maxLevel + floor((t-enrageTime)/step). Template gate PASS.",
       "backend_note": "Root-table field(s) root:i20:R10.enrageInterval written through the target-addon lane (ROOT_TABLE_UPVALUE_V1); exact literal form kept in literal_owner for merged replacements.",
       "literal_owner": {
-        "body_key": "f10a043e7f825db2",
-        "stock_sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D",
+        "body_key": "a62aa7eea1c4f27b",
+        "stock_sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
         "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
         "module_path": "Lotus.Scripts.Modes.SurvivalMission",
         "sites": [
@@ -71308,7 +71308,7 @@
             "kind": "number_constant",
             "prototype": 79,
             "constant": 59,
-            "offset": 131132,
+            "offset": 131141,
             "expected": [
               0,
               0,
@@ -71382,8 +71382,8 @@
       "owner_kind": "LUA_ROOT_TABLE",
       "backend": "TARGET_ADDON",
       "owner": {
-        "body_key": "f10a043e7f825db2",
-        "stock_sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D",
+        "body_key": "a62aa7eea1c4f27b",
+        "stock_sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
         "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
         "module_path": "Lotus.Scripts.Modes.SurvivalMission",
         "template": "ROOT_TABLE_FIELD",
@@ -71393,7 +71393,7 @@
             "field": "enrageIntervalMin",
             "table_id": "root:i20:R10",
             "value_kind": "number_constant",
-            "value_offset": 131144,
+            "value_offset": 131153,
             "expected": [
               0,
               0,
@@ -71458,8 +71458,8 @@
       "owner_kind": "LUA_ROOT_TABLE",
       "backend": "TARGET_ADDON",
       "owner": {
-        "body_key": "f10a043e7f825db2",
-        "stock_sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D",
+        "body_key": "a62aa7eea1c4f27b",
+        "stock_sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
         "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
         "module_path": "Lotus.Scripts.Modes.SurvivalMission",
         "template": "ROOT_TABLE_FIELD",
@@ -71469,7 +71469,7 @@
             "field": "enrageIntervalScale",
             "table_id": "root:i20:R10",
             "value_kind": "number_constant",
-            "value_offset": 131156,
+            "value_offset": 131165,
             "expected": [
               164,
               112,
@@ -71500,8 +71500,8 @@
       "evidence": "readable L64; consumer proto 34 L3864-3866 (formula above). Template gate PASS.",
       "backend_note": "Root-table field(s) root:i20:R10.enrageIntervalScale written through the target-addon lane (ROOT_TABLE_UPVALUE_V1); exact literal form kept in literal_owner for merged replacements.",
       "literal_owner": {
-        "body_key": "f10a043e7f825db2",
-        "stock_sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D",
+        "body_key": "a62aa7eea1c4f27b",
+        "stock_sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
         "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
         "module_path": "Lotus.Scripts.Modes.SurvivalMission",
         "sites": [
@@ -71509,7 +71509,7 @@
             "kind": "number_constant",
             "prototype": 79,
             "constant": 63,
-            "offset": 131156,
+            "offset": 131165,
             "expected": [
               164,
               112,
@@ -71583,8 +71583,8 @@
       "owner_kind": "LUA_ROOT_TABLE",
       "backend": "TARGET_ADDON",
       "owner": {
-        "body_key": "f10a043e7f825db2",
-        "stock_sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D",
+        "body_key": "a62aa7eea1c4f27b",
+        "stock_sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
         "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
         "module_path": "Lotus.Scripts.Modes.SurvivalMission",
         "template": "ROOT_TABLE_FIELD",
@@ -71594,7 +71594,7 @@
             "field": "enrageTime",
             "table_id": "root:i20:R10",
             "value_kind": "number_constant",
-            "value_offset": 131120,
+            "value_offset": 131129,
             "expected": [
               0,
               0,
@@ -71625,8 +71625,8 @@
       "evidence": "readable L64; consumer proto 34 L3841-3880: elapsed > enrageTime selects the enrage level formula. Template gate PASS.",
       "backend_note": "Root-table field(s) root:i20:R10.enrageTime written through the target-addon lane (ROOT_TABLE_UPVALUE_V1); exact literal form kept in literal_owner for merged replacements.",
       "literal_owner": {
-        "body_key": "f10a043e7f825db2",
-        "stock_sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D",
+        "body_key": "a62aa7eea1c4f27b",
+        "stock_sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
         "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
         "module_path": "Lotus.Scripts.Modes.SurvivalMission",
         "sites": [
@@ -71634,7 +71634,7 @@
             "kind": "number_constant",
             "prototype": 79,
             "constant": 57,
-            "offset": 131120,
+            "offset": 131129,
             "expected": [
               0,
               0,
@@ -71710,8 +71710,8 @@
       "owner_kind": "LUA_ROOT_TABLE",
       "backend": "TARGET_ADDON",
       "owner": {
-        "body_key": "f10a043e7f825db2",
-        "stock_sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D",
+        "body_key": "a62aa7eea1c4f27b",
+        "stock_sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
         "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
         "module_path": "Lotus.Scripts.Modes.SurvivalMission",
         "template": "ROOT_TABLE_FIELD",
@@ -71721,7 +71721,7 @@
             "field": "levelUpTime",
             "table_id": "root:i20:R10",
             "value_kind": "number_constant",
-            "value_offset": 131108,
+            "value_offset": 131117,
             "expected": [
               0,
               0,
@@ -71752,8 +71752,8 @@
       "evidence": "readable L64; consumer proto 34 L3845/L3903: Lerp(minLevel, maxLevel, elapsed/levelUpTime). Proto 61 L10370-10393 overwrites it for fixed-length (=fixedLength) and Kuva (frame_79[48]) at start. Template gate PASS.",
       "backend_note": "Root-table field(s) root:i20:R10.levelUpTime written through the target-addon lane (ROOT_TABLE_UPVALUE_V1); exact literal form kept in literal_owner for merged replacements.",
       "literal_owner": {
-        "body_key": "f10a043e7f825db2",
-        "stock_sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D",
+        "body_key": "a62aa7eea1c4f27b",
+        "stock_sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
         "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
         "module_path": "Lotus.Scripts.Modes.SurvivalMission",
         "sites": [
@@ -71761,7 +71761,7 @@
             "kind": "number_constant",
             "prototype": 79,
             "constant": 55,
-            "offset": 131108,
+            "offset": 131117,
             "expected": [
               0,
               0,
@@ -71837,8 +71837,8 @@
       "owner_kind": "LUA_ROOT_TABLE",
       "backend": "TARGET_ADDON",
       "owner": {
-        "body_key": "f10a043e7f825db2",
-        "stock_sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D",
+        "body_key": "a62aa7eea1c4f27b",
+        "stock_sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
         "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
         "module_path": "Lotus.Scripts.Modes.SurvivalMission",
         "template": "ROOT_TABLE_FIELD",
@@ -71848,7 +71848,7 @@
             "field": "highDropMultiplier",
             "table_id": "root:i18:R8",
             "value_kind": "number_constant",
-            "value_offset": 130865,
+            "value_offset": 130874,
             "expected": [
               0,
               0,
@@ -71879,8 +71879,8 @@
       "evidence": "readable L62; consumer proto 37 L4265-4269 (high side traced in Phase 2d): rate *= highDropMultiplier. Template gate PASS.",
       "backend_note": "Root-table field(s) root:i18:R8.highDropMultiplier written through the target-addon lane (ROOT_TABLE_UPVALUE_V1); exact literal form kept in literal_owner for merged replacements.",
       "literal_owner": {
-        "body_key": "f10a043e7f825db2",
-        "stock_sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D",
+        "body_key": "a62aa7eea1c4f27b",
+        "stock_sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
         "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
         "module_path": "Lotus.Scripts.Modes.SurvivalMission",
         "sites": [
@@ -71888,7 +71888,7 @@
             "kind": "number_constant",
             "prototype": 79,
             "constant": 21,
-            "offset": 130865,
+            "offset": 130874,
             "expected": [
               0,
               0,
@@ -71961,8 +71961,8 @@
       "owner_kind": "LUA_ROOT_TABLE",
       "backend": "TARGET_ADDON",
       "owner": {
-        "body_key": "f10a043e7f825db2",
-        "stock_sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D",
+        "body_key": "a62aa7eea1c4f27b",
+        "stock_sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
         "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
         "module_path": "Lotus.Scripts.Modes.SurvivalMission",
         "template": "ROOT_TABLE_FIELD",
@@ -71972,7 +71972,7 @@
             "field": "highSpawnThreshold",
             "table_id": "root:i18:R8",
             "value_kind": "number_constant",
-            "value_offset": 130841,
+            "value_offset": 130850,
             "expected": [
               102,
               102,
@@ -72003,8 +72003,8 @@
       "evidence": "readable L62 template; consumer proto 37 L4265-4269: if highSpawnThreshold <= lsPct then rate *= highDropMultiplier. Template single-use gate PASS (value constant exclusive).",
       "backend_note": "Root-table field(s) root:i18:R8.highSpawnThreshold written through the target-addon lane (ROOT_TABLE_UPVALUE_V1); exact literal form kept in literal_owner for merged replacements.",
       "literal_owner": {
-        "body_key": "f10a043e7f825db2",
-        "stock_sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D",
+        "body_key": "a62aa7eea1c4f27b",
+        "stock_sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
         "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
         "module_path": "Lotus.Scripts.Modes.SurvivalMission",
         "sites": [
@@ -72012,7 +72012,7 @@
             "kind": "number_constant",
             "prototype": 79,
             "constant": 17,
-            "offset": 130841,
+            "offset": 130850,
             "expected": [
               102,
               102,
@@ -72085,8 +72085,8 @@
       "owner_kind": "LUA_ROOT_TABLE",
       "backend": "TARGET_ADDON",
       "owner": {
-        "body_key": "f10a043e7f825db2",
-        "stock_sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D",
+        "body_key": "a62aa7eea1c4f27b",
+        "stock_sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
         "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
         "module_path": "Lotus.Scripts.Modes.SurvivalMission",
         "template": "ROOT_TABLE_FIELD",
@@ -72096,7 +72096,7 @@
             "field": "lowDropMultiplier",
             "table_id": "root:i18:R8",
             "value_kind": "number_constant",
-            "value_offset": 130853,
+            "value_offset": 130862,
             "expected": [
               0,
               0,
@@ -72127,8 +72127,8 @@
       "evidence": "readable L62; consumer proto 37 L4273-4274: rate *= lowDropMultiplier. Template gate PASS.",
       "backend_note": "Root-table field(s) root:i18:R8.lowDropMultiplier written through the target-addon lane (ROOT_TABLE_UPVALUE_V1); exact literal form kept in literal_owner for merged replacements.",
       "literal_owner": {
-        "body_key": "f10a043e7f825db2",
-        "stock_sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D",
+        "body_key": "a62aa7eea1c4f27b",
+        "stock_sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
         "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
         "module_path": "Lotus.Scripts.Modes.SurvivalMission",
         "sites": [
@@ -72136,7 +72136,7 @@
             "kind": "number_constant",
             "prototype": 79,
             "constant": 19,
-            "offset": 130853,
+            "offset": 130862,
             "expected": [
               0,
               0,
@@ -72209,8 +72209,8 @@
       "owner_kind": "LUA_ROOT_TABLE",
       "backend": "TARGET_ADDON",
       "owner": {
-        "body_key": "f10a043e7f825db2",
-        "stock_sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D",
+        "body_key": "a62aa7eea1c4f27b",
+        "stock_sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
         "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
         "module_path": "Lotus.Scripts.Modes.SurvivalMission",
         "template": "ROOT_TABLE_FIELD",
@@ -72220,7 +72220,7 @@
             "field": "lowSpawnThreshold",
             "table_id": "root:i18:R8",
             "value_kind": "number_constant",
-            "value_offset": 130829,
+            "value_offset": 130838,
             "expected": [
               154,
               153,
@@ -72284,8 +72284,8 @@
       "owner_kind": "ADDON_EXTENSION",
       "backend": "TARGET_ADDON",
       "owner": {
-        "body_key": "f10a043e7f825db2",
-        "stock_sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D",
+        "body_key": "a62aa7eea1c4f27b",
+        "stock_sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
         "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
         "module_path": "Lotus.Scripts.Modes.SurvivalMission",
         "template": "MISSION_SURVIVAL_TIMERS_LUA_CALL",
@@ -72294,7 +72294,7 @@
         "field": null,
         "generation_field": "reward_progress_per_pickup_seconds",
         "capture_evidence": {
-          "closure_instruction": 717,
+          "closure_instruction": 718,
           "capture": "REF:R43",
           "root_register": 43
         }
@@ -72345,8 +72345,8 @@
       "owner_kind": "LUA_ROOT_TABLE",
       "backend": "TARGET_ADDON",
       "owner": {
-        "body_key": "f10a043e7f825db2",
-        "stock_sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D",
+        "body_key": "a62aa7eea1c4f27b",
+        "stock_sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
         "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
         "module_path": "Lotus.Scripts.Modes.SurvivalMission",
         "template": "MISSION_SURVIVAL_TIMERS_LUA_CALL",
@@ -72355,7 +72355,7 @@
         "field": "pickupTimeAdded",
         "generation_field": "life_support_per_pickup_seconds",
         "capture_evidence": {
-          "closure_instruction": 717,
+          "closure_instruction": 718,
           "capture": "VAL:R8",
           "root_register": 8,
           "duptable_instruction": 18,
@@ -72368,7 +72368,7 @@
             "field": "pickupTimeAdded",
             "table_id": "root:i18:R8",
             "value_kind": "number_constant",
-            "value_offset": 130877,
+            "value_offset": 130886,
             "expected": [
               0,
               0,
@@ -72433,8 +72433,8 @@
       "owner_kind": "LUA_ROOT_TABLE",
       "backend": "TARGET_ADDON",
       "owner": {
-        "body_key": "f10a043e7f825db2",
-        "stock_sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D",
+        "body_key": "a62aa7eea1c4f27b",
+        "stock_sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
         "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
         "module_path": "Lotus.Scripts.Modes.SurvivalMission",
         "template": "ROOT_TABLE_FIELD",
@@ -72444,7 +72444,7 @@
             "field": "killPlayerTime",
             "table_id": "root:i70:R14",
             "value_kind": "number_constant",
-            "value_offset": 130989,
+            "value_offset": 130998,
             "expected": [
               0,
               0,
@@ -72509,8 +72509,8 @@
       "owner_kind": "LUA_ROOT_TABLE",
       "backend": "TARGET_ADDON",
       "owner": {
-        "body_key": "f10a043e7f825db2",
-        "stock_sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D",
+        "body_key": "a62aa7eea1c4f27b",
+        "stock_sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
         "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
         "module_path": "Lotus.Scripts.Modes.SurvivalMission",
         "template": "ROOT_TABLE_FIELD",
@@ -72520,7 +72520,7 @@
             "field": "playerDamagePercent",
             "table_id": "root:i70:R14",
             "value_kind": "number_constant",
-            "value_offset": 130829,
+            "value_offset": 130838,
             "expected": [
               154,
               153,
@@ -72584,8 +72584,8 @@
       "owner_kind": "LUA_ROOT_TABLE",
       "backend": "TARGET_ADDON",
       "owner": {
-        "body_key": "f10a043e7f825db2",
-        "stock_sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D",
+        "body_key": "a62aa7eea1c4f27b",
+        "stock_sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
         "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
         "module_path": "Lotus.Scripts.Modes.SurvivalMission",
         "template": "MISSION_SURVIVAL_TIMERS_LUA_CALL",
@@ -72594,7 +72594,7 @@
         "field": "interval",
         "generation_field": "reward_interval_seconds",
         "capture_evidence": {
-          "closure_instruction": 717,
+          "closure_instruction": 718,
           "capture": "VAL:R9",
           "root_register": 9,
           "duptable_instruction": 19,
@@ -72607,7 +72607,7 @@
             "field": "interval",
             "table_id": "root:i19:R9",
             "value_kind": "number_constant",
-            "value_offset": 130989,
+            "value_offset": 130998,
             "expected": [
               0,
               0,
@@ -72672,8 +72672,8 @@
       "owner_kind": "LUA_ROOT_TABLE",
       "backend": "TARGET_ADDON",
       "owner": {
-        "body_key": "f10a043e7f825db2",
-        "stock_sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D",
+        "body_key": "a62aa7eea1c4f27b",
+        "stock_sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
         "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
         "module_path": "Lotus.Scripts.Modes.SurvivalMission",
         "template": "ROOT_TABLE_FIELD",
@@ -72683,7 +72683,7 @@
             "field": "wf99SurvivalMultiplier",
             "table_id": "root:i18:R8",
             "value_kind": "number_constant",
-            "value_offset": 130928,
+            "value_offset": 130937,
             "expected": [
               154,
               153,
@@ -72714,8 +72714,8 @@
       "evidence": "readable L62; consumer proto 37 L4332-4335: rate = min(1, rate * wf99SurvivalMultiplier). Template gate PASS.",
       "backend_note": "Root-table field(s) root:i18:R8.wf99SurvivalMultiplier written through the target-addon lane (ROOT_TABLE_UPVALUE_V1); exact literal form kept in literal_owner for merged replacements.",
       "literal_owner": {
-        "body_key": "f10a043e7f825db2",
-        "stock_sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D",
+        "body_key": "a62aa7eea1c4f27b",
+        "stock_sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
         "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
         "module_path": "Lotus.Scripts.Modes.SurvivalMission",
         "sites": [
@@ -72723,7 +72723,7 @@
             "kind": "number_constant",
             "prototype": 79,
             "constant": 32,
-            "offset": 130928,
+            "offset": 130937,
             "expected": [
               154,
               153,
@@ -72799,8 +72799,8 @@
       "owner_kind": "LUA_ROOT_TABLE",
       "backend": "TARGET_ADDON",
       "owner": {
-        "body_key": "f10a043e7f825db2",
-        "stock_sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D",
+        "body_key": "a62aa7eea1c4f27b",
+        "stock_sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
         "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
         "module_path": "Lotus.Scripts.Modes.SurvivalMission",
         "template": "ROOT_TABLE_FIELD",
@@ -72810,7 +72810,7 @@
             "field": "wf99SurvivalQuestMultiplier",
             "table_id": "root:i18:R8",
             "value_kind": "number_constant",
-            "value_offset": 130913,
+            "value_offset": 130922,
             "expected": [
               51,
               51,
@@ -76110,7 +76110,7 @@
         "field": "Scripts.0.Script._isDuviriVoidFlood",
         "stock_text": "0",
         "preimage": "_isDuviriVoidFlood=0",
-        "packages_bin_sha256": "0d5881641f87e9746fb307a4fae76422cbba314bf4f808f9d5ca57bd20f0ea78",
+        "packages_bin_sha256": "17954381246e8d8d5b3cd8873886a8e747dfd132d5efc98f2e6c9e53d08510bd",
         "consumer": {
           "body_key": "fc711ff621a75552",
           "stock_sha256": "738AA59C66F935235C812CBA1AE6ECD361FDF700D5723C0928B88A2E11D89261",
@@ -77168,9 +77168,9 @@
     "survival": {
       "title": "Survival",
       "lane": "TARGET_ADDON",
-      "body_key": "f10a043e7f825db2",
+      "body_key": "a62aa7eea1c4f27b",
       "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
-      "sha256": "0147FB5E9DC86FB5023090CA37FAD652FA3FD86D109F497A3D3C28A3680A9F8D",
+      "sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
       "module_path": "Lotus.Scripts.Modes.SurvivalMission",
       "legacy_body_key": "1e3647332a578b78",
       "parameters": {
