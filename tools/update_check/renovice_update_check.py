@@ -39,6 +39,8 @@ import uc_missions  # noqa: E402
 import uc_native  # noqa: E402
 import uc_pe  # noqa: E402
 import uc_toolchain  # noqa: E402
+import uc_topmenu  # noqa: E402
+import uc_runtime  # noqa: E402
 import uc_report as R  # noqa: E402
 from uc_report import OK, BROKEN, UNKNOWN  # noqa: E402
 
@@ -294,6 +296,15 @@ def run(args, ws, wsj, repos, temp, rep, log, t0) -> int:
             BROKEN if stale else OK, f'{len(registry["modules"]) - len(stale)}/{len(registry["modules"])} modules '
             'byte-identical' + (f'; differ: {", ".join(stale[:6])}' if stale else ''),
             ['Missions generator (build-missions reads the authoring corpus)'])
+    # 2026-10-09: the Scripts menu attaches through a pinned TopMenu closure shape per TopMenu key (44.1.1 changed it and
+    # the menu disappeared after install; nothing here checked it).
+    status, reason, evidence = uc_topmenu.check(stock, boot)
+    rep.add('native', 'native.scripts_menu', 'Scripts menu attaches to this TopMenu (bootstrapper layout row)', status, reason,
+            ['Scripts menu (SCRIPTS and SCRIPT SETTINGS rows in ESC)'], **evidence)
+    # 2026-10-09: what the loader reported in the newest game session (only a session after the last install counts).
+    installed = [exe_path, dll_path] + sorted(p for p in (custom / 'Packages').rglob('*') if p.is_file())
+    authored = _json(EDITOR / 'tools' / 'update_check' / 'authored_addons.json') or {}
+    uc_runtime.check(rep, custom, installed, authored.get('not_rebuilt', {}), OK, BROKEN)
 
     module_status = {}
     for key in sorted(features):

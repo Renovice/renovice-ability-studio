@@ -13,6 +13,7 @@ AREAS = [
     ('hooks', 'Addon hooks'),
     ('missions', 'Mission registry and Missions package'),
     ('toolchain', 'Toolchain sanity'),
+    ('runtime', 'Newest game session (loader log)'),
 ]
 EXIT_OK, EXIT_BROKEN, EXIT_UNKNOWN, EXIT_TOOL_ERROR = 0, 1, 2, 3
 
