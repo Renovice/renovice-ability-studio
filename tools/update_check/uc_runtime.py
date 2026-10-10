@@ -1,9 +1,10 @@
 """Runtime evidence of the newest game session (2026-10-09).
 
-What the loader reported the last time the game started, read from CustomScripts/Logs/renovice_source.log and its
-rotated copies (.1 .. .9, 64 MiB each; a session can span several). Only a session that started after the installed
-loader, client and packages were last written is judged; an older session gives a note ("start the game once"), never
-a stale PASS. Read only.
+What the loader reported the last time the game started, read from <script root>/Logs/renovice_source.log (the same
+folder in both layouts: OpenWF/LuaScripts/Logs, before layout V2 OpenWF/CustomScripts/Logs) and its rotated copies
+(.1 .. .9, 64 MiB each; a session can span several). Only a session that started after the installed loader, client
+and packages were last written is judged; an older session gives a note ("start the game once"), never a stale PASS.
+Read only.
 
 Reported (each line names the log text it comes from):
   * the Scripts menu attached (`Scripts UI attach PASS`) or failed (`Scripts UI attach FAIL reason=...`);

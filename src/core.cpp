@@ -2359,7 +2359,7 @@ namespace renovice
                     {"sha256", source_hash},
                 }},
                 {"artifact", nullptr},
-                {"intended_live_relative_path", "OpenWF/CustomScripts/Inject/" + result.generated_bytecode.filename().string()},
+                {"intended_live_relative_path", "OpenWF/LuaScripts/Addons/" + result.generated_bytecode.filename().string()},
                 {"live_write_performed", false},
                 {"gates", gates},
                 {"diagnostics", Json::array()},
@@ -2812,7 +2812,7 @@ namespace renovice
                     {"sha256", actual_stock_hash.empty() ? Json(nullptr) : Json(actual_stock_hash)},
                 }},
                 {"artifact", nullptr},
-                {"intended_live_relative_path", "OpenWF/CustomScripts/" + result.generated_bytecode.filename().string()},
+                {"intended_live_relative_path", "OpenWF/LuaScripts/Replacements/" + result.generated_bytecode.filename().string()},
                 {"live_write_performed", false},
                 {"gates", gates},
                 {"diagnostics", Json::array()},
@@ -3106,7 +3106,7 @@ namespace renovice
                     {"policy", "STRICT_ON_CALL_SHAPES_INTRODUCED_BEYOND_STOCK_MULTISET"},
                 } : Json(nullptr)},
                 {"artifact", nullptr},
-                {"intended_live_relative_path", "OpenWF/CustomScripts/" + result.generated_bytecode.filename().string()},
+                {"intended_live_relative_path", "OpenWF/LuaScripts/Replacements/" + result.generated_bytecode.filename().string()},
                 {"live_write_performed", false},
                 {"gates", gates},
                 {"diagnostics", Json::array()},
@@ -3136,6 +3136,77 @@ namespace renovice
             result.success = false;
         }
         return result;
+    }
+
+    namespace
+    {
+        // Script folder layout V2 (work/agents/LAYOUT_V2_SPEC.md, 2026-10-10). The loader uses OpenWF/LuaScripts when that
+        // folder exists, otherwise OpenWF/CustomScripts (never both). A deployment writes where the INSTALLED loader reads:
+        // an artifact whose intended path is in the other layout is mapped to the installed one, so one deployed file never
+        // creates a second, partial script root (which would hide every other installed script).
+        bool loose_replacement_file(const std::string& name)
+        {
+            const std::string lower = ascii_lower_text(name);
+            const auto ends = [&](std::string_view suffix) {
+                return lower.size() >= suffix.size() && lower.compare(lower.size() - suffix.size(), suffix.size(), suffix) == 0;
+            };
+            if (ends(".swf") || ends(".swf.toc")) return true;
+            return ends(".lua_b") && name.size() >= 16 && std::all_of(name.begin(), name.begin() + 16, [](unsigned char c) {
+                return std::isxdigit(c) != 0;
+            });
+        }
+
+        // A path relative to the script root, V1 <-> V2 (Inject/ <-> Addons/, root replacement <-> Replacements/,
+        // renovice.cfg <-> Config/Logs.cfg, ScriptStates.json <-> Config/ScriptStates.json, Diagnostics/ <-> Logs/Dumps/).
+        std::string map_script_relative(const std::string& rel, bool to_v2)
+        {
+            const auto slash = rel.find('/');
+            const std::string first = slash == std::string::npos ? rel : rel.substr(0, slash);
+            const std::string rest = slash == std::string::npos ? std::string() : rel.substr(slash + 1);
+            if (to_v2)
+            {
+                if (slash != std::string::npos)
+                {
+                    if (first == "Inject") return "Addons/" + rest;
+                    if (first == "Diagnostics") return "Logs/Dumps/" + rest;
+                    return rel;
+                }
+                if (rel == "renovice.cfg") return "Config/Logs.cfg";
+                if (rel == "ScriptStates.json") return "Config/ScriptStates.json";
+                return loose_replacement_file(rel) ? "Replacements/" + rel : rel;
+            }
+            if (first == "Addons" && !rest.empty()) return "Inject/" + rest;
+            if (first == "Replacements" && !rest.empty()) return rest;
+            if (rel.rfind("Logs/Dumps/", 0) == 0) return "Diagnostics/" + rel.substr(11);
+            if (rel == "Config/Logs.cfg") return "renovice.cfg";
+            if (rel == "Config/ScriptStates.json") return "ScriptStates.json";
+            return rel;
+        }
+
+        constexpr std::string_view kLiveRootV2 = "OpenWF/LuaScripts/";
+        constexpr std::string_view kLiveRootV1 = "OpenWF/CustomScripts/";
+
+        // The game-relative path a deployment writes (see above); `layout` names the root it chose.
+        fs::path installed_live_relative(const fs::path& game_root, const fs::path& intended, std::string& layout)
+        {
+            const std::string text = intended.generic_string();
+            const bool v2_path = text.rfind(kLiveRootV2, 0) == 0;
+            const bool v1_path = text.rfind(kLiveRootV1, 0) == 0;
+            const bool has_v2 = fs::is_directory(game_root / "OpenWF" / "LuaScripts");
+            const bool has_v1 = fs::is_directory(game_root / "OpenWF" / "CustomScripts");
+            if (v2_path && !has_v2 && has_v1)
+            {
+                layout = "V1 (OpenWF/CustomScripts is the installed script root; mapped from the V2 path)";
+                return fs::path(std::string(kLiveRootV1) + map_script_relative(text.substr(kLiveRootV2.size()), false));
+            }
+            if (v1_path && has_v2)
+            {
+                layout = "V2 (OpenWF/LuaScripts is the installed script root; mapped from the V1 path)";
+                return fs::path(std::string(kLiveRootV2) + map_script_relative(text.substr(kLiveRootV1.size()), true));
+            }
+            layout = v2_path ? "V2" : v1_path ? "V1" : "not a script path";
+            return intended;
+        }
     }
 
     DeploymentResult deploy_staged_build(
@@ -3183,8 +3254,26 @@ namespace renovice
                 return result;
             }
 
+            std::string script_layout;
+            const fs::path installed_relative = installed_live_relative(fs::absolute(game_root), live_relative, script_layout);
+            {
+                // Config/ScriptStates.json holds every switch and every package's values: it is merged
+                // (tools/update_check/uc_layout.py merge-states), never replaced by an artifact; a V1 Settings/<package>.json
+                // is a values entry of that file in layout V2.
+                const std::string text = installed_relative.generic_string();
+                const bool states_file = text == std::string(kLiveRootV2) + "Config/ScriptStates.json"
+                    || text == std::string(kLiveRootV1) + "ScriptStates.json";
+                const bool settings_in_v2 = text.rfind(std::string(kLiveRootV2) + "Settings/", 0) == 0;
+                if (states_file || settings_in_v2)
+                {
+                    add(result.diagnostics, Severity::error, "SCRIPT_STATES_MERGE",
+                        "ScriptStates switches and SCRIPT SETTINGS values are merged into Config/ScriptStates.json, never "
+                        "deployed as a whole file: " + text);
+                    return result;
+                }
+            }
             const fs::path artifact = (generation_directory / artifact_relative).lexically_normal();
-            result.live_target = (fs::absolute(game_root).lexically_normal() / live_relative).lexically_normal();
+            result.live_target = (fs::absolute(game_root).lexically_normal() / installed_relative).lexically_normal();
             if (!fs::exists(artifact) || !fs::is_regular_file(artifact))
             {
                 add(result.diagnostics, Severity::error, "ARTIFACT_MISSING", "Compiled artifact is missing: " + artifact.string());
@@ -3224,6 +3313,9 @@ namespace renovice
                 {"build_manifest", fs::absolute(build_manifest).string()},
                 {"game_root", fs::absolute(game_root).lexically_normal().string()},
                 {"live_target", result.live_target.string()},
+                {"intended_live_relative_path", live_relative.generic_string()},
+                {"live_relative_path", installed_relative.generic_string()},
+                {"script_layout", script_layout},
                 {"deployed_sha256", artifact_hash},
                 {"original_existed", original_existed},
                 {"original_sha256", original_hash ? Json(*original_hash) : Json(nullptr)},
@@ -3254,6 +3346,7 @@ namespace renovice
             deployment["deployed_at_unix_ms"] = timestamp;
             write_text(result.deployment_manifest, deployment.dump(2) + "\n");
             add(result.diagnostics, Severity::info, "DEPLOYED", "Artifact deployed atomically after rollback snapshot and hash verification");
+            add(result.diagnostics, Severity::info, "SCRIPT_LAYOUT", "Script layout " + script_layout + ": " + installed_relative.generic_string());
             result.success = true;
         }
         catch (const std::exception& exception)
@@ -4428,7 +4521,7 @@ namespace renovice
                           "descriptions (one or two sentences, no stock number, node list, MT code or id)");
                 }
 
-                // Phase 2g: a settings build emits ONE multi-target addon (Inject\Missions.targets.addon.lua_B) for every
+                // Phase 2g: a settings build emits ONE multi-target addon (Addons\Missions.targets.addon.lua_B) for every
                 // addon-lane body key; exact replacements stay separate files. Gate: exact declared keys in the compiled string
                 // pool, no stray lowercase 16-hex text, no top-level hooks, and per-instance binding executed under luau.exe.
                 {
@@ -4446,7 +4539,7 @@ namespace renovice
                     bool unified_ok = unified.success && addon_count == 1 && replacement_count == 1 && multi != nullptr
                         && multi->artifact.filename() == "Missions.targets.addon.lua_B" && multi->body_key == "multi-target"
                         && std::set<std::string>(multi->target_keys.begin(), multi->target_keys.end()) == expected_keys
-                        && multi->intended_live_relative_path == "OpenWF/CustomScripts/Inject/Missions.targets.addon.lua_B";
+                        && multi->intended_live_relative_path == "OpenWF/LuaScripts/Addons/Missions.targets.addon.lua_B";
                     std::string unified_source;
                     if (unified_ok)
                     {
@@ -4498,8 +4591,7 @@ namespace renovice
                                                            .at("settings").at("values");
                             std::set<std::string> group_ids;
                             for (const auto& group : package_json.at("settings").at("groups")) group_ids.insert(group.at("id").get<std::string>());
-                            const fs::path migration_path = packaged.directory / "Settings" / "Missions.json";
-                            const Json migration = fs::exists(migration_path) ? Json::parse(read_text(migration_path)) : Json();
+                            const Json migration = staged_package_values(packaged.directory, "package:missions");
                             package_ok = package_json.at("schema") == 1 && package_json.at("name") == "Missions"
                                 && package_json.at("settings").at("format") == "RENOVICE_SETTINGS_DECL_V1"
                                 && package_json.at("settings").at("build") == registry.at("build")
@@ -4530,7 +4622,11 @@ namespace renovice
                                 && migration.at("values").at("survival.reward_interval") == Json{{"enabled", true}, {"value", 150}}
                                 && migration.at("values").at("purgatory.difficulty1.warrior_level") == Json{{"enabled", true}, {"value", 15}}
                                 && set_manifest.at("package").at("settings").at("migration").at("intended_live_relative_path")
-                                       == "OpenWF/CustomScripts/Settings/Missions.json"
+                                       == "OpenWF/LuaScripts/Config/ScriptStates.json"
+                                && set_manifest.at("package").at("settings").at("migration").at("apply") == "merge"
+                                && set_manifest.at("package").at("settings").at("migration").at("values_key") == "package:missions"
+                                && set_manifest.at("package").at("settings").at("migration").at("path") == "ScriptStates.merge.json"
+                                && !fs::exists(packaged.directory / "Settings")
                                 && contains_text(packaged.gate_log, "settings-declarations\nPASS values=4 groups=4")
                                 && package_json.at("members").size() == 2
                                 && package_json.at("members").contains("Missions.targets.addon.lua_B")
@@ -4568,12 +4664,12 @@ namespace renovice
                                 package_ok = package_ok
                                     && sha256_file(packaged.package_directory / file) == item.sha256
                                     && loose_hashes[file] == item.sha256
-                                    && item.intended_live_relative_path == "OpenWF/CustomScripts/Packages/Missions/" + file;
+                                    && item.intended_live_relative_path == "OpenWF/LuaScripts/Packages/Missions/" + file;
                             }
                         }
                         check(package_ok, "output_layout \"package\" emits Packages\\Missions\\ (package.json + the byte-identical addon and "
                                           "replacement, one [PACKAGE] Missions row, policy package:missions) with one RENOVICE_SETTINGS_DECL_V1 "
-                                          "declaration per member tunable, the Settings\\Missions.json migration file and a PASS "
+                                          "declaration per member tunable, the package:missions values entry staged as the ScriptStates.merge.json fragment and a PASS "
                                           "settings-declarations gate; the loose build is unchanged");
                         {
                             // Member row labels (SCRIPT SETTINGS, 40 characters): many sections fall back to a count; a
@@ -5132,7 +5228,7 @@ print("MULTI-TARGET HARNESS PASS cases=" .. #cases .. " idle=" .. #idle .. " ret
                         if (full_ok) {
                             const Json package_json = Json::parse(read_text(full.package_directory / "package.json"));
                             const Json& addon_member = package_json.at("members").at("Missions.targets.addon.lua_B").at("settings").at("values");
-                            const Json migration = Json::parse(read_text(full.directory / "Settings" / "Missions.json"));
+                            const Json migration = staged_package_values(full.directory, "package:missions");
                             const Json set_manifest = Json::parse(read_text(full.manifest));
                             const MissionArtifact* full_addon = nullptr;
                             for (const auto& item : full.artifacts) if (item.backend == "TARGET_ADDON") full_addon = &item;
@@ -5527,7 +5623,7 @@ if failures == 0 then print("R10 ENTRY HARNESS PASS") else print("R10 ENTRY HARN
                             std::string literal_detail = literal_ok || literal.diagnostics.empty() ? std::string() : " " + literal.diagnostics.front().message;
                             if (literal_ok) {
                                 const Json package_json = Json::parse(read_text(literal.package_directory / "package.json"));
-                                const Json migration = Json::parse(read_text(literal.directory / "Settings" / "Missions.json"));
+                                const Json migration = staged_package_values(literal.directory, "package:missions");
                                 const Json plan = Json::parse(read_text(literal.directory / "source" / (key_of("Lotus_Scripts_MobileDefense.lua_B") + ".plan.json")));
                                 const Json normalized = Json::parse(read_text(literal.directory / "mission_settings.json"));
                                 const Json set_manifest = Json::parse(read_text(literal.manifest));
@@ -5999,7 +6095,7 @@ if failures == 0 then print("R10 ENTRY HARNESS PASS") else print("R10 ENTRY HARN
             const fs::path artifact = generation / "artifacts" / "test.lua_B";
             const fs::path build_manifest = generation / "BUILD_MANIFEST.json";
             const fs::path game_root = deployment_fixture / "game";
-            const fs::path live_target = game_root / "OpenWF" / "CustomScripts" / "test.lua_B";
+            const fs::path live_target = game_root / "OpenWF" / "LuaScripts" / "Replacements" / "test.lua_B";
             write_text(artifact, "new-bytecode");
             write_text(live_target, "old-bytecode");
             Json deployable{
@@ -6010,7 +6106,7 @@ if failures == 0 then print("R10 ENTRY HARNESS PASS") else print("R10 ENTRY HARN
                     {"sha256", sha256_file(artifact)},
                     {"size", fs::file_size(artifact)},
                 }},
-                {"intended_live_relative_path", "OpenWF/CustomScripts/test.lua_B"},
+                {"intended_live_relative_path", "OpenWF/LuaScripts/Replacements/test.lua_B"},
                 {"live_write_performed", false},
             };
             write_text(build_manifest, deployable.dump(2) + "\n");
@@ -6025,17 +6121,27 @@ if failures == 0 then print("R10 ENTRY HARNESS PASS") else print("R10 ENTRY HARN
             const fs::path absent_generation = deployment_fixture / "absent-generation";
             const fs::path absent_artifact = absent_generation / "artifacts" / "new.lua_B";
             const fs::path absent_manifest = absent_generation / "BUILD_MANIFEST.json";
-            const fs::path absent_target = game_root / "OpenWF" / "CustomScripts" / "new.lua_B";
+            const fs::path absent_target = game_root / "OpenWF" / "LuaScripts" / "Addons" / "new.lua_B";
             write_text(absent_artifact, "created-bytecode");
             deployable["artifact"]["path"] = "artifacts/new.lua_B";
             deployable["artifact"]["sha256"] = sha256_file(absent_artifact);
             deployable["artifact"]["size"] = fs::file_size(absent_artifact);
-            deployable["intended_live_relative_path"] = "OpenWF/CustomScripts/new.lua_B";
+            deployable["intended_live_relative_path"] = "OpenWF/LuaScripts/Addons/new.lua_B";
             write_text(absent_manifest, deployable.dump(2) + "\n");
             const DeploymentResult created = deploy_staged_build(absent_manifest, game_root);
             check(created.success && fs::exists(absent_target), "deployment records originally absent target");
             const DeploymentResult removed = rollback_deployment(created.deployment_manifest);
             check(removed.success && !fs::exists(absent_target), "rollback removes newly introduced target");
+
+            // Layout V2: a V1-addressed artifact (CustomScripts/Inject/) lands in the installed V2 root (LuaScripts/Addons/),
+            // never in a second, partial CustomScripts root.
+            deployable["intended_live_relative_path"] = "OpenWF/CustomScripts/Inject/new.lua_B";
+            write_text(absent_manifest, deployable.dump(2) + "\n");
+            const DeploymentResult mapped = deploy_staged_build(absent_manifest, game_root);
+            check(mapped.success && fs::exists(absent_target) && !fs::exists(game_root / "OpenWF" / "CustomScripts"),
+                  "deployment maps a V1 script path to the installed V2 root");
+            const DeploymentResult unmapped = rollback_deployment(mapped.deployment_manifest);
+            check(unmapped.success && !fs::exists(absent_target), "rollback of a mapped deployment removes the mapped target");
             fs::remove_all(deployment_fixture);
         }
         catch (const std::exception& exception)

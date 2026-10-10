@@ -37,7 +37,7 @@ ability_editor_core (C++)
              +--> DeNativeDecompiler derecomp.exe
              +--> focused API checker
              +--> OpenWF label reload
-             +--> CustomScripts and Inject
+             +--> LuaScripts/Replacements and Addons
              +--> RENOVICE F9 native-descriptor loader
 ```
 
@@ -160,7 +160,7 @@ of the three activation renames fails.
 project
   -> generated managed addon
   -> compile
-  -> CustomScripts/Inject/*.addon.lua_B
+  -> LuaScripts/Addons/*.addon.lua_B
   -> F9 lifecycle transaction
 ```
 

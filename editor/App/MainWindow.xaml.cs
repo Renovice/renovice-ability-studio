@@ -2037,10 +2037,16 @@ public partial class MainWindow : Window
             var exportName = metadataPatch ? preset.Id + ".txt" : exactReplacement
                 ? VerifiedArtifactExporter.MissionReplacementFileName(preset.ModuleBodyKey, preset.Id)
                 : VerifiedArtifactExporter.MissionTargetAddonFileName(preset.ModuleBodyKey, preset.Id);
-            var suggestedCustomScripts = Path.GetFullPath(Path.Combine(
-                workspace.WorkspaceRoot, "..", "Warframe 23.09.2026", "OpenWF", "CustomScripts"));
-            var suggestedInject = Path.Combine(suggestedCustomScripts, "Inject");
-            var suggestedMetadata = Path.Combine(Path.GetDirectoryName(suggestedCustomScripts)!, "Metadata Patches");
+            // Script folder layout V2 (2026-10-10): OpenWF/LuaScripts (Replacements/, Addons/) when it exists, else the
+            // original OpenWF/CustomScripts (replacements in the root, Inject/), the loader's own choice.
+            var suggestedOpenWf = Path.GetFullPath(Path.Combine(workspace.WorkspaceRoot, "..", "Warframe 23.09.2026", "OpenWF"));
+            var suggestedLuaScripts = Path.Combine(suggestedOpenWf, "LuaScripts");
+            var layoutV2 = Directory.Exists(suggestedLuaScripts);
+            var suggestedCustomScripts = layoutV2 ? Path.Combine(suggestedLuaScripts, "Replacements")
+                : Path.Combine(suggestedOpenWf, "CustomScripts");
+            var suggestedInject = layoutV2 ? Path.Combine(suggestedLuaScripts, "Addons")
+                : Path.Combine(suggestedOpenWf, "CustomScripts", "Inject");
+            var suggestedMetadata = Path.Combine(suggestedOpenWf, "Metadata Patches");
             var saveDialog = new SaveFileDialog
             {
                 Title = metadataPatch ? $"Save {preset.DisplayName} metadata patch" : exactReplacement

@@ -16,8 +16,10 @@ import copy, hashlib, json, os, shutil, subprocess, sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import harness_input as HI  # noqa: E402
 
-ROOT = Path(__file__).resolve().parents[6]
-EDITOR = ROOT / 'repos/apps/ability-editor'
+EDITOR = Path(__file__).resolve().parents[3]  # this checkout (a worktree too; 2026-10-10)
+ROOT = EDITOR
+while not (ROOT / 'WORKSPACE.json').exists():
+    ROOT = ROOT.parent
 CLI = Path(os.environ.get('RENOVICE_EDITOR_CLI', ROOT / 'work/builds/ability-editor/current/bin/renovice_ability_editor_cli.exe'))
 STAGING = ROOT / 'work/staging/aer44'  # short: generated names are long and Windows MAX_PATH applies
 OUT = Path(__file__).resolve().parents[1] / 'test-results'  # results.json only (committed)
@@ -285,7 +287,7 @@ assert package_json['schema'] == 1 and package_json['name'] == 'Missions'
 assert package_json['settings']['format'] == 'RENOVICE_SETTINGS_DECL_V1' and package_json['settings']['build'] == registry['build']
 assert sorted(package_json['members']) == members2h
 assert manifest2h['output_layout'] == 'package' and manifest2h['package']['scripts_menu']['policy_id'] == 'package:missions'
-assert all(a['intended_live_relative_path'].startswith('OpenWF/CustomScripts/Packages/Missions/')
+assert all(a['intended_live_relative_path'].startswith('OpenWF/LuaScripts/Packages/Missions/')
            for a in manifest2h['artifacts'] if a['backend'] in ('TARGET_ADDON', 'EXACT_LITERAL'))
 state2h = reference('sample2h', dict(package_hashes, **{'package.json': hashlib.sha256((package2h / 'package.json')
                                                                                     .read_bytes()).hexdigest().upper()}))
@@ -293,7 +295,7 @@ results['phase2h_sample'] = {'values': PHASE2G_VALUES, 'allow_unproven_hook_bind
                              'package': manifest2h['package'], 'state': state2h}
 print(f"PASS phase2h sample: Packages/Missions with {len(members2h)} members, byte-identical to phase 2g ({state2h})")
 # Phase 2i sample: the Phase 2h settings rebuilt with settings declarations. Packages/Missions/ is install-ready;
-# CustomScripts/Settings/Missions.json is the hand-editable values file for the Phase 2 live test (Survival reward interval
+# the package:missions values entry (Config/ScriptStates.json; V1 Settings/Missions.json) is the values file for the Phase 2 live test (Survival reward interval
 # 150 enabled, Purgatory warrior level present but disabled, Lantern absent = stock, Void Flood replacement value kept
 # enabled so its one-value member stays on).
 generation2i, manifest2i = build(settings2h, 'sample2i')
@@ -312,7 +314,7 @@ for vid, (member, d) in decl2i.items():
 for name in members2h:
     if name not in INTENTIONAL_2I:
         assert hashlib.sha256((package2i / name).read_bytes()).hexdigest().upper() == package_hashes[name], name
-migration2i = json.loads((generation2i / 'Settings' / 'Missions.json').read_text(encoding='utf-8'))
+migration2i = HI.staged_values(generation2i)   # layout V2: the staged Config/ScriptStates.json values entry
 assert migration2i['values'] == {k: {'enabled': True, 'value': v} for k, v in PHASE2G_VALUES.items()}, migration2i
 EXAMPLE2I = {'format': 'RENOVICE_SCRIPT_SETTINGS_V1', 'package': 'package:missions', 'build': registry['build'], 'use_stock': False,
              'groups': {g: True for g in sorted(groups2i)},
@@ -344,6 +346,10 @@ print(f"PASS phase2i sample: {len(decl2i)} declarations in {len(groups2i)} group
 import missions_settings_to_build as REBUILD  # noqa: E402
 PINS = HI.package_pins()  # the four package files the pinned harness input builds on the current registry
 settings2k = REBUILD.convert(WORK / 'phase2i.Missions.json')
+# Layout V2: the same values as the package:missions entry of a Config/ScriptStates.json convert identically.
+(WORK / 'phase2i.ScriptStates.json').write_text(json.dumps({'schema': 2, 'scripts': {'package:missions': True},
+                                                             'values': {'package:missions': EXAMPLE2I}}, indent=2), encoding='utf-8')
+assert REBUILD.convert(WORK / 'phase2i.ScriptStates.json') == settings2k, 'ScriptStates.json input converts differently'
 assert settings2k['values'] == {'survival.reward_interval': 150, 'void_flood.fractures_per_round.normal': 4}, settings2k['values']
 # Contract R5 (2026-09-30): the staged package also carries the literal headline timers with the user's earlier choices,
 # built but shipped off (Mobile Defense 20 s per terminal, Excavation 50 s dig, Control Area 30 s). The staged
@@ -364,7 +370,7 @@ assert addon2k['hook_plan']['retire_all_hooks'] == addon2k['hook_plan']['hooks']
 assert addon2k['hook_plan']['retire_all_sentinel'] == 'RENOVICE_RETIRE_ALL', addon2k['hook_plan']
 assert (package2k / 'package.json').stat().st_size <= 512 * 1024
 files2k = {'Packages/Missions/' + p.name: p for p in package2k.iterdir()}
-files2k['Settings/Missions.json'] = generation2k / 'Settings' / 'Missions.json'
+files2k['Config/ScriptStates.json#package:missions'] = HI.staged_values_file(generation2k, generation2k / 'Missions.values.json')
 hashes2k = {k: hashlib.sha256(p.read_bytes()).hexdigest().upper() for k, p in files2k.items()}
 # This input has the values of the pinned harness input (MISSIONS_R13 rebuild_input.r12.json) built baked (the values
 # file sets no literal_mode); the pins are its recipe build, so only engine_params.json is shared with them (its content

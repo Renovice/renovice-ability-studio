@@ -125,7 +125,8 @@ def main() -> int:
            find(rep, 'BROKEN', 'content.keys', 'ec368d4901690a15 (Octavia Mallet No Cover', 'content keys not in this build'))
 
     # literal preimage ---------------------------------------------------------------------------------------------------
-    lit = json.loads((GAME / 'OpenWF/CustomScripts/Packages/Missions/literals.json').read_text(encoding='utf-8'))
+    import uc_layout as LAY  # noqa: E402  (layout V2: the loader's root choice)
+    lit = json.loads((LAY.Layout.for_game(GAME).packages / 'Missions/literals.json').read_text(encoding='utf-8'))
     value = lit['values']['gamerules.extraction_countdown_endless']
     site = value['drives'][0]['sites'][0]
     fname = lit['modules'][value['module']]['file']

@@ -105,7 +105,7 @@ def main() -> int:
         o = inv.get('Packages/SoloPkg/Loose one-shot.lua_B')
         check('package member without a key prefix stays a one-shot (runtime rejects it)', o is not None and o.kind == 'inject',
               o and o.kind)
-        i = inv.get(f'Inject/{stock.key}.oneshot.lua_B')
+        i = inv.get(f'Addons/{stock.key}.oneshot.lua_B')    # inventory ids are canonical (layout V2; V1 Inject/)
         check('loose Inject file with a key prefix stays a one-shot', i is not None and i.kind == 'inject', i and i.kind)
 
         shifted = B.Module(S.insert_protos(stock, 0, [len(stock.protos) - 1], opmap), opmap)

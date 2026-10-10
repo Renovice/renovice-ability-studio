@@ -42,6 +42,7 @@ import renovice_update as RU  # noqa: E402
 import renovice_update_check as UC  # noqa: E402
 import uc_bytecode as B  # noqa: E402
 import uc_cache  # noqa: E402
+import uc_layout as LAY  # noqa: E402
 import uc_pe  # noqa: E402
 import uc_synthetic as S  # noqa: E402
 
@@ -115,7 +116,13 @@ def main() -> int:
     a = rep['plan']['summary']['actions']
     check('control', 'exit 0, ALL AUTO, every gate PASS', code == 0 and rep['result'] == 'ALL AUTO', rep['result'])
     check('control', 'every dependency unchanged', set(a) == {'unchanged'}, a)
-    check('control', 'nothing to install (every rebuilt file equals the installed one)', not rep['files'], rep['files'][:1])
+    # On a V1 install (OpenWF/CustomScripts) the set is the complete V2 tree: only unchanged copies and the merged
+    # Config/ScriptStates.json; on a V2 install nothing at all.
+    migrating = LAY.Layout.for_game(GAME).version == LAY.V1
+    changed = [f for f in rep['files'] if not (migrating and f['why'].startswith(('layout V2: copied unchanged',
+                                                                             'merged into the installed file: layout V2:')))]
+    check('control', 'nothing to install (every rebuilt file equals the installed one'
+          + ('; V1 install: only the layout V2 migration)' if migrating else ')'), not changed, changed[:1])
     reb = (root / 'control' / 'evidence' / 'registry' / 'mission_build_u44.json').read_bytes()
     check('control', 'the rebased registry is byte-identical to the repository registry (registrar fixed point)',
           reb.replace(b'\r\n', b'\n').split(b'"corpus"')[0] ==
@@ -190,7 +197,7 @@ def main() -> int:
     staged = {f['install'] for f in rep['files']}
     check('moved-callsite', 'install set: renamed Mallet member, Octavia package.json, old file in remove.txt',
           any(p.endswith(mal.get('artifact_name', '?')) for p in staged)
-          and 'OpenWF/CustomScripts/Packages/Octavia/package.json' in staged
+          and 'OpenWF/LuaScripts/Packages/Octavia/package.json' in staged   # the tools stage layout V2
           and any('ec368d4901690a15.MalletOverguardAndCard' in x for x in rep['remove']))
     # removed function
     r = row('interception.score_rate')

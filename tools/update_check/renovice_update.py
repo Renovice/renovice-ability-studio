@@ -12,7 +12,10 @@
 4. The native side through work/research/update-resilience/NATIVE_INTERFACE.md (bootstrapper repository): signature and
    per-build table update and, with --native-build, the DLL. Missing = pending, the script set stays complete.
 5. One staged install set: work/staging/update-<build>-<time>/ with README.md (install, rollback), UPDATE_REPORT.md,
-   install/ (mirrors the game folder), rollback/, remove.txt, SHA256SUMS, evidence/.
+   install/ (mirrors the game folder; scripts in layout V2, OpenWF/LuaScripts), rollback/, remove.txt, SHA256SUMS,
+   evidence/, and ScriptStates.merge.json when switches or values change (merged into the user's
+   Config/ScriptStates.json, never replacing it). On a layout-V1 install (OpenWF/CustomScripts) the set is the complete
+   V2 tree (uc_rebuild); the old folder is left as it is.
 
 The game folder is only read. Nothing is installed, pushed or committed. After the live test, --adopt <stage folder>
 makes the rebased registry and its corpus the repository's current ones (then write the new baseline with
@@ -46,6 +49,7 @@ import uc_plan  # noqa: E402
 import uc_rebuild  # noqa: E402
 import uc_sideload  # noqa: E402
 import uc_adopt  # noqa: E402
+import uc_layout  # noqa: E402
 
 EDITOR = TOOL_DIR.parents[1]
 REPORT_FORMAT = 'RENOVICE_UPDATE_RESULT_V1'
@@ -60,7 +64,9 @@ def main(argv=None) -> int:
     ap.add_argument('--game', type=Path, help='Warframe folder to read (default for an update run: the Steam folder; '
                     '--adopt needs the folder the set is INSTALLED in, e.g. the Documents copy)')
     ap.add_argument('--exe', type=Path, help='client executable (default <game>/Warframe.x64.exe)')
-    ap.add_argument('--custom-scripts', type=Path, help='installed CustomScripts (default <game>/OpenWF/CustomScripts)')
+    ap.add_argument('--custom-scripts', '--scripts-root', dest='custom_scripts', type=Path,
+                    help='installed script root, OpenWF/LuaScripts (V2) or OpenWF/CustomScripts (V1) (default: the one the '
+                         'loader uses, <game>/OpenWF/LuaScripts when it exists)')
     ap.add_argument('--stock-dir', type=Path, help='build-B modules folder instead of the Cache.Windows extraction')
     ap.add_argument('--stock-overlay', type=Path, help='modules here replace the same-named build-B modules')
     ap.add_argument('--baseline', type=Path, help='baseline of build A (default: the newest in tools/update_check/baselines)')
@@ -77,11 +83,12 @@ def main(argv=None) -> int:
     ap.add_argument('--add-to-stage', type=Path, metavar='STAGE', help='add one file to a staged set (with --file, '
                     '--install-path, --note; optional --replaces, --source-project, --ships-disabled)')
     ap.add_argument('--file', type=Path, help='--add-to-stage: the file to add')
-    ap.add_argument('--install-path', help='--add-to-stage: its path in the game folder, e.g. OpenWF/CustomScripts/...')
+    ap.add_argument('--install-path', help='--add-to-stage: its path in the game folder, e.g. OpenWF/LuaScripts/Addons/... '
+                    '(a V1 path is mapped to V2; a Settings/<Package>.json becomes that package\'s values entry)')
     ap.add_argument('--replaces', help='--add-to-stage: the installed path it supersedes (goes to remove.txt)')
     ap.add_argument('--source-project', help='--add-to-stage: workspace-relative project the file is rebuilt from')
     ap.add_argument('--note', default='', help='--add-to-stage: what the file is')
-    ap.add_argument('--ships-disabled', action='store_true', help='--add-to-stage: package member switched off')
+    ap.add_argument('--ships-disabled', action='store_true', help='--add-to-stage: loose script ships switched off (a package member cannot: R13)')
     ap.add_argument('--keep-temp', action='store_true', help='keep work/temp/upd-<time> (staged editor root, generator, '
                                                             'simulated install) after the run')
     ap.add_argument('--quiet', action='store_true')
@@ -111,7 +118,8 @@ def run(args, log) -> int:
     wsj = json.loads((ws / 'WORKSPACE.json').read_text(encoding='utf-8'))
     game = args.game or UC.STEAM_GAME
     exe = args.exe or game / 'Warframe.x64.exe'
-    custom = args.custom_scripts or game / 'OpenWF' / 'CustomScripts'
+    layout = uc_layout.Layout.of(args.custom_scripts) if args.custom_scripts else uc_layout.Layout.for_game(game)
+    custom = layout.root
     img = uc_pe.Image(exe.read_bytes())
     build_b = img.product_version() or 'unknown'
     stamp = datetime.datetime.now().strftime('%Y%m%d-%H%M%S')
@@ -168,7 +176,7 @@ def run(args, log) -> int:
     report = {'format': REPORT_FORMAT, 'build_old': registry['build'], 'build_new': build_b, 'stage': str(stage),
               'exe_sha256': sha_file(exe), 'baseline': baseline_name, 'registry_sha256': sha_file(registry_path),
               'packages_bin_sha256': packages_bin, 'started': datetime.datetime.now().isoformat(timespec='seconds'),
-              'tool_commit': UC.git_head(EDITOR)}
+              'tool_commit': UC.git_head(EDITOR), 'scripts_root': str(custom), 'script_layout': layout.version}
 
     # 1. step 1 -----------------------------------------------------------------------------------------------------------
     if not args.skip_step1:
@@ -191,7 +199,7 @@ def run(args, log) -> int:
 
     # 3. step 3 -----------------------------------------------------------------------------------------------------------
     log('step 3: rebuild')
-    cli = ws / wsj['work']['builds'] / 'ability-editor' / 'current' / 'bin' / 'renovice_ability_editor_cli.exe'
+    cli = UC.default_cli(ws, wsj)
     result = uc_rebuild.rebuild(ws=ws, wsj=wsj, plan=plan, plan_work=plan_work, registry=registry, opmap=opmap, seed=seed,
                                 custom=custom, build_b=build_b, build_label_b=build_label, packages_bin_b=packages_bin,
                                 old=old, new=new, temp=temp, stage_root=stage, cli=cli, rebuild_input=args.rebuild_input,
@@ -241,7 +249,9 @@ def run(args, log) -> int:
         addons=[{k: v for k, v in a.items() if k not in ('spec', 'hooks')} for a in result.get('addons', [])],
         replacements=plan['artifacts']['replacements'], settings=result.get('settings'),
         step1_after=result.get('step1_after'), native=native, files=staging.files, remove=staging.removes,
-        review=review)
+        review=review, migrating=staging.migrating, not_migrated=staging.migration_reported,
+        states_fragment=None if uc_layout.fragment_empty(staging.fragment) else uc_layout.FRAGMENT_NAME,
+        states_base_sha256=sha_file(layout.states) if layout.states.is_file() else None)
     gates_ok = all(g['pass'] for g in result['gates'] if g['blocking'])
     report['result'] = 'GATE FAILED' if not gates_ok else ('REVIEW' if review else 'ALL AUTO')
     exit_code = 2 if not gates_ok else (1 if review else 0)
@@ -312,6 +322,9 @@ def report_markdown(r: dict, plan: dict) -> str:
         L.append(f'| `{f["install"]}` | {f["bytes"]} | `{f["sha256"][:16]}…` | {("`" + f["replaces"][:16] + "…`") if f["replaces"] else "new"} | {_md(f["why"])} |')
     if r['remove']:
         L += ['', 'Remove (superseded by a renamed file):', ''] + [f'- `{x.split(chr(9))[0]}` ({x.split(chr(9))[1]})' for x in r['remove']]
+    if r.get('not_migrated'):
+        L += ['', 'Left in the layout-V1 folder (not part of layout V2; reported, not moved):', ''] + \
+            [f'- `{p}`: {why}' for p, why in r['not_migrated']]
     return '\n'.join(L) + '\n'
 
 
@@ -336,20 +349,37 @@ def readme(r: dict, game: Path) -> str:
         L += ['**Native side:** no DLL in this set (' + str(nat.get('reason') or nat.get('status')) +
               '). The bootstrapper must accept this client before anything here runs: run with `--native-build` '
               '(and `--bootstrapper-root <native worktree>`) or see the native report.', '']
+    if r.get('migrating'):
+        L += ['**Script layout:** the game uses the old `OpenWF\\CustomScripts` folder; this set is the complete new '
+              '`OpenWF\\LuaScripts` folder (layout V2): every installed script copied unchanged plus the files of this '
+              'update, `ScriptStates.json` and `Settings\\*.json` merged into `Config\\ScriptStates.json`, '
+              '`renovice.cfg` as `Config\\Logs.cfg`. The loader uses `LuaScripts` as soon as it exists (a DLL with layout '
+              'V2); `CustomScripts` is left as it is.', '']
+    if r.get('states_fragment'):
+        L += [f'**Config\\ScriptStates.json** is staged as your installed file with this set\'s switch / values changes '
+              f'(`{r["states_fragment"]}`) merged in. If you changed a switch or a SCRIPT SETTINGS value after the set was '
+              f'made (your file no longer has SHA-256 `{r.get("states_base_sha256")}`), do not copy it: merge instead with '
+              f'`python repos\\apps\\ability-editor\\tools\\update_check\\uc_layout.py merge-states --fragment '
+              f'"{rel}\\{r["states_fragment"]}" --into "<game>\\OpenWF\\LuaScripts\\Config\\ScriptStates.json"`.', '']
     L += ['## Install (game closed)', '',
           f'Paths are relative to `<game>` = `{game}`.', '',
           '1. Close the game. Keep your Steam-folder backup copy (made before the update).',
           '2. Copy everything under `install\\` over `<game>\\` (same relative paths, replace).',
-          '3. Delete the files listed in `remove.txt` (old file names of renamed scripts).',
+          '3. Delete the files listed in `remove.txt` (old file names of renamed scripts; a file that is not there is '
+          'already gone).',
           '4. Optional check: `Get-FileHash` of each copied file equals the SHA-256 in the table below.', '',
           '| Install path | SHA-256 |', '|---|---|']
     for f in r['files']:
         L.append(f'| `{f["install"]}` | `{f["sha256"]}` |')
-    L += ['', '## Rollback (game closed)', '',
-          '1. Delete the files this set added (the rows above whose "Replaces" column in UPDATE_REPORT.md is "new").',
-          '2. Copy everything under `rollback\\` back over `<game>\\` (the files as installed before).', '',
+    rollback = (['1. Delete `<game>\\OpenWF\\LuaScripts` (the whole folder this set created); the loader then uses '
+                 '`OpenWF\\CustomScripts` again, which this set did not change.',
+                 '2. Copy everything under `rollback\\` back over `<game>\\` (native files only, if any).']
+                if r.get('migrating') else
+                ['1. Delete the files this set added (the rows above whose "Replaces" column in UPDATE_REPORT.md is "new").',
+                 '2. Copy everything under `rollback\\` back over `<game>\\` (the files as installed before).'])
+    L += ['', '## Rollback (game closed)', ''] + rollback + ['',
           '## Short live test', '',
-          '1. Start the game; `<game>\\OpenWF\\CustomScripts\\Logs\\renovice_source.log` shows the packages accepted '
+          '1. Start the game; `<game>\\OpenWF\\LuaScripts\\Logs\\renovice_source.log` shows the packages accepted '
           '(`SETTINGS PACKAGE … rejected=0`, `LIVE LITERALS RECIPE ACCEPT`, `ENGINE PARAMS RECIPE ACCEPT`, `PACKAGE ACCEPT`).',
           '2. Play one mission of a type whose script changed (UPDATE_REPORT.md, "Auto-fixed") with one value set; check it '
           'applies; check one adjacent stock behaviour.',

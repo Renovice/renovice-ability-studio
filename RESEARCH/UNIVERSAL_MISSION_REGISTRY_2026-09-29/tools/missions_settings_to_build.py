@@ -4,9 +4,11 @@ The full package (package_scope "all_addon_values") declares every multi-instanc
 root tables that hold a value enabled at BUILD time (performance rule: a target without an enabled value installs no
 luaCalls hook). A value enabled later in SCRIPT SETTINGS whose table has no hook makes that target's activation fail with
 "... has no hook in this build; rebuild Packages/Missions from Settings/Missions.json". This tool turns the current
-CustomScripts/Settings/Missions.json (RENOVICE_SCRIPT_SETTINGS_V1) into the build input for that rebuild:
+in-game values (RENOVICE_SCRIPT_SETTINGS_V1) into the build input for that rebuild. The input is the layout-V2
+OpenWF/LuaScripts/Config/ScriptStates.json (its "values" entry "package:missions", 2026-10-10) or a stand-alone values
+file (the former OpenWF/CustomScripts/Settings/Missions.json):
 
-    python missions_settings_to_build.py <OpenWF/CustomScripts/Settings/Missions.json> <out mission_settings.json>
+    python missions_settings_to_build.py <OpenWF/LuaScripts/Config/ScriptStates.json> <out mission_settings.json>
     renovice_ability_editor_cli build-missions <out mission_settings.json> --staging <short folder>
 
 Effective rule (same as the runtime, INGAME_EDITOR_DESIGN.md section 3.4): nothing when use_stock is true; otherwise a
@@ -28,6 +30,10 @@ def convert(values_file: Path) -> dict:
     rows = {r['tunable_id']: r for r in registry['tunables']}
     masters = registry.get('ui_masters', {})
     state = json.loads(values_file.read_text(encoding='utf-8'))
+    if state.get('schema') == 2 and 'format' not in state:      # Config/ScriptStates.json (layout V2)
+        state = state.get('values', {}).get('package:missions')
+        if not isinstance(state, dict):
+            raise SystemExit('Config/ScriptStates.json has no "values" entry for package:missions')
     if state.get('format') != 'RENOVICE_SCRIPT_SETTINGS_V1' or state.get('package') != 'package:missions':
         raise SystemExit('not a RENOVICE_SCRIPT_SETTINGS_V1 file of package:missions')
     if state.get('build') != registry['build']:

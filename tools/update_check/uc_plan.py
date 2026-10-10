@@ -30,6 +30,7 @@ from pathlib import Path
 
 import uc_bytecode as B
 import uc_content
+import uc_layout
 import uc_remap as RM
 import uc_artifacts as ART
 import uc_metadata as UM
@@ -143,7 +144,14 @@ class Maps:
 
 
 def load_authored() -> dict:
-    return json.loads(AUTHORED.read_text(encoding='utf-8'))
+    """authored_addons.json with every installed path as a layout-V2 id (uc_layout.canonical), so a registration
+    written in V1 form ("Inject/...", a loose root file) still matches the inventory of either layout."""
+    data = json.loads(AUTHORED.read_text(encoding='utf-8'))
+    for section in ('addons', 'replacements'):
+        for entry in data.get(section, []):
+            entry['installed'] = uc_layout.canonical(entry['installed'])
+    data['not_rebuilt'] = {uc_layout.canonical(k): v for k, v in data.get('not_rebuilt', {}).items()}
+    return data
 
 
 def make_plan(*, ws: Path, wsj: dict, baseline: dict, baseline_name: str, registry: dict, old: OldStock, new: NewStock,

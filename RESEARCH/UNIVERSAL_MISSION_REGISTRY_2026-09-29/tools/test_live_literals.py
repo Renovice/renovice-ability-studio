@@ -192,7 +192,7 @@ if STAGED_SET:
           f'layout ({len(R17_LAYOUT & changed)} values changed by the R16 -> R17 registry layout, {len(R17_COLLAPSE)} collapsed under a type '
           'master)')
     staged_file = json.loads((STAGED / 'Settings/Missions.json').read_text(encoding='utf-8'))['values']
-    built_file = json.loads((generation / 'Settings/Missions.json').read_text(encoding='utf-8'))['values']
+    built_file = HI.staged_values(generation)['values']   # layout V2: the staged ScriptStates values entry
     check(all(built_file.get(k) == v for k, v in staged_file.items()) and set(built_file) - set(staged_file) == R10_ADDED
           and not any(built_file[k]['enabled'] for k in R10_ADDED),
           'baked values file: every staged entry unchanged; the R10 values are added off at their defaults')
@@ -235,7 +235,7 @@ declared = json.loads((package / 'package.json').read_text(encoding='utf-8'))
 addon_values = declared['members']['Missions.targets.addon.lua_B']['settings']['values']
 check(all(f'mobiledefense.enemy_counts.max.p{n}' in addon_values for n in range(1, 5)),
       'R5-C: Mobile Defense enemy counts are declared next to its live literal timer')
-values = json.loads((generation / 'Settings/Missions.json').read_text(encoding='utf-8'))['values']
+values = HI.staged_values(generation)['values']
 on = sorted(k for k, v in values.items() if v['enabled'])
 check(on == ['survival.reward_interval', 'void_flood.fractures_per_round.normal'] and values['mobiledefense.time_per_terminal'] == {'enabled': False, 'value': 20},
       'values file: shipped choices unchanged (Survival 150 on, Void Flood 4 on, the other built literals off)')
@@ -311,7 +311,7 @@ check(admit.returncode == 0 and 'PACKAGE ACCEPT' in admit.stdout, f'{OLD_REVISIO
 accept_line = [line for line in admit.stdout.splitlines() if 'PACKAGE ACCEPT' in line]
 settings = subprocess.run(['powershell', '-NoProfile', '-ExecutionPolicy', 'Bypass', '-File',
                            str(old / 'RENOVICE_TOOLCHAIN/settings/verify_addon_settings.ps1'), '-Package', str(package),
-                           '-Settings', str(generation / 'Settings/Missions.json')], capture_output=True, text=True)
+                           '-Settings', str(HI.staged_values_file(generation, WORK / 'Missions.values.json'))], capture_output=True, text=True)
 # R17: the R7 bootstrapper does not know quick_on_page; it rejects the package's settings capability only (members keep their
 # compiled values) and still admits the package. The R17 package is installed together with the R17 DLL.
 check('unknown-field=quick_on_page' in settings.stdout and 'PACKAGE ACCEPT' in settings.stdout,

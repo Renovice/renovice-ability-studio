@@ -12,7 +12,7 @@
 // exact replacement; otherwise fail closed naming the addon-only and literal-only rows.
 //
 // Phase 2g: a settings build emits every addon-lane body key into ONE multi-target addon
-// (`Inject\Missions.targets.addon.lua_B`, one Scripts row) with per-instance root-table binding. Exact replacements stay
+// (`Addons\Missions.targets.addon.lua_B`, one Scripts row) with per-instance root-table binding. Exact replacements stay
 // separate files, one per body key. Presets keep their established single-key files.
 namespace {
 constexpr const char* kMissionRegistryPath = "REGISTRIES/mission_build_u44.json";
@@ -512,6 +512,25 @@ void verify_mission_row(const Json& registry, const Json& row, const MissionPath
 constexpr const char* kMissionUiFormat = "RENOVICE_MISSION_UI_FIELDS_V1";
 constexpr const char* kSettingsDeclarationFormat = "RENOVICE_SETTINGS_DECL_V1";
 constexpr const char* kScriptSettingsFormat = "RENOVICE_SCRIPT_SETTINGS_V1";
+// Script folder layout V2 (work/agents/LAYOUT_V2_SPEC.md, user-approved 2026-10-10): every install path is under
+// OpenWF/LuaScripts (Addons/, Replacements/, Packages/<Name>/). A package's SCRIPT SETTINGS values are its "values" entry
+// (keyed by package id, the former Settings/<package>.json object unchanged) of Config/ScriptStates.json (schema 2). A build
+// stages that entry as a schema-2 fragment, ScriptStates.merge.json, that is MERGED into the user's file (every other
+// package's values and every switch kept; tools/update_check/uc_layout.py merge-states), never copied over it.
+constexpr const char* kScriptsRootV2 = "OpenWF/LuaScripts/";
+constexpr const char* kScriptStatesV2 = "OpenWF/LuaScripts/Config/ScriptStates.json";
+constexpr const char* kScriptStatesFragmentFile = "ScriptStates.merge.json";
+
+// The staged values entry of `package_id` in a generation's ScriptStates.merge.json (null when there is none).
+Json staged_package_values(const fs::path& generation, const std::string& package_id) {
+    const fs::path path = generation / kScriptStatesFragmentFile;
+    if (!fs::exists(path)) return Json();
+    const Json fragment = Json::parse(read_text(path));
+    if (!fragment.is_object() || fragment.value("schema", 0) != 2 || !fragment.contains("values")
+        || !fragment.at("values").is_object() || !fragment.at("values").contains(package_id))
+        return Json();
+    return fragment.at("values").at(package_id);
+}
 constexpr std::size_t kSettingsLabelBudget = 40;    // value rows, composed "Custom <label>"
 constexpr std::size_t kSettingsTitleBudget = 48;    // TITLE rows
 constexpr std::size_t kSettingsTextMaximum = 64;    // runtime bound for labels and aliases
@@ -1435,7 +1454,7 @@ Json mission_addon_scaffold(const Json& registry, const std::string& body, const
         {"deployment", {{"requires_addon", true}, {"requires_card_extension", false}, {"requires_native_module", false}}}};
 }
 
-// Phase 2g: settings builds emit ONE multi-target addon, `Inject\Missions.targets.addon.lua_B`, for every body key on the
+// Phase 2g: settings builds emit ONE multi-target addon, `Addons\Missions.targets.addon.lua_B`, for every body key on the
 // addon lane (bootstrapper contract `RESEARCH/MULTI_TARGET_ADDON_AND_ROOT_BINDING_2026-09-29`, branch
 // feat/multi-target-addon 67cd256): one Scripts row, one enable state, `return { targets = { ["<key>"] = entry } }`, no
 // top-level hooks. Every lowercase 16-hex string constant in the compiled file is a declared target key, so the keys
@@ -1443,7 +1462,7 @@ Json mission_addon_scaffold(const Json& registry, const std::string& body, const
 // on any other lowercase 16-hex text in the source or the pool. Presets keep their established single-key files.
 constexpr const char* kMultiTargetAddonName = "Missions";
 // Optional folder package layout (bootstrapper feat/script-packages-2026-09-29, `renovice/packages_core.hpp`): one
-// `CustomScripts\Packages\Missions\` folder holds the multi-target addon, the exact replacements and a strict
+// `LuaScripts\Packages\Missions\` folder holds the multi-target addon, the exact replacements and a strict
 // `package.json`; the Scripts menu shows ONE row `[PACKAGE] Missions`, policy `package:missions`. Limits mirror the
 // loader: display name <= 64, member label <= 128, description <= 1024 printable characters, members are replacement
 // (`<16-hex key> (...).lua_B`) or target-addon files only.
@@ -1589,7 +1608,7 @@ std::string lua_table_key(const Json& key) {
 // Phase 2i (INGAME_EDITOR_DESIGN.md section 3.4, primitive ADDON_SETTINGS_V1): each entry keeps its compiled values in its
 // `settings` table (`[id] = { value, stock, enabled }`, stock equal to the registry stock). `activate(context)` derives the
 // effective settings of this generation: with `context.settings` (a generation-owned table `[id] = { enabled, value, stock }`
-// built by the host from package.json declarations and CustomScripts\Settings\<package>.json) only enabled values whose
+// built by the host from package.json declarations and the package's Config\ScriptStates.json values entry) only enabled values whose
 // declared stock equals the compiled stock are bound; a missing or disabled value keeps its field stock and is never
 // written. Without `context.settings` (loose layout, an older runtime, or rejected declarations) the compiled values apply
 // where their compiled `enabled` flag is true. The stock check runs only over the fields this generation writes.
@@ -2631,7 +2650,7 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
         if (naming.literal_headline) normalized["literal_scope"] = "headline";
         // Recorded only for the package layout, so every loose build keeps its exact settings bytes and build hash.
         if (naming.package_layout) normalized["output_layout"] = "package";
-        const std::string package_live = std::string("OpenWF/CustomScripts/Packages/") + kMissionPackageName + "/";
+        const std::string package_live = std::string(kScriptsRootV2) + "Packages/" + kMissionPackageName + "/";
         const auto lua_live_path = [&](const std::string& loose_directory, const fs::path& artifact) {
             return (naming.package_layout ? package_live : loose_directory) + artifact.filename().string();
         };
@@ -2743,7 +2762,7 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
             gates.push_back({{"name", "exact-instruction-preimages-and-allowed-diff"}, {"pass", true}, {"exit_code", 0}});
             gate(gates, "de-roundtrip", "de-roundtrip " + quote_process_argument(artifact), "FULL BODY identical: True");
             record("NATIVE_REPLACEMENT", "EXACT_LITERAL", body, rows, source, artifact, stock, module.at("sha256").get<std::string>(),
-                   lua_live_path("OpenWF/CustomScripts/", artifact), gates,
+                   lua_live_path(std::string(kScriptsRootV2) + "Replacements/", artifact), gates,
                    literal_master_of_body.contains(body) ? Json{{"masters", Json::array({literal_master_of_body.at(body)})}} : Json::object());
         }
 
@@ -2780,7 +2799,7 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                 Json gates = Json::array();
                 addon_gates(gates, source, result.directory / "source" / (body + ".verification-u43.lua_B"), artifact);
                 record("TARGET_ADDON", "TARGET_ADDON", body, rows, source, artifact, stock, module.at("sha256").get<std::string>(),
-                       "OpenWF/CustomScripts/Inject/" + artifact.filename().string(), gates, Json::object());
+                       std::string(kScriptsRootV2) + "Addons/" + artifact.filename().string(), gates, Json::object());
             }
         } else if (!addon.empty()) {
             // Settings builds: ONE multi-target addon for every body key on the addon lane. Only the generic per-instance
@@ -3001,7 +3020,7 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                 addon_extra["masters"].push_back(id);
             }
             record("TARGET_ADDON", "TARGET_ADDON", "multi-target", all_rows, source, artifact, fs::path(), std::string(),
-                   lua_live_path("OpenWF/CustomScripts/Inject/", artifact), gates, addon_extra);
+                   lua_live_path(std::string(kScriptsRootV2) + "Addons/", artifact), gates, addon_extra);
         }
 
         if (!metadata.empty()) {
@@ -3165,10 +3184,10 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                     naming.literal_recipes
                         ? "RENOVICE mission editor output for client build " + registry.at("build").get<std::string>() +
                               ". Script-literal values (literals.json) need the LIVE_LITERALS_V1 bootstrapper; older DLLs ignore "
-                              "that file and keep those values stock. CustomScripts/Settings/Missions.json holds the chosen values."
+                              "that file and keep those values stock. Config/ScriptStates.json holds the chosen values."
                         : "RENOVICE universal mission editor output for client build " + registry.at("build").get<std::string>() +
                               ". One Scripts row for every generated Lua mission change. Every value is declared in settings; "
-                              "CustomScripts/Settings/Missions.json selects which values apply.",
+                              "Config/ScriptStates.json selects which values apply.",
                     kPackageDescriptionMaximum);
                 Json group_declarations = Json::array();
                 std::vector<std::string> ordered_groups(used_groups.begin(), used_groups.end());
@@ -3433,26 +3452,31 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                                    std::to_string(declared_values) + " groups=" + std::to_string(group_declarations.size()) +
                                    (declared_masters != 0 ? " masters=" + std::to_string(declared_masters) : std::string()) + "\n";
                 if (!settings_text.empty()) throw std::runtime_error("settings-declarations gate failed: " + settings_text);
-                // Migration settings file (design section 3.3): the values this build applies, enabled, so a runtime with
+                // Migration settings (design section 3.3): the values this build applies, enabled, so a runtime with
                 // ADDON_SETTINGS_V1 reproduces the loose behaviour; with package_scope "all_addon_values" every other declared
-                // value is listed disabled at its stock (the shipped defaults). It is installed outside the package folder
-                // (CustomScripts/Settings/<package>.json) because the package folder is replaced on redeploy.
-                const fs::path settings_file = result.directory / "Settings" / (std::string(kMissionPackageName) + ".json");
-                fs::create_directories(settings_file.parent_path());
+                // value is listed disabled at its stock (the shipped defaults). Layout V2: they are the package's values entry
+                // of Config/ScriptStates.json (outside the package folder, which is replaced on redeploy), staged as the
+                // fragment ScriptStates.merge.json and merged into the user's file (never replacing it).
+                const fs::path settings_file = result.directory / kScriptStatesFragmentFile;
+                const std::string settings_package = "package:" + ascii_lower_text(kMissionPackageName);
                 for (const auto& [id, entry] : live_literal_output.settings_values.items()) migration_values[id] = entry;  // R8
                 for (const auto& group : live_literal_output.groups) migration_groups[group] = true;
-                const Json migration{{"format", kScriptSettingsFormat}, {"package", "package:" + ascii_lower_text(kMissionPackageName)},
+                const Json migration{{"format", kScriptSettingsFormat}, {"package", settings_package},
                                      {"build", registry.at("build")}, {"use_stock", false}, {"groups", migration_groups},
                                      {"values", migration_values}};
-                write_text(settings_file, migration.dump(2) + "\n");
-                if (Json::parse(read_text(settings_file)) != migration) throw std::runtime_error("settings migration file readback mismatch");
+                Json fragment_values = Json::object();
+                fragment_values[settings_package] = migration;
+                const Json fragment{{"schema", 2}, {"values", fragment_values}};
+                write_text(settings_file, fragment.dump(2) + "\n");
+                if (Json::parse(read_text(settings_file)) != fragment || staged_package_values(result.directory, settings_package) != migration)
+                    throw std::runtime_error("settings migration fragment readback mismatch");
                 result.package_directory = package_dir;
                 package_record = {{"path", relative(package_dir)}, {"name", kMissionPackageName},
                                   {"manifest", {{"path", relative(package_dir / "package.json")}, {"sha256", sha256_file(package_dir / "package.json")}}},
                                   {"members", member_records},
                                   {"scripts_menu", {{"row", "[PACKAGE] " + std::string(kMissionPackageName)},
                                                     {"policy_id", "package:" + ascii_lower_text(kMissionPackageName)}}},
-                                  {"intended_live_relative_path", "OpenWF/CustomScripts/Packages/" + std::string(kMissionPackageName)},
+                                  {"intended_live_relative_path", std::string(kScriptsRootV2) + "Packages/" + kMissionPackageName},
                                   {"settings", {{"declarations", {{"format", kSettingsDeclarationFormat}, {"values", declared_values},
                                                                   {"groups", group_declarations.size()},
                                                                   {"scope", naming.declare_all_addon_values ? "all_addon_values" : "built_values"},
@@ -3461,8 +3485,8 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                                                                   {"excluded_values", excluded_values}}},
                                                 {"migration", {{"path", relative(settings_file)}, {"sha256", sha256_file(settings_file)},
                                                                {"format", kScriptSettingsFormat},
-                                                               {"intended_live_relative_path", "OpenWF/CustomScripts/Settings/" +
-                                                                                                   std::string(kMissionPackageName) + ".json"}}}}},
+                                                               {"apply", "merge"}, {"values_key", settings_package},
+                                                               {"intended_live_relative_path", kScriptStatesV2}}}}},
                                   {"gates", Json::array({Json{{"name", "package-folder"}, {"pass", true}, {"exit_code", 0}},
                                                          Json{{"name", "settings-declarations"}, {"pass", true}, {"exit_code", 0}}})}};
                 if (naming.literal_recipes) {

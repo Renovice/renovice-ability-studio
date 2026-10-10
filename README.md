@@ -48,7 +48,7 @@ Installed metadata + script corpus
              -> description/localization override
         -> DeNativeDecompiler recompile and gates
         -> rollback snapshot
-        -> CustomScripts / Inject deployment
+        -> LuaScripts/Replacements / Addons deployment (layout V2; V1 CustomScripts mapped)
         -> native-descriptor F9 refresh
         -> log and in-game acceptance
 ```
@@ -441,7 +441,7 @@ The published Studio **Mission Timers** picker has twelve presets for the client
 | Descendia · Shrine offerings | Offering generation time | 30 / 15 seconds | Native metadata `.txt` |
 | Descendia · Excavation | Powered excavator completion time | 45 / 15 seconds | Exact Lua replacement `.lua_B` |
 
-Use **Build + Save Mission Edit** to choose a Windows destination. Metadata patches default to `OpenWF/Metadata Patches`; Lua replacements use `OpenWF/CustomScripts`. Existing destination files get rollback copies. These presets change gameplay progression, not server reward quantities. Netracell's parameter also affects the quest variant, which keeps its additional ×8 factor. Descendia's overall failure deadlines are unchanged.
+Use **Build + Save Mission Edit** to choose a Windows destination. Metadata patches default to `OpenWF/Metadata Patches`; Lua replacements use `OpenWF/LuaScripts/Replacements` and addons `OpenWF/LuaScripts/Addons` (layout V2, 2026-10-10; an install still on the old `OpenWF/CustomScripts` folder is used as it is). Existing destination files get rollback copies. These presets change gameplay progression, not server reward quantities. Netracell's parameter also affects the quest variant, which keeps its additional ×8 factor. Descendia's overall failure deadlines are unchanged.
 
 Builds require exact current stock hashes. Excavation changes its completion threshold and the shared constant feeding migration, battery limits, remaining-time display and partial progress together. Whole-second durations are required. Offline validation passed; these new presets are not yet live-game confirmed.
 

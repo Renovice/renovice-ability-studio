@@ -48,6 +48,20 @@ def current_input(input_path: Path, work: Path) -> Path:
     return out
 
 
+def staged_values(generation: Path, package_id: str = 'package:missions') -> dict:
+    """The package's SCRIPT SETTINGS values a build staged (layout V2, 2026-10-10): its "values" entry in
+    <generation>/ScriptStates.merge.json, the former Settings/<package>.json object unchanged."""
+    fragment = json.loads((Path(generation) / 'ScriptStates.merge.json').read_text(encoding='utf-8'))
+    assert fragment.get('schema') == 2 and package_id in fragment.get('values', {}), (generation, sorted(fragment))
+    return fragment['values'][package_id]
+
+
+def staged_values_file(generation: Path, out: Path, package_id: str = 'package:missions') -> Path:
+    """staged_values written as a stand-alone values file (the input form of verify_addon_settings.ps1 -Settings)."""
+    Path(out).write_text(json.dumps(staged_values(generation, package_id), indent=2) + '\n', encoding='utf-8')
+    return Path(out)
+
+
 def registry_sha256() -> str:
     return hashlib.sha256(REGISTRY.read_bytes()).hexdigest()
 

@@ -7,7 +7,8 @@ OK / BROKEN / UNKNOWN per item, grouped by area, with what changed and which use
     python repos/apps/ability-editor/tools/update_check/renovice_update_check.py
 
 Read-only towards the game: Warframe.x64.exe, Cache.Windows (B.Font.toc/.cache, H.Misc for Packages.bin),
-OpenWF/Hotfix.owf and OpenWF/CustomScripts are opened for reading only. Extracted modules, decompiled addons and the
+OpenWF/Hotfix.owf and the script root are opened for reading only. The script root is the loader's choice
+(uc_layout): OpenWF/LuaScripts (layout V2) when it exists, else OpenWF/CustomScripts (V1); --custom-scripts names one. Extracted modules, decompiled addons and the
 throw-away verify-missions editor root go to <workspace>/work/temp/update-check; the report goes to
 <workspace>/work/diagnostics/update-check/<build>_<time>/ (update_check_report.md + .json).
 
@@ -36,6 +37,7 @@ sys.path.insert(0, str(TOOL_DIR))
 import uc_bytecode as B  # noqa: E402
 import uc_cache  # noqa: E402
 import uc_content  # noqa: E402
+import uc_layout  # noqa: E402
 import uc_missions  # noqa: E402
 import uc_native  # noqa: E402
 import uc_pe  # noqa: E402
@@ -133,6 +135,13 @@ class Stock:
         return rec['disk'].read_bytes() if rec else None
 
 
+def default_cli(ws: Path, wsj: dict) -> Path:
+    """RENOVICE_EDITOR_CLI (a private build, e.g. a worktree's), else the workspace's current editor build."""
+    env = os.environ.get('RENOVICE_EDITOR_CLI')
+    return Path(env) if env else ws / wsj['work']['builds'] / 'ability-editor' / 'current' / 'bin' / \
+        'renovice_ability_editor_cli.exe'
+
+
 def load_baseline(path: Path | None, build: str, log) -> tuple[dict, str]:
     if path:
         return json.loads(path.read_text(encoding='utf-8')), str(path)
@@ -151,15 +160,17 @@ def main(argv=None) -> int:
     ap.add_argument('--game', type=Path, default=DEFAULT_GAME, help='installed Warframe folder (read only; default: RENOVICE_GAME, else the Documents copy)')
     ap.add_argument('--exe', type=Path, help='Warframe.x64.exe to check (default: <game>/Warframe.x64.exe)')
     ap.add_argument('--dll', type=Path, help='installed proxy DLL (default: <game>/WTSAPI32.dll)')
-    ap.add_argument('--custom-scripts', type=Path, help='CustomScripts folder (default: <game>/OpenWF/CustomScripts)')
+    ap.add_argument('--custom-scripts', '--scripts-root', dest='custom_scripts', type=Path,
+                    help='script root, OpenWF/LuaScripts (layout V2) or OpenWF/CustomScripts (V1) (default: the one the '
+                         'loader uses: <game>/OpenWF/LuaScripts when it exists, else <game>/OpenWF/CustomScripts)')
     ap.add_argument('--stock-dir', type=Path, help='use this folder of extracted modules instead of the cache')
     ap.add_argument('--stock-overlay', type=Path, help='modules here replace the same-named stock modules')
     ap.add_argument('--bootstrapper-ref', default='main', help='bootstrapper git ref whose sources are checked')
     ap.add_argument('--baseline', type=Path, help='baseline JSON (default: tools/update_check/baselines/<build>.json '
                                                   'or the newest one)')
     ap.add_argument('--out', type=Path, help='report folder')
-    ap.add_argument('--cli', type=Path, help='renovice_ability_editor_cli.exe (default: work/builds/ability-editor/'
-                                             'current/bin)')
+    ap.add_argument('--cli', type=Path, help='renovice_ability_editor_cli.exe (default: RENOVICE_EDITOR_CLI, else '
+                                             'work/builds/ability-editor/current/bin)')
     ap.add_argument('--registry', type=Path, help='mission registry to verify (default: REGISTRIES/mission_build_u44.json; '
                                                   'the update tool passes its staged, rebased registry)')
     ap.add_argument('--no-verify-missions', action='store_true', help='skip the verify-missions CLI run')
@@ -187,7 +198,8 @@ def run(args, ws, wsj, repos, temp, rep, log, t0) -> int:
     game = args.game
     exe_path = args.exe or game / 'Warframe.x64.exe'
     dll_path = args.dll or game / 'WTSAPI32.dll'
-    custom = args.custom_scripts or game / 'OpenWF' / 'CustomScripts'
+    layout = uc_layout.Layout.of(args.custom_scripts) if args.custom_scripts else uc_layout.Layout.for_game(game)
+    custom = layout.root
     exe = exe_path.read_bytes()
     exe_sha = hashlib.sha256(exe).hexdigest()
     img = uc_pe.Image(exe)
@@ -217,7 +229,7 @@ def run(args, ws, wsj, repos, temp, rep, log, t0) -> int:
                     bootstrapper_ref=args.bootstrapper_ref, bootstrapper_commit=boot.commit,
                     registry_build=registry['build'], tool_commit=git_head(EDITOR),
                     started=datetime.datetime.now().isoformat(timespec='seconds'),
-                    custom_scripts=str(custom), exe=str(exe_path))
+                    custom_scripts=str(custom), script_layout=layout.version, exe=str(exe_path))
 
     # 2. bootstrapper: build, allowlists, per-build tables, native signatures --------------------------------------------
     native = uc_native.NativeChecks(rep, img, exe_sha, build, boot, baseline, game).run(dll_path)
@@ -225,7 +237,7 @@ def run(args, ws, wsj, repos, temp, rep, log, t0) -> int:
     seed = exe_seed or seed_registry
 
     # 3. installed content -----------------------------------------------------------------------------------------------
-    scripts = uc_content.inventory(custom)
+    scripts = uc_content.inventory(layout)
     derecomp = repos['de_luau_toolchain'] / 'bin' / 'derecomp.exe'
     for s in scripts:
         if s.kind in ('target-addon', 'multi-target-addon') and s.keys:
@@ -408,7 +420,7 @@ def run(args, ws, wsj, repos, temp, rep, log, t0) -> int:
                       'stock module; prototype fingerprints come from the baseline of the last certified build.')
 
     # missions area ----------------------------------------------------------------------------------------------------
-    cli = args.cli or ws / wsj['work']['builds'] / 'ability-editor' / 'current' / 'bin' / 'renovice_ability_editor_cli.exe'
+    cli = args.cli or default_cli(ws, wsj)
     if args.no_verify_missions:
         rep.add('missions', 'missions.verify_missions', 'verify-missions on the current stock bytes', UNKNOWN,
                 'skipped (--no-verify-missions)')

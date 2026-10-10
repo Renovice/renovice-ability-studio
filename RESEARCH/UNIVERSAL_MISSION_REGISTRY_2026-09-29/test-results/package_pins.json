@@ -6,7 +6,7 @@
  "input_lf_sha256": "dccde5fddf2649c2be4c93789cecab4cc1d1759dc9d01d0117cba25f5a7ca4b6",
  "files": {
   "Missions.targets.addon.lua_B": "76c10eaa1df91ad71e86afe27147694beb28045957e3785b39ed0b7b64df88a0",
-  "package.json": "f577faa0283988151a0c1a6defa58e87e9b2b15c256b4320c6cf7b873e8ff25f",
+  "package.json": "454be0ebeb90bf0fc4dff0d80901acbe3e8dc90ccf4c0720044fbdbe27a0cc29",
   "literals.json": "0de8885a1bbb4a550a72491f37ee33b14ed442b60d8d87552011e4cbf2a01b90",
   "engine_params.json": "731029cf03071416ae4bfb379dc7e801155f570d01ab527567e9cf695d48c472"
  }

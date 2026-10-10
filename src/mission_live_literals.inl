@@ -416,7 +416,7 @@ LiveLiteralOutput emit_live_literal_recipe(const Json& registry, const MissionPa
                      {"size", fs::file_size(recipe_path)}, {"format", kLiveLiteralRecipeFormat}, {"values", values.size()},
                      {"masters", masters}, {"modules", stock_of.size()}, {"recipe_only_groups", recipe_groups},
                      {"core_sha256", kLiveLiteralCoreSha256}, {"shipped_synthesis", synthesis_records},
-                     {"intended_live_relative_path", "OpenWF/CustomScripts/Packages/" + std::string(kMissionPackageName) + "/" + kLiveLiteralRecipeFile},
+                     {"intended_live_relative_path", std::string(kScriptsRootV2) + "Packages/" + kMissionPackageName + "/" + kLiveLiteralRecipeFile},
                      {"requires", "bootstrapper LIVE_LITERALS_V1; older DLLs ignore the file (those values stay stock)"}};
     result.gate_log += "live-literal-core\nPASS sha256=" + std::string(kLiveLiteralCoreSha256) + "\n";
     result.gate_log += "live-literal-recipe\nPASS values=" + std::to_string(values.size()) + " masters=" + std::to_string(masters) +

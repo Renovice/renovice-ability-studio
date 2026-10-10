@@ -9,14 +9,19 @@ Applies the auto items of the step-2 plan, then gates the result:
      every BUILD_GATES entry must PASS;
   4. the 12 presets through the registry path (`build`, reference artifacts, not installed);
   5. authored addons (uc_artifacts.rebuild_addon) and replacements (uc_artifacts.rebase_replacement results of step 2,
-     staged in place: CustomScripts/ or the member's package folder);
+     staged in place: Replacements/ or the member's package folder);
      non-Missions package.json (Frost, Octavia, Icebind Solo): members renamed to the new key, settings.build = build B;
-  6. ScriptStates.json with renamed entries keeping their state;
-  7. Settings compatibility: every saved value id of Settings/*.json (read-only) is declared by the new packages and its
-     value fits the new limits (value ids are tunable/master ids and never change across builds);
-  8. the step-1 check on a simulated install (a copy of CustomScripts with the set applied) against build B.
-The install set mirrors <game>: install/OpenWF/CustomScripts/...; rollback/ holds the currently installed files the set
-replaces or removes; remove.txt lists the files to delete. Nothing is written to the game folder.
+  6. Config/ScriptStates.json: renamed entries keep their state (a switch change is a fragment merged into the user's
+     file, uc_layout.merge_states; every other switch and every package's values are kept);
+  7. Settings compatibility: every saved value id of the installed SCRIPT SETTINGS values (Config/ScriptStates.json
+     "values"; V1: Settings/*.json; read-only) is declared by the new packages and its value fits the new limits (value ids
+     are tunable/master ids and never change across builds);
+  8. the step-1 check on a simulated install (a V2 copy of the installed scripts with the set applied) against build B.
+The install set is layout V2 and mirrors <game>: install/OpenWF/LuaScripts/... (uc_layout). On a V1 install
+(OpenWF/CustomScripts) the set is the complete V2 tree: every installed script file the set does not replace is copied
+unchanged, ScriptStates.json + Settings/*.json become Config/ScriptStates.json, renovice.cfg becomes Config/Logs.cfg; the
+old folder is left as it is. rollback/ holds the currently installed files the set replaces or removes (a V2 install);
+remove.txt lists the files to delete. Nothing is written to the game folder.
 """
 from __future__ import annotations
 
@@ -32,13 +37,14 @@ from pathlib import Path
 import uc_artifacts as ART
 import uc_bytecode as B
 import uc_content
+import uc_layout as LAY
 import uc_remap as RM
 
 TOOL_DIR = Path(__file__).resolve().parent
 EDITOR = TOOL_DIR.parents[1]
 REGISTRAR = EDITOR / 'RESEARCH' / 'UNIVERSAL_MISSION_REGISTRY_2026-09-29' / 'tools'
 DEFAULT_REBUILD_INPUT = EDITOR / 'RESEARCH' / 'MISSIONS_R13_NATIVE_ENTRY_2026-10-01' / 'inputs' / 'rebuild_input.r12.json'
-CS = Path('OpenWF') / 'CustomScripts'
+TARGET = Path('OpenWF') / LAY.V2_DIR          # every staged script path (layout V2)
 
 
 def _sha(b: bytes) -> str:
@@ -62,41 +68,115 @@ class Gates:
 
 
 class Staging:
-    """The staged install set: install/, rollback/, remove list."""
+    """The staged install set: install/ (layout V2), rollback/, the remove list and the ScriptStates fragment.
 
-    def __init__(self, root: Path, custom: Path):
-        self.root, self.custom = root, custom
+    `custom` is the installed script root of either layout (a Path or a uc_layout.Layout). Paths given to put/remove are
+    canonical ids (uc_layout.canonical; a V1 form is accepted). Config/ScriptStates.json is never put directly: switch
+    and values changes go through states() and finish() stages the user's installed file with the fragment merged."""
+
+    def __init__(self, root: Path, custom):
+        self.root = root
+        self.layout = custom if isinstance(custom, LAY.Layout) else LAY.Layout.of(Path(custom))
+        self.custom = self.layout.root
+        self.migrating = self.layout.version == LAY.V1      # the set becomes the complete V2 tree
         self.install = root / 'install'
         self.rollback = root / 'rollback'
         self.removes: list[str] = []
         self.files: list[dict] = []
         self.unchanged: list[str] = []
+        self.fragment: dict = {'schema': 2}
+        self.state_errors: list[str] = []
+        self.migration_reported: list = []
+        self._staged: set[str] = set()
+        self._removed: set[str] = set()
+        self._states_why: list[str] = []
+
+    @staticmethod
+    def install_path(rel: str) -> str:
+        return (TARGET / LAY.canonical(rel)).as_posix()
 
     def put(self, rel: str, data: bytes, why: str):
-        cur = self.custom / rel
+        rel = LAY.canonical(rel)
+        if rel == LAY.STATES:
+            raise ValueError('Config/ScriptStates.json is merged, never replaced: use Staging.states()')
+        cur = self.layout.path(rel)
         if cur.is_file() and cur.read_bytes() == data:
-            self.unchanged.append(str(CS / rel).replace('\\', '/'))     # identical to the installed file: not staged
+            self.unchanged.append(self.install_path(rel))     # identical to the installed file: not staged
             return
-        dst = self.install / CS / rel
+        dst = self.install / TARGET / rel
         dst.parent.mkdir(parents=True, exist_ok=True)
         dst.write_bytes(data)
-        cur = self.custom / rel
         if cur.is_file():
             self._backup(rel)
-        self.files.append({'install': str(CS / rel).replace('\\', '/'), 'sha256': _sha(data), 'bytes': len(data),
+        self._staged.add(rel)
+        self.files.append({'install': self.install_path(rel), 'sha256': _sha(data), 'bytes': len(data),
                            'replaces': _sha_file(cur) if cur.is_file() else None, 'why': why})
 
     def remove(self, rel: str, why: str):
-        if (self.custom / rel).is_file():
+        rel = LAY.canonical(rel)
+        if self.layout.path(rel).is_file():
             self._backup(rel)
-            self.removes.append(f'{str(CS / rel)}\t{why}'.replace('\\', '/'))
+            self._removed.add(rel)
+            self.removes.append(f'{self.install_path(rel)}\t{why}')
+
+    def states(self, scripts: dict | None = None, values: dict | None = None, why: str = ''):
+        """Switch changes (`scripts`; None removes a switch) and whole package values entries (`values`, keyed by
+        package id) merged into the user's Config/ScriptStates.json by finish()."""
+        LAY.fragment_add(self.fragment, scripts, values)
+        if why and why not in self._states_why:
+            self._states_why.append(why)
 
     def _backup(self, rel: str):
-        src = self.custom / rel
-        dst = self.rollback / CS / rel
+        if self.migrating:          # a V1 install is not overwritten: the set goes to a new LuaScripts folder
+            return
+        src = self.layout.path(rel)
+        dst = self.rollback / TARGET / rel
         if not dst.exists():
             dst.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(src, dst)
+
+    def finish(self) -> list[str]:
+        """Completes the set once every put/remove/states call is made: on a V1 install the migration copies; the merged
+        Config/ScriptStates.json when the fragment changes anything (always on a V1 install); the fragment itself as
+        <stage>/ScriptStates.merge.json. Returns the ScriptStates read errors (entries that could not be read); on a V2
+        install with errors nothing is merged (the caller's gate fails)."""
+        if self.migrating:
+            plan = LAY.migration_plan(self.custom, include_logs=False)
+            for src, rel, _kind in plan.copies:
+                if rel in self._staged or rel in self._removed:
+                    continue
+                data = src.read_bytes()
+                dst = self.install / TARGET / rel
+                dst.parent.mkdir(parents=True, exist_ok=True)
+                dst.write_bytes(data)
+                self.files.append({'install': self.install_path(rel), 'sha256': _sha(data), 'bytes': len(data),
+                                   'replaces': None, 'why': f'layout V2: copied unchanged from '
+                                                            f'{LAY.LEGACY_PREFIX}{LAY.v1_rel(rel)}'})
+            base, self.state_errors = plan.states, list(plan.state_errors)
+            self.migration_reported = [(f'{LAY.LEGACY_PREFIX}{r}', why) for r, why in plan.reported]
+            why = ['layout V2: ScriptStates.json switches + Settings/*.json values (schema 2)'] + self._states_why
+        else:
+            base, self.state_errors = self.layout.read_states()
+            why = self._states_why
+        if self.migrating or not LAY.fragment_empty(self.fragment):
+            if self.state_errors and not self.migrating:
+                return self.state_errors        # never merge onto a file that could not be read
+            data = LAY.dump_states(LAY.merge_states(base, self.fragment))
+            cur = self.layout.states
+            if not self.migrating and cur.is_file() and cur.read_bytes() == data:
+                self.unchanged.append(self.install_path(LAY.STATES))
+            else:
+                dst = self.install / TARGET / LAY.STATES
+                dst.parent.mkdir(parents=True, exist_ok=True)
+                dst.write_bytes(data)
+                if cur.is_file():
+                    self._backup(LAY.STATES)
+                self.files.append({'install': self.install_path(LAY.STATES), 'sha256': _sha(data), 'bytes': len(data),
+                                   'replaces': None if self.migrating or not cur.is_file() else _sha_file(cur),
+                                   'why': 'merged into the installed file: ' + '; '.join(why)})
+        if not LAY.fragment_empty(self.fragment):
+            (self.root / LAY.FRAGMENT_NAME).write_bytes(LAY.dump_fragment(self.fragment))
+        return self.state_errors
 
 
 def run_cli(cli: Path, *args, cwd=None, timeout=1800):
@@ -195,21 +275,23 @@ def preset_builds(cli: Path, editor: Path, registry: dict, temp: Path, gates: Ga
     return out
 
 
-def settings_compat(custom: Path, packages: dict, gates: Gates, installed: dict | None = None) -> dict:
+def settings_compat(custom, packages: dict, gates: Gates, installed: dict | None = None) -> dict:
     """packages: {package name: {value id: declaration}} of the staged set; installed: the same for the installed
-    packages (an entry the installed package does not declare either was already ignored before the update)."""
-    report = {}
-    for f in sorted((custom / 'Settings').glob('*.json')) if (custom / 'Settings').is_dir() else []:
-        try:
-            data = json.loads(f.read_text(encoding='utf-8'))
-        except (OSError, ValueError) as e:
-            report[f.name] = {'error': str(e)}
+    packages (an entry the installed package does not declare either was already ignored before the update). The saved
+    values are the "values" entries of Config/ScriptStates.json (V1: Settings/<package>.json), keyed by package id."""
+    layout = custom if isinstance(custom, LAY.Layout) else LAY.Layout.of(Path(custom))
+    doc, errors = layout.read_states()
+    report = {f'error {i + 1}': {'error': e} for i, e in enumerate(errors)}
+    by_id = {LAY.package_id(name): name for name in packages}
+    for pid, data in sorted(doc.get('values', {}).items()):
+        pkg = by_id.get(pid.lower())
+        if not isinstance(data, dict):
+            report[pid] = {'error': 'values entry is not an object'}
             continue
-        pkg = f.stem
-        decls = packages.get(pkg)
-        if decls is None:
-            report[f.name] = {'package': pkg, 'note': 'package not part of the staged set (kept as installed)'}
+        if pkg is None:
+            report[pid] = {'package': pid, 'note': 'package not part of the staged set (kept as installed)'}
             continue
+        decls = packages[pkg]
         unknown, out_of_range, stock_changed, ok, already = [], [], [], 0, []
         for vid, entry in data.get('values', {}).items():
             d = decls.get(vid)
@@ -226,9 +308,9 @@ def settings_compat(custom: Path, packages: dict, gates: Gates, installed: dict 
             if 'stock' in entry and 'stock' in d and float(entry['stock']) != float(d['stock']):
                 stock_changed.append({'id': vid, 'saved_stock': entry['stock'], 'new_stock': d['stock']})
             ok += 1
-        report[f.name] = {'package': pkg, 'entries': len(data.get('values', {})), 'accepted': ok,
-                          'unknown_entries': unknown, 'not_declared_before_either': already,
-                          'out_of_range': out_of_range, 'stock_changed': stock_changed}
+        report[pid] = {'package': pkg, 'entries': len(data.get('values', {})), 'accepted': ok,
+                       'unknown_entries': unknown, 'not_declared_before_either': already,
+                       'out_of_range': out_of_range, 'stock_changed': stock_changed}
     rejected = sum(len(r.get('out_of_range', [])) for r in report.values())
     gates.add('settings-compat', rejected == 0, '; '.join(
         f'{k}: {r.get("accepted", "-")}/{r.get("entries", "-")} accepted, {len(r.get("unknown_entries", []))} unknown '
@@ -249,23 +331,26 @@ def declarations(pkg_dir: Path) -> dict:
     return out
 
 
-def simulate(custom: Path, stage: Staging, sim: Path) -> Path:
+def simulate(custom, stage: Staging, sim: Path) -> Path:
+    """A layout-V2 copy of the installed scripts with the set applied (Logs left out). On a V1 install the set already
+    holds the complete migrated tree. `custom` is kept for the call signature; the installed root is stage.layout."""
     if sim.exists():
         shutil.rmtree(sim)
     sim.mkdir(parents=True)
-    for item in custom.iterdir():
-        if item.name in ('Logs', 'Diagnostics'):
-            continue
-        if item.is_dir():
-            shutil.copytree(item, sim / item.name)
-        else:
-            shutil.copyfile(item, sim / item.name)
+    if not stage.migrating:
+        for item in stage.custom.iterdir():
+            if item.name == 'Logs':
+                continue
+            if item.is_dir():
+                shutil.copytree(item, sim / item.name)
+            else:
+                shutil.copyfile(item, sim / item.name)
     for line in stage.removes:
-        rel = line.split('\t', 1)[0].split('CustomScripts/', 1)[1]
-        p = sim / rel
-        if p.is_file():
+        rel = LAY.install_canonical(line.split('\t', 1)[0])
+        p = sim / rel if rel else None
+        if p is not None and p.is_file():
             p.unlink()
-    src = stage.install / CS
+    src = stage.install / TARGET
     if src.is_dir():
         for f in src.rglob('*'):
             if f.is_file():
@@ -348,7 +433,7 @@ def rebuild(*, ws: Path, wsj: dict, plan: dict, plan_work: Path, registry: dict,
             continue
         maps = uc_plan.Maps(old, new, opmap)
         mm = maps.get(rec['module'])
-        res = ART.rebuild_addon(rec['spec'], custom / rec['file'], rec['hooks'], mm, seed, tools,
+        res = ART.rebuild_addon(rec['spec'], stage.layout.path(rec['file']), rec['hooks'], mm, seed, tools,
                                 temp / 'addons' / Path(rec['file']).stem, opmap)
         addon_results.append(dict(rec, **{k: v for k, v in res.items() if k not in ('file',)}))
         gates.add(f'addon.{Path(rec["file"]).name}', res['action'] == 'auto',
@@ -391,23 +476,30 @@ def rebuild(*, ws: Path, wsj: dict, plan: dict, plan_work: Path, registry: dict,
         if changed:
             stage.put(f'Packages/{name}/package.json', (json.dumps(pj, indent=2, ensure_ascii=False) + '\n').encode('utf-8'),
                       f'{name} package: members and build label for the new build')
-    # ScriptStates.json: renamed entries keep their state
-    states_path = custom / 'ScriptStates.json'
-    if renamed and states_path.is_file():
-        st = json.loads(states_path.read_text(encoding='utf-8'))
-        scripts = st.get('scripts', {})
+    # Config/ScriptStates.json: renamed entries keep their state (a member switch "member:<pkg>/<file>" too), merged into
+    # the user's file; every other switch and every values entry stays as installed
+    if renamed:
+        scripts = stage.layout.read_states()[0].get('scripts', {})
+        changes = {}
         for old_rel, new_rel in renamed.items():
             on, nn = Path(old_rel).name.lower(), Path(new_rel).name.lower()
-            for k in list(scripts):
-                if k.endswith(':' + on):
-                    scripts[k[:-len(on)] + nn] = scripts.pop(k)
-        stage.put('ScriptStates.json', (json.dumps(st, indent=4) + '\n').encode('utf-8'),
-                  'renamed scripts keep their enable state')
+            for k, v in scripts.items():
+                if on != nn and (k.endswith(':' + on) or k.endswith('/' + on)):
+                    changes[k] = None
+                    changes[k[:-len(on)] + nn] = v
+        if changes:
+            stage.states(scripts=changes, why='renamed scripts keep their enable state')
+    errors = stage.finish()
+    # V2 install: a ScriptStates.json that cannot be read is never merged onto (blocking). V1 install: an unreadable
+    # Settings/<package>.json was already ignored by the loader; it stays in the old folder and is reported.
+    gates.add('script-states', not errors, 'installed ScriptStates: ' + ('; '.join(errors) if errors else 'read')
+              + ('; layout V1 install: this set is the complete V2 tree (OpenWF/LuaScripts)' if stage.migrating else ''),
+              blocking=not stage.migrating)
 
     # 6. Settings compatibility --------------------------------------------------------------------------------------------
     decl = {}
     for name in plan['artifacts']['packages']:
-        staged = stage.install / CS / 'Packages' / name
+        staged = stage.install / TARGET / 'Packages' / name
         src = staged if (staged / 'package.json').is_file() else custom / 'Packages' / name
         try:
             decl[name] = declarations(src)
@@ -423,7 +515,7 @@ def rebuild(*, ws: Path, wsj: dict, plan: dict, plan_work: Path, registry: dict,
 
     # 7. step-1 check on a simulated install --------------------------------------------------------------------------
     import renovice_update_check as UC
-    sim = simulate(custom, stage, temp / 'sim' / 'CustomScripts')
+    sim = simulate(custom, stage, temp / 'sim' / LAY.V2_DIR)
     out_dir = evidence / 'step1-after'
     code = UC.main(['--quiet', '--custom-scripts', str(sim), '--registry', str(editor / 'REGISTRIES' / 'mission_build_u44.json'),
                     '--out', str(out_dir), *check_args])

@@ -1,14 +1,16 @@
-"""Installed RENOVICE content (OpenWF/CustomScripts) and the hooks its addons declare.
+"""Installed RENOVICE content (OpenWF/LuaScripts, or OpenWF/CustomScripts before layout V2) and the hooks its addons declare.
 
-Inventory rules mirror the runtime (bootstrapper renovice/injection_core.hpp, replacements_core.hpp, packages):
-  <16-hex key> (name).lua_B in CustomScripts\\           full-module replacement of that content key
-  Inject\\<16-hex key>.<name>.target.addon.lua_B         target addon of that key
-  Inject\\<name>.targets.addon.lua_B                     multi-target addon: every lowercase 16-hex string in the
+Inventory rules mirror the runtime (bootstrapper renovice/injection_core.hpp, replacements_core.hpp, packages). Paths are
+the canonical ids of uc_layout (the V2 path; the V1 folder is in brackets):
+  Replacements/<16-hex key> (name).lua_B [root]       full-module replacement of that content key
+  Addons/<16-hex key>.<name>.target.addon.lua_B [Inject] target addon of that key
+  Addons/<name>.targets.addon.lua_B                   multi-target addon: every lowercase 16-hex string in the
                                                          bytecode string pool is a declared target key
-  Packages\\<name>\\package.json + members               the same lanes inside a package (packages_core.hpp
+  Packages/<name>/[package.json] + members             the same lanes inside a package (packages_core.hpp
                                                          classify_member: an ordinary `<16-hex key>...lua_B` member is
                                                          a root replacement; the row state is package:<folder>)
-  Packages\\<name>\\literals.json / engine_params.json   recipe modules (checked in the missions area)
+  Packages/<name>/literals.json / engine_params.json   recipe modules (checked in the missions area)
+Switches come from Config/ScriptStates.json (V1: ScriptStates.json).
 
 Hooks are read from the installed addon bytes themselves: the addon is decompiled with the toolchain
 (`derecomp decompile-mod-u44`, the documented U44 path) into a cache folder and its returned hook tables are parsed:
@@ -24,6 +26,8 @@ import shutil
 import subprocess
 from dataclasses import dataclass, field
 from pathlib import Path
+
+import uc_layout
 
 KEY = re.compile(r'^([0-9a-fA-F]{16})')
 
@@ -67,11 +71,9 @@ def multi_target_keys(data: bytes) -> list[str]:
     return sorted(set(keys))
 
 
-def _states(custom: Path) -> dict:
-    try:
-        return json.loads((custom / 'ScriptStates.json').read_text(encoding='utf-8')).get('scripts', {})
-    except (OSError, ValueError):
-        return {}
+def _states(layout: uc_layout.Layout) -> dict:
+    doc, _ = layout.read_states()
+    return doc.get('scripts', {})
 
 
 def _label(name: str) -> str:
@@ -82,25 +84,28 @@ def _label(name: str) -> str:
     return parts[1] if len(parts) > 2 and KEY.match(parts[0]) else parts[0]
 
 
-def inventory(custom: Path) -> list[Script]:
-    states = _states(custom)
+def inventory(custom) -> list[Script]:
+    """custom: the script root (a Path; its layout is detected with uc_layout.Layout.of) or a uc_layout.Layout."""
+    layout = custom if isinstance(custom, uc_layout.Layout) else uc_layout.Layout.of(Path(custom))
+    states = _states(layout)
     out: list[Script] = []
 
     def state(key: str) -> str:
         v = states.get(key.lower())
         return 'unlisted' if v is None else ('enabled' if v else 'disabled')
 
-    for f in sorted(custom.glob('*.lua_B')):
+    loose = layout.replacements
+    for f in sorted(loose.glob('*.lua_B')) if loose.is_dir() else []:
         m = KEY.match(f.name)
         if m:
-            out.append(Script('replacement', f, f.name, [m.group(1).lower()], f'Replacement: {_label(f.name)}',
-                              state=state('replacement:' + f.name)))
-    for f in sorted(custom.glob('*.swf')):
-        out.append(Script('swf', f, f.name, label=f'SWF replacement: {f.stem}'))
-    inject = custom / 'Inject'
+            out.append(Script('replacement', f, f'Replacements/{f.name}', [m.group(1).lower()],
+                              f'Replacement: {_label(f.name)}', state=state('replacement:' + f.name)))
+    for f in sorted(loose.glob('*.swf')) if loose.is_dir() else []:
+        out.append(Script('swf', f, f'Replacements/{f.name}', label=f'SWF replacement: {f.stem}'))
+    inject = layout.addons
     for f in sorted(inject.glob('*.lua_B')) if inject.is_dir() else []:
-        out.append(_classify(f, f'Inject/{f.name}', '', state))
-    packages = custom / 'Packages'
+        out.append(_classify(f, f'Addons/{f.name}', '', state))
+    packages = layout.packages
     for pkg in sorted(p for p in packages.iterdir() if p.is_dir()) if packages.is_dir() else []:
         try:
             manifest = json.loads((pkg / 'package.json').read_text(encoding='utf-8'))
@@ -139,7 +144,8 @@ def _classify(f: Path, rel: str, package: str, state, in_package: bool = False) 
         # replacement of that content key (a one-shot Inject chunk is not admissible in a package)
         return Script('replacement', f, rel, [m.group(1).lower()], f'Replacement: {_label(f.name)}', package,
                       state('replacement:' + f.name))
-    return Script('inject', f, rel, [], f'Inject: {f.stem}', package, state('inject:' + f.name))
+    # script_control_core.hpp stable_id: an ordinary (one-shot) script's switch is `oneshot:<file>`
+    return Script('inject', f, rel, [], f'Inject: {f.stem}', package, state('oneshot:' + f.name))
 
 
 # -- hook extraction from the decompiled addon --------------------------------------------------------------------------------

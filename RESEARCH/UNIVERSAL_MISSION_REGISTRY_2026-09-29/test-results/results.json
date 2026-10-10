@@ -438,7 +438,7 @@
       {
         "backend": "EXACT_LITERAL",
         "body_key": "caec63d8e739b693",
-        "intended_live_relative_path": "OpenWF/CustomScripts/caec63d8e739b693 (missions_exact-replacement).lua_B",
+        "intended_live_relative_path": "OpenWF/LuaScripts/Replacements/caec63d8e739b693 (missions_exact-replacement).lua_B",
         "manifest": "BUILD_MANIFEST.EXACT_LITERAL_caec63d8e739b693.json",
         "path": "artifacts/caec63d8e739b693 (missions_exact-replacement).lua_B",
         "sha256": "AF066CE608243DF782DFFAABC1EF33135E82C2DB28E5F19AF70729D458C919D8",
@@ -450,7 +450,7 @@
       {
         "backend": "EXACT_LITERAL",
         "body_key": "fc711ff621a75552",
-        "intended_live_relative_path": "OpenWF/CustomScripts/fc711ff621a75552 (missions_exact-replacement).lua_B",
+        "intended_live_relative_path": "OpenWF/LuaScripts/Replacements/fc711ff621a75552 (missions_exact-replacement).lua_B",
         "manifest": "BUILD_MANIFEST.EXACT_LITERAL_fc711ff621a75552.json",
         "path": "artifacts/fc711ff621a75552 (missions_exact-replacement).lua_B",
         "sha256": "E979F5E7906F0D88E49C42B4191ECA6AFDC1237FDDD91D52CBF427DB3FA9F6D2",
@@ -480,7 +480,7 @@
       {
         "backend": "EXACT_LITERAL",
         "body_key": "fc711ff621a75552",
-        "intended_live_relative_path": "OpenWF/CustomScripts/fc711ff621a75552 (missions_exact-replacement).lua_B",
+        "intended_live_relative_path": "OpenWF/LuaScripts/Replacements/fc711ff621a75552 (missions_exact-replacement).lua_B",
         "manifest": "BUILD_MANIFEST.EXACT_LITERAL_fc711ff621a75552.json",
         "path": "artifacts/fc711ff621a75552 (missions_exact-replacement).lua_B",
         "sha256": "E979F5E7906F0D88E49C42B4191ECA6AFDC1237FDDD91D52CBF427DB3FA9F6D2",
@@ -582,7 +582,7 @@
           ],
           "values": 3
         },
-        "intended_live_relative_path": "OpenWF/CustomScripts/Inject/Missions.targets.addon.lua_B",
+        "intended_live_relative_path": "OpenWF/LuaScripts/Addons/Missions.targets.addon.lua_B",
         "manifest": "BUILD_MANIFEST.TARGET_ADDON_multi-target.json",
         "path": "artifacts/Missions.targets.addon.lua_B",
         "runtime_hook": {
@@ -672,17 +672,17 @@
           "pass": true
         }
       ],
-      "intended_live_relative_path": "OpenWF/CustomScripts/Packages/Missions",
+      "intended_live_relative_path": "OpenWF/LuaScripts/Packages/Missions",
       "manifest": {
         "path": "Packages/Missions/package.json",
-        "sha256": "E34CD3908BF28136AF5FAA9C3E0E96D64CC8512B3B34D540A916148CCE6CA9D6"
+        "sha256": "8EFCB056EB6E61419A916BD4A47512353905D2E8D5673A43AC1715FFCEC3C111"
       },
       "members": [
         {
           "backend": "EXACT_LITERAL",
           "detail": "Exact replacement: ZarimanCorruptionMission (void_flood.fractures_per_round.normal)",
           "file": "fc711ff621a75552 (missions_exact-replacement).lua_B",
-          "intended_live_relative_path": "OpenWF/CustomScripts/Packages/Missions/fc711ff621a75552 (missions_exact-replacement).lua_B",
+          "intended_live_relative_path": "OpenWF/LuaScripts/Packages/Missions/fc711ff621a75552 (missions_exact-replacement).lua_B",
           "label": "Void Flood (script replacement)",
           "sha256": "E979F5E7906F0D88E49C42B4191ECA6AFDC1237FDDD91D52CBF427DB3FA9F6D2",
           "size": 112244
@@ -691,7 +691,7 @@
           "backend": "TARGET_ADDON",
           "detail": "Mission tunables: Purgatory, SurvivalMission, HalloweenLanternEndless",
           "file": "Missions.targets.addon.lua_B",
-          "intended_live_relative_path": "OpenWF/CustomScripts/Packages/Missions/Missions.targets.addon.lua_B",
+          "intended_live_relative_path": "OpenWF/LuaScripts/Packages/Missions/Missions.targets.addon.lua_B",
           "label": "Values: Lantern, Purgatory, Survival",
           "sha256": "5F3BDF30D0AC9AD620FFDA484C670FD9665C49C04DF2035E3351DFA530F64137",
           "size": 5584
@@ -714,10 +714,12 @@
           "values": 4
         },
         "migration": {
+          "apply": "merge",
           "format": "RENOVICE_SCRIPT_SETTINGS_V1",
-          "intended_live_relative_path": "OpenWF/CustomScripts/Settings/Missions.json",
-          "path": "Settings/Missions.json",
-          "sha256": "8F1BABCB98252C6BBD1385862EA5FF3F4B63E78297A7D2BAC51A9E6F2CDB9653"
+          "intended_live_relative_path": "OpenWF/LuaScripts/Config/ScriptStates.json",
+          "path": "ScriptStates.merge.json",
+          "sha256": "0EC8290D978BBFB1F3BA32613310294BBA9DC8F1A533CE9A882D9356810DED49",
+          "values_key": "package:missions"
         }
       }
     },
@@ -747,17 +749,17 @@
           "pass": true
         }
       ],
-      "intended_live_relative_path": "OpenWF/CustomScripts/Packages/Missions",
+      "intended_live_relative_path": "OpenWF/LuaScripts/Packages/Missions",
       "manifest": {
         "path": "Packages/Missions/package.json",
-        "sha256": "E34CD3908BF28136AF5FAA9C3E0E96D64CC8512B3B34D540A916148CCE6CA9D6"
+        "sha256": "8EFCB056EB6E61419A916BD4A47512353905D2E8D5673A43AC1715FFCEC3C111"
       },
       "members": [
         {
           "backend": "EXACT_LITERAL",
           "detail": "Exact replacement: ZarimanCorruptionMission (void_flood.fractures_per_round.normal)",
           "file": "fc711ff621a75552 (missions_exact-replacement).lua_B",
-          "intended_live_relative_path": "OpenWF/CustomScripts/Packages/Missions/fc711ff621a75552 (missions_exact-replacement).lua_B",
+          "intended_live_relative_path": "OpenWF/LuaScripts/Packages/Missions/fc711ff621a75552 (missions_exact-replacement).lua_B",
           "label": "Void Flood (script replacement)",
           "sha256": "E979F5E7906F0D88E49C42B4191ECA6AFDC1237FDDD91D52CBF427DB3FA9F6D2",
           "size": 112244
@@ -766,7 +768,7 @@
           "backend": "TARGET_ADDON",
           "detail": "Mission tunables: Purgatory, SurvivalMission, HalloweenLanternEndless",
           "file": "Missions.targets.addon.lua_B",
-          "intended_live_relative_path": "OpenWF/CustomScripts/Packages/Missions/Missions.targets.addon.lua_B",
+          "intended_live_relative_path": "OpenWF/LuaScripts/Packages/Missions/Missions.targets.addon.lua_B",
           "label": "Values: Lantern, Purgatory, Survival",
           "sha256": "5F3BDF30D0AC9AD620FFDA484C670FD9665C49C04DF2035E3351DFA530F64137",
           "size": 5584
@@ -789,10 +791,12 @@
           "values": 4
         },
         "migration": {
+          "apply": "merge",
           "format": "RENOVICE_SCRIPT_SETTINGS_V1",
-          "intended_live_relative_path": "OpenWF/CustomScripts/Settings/Missions.json",
-          "path": "Settings/Missions.json",
-          "sha256": "8F1BABCB98252C6BBD1385862EA5FF3F4B63E78297A7D2BAC51A9E6F2CDB9653"
+          "intended_live_relative_path": "OpenWF/LuaScripts/Config/ScriptStates.json",
+          "path": "ScriptStates.merge.json",
+          "sha256": "0EC8290D978BBFB1F3BA32613310294BBA9DC8F1A533CE9A882D9356810DED49",
+          "values_key": "package:missions"
         }
       }
     },
@@ -2003,8 +2007,8 @@
       "Packages/Missions/f7444e3c621ff018 (missions_exact-replacement).lua_B": "66B4F9349C0EC7FB45A457DFC2EED5D49C102C7B79E0C1183A6A874E8E7830E7",
       "Packages/Missions/fc711ff621a75552 (missions_exact-replacement).lua_B": "E979F5E7906F0D88E49C42B4191ECA6AFDC1237FDDD91D52CBF427DB3FA9F6D2",
       "Packages/Missions/Missions.targets.addon.lua_B": "6DA1C9774BB107797F0F7CD68E82371303F51EB6560129C67D4C06559DEDC62C",
-      "Packages/Missions/package.json": "57A89A746B092D2991B740603DB730CC3135AA52169E7A66BFAC3A83201DC6CA",
-      "Settings/Missions.json": "9EA220A62C17685F20E4EE911FD20000FFF68558D4379CBF06C81C6B95937351"
+      "Packages/Missions/package.json": "4F0D7E612F5778EE3C739DDF726CB118D52FDAE9DA8EC45A71A1DBE40CC10FDD",
+      "Config/ScriptStates.json#package:missions": "EADF3575CCAEC94CEDF0422A73E818E81429090EB005286B600BDB8679510A85"
     },
     "state": "identical to the 2026.10.08.13.05 reference"
   },
