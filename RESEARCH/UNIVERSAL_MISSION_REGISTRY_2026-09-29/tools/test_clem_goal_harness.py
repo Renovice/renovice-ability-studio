@@ -1,0 +1,183 @@
+"""Clem weekly goal harness (GOAL_TAG variant, 2026-10-28).
+
+Runs the REAL generated Missions addon source (a build of the current registry with both Clem rows set) in plain Luau,
+as the R13 runtime calls it at a native entry: activate(context) -> hooks.luaCalls[P].before(...) -> cleanup(). The
+MissionInfo is a table copied by GetMission and replaced by SetMission (the game's own setter), with `goalTag` and
+`location` Symbols as BuildMissionInfo sets them for a key.
+
+Clem's weekly rotates between Survival keys (maxWaveNum 10 = minutes) and Mobile Defense keys (maxWaveNum 540 = total
+defense seconds). For each row (clem.survival_minutes at SurvivalMission P70, clem.mobiledefense_seconds at
+MobileDefense P22):
+  * Clem's own version (goalTag GetClem, its type, its stock): the row value is written once, a second entry writes
+    nothing more;
+  * Clem's other version, a normal node, an Icebind run, another goal tag, a field without the stock (fail closed, one
+    line), a client and the setting off write nothing.
+Limit: the entry dispatch is proven by the bootstrapper (R13 native entry); the in-game effect is a live check.
+Writes only to work/temp/clem-goal-harness and this tool's test-results folder. Reads no game or server folder.
+"""
+from pathlib import Path
+import json, os, shutil, subprocess, sys
+
+EDITOR = Path(__file__).resolve().parents[3]
+ROOT = EDITOR
+while not (ROOT / 'WORKSPACE.json').exists():
+    ROOT = ROOT.parent
+CLI = Path(os.environ.get('RENOVICE_EDITOR_CLI', ROOT / 'work/builds/ability-editor/current/bin/renovice_ability_editor_cli.exe'))
+LUAU = ROOT / 'repos/toolchains/de-luau-toolchain/bin/luau.exe'
+WORK = ROOT / 'work/temp/clem-goal-harness'
+OUT = Path(__file__).resolve().parents[1] / 'test-results'
+results = {'checks': []}
+CASES = [  # the other Clem version is used for the "left alone" check
+    {'name': 'Survival', 'row': 'clem.survival_minutes', 'mtype': 2, 'stock': 10,
+     'value': 5, 'other_type': 9, 'other_stock': 540},
+    {'name': 'Mobile Defense', 'row': 'clem.mobiledefense_seconds', 'mtype': 9,
+     'stock': 540, 'value': 300, 'other_type': 2, 'other_stock': 10},
+]
+EXPECTED_OWNER = {'clem.survival_minutes': ('a62aa7eea1c4f27b', [70]), 'clem.mobiledefense_seconds': ('0028dbbd094c97e4', [22])}
+
+
+def check(ok, name):
+    results['checks'].append({'name': name, 'pass': bool(ok)})
+    print(('PASS' if ok else 'FAIL') + '\t' + name)
+    if not ok:
+        OUT.mkdir(parents=True, exist_ok=True)
+        (OUT / 'clem_goal_harness.json').write_text(json.dumps(results, indent=2) + '\n', encoding='utf-8')
+        sys.exit(1)
+
+
+def lua(v):
+    if isinstance(v, bool):
+        return 'true' if v else 'false'
+    if isinstance(v, (int, float)):
+        return str(v)
+    if isinstance(v, str):
+        return json.dumps(v)
+    if isinstance(v, list):
+        return '{' + ', '.join(lua(x) for x in v) + '}'
+    return '{' + ', '.join(f'[{json.dumps(k)}] = {lua(x)}' for k, x in v.items()) + '}'
+
+
+registry = json.loads((EDITOR / 'REGISTRIES/mission_build_u44.json').read_text(encoding='utf-8'))
+rows = {r['tunable_id']: r for r in registry['tunables']}
+for c in CASES:
+    o = rows[c['row']]['owner']
+    check(o.get('variant') == 'GOAL_TAG' and o.get('goal_tag') == 'GetClem' and 'location' not in o
+          and o['mission_type'] == c['mtype'] and o['variant_stock'] == c['stock'] and rows[c['row']]['stock'] == c['stock']
+          and o['field'] == 'maxWaveNum', f"{c['row']}: GOAL_TAG variant GetClem, type {c['mtype']}, stock {c['stock']}")
+    c['key'], c['entries'] = o['body_key'], [e['prototype'] for e in o['entries']]
+    check((c['key'], c['entries']) == EXPECTED_OWNER[c['row']], f"{c['row']}: written at {c['key']} P{c['entries']}")
+    ui = rows[c['row']]['ui']
+    check(ui.get('path', [])[:2] == ['Events', 'Clem'] and 'hidden' not in ui and not any(
+          d['tunable_id'] == c['row'] for m in registry['ui_masters'].values() for d in m['drives']),
+          f"{c['row']}: shown on Events > Clem itself (no master over it, not hidden)")
+
+# Build input: the pinned settings of the installed package plus both Clem rows set.
+data = json.loads((EDITOR / 'RESEARCH/MISSIONS_R13_NATIVE_ENTRY_2026-10-01/inputs/rebuild_input.r12.json').read_text(encoding='utf-8'))
+data['build'] = registry['build']
+data['values'] = {k: v for k, v in data.get('values', {}).items() if k in rows or k in registry['ui_masters']}
+for c in CASES:
+    data['values'][c['row']] = c['value']
+if 'disabled_values' in data:
+    data['disabled_values'] = [k for k in data['disabled_values'] if k in data['values']]
+shutil.rmtree(WORK, ignore_errors=True)
+WORK.mkdir(parents=True)
+(WORK / 'input.json').write_text(json.dumps(data, indent=1), encoding='utf-8')
+run = subprocess.run([str(CLI), 'build-missions', str(WORK / 'input.json'), '--staging', str(WORK / 'build'), '--editor-root', str(EDITOR)],
+                     capture_output=True, text=True)
+generations = list((WORK / 'build').glob('missions/*/MISSION_SET_MANIFEST.json'))
+check(run.returncode == 0 and len(generations) == 1, 'build with both Clem rows set succeeds')
+source = (generations[0].parent / 'source/Missions.targets.addon.luau').read_text(encoding='utf-8')
+check(source.count('local function missionInfoGoalTag_maxWaveNum(') == 1, 'one GOAL_TAG MissionInfo helper in the addon')
+
+harness = r'''
+local emit = print
+local printed = {}
+print = function(...)
+    local parts = {}
+    for i = 1, select("#", ...) do parts[#parts + 1] = tostring(select(i, ...)) end
+    printed[#printed + 1] = table.concat(parts, " ")
+end
+local symbols = {}
+Symbol = function(name) local s = symbols[name] if s == nil then s = { symbol = name } symbols[name] = s end return s end
+local mission, master = nil, true
+local function set_mission(goalTag, location, mtype, wave)
+    mission = { goalTag = Symbol(goalTag), location = Symbol(location), missionType = mtype, maxWaveNum = wave,
+        alertId = "", invasionId = "", goalId = "", sortieId = "", nightmare = false,
+        syndicateTag = { IsValid = function() return false end } }
+end
+gRegion = { IsMaster = function() return master end }
+local writes = 0
+gGameRules = {
+    GetMission = function() local copy = {} for k, v in pairs(mission) do copy[k] = v end return copy end,
+    SetMission = function(self, m) writes = writes + 1 mission = m end,
+}
+local failures = 0
+local function ok(condition, name)
+    if condition then emit("PASS\t" .. name) else failures = failures + 1 emit("FAIL\t" .. name) end
+end
+local function run(case, enabled, times)
+    local addon = ADDON_MODULE()
+    local target = addon.targets[case.key]
+    target.activate({ settings = { [case.row] = { enabled = enabled, value = case.value, stock = case.stock } }, logging = true })
+    writes, printed = 0, {}
+    for _ = 1, times or 1 do
+        for _, p in ipairs(case.entries) do
+            local hook = target.hooks.luaCalls[p]
+            if hook ~= nil then hook.before(p, {}, {}, nil, {}) end
+        end
+    end
+    target.cleanup()
+end
+
+for _, c in ipairs(CASES) do
+    local t = c.name .. " row"
+    ok(ADDON_MODULE().targets[c.key] ~= nil, t .. ": its mode-script target exists")
+    master = true
+    set_mission("GetClem", "SolNode82", c.mtype, c.stock)
+    run(c, true, 2)
+    ok(mission.maxWaveNum == c.value and writes == 1,
+        t .. ": Clem's " .. c.name .. " week " .. c.stock .. " -> " .. c.value .. " written once (second entry finds it there)")
+    set_mission("GetClem", "SolNode114", c.other_type, c.other_stock)
+    run(c, true)
+    ok(mission.maxWaveNum == c.other_stock and writes == 0, t .. ": Clem's other version (type " .. c.other_type .. ") is left alone")
+    set_mission("", "SolNode82", c.mtype, 0)
+    run(c, true)
+    ok(mission.maxWaveNum == 0 and writes == 0, t .. ": a normal node of this type is left alone")
+    set_mission("", "KuvaPathMission", c.mtype, c.stock)
+    run(c, true)
+    ok(mission.maxWaveNum == c.stock and writes == 0, t .. ": an Icebind run of this type is left alone")
+    set_mission("SomeOtherGoal", "SolNode82", c.mtype, c.stock)
+    run(c, true)
+    ok(mission.maxWaveNum == c.stock and writes == 0, t .. ": another goal tag is left alone")
+    set_mission("GetClem", "SolNode82", c.mtype, c.stock + 1)
+    run(c, true)
+    local said = false
+    for _, line in ipairs(printed) do if string.find(line, "not the stock", 1, true) then said = true end end
+    ok(mission.maxWaveNum == c.stock + 1 and writes == 0 and said, t .. ": a field without the stock is left alone (one line)")
+    master = false
+    set_mission("GetClem", "SolNode82", c.mtype, c.stock)
+    run(c, true)
+    ok(mission.maxWaveNum == c.stock and writes == 0, t .. ": a client (not host) writes nothing")
+    master = true
+    set_mission("GetClem", "SolNode82", c.mtype, c.stock)
+    run(c, false)
+    ok(mission.maxWaveNum == c.stock and writes == 0, t .. ": the setting switched off writes nothing")
+end
+emit(failures == 0 and "CLEM GOAL HARNESS PASS" or "CLEM GOAL HARNESS FAIL")
+'''
+
+script = WORK / 'clem_goal_harness.luau'
+script.write_text('ADDON_MODULE = function(...)\n' + source + '\nend\n' + 'CASES = ' + lua(CASES) + '\n' + harness,
+                  encoding='utf-8')
+check(LUAU.is_file(), 'toolchain luau.exe present')
+run = subprocess.run([str(LUAU), str(script)], capture_output=True, text=True)
+lines = run.stdout.splitlines()
+for line in lines:
+    print('HARNESS\t' + line)
+if run.stderr.strip():
+    print('HARNESS-STDERR\t' + run.stderr.strip())
+check(run.returncode == 0 and 'CLEM GOAL HARNESS PASS' in lines and not any(l.startswith('FAIL') for l in lines),
+      f'harness: {sum(l.startswith("PASS") for l in lines)} checks over both Clem versions')
+OUT.mkdir(parents=True, exist_ok=True)
+(OUT / 'clem_goal_harness.json').write_text(json.dumps(results, indent=2) + '\n', encoding='utf-8')
+print('CLEM GOAL HARNESS GATE PASS')

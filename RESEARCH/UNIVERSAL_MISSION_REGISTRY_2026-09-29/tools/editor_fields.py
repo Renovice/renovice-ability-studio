@@ -89,10 +89,18 @@ GROUPS = {
     'multidefend': {'label': 'Hack-Station Defense', 'aliases': ['MultiDefend']},
     'netracell': {'label': 'Netracell', 'nodes': {'mt': ['MT_VAULTS']}, 'aliases': ['Archon Hunt']},
     'onslaught': {'label': 'Sanctuary Onslaught', 'aliases': ['Elite Onslaught']},  # R10 (no node in the public export join)
-    'orphix': {'label': 'Orphix Venom', 'aliases': ['Orphix', 'Railjack']},
+    'orphix': {'label': 'Orphix', 'aliases': ['Orphix Venom', 'Railjack', 'Mech Survival']},  # 2026-10-29: mission type renamed (event is Events > Orphix Venom)
     'purgatory': {'label': 'Purgatory'},
     # R11 (Railjack kill goals): Grineer Exterminate objectives and Corpus fighter patrols; no node selector.
     'railjack': {'label': 'Railjack', 'aliases': ['Empyrean', 'Skirmish', 'Kuva Lich', 'Fighters', 'Crewships']},
+    'clem': {'label': 'Clem', 'aliases': ['Help Clem', 'Darvo', "Clem's weekly"]},  # 2026-10-28, GOAL_TAG rows
+    'proxyrebellion': {'label': 'Proxy Rebellion', 'aliases': ['Perrin Sequence', 'Proxy']},  # 2026-10-28, GOAL_TAG rows
+    'anniversary': {'label': 'Anniversary', 'aliases': ['Anniversary tactical alert', 'Dex']},  # 2026-10-29, GOAL_TAG rows
+    'nightwatch': {'label': 'The Long Shadow', 'aliases': ['Nightwatch', 'Project Nightwatch']},  # 2026-10-29, GOAL_TAG rows
+    'hallowedflame': {'label': 'Hallowed Flame', 'aliases': ['Lantern', 'Halloween', 'Endless lantern']},  # 2026-10-29, GOAL_TAG rows
+    'orphixvenom': {'label': 'Orphix Venom', 'aliases': ['Orphix', 'Mech Survival']},  # 2026-10-29, GOAL_TAG rows
+    'waterfight': {'label': 'Water Fight', 'aliases': ['Dog Days', 'Soaktron']},  # 2026-10-29, event literals
+    'hallowednightmares': {'label': 'Hallowed Nightmares', 'aliases': ['Halloween', 'Time Attack', 'Naberus']},  # 2026-10-29, event literals
     'purge': {'label': 'Purge', 'nodes': {'mt': ['MT_PURGE']}},
     'pursuit': {'label': 'Pursuit', 'nodes': {'mt': ['MT_PURSUIT']}},
     'raid': {'label': 'Raid'},

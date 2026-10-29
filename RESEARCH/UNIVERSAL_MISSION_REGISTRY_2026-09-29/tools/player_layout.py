@@ -53,7 +53,7 @@ TYPES = {
     'hijack': ('Hijack', None), 'infested_capture': ('Legacyte Harvest', None),
     'infested_salvage': ('Infested Salvage', None), 'interception': ('Interception', None), 'lantern': ('Lantern', None),
     'loopdefend': ('Mirror Defense', None), 'meltdown': ('Meltdown', None), 'mobiledefense': ('Mobile Defense', None),
-    'multidefend': ('Hack-Station Defense', None), 'netracell': ('Netracell', None), 'orphix': ('Orphix Venom', None),
+    'multidefend': ('Hack-Station Defense', None), 'netracell': ('Netracell', None), 'orphix': ('Orphix', None),
     'purgatory': ('Purgatory', None), 'purge': ('Purge', None), 'pursuit': ('Pursuit', None), 'raid': ('Raid', None),
     'rescue': ('Rescue', None), 'sentientcapture': ('Capture', None), 'sentientmd': ('Mobile Defense', None),
     'server': ('Server', None), 'shrine': ('Descendia', 'Shrine Defense'), 'spy': ('Spy', None),
@@ -65,6 +65,15 @@ TYPES = {
     'onslaught': ('Sanctuary Onslaught', None),
     # Contract R11 (Railjack kill goals)
     'railjack': ('Railjack', None),
+    # 2026-10-28: Clem's weekly mission (GOAL_TAG rows)
+    'clem': ('Events', 'Clem'),  # Events page: special missions that bring their own goal
+    'proxyrebellion': ('Events', 'Proxy Rebellion'),  # 2026-10-28 event tac alert (GOAL_TAG rows)
+    'anniversary': ('Events', 'Anniversary'),  # 2026-10-29 event tac alerts (GOAL_TAG rows)
+    'nightwatch': ('Events', 'The Long Shadow'),  # 2026-10-29 event tac alert (GOAL_TAG rows)
+    'hallowedflame': ('Events', 'Hallowed Flame'),  # 2026-10-29 event (GOAL_TAG rows)
+    'orphixvenom': ('Events', 'Orphix Venom'),  # 2026-10-29 event (GOAL_TAG rows)
+    'waterfight': ('Events', 'Water Fight'),  # 2026-10-29 event literals
+    'hallowednightmares': ('Events', 'Hallowed Nightmares'),  # 2026-10-29 event literals
 }
 # Families merged into another family's mission type sort right after it.
 # R10: the 1999 Escalation rows came first on the Exterminate page. R17: the Exterminate kill count is the type's
@@ -318,14 +327,16 @@ players('mobiledefense.enemy_counts.min.{}', ['Mobile Defense', 'Enemies', 'Max 
 players('sentientmd.max_sim_ai.{}', ['Mobile Defense', 'Enemies', 'Sentient Anomaly: max enemies'])
 
 # ---- Orphix Venom
-master_row('orphix.spawn_interval', 'Orphix Venom', 'Orphix Venom: time between spawns')  # R17
-put('orphix.orphix_interval.interval', ['Orphix Venom', 'Timers', 'Time between Orphix spawns'], 'Normal')
-put('orphix.orphix_interval.eventInterval', ['Orphix Venom', 'Timers', 'Time between Orphix spawns'], 'Orphix event')
-put('orphix.max_rounds_railjack', ['Orphix Venom', 'Objectives'], 'Railjack: round limit')
-put('orphix.sortie_rounds', ['Orphix Venom', 'Objectives'], 'Sortie: rounds to finish')  # R8 live literal
-put('orphix.orphix_interval.condrixCap', ['Orphix Venom', 'Enemies'], 'Max Orphix at once')
-put('orphix.reward_interval', ['Orphix Venom', 'Rewards / drops'], 'Rounds per reward')
-put('orphix.score_add_per_round', ['Orphix Venom', 'Advanced'], 'Score per round')
+master_row('orphix.spawn_interval', 'Orphix', 'Orphix: time between spawns')  # R17
+put('orphix.orphix_interval.interval', ['Orphix', 'Timers', 'Time between Orphix spawns'], 'Normal')
+put('orphix.orphix_interval.eventInterval', ['Orphix', 'Timers', 'Time between Orphix spawns'], 'Orphix event')
+put('orphix.max_rounds_railjack', ['Orphix', 'Objectives'], 'Event/Railjack rounds')
+put('orphixvenom.round_limit_endurance', ['Events', 'Orphix Venom'], 'Round limit')  # event masters
+put('orphixvenom.min_before_leave', ['Events', 'Orphix Venom'], 'Orphix before you can leave')  # event masters
+put('orphix.sortie_rounds', ['Orphix', 'Objectives'], 'Sortie: rounds to finish')  # R8 live literal
+put('orphix.orphix_interval.condrixCap', ['Orphix', 'Enemies'], 'Max Orphix at once')
+put('orphix.reward_interval', ['Orphix', 'Rewards / drops'], 'Rounds per reward')
+put('orphix.score_add_per_round', ['Orphix', 'Advanced'], 'Score per round')
 
 # ---- Purgatory
 # R8 live literals: timers, enemy cap, and the spawn-interval master over its random range.
@@ -355,6 +366,36 @@ put('survival.fixed_length_minutes', ['Survival', 'Timers'], 'Fixed length')  # 
 put('survival.icebind_goal', ['Survival', 'Timers'], 'Icebind: minutes')  # R23 master
 put('survival.icebind_minutes', ['Survival', 'Advanced', 'Icebind minutes'], 'Mode script')  # R23
 put('survival.icebind_minutes_kuvapath', ['Survival', 'Advanced', 'Icebind minutes'], 'Icebind script')  # R23
+put('clem.survival_minutes', ['Events', 'Clem', 'Survival version'], 'Minutes to finish')  # Clem
+put('clem.mobiledefense_seconds', ['Events', 'Clem', 'Mobile Defense version'], 'Defense time')  # Clem
+put('proxyrebellion.defense_one_waves', ['Events', 'Proxy Rebellion', 'Defense (first mission)'], 'Waves to finish')  # Proxy Rebellion
+put('proxyrebellion.defense_four_waves', ['Events', 'Proxy Rebellion', 'Defense (last mission)'], 'Waves to finish')  # Proxy Rebellion
+put('proxyrebellion.interception_rounds', ['Events', 'Proxy Rebellion', 'Interception'], 'Rounds to finish')  # Proxy Rebellion
+put('proxyrebellion.survival_minutes', ['Events', 'Proxy Rebellion', 'Survival'], 'Minutes to finish')  # Proxy Rebellion
+put('anniversary.2017b_defense_waves', ['Events', 'Anniversary', '2017: Defense'], 'Waves to finish')  # Events batch 1
+put('anniversary.2017c_interception_rounds', ['Events', 'Anniversary', '2017: Interception'], 'Rounds to finish')  # Events batch 1
+put('anniversary.2018d_survival_minutes', ['Events', 'Anniversary', '2018: Survival'], 'Minutes to finish')  # Events batch 1
+put('anniversary.2019e_defense_waves', ['Events', 'Anniversary', '2019: Defense'], 'Waves to finish')  # Events batch 1
+put('anniversary.2020f_disruption_conduits', ['Events', 'Anniversary', '2020: Disruption'], 'Conduits to finish')  # Events batch 1
+put('anniversary.2020g_mobiledefense_seconds', ['Events', 'Anniversary', '2020: Mobile Defense'], 'Defense time')  # Events batch 1
+put('anniversary.2021i_excavation_excavators', ['Events', 'Anniversary', '2021: Excavation'], 'Excavators to finish')  # Events batch 1
+put('anniversary.2024l_survival_minutes', ['Events', 'Anniversary', '2024: Survival'], 'Minutes to finish')  # Events batch 1
+put('anniversary.2024cma_survival_minutes', ['Events', 'Anniversary', '2024: Challenge A Survival'], 'Minutes to finish')  # Events batch 1
+put('anniversary.2024cmb_survival_minutes', ['Events', 'Anniversary', '2024: Challenge B Survival'], 'Minutes to finish')  # Events batch 1
+put('anniversary.2025cmb_survival_minutes', ['Events', 'Anniversary', '2025: Challenge B Survival'], 'Minutes to finish')  # Events batch 1
+put('nightwatch.defense_waves', ['Events', 'The Long Shadow', 'Defense'], 'Waves to finish')  # Events batch 1
+put('nightwatch.interception_rounds', ['Events', 'The Long Shadow', 'Interception'], 'Rounds to finish')  # Events batch 1
+put('nightwatch.survival_minutes', ['Events', 'The Long Shadow', 'Hard Survival'], 'Minutes to finish')  # Events batch 1
+put('hallowedflame.lantern_a_seconds', ['Events', 'Hallowed Flame', 'Lantern A'], 'Seconds to survive')  # Events batch 2
+put('hallowedflame.lantern_b_seconds', ['Events', 'Hallowed Flame', 'Lantern B'], 'Seconds to survive')  # Events batch 2
+put('hallowedflame.lantern_c_seconds', ['Events', 'Hallowed Flame', 'Lantern C'], 'Seconds to survive')  # Events batch 2
+put('hallowedflame.lantern_d_seconds', ['Events', 'Hallowed Flame', 'Lantern D (endless)'], 'Seconds to survive')  # Events batch 2
+put('anniversary.2022j_purify_rounds', ['Events', 'Anniversary', '2022: Purify'], 'Rounds to finish')  # Events batch 2
+put('nightwatch.bonus_survival_minutes', ['Events', 'The Long Shadow', 'Bonus Survival (endless)'], 'Minutes to finish')  # Events batch 2
+put('waterfight.score_limit', ['Events', 'Water Fight', 'Match'], 'Score limit')  # Events batch 3
+put('waterfight.score_limit_alt', ['Events', 'Water Fight', 'Match'], 'Score limit (alt setup)')  # Events batch 3
+put('waterfight.round_time', ['Events', 'Water Fight', 'Match'], 'Round time')  # Events batch 3
+put('hallowednightmares.timeattack_score', ['Events', 'Hallowed Nightmares', 'Time Attack'], 'Score base')  # Events batch 3
 put('survival.duviri_fixed_length', ['Survival', 'Timers'], 'Duviri: Survival length')  # R8 live literal
 LIFE = ['Survival', 'Timers', 'Life support']
 for tid, row in (('capsule_initial_time', 'At mission start'), ('capsule_max_time', 'Capacity at 100%'),

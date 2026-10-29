@@ -344,13 +344,14 @@ row('mobiledefense.total_time.minimum', 'Easy nodes: total terminal time',
     'Total terminal defense time on the easiest Mobile Defense nodes, split over the terminals', 'adv')
 
 # ---- Orphix Venom
-row('orphix.reward_interval', 'Rounds per reward', 'Orphix Venom rounds per reward (Sortie uses 12)')
+row('orphix.reward_interval', 'Rounds per reward', 'Orphix destroyed per reward round; also the minimum before you can leave (normally 3; Sortie uses 12)')
 master('orphix.spawn_interval', 'Time between Orphix spawns',
        f'Seconds between Orphix spawns, normal and event; {MASTER_RULE}',
        [('orphix.orphix_interval.interval', 1), ('orphix.orphix_interval.eventInterval', 1)], note='(event 90 s)')
 row('orphix.orphix_interval.condrixCap', 'Max Orphix at once', 'Most Orphix alive at once in Orphix Venom',
     word=' Orphix')
-row('orphix.max_rounds_railjack', 'Railjack: round limit', 'Round limit of Railjack and event Orphix Venom')
+row('orphix.max_rounds_railjack', 'Event/Railjack rounds',
+    'Orphix destroyed to finish Orphix and Orphix Venom missions (normally 36; the Events copy sets the same value)')
 row('orphix.orphix_interval.interval', 'Normal: time between spawns',
     f'Seconds between Orphix spawns outside the Orphix event; {VARIANT_RULE}', 'adv')
 row('orphix.orphix_interval.eventInterval', 'Event: time between spawns',
@@ -534,6 +535,27 @@ LIVE_LITERAL_HEADLINE += player_text_r17.HEADLINE
 import player_text_r23  # noqa: E402  (same folder)
 player_text_r23.register(row, master)
 
+# ---- Clem's weekly goal (2026-10-28, GOAL_TAG variant): its own Clem section (player_text_clem.py).
+import player_text_clem  # noqa: E402  (same folder)
+player_text_clem.register(row, master)
+
+# ---- Proxy Rebellion event (2026-10-28, GOAL_TAG with alias tag): Events > Proxy Rebellion (player_text_proxyrebellion.py).
+import player_text_proxyrebellion  # noqa: E402  (same folder)
+player_text_proxyrebellion.register(row, master)
+
+# ---- Events batch 1 (2026-10-29, GOAL_TAG): Anniversary and The Long Shadow (player_text_events_batch1.py).
+import player_text_events_batch1  # noqa: E402  (same folder)
+player_text_events_batch1.register(row, master)
+
+# ---- Events batch 2 (2026-10-29, GOAL_TAG incl. from 0): Hallowed Flame, Purify, Orphix Venom, Nightwatch Bonus.
+import player_text_events_batch2  # noqa: E402  (same folder)
+player_text_events_batch2.register(row, master)
+
+# ---- Events batch 3 (2026-10-29, event literals): Water Fight, Hallowed Nightmares time attack.
+import player_text_events_batch3  # noqa: E402  (same folder)
+player_text_events_batch3.register(row, master)
+LIVE_LITERAL_HEADLINE += player_text_events_batch3.HEADLINE
+
 # Group labels (sections). Existing ui_groups labels stay; advanced sections are "<label>: advanced" or the short form.
 ADVANCED_LABELS = {'escalation': '1999 Escalation: advanced', 'shrine': 'Shrine Defense: advanced',
                    'coh_destroy_targets': 'Destroy Targets: advanced', 'fivefates': 'Five Fates: advanced',
@@ -679,9 +701,12 @@ def apply(rows, groups, absent=frozenset()):
             problems.append(f'master {mid}: drives rows of several lanes')
         # R17: a mission-type master may drive rows of several modules (Control Area: three location scripts; Railjack:
         # three objective scripts). Its group is the main section of its first driven row's family.
+        # 2026-10-29: an Events page (layout section 'Events') may also hold a master over its mission type's rows (the
+        # event runs that type's script and has no values of its own, e.g. Orphix Venom -> Orphix).
         if m['group'] is not None:
             family = m['group']
-            if family != first['tunable_id'].split('.')[0] or family not in groups:
+            event_page = LAYOUT.TYPES.get(family, (None,))[0] == 'Events'
+            if (family != first['tunable_id'].split('.')[0] and not event_page) or family not in groups:
                 problems.append(f'master {mid}: group {family} is not the main section of its first driven row')
         elif len(bodies) != 1:
             problems.append(f'master {mid}: drives rows of several modules without naming its group (contract R17)')

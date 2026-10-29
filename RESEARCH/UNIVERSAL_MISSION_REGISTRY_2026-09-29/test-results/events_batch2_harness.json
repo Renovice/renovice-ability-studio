@@ -1,0 +1,92 @@
+{
+  "checks": [
+    {
+      "name": "hallowedflame.lantern_a_seconds: GOAL_TAG variant Halloween19/Anniversary2018TacAlert/Halloween19Endless, type 2, stock 300",
+      "pass": true
+    },
+    {
+      "name": "hallowedflame.lantern_a_seconds: written at caec63d8e739b693 P[35, 30]",
+      "pass": true
+    },
+    {
+      "name": "hallowedflame.lantern_a_seconds: shown on its Events page itself (no master over it, not hidden)",
+      "pass": true
+    },
+    {
+      "name": "hallowedflame.lantern_b_seconds: GOAL_TAG variant Halloween19/Anniversary2018TacAlert/Halloween19Endless, type 2, stock 420",
+      "pass": true
+    },
+    {
+      "name": "hallowedflame.lantern_b_seconds: written at caec63d8e739b693 P[35, 30]",
+      "pass": true
+    },
+    {
+      "name": "hallowedflame.lantern_b_seconds: shown on its Events page itself (no master over it, not hidden)",
+      "pass": true
+    },
+    {
+      "name": "hallowedflame.lantern_c_seconds: GOAL_TAG variant Halloween19/Anniversary2018TacAlert/Halloween19Endless, type 2, stock 600",
+      "pass": true
+    },
+    {
+      "name": "hallowedflame.lantern_c_seconds: written at caec63d8e739b693 P[35, 30]",
+      "pass": true
+    },
+    {
+      "name": "hallowedflame.lantern_c_seconds: shown on its Events page itself (no master over it, not hidden)",
+      "pass": true
+    },
+    {
+      "name": "hallowedflame.lantern_d_seconds: GOAL_TAG variant Halloween19Endless/Halloween19/Anniversary2018TacAlert, type 2, stock 0",
+      "pass": true
+    },
+    {
+      "name": "hallowedflame.lantern_d_seconds: written at caec63d8e739b693 P[35, 30]",
+      "pass": true
+    },
+    {
+      "name": "hallowedflame.lantern_d_seconds: shown on its Events page itself (no master over it, not hidden)",
+      "pass": true
+    },
+    {
+      "name": "anniversary.2022j_purify_rounds: GOAL_TAG variant Anniversary2022TacAlert, type 21, stock 3",
+      "pass": true
+    },
+    {
+      "name": "anniversary.2022j_purify_rounds: written at b35d715b0f5aa1c9 P[45]",
+      "pass": true
+    },
+    {
+      "name": "anniversary.2022j_purify_rounds: shown on its Events page itself (no master over it, not hidden)",
+      "pass": true
+    },
+    {
+      "name": "nightwatch.bonus_survival_minutes: GOAL_TAG variant NightwatchTacAlertBonus/NightwatchTacAlert/Anniversary2020TacAlert, type 2, stock 0",
+      "pass": true
+    },
+    {
+      "name": "nightwatch.bonus_survival_minutes: written at a62aa7eea1c4f27b P[70]",
+      "pass": true
+    },
+    {
+      "name": "nightwatch.bonus_survival_minutes: shown on its Events page itself (no master over it, not hidden)",
+      "pass": true
+    },
+    {
+      "name": "build with all batch-2 rows set succeeds",
+      "pass": true
+    },
+    {
+      "name": "one GOAL_TAG MissionInfo helper in the addon",
+      "pass": true
+    },
+    {
+      "name": "toolchain luau.exe present",
+      "pass": true
+    },
+    {
+      "name": "harness: 98 checks over the batch-2 rows and their tags",
+      "pass": true
+    }
+  ]
+}

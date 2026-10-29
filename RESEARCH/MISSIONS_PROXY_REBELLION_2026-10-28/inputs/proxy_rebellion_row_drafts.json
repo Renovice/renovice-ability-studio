@@ -1,0 +1,401 @@
+{
+ "schema": "RENOVICE_MISSION_TUNABLE_REGISTRY_V2 tunables[] drafts (Proxy Rebellion, GOAL_TAG with alias)",
+ "build": "2026.10.08.13.05",
+ "supersedes": {},
+ "group": "proxyrebellion",
+ "rows": [
+  {
+   "tunable_id": "proxyrebellion.defense_one_waves",
+   "phase1_tunable_id": null,
+   "label": "Waves to finish (Proxy Rebellion, Defense One)",
+   "mission_type": "Defense",
+   "variant": "Proxy Rebellion (goalTag ProxyRebellion / Anniversary2019TacAlert, missionType 8)",
+   "shared_with": "",
+   "owner_kind": "MISSION_INFO_FIELD",
+   "backend": "TARGET_ADDON",
+   "owner": {
+    "body_key": "1a1354d153712f9d",
+    "stock_sha256": "0FB53A2C0946ACC3476DF7E16C5A3AAEEA1B6384A2D4EFA2D7360F4C155DBF10",
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "module_path": "/Lotus/Scripts/WaveDefend.lua",
+    "template": "MISSION_INFO_FIELD_AT_ENTRY",
+    "gate": "CAPTURE_GRAPH_ENTRY_V1",
+    "field": "maxWaveNum",
+    "variant": "GOAL_TAG",
+    "mission_type": 8,
+    "variant_stock": 10,
+    "accessor": {
+     "gGameRules": "d7e3ec85",
+     "GetMission": "aeab7b8b",
+     "SetMission": "e9228c58",
+     "gRegion": "b364fd20",
+     "IsMaster": "ce228771",
+     "IsValid": "b26a1114",
+     "print": "0811edde"
+    },
+    "entries": [
+     {
+      "prototype": 50,
+      "function": "WaveDefense",
+      "role": "level trigger; host wave loop"
+     }
+    ],
+    "readers": [
+     {
+      "key": "maxWaveNum",
+      "prototype": 26,
+      "instructions": [
+       202,
+       260,
+       301
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 48,
+      "instructions": [
+       180,
+       357,
+       411,
+       543,
+       581,
+       742,
+       779,
+       1045,
+       1137
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 50,
+      "instructions": [
+       453
+      ]
+     }
+    ],
+    "dead_readers": [
+     {
+      "key": "maxWaveNum",
+      "prototype": 4,
+      "instructions": [
+       11
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 5,
+      "instructions": [
+       11
+      ]
+     }
+    ],
+    "write_rule": {
+     "when": "host and m.goalTag in (ProxyRebellion, Anniversary2019TacAlert) and m.missionType == 8 and m.maxWaveNum == 10; another number is left alone with one line",
+     "how": "local m = gGameRules:GetMission(); m.maxWaveNum = N; gGameRules:SetMission(m)",
+     "once": "idempotent: skip when already equal",
+     "cleanup": "none (the MissionInfo is mission-scoped)"
+    },
+    "meaning": "Proxy Rebellion WaveDefend waves to finish (key One: 10)",
+    "goal_tag": "ProxyRebellion",
+    "goal_tag_aliases": [
+     "Anniversary2019TacAlert"
+    ]
+   },
+   "unit": "",
+   "stock": 10,
+   "limits": {
+    "minimum": 1,
+    "maximum": 100,
+    "integer": true,
+    "basis": "at least 1; 100 as the editor range"
+   },
+   "confidence": "CONFIRMED_STATIC (owner: proven row defense.waves_to_finish; live probe pending)",
+   "evidence": "Owner as defense.waves_to_finish. Key data: Packages.bin 2026.10.22.13.12 TacAlertKeyProxyRebellion*, maxWaveNum 10. Tag from OpenWF worldStateService (ProxyRebellion / Anniversary2019TacAlert)."
+  },
+  {
+   "tunable_id": "proxyrebellion.defense_four_waves",
+   "phase1_tunable_id": null,
+   "label": "Waves to finish (Proxy Rebellion, Defense Four)",
+   "mission_type": "Defense",
+   "variant": "Proxy Rebellion (goalTag ProxyRebellion / Anniversary2019TacAlert, missionType 8)",
+   "shared_with": "",
+   "owner_kind": "MISSION_INFO_FIELD",
+   "backend": "TARGET_ADDON",
+   "owner": {
+    "body_key": "1a1354d153712f9d",
+    "stock_sha256": "0FB53A2C0946ACC3476DF7E16C5A3AAEEA1B6384A2D4EFA2D7360F4C155DBF10",
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "module_path": "/Lotus/Scripts/WaveDefend.lua",
+    "template": "MISSION_INFO_FIELD_AT_ENTRY",
+    "gate": "CAPTURE_GRAPH_ENTRY_V1",
+    "field": "maxWaveNum",
+    "variant": "GOAL_TAG",
+    "mission_type": 8,
+    "variant_stock": 20,
+    "accessor": {
+     "gGameRules": "d7e3ec85",
+     "GetMission": "aeab7b8b",
+     "SetMission": "e9228c58",
+     "gRegion": "b364fd20",
+     "IsMaster": "ce228771",
+     "IsValid": "b26a1114",
+     "print": "0811edde"
+    },
+    "entries": [
+     {
+      "prototype": 50,
+      "function": "WaveDefense",
+      "role": "level trigger; host wave loop"
+     }
+    ],
+    "readers": [
+     {
+      "key": "maxWaveNum",
+      "prototype": 26,
+      "instructions": [
+       202,
+       260,
+       301
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 48,
+      "instructions": [
+       180,
+       357,
+       411,
+       543,
+       581,
+       742,
+       779,
+       1045,
+       1137
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 50,
+      "instructions": [
+       453
+      ]
+     }
+    ],
+    "dead_readers": [
+     {
+      "key": "maxWaveNum",
+      "prototype": 4,
+      "instructions": [
+       11
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 5,
+      "instructions": [
+       11
+      ]
+     }
+    ],
+    "write_rule": {
+     "when": "host and m.goalTag in (ProxyRebellion, Anniversary2019TacAlert) and m.missionType == 8 and m.maxWaveNum == 20; another number is left alone with one line",
+     "how": "local m = gGameRules:GetMission(); m.maxWaveNum = N; gGameRules:SetMission(m)",
+     "once": "idempotent: skip when already equal",
+     "cleanup": "none (the MissionInfo is mission-scoped)"
+    },
+    "meaning": "Proxy Rebellion WaveDefend waves to finish (key Four: 20)",
+    "goal_tag": "ProxyRebellion",
+    "goal_tag_aliases": [
+     "Anniversary2019TacAlert"
+    ]
+   },
+   "unit": "",
+   "stock": 20,
+   "limits": {
+    "minimum": 1,
+    "maximum": 100,
+    "integer": true,
+    "basis": "at least 1; 100 as the editor range"
+   },
+   "confidence": "CONFIRMED_STATIC (owner: proven row defense.waves_to_finish; live probe pending)",
+   "evidence": "Owner as defense.waves_to_finish. Key data: Packages.bin 2026.10.22.13.12 TacAlertKeyProxyRebellion*, maxWaveNum 20. Tag from OpenWF worldStateService (ProxyRebellion / Anniversary2019TacAlert)."
+  },
+  {
+   "tunable_id": "proxyrebellion.interception_rounds",
+   "phase1_tunable_id": null,
+   "label": "Rounds to finish (Proxy Rebellion, Interception)",
+   "mission_type": "Interception",
+   "variant": "Proxy Rebellion (goalTag ProxyRebellion / Anniversary2019TacAlert, missionType 13)",
+   "shared_with": "",
+   "owner_kind": "MISSION_INFO_FIELD",
+   "backend": "TARGET_ADDON",
+   "owner": {
+    "body_key": "c9605470a8c47d8d",
+    "stock_sha256": "3A8ACF02213053621AD8CF3CC77809A35F27BADDF91D10FCBF94475D0A7D225B",
+    "file": "Lotus_Scripts_Modes_TerritoryMission.lua_B",
+    "module_path": "/Lotus/Scripts/Modes/TerritoryMission.lua",
+    "template": "MISSION_INFO_FIELD_AT_ENTRY",
+    "gate": "CAPTURE_GRAPH_ENTRY_V1",
+    "field": "maxWaveNum",
+    "variant": "GOAL_TAG",
+    "mission_type": 13,
+    "variant_stock": 3,
+    "accessor": {
+     "gGameRules": "d7e3ec85",
+     "GetMission": "aeab7b8b",
+     "SetMission": "e9228c58",
+     "gRegion": "b364fd20",
+     "IsMaster": "ce228771",
+     "IsValid": "b26a1114",
+     "print": "0811edde"
+    },
+    "entries": [
+     {
+      "prototype": 35,
+      "function": "Territory",
+      "role": "level trigger; host round loop"
+     },
+     {
+      "prototype": 31,
+      "function": "TerritoryHUD",
+      "role": "HUD trigger (display)"
+     }
+    ],
+    "readers": [
+     {
+      "key": "maxWaveNum",
+      "prototype": 31,
+      "instructions": [
+       620,
+       667
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 35,
+      "instructions": [
+       158,
+       1373,
+       1583
+      ]
+     }
+    ],
+    "dead_readers": [
+     {
+      "key": "maxWaveNum",
+      "prototype": 5,
+      "instructions": [
+       3
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 6,
+      "instructions": [
+       3
+      ]
+     }
+    ],
+    "write_rule": {
+     "when": "host and m.goalTag in (ProxyRebellion, Anniversary2019TacAlert) and m.missionType == 13 and m.maxWaveNum == 3; another number is left alone with one line",
+     "how": "local m = gGameRules:GetMission(); m.maxWaveNum = N; gGameRules:SetMission(m)",
+     "once": "idempotent: skip when already equal",
+     "cleanup": "none (the MissionInfo is mission-scoped)"
+    },
+    "meaning": "Proxy Rebellion TerritoryMission rounds to finish (key Two: 3)",
+    "goal_tag": "ProxyRebellion",
+    "goal_tag_aliases": [
+     "Anniversary2019TacAlert"
+    ]
+   },
+   "unit": "",
+   "stock": 3,
+   "limits": {
+    "minimum": 1,
+    "maximum": 20,
+    "integer": true,
+    "basis": "at least 1; 20 as the editor range"
+   },
+   "confidence": "CONFIRMED_STATIC (owner: proven row interception.rounds_to_finish; live probe pending)",
+   "evidence": "Owner as interception.rounds_to_finish. Key data: Packages.bin 2026.10.22.13.12 TacAlertKeyProxyRebellion*, maxWaveNum 3. Tag from OpenWF worldStateService (ProxyRebellion / Anniversary2019TacAlert)."
+  },
+  {
+   "tunable_id": "proxyrebellion.survival_minutes",
+   "phase1_tunable_id": null,
+   "label": "Minutes to finish (Proxy Rebellion, Survival)",
+   "mission_type": "Survival",
+   "variant": "Proxy Rebellion (goalTag ProxyRebellion / Anniversary2019TacAlert, missionType 2)",
+   "shared_with": "",
+   "owner_kind": "MISSION_INFO_FIELD",
+   "backend": "TARGET_ADDON",
+   "owner": {
+    "body_key": "a62aa7eea1c4f27b",
+    "stock_sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
+    "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
+    "module_path": "/Lotus/Scripts/Modes/SurvivalMission.lua",
+    "template": "MISSION_INFO_FIELD_AT_ENTRY",
+    "gate": "CAPTURE_GRAPH_ENTRY_V1",
+    "field": "maxWaveNum",
+    "variant": "GOAL_TAG",
+    "mission_type": 2,
+    "variant_stock": 20,
+    "accessor": {
+     "gGameRules": "d7e3ec85",
+     "GetMission": "aeab7b8b",
+     "SetMission": "e9228c58",
+     "gRegion": "b364fd20",
+     "IsMaster": "ce228771",
+     "IsValid": "b26a1114",
+     "print": "0811edde"
+    },
+    "entries": [
+     {
+      "prototype": 70,
+      "function": "Mission",
+      "role": "Survival level trigger"
+     }
+    ],
+    "readers": [
+     {
+      "key": "maxWaveNum",
+      "prototype": 61,
+      "instructions": [
+       163,
+       180,
+       187
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 62,
+      "instructions": [
+       66
+      ]
+     }
+    ],
+    "dead_readers": [],
+    "write_rule": {
+     "when": "host and m.goalTag in (ProxyRebellion, Anniversary2019TacAlert) and m.missionType == 2 and m.maxWaveNum == 20; another number is left alone with one line",
+     "how": "local m = gGameRules:GetMission(); m.maxWaveNum = N; gGameRules:SetMission(m)",
+     "once": "idempotent: skip when already equal",
+     "cleanup": "none (the MissionInfo is mission-scoped)"
+    },
+    "meaning": "Proxy Rebellion SurvivalMission fixedLength = min(maxWaveNum x 60, 3600) s (key Three: 20)",
+    "goal_tag": "ProxyRebellion",
+    "goal_tag_aliases": [
+     "Anniversary2019TacAlert"
+    ]
+   },
+   "unit": "min",
+   "stock": 20,
+   "limits": {
+    "minimum": 1,
+    "maximum": 60,
+    "integer": true,
+    "basis": "at least 1; 60 as the editor range"
+   },
+   "confidence": "CONFIRMED_STATIC (owner: proven row clem.survival_minutes; live probe pending)",
+   "evidence": "Owner as clem.survival_minutes. Key data: Packages.bin 2026.10.22.13.12 TacAlertKeyProxyRebellion*, maxWaveNum 20. Tag from OpenWF worldStateService (ProxyRebellion / Anniversary2019TacAlert)."
+  }
+ ]
+}

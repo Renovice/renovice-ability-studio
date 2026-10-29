@@ -1,0 +1,188 @@
+{
+  "checks": [
+    {
+      "name": "anniversary.2017b_defense_waves: GOAL_TAG variant Anniversary2018TacAlert, type 8, stock 6",
+      "pass": true
+    },
+    {
+      "name": "anniversary.2017b_defense_waves: written at 1a1354d153712f9d P[50]",
+      "pass": true
+    },
+    {
+      "name": "anniversary.2017b_defense_waves: shown on its Events page itself (no master over it, not hidden)",
+      "pass": true
+    },
+    {
+      "name": "anniversary.2017c_interception_rounds: GOAL_TAG variant Anniversary2018TacAlert, type 13, stock 2",
+      "pass": true
+    },
+    {
+      "name": "anniversary.2017c_interception_rounds: written at c9605470a8c47d8d P[35, 31]",
+      "pass": true
+    },
+    {
+      "name": "anniversary.2017c_interception_rounds: shown on its Events page itself (no master over it, not hidden)",
+      "pass": true
+    },
+    {
+      "name": "anniversary.2018d_survival_minutes: GOAL_TAG variant Anniversary2018TacAlert, type 2, stock 10",
+      "pass": true
+    },
+    {
+      "name": "anniversary.2018d_survival_minutes: written at a62aa7eea1c4f27b P[70]",
+      "pass": true
+    },
+    {
+      "name": "anniversary.2018d_survival_minutes: shown on its Events page itself (no master over it, not hidden)",
+      "pass": true
+    },
+    {
+      "name": "anniversary.2019e_defense_waves: GOAL_TAG variant Anniversary2019TacAlert, type 8, stock 6",
+      "pass": true
+    },
+    {
+      "name": "anniversary.2019e_defense_waves: written at 1a1354d153712f9d P[50]",
+      "pass": true
+    },
+    {
+      "name": "anniversary.2019e_defense_waves: shown on its Events page itself (no master over it, not hidden)",
+      "pass": true
+    },
+    {
+      "name": "anniversary.2020f_disruption_conduits: GOAL_TAG variant Anniversary2020TacAlert, type 33, stock 8",
+      "pass": true
+    },
+    {
+      "name": "anniversary.2020f_disruption_conduits: written at b6d8c45f9424d376 P[85]",
+      "pass": true
+    },
+    {
+      "name": "anniversary.2020f_disruption_conduits: shown on its Events page itself (no master over it, not hidden)",
+      "pass": true
+    },
+    {
+      "name": "anniversary.2020g_mobiledefense_seconds: GOAL_TAG variant Anniversary2020TacAlert, type 9, stock 540",
+      "pass": true
+    },
+    {
+      "name": "anniversary.2020g_mobiledefense_seconds: written at 0028dbbd094c97e4 P[22]",
+      "pass": true
+    },
+    {
+      "name": "anniversary.2020g_mobiledefense_seconds: shown on its Events page itself (no master over it, not hidden)",
+      "pass": true
+    },
+    {
+      "name": "anniversary.2021i_excavation_excavators: GOAL_TAG variant Anniversary2021TacAlert, type 17, stock 8",
+      "pass": true
+    },
+    {
+      "name": "anniversary.2021i_excavation_excavators: written at f7444e3c621ff018 P[35, 36, 43]",
+      "pass": true
+    },
+    {
+      "name": "anniversary.2021i_excavation_excavators: shown on its Events page itself (no master over it, not hidden)",
+      "pass": true
+    },
+    {
+      "name": "anniversary.2024l_survival_minutes: GOAL_TAG variant Anniversary2024TacAlert, type 2, stock 10",
+      "pass": true
+    },
+    {
+      "name": "anniversary.2024l_survival_minutes: written at a62aa7eea1c4f27b P[70]",
+      "pass": true
+    },
+    {
+      "name": "anniversary.2024l_survival_minutes: shown on its Events page itself (no master over it, not hidden)",
+      "pass": true
+    },
+    {
+      "name": "anniversary.2024cma_survival_minutes: GOAL_TAG variant Anniversary2024TacAlertCMA, type 2, stock 10",
+      "pass": true
+    },
+    {
+      "name": "anniversary.2024cma_survival_minutes: written at a62aa7eea1c4f27b P[70]",
+      "pass": true
+    },
+    {
+      "name": "anniversary.2024cma_survival_minutes: shown on its Events page itself (no master over it, not hidden)",
+      "pass": true
+    },
+    {
+      "name": "anniversary.2024cmb_survival_minutes: GOAL_TAG variant Anniversary2024TacAlertCMB, type 2, stock 10",
+      "pass": true
+    },
+    {
+      "name": "anniversary.2024cmb_survival_minutes: written at a62aa7eea1c4f27b P[70]",
+      "pass": true
+    },
+    {
+      "name": "anniversary.2024cmb_survival_minutes: shown on its Events page itself (no master over it, not hidden)",
+      "pass": true
+    },
+    {
+      "name": "anniversary.2025cmb_survival_minutes: GOAL_TAG variant Anniversary2025TacAlertCMB, type 2, stock 10",
+      "pass": true
+    },
+    {
+      "name": "anniversary.2025cmb_survival_minutes: written at a62aa7eea1c4f27b P[70]",
+      "pass": true
+    },
+    {
+      "name": "anniversary.2025cmb_survival_minutes: shown on its Events page itself (no master over it, not hidden)",
+      "pass": true
+    },
+    {
+      "name": "nightwatch.defense_waves: GOAL_TAG variant NightwatchTacAlert/Anniversary2020TacAlert, type 8, stock 10",
+      "pass": true
+    },
+    {
+      "name": "nightwatch.defense_waves: written at 1a1354d153712f9d P[50]",
+      "pass": true
+    },
+    {
+      "name": "nightwatch.defense_waves: shown on its Events page itself (no master over it, not hidden)",
+      "pass": true
+    },
+    {
+      "name": "nightwatch.interception_rounds: GOAL_TAG variant NightwatchTacAlert/Anniversary2020TacAlert, type 13, stock 2",
+      "pass": true
+    },
+    {
+      "name": "nightwatch.interception_rounds: written at c9605470a8c47d8d P[35, 31]",
+      "pass": true
+    },
+    {
+      "name": "nightwatch.interception_rounds: shown on its Events page itself (no master over it, not hidden)",
+      "pass": true
+    },
+    {
+      "name": "nightwatch.survival_minutes: GOAL_TAG variant NightwatchTacAlert/Anniversary2020TacAlert, type 2, stock 20",
+      "pass": true
+    },
+    {
+      "name": "nightwatch.survival_minutes: written at a62aa7eea1c4f27b P[70]",
+      "pass": true
+    },
+    {
+      "name": "nightwatch.survival_minutes: shown on its Events page itself (no master over it, not hidden)",
+      "pass": true
+    },
+    {
+      "name": "build with all batch-1 rows set succeeds",
+      "pass": true
+    },
+    {
+      "name": "one GOAL_TAG MissionInfo helper in the addon",
+      "pass": true
+    },
+    {
+      "name": "toolchain luau.exe present",
+      "pass": true
+    },
+    {
+      "name": "harness: 127 checks over the batch-1 rows and their tags",
+      "pass": true
+    }
+  ]
+}

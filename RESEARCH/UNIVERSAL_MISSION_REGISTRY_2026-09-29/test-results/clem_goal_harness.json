@@ -1,0 +1,44 @@
+{
+  "checks": [
+    {
+      "name": "clem.survival_minutes: GOAL_TAG variant GetClem, type 2, stock 10",
+      "pass": true
+    },
+    {
+      "name": "clem.survival_minutes: written at a62aa7eea1c4f27b P[70]",
+      "pass": true
+    },
+    {
+      "name": "clem.survival_minutes: shown on Events > Clem itself (no master over it, not hidden)",
+      "pass": true
+    },
+    {
+      "name": "clem.mobiledefense_seconds: GOAL_TAG variant GetClem, type 9, stock 540",
+      "pass": true
+    },
+    {
+      "name": "clem.mobiledefense_seconds: written at 0028dbbd094c97e4 P[22]",
+      "pass": true
+    },
+    {
+      "name": "clem.mobiledefense_seconds: shown on Events > Clem itself (no master over it, not hidden)",
+      "pass": true
+    },
+    {
+      "name": "build with both Clem rows set succeeds",
+      "pass": true
+    },
+    {
+      "name": "one GOAL_TAG MissionInfo helper in the addon",
+      "pass": true
+    },
+    {
+      "name": "toolchain luau.exe present",
+      "pass": true
+    },
+    {
+      "name": "harness: 18 checks over both Clem versions",
+      "pass": true
+    }
+  ]
+}

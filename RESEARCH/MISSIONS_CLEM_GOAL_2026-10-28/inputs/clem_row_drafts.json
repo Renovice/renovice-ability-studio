@@ -1,0 +1,142 @@
+{
+ "schema": "RENOVICE_MISSION_TUNABLE_REGISTRY_V2 tunables[] drafts (Clem's weekly goal, GOAL_TAG variant)",
+ "build": "2026.10.08.13.05",
+ "supersedes": {},
+ "rows": [
+  {
+   "tunable_id": "clem.survival_minutes",
+   "phase1_tunable_id": null,
+   "label": "Minutes to finish (Clem's weekly, Survival version)",
+   "mission_type": "Survival",
+   "variant": "Clem's weekly (goalTag GetClem, missionType 2)",
+   "shared_with": "",
+   "owner_kind": "MISSION_INFO_FIELD",
+   "backend": "TARGET_ADDON",
+   "owner": {
+    "body_key": "a62aa7eea1c4f27b",
+    "stock_sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
+    "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
+    "module_path": "/Lotus/Scripts/Modes/SurvivalMission.lua",
+    "template": "MISSION_INFO_FIELD_AT_ENTRY",
+    "gate": "CAPTURE_GRAPH_ENTRY_V1",
+    "field": "maxWaveNum",
+    "variant": "GOAL_TAG",
+    "mission_type": 2,
+    "variant_stock": 10,
+    "accessor": {
+     "get": "gGameRules:GetMission()  (gGameRules = Name__d7e3ec85, GetMission = Name__aeab7b8b)",
+     "set": "gGameRules:SetMission(mission)  (SetMission = Name__e9228c58)",
+     "host": "gRegion:IsMaster()  (gRegion = Name__b364fd20, IsMaster = Name__ce228771)",
+     "stock_precedent": "R10 MISSION_INFO_FIELD_AT_ENTRY (Lotus.Scripts.Duviri.DuviriMissions proto 18, Lotus.Scripts.Eidolon.EidolonMissions proto 25: host GetMission, write maxWaveNum, SetMission)"
+    },
+    "entries": [
+     {
+      "prototype": 70,
+      "function": "Mission",
+      "role": "Survival level trigger"
+     }
+    ],
+    "readers": [
+     {
+      "key": "maxWaveNum",
+      "prototype": 61,
+      "instructions": [
+       163,
+       180,
+       187
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 62,
+      "instructions": [
+       66
+      ]
+     }
+    ],
+    "dead_readers": [],
+    "write_rule": {
+     "when": "host (gRegion:IsMaster()) and m.goalTag == Symbol(\"GetClem\") and m.missionType == 2 and m.maxWaveNum == 10 (Clem's weekly stock, from the key); another number is left alone with one line",
+     "how": "local m = gGameRules:GetMission(); m.maxWaveNum = N; gGameRules:SetMission(m)",
+     "once": "idempotent: skip when already equal",
+     "cleanup": "none (the MissionInfo is mission-scoped and rebuilt for the next mission)"
+    },
+    "meaning": "Clem's weekly Survival: SurvivalMission fixedLength = min(maxWaveNum x 60, 3600) s (R10 meaning); at most 60 minutes",
+    "goal_tag": "GetClem"
+   },
+   "unit": "min",
+   "stock": 10,
+   "limits": {
+    "minimum": 1,
+    "maximum": 60,
+    "integer": true,
+    "basis": "Clem's goal: at least 1; SurvivalMission caps fixedLength at 3600 s (60 minutes)"
+   },
+   "confidence": "CONFIRMED_STATIC (write mechanism: R10/R23 precedent; live probe pending)",
+   "evidence": "Owner as survival.icebind_minutes (SurvivalMission a62aa7eea1c4f27b, Mission P70 reaches the maxWaveNum readers P61/P62). Identity: SurvivalMission itself tests info.goalTag == Symbol(\"GetClem\"). Clem's weekly keys GetClemWeeklyMissionKeyA-C (Packages.bin 2026.10.22.13.12): missionType MT_SURVIVAL, maxWaveNum 10, goalTag GetClem, ordinary nodes (SolNode82...), so the location test of the Icebind variant cannot be used. Keys D/E are MT_MOBILE_DEFENSE (maxWaveNum 540 = phase pacing, not the goal), not covered by this row."
+  },
+  {
+   "tunable_id": "clem.mobiledefense_seconds",
+   "phase1_tunable_id": null,
+   "label": "Total defense time (Clem's weekly, Mobile Defense version)",
+   "mission_type": "Mobile Defense",
+   "variant": "Clem's weekly (goalTag GetClem, missionType 9)",
+   "shared_with": "",
+   "owner_kind": "MISSION_INFO_FIELD",
+   "backend": "TARGET_ADDON",
+   "owner": {
+    "body_key": "0028dbbd094c97e4",
+    "stock_sha256": "1915A2F30C2AAB0D614AF33F3308BCD89349177FF1799B09D31C68E4BB5C1468",
+    "file": "Lotus_Scripts_MobileDefense.lua_B",
+    "module_path": "/Lotus/Scripts/MobileDefense.lua",
+    "template": "MISSION_INFO_FIELD_AT_ENTRY",
+    "gate": "CAPTURE_GRAPH_ENTRY_V1",
+    "field": "maxWaveNum",
+    "variant": "GOAL_TAG",
+    "mission_type": 9,
+    "variant_stock": 540,
+    "accessor": {
+     "get": "gGameRules:GetMission()  (gGameRules = Name__d7e3ec85, GetMission = Name__aeab7b8b)",
+     "set": "gGameRules:SetMission(mission)  (SetMission = Name__e9228c58)",
+     "host": "gRegion:IsMaster()  (gRegion = Name__b364fd20, IsMaster = Name__ce228771)",
+     "stock_precedent": "R10 MISSION_INFO_FIELD_AT_ENTRY (Lotus.Scripts.Duviri.DuviriMissions proto 18, Lotus.Scripts.Eidolon.EidolonMissions proto 25: host GetMission, write maxWaveNum, SetMission)"
+    },
+    "entries": [
+     {
+      "prototype": 22,
+      "function": "DefenseStage",
+      "role": "Mobile Defense terminal stage (reads maxWaveNum itself)"
+     }
+    ],
+    "readers": [
+     {
+      "key": "maxWaveNum",
+      "prototype": 22,
+      "instructions": [
+       132
+      ]
+     }
+    ],
+    "dead_readers": [],
+    "write_rule": {
+     "when": "host (gRegion:IsMaster()) and m.goalTag == Symbol(\"GetClem\") and m.missionType == 9 and m.maxWaveNum == 540 (Clem's weekly stock, from the key); another number is left alone with one line",
+     "how": "local m = gGameRules:GetMission(); m.maxWaveNum = N; gGameRules:SetMission(m)",
+     "once": "idempotent: skip when already equal",
+     "cleanup": "none (the MissionInfo is mission-scoped and rebuilt for the next mission)"
+    },
+    "meaning": "Clem's weekly Mobile Defense: total defense time in seconds, split over the terminals (MobileDefense DefenseStage)",
+    "goal_tag": "GetClem"
+   },
+   "unit": "s",
+   "stock": 540,
+   "limits": {
+    "minimum": 1,
+    "maximum": 3600,
+    "integer": true,
+    "basis": "Clem's goal: at least 1; the normal total is 180-240 s, Clem's 540 s; 3600 s as the Survival cap"
+   },
+   "confidence": "CONFIRMED_STATIC (write mechanism: R10/R23 precedent; live probe pending)",
+   "evidence": "MobileDefense (0028dbbd094c97e4): the only maxWaveNum reader is DefenseStage (P22, instruction 132; goal_owners.py), where a positive maxWaveNum replaces the total defense time Lerp(180, 240, difficulty) s, split over the terminals (ceil(total / terminals) each). Clem's weekly keys GetClemWeeklyMissionKeyD/E (Packages.bin 2026.10.22.13.12): MT_MOBILE_DEFENSE, maxWaveNum 540, goalTag GetClem. missionType 9 = KuvaKeysLib MISSIONS.MobileDefense.MissionType. MobileDefense has no GetClem branch of its own."
+  }
+ ]
+}

@@ -1,0 +1,1353 @@
+{
+ "schema": "RENOVICE_MISSION_TUNABLE_REGISTRY_V2 tunables[] drafts (Events batch 1, GOAL_TAG)",
+ "build": "2026.10.08.13.05",
+ "supersedes": {},
+ "groups": {
+  "anniversary": "Anniversary",
+  "nightwatch": "The Long Shadow"
+ },
+ "rows": [
+  {
+   "tunable_id": "anniversary.2017b_defense_waves",
+   "phase1_tunable_id": null,
+   "label": "2017: Defense (Anniversary)",
+   "mission_type": "Defense",
+   "variant": "Anniversary (goalTag Anniversary2018TacAlert, missionType 8)",
+   "shared_with": "",
+   "owner_kind": "MISSION_INFO_FIELD",
+   "backend": "TARGET_ADDON",
+   "owner": {
+    "body_key": "1a1354d153712f9d",
+    "stock_sha256": "0FB53A2C0946ACC3476DF7E16C5A3AAEEA1B6384A2D4EFA2D7360F4C155DBF10",
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "module_path": "/Lotus/Scripts/WaveDefend.lua",
+    "template": "MISSION_INFO_FIELD_AT_ENTRY",
+    "gate": "CAPTURE_GRAPH_ENTRY_V1",
+    "field": "maxWaveNum",
+    "variant": "GOAL_TAG",
+    "mission_type": 8,
+    "variant_stock": 6,
+    "accessor": {
+     "gGameRules": "d7e3ec85",
+     "GetMission": "aeab7b8b",
+     "SetMission": "e9228c58",
+     "gRegion": "b364fd20",
+     "IsMaster": "ce228771",
+     "IsValid": "b26a1114",
+     "print": "0811edde"
+    },
+    "entries": [
+     {
+      "prototype": 50,
+      "function": "WaveDefense",
+      "role": "level trigger; host wave loop"
+     }
+    ],
+    "readers": [
+     {
+      "key": "maxWaveNum",
+      "prototype": 26,
+      "instructions": [
+       202,
+       260,
+       301
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 48,
+      "instructions": [
+       180,
+       357,
+       411,
+       543,
+       581,
+       742,
+       779,
+       1045,
+       1137
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 50,
+      "instructions": [
+       453
+      ]
+     }
+    ],
+    "dead_readers": [
+     {
+      "key": "maxWaveNum",
+      "prototype": 4,
+      "instructions": [
+       11
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 5,
+      "instructions": [
+       11
+      ]
+     }
+    ],
+    "write_rule": {
+     "when": "host and m.goalTag in (Anniversary2018TacAlert) and m.missionType == 8 and m.maxWaveNum == 6; another number is left alone with one line",
+     "how": "local m = gGameRules:GetMission(); m.maxWaveNum = N; gGameRules:SetMission(m)",
+     "once": "idempotent: skip when already equal",
+     "cleanup": "none (the MissionInfo is mission-scoped)"
+    },
+    "meaning": "Anniversary 2017: Defense: Defense maxWaveNum (key TacAlertKeyAnniversary2017B: 6)",
+    "goal_tag": "Anniversary2018TacAlert"
+   },
+   "unit": "",
+   "stock": 6,
+   "limits": {
+    "minimum": 1,
+    "maximum": 100,
+    "integer": true,
+    "basis": "at least 1; 100 as the editor range"
+   },
+   "confidence": "CONFIRMED_STATIC (owner: proven row defense.waves_to_finish; live probe pending)",
+   "evidence": "Owner as defense.waves_to_finish. Key data: Packages.bin 2026.10.22.13.12 TacAlertKeyAnniversary2017B, missionType Defense, maxWaveNum 6. Tag from OpenWF worldStateService (Anniversary2018TacAlert).",
+   "ui_text": {
+    "group": "anniversary",
+    "event": "Anniversary",
+    "sub": "2017: Defense",
+    "word": "waves",
+    "key": "TacAlertKeyAnniversary2017B"
+   }
+  },
+  {
+   "tunable_id": "anniversary.2017c_interception_rounds",
+   "phase1_tunable_id": null,
+   "label": "2017: Interception (Anniversary)",
+   "mission_type": "Interception",
+   "variant": "Anniversary (goalTag Anniversary2018TacAlert, missionType 13)",
+   "shared_with": "",
+   "owner_kind": "MISSION_INFO_FIELD",
+   "backend": "TARGET_ADDON",
+   "owner": {
+    "body_key": "c9605470a8c47d8d",
+    "stock_sha256": "3A8ACF02213053621AD8CF3CC77809A35F27BADDF91D10FCBF94475D0A7D225B",
+    "file": "Lotus_Scripts_Modes_TerritoryMission.lua_B",
+    "module_path": "/Lotus/Scripts/Modes/TerritoryMission.lua",
+    "template": "MISSION_INFO_FIELD_AT_ENTRY",
+    "gate": "CAPTURE_GRAPH_ENTRY_V1",
+    "field": "maxWaveNum",
+    "variant": "GOAL_TAG",
+    "mission_type": 13,
+    "variant_stock": 2,
+    "accessor": {
+     "gGameRules": "d7e3ec85",
+     "GetMission": "aeab7b8b",
+     "SetMission": "e9228c58",
+     "gRegion": "b364fd20",
+     "IsMaster": "ce228771",
+     "IsValid": "b26a1114",
+     "print": "0811edde"
+    },
+    "entries": [
+     {
+      "prototype": 35,
+      "function": "Territory",
+      "role": "level trigger; host round loop"
+     },
+     {
+      "prototype": 31,
+      "function": "TerritoryHUD",
+      "role": "HUD trigger (display)"
+     }
+    ],
+    "readers": [
+     {
+      "key": "maxWaveNum",
+      "prototype": 31,
+      "instructions": [
+       620,
+       667
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 35,
+      "instructions": [
+       158,
+       1373,
+       1583
+      ]
+     }
+    ],
+    "dead_readers": [
+     {
+      "key": "maxWaveNum",
+      "prototype": 5,
+      "instructions": [
+       3
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 6,
+      "instructions": [
+       3
+      ]
+     }
+    ],
+    "write_rule": {
+     "when": "host and m.goalTag in (Anniversary2018TacAlert) and m.missionType == 13 and m.maxWaveNum == 2; another number is left alone with one line",
+     "how": "local m = gGameRules:GetMission(); m.maxWaveNum = N; gGameRules:SetMission(m)",
+     "once": "idempotent: skip when already equal",
+     "cleanup": "none (the MissionInfo is mission-scoped)"
+    },
+    "meaning": "Anniversary 2017: Interception: Interception maxWaveNum (key TacAlertKeyAnniversary2017C: 2)",
+    "goal_tag": "Anniversary2018TacAlert"
+   },
+   "unit": "",
+   "stock": 2,
+   "limits": {
+    "minimum": 1,
+    "maximum": 20,
+    "integer": true,
+    "basis": "at least 1; 20 as the editor range"
+   },
+   "confidence": "CONFIRMED_STATIC (owner: proven row interception.rounds_to_finish; live probe pending)",
+   "evidence": "Owner as interception.rounds_to_finish. Key data: Packages.bin 2026.10.22.13.12 TacAlertKeyAnniversary2017C, missionType Interception, maxWaveNum 2. Tag from OpenWF worldStateService (Anniversary2018TacAlert).",
+   "ui_text": {
+    "group": "anniversary",
+    "event": "Anniversary",
+    "sub": "2017: Interception",
+    "word": "rounds",
+    "key": "TacAlertKeyAnniversary2017C"
+   }
+  },
+  {
+   "tunable_id": "anniversary.2018d_survival_minutes",
+   "phase1_tunable_id": null,
+   "label": "2018: Survival (Anniversary)",
+   "mission_type": "Survival",
+   "variant": "Anniversary (goalTag Anniversary2018TacAlert, missionType 2)",
+   "shared_with": "",
+   "owner_kind": "MISSION_INFO_FIELD",
+   "backend": "TARGET_ADDON",
+   "owner": {
+    "body_key": "a62aa7eea1c4f27b",
+    "stock_sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
+    "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
+    "module_path": "/Lotus/Scripts/Modes/SurvivalMission.lua",
+    "template": "MISSION_INFO_FIELD_AT_ENTRY",
+    "gate": "CAPTURE_GRAPH_ENTRY_V1",
+    "field": "maxWaveNum",
+    "variant": "GOAL_TAG",
+    "mission_type": 2,
+    "variant_stock": 10,
+    "accessor": {
+     "gGameRules": "d7e3ec85",
+     "GetMission": "aeab7b8b",
+     "SetMission": "e9228c58",
+     "gRegion": "b364fd20",
+     "IsMaster": "ce228771",
+     "IsValid": "b26a1114",
+     "print": "0811edde"
+    },
+    "entries": [
+     {
+      "prototype": 70,
+      "function": "Mission",
+      "role": "Survival level trigger"
+     }
+    ],
+    "readers": [
+     {
+      "key": "maxWaveNum",
+      "prototype": 61,
+      "instructions": [
+       163,
+       180,
+       187
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 62,
+      "instructions": [
+       66
+      ]
+     }
+    ],
+    "dead_readers": [],
+    "write_rule": {
+     "when": "host and m.goalTag in (Anniversary2018TacAlert) and m.missionType == 2 and m.maxWaveNum == 10; another number is left alone with one line",
+     "how": "local m = gGameRules:GetMission(); m.maxWaveNum = N; gGameRules:SetMission(m)",
+     "once": "idempotent: skip when already equal",
+     "cleanup": "none (the MissionInfo is mission-scoped)"
+    },
+    "meaning": "Anniversary 2018: Survival: Survival maxWaveNum (key TacAlertKeyAnniversary2018D: 10)",
+    "goal_tag": "Anniversary2018TacAlert"
+   },
+   "unit": "min",
+   "stock": 10,
+   "limits": {
+    "minimum": 1,
+    "maximum": 60,
+    "integer": true,
+    "basis": "at least 1; 60 as the editor range"
+   },
+   "confidence": "CONFIRMED_STATIC (owner: proven row clem.survival_minutes; live probe pending)",
+   "evidence": "Owner as clem.survival_minutes. Key data: Packages.bin 2026.10.22.13.12 TacAlertKeyAnniversary2018D, missionType Survival, maxWaveNum 10. Tag from OpenWF worldStateService (Anniversary2018TacAlert).",
+   "ui_text": {
+    "group": "anniversary",
+    "event": "Anniversary",
+    "sub": "2018: Survival",
+    "word": "min",
+    "key": "TacAlertKeyAnniversary2018D"
+   }
+  },
+  {
+   "tunable_id": "anniversary.2019e_defense_waves",
+   "phase1_tunable_id": null,
+   "label": "2019: Defense (Anniversary)",
+   "mission_type": "Defense",
+   "variant": "Anniversary (goalTag Anniversary2019TacAlert, missionType 8)",
+   "shared_with": "",
+   "owner_kind": "MISSION_INFO_FIELD",
+   "backend": "TARGET_ADDON",
+   "owner": {
+    "body_key": "1a1354d153712f9d",
+    "stock_sha256": "0FB53A2C0946ACC3476DF7E16C5A3AAEEA1B6384A2D4EFA2D7360F4C155DBF10",
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "module_path": "/Lotus/Scripts/WaveDefend.lua",
+    "template": "MISSION_INFO_FIELD_AT_ENTRY",
+    "gate": "CAPTURE_GRAPH_ENTRY_V1",
+    "field": "maxWaveNum",
+    "variant": "GOAL_TAG",
+    "mission_type": 8,
+    "variant_stock": 6,
+    "accessor": {
+     "gGameRules": "d7e3ec85",
+     "GetMission": "aeab7b8b",
+     "SetMission": "e9228c58",
+     "gRegion": "b364fd20",
+     "IsMaster": "ce228771",
+     "IsValid": "b26a1114",
+     "print": "0811edde"
+    },
+    "entries": [
+     {
+      "prototype": 50,
+      "function": "WaveDefense",
+      "role": "level trigger; host wave loop"
+     }
+    ],
+    "readers": [
+     {
+      "key": "maxWaveNum",
+      "prototype": 26,
+      "instructions": [
+       202,
+       260,
+       301
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 48,
+      "instructions": [
+       180,
+       357,
+       411,
+       543,
+       581,
+       742,
+       779,
+       1045,
+       1137
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 50,
+      "instructions": [
+       453
+      ]
+     }
+    ],
+    "dead_readers": [
+     {
+      "key": "maxWaveNum",
+      "prototype": 4,
+      "instructions": [
+       11
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 5,
+      "instructions": [
+       11
+      ]
+     }
+    ],
+    "write_rule": {
+     "when": "host and m.goalTag in (Anniversary2019TacAlert) and m.missionType == 8 and m.maxWaveNum == 6; another number is left alone with one line",
+     "how": "local m = gGameRules:GetMission(); m.maxWaveNum = N; gGameRules:SetMission(m)",
+     "once": "idempotent: skip when already equal",
+     "cleanup": "none (the MissionInfo is mission-scoped)"
+    },
+    "meaning": "Anniversary 2019: Defense: Defense maxWaveNum (key TacAlertKeyAnniversary2019E: 6)",
+    "goal_tag": "Anniversary2019TacAlert"
+   },
+   "unit": "",
+   "stock": 6,
+   "limits": {
+    "minimum": 1,
+    "maximum": 100,
+    "integer": true,
+    "basis": "at least 1; 100 as the editor range"
+   },
+   "confidence": "CONFIRMED_STATIC (owner: proven row defense.waves_to_finish; live probe pending)",
+   "evidence": "Owner as defense.waves_to_finish. Key data: Packages.bin 2026.10.22.13.12 TacAlertKeyAnniversary2019E, missionType Defense, maxWaveNum 6. Tag from OpenWF worldStateService (Anniversary2019TacAlert).",
+   "ui_text": {
+    "group": "anniversary",
+    "event": "Anniversary",
+    "sub": "2019: Defense",
+    "word": "waves",
+    "key": "TacAlertKeyAnniversary2019E"
+   }
+  },
+  {
+   "tunable_id": "anniversary.2020f_disruption_conduits",
+   "phase1_tunable_id": null,
+   "label": "2020: Disruption (Anniversary)",
+   "mission_type": "Disruption",
+   "variant": "Anniversary (goalTag Anniversary2020TacAlert, missionType 33)",
+   "shared_with": "",
+   "owner_kind": "MISSION_INFO_FIELD",
+   "backend": "TARGET_ADDON",
+   "owner": {
+    "body_key": "b6d8c45f9424d376",
+    "stock_sha256": "B3E18CB43701ADEAAC4E41293DD3F2F332071D84C766ABDCD45B0084EB0CEDA3",
+    "file": "Lotus_Scripts_Modes_SentientArtifactMission.lua_B",
+    "module_path": "/Lotus/Scripts/Modes/SentientArtifactMission.lua",
+    "template": "MISSION_INFO_FIELD_AT_ENTRY",
+    "gate": "CAPTURE_GRAPH_ENTRY_V1",
+    "field": "maxWaveNum",
+    "variant": "GOAL_TAG",
+    "mission_type": 33,
+    "variant_stock": 8,
+    "accessor": {
+     "gGameRules": "d7e3ec85",
+     "GetMission": "aeab7b8b",
+     "SetMission": "e9228c58",
+     "gRegion": "b364fd20",
+     "IsMaster": "ce228771",
+     "IsValid": "b26a1114",
+     "print": "0811edde"
+    },
+    "entries": [
+     {
+      "prototype": 85,
+      "function": "Mission",
+      "role": "Disruption level trigger (host and client)"
+     }
+    ],
+    "readers": [
+     {
+      "key": "maxWaveNum",
+      "prototype": 9,
+      "instructions": [
+       29
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 55,
+      "instructions": [
+       69,
+       76
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 81,
+      "instructions": [
+       1236,
+       1242
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 82,
+      "instructions": [
+       60,
+       66
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 84,
+      "instructions": [
+       359,
+       365,
+       547,
+       554
+      ]
+     }
+    ],
+    "dead_readers": [
+     {
+      "prototype": 8,
+      "instructions": [
+       4,
+       11
+      ]
+     },
+     {
+      "prototype": 10,
+      "instructions": [
+       8,
+       14
+      ]
+     }
+    ],
+    "write_rule": {
+     "when": "host and m.goalTag in (Anniversary2020TacAlert) and m.missionType == 33 and m.maxWaveNum == 8; another number is left alone with one line",
+     "how": "local m = gGameRules:GetMission(); m.maxWaveNum = N; gGameRules:SetMission(m)",
+     "once": "idempotent: skip when already equal",
+     "cleanup": "none (the MissionInfo is mission-scoped)"
+    },
+    "meaning": "Anniversary 2020: Disruption: Disruption maxWaveNum (key TacAlertKeyAnniversary2020F: 8)",
+    "goal_tag": "Anniversary2020TacAlert"
+   },
+   "unit": "",
+   "stock": 8,
+   "limits": {
+    "minimum": 1,
+    "maximum": 50,
+    "integer": true,
+    "basis": "at least 1; 50 as the editor range"
+   },
+   "confidence": "CONFIRMED_STATIC (owner: proven row disruption.icebind_conduits; live probe pending)",
+   "evidence": "Owner as disruption.icebind_conduits. Key data: Packages.bin 2026.10.22.13.12 TacAlertKeyAnniversary2020F, missionType Disruption, maxWaveNum 8. Tag from OpenWF worldStateService (Anniversary2020TacAlert).",
+   "ui_text": {
+    "group": "anniversary",
+    "event": "Anniversary",
+    "sub": "2020: Disruption",
+    "word": "conduits",
+    "key": "TacAlertKeyAnniversary2020F"
+   }
+  },
+  {
+   "tunable_id": "anniversary.2020g_mobiledefense_seconds",
+   "phase1_tunable_id": null,
+   "label": "2020: Mobile Defense (Anniversary)",
+   "mission_type": "Mobile Defense",
+   "variant": "Anniversary (goalTag Anniversary2020TacAlert, missionType 9)",
+   "shared_with": "",
+   "owner_kind": "MISSION_INFO_FIELD",
+   "backend": "TARGET_ADDON",
+   "owner": {
+    "body_key": "0028dbbd094c97e4",
+    "stock_sha256": "1915A2F30C2AAB0D614AF33F3308BCD89349177FF1799B09D31C68E4BB5C1468",
+    "file": "Lotus_Scripts_MobileDefense.lua_B",
+    "module_path": "/Lotus/Scripts/MobileDefense.lua",
+    "template": "MISSION_INFO_FIELD_AT_ENTRY",
+    "gate": "CAPTURE_GRAPH_ENTRY_V1",
+    "field": "maxWaveNum",
+    "variant": "GOAL_TAG",
+    "mission_type": 9,
+    "variant_stock": 540,
+    "accessor": {
+     "gGameRules": "d7e3ec85",
+     "GetMission": "aeab7b8b",
+     "SetMission": "e9228c58",
+     "gRegion": "b364fd20",
+     "IsMaster": "ce228771",
+     "IsValid": "b26a1114",
+     "print": "0811edde"
+    },
+    "entries": [
+     {
+      "prototype": 22,
+      "function": "DefenseStage",
+      "role": "Mobile Defense terminal stage (reads maxWaveNum itself)"
+     }
+    ],
+    "readers": [
+     {
+      "key": "maxWaveNum",
+      "prototype": 22,
+      "instructions": [
+       132
+      ]
+     }
+    ],
+    "dead_readers": [],
+    "write_rule": {
+     "when": "host and m.goalTag in (Anniversary2020TacAlert) and m.missionType == 9 and m.maxWaveNum == 540; another number is left alone with one line",
+     "how": "local m = gGameRules:GetMission(); m.maxWaveNum = N; gGameRules:SetMission(m)",
+     "once": "idempotent: skip when already equal",
+     "cleanup": "none (the MissionInfo is mission-scoped)"
+    },
+    "meaning": "Anniversary 2020: Mobile Defense: Mobile Defense maxWaveNum (key TacAlertKeyAnniversary2020G: 540)",
+    "goal_tag": "Anniversary2020TacAlert"
+   },
+   "unit": "s",
+   "stock": 540,
+   "limits": {
+    "minimum": 1,
+    "maximum": 3600,
+    "integer": true,
+    "basis": "at least 1; 3600 as the editor range"
+   },
+   "confidence": "CONFIRMED_STATIC (owner: proven row clem.mobiledefense_seconds; live probe pending)",
+   "evidence": "Owner as clem.mobiledefense_seconds. Key data: Packages.bin 2026.10.22.13.12 TacAlertKeyAnniversary2020G, missionType Mobile Defense, maxWaveNum 540. Tag from OpenWF worldStateService (Anniversary2020TacAlert).",
+   "ui_text": {
+    "group": "anniversary",
+    "event": "Anniversary",
+    "sub": "2020: Mobile Defense",
+    "word": "s",
+    "key": "TacAlertKeyAnniversary2020G"
+   }
+  },
+  {
+   "tunable_id": "anniversary.2021i_excavation_excavators",
+   "phase1_tunable_id": null,
+   "label": "2021: Excavation (Anniversary)",
+   "mission_type": "Excavation",
+   "variant": "Anniversary (goalTag Anniversary2021TacAlert, missionType 17)",
+   "shared_with": "",
+   "owner_kind": "MISSION_INFO_FIELD",
+   "backend": "TARGET_ADDON",
+   "owner": {
+    "body_key": "f7444e3c621ff018",
+    "stock_sha256": "DF9FB3206E468652DC7A101E26118ADF2E039F35B69E228C26BB6BBD3A6F4701",
+    "file": "Lotus_Scripts_Modes_ExcavationMission.lua_B",
+    "module_path": "/Lotus/Scripts/Modes/ExcavationMission.lua",
+    "template": "MISSION_INFO_FIELD_AT_ENTRY",
+    "gate": "CAPTURE_GRAPH_ENTRY_V1",
+    "field": "maxWaveNum",
+    "variant": "GOAL_TAG",
+    "mission_type": 17,
+    "variant_stock": 8,
+    "accessor": {
+     "gGameRules": "d7e3ec85",
+     "GetMission": "aeab7b8b",
+     "SetMission": "e9228c58",
+     "gRegion": "b364fd20",
+     "IsMaster": "ce228771",
+     "IsValid": "b26a1114",
+     "print": "0811edde"
+    },
+    "entries": [
+     {
+      "prototype": 35,
+      "function": "Excavation",
+      "role": "level trigger; host"
+     },
+     {
+      "prototype": 36,
+      "function": "ExcavationHUD",
+      "role": "HUD trigger"
+     },
+     {
+      "prototype": 43,
+      "function": "ExcavatorAvatar",
+      "role": "excavator avatar script (spawned after start)"
+     }
+    ],
+    "readers": [
+     {
+      "key": "maxWaveNum",
+      "prototype": 28,
+      "instructions": [
+       112
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 32,
+      "instructions": [
+       58
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 36,
+      "instructions": [
+       96
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 43,
+      "instructions": [
+       861
+      ]
+     }
+    ],
+    "dead_readers": [],
+    "write_rule": {
+     "when": "host and m.goalTag in (Anniversary2021TacAlert) and m.missionType == 17 and m.maxWaveNum == 8; another number is left alone with one line",
+     "how": "local m = gGameRules:GetMission(); m.maxWaveNum = N; gGameRules:SetMission(m)",
+     "once": "idempotent: skip when already equal",
+     "cleanup": "none (the MissionInfo is mission-scoped)"
+    },
+    "meaning": "Anniversary 2021: Excavation: Excavation maxWaveNum (key TacAlertKeyAnniversary2021I: 8)",
+    "goal_tag": "Anniversary2021TacAlert"
+   },
+   "unit": "",
+   "stock": 8,
+   "limits": {
+    "minimum": 1,
+    "maximum": 50,
+    "integer": true,
+    "basis": "at least 1; 50 as the editor range"
+   },
+   "confidence": "CONFIRMED_STATIC (owner: proven row excavation.icebind_excavators; live probe pending)",
+   "evidence": "Owner as excavation.icebind_excavators. Key data: Packages.bin 2026.10.22.13.12 TacAlertKeyAnniversary2021I, missionType Excavation, maxWaveNum 8. Tag from OpenWF worldStateService (Anniversary2021TacAlert).",
+   "ui_text": {
+    "group": "anniversary",
+    "event": "Anniversary",
+    "sub": "2021: Excavation",
+    "word": "excavators",
+    "key": "TacAlertKeyAnniversary2021I"
+   }
+  },
+  {
+   "tunable_id": "anniversary.2024l_survival_minutes",
+   "phase1_tunable_id": null,
+   "label": "2024: Survival (Anniversary)",
+   "mission_type": "Survival",
+   "variant": "Anniversary (goalTag Anniversary2024TacAlert, missionType 2)",
+   "shared_with": "",
+   "owner_kind": "MISSION_INFO_FIELD",
+   "backend": "TARGET_ADDON",
+   "owner": {
+    "body_key": "a62aa7eea1c4f27b",
+    "stock_sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
+    "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
+    "module_path": "/Lotus/Scripts/Modes/SurvivalMission.lua",
+    "template": "MISSION_INFO_FIELD_AT_ENTRY",
+    "gate": "CAPTURE_GRAPH_ENTRY_V1",
+    "field": "maxWaveNum",
+    "variant": "GOAL_TAG",
+    "mission_type": 2,
+    "variant_stock": 10,
+    "accessor": {
+     "gGameRules": "d7e3ec85",
+     "GetMission": "aeab7b8b",
+     "SetMission": "e9228c58",
+     "gRegion": "b364fd20",
+     "IsMaster": "ce228771",
+     "IsValid": "b26a1114",
+     "print": "0811edde"
+    },
+    "entries": [
+     {
+      "prototype": 70,
+      "function": "Mission",
+      "role": "Survival level trigger"
+     }
+    ],
+    "readers": [
+     {
+      "key": "maxWaveNum",
+      "prototype": 61,
+      "instructions": [
+       163,
+       180,
+       187
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 62,
+      "instructions": [
+       66
+      ]
+     }
+    ],
+    "dead_readers": [],
+    "write_rule": {
+     "when": "host and m.goalTag in (Anniversary2024TacAlert) and m.missionType == 2 and m.maxWaveNum == 10; another number is left alone with one line",
+     "how": "local m = gGameRules:GetMission(); m.maxWaveNum = N; gGameRules:SetMission(m)",
+     "once": "idempotent: skip when already equal",
+     "cleanup": "none (the MissionInfo is mission-scoped)"
+    },
+    "meaning": "Anniversary 2024: Survival: Survival maxWaveNum (key TacAlertKeyAnniversary2024L: 10)",
+    "goal_tag": "Anniversary2024TacAlert"
+   },
+   "unit": "min",
+   "stock": 10,
+   "limits": {
+    "minimum": 1,
+    "maximum": 60,
+    "integer": true,
+    "basis": "at least 1; 60 as the editor range"
+   },
+   "confidence": "CONFIRMED_STATIC (owner: proven row clem.survival_minutes; live probe pending)",
+   "evidence": "Owner as clem.survival_minutes. Key data: Packages.bin 2026.10.22.13.12 TacAlertKeyAnniversary2024L, missionType Survival, maxWaveNum 10. Tag from OpenWF worldStateService (Anniversary2024TacAlert).",
+   "ui_text": {
+    "group": "anniversary",
+    "event": "Anniversary",
+    "sub": "2024: Survival",
+    "word": "min",
+    "key": "TacAlertKeyAnniversary2024L"
+   }
+  },
+  {
+   "tunable_id": "anniversary.2024cma_survival_minutes",
+   "phase1_tunable_id": null,
+   "label": "2024: Challenge A Survival (Anniversary)",
+   "mission_type": "Survival",
+   "variant": "Anniversary (goalTag Anniversary2024TacAlertCMA, missionType 2)",
+   "shared_with": "",
+   "owner_kind": "MISSION_INFO_FIELD",
+   "backend": "TARGET_ADDON",
+   "owner": {
+    "body_key": "a62aa7eea1c4f27b",
+    "stock_sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
+    "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
+    "module_path": "/Lotus/Scripts/Modes/SurvivalMission.lua",
+    "template": "MISSION_INFO_FIELD_AT_ENTRY",
+    "gate": "CAPTURE_GRAPH_ENTRY_V1",
+    "field": "maxWaveNum",
+    "variant": "GOAL_TAG",
+    "mission_type": 2,
+    "variant_stock": 10,
+    "accessor": {
+     "gGameRules": "d7e3ec85",
+     "GetMission": "aeab7b8b",
+     "SetMission": "e9228c58",
+     "gRegion": "b364fd20",
+     "IsMaster": "ce228771",
+     "IsValid": "b26a1114",
+     "print": "0811edde"
+    },
+    "entries": [
+     {
+      "prototype": 70,
+      "function": "Mission",
+      "role": "Survival level trigger"
+     }
+    ],
+    "readers": [
+     {
+      "key": "maxWaveNum",
+      "prototype": 61,
+      "instructions": [
+       163,
+       180,
+       187
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 62,
+      "instructions": [
+       66
+      ]
+     }
+    ],
+    "dead_readers": [],
+    "write_rule": {
+     "when": "host and m.goalTag in (Anniversary2024TacAlertCMA) and m.missionType == 2 and m.maxWaveNum == 10; another number is left alone with one line",
+     "how": "local m = gGameRules:GetMission(); m.maxWaveNum = N; gGameRules:SetMission(m)",
+     "once": "idempotent: skip when already equal",
+     "cleanup": "none (the MissionInfo is mission-scoped)"
+    },
+    "meaning": "Anniversary 2024: Challenge A Survival: Survival maxWaveNum (key TacAlertKeyAnniversary2024ChallengeModeA: 10)",
+    "goal_tag": "Anniversary2024TacAlertCMA"
+   },
+   "unit": "min",
+   "stock": 10,
+   "limits": {
+    "minimum": 1,
+    "maximum": 60,
+    "integer": true,
+    "basis": "at least 1; 60 as the editor range"
+   },
+   "confidence": "CONFIRMED_STATIC (owner: proven row clem.survival_minutes; live probe pending)",
+   "evidence": "Owner as clem.survival_minutes. Key data: Packages.bin 2026.10.22.13.12 TacAlertKeyAnniversary2024ChallengeModeA, missionType Survival, maxWaveNum 10. Tag from OpenWF worldStateService (Anniversary2024TacAlertCMA).",
+   "ui_text": {
+    "group": "anniversary",
+    "event": "Anniversary",
+    "sub": "2024: Challenge A Survival",
+    "word": "min",
+    "key": "TacAlertKeyAnniversary2024ChallengeModeA"
+   }
+  },
+  {
+   "tunable_id": "anniversary.2024cmb_survival_minutes",
+   "phase1_tunable_id": null,
+   "label": "2024: Challenge B Survival (Anniversary)",
+   "mission_type": "Survival",
+   "variant": "Anniversary (goalTag Anniversary2024TacAlertCMB, missionType 2)",
+   "shared_with": "",
+   "owner_kind": "MISSION_INFO_FIELD",
+   "backend": "TARGET_ADDON",
+   "owner": {
+    "body_key": "a62aa7eea1c4f27b",
+    "stock_sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
+    "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
+    "module_path": "/Lotus/Scripts/Modes/SurvivalMission.lua",
+    "template": "MISSION_INFO_FIELD_AT_ENTRY",
+    "gate": "CAPTURE_GRAPH_ENTRY_V1",
+    "field": "maxWaveNum",
+    "variant": "GOAL_TAG",
+    "mission_type": 2,
+    "variant_stock": 10,
+    "accessor": {
+     "gGameRules": "d7e3ec85",
+     "GetMission": "aeab7b8b",
+     "SetMission": "e9228c58",
+     "gRegion": "b364fd20",
+     "IsMaster": "ce228771",
+     "IsValid": "b26a1114",
+     "print": "0811edde"
+    },
+    "entries": [
+     {
+      "prototype": 70,
+      "function": "Mission",
+      "role": "Survival level trigger"
+     }
+    ],
+    "readers": [
+     {
+      "key": "maxWaveNum",
+      "prototype": 61,
+      "instructions": [
+       163,
+       180,
+       187
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 62,
+      "instructions": [
+       66
+      ]
+     }
+    ],
+    "dead_readers": [],
+    "write_rule": {
+     "when": "host and m.goalTag in (Anniversary2024TacAlertCMB) and m.missionType == 2 and m.maxWaveNum == 10; another number is left alone with one line",
+     "how": "local m = gGameRules:GetMission(); m.maxWaveNum = N; gGameRules:SetMission(m)",
+     "once": "idempotent: skip when already equal",
+     "cleanup": "none (the MissionInfo is mission-scoped)"
+    },
+    "meaning": "Anniversary 2024: Challenge B Survival: Survival maxWaveNum (key TacAlertKeyAnniversary2024ChallengeModeB: 10)",
+    "goal_tag": "Anniversary2024TacAlertCMB"
+   },
+   "unit": "min",
+   "stock": 10,
+   "limits": {
+    "minimum": 1,
+    "maximum": 60,
+    "integer": true,
+    "basis": "at least 1; 60 as the editor range"
+   },
+   "confidence": "CONFIRMED_STATIC (owner: proven row clem.survival_minutes; live probe pending)",
+   "evidence": "Owner as clem.survival_minutes. Key data: Packages.bin 2026.10.22.13.12 TacAlertKeyAnniversary2024ChallengeModeB, missionType Survival, maxWaveNum 10. Tag from OpenWF worldStateService (Anniversary2024TacAlertCMB).",
+   "ui_text": {
+    "group": "anniversary",
+    "event": "Anniversary",
+    "sub": "2024: Challenge B Survival",
+    "word": "min",
+    "key": "TacAlertKeyAnniversary2024ChallengeModeB"
+   }
+  },
+  {
+   "tunable_id": "anniversary.2025cmb_survival_minutes",
+   "phase1_tunable_id": null,
+   "label": "2025: Challenge B Survival (Anniversary)",
+   "mission_type": "Survival",
+   "variant": "Anniversary (goalTag Anniversary2025TacAlertCMB, missionType 2)",
+   "shared_with": "",
+   "owner_kind": "MISSION_INFO_FIELD",
+   "backend": "TARGET_ADDON",
+   "owner": {
+    "body_key": "a62aa7eea1c4f27b",
+    "stock_sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
+    "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
+    "module_path": "/Lotus/Scripts/Modes/SurvivalMission.lua",
+    "template": "MISSION_INFO_FIELD_AT_ENTRY",
+    "gate": "CAPTURE_GRAPH_ENTRY_V1",
+    "field": "maxWaveNum",
+    "variant": "GOAL_TAG",
+    "mission_type": 2,
+    "variant_stock": 10,
+    "accessor": {
+     "gGameRules": "d7e3ec85",
+     "GetMission": "aeab7b8b",
+     "SetMission": "e9228c58",
+     "gRegion": "b364fd20",
+     "IsMaster": "ce228771",
+     "IsValid": "b26a1114",
+     "print": "0811edde"
+    },
+    "entries": [
+     {
+      "prototype": 70,
+      "function": "Mission",
+      "role": "Survival level trigger"
+     }
+    ],
+    "readers": [
+     {
+      "key": "maxWaveNum",
+      "prototype": 61,
+      "instructions": [
+       163,
+       180,
+       187
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 62,
+      "instructions": [
+       66
+      ]
+     }
+    ],
+    "dead_readers": [],
+    "write_rule": {
+     "when": "host and m.goalTag in (Anniversary2025TacAlertCMB) and m.missionType == 2 and m.maxWaveNum == 10; another number is left alone with one line",
+     "how": "local m = gGameRules:GetMission(); m.maxWaveNum = N; gGameRules:SetMission(m)",
+     "once": "idempotent: skip when already equal",
+     "cleanup": "none (the MissionInfo is mission-scoped)"
+    },
+    "meaning": "Anniversary 2025: Challenge B Survival: Survival maxWaveNum (key TacAlertKeyAnniversary2025ChallengeModeB: 10)",
+    "goal_tag": "Anniversary2025TacAlertCMB"
+   },
+   "unit": "min",
+   "stock": 10,
+   "limits": {
+    "minimum": 1,
+    "maximum": 60,
+    "integer": true,
+    "basis": "at least 1; 60 as the editor range"
+   },
+   "confidence": "CONFIRMED_STATIC (owner: proven row clem.survival_minutes; live probe pending)",
+   "evidence": "Owner as clem.survival_minutes. Key data: Packages.bin 2026.10.22.13.12 TacAlertKeyAnniversary2025ChallengeModeB, missionType Survival, maxWaveNum 10. Tag from OpenWF worldStateService (Anniversary2025TacAlertCMB).",
+   "ui_text": {
+    "group": "anniversary",
+    "event": "Anniversary",
+    "sub": "2025: Challenge B Survival",
+    "word": "min",
+    "key": "TacAlertKeyAnniversary2025ChallengeModeB"
+   }
+  },
+  {
+   "tunable_id": "nightwatch.defense_waves",
+   "phase1_tunable_id": null,
+   "label": "Defense (The Long Shadow)",
+   "mission_type": "Defense",
+   "variant": "The Long Shadow (goalTag NightwatchTacAlert/Anniversary2020TacAlert, missionType 8)",
+   "shared_with": "",
+   "owner_kind": "MISSION_INFO_FIELD",
+   "backend": "TARGET_ADDON",
+   "owner": {
+    "body_key": "1a1354d153712f9d",
+    "stock_sha256": "0FB53A2C0946ACC3476DF7E16C5A3AAEEA1B6384A2D4EFA2D7360F4C155DBF10",
+    "file": "Lotus_Scripts_WaveDefend.lua_B",
+    "module_path": "/Lotus/Scripts/WaveDefend.lua",
+    "template": "MISSION_INFO_FIELD_AT_ENTRY",
+    "gate": "CAPTURE_GRAPH_ENTRY_V1",
+    "field": "maxWaveNum",
+    "variant": "GOAL_TAG",
+    "mission_type": 8,
+    "variant_stock": 10,
+    "accessor": {
+     "gGameRules": "d7e3ec85",
+     "GetMission": "aeab7b8b",
+     "SetMission": "e9228c58",
+     "gRegion": "b364fd20",
+     "IsMaster": "ce228771",
+     "IsValid": "b26a1114",
+     "print": "0811edde"
+    },
+    "entries": [
+     {
+      "prototype": 50,
+      "function": "WaveDefense",
+      "role": "level trigger; host wave loop"
+     }
+    ],
+    "readers": [
+     {
+      "key": "maxWaveNum",
+      "prototype": 26,
+      "instructions": [
+       202,
+       260,
+       301
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 48,
+      "instructions": [
+       180,
+       357,
+       411,
+       543,
+       581,
+       742,
+       779,
+       1045,
+       1137
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 50,
+      "instructions": [
+       453
+      ]
+     }
+    ],
+    "dead_readers": [
+     {
+      "key": "maxWaveNum",
+      "prototype": 4,
+      "instructions": [
+       11
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 5,
+      "instructions": [
+       11
+      ]
+     }
+    ],
+    "write_rule": {
+     "when": "host and m.goalTag in (NightwatchTacAlert, Anniversary2020TacAlert) and m.missionType == 8 and m.maxWaveNum == 10; another number is left alone with one line",
+     "how": "local m = gGameRules:GetMission(); m.maxWaveNum = N; gGameRules:SetMission(m)",
+     "once": "idempotent: skip when already equal",
+     "cleanup": "none (the MissionInfo is mission-scoped)"
+    },
+    "meaning": "The Long Shadow Defense: Defense maxWaveNum (key TacAlertKeyProjectNightwatch: 10)",
+    "goal_tag": "NightwatchTacAlert",
+    "goal_tag_aliases": [
+     "Anniversary2020TacAlert"
+    ]
+   },
+   "unit": "",
+   "stock": 10,
+   "limits": {
+    "minimum": 1,
+    "maximum": 100,
+    "integer": true,
+    "basis": "at least 1; 100 as the editor range"
+   },
+   "confidence": "CONFIRMED_STATIC (owner: proven row defense.waves_to_finish; live probe pending)",
+   "evidence": "Owner as defense.waves_to_finish. Key data: Packages.bin 2026.10.22.13.12 TacAlertKeyProjectNightwatch, missionType Defense, maxWaveNum 10. Tag from OpenWF worldStateService (NightwatchTacAlert, Anniversary2020TacAlert).",
+   "ui_text": {
+    "group": "nightwatch",
+    "event": "The Long Shadow",
+    "sub": "Defense",
+    "word": "waves",
+    "key": "TacAlertKeyProjectNightwatch"
+   }
+  },
+  {
+   "tunable_id": "nightwatch.interception_rounds",
+   "phase1_tunable_id": null,
+   "label": "Interception (The Long Shadow)",
+   "mission_type": "Interception",
+   "variant": "The Long Shadow (goalTag NightwatchTacAlert/Anniversary2020TacAlert, missionType 13)",
+   "shared_with": "",
+   "owner_kind": "MISSION_INFO_FIELD",
+   "backend": "TARGET_ADDON",
+   "owner": {
+    "body_key": "c9605470a8c47d8d",
+    "stock_sha256": "3A8ACF02213053621AD8CF3CC77809A35F27BADDF91D10FCBF94475D0A7D225B",
+    "file": "Lotus_Scripts_Modes_TerritoryMission.lua_B",
+    "module_path": "/Lotus/Scripts/Modes/TerritoryMission.lua",
+    "template": "MISSION_INFO_FIELD_AT_ENTRY",
+    "gate": "CAPTURE_GRAPH_ENTRY_V1",
+    "field": "maxWaveNum",
+    "variant": "GOAL_TAG",
+    "mission_type": 13,
+    "variant_stock": 2,
+    "accessor": {
+     "gGameRules": "d7e3ec85",
+     "GetMission": "aeab7b8b",
+     "SetMission": "e9228c58",
+     "gRegion": "b364fd20",
+     "IsMaster": "ce228771",
+     "IsValid": "b26a1114",
+     "print": "0811edde"
+    },
+    "entries": [
+     {
+      "prototype": 35,
+      "function": "Territory",
+      "role": "level trigger; host round loop"
+     },
+     {
+      "prototype": 31,
+      "function": "TerritoryHUD",
+      "role": "HUD trigger (display)"
+     }
+    ],
+    "readers": [
+     {
+      "key": "maxWaveNum",
+      "prototype": 31,
+      "instructions": [
+       620,
+       667
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 35,
+      "instructions": [
+       158,
+       1373,
+       1583
+      ]
+     }
+    ],
+    "dead_readers": [
+     {
+      "key": "maxWaveNum",
+      "prototype": 5,
+      "instructions": [
+       3
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 6,
+      "instructions": [
+       3
+      ]
+     }
+    ],
+    "write_rule": {
+     "when": "host and m.goalTag in (NightwatchTacAlert, Anniversary2020TacAlert) and m.missionType == 13 and m.maxWaveNum == 2; another number is left alone with one line",
+     "how": "local m = gGameRules:GetMission(); m.maxWaveNum = N; gGameRules:SetMission(m)",
+     "once": "idempotent: skip when already equal",
+     "cleanup": "none (the MissionInfo is mission-scoped)"
+    },
+    "meaning": "The Long Shadow Interception: Interception maxWaveNum (key TacAlertKeyProjectNightwatchEasy: 2)",
+    "goal_tag": "NightwatchTacAlert",
+    "goal_tag_aliases": [
+     "Anniversary2020TacAlert"
+    ]
+   },
+   "unit": "",
+   "stock": 2,
+   "limits": {
+    "minimum": 1,
+    "maximum": 20,
+    "integer": true,
+    "basis": "at least 1; 20 as the editor range"
+   },
+   "confidence": "CONFIRMED_STATIC (owner: proven row interception.rounds_to_finish; live probe pending)",
+   "evidence": "Owner as interception.rounds_to_finish. Key data: Packages.bin 2026.10.22.13.12 TacAlertKeyProjectNightwatchEasy, missionType Interception, maxWaveNum 2. Tag from OpenWF worldStateService (NightwatchTacAlert, Anniversary2020TacAlert).",
+   "ui_text": {
+    "group": "nightwatch",
+    "event": "The Long Shadow",
+    "sub": "Interception",
+    "word": "rounds",
+    "key": "TacAlertKeyProjectNightwatchEasy"
+   }
+  },
+  {
+   "tunable_id": "nightwatch.survival_minutes",
+   "phase1_tunable_id": null,
+   "label": "Hard Survival (The Long Shadow)",
+   "mission_type": "Survival",
+   "variant": "The Long Shadow (goalTag NightwatchTacAlert/Anniversary2020TacAlert, missionType 2)",
+   "shared_with": "",
+   "owner_kind": "MISSION_INFO_FIELD",
+   "backend": "TARGET_ADDON",
+   "owner": {
+    "body_key": "a62aa7eea1c4f27b",
+    "stock_sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
+    "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
+    "module_path": "/Lotus/Scripts/Modes/SurvivalMission.lua",
+    "template": "MISSION_INFO_FIELD_AT_ENTRY",
+    "gate": "CAPTURE_GRAPH_ENTRY_V1",
+    "field": "maxWaveNum",
+    "variant": "GOAL_TAG",
+    "mission_type": 2,
+    "variant_stock": 20,
+    "accessor": {
+     "gGameRules": "d7e3ec85",
+     "GetMission": "aeab7b8b",
+     "SetMission": "e9228c58",
+     "gRegion": "b364fd20",
+     "IsMaster": "ce228771",
+     "IsValid": "b26a1114",
+     "print": "0811edde"
+    },
+    "entries": [
+     {
+      "prototype": 70,
+      "function": "Mission",
+      "role": "Survival level trigger"
+     }
+    ],
+    "readers": [
+     {
+      "key": "maxWaveNum",
+      "prototype": 61,
+      "instructions": [
+       163,
+       180,
+       187
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 62,
+      "instructions": [
+       66
+      ]
+     }
+    ],
+    "dead_readers": [],
+    "write_rule": {
+     "when": "host and m.goalTag in (NightwatchTacAlert, Anniversary2020TacAlert) and m.missionType == 2 and m.maxWaveNum == 20; another number is left alone with one line",
+     "how": "local m = gGameRules:GetMission(); m.maxWaveNum = N; gGameRules:SetMission(m)",
+     "once": "idempotent: skip when already equal",
+     "cleanup": "none (the MissionInfo is mission-scoped)"
+    },
+    "meaning": "The Long Shadow Hard Survival: Survival maxWaveNum (key TacAlertKeyProjectNightwatchHard: 20)",
+    "goal_tag": "NightwatchTacAlert",
+    "goal_tag_aliases": [
+     "Anniversary2020TacAlert"
+    ]
+   },
+   "unit": "min",
+   "stock": 20,
+   "limits": {
+    "minimum": 1,
+    "maximum": 60,
+    "integer": true,
+    "basis": "at least 1; 60 as the editor range"
+   },
+   "confidence": "CONFIRMED_STATIC (owner: proven row clem.survival_minutes; live probe pending)",
+   "evidence": "Owner as clem.survival_minutes. Key data: Packages.bin 2026.10.22.13.12 TacAlertKeyProjectNightwatchHard, missionType Survival, maxWaveNum 20. Tag from OpenWF worldStateService (NightwatchTacAlert, Anniversary2020TacAlert).",
+   "ui_text": {
+    "group": "nightwatch",
+    "event": "The Long Shadow",
+    "sub": "Hard Survival",
+    "word": "min",
+    "key": "TacAlertKeyProjectNightwatchHard"
+   }
+  }
+ ]
+}

@@ -1,0 +1,565 @@
+{
+ "schema": "RENOVICE_MISSION_TUNABLE_REGISTRY_V2 tunables[] drafts (Events batch 2, GOAL_TAG incl. from 0)",
+ "build": "2026.10.08.13.05",
+ "supersedes": {},
+ "groups": {
+  "hallowedflame": "Hallowed Flame",
+  "anniversary": "Anniversary",
+  "orphixvenom": "Orphix Venom",
+  "nightwatch": "The Long Shadow"
+ },
+ "rows": [
+  {
+   "tunable_id": "hallowedflame.lantern_a_seconds",
+   "phase1_tunable_id": null,
+   "label": "Lantern A (Hallowed Flame)",
+   "mission_type": "Survival",
+   "variant": "Hallowed Flame (goalTag Halloween19/Anniversary2018TacAlert/Halloween19Endless, missionType 2)",
+   "shared_with": "",
+   "owner_kind": "MISSION_INFO_FIELD",
+   "backend": "TARGET_ADDON",
+   "owner": {
+    "body_key": "caec63d8e739b693",
+    "stock_sha256": "1E5A6E3919A93D78521E2E2F59501DCC06DFA55B0673190450542DC00B3875E2",
+    "file": "Lotus_Scripts_Modes_HalloweenLanternEndless.lua_B",
+    "module_path": "/Lotus/Scripts/Modes/HalloweenLanternEndless.lua",
+    "template": "MISSION_INFO_FIELD_AT_ENTRY",
+    "gate": "CAPTURE_GRAPH_ENTRY_V1",
+    "field": "maxWaveNum",
+    "variant": "GOAL_TAG",
+    "mission_type": 2,
+    "variant_stock": 300,
+    "accessor": {
+     "gGameRules": "d7e3ec85",
+     "GetMission": "aeab7b8b",
+     "SetMission": "e9228c58",
+     "gRegion": "b364fd20",
+     "IsMaster": "ce228771",
+     "IsValid": "b26a1114",
+     "print": "0811edde"
+    },
+    "entries": [
+     {
+      "prototype": 35,
+      "function": "Mission",
+      "role": "Hallowed Flame level trigger"
+     },
+     {
+      "prototype": 30,
+      "function": "",
+      "role": "goal seconds reader"
+     }
+    ],
+    "readers": [
+     {
+      "key": "maxWaveNum",
+      "prototype": 30,
+      "instructions": [
+       48,
+       53
+      ]
+     }
+    ],
+    "dead_readers": [
+     {
+      "key": "maxWaveNum",
+      "prototype": 4,
+      "instructions": [
+       5,
+       10
+      ]
+     }
+    ],
+    "write_rule": {
+     "when": "host and m.goalTag in (Halloween19, Anniversary2018TacAlert, Halloween19Endless) and m.missionType == 2 and m.maxWaveNum == 300; another number is left alone with one line",
+     "how": "local m = gGameRules:GetMission(); m.maxWaveNum = N; gGameRules:SetMission(m)",
+     "once": "idempotent: skip when already equal",
+     "cleanup": "none (the MissionInfo is mission-scoped)"
+    },
+    "meaning": "Hallowed Flame Lantern A: seconds (LanternEndlessEventKeyA: stock 300)",
+    "goal_tag": "Halloween19",
+    "goal_tag_aliases": [
+     "Anniversary2018TacAlert",
+     "Halloween19Endless"
+    ]
+   },
+   "unit": "s",
+   "stock": 300,
+   "limits": {
+    "minimum": 1,
+    "maximum": 3600,
+    "integer": true,
+    "basis": "at least 1; 3600 as the editor range"
+   },
+   "confidence": "CONFIRMED_STATIC (owner: research 2026-10-29 events2; live probe pending)",
+   "evidence": "Lotus.Scripts.Modes.HalloweenLanternEndless (caec63d8e739b693): entry [35, 30], maxWaveNum readers [30]. Key data: Packages.bin 2026.10.22.13.12 LanternEndlessEventKeyA, stock 300. Tags: Halloween19, Anniversary2018TacAlert, Halloween19Endless.",
+   "ui_text": {
+    "group": "hallowedflame",
+    "event": "Hallowed Flame",
+    "sub": "Lantern A",
+    "word": "seconds",
+    "key": "LanternEndlessEventKeyA"
+   }
+  },
+  {
+   "tunable_id": "hallowedflame.lantern_b_seconds",
+   "phase1_tunable_id": null,
+   "label": "Lantern B (Hallowed Flame)",
+   "mission_type": "Survival",
+   "variant": "Hallowed Flame (goalTag Halloween19/Anniversary2018TacAlert/Halloween19Endless, missionType 2)",
+   "shared_with": "",
+   "owner_kind": "MISSION_INFO_FIELD",
+   "backend": "TARGET_ADDON",
+   "owner": {
+    "body_key": "caec63d8e739b693",
+    "stock_sha256": "1E5A6E3919A93D78521E2E2F59501DCC06DFA55B0673190450542DC00B3875E2",
+    "file": "Lotus_Scripts_Modes_HalloweenLanternEndless.lua_B",
+    "module_path": "/Lotus/Scripts/Modes/HalloweenLanternEndless.lua",
+    "template": "MISSION_INFO_FIELD_AT_ENTRY",
+    "gate": "CAPTURE_GRAPH_ENTRY_V1",
+    "field": "maxWaveNum",
+    "variant": "GOAL_TAG",
+    "mission_type": 2,
+    "variant_stock": 420,
+    "accessor": {
+     "gGameRules": "d7e3ec85",
+     "GetMission": "aeab7b8b",
+     "SetMission": "e9228c58",
+     "gRegion": "b364fd20",
+     "IsMaster": "ce228771",
+     "IsValid": "b26a1114",
+     "print": "0811edde"
+    },
+    "entries": [
+     {
+      "prototype": 35,
+      "function": "Mission",
+      "role": "Hallowed Flame level trigger"
+     },
+     {
+      "prototype": 30,
+      "function": "",
+      "role": "goal seconds reader"
+     }
+    ],
+    "readers": [
+     {
+      "key": "maxWaveNum",
+      "prototype": 30,
+      "instructions": [
+       48,
+       53
+      ]
+     }
+    ],
+    "dead_readers": [
+     {
+      "key": "maxWaveNum",
+      "prototype": 4,
+      "instructions": [
+       5,
+       10
+      ]
+     }
+    ],
+    "write_rule": {
+     "when": "host and m.goalTag in (Halloween19, Anniversary2018TacAlert, Halloween19Endless) and m.missionType == 2 and m.maxWaveNum == 420; another number is left alone with one line",
+     "how": "local m = gGameRules:GetMission(); m.maxWaveNum = N; gGameRules:SetMission(m)",
+     "once": "idempotent: skip when already equal",
+     "cleanup": "none (the MissionInfo is mission-scoped)"
+    },
+    "meaning": "Hallowed Flame Lantern B: seconds (LanternEndlessEventKeyB: stock 420)",
+    "goal_tag": "Halloween19",
+    "goal_tag_aliases": [
+     "Anniversary2018TacAlert",
+     "Halloween19Endless"
+    ]
+   },
+   "unit": "s",
+   "stock": 420,
+   "limits": {
+    "minimum": 1,
+    "maximum": 3600,
+    "integer": true,
+    "basis": "at least 1; 3600 as the editor range"
+   },
+   "confidence": "CONFIRMED_STATIC (owner: research 2026-10-29 events2; live probe pending)",
+   "evidence": "Lotus.Scripts.Modes.HalloweenLanternEndless (caec63d8e739b693): entry [35, 30], maxWaveNum readers [30]. Key data: Packages.bin 2026.10.22.13.12 LanternEndlessEventKeyB, stock 420. Tags: Halloween19, Anniversary2018TacAlert, Halloween19Endless.",
+   "ui_text": {
+    "group": "hallowedflame",
+    "event": "Hallowed Flame",
+    "sub": "Lantern B",
+    "word": "seconds",
+    "key": "LanternEndlessEventKeyB"
+   }
+  },
+  {
+   "tunable_id": "hallowedflame.lantern_c_seconds",
+   "phase1_tunable_id": null,
+   "label": "Lantern C (Hallowed Flame)",
+   "mission_type": "Survival",
+   "variant": "Hallowed Flame (goalTag Halloween19/Anniversary2018TacAlert/Halloween19Endless, missionType 2)",
+   "shared_with": "",
+   "owner_kind": "MISSION_INFO_FIELD",
+   "backend": "TARGET_ADDON",
+   "owner": {
+    "body_key": "caec63d8e739b693",
+    "stock_sha256": "1E5A6E3919A93D78521E2E2F59501DCC06DFA55B0673190450542DC00B3875E2",
+    "file": "Lotus_Scripts_Modes_HalloweenLanternEndless.lua_B",
+    "module_path": "/Lotus/Scripts/Modes/HalloweenLanternEndless.lua",
+    "template": "MISSION_INFO_FIELD_AT_ENTRY",
+    "gate": "CAPTURE_GRAPH_ENTRY_V1",
+    "field": "maxWaveNum",
+    "variant": "GOAL_TAG",
+    "mission_type": 2,
+    "variant_stock": 600,
+    "accessor": {
+     "gGameRules": "d7e3ec85",
+     "GetMission": "aeab7b8b",
+     "SetMission": "e9228c58",
+     "gRegion": "b364fd20",
+     "IsMaster": "ce228771",
+     "IsValid": "b26a1114",
+     "print": "0811edde"
+    },
+    "entries": [
+     {
+      "prototype": 35,
+      "function": "Mission",
+      "role": "Hallowed Flame level trigger"
+     },
+     {
+      "prototype": 30,
+      "function": "",
+      "role": "goal seconds reader"
+     }
+    ],
+    "readers": [
+     {
+      "key": "maxWaveNum",
+      "prototype": 30,
+      "instructions": [
+       48,
+       53
+      ]
+     }
+    ],
+    "dead_readers": [
+     {
+      "key": "maxWaveNum",
+      "prototype": 4,
+      "instructions": [
+       5,
+       10
+      ]
+     }
+    ],
+    "write_rule": {
+     "when": "host and m.goalTag in (Halloween19, Anniversary2018TacAlert, Halloween19Endless) and m.missionType == 2 and m.maxWaveNum == 600; another number is left alone with one line",
+     "how": "local m = gGameRules:GetMission(); m.maxWaveNum = N; gGameRules:SetMission(m)",
+     "once": "idempotent: skip when already equal",
+     "cleanup": "none (the MissionInfo is mission-scoped)"
+    },
+    "meaning": "Hallowed Flame Lantern C: seconds (LanternEndlessEventKeyC: stock 600)",
+    "goal_tag": "Halloween19",
+    "goal_tag_aliases": [
+     "Anniversary2018TacAlert",
+     "Halloween19Endless"
+    ]
+   },
+   "unit": "s",
+   "stock": 600,
+   "limits": {
+    "minimum": 1,
+    "maximum": 3600,
+    "integer": true,
+    "basis": "at least 1; 3600 as the editor range"
+   },
+   "confidence": "CONFIRMED_STATIC (owner: research 2026-10-29 events2; live probe pending)",
+   "evidence": "Lotus.Scripts.Modes.HalloweenLanternEndless (caec63d8e739b693): entry [35, 30], maxWaveNum readers [30]. Key data: Packages.bin 2026.10.22.13.12 LanternEndlessEventKeyC, stock 600. Tags: Halloween19, Anniversary2018TacAlert, Halloween19Endless.",
+   "ui_text": {
+    "group": "hallowedflame",
+    "event": "Hallowed Flame",
+    "sub": "Lantern C",
+    "word": "seconds",
+    "key": "LanternEndlessEventKeyC"
+   }
+  },
+  {
+   "tunable_id": "hallowedflame.lantern_d_seconds",
+   "phase1_tunable_id": null,
+   "label": "Lantern D (endless) (Hallowed Flame)",
+   "mission_type": "Survival",
+   "variant": "Hallowed Flame (goalTag Halloween19Endless/Halloween19/Anniversary2018TacAlert, missionType 2)",
+   "shared_with": "",
+   "owner_kind": "MISSION_INFO_FIELD",
+   "backend": "TARGET_ADDON",
+   "owner": {
+    "body_key": "caec63d8e739b693",
+    "stock_sha256": "1E5A6E3919A93D78521E2E2F59501DCC06DFA55B0673190450542DC00B3875E2",
+    "file": "Lotus_Scripts_Modes_HalloweenLanternEndless.lua_B",
+    "module_path": "/Lotus/Scripts/Modes/HalloweenLanternEndless.lua",
+    "template": "MISSION_INFO_FIELD_AT_ENTRY",
+    "gate": "CAPTURE_GRAPH_ENTRY_V1",
+    "field": "maxWaveNum",
+    "variant": "GOAL_TAG",
+    "mission_type": 2,
+    "variant_stock": 0,
+    "accessor": {
+     "gGameRules": "d7e3ec85",
+     "GetMission": "aeab7b8b",
+     "SetMission": "e9228c58",
+     "gRegion": "b364fd20",
+     "IsMaster": "ce228771",
+     "IsValid": "b26a1114",
+     "print": "0811edde"
+    },
+    "entries": [
+     {
+      "prototype": 35,
+      "function": "Mission",
+      "role": "Hallowed Flame level trigger"
+     },
+     {
+      "prototype": 30,
+      "function": "",
+      "role": "goal seconds reader"
+     }
+    ],
+    "readers": [
+     {
+      "key": "maxWaveNum",
+      "prototype": 30,
+      "instructions": [
+       48,
+       53
+      ]
+     }
+    ],
+    "dead_readers": [
+     {
+      "key": "maxWaveNum",
+      "prototype": 4,
+      "instructions": [
+       5,
+       10
+      ]
+     }
+    ],
+    "write_rule": {
+     "when": "host and m.goalTag in (Halloween19Endless, Halloween19, Anniversary2018TacAlert) and m.missionType == 2 and m.maxWaveNum == 0; another number is left alone with one line",
+     "how": "local m = gGameRules:GetMission(); m.maxWaveNum = N; gGameRules:SetMission(m)",
+     "once": "idempotent: skip when already equal",
+     "cleanup": "none (the MissionInfo is mission-scoped)"
+    },
+    "meaning": "Hallowed Flame Lantern D (endless): seconds (LanternEndlessEventKeyD: stock 0, 0 = endless)",
+    "goal_tag": "Halloween19Endless",
+    "goal_tag_aliases": [
+     "Halloween19",
+     "Anniversary2018TacAlert"
+    ]
+   },
+   "unit": "s",
+   "stock": 0,
+   "limits": {
+    "minimum": 0,
+    "maximum": 3600,
+    "integer": true,
+    "basis": "0 = endless (game default); 3600 as the editor range"
+   },
+   "confidence": "CONFIRMED_STATIC (owner: research 2026-10-29 events2; live probe pending)",
+   "evidence": "Lotus.Scripts.Modes.HalloweenLanternEndless (caec63d8e739b693): entry [35, 30], maxWaveNum readers [30]. Key data: Packages.bin 2026.10.22.13.12 LanternEndlessEventKeyD, stock 0. Tags: Halloween19Endless, Halloween19, Anniversary2018TacAlert.",
+   "ui_text": {
+    "group": "hallowedflame",
+    "event": "Hallowed Flame",
+    "sub": "Lantern D (endless)",
+    "word": "seconds",
+    "key": "LanternEndlessEventKeyD"
+   }
+  },
+  {
+   "tunable_id": "anniversary.2022j_purify_rounds",
+   "phase1_tunable_id": null,
+   "label": "2022: Purify (Anniversary)",
+   "mission_type": "Purify",
+   "variant": "Anniversary (goalTag Anniversary2022TacAlert, missionType 21)",
+   "shared_with": "",
+   "owner_kind": "MISSION_INFO_FIELD",
+   "backend": "TARGET_ADDON",
+   "owner": {
+    "body_key": "b35d715b0f5aa1c9",
+    "stock_sha256": "9A3D32337D9325C5940855842CDF555BCE6E1C91B04989249C63CA533FE948F1",
+    "file": "Lotus_Scripts_Modes_PurifyMission.lua_B",
+    "module_path": "/Lotus/Scripts/Modes/PurifyMission.lua",
+    "template": "MISSION_INFO_FIELD_AT_ENTRY",
+    "gate": "CAPTURE_GRAPH_ENTRY_V1",
+    "field": "maxWaveNum",
+    "variant": "GOAL_TAG",
+    "mission_type": 21,
+    "variant_stock": 3,
+    "accessor": {
+     "gGameRules": "d7e3ec85",
+     "GetMission": "aeab7b8b",
+     "SetMission": "e9228c58",
+     "gRegion": "b364fd20",
+     "IsMaster": "ce228771",
+     "IsValid": "b26a1114",
+     "print": "0811edde"
+    },
+    "entries": [
+     {
+      "prototype": 45,
+      "function": "PurifyMission",
+      "role": "Purify level trigger"
+     }
+    ],
+    "readers": [
+     {
+      "key": "maxWaveNum",
+      "prototype": 24,
+      "instructions": [
+       20,
+       56
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 33,
+      "instructions": [
+       267,
+       298,
+       341
+      ]
+     }
+    ],
+    "dead_readers": [
+     {
+      "key": "maxWaveNum",
+      "prototype": 15,
+      "instructions": [
+       3
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 16,
+      "instructions": [
+       3
+      ]
+     }
+    ],
+    "write_rule": {
+     "when": "host and m.goalTag in (Anniversary2022TacAlert) and m.missionType == 21 and m.maxWaveNum == 3; another number is left alone with one line",
+     "how": "local m = gGameRules:GetMission(); m.maxWaveNum = N; gGameRules:SetMission(m)",
+     "once": "idempotent: skip when already equal",
+     "cleanup": "none (the MissionInfo is mission-scoped)"
+    },
+    "meaning": "Anniversary 2022: Purify: rounds (TacAlertKeyAnniversary2022J: stock 3)",
+    "goal_tag": "Anniversary2022TacAlert"
+   },
+   "unit": "",
+   "stock": 3,
+   "limits": {
+    "minimum": 1,
+    "maximum": 20,
+    "integer": true,
+    "basis": "at least 1; 20 as the editor range"
+   },
+   "confidence": "CONFIRMED_STATIC (owner: research 2026-10-29 events2; live probe pending)",
+   "evidence": "Lotus.Scripts.Modes.PurifyMission (b35d715b0f5aa1c9): entry [45], maxWaveNum readers [24, 33]. Key data: Packages.bin 2026.10.22.13.12 TacAlertKeyAnniversary2022J, stock 3. Tags: Anniversary2022TacAlert.",
+   "ui_text": {
+    "group": "anniversary",
+    "event": "Anniversary",
+    "sub": "2022: Purify",
+    "word": "rounds",
+    "key": "TacAlertKeyAnniversary2022J"
+   }
+  },
+  {
+   "tunable_id": "nightwatch.bonus_survival_minutes",
+   "phase1_tunable_id": null,
+   "label": "Bonus Survival (endless) (The Long Shadow)",
+   "mission_type": "Survival",
+   "variant": "The Long Shadow (goalTag NightwatchTacAlertBonus/NightwatchTacAlert/Anniversary2020TacAlert, missionType 2)",
+   "shared_with": "",
+   "owner_kind": "MISSION_INFO_FIELD",
+   "backend": "TARGET_ADDON",
+   "owner": {
+    "body_key": "a62aa7eea1c4f27b",
+    "stock_sha256": "4A430651DA652B665230538567F1BDFA44592340FC43EBF96BA664B97C1395D7",
+    "file": "Lotus_Scripts_Modes_SurvivalMission.lua_B",
+    "module_path": "/Lotus/Scripts/Modes/SurvivalMission.lua",
+    "template": "MISSION_INFO_FIELD_AT_ENTRY",
+    "gate": "CAPTURE_GRAPH_ENTRY_V1",
+    "field": "maxWaveNum",
+    "variant": "GOAL_TAG",
+    "mission_type": 2,
+    "variant_stock": 0,
+    "accessor": {
+     "gGameRules": "d7e3ec85",
+     "GetMission": "aeab7b8b",
+     "SetMission": "e9228c58",
+     "gRegion": "b364fd20",
+     "IsMaster": "ce228771",
+     "IsValid": "b26a1114",
+     "print": "0811edde"
+    },
+    "entries": [
+     {
+      "prototype": 70,
+      "function": "Mission",
+      "role": "Survival level trigger"
+     }
+    ],
+    "readers": [
+     {
+      "key": "maxWaveNum",
+      "prototype": 61,
+      "instructions": [
+       163,
+       180,
+       187
+      ]
+     },
+     {
+      "key": "maxWaveNum",
+      "prototype": 62,
+      "instructions": [
+       66
+      ]
+     }
+    ],
+    "dead_readers": [],
+    "write_rule": {
+     "when": "host and m.goalTag in (NightwatchTacAlertBonus, NightwatchTacAlert, Anniversary2020TacAlert) and m.missionType == 2 and m.maxWaveNum == 0; another number is left alone with one line",
+     "how": "local m = gGameRules:GetMission(); m.maxWaveNum = N; gGameRules:SetMission(m)",
+     "once": "idempotent: skip when already equal",
+     "cleanup": "none (the MissionInfo is mission-scoped)"
+    },
+    "meaning": "The Long Shadow Bonus Survival (endless): minutes (TacAlertKeyProjectNightwatchBonus: stock 0, 0 = endless)",
+    "goal_tag": "NightwatchTacAlertBonus",
+    "goal_tag_aliases": [
+     "NightwatchTacAlert",
+     "Anniversary2020TacAlert"
+    ]
+   },
+   "unit": "min",
+   "stock": 0,
+   "limits": {
+    "minimum": 0,
+    "maximum": 60,
+    "integer": true,
+    "basis": "0 = endless (game default); 60 as the editor range"
+   },
+   "confidence": "CONFIRMED_STATIC (owner: research 2026-10-29 events2; live probe pending)",
+   "evidence": "Lotus.Scripts.Modes.SurvivalMission (a62aa7eea1c4f27b): entry [70], maxWaveNum readers [61, 62]. Key data: Packages.bin 2026.10.22.13.12 TacAlertKeyProjectNightwatchBonus, stock 0. Tags: NightwatchTacAlertBonus, NightwatchTacAlert, Anniversary2020TacAlert.",
+   "ui_text": {
+    "group": "nightwatch",
+    "event": "The Long Shadow",
+    "sub": "Bonus Survival (endless)",
+    "word": "minutes",
+    "key": "TacAlertKeyProjectNightwatchBonus"
+   }
+  }
+ ]
+}

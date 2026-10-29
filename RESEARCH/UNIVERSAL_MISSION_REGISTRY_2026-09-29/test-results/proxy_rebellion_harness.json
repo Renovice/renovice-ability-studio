@@ -1,0 +1,68 @@
+{
+  "checks": [
+    {
+      "name": "proxyrebellion.defense_one_waves: GOAL_TAG variant ProxyRebellion/Anniversary2019TacAlert, type 8, stock 10",
+      "pass": true
+    },
+    {
+      "name": "proxyrebellion.defense_one_waves: written at 1a1354d153712f9d P[50]",
+      "pass": true
+    },
+    {
+      "name": "proxyrebellion.defense_one_waves: shown on Events > Proxy Rebellion itself (no master over it, not hidden)",
+      "pass": true
+    },
+    {
+      "name": "proxyrebellion.defense_four_waves: GOAL_TAG variant ProxyRebellion/Anniversary2019TacAlert, type 8, stock 20",
+      "pass": true
+    },
+    {
+      "name": "proxyrebellion.defense_four_waves: written at 1a1354d153712f9d P[50]",
+      "pass": true
+    },
+    {
+      "name": "proxyrebellion.defense_four_waves: shown on Events > Proxy Rebellion itself (no master over it, not hidden)",
+      "pass": true
+    },
+    {
+      "name": "proxyrebellion.interception_rounds: GOAL_TAG variant ProxyRebellion/Anniversary2019TacAlert, type 13, stock 3",
+      "pass": true
+    },
+    {
+      "name": "proxyrebellion.interception_rounds: written at c9605470a8c47d8d P[35, 31]",
+      "pass": true
+    },
+    {
+      "name": "proxyrebellion.interception_rounds: shown on Events > Proxy Rebellion itself (no master over it, not hidden)",
+      "pass": true
+    },
+    {
+      "name": "proxyrebellion.survival_minutes: GOAL_TAG variant ProxyRebellion/Anniversary2019TacAlert, type 2, stock 20",
+      "pass": true
+    },
+    {
+      "name": "proxyrebellion.survival_minutes: written at a62aa7eea1c4f27b P[70]",
+      "pass": true
+    },
+    {
+      "name": "proxyrebellion.survival_minutes: shown on Events > Proxy Rebellion itself (no master over it, not hidden)",
+      "pass": true
+    },
+    {
+      "name": "build with the four Proxy Rebellion rows set succeeds",
+      "pass": true
+    },
+    {
+      "name": "one GOAL_TAG MissionInfo helper in the addon",
+      "pass": true
+    },
+    {
+      "name": "toolchain luau.exe present",
+      "pass": true
+    },
+    {
+      "name": "harness: 52 checks over four rows x two tags",
+      "pass": true
+    }
+  ]
+}

@@ -150,10 +150,14 @@ constexpr const char* kScriptParamTemplate = "SCRIPT_PARAM_GLOBAL_AT_ENTRY";
 // missionType is the row's, and the field still holds the Icebind stock (KuvaKeysLib MISSIONS[type].MaxWaveNum); every
 // other mission is left alone. The normal-node rule (field 0 and no alert/sortie/...) stays the default variant.
 constexpr const char* kMissionInfoKuvaPathVariant = "KUVA_PATH_MISSION";
+// GOAL_TAG (2026-10-28): the same write, identified by the mission's goalTag (Symbol) instead of its location. Used for
+// missions that bring their own goal on ordinary nodes (Clem's weekly: goalTag GetClem, the check SurvivalMission
+// itself makes), where a location test would also hit other missions on that node.
+constexpr const char* kMissionInfoGoalTagVariant = "GOAL_TAG";
 
 std::string mission_info_variant(const Json& owner) {
     const auto variant = owner.value("variant", std::string());
-    if (!variant.empty() && variant != kMissionInfoKuvaPathVariant)
+    if (!variant.empty() && variant != kMissionInfoKuvaPathVariant && variant != kMissionInfoGoalTagVariant)
         throw std::runtime_error("unknown MissionInfo variant " + variant);
     return variant;
 }
@@ -324,15 +328,27 @@ void verify_entry_owner(const Json& registry, const Json& row, const std::string
         if (mission_info_variant(owner).empty()) {
             if (row.at("stock").get<double>() != 0) throw std::runtime_error("a MissionInfo count row must have stock 0 (the normal-node default)");
         } else {
-            const auto location = owner.at("location").get<std::string>();
-            if (!std::regex_match(location, identifier)) throw std::runtime_error("invalid Icebind MissionInfo location");
+            const auto key = mission_info_variant(owner) == kMissionInfoGoalTagVariant ? "goal_tag" : "location";
+            if (!std::regex_match(owner.at(key).get<std::string>(), identifier))
+                throw std::runtime_error(std::string("invalid MissionInfo variant ") + key);
+            if (owner.contains("goal_tag_aliases")) {
+                // A goal can carry another tag by server setting (OpenWF useAnniversaryTagForOldGoals): any listed tag matches.
+                if (mission_info_variant(owner) != kMissionInfoGoalTagVariant || !owner.at("goal_tag_aliases").is_array())
+                    throw std::runtime_error("goal_tag_aliases must be an array on a GOAL_TAG row");
+                for (const auto& alias : owner.at("goal_tag_aliases"))
+                    if (!alias.is_string() || !std::regex_match(alias.get<std::string>(), identifier))
+                        throw std::runtime_error("invalid MissionInfo goal_tag_aliases entry");
+            }
             if (!owner.at("mission_type").is_number_integer() || owner.at("mission_type").get<int>() <= 0)
-                throw std::runtime_error("an Icebind MissionInfo row needs a positive integer mission_type");
+                throw std::runtime_error("a MissionInfo variant row needs a positive integer mission_type");
+            // GOAL_TAG from 0 (2026-10-29): an endless goal mission (stock 0, the game's "no fixed length") may get a
+            // fixed length; 0 stays the game default, so the minimum is 0. Other variants keep a positive stock.
             const double stock = row.at("stock").get<double>();
-            if (!(stock > 0) || owner.at("variant_stock").get<double>() != stock)
-                throw std::runtime_error("an Icebind MissionInfo row needs a positive stock equal to its variant_stock");
-            if (row.at("limits").at("minimum").get<double>() < 1)
-                throw std::runtime_error("an Icebind MissionInfo row needs a minimum of at least 1");
+            const bool from_zero = stock == 0 && mission_info_variant(owner) == kMissionInfoGoalTagVariant;
+            if (!(stock > 0 || from_zero) || owner.at("variant_stock").get<double>() != stock)
+                throw std::runtime_error("a MissionInfo variant row needs a positive stock (or 0 on GOAL_TAG) equal to its variant_stock");
+            if (row.at("limits").at("minimum").get<double>() < (from_zero ? 0 : 1))
+                throw std::runtime_error("a MissionInfo variant row needs a minimum of at least 1 (0 when from 0)");
         }
         if (bytes.find(field) == std::string::npos) throw std::runtime_error("module does not name the MissionInfo field " + field);
         for (const auto& reader : owner.at("readers"))
@@ -1693,7 +1709,7 @@ std::string mission_info_helper(const std::string& field) {
            "    if syndicate ~= nil and syndicate:IsValid() then return end\n"
            "    mission." + field + " = value\n"
            "    rules:SetMission(mission)\n"
-           "    print(\"RENOVICE Missions: \" .. tag .. \" " + field + " 0 -> \" .. tostring(value))\n"
+           "    missionsLog(\"RENOVICE Missions: \" .. tag .. \" " + field + " 0 -> \" .. tostring(value))\n"
            "end\n";
 }
 
@@ -1713,12 +1729,44 @@ std::string mission_info_kuva_path_helper(const std::string& field) {
            "    local now = mission." + field + "\n"
            "    if now == value then return end\n"
            "    if now ~= stock then\n"
-           "        print(\"RENOVICE Missions: \" .. tag .. \" " + field + " is \" .. tostring(now) .. \", not the Icebind stock \" .. tostring(stock) .. \"; left unchanged\")\n"
+           "        missionsLog(\"RENOVICE Missions: \" .. tag .. \" " + field + " is \" .. tostring(now) .. \", not the Icebind stock \" .. tostring(stock) .. \"; left unchanged\")\n"
            "        return\n"
            "    end\n"
            "    mission." + field + " = value\n"
            "    rules:SetMission(mission)\n"
-           "    print(\"RENOVICE Missions: \" .. tag .. \" " + field + " \" .. tostring(stock) .. \" -> \" .. tostring(value))\n"
+           "    missionsLog(\"RENOVICE Missions: \" .. tag .. \" " + field + " \" .. tostring(stock) .. \" -> \" .. tostring(value))\n"
+           "end\n";
+}
+
+// missionInfoGoalTag_<field>(tag, value, goalTags, missionType, stock): as missionInfoKuvaPath_, identified by
+// mission.goalTag equal to the Symbol of any listed tag (the row's goal_tag, then its goal_tag_aliases) instead of the location.
+std::string mission_info_goal_tag_helper(const std::string& field) {
+    return "local function missionInfoGoalTag_" + field + "(tag, value, goalTags, missionType, stock)\n"
+           "    local region = gRegion\n"
+           "    if region == nil or not region:IsMaster() then return end\n"
+           "    local rules = gGameRules\n"
+           "    if rules == nil then return end\n"
+           "    local mission = rules:GetMission()\n"
+           "    if mission == nil then return end\n"
+           "    local matched = false\n"
+           "    for _, goalTag in ipairs(goalTags) do\n"
+           "        if mission.goalTag == Symbol(goalTag) then matched = true break end\n"
+           "    end\n"
+           "    if not matched then\n"
+           "        return\n"
+           "    end\n"
+           "    if mission.missionType ~= missionType then\n"
+           "        return\n"
+           "    end\n"
+           "    local now = mission." + field + "\n"
+           "    if now == value then return end\n"
+           "    if now ~= stock then\n"
+           "        missionsLog(\"RENOVICE Missions: \" .. tag .. \" " + field + " is \" .. tostring(now) .. \", not the stock \" .. tostring(stock) .. \"; left unchanged\")\n"
+           "        return\n"
+           "    end\n"
+           "    mission." + field + " = value\n"
+           "    rules:SetMission(mission)\n"
+           "    missionsLog(\"RENOVICE Missions: \" .. tag .. \" " + field + " \" .. tostring(stock) .. \" -> \" .. tostring(value))\n"
            "end\n";
 }
 
@@ -1732,14 +1780,14 @@ constexpr const char* kScriptParameterHelper =
     "        if record == nil then\n"
     "            if type(current) ~= \"number\" then\n"
     "                records[environment] = false\n"
-    "                print(\"RENOVICE Missions: \" .. tag .. \" is not a number in this instance; left unchanged\")\n"
+    "                missionsLog(\"RENOVICE Missions: \" .. tag .. \" is not a number in this instance; left unchanged\")\n"
     "                return\n"
     "            end\n"
     "            local written = value\n"
     "            if mode == \"scale\" then written = current * value elseif mode == \"scale_inverse\" then written = current / value end\n"
     "            write(environment, written)\n"
     "            records[environment] = { observed = current, written = written }\n"
-    "            print(\"RENOVICE Missions: \" .. tag .. \" \" .. tostring(current) .. \" -> \" .. tostring(written))\n"
+    "            missionsLog(\"RENOVICE Missions: \" .. tag .. \" \" .. tostring(current) .. \" -> \" .. tostring(written))\n"
     "            return\n"
     "        end\n"
     "        if record == false or current == record.written then return end\n"
@@ -1748,7 +1796,7 @@ constexpr const char* kScriptParameterHelper =
     "            return\n"
     "        end\n"
     "        records[environment] = false\n"
-    "        print(\"RENOVICE Missions: \" .. tag .. \" was changed by another writer; left unchanged\")\n"
+    "        missionsLog(\"RENOVICE Missions: \" .. tag .. \" was changed by another writer; left unchanged\")\n"
     "    end\n"
     "    local function restore()\n"
     "        for environment, record in pairs(records) do\n"
@@ -1802,12 +1850,12 @@ constexpr const char* kScriptCountParameterHelper =
     "            local written = scaledCount(current, value)\n"
     "            if written == nil then\n"
     "                records[environment] = false\n"
-    "                print(\"RENOVICE Missions: \" .. tag .. \" is not a count or a list of counts in this instance; left unchanged\")\n"
+    "                missionsLog(\"RENOVICE Missions: \" .. tag .. \" is not a count or a list of counts in this instance; left unchanged\")\n"
     "                return\n"
     "            end\n"
     "            write(environment, written)\n"
     "            records[environment] = { observed = current, written = written }\n"
-    "            print(\"RENOVICE Missions: \" .. tag .. \" \" .. countText(current) .. \" -> \" .. countText(written))\n"
+    "            missionsLog(\"RENOVICE Missions: \" .. tag .. \" \" .. countText(current) .. \" -> \" .. countText(written))\n"
     "            return\n"
     "        end\n"
     "        if record == false or current == record.written then return end\n"
@@ -1816,7 +1864,7 @@ constexpr const char* kScriptCountParameterHelper =
     "            return\n"
     "        end\n"
     "        records[environment] = false\n"
-    "        print(\"RENOVICE Missions: \" .. tag .. \" was changed by another writer; left unchanged\")\n"
+    "        missionsLog(\"RENOVICE Missions: \" .. tag .. \" was changed by another writer; left unchanged\")\n"
     "    end\n"
     "    local function restore()\n"
     "        for environment, record in pairs(records) do\n"
@@ -1901,7 +1949,7 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
     // R10: script-parameter globals of the called instance are read and written as hashed fields of its environment
     // table. The directive hashes EVERY field access with that name in this file, so the build gate
     // `entry-parameter-keys` checks that the names occur only in the generated accessors.
-    std::set<std::string> parameter_names, info_fields, kuva_info_fields;
+    std::set<std::string> parameter_names, info_fields, kuva_info_fields, goal_tag_info_fields;
     bool count_parameters = false;  // R11: a scale_count row needs scriptCountParameter
     bool scaled_fields = false;     // R14: a scaled root-table row needs the per-field stock form of ownedTable
     for (const auto& [body, rows] : bodies)
@@ -1913,6 +1961,8 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
                 if (row->at("owner").at("mode") == "scale_count") count_parameters = true;
             } else if (mission_info_variant(row->at("owner")).empty())
                 info_fields.insert(row->at("owner").at("field").get<std::string>());
+            else if (mission_info_variant(row->at("owner")) == kMissionInfoGoalTagVariant)
+                goal_tag_info_fields.insert(row->at("owner").at("field").get<std::string>());
             else
                 kuva_info_fields.insert(row->at("owner").at("field").get<std::string>());
         }
@@ -2056,8 +2106,16 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
         << "    end\n"
         << "    return bind, restore\n"
         << "end\n";
+    // Log lines follow the RENOVICE Logging switch (context.logging, delivered at activate; 2026-10-29). Silent when off or
+    // when the runtime does not deliver it.
+    out << "\n-- Missions log lines follow the RENOVICE Logging switch (context.logging at activate); silent otherwise.\n"
+        << "local renoviceLogging = false\n"
+        << "local function missionsLog(text)\n"
+        << "    if renoviceLogging then print(text) end\n"
+        << "end\n";
     for (const auto& field : info_fields) out << "\n" << mission_info_helper(field);
     for (const auto& field : kuva_info_fields) out << "\n" << mission_info_kuva_path_helper(field);
+    for (const auto& field : goal_tag_info_fields) out << "\n" << mission_info_goal_tag_helper(field);
     if (!parameter_names.empty()) out << "\n" << kScriptParameterHelper;
     if (count_parameters) out << "\n" << kScriptCountParameterHelper;
     std::size_t target = 0;
@@ -2210,7 +2268,18 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
                     out << "    local function apply" << slot << "() -- " << kMissionInfoTemplate << " " << field << "\n"
                         << "        missionInfo_" << field << "(" << lua_quote(id) << ", current[" << lua_quote(id) << "].value)\n"
                         << "    end\n";
-                else
+                else if (mission_info_variant(owner) == kMissionInfoGoalTagVariant) {
+                    std::string tags = "{ " + lua_quote(owner.at("goal_tag").get<std::string>());
+                    for (const auto& alias : owner.value("goal_tag_aliases", Json::array()))
+                        tags += ", " + lua_quote(alias.get<std::string>());
+                    tags += " }";
+                    out << "    local function apply" << slot << "() -- " << kMissionInfoTemplate << " " << kMissionInfoGoalTagVariant
+                        << " " << field << "\n"
+                        << "        missionInfoGoalTag_" << field << "(" << lua_quote(id) << ", current[" << lua_quote(id) << "].value, "
+                        << tags << ", " << owner.at("mission_type").get<int>() << ", "
+                        << format_number(owner.at("variant_stock").get<double>()) << ")\n"
+                        << "    end\n";
+                } else
                     out << "    local function apply" << slot << "() -- " << kMissionInfoTemplate << " " << kMissionInfoKuvaPathVariant
                         << " " << field << "\n"
                         << "        missionInfoKuvaPath_" << field << "(" << lua_quote(id) << ", current[" << lua_quote(id) << "].value, "
@@ -2278,6 +2347,7 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
             << "        label = " << lua_quote(module_path) << ", -- reserved for the settings editor; ignored by the runtime\n"
             << "        settings = settings, -- reserved for the settings editor; ignored by the runtime\n"
             << "        activate = function(context)\n"
+            << "            renoviceLogging = type(context) == \"table\" and context.logging == true\n"
             << "            local effective = " << (target_masters.empty() ? "effectiveSettings(settings, context)" : kMasterEffectiveCall) << "\n";
         out << "            current = effective\n";
         for (const auto n : hooked_slots)

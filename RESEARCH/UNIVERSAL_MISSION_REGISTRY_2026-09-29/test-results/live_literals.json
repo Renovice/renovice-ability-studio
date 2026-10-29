@@ -21,7 +21,7 @@
       "pass": true
     },
     {
-      "name": "every registry headline literal value is declared (136)",
+      "name": "every registry headline literal value is declared (140)",
       "pass": true
     },
     {
@@ -123,12 +123,12 @@
   ],
   "historical": "section 1 staged R7/R10/R17/R20 comparison proven on client 2026.09.28.13.06 (2026-10-02); work/staging/missions-full-package is no longer available, not re-run",
   "recipe": {
-    "values": 136,
-    "modules": 44,
+    "values": 140,
+    "modules": 46,
     "masters": 18,
-    "literals_json_sha256": "0de8885a1bbb4a550a72491f37ee33b14ed442b60d8d87552011e4cbf2a01b90",
-    "package_json_sha256": "454be0ebeb90bf0fc4dff0d80901acbe3e8dc90ccf4c0720044fbdbe27a0cc29",
-    "generation": "work\\temp\\live-literals-tests\\recipe\\missions\\2D4E53AC956C"
+    "literals_json_sha256": "8f37ceed8f07d7f34423a99788dac8b5ea4e1adc432b999b03c855d6539dbdc2",
+    "package_json_sha256": "5a28cb5dc97f099d15820e3a6d32fa3d35d9fd4ae9373576f93a462960ec807c",
+    "generation": "work\\temp\\live-literals-tests\\recipe\\missions\\5DA139511AB7"
   },
   "old_bootstrapper": {
     "revision": "6227cc0",

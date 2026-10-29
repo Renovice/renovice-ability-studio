@@ -108,7 +108,7 @@ local function ok(condition, name)
     if condition then emit("PASS\t" .. name) else failures = failures + 1 emit("FAIL\t" .. name) end
 end
 local function settings_for(case, enabled)
-    return { settings = { [case.master] = { enabled = enabled, value = case.value, stock = case.stock } } }
+    return { settings = { [case.master] = { enabled = enabled, value = case.value, stock = case.stock } }, logging = true }
 end
 local function enter(target, prototypes)
     for _, p in ipairs(prototypes) do
