@@ -1,0 +1,56 @@
+{
+  "checks": [
+    {
+      "name": "enemies.active_area_ahead: NO_GETTER director setter 4f77b69c argument 1, stock 75 m, 10..1000, ProceduralLevel P65/P2",
+      "pass": true
+    },
+    {
+      "name": "enemies.active_area_ahead: Enemies > All missions > Spawn distance",
+      "pass": true
+    },
+    {
+      "name": "enemies.active_area_behind: NO_GETTER director setter 4f77b69c argument 2, stock 75 m, 10..1000, ProceduralLevel P65/P2",
+      "pass": true
+    },
+    {
+      "name": "enemies.active_area_behind: Enemies > All missions > Spawn distance",
+      "pass": true
+    },
+    {
+      "name": "spawn area and hard cap share the level module",
+      "pass": true
+    },
+    {
+      "name": "build with the spawn area rows and the hard cap succeeds",
+      "pass": true
+    },
+    {
+      "name": "one aiDirectorCall helper in the addon",
+      "pass": true
+    },
+    {
+      "name": "one shared setter call with four arguments",
+      "pass": true
+    },
+    {
+      "name": "the two rows share one call (one helper use for 4f77b69c)",
+      "pass": true
+    },
+    {
+      "name": "one helper definition + one call per setter (4f77b69c, 5904fb7a, 0a7324fb)",
+      "pass": true
+    },
+    {
+      "name": "build gate director-setter-alias: PASS setters=3 (b37ce12d -> 4f77b69c, 5904fb7a identity; hashes in the artifact)",
+      "pass": true
+    },
+    {
+      "name": "toolchain luau.exe present",
+      "pass": true
+    },
+    {
+      "name": "harness: 16 checks over the spawn area rows",
+      "pass": true
+    }
+  ]
+}

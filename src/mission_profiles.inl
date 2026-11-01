@@ -154,6 +154,61 @@ constexpr const char* kMissionInfoKuvaPathVariant = "KUVA_PATH_MISSION";
 // missions that bring their own goal on ordinary nodes (Clem's weekly: goalTag GetClem, the check SurvivalMission
 // itself makes), where a location test would also hit other missions on that node.
 constexpr const char* kMissionInfoGoalTagVariant = "GOAL_TAG";
+// 2026-10-30: AI_DIRECTOR_SETTER_AT_ENTRY. Host only; at a root-child entry the addon reads the AI director the way stock
+// code does (gRegion:GetNpcMgr(), CanFind(), GetAiDirector()) and writes one director value through the game's own
+// Get<X>/Set<X> method pair (stock precedent: Eidolon EncounterManagerSetup and TauPrequel EscortMission call
+// director:SetNpcHardCap(n)). Written only when the getter still returns the registered stock (another writer, a metadata
+// patch or an earlier mission value: left alone, one line), skipped when it already holds the value (idempotent across
+// entries), and put back to stock in cleanup where the written value is still there. Generic over the method pair; the
+// pair is registry data, never a branch here.
+constexpr const char* kAiDirectorSetterTemplate = "AI_DIRECTOR_SETTER_AT_ENTRY";
+constexpr const char* kAiDirectorReader = "GetAiDirector";
+// 2026-10-31: NO_GETTER variant. A director setter with several arguments and no Lua getter (first use: the unnamed
+// method 4f77b69c writing ActiveAreaAhead/Behind f32 and ActiveZoneAhead/Behind u8). Rows sharing one setter feed ONE
+// call: each row owns one argument, a row that is off passes that argument's stock. Without a getter the write cannot be
+// checked against the live value, so the rule is: written once per director per generation at the same level entries
+// (host only, before the mode scripts run; a mode script that sets its own values, e.g. HalloweenSalvage/ArchWing
+// (250,150,false,false), runs later and wins), never written when every argument is its stock, and cleanup calls the
+// setter with the stock arguments on every director this generation wrote that is still alive.
+constexpr const char* kAiDirectorNoGetterVariant = "NO_GETTER";
+
+// 2026-10-31: OBJECT_FIELD_AT_ENTRY. Generic engine-object field write through the runtime's reflection API
+// _T.RENOVICE.object (bootstrapper OBJECT_REFLECTION_V1: get(obj, name) / set(obj, name, value) -> changed-list or
+// nil, reason). The row declares an object LOCATOR from the declarative set below, a field name (metadata or engine
+// spelling), a value type, the stock and the limits; nothing object- or field-specific is a branch here. Host only. At
+// a root-child entry: API missing -> one line, nothing written (fails locally); object not found -> one line; get ==
+// value -> nothing; get == stock (within 32-bit float precision; DE Lua numbers are float32) -> one set and one line;
+// any other value -> left unchanged, one line per object. Cleanup sets the stock back on every object this generation
+// wrote that still holds the written value. A locator is data: its Lua body (run only on the host, after the IsMaster
+// check) returns the object or nil plus a reason, and `reader` names the stock call each row's readers must record.
+constexpr const char* kObjectFieldTemplate = "OBJECT_FIELD_AT_ENTRY";
+struct ObjectLocator {
+    const char* name;    // registry spelling (owner.locator)
+    const char* reader;  // key every owner.readers entry must carry (the entry's own stock use of the object)
+    const char* body;    // Lua body of `local function objectLocator_<name>()`
+};
+const std::vector<ObjectLocator>& object_locators() {
+    static const std::vector<ObjectLocator> locators{
+        {"ai_director", "GetAiDirector",
+         "    local npcs = gRegion:GetNpcMgr()\n"
+         "    if not objectAlive(npcs) or not npcs:CanFind() then return nil, \"AI director not available at this entry\" end\n"
+         "    local director = npcs:GetAiDirector()\n"
+         "    if not objectAlive(director) then return nil, \"no AI director at this entry\" end\n"
+         "    return director\n"},
+    };
+    return locators;
+}
+const ObjectLocator& object_locator(const std::string& name) {
+    for (const auto& locator : object_locators())
+        if (name == locator.name) return locator;
+    throw std::runtime_error("unknown object locator " + name);
+}
+
+bool ai_director_no_getter(const Json& owner) {
+    const auto variant = owner.value("variant", std::string());
+    if (!variant.empty() && variant != kAiDirectorNoGetterVariant) throw std::runtime_error("unknown AI director variant " + variant);
+    return variant == kAiDirectorNoGetterVariant;
+}
 
 std::string mission_info_variant(const Json& owner) {
     const auto variant = owner.value("variant", std::string());
@@ -165,7 +220,66 @@ std::string mission_info_variant(const Json& owner) {
 bool entry_template_row(const Json& row) {
     if (row.at("backend") != "TARGET_ADDON") return false;
     const auto name = row.at("owner").value("template", std::string());
-    return name == kMissionInfoTemplate || name == kScriptParamTemplate;
+    return name == kMissionInfoTemplate || name == kScriptParamTemplate || name == kAiDirectorSetterTemplate ||
+           name == kObjectFieldTemplate;
+}
+
+// 2026-11-01: NATIVE_CALL_RETRY_AT_SPAWN_POINT. An on/off row (stock 0) over one native method call of the target module
+// that stock makes with NO location argument (the engine searches a free spawn point itself and returns nil when every
+// nearby point already holds a living agent). The addon declares hooks.nativeCalls[<method>].after (bootstrapper
+// NATIVE_TARGET_ADDON_HOOKS contract; dispatched only when the immediate Lua caller is the exact target body) and acts
+// only when: the row is on, the call came from the registered prototype, the stock result is nil/null, stock passed no
+// location, and this is the host. It then asks the receiver for the spawn points near the lead player through the
+// registered point query (a director method hash spelled Name__<alias>, stock precedent AristocratManagerSpawnScript),
+// keeps the points whose tag is the free tag, picks one at random and calls the method ONCE more with that point as the
+// location and the stock arguments otherwise (inside pcall). A non-null agent replaces the nil result (the runtime copies
+// the after-phase results back as they are). Nothing is cached across calls; no polling; one log line per generation.
+constexpr const char* kNativeRetryTemplate = "NATIVE_CALL_RETRY_AT_SPAWN_POINT";
+
+bool native_retry_row(const Json& row) {
+    return row.at("backend") == "TARGET_ADDON" && row.at("owner").value("template", std::string()) == kNativeRetryTemplate;
+}
+
+// Re-verifies a NATIVE_CALL_RETRY_AT_SPAWN_POINT owner: an on/off row (stock 0, integer 0..1), host only, a method name
+// the runtime accepts (identifier, at most 64 characters) whose U44 name hash the module carries, the location argument
+// inside the stock argument count (index 1 is the receiver), and a point query spelled Name__<alias> with finite radii.
+void verify_native_retry_owner(const Json& registry, const Json& row, const std::string& bytes) {
+    static const std::regex identifier("[A-Za-z_][A-Za-z0-9_]*");
+    static const std::regex hex8("[0-9a-f]{8}");
+    const Json& owner = row.at("owner");
+    if (!row.at("stock").is_number() || row.at("stock").get<double>() != 0 || row.at("limits").at("minimum").get<double>() != 0 ||
+        row.at("limits").at("maximum").get<double>() != 1 || !row.at("limits").value("integer", false))
+        throw std::runtime_error("a native-call retry row is an on/off row: stock 0, integer limits 0..1");
+    if (!owner.value("host_only", false)) throw std::runtime_error("a native-call retry must be host only");
+    if (!owner.at("prototype").is_number_integer() || owner.at("prototype").get<int>() < 0)
+        throw std::runtime_error("a native-call retry row needs a prototype index >= 0");
+    if (!owner.at("instruction").is_number_integer() || owner.at("instruction").get<int>() < 0)
+        throw std::runtime_error("a native-call retry row needs the recorded call instruction");
+    const auto method = owner.at("method").get<std::string>();
+    if (!std::regex_match(method, identifier) || method.size() > 64)
+        throw std::runtime_error("native-call retry method must be an identifier of at most 64 characters");
+    const auto seed = static_cast<std::uint32_t>(std::stoul(registry.at("name_hash_seed").get<std::string>(), nullptr, 16));
+    const std::uint32_t hash = de_name_hash(method, seed);
+    std::ostringstream hex;
+    hex << std::hex << std::nouppercase << std::setw(8) << std::setfill('0') << hash;
+    if (hex.str() != owner.at("method_hash").get<std::string>()) throw std::runtime_error("registered hash is wrong for method " + method);
+    std::string little_endian(4, '\0');
+    for (std::size_t n = 0; n < 4; ++n) little_endian[n] = static_cast<char>((hash >> (8 * n)) & 255u);
+    if (bytes.find(little_endian) == std::string::npos) throw std::runtime_error("module does not call the hashed method " + method);
+    if (!owner.at("argument_count").is_number_integer() || !owner.at("location_argument").is_number_integer())
+        throw std::runtime_error("a native-call retry row needs integer argument_count and location_argument");
+    const int count = owner.at("argument_count").get<int>(), location = owner.at("location_argument").get<int>();
+    if (count < 1 || count > 16 || location < 2 || location > count + 1)
+        throw std::runtime_error("native-call retry location_argument must name a call argument (2..argument_count + 1; 1 is the receiver)");
+    const Json& query = owner.at("point_query");
+    const auto query_hash = query.at("hash").get<std::string>(), alias = query.at("alias").get<std::string>();
+    if (!std::regex_match(query_hash, hex8) || !std::regex_match(alias, hex8) || query.at("method").get<std::string>() != "Name__" + alias)
+        throw std::runtime_error("a native-call retry point query needs hash, alias (8 hex) and method Name__<alias>");
+    for (const char* key : {"point_type", "free_tag", "player"})
+        if (!std::regex_match(query.at(key).get<std::string>(), identifier)) throw std::runtime_error(std::string("invalid point query ") + key);
+    const double low = query.at("min_radius").get<double>(), high = query.at("max_radius").get<double>();
+    if (!std::isfinite(low) || !std::isfinite(high) || low < 0 || !(high > low))
+        throw std::runtime_error("a native-call retry point query needs finite radii 0 <= min_radius < max_radius");
 }
 
 // Every mission target addon (generic ROOT_TABLE_FIELD and the established Survival/Interception/timer templates) acts
@@ -321,6 +435,78 @@ void verify_entry_owner(const Json& registry, const Json& row, const std::string
             throw std::runtime_error("entry prototype " + std::to_string(prototype) + " is not a recorded direct child of the module root");
     }
     if (!owner.at("readers").is_array() || owner.at("readers").empty()) throw std::runtime_error("entry row records no reader");
+    if (name == kObjectFieldTemplate) {
+        // Object locator from the declarative set; the readers are the entry's own stock uses of that object (census-checked
+        // by the registrar), proving the object is obtained there. Field: identifier; value types float / int (settings
+        // deliver numbers); 0 <= minimum <= stock <= maximum, finite; an int row is whole with integer limits.
+        const ObjectLocator locator = object_locator(owner.at("locator").get<std::string>());
+        const auto field = owner.at("field").get<std::string>();
+        if (!std::regex_match(field, identifier)) throw std::runtime_error("invalid object field name " + field);
+        const auto type = owner.at("value_type").get<std::string>();
+        if (type != "float" && type != "int") throw std::runtime_error("an object field row needs value_type float or int");
+        if (!owner.value("host_only", false)) throw std::runtime_error("an object field write must be host only");
+        const double stock = row.at("stock").get<double>();
+        const double minimum = row.at("limits").at("minimum").get<double>(), maximum = row.at("limits").at("maximum").get<double>();
+        if (!std::isfinite(stock) || !std::isfinite(minimum) || !std::isfinite(maximum) || minimum < 0 || !(minimum <= stock) ||
+            !(stock <= maximum))
+            throw std::runtime_error("an object field row needs 0 <= minimum <= stock <= maximum");
+        const bool integer = row.at("limits").value("integer", false);
+        if (integer != (type == "int") ||
+            (integer && (std::floor(stock) != stock || std::floor(minimum) != minimum || std::floor(maximum) != maximum)))
+            throw std::runtime_error("an int object field row needs whole stock and integer limits; a float row non-integer limits");
+        for (const auto& reader : owner.at("readers"))
+            if (reader.at("key") != locator.reader)
+                throw std::runtime_error(std::string("an object field reader is not a ") + locator.reader + " use");
+        return;
+    }
+    if (name == kAiDirectorSetterTemplate && ai_director_no_getter(owner)) {
+        // NO_GETTER: one setter call with several arguments; each row owns one numeric argument (1-based), the others
+        // pass their stock. The setter is a native method hash (setter_hash, U44) spelled in source through its U43 alias
+        // (setter == "Name__<setter_alias>", resolved by the build's alias map, checked by the build gate
+        // `director-setter-alias`). Arguments are numbers or booleans; the row stock is its argument's stock.
+        static const std::regex hex8("[0-9a-f]{8}");
+        if (owner.contains("getter")) throw std::runtime_error("a NO_GETTER AI director row must not name a getter");
+        const auto hash = owner.at("setter_hash").get<std::string>();
+        const auto alias = owner.at("setter_alias").get<std::string>();
+        if (!std::regex_match(hash, hex8) || !std::regex_match(alias, hex8) || owner.at("setter").get<std::string>() != "Name__" + alias)
+            throw std::runtime_error("a NO_GETTER AI director row needs setter_hash, setter_alias (8 hex) and setter Name__<setter_alias>");
+        if (!owner.value("host_only", false)) throw std::runtime_error("an AI director write must be host only");
+        const Json& stock_arguments = owner.at("stock_arguments");
+        if (!stock_arguments.is_array() || stock_arguments.empty() || stock_arguments.size() > 16)
+            throw std::runtime_error("a NO_GETTER AI director row needs 1..16 stock_arguments");
+        for (const auto& argument : stock_arguments)
+            if (!argument.is_number() && !argument.is_boolean())
+                throw std::runtime_error("a NO_GETTER AI director stock argument must be a number or a boolean");
+        if (!owner.at("argument").is_number_integer()) throw std::runtime_error("a NO_GETTER AI director row needs an integer argument index");
+        const int argument = owner.at("argument").get<int>();
+        if (argument < 1 || argument > static_cast<int>(stock_arguments.size()) || !stock_arguments.at(argument - 1).is_number() ||
+            stock_arguments.at(argument - 1).get<double>() != row.at("stock").get<double>())
+            throw std::runtime_error("a NO_GETTER AI director row's argument must be a numeric stock argument equal to the row stock");
+        const double minimum = row.at("limits").at("minimum").get<double>(), maximum = row.at("limits").at("maximum").get<double>();
+        const double stock = row.at("stock").get<double>();
+        if (!(minimum > 0) || !(maximum >= minimum) || stock < minimum || stock > maximum || !std::isfinite(maximum))
+            throw std::runtime_error("a NO_GETTER AI director row needs 0 < minimum <= stock <= maximum");
+        for (const auto& reader : owner.at("readers"))
+            if (reader.at("key") != kAiDirectorReader) throw std::runtime_error("an AI director reader is not a GetAiDirector use");
+        return;
+    }
+    if (name == kAiDirectorSetterTemplate) {
+        // The getter/setter pair is Get<X>/Set<X> of one director value; the readers are the entry's own stock
+        // GetAiDirector uses (census-checked by the registrar and the rebase), proving the director exists at that entry.
+        const auto getter = owner.at("getter").get<std::string>();
+        const auto setter = owner.at("setter").get<std::string>();
+        if (!std::regex_match(getter, identifier) || !std::regex_match(setter, identifier) || getter.size() < 4 ||
+            getter.rfind("Get", 0) != 0 || setter != "Set" + getter.substr(3))
+            throw std::runtime_error("AI director row needs a Get<X>/Set<X> method pair");
+        if (!owner.value("host_only", false)) throw std::runtime_error("an AI director write must be host only");
+        const double stock = row.at("stock").get<double>();
+        if (stock < 1 || std::floor(stock) != stock || !row.at("limits").value("integer", false) ||
+            row.at("limits").at("minimum").get<double>() < 1)
+            throw std::runtime_error("an AI director count row needs a whole stock >= 1, integer limits and a minimum >= 1");
+        for (const auto& reader : owner.at("readers"))
+            if (reader.at("key") != kAiDirectorReader) throw std::runtime_error("an AI director reader is not a GetAiDirector use");
+        return;
+    }
     if (name == kMissionInfoTemplate) {
         const auto field = owner.at("field").get<std::string>();
         if (!std::regex_match(field, identifier)) throw std::runtime_error("invalid MissionInfo field name");
@@ -437,6 +623,10 @@ void verify_mission_row(const Json& registry, const Json& row, const MissionPath
         const Json& module = mission_module(registry, body);
         if (entry_template_row(row)) {
             verify_entry_owner(registry, row, bytes);
+            return;
+        }
+        if (native_retry_row(row)) {
+            verify_native_retry_owner(registry, row, bytes);
             return;
         }
         if (owner.at("template") != kRootTableAddonTemplate) {
@@ -1770,6 +1960,188 @@ std::string mission_info_goal_tag_helper(const std::string& field) {
            "end\n";
 }
 
+// AI_DIRECTOR_SETTER_AT_ENTRY: aiDirector_<setter>(tag, stock) -> enter(value), restore(). Host only. enter() reads the
+// director as stock code does (gRegion:GetNpcMgr(), CanFind(), GetAiDirector()); not available yet: one line, nothing
+// written (a later entry of the row tries again). Getter == value: nothing to do. Getter ~= stock: left alone, one line
+// (fail closed). Otherwise one setter call and one line. restore() (cleanup) puts the stock back on every director this
+// generation wrote that is still alive and still holds the written value.
+std::string ai_director_setter_helper(const std::string& getter, const std::string& setter) {
+    return "local function aiDirector_" + setter + "(tag, stock)\n"
+           "    local written = setmetatable({}, { __mode = \"k\" }) -- director -> value this generation wrote\n"
+           "    local function alive(object)\n"
+           "        if object == nil then return false end\n"
+           "        if IsNull ~= nil and IsNull(object) then return false end\n"
+           "        return true\n"
+           "    end\n"
+           "    local function enter(value)\n"
+           "        local region = gRegion\n"
+           "        if region == nil or not region:IsMaster() then return end\n"
+           "        local npcs = region:GetNpcMgr()\n"
+           "        if not alive(npcs) or not npcs:CanFind() then\n"
+           "            missionsLog(\"RENOVICE Missions: \" .. tag .. \" AI director not available at this entry; nothing written here\")\n"
+           "            return\n"
+           "        end\n"
+           "        local director = npcs:GetAiDirector()\n"
+           "        if not alive(director) then\n"
+           "            missionsLog(\"RENOVICE Missions: \" .. tag .. \" no AI director at this entry; nothing written here\")\n"
+           "            return\n"
+           "        end\n"
+           "        local now = director:" + getter + "()\n"
+           "        if now == value then return end\n"
+           "        if now ~= stock then\n"
+           "            missionsLog(\"RENOVICE Missions: \" .. tag .. \" " + getter + " is \" .. tostring(now) .. \", not the stock \" .. tostring(stock) .. \"; left unchanged\")\n"
+           "            return\n"
+           "        end\n"
+           "        director:" + setter + "(value)\n"
+           "        written[director] = value\n"
+           "        missionsLog(\"RENOVICE Missions: \" .. tag .. \" " + setter + " \" .. tostring(stock) .. \" -> \" .. tostring(value))\n"
+           "    end\n"
+           "    local function restore()\n"
+           "        local region = gRegion\n"
+           "        if region ~= nil and region:IsMaster() then\n"
+           "            for director, value in pairs(written) do\n"
+           "                if alive(director) and director:" + getter + "() == value then director:" + setter + "(stock) end\n"
+           "            end\n"
+           "        end\n"
+           "        written = setmetatable({}, { __mode = \"k\" })\n"
+           "    end\n"
+           "    return enter, restore\n"
+           "end\n";
+}
+
+// AI_DIRECTOR_SETTER_AT_ENTRY NO_GETTER: aiDirectorCall(tag, label, call, stock) -> enter(arguments), restore(). Host only;
+// the director is read as stock code does. enter(): all arguments stock -> nothing; this director already written in
+// this generation -> nothing; otherwise one call(director, arguments) and one line. restore() (cleanup) calls the setter
+// with the stock arguments on every director this generation wrote that is still alive (no getter: see
+// kAiDirectorNoGetterVariant for the rule).
+constexpr const char* kAiDirectorCallHelper =
+    "local function aiDirectorCall(tag, label, call, stock)\n"
+    "    local written = setmetatable({}, { __mode = \"k\" }) -- director -> true (this generation wrote it)\n"
+    "    local function alive(object)\n"
+    "        if object == nil then return false end\n"
+    "        if IsNull ~= nil and IsNull(object) then return false end\n"
+    "        return true\n"
+    "    end\n"
+    "    local function show(arguments)\n"
+    "        local parts = {}\n"
+    "        for i = 1, #stock do parts[i] = tostring(arguments[i]) end\n"
+    "        return \"(\" .. table.concat(parts, \", \") .. \")\"\n"
+    "    end\n"
+    "    local function enter(arguments)\n"
+    "        local region = gRegion\n"
+    "        if region == nil or not region:IsMaster() then return end\n"
+    "        local changed = false\n"
+    "        for i = 1, #stock do if arguments[i] ~= stock[i] then changed = true end end\n"
+    "        if not changed then return end\n"
+    "        local npcs = region:GetNpcMgr()\n"
+    "        if not alive(npcs) or not npcs:CanFind() then\n"
+    "            missionsLog(\"RENOVICE Missions: \" .. tag .. \" AI director not available at this entry; nothing written here\")\n"
+    "            return\n"
+    "        end\n"
+    "        local director = npcs:GetAiDirector()\n"
+    "        if not alive(director) then\n"
+    "            missionsLog(\"RENOVICE Missions: \" .. tag .. \" no AI director at this entry; nothing written here\")\n"
+    "            return\n"
+    "        end\n"
+    "        if written[director] then return end\n"
+    "        call(director, arguments)\n"
+    "        written[director] = true\n"
+    "        missionsLog(\"RENOVICE Missions: \" .. tag .. \" \" .. label .. \" \" .. show(stock) .. \" -> \" .. show(arguments))\n"
+    "    end\n"
+    "    local function restore()\n"
+    "        local region = gRegion\n"
+    "        if region ~= nil and region:IsMaster() then\n"
+    "            for director in pairs(written) do\n"
+    "                if alive(director) then call(director, stock) end\n"
+    "            end\n"
+    "        end\n"
+    "        written = setmetatable({}, { __mode = \"k\" })\n"
+    "    end\n"
+    "    return enter, restore\n"
+    "end\n";
+
+// OBJECT_FIELD_AT_ENTRY: objectField(tag, locate, field, stock) -> enter(value), restore(). See kObjectFieldTemplate.
+// objectSame compares within float32 precision (relative 1e-6, absolute below 1). The API table is read at each call
+// (never cached across generations); a missing API fails only this row.
+constexpr const char* kObjectFieldHelper =
+    "local function objectAlive(object)\n"
+    "    if object == nil then return false end\n"
+    "    if IsNull ~= nil and IsNull(object) then return false end\n"
+    "    return true\n"
+    "end\n"
+    "local function objectSame(a, b) -- DE Lua numbers are 32-bit floats: equal within float32 precision\n"
+    "    if type(a) ~= \"number\" or type(b) ~= \"number\" then return false end\n"
+    "    local d, s, t = a - b, a, b\n"
+    "    if d < 0 then d = -d end\n"
+    "    if s < 0 then s = -s end\n"
+    "    if t < 0 then t = -t end\n"
+    "    if t > s then s = t end\n"
+    "    if s < 1 then s = 1 end\n"
+    "    return d <= s * 0.000001\n"
+    "end\n"
+    "local function objectApi()\n"
+    "    if type(renoviceObjectApi) == \"table\" then return renoviceObjectApi end\n"
+    "    local root = _T\n"
+    "    if type(root) ~= \"table\" then return nil end\n"
+    "    local renovice = root.RENOVICE\n"
+    "    if type(renovice) ~= \"table\" or type(renovice.object) ~= \"table\" then return nil end\n"
+    "    return renovice.object\n"
+    "end\n"
+    "local function objectField(tag, locate, field, stock)\n"
+    "    local written = setmetatable({}, { __mode = \"k\" }) -- object -> value this generation wrote\n"
+    "    local reported = setmetatable({}, { __mode = \"k\" }) -- object -> true once a left-unchanged line was printed\n"
+    "    local unavailable = false -- the missing-API line was printed in this generation\n"
+    "    local function enter(value)\n"
+    "        local region = gRegion\n"
+    "        if region == nil or not region:IsMaster() then return end\n"
+    "        local api = objectApi()\n"
+    "        if api == nil then\n"
+    "            if not unavailable then\n"
+    "                unavailable = true\n"
+    "                missionsLog(\"RENOVICE Missions: \" .. tag .. \" RENOVICE.object unavailable; nothing written\")\n"
+    "            end\n"
+    "            return\n"
+    "        end\n"
+    "        local object, why = locate()\n"
+    "        if object == nil then\n"
+    "            missionsLog(\"RENOVICE Missions: \" .. tag .. \" \" .. tostring(why) .. \"; nothing written here\")\n"
+    "            return\n"
+    "        end\n"
+    "        if reported[object] == \"refused\" then return end -- the API refused this write: not retried this generation\n"
+    "        local now, problem = api.get(object, field)\n"
+    "        if objectSame(now, value) then return end\n"
+    "        if not objectSame(now, stock) then\n"
+    "            if not reported[object] then\n"
+    "                reported[object] = true\n"
+    "                missionsLog(\"RENOVICE Missions: \" .. tag .. \" \" .. field .. \" is \" .. tostring(now) .. (problem ~= nil and (\" (\" .. tostring(problem) .. \")\") or \"\")\n"
+    "                    .. \", not the stock \" .. tostring(stock) .. \"; left unchanged\")\n"
+    "            end\n"
+    "            return\n"
+    "        end\n"
+    "        local changed, reason = api.set(object, field, value)\n"
+    "        if changed == nil then\n"
+    "            reported[object] = \"refused\"\n"
+    "            missionsLog(\"RENOVICE Missions: \" .. tag .. \" \" .. field .. \" not written: \" .. tostring(reason))\n"
+    "            return\n"
+    "        end\n"
+    "        written[object] = value\n"
+    "        missionsLog(\"RENOVICE Missions: \" .. tag .. \" \" .. field .. \" \" .. tostring(now) .. \" -> \" .. tostring(value))\n"
+    "    end\n"
+    "    local function restore()\n"
+    "        local region = gRegion\n"
+    "        local api = objectApi()\n"
+    "        if region ~= nil and region:IsMaster() and api ~= nil then\n"
+    "            for object, value in pairs(written) do\n"
+    "                if objectAlive(object) and objectSame((api.get(object, field)), value) then api.set(object, field, stock) end\n"
+    "            end\n"
+    "        end\n"
+    "        written = setmetatable({}, { __mode = \"k\" })\n"
+    "        reported = setmetatable({}, { __mode = \"k\" })\n"
+    "        unavailable = false\n"
+    "    end\n"
+    "    return enter, restore\n"
+    "end\n";
+
 constexpr const char* kScriptParameterHelper =
     "local function scriptParameter(tag, mode, read, write)\n"
     "    local records = setmetatable({}, { __mode = \"k\" }) -- environment -> { observed, written }, or false\n"
@@ -1950,12 +2322,27 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
     // table. The directive hashes EVERY field access with that name in this file, so the build gate
     // `entry-parameter-keys` checks that the names occur only in the generated accessors.
     std::set<std::string> parameter_names, info_fields, kuva_info_fields, goal_tag_info_fields;
+    std::map<std::string, std::string> director_setters;  // AI_DIRECTOR_SETTER_AT_ENTRY: setter -> getter
+    bool director_calls = false;  // AI_DIRECTOR_SETTER_AT_ENTRY NO_GETTER rows need aiDirectorCall
+    std::set<std::string> object_locator_names;  // OBJECT_FIELD_AT_ENTRY locators in use (objectField + objectLocator_<name>)
     bool count_parameters = false;  // R11: a scale_count row needs scriptCountParameter
     bool scaled_fields = false;     // R14: a scaled root-table row needs the per-field stock form of ownedTable
     for (const auto& [body, rows] : bodies)
         for (const Json* row : rows) {
             if (!entry_template_row(*row) && row->at("owner").contains("fields") && !root_field_mode(*row).empty()) scaled_fields = true;
             if (!entry_template_row(*row)) continue;
+            if (row->at("owner").at("template") == kObjectFieldTemplate) {
+                object_locator_names.insert(object_locator(row->at("owner").at("locator").get<std::string>()).name);
+                continue;
+            }
+            if (row->at("owner").at("template") == kAiDirectorSetterTemplate && ai_director_no_getter(row->at("owner"))) {
+                director_calls = true;
+                continue;
+            }
+            if (row->at("owner").at("template") == kAiDirectorSetterTemplate) {
+                director_setters[row->at("owner").at("setter").get<std::string>()] = row->at("owner").at("getter").get<std::string>();
+                continue;
+            }
             if (row->at("owner").at("template") == kScriptParamTemplate) {
                 for (const auto& global : row->at("owner").at("globals")) parameter_names.insert(global.at("name").get<std::string>());
                 if (row->at("owner").at("mode") == "scale_count") count_parameters = true;
@@ -2110,12 +2497,20 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
     // when the runtime does not deliver it.
     out << "\n-- Missions log lines follow the RENOVICE Logging switch (context.logging at activate); silent otherwise.\n"
         << "local renoviceLogging = false\n"
+        << "local renoviceObjectApi = nil -- context.renovice.object, captured at activate (OBJECT_REFLECTION_V1)\n"
         << "local function missionsLog(text)\n"
         << "    if renoviceLogging then print(text) end\n"
         << "end\n";
     for (const auto& field : info_fields) out << "\n" << mission_info_helper(field);
     for (const auto& field : kuva_info_fields) out << "\n" << mission_info_kuva_path_helper(field);
     for (const auto& field : goal_tag_info_fields) out << "\n" << mission_info_goal_tag_helper(field);
+    for (const auto& [setter, getter] : director_setters) out << "\n" << ai_director_setter_helper(getter, setter);
+    if (director_calls) out << "\n" << kAiDirectorCallHelper;
+    if (!object_locator_names.empty()) {
+        out << "\n" << kObjectFieldHelper;
+        for (const auto& name : object_locator_names)
+            out << "local function objectLocator_" << name << "()\n" << object_locator(name).body << "end\n";
+    }
     if (!parameter_names.empty()) out << "\n" << kScriptParameterHelper;
     if (count_parameters) out << "\n" << kScriptCountParameterHelper;
     std::size_t target = 0;
@@ -2128,11 +2523,16 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
         std::map<std::string, std::vector<Owned>> tables;
         std::map<std::string, const Json*> settings;
         std::vector<const Json*> entry_rows;  // R10 entry templates
+        std::vector<const Json*> retry_rows;  // NATIVE_CALL_RETRY_AT_SPAWN_POINT (hooks.nativeCalls)
         for (const Json* row : rows) {
             const auto id = row->at("tunable_id").get<std::string>();
             settings.emplace(id, row);
             if (entry_template_row(*row)) {
                 entry_rows.push_back(row);
+                continue;
+            }
+            if (native_retry_row(*row)) {
+                retry_rows.push_back(row);
                 continue;
             }
             const auto mode = root_field_mode(*row);
@@ -2237,6 +2637,25 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
         struct EntryUse { std::size_t slot; bool environment; };
         std::map<int, std::vector<EntryUse>> entry_hooks;  // prototype -> entry rows it applies
         std::map<std::size_t, std::string> activation, restores;  // slot -> activate expression / cleanup statements
+        // NO_GETTER director rows: rows naming one setter feed one call (grouped per module). They must agree on the setter
+        // hash, the stock arguments and the entries, and own distinct arguments.
+        std::map<std::string, std::vector<const Json*>> director_groups;  // setter -> rows (registry order)
+        for (const Json* row : entry_rows)
+            if (row->at("owner").at("template") == kAiDirectorSetterTemplate && ai_director_no_getter(row->at("owner")))
+                director_groups[row->at("owner").at("setter").get<std::string>()].push_back(row);
+        std::map<std::string, std::size_t> director_group_slot;  // setter -> slot that emitted the shared call
+        for (const auto& [setter, members] : director_groups) {
+            std::set<int> arguments;
+            const Json& first = members.front()->at("owner");
+            for (const Json* member : members) {
+                const Json& owner = member->at("owner");
+                if (owner.at("setter_hash") != first.at("setter_hash") || owner.at("stock_arguments") != first.at("stock_arguments") ||
+                    owner.at("entries") != first.at("entries"))
+                    throw std::runtime_error(module_path + " AI director rows of " + setter + " disagree on setter_hash, stock_arguments or entries");
+                if (!arguments.insert(owner.at("argument").get<int>()).second)
+                    throw std::runtime_error(module_path + " two AI director rows of " + setter + " own the same argument");
+            }
+        }
         for (const Json* row : entry_rows) {
             ++slot;
             const auto id = row->at("tunable_id").get<std::string>();
@@ -2245,7 +2664,59 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
             hooked_slots.push_back(slot);
             activation[slot] = "current[" + lua_quote(id) + "].enabled";
             out << "    local live" << slot << " = false\n";
-            if (parameter) {
+            if (owner.at("template") == kObjectFieldTemplate) {
+                const auto locator = owner.at("locator").get<std::string>();
+                const auto field = owner.at("field").get<std::string>();
+                out << "    local enter" << slot << ", restore" << slot << " = objectField(" << lua_quote(id) << ", objectLocator_"
+                    << object_locator(locator).name << ", " << lua_quote(field) << ", " << format_number(row->at("stock").get<double>())
+                    << ")\n"
+                    << "    local function apply" << slot << "() -- " << kObjectFieldTemplate << " " << locator << " " << field << "\n"
+                    << "        enter" << slot << "(current[" << lua_quote(id) << "].value)\n"
+                    << "    end\n";
+                restores[slot] += "            restore" + std::to_string(slot) + "()\n";
+            } else if (owner.at("template") == kAiDirectorSetterTemplate && ai_director_no_getter(owner)) {
+                const auto setter = owner.at("setter").get<std::string>();
+                const auto& members = director_groups.at(setter);
+                if (!director_group_slot.contains(setter)) {
+                    director_group_slot[setter] = slot;
+                    std::string stock = "{ ", call, tag;
+                    std::size_t n = 0;
+                    for (const auto& argument : owner.at("stock_arguments")) {
+                        ++n;
+                        stock += (n > 1 ? ", " : "") + (argument.is_boolean() ? std::string(argument.get<bool>() ? "true" : "false")
+                                                                              : format_number(argument.get<double>()));
+                        call += (n > 1 ? ", " : "") + std::string("a[") + std::to_string(n) + "]";
+                    }
+                    stock += " }";
+                    for (const Json* member : members) tag += (tag.empty() ? "" : "+") + member->at("tunable_id").get<std::string>();
+                    out << "    local callEnter" << slot << ", callRestore" << slot << " = aiDirectorCall(" << lua_quote(tag) << ", "
+                        << lua_quote("director " + owner.at("setter_hash").get<std::string>()) << ",\n"
+                        << "        function(director, a) director:" << setter << "(" << call << ") end, " << stock << ")\n"
+                        << "    local function callArguments" << slot << "() -- every row of the call; a row that is off passes its stock\n"
+                        << "        local a = " << stock << "\n";
+                    for (const Json* member : members)
+                        out << "        do\n"
+                            << "            local s = current[" << lua_quote(member->at("tunable_id").get<std::string>()) << "]\n"
+                            << "            if s ~= nil and s.enabled then a[" << member->at("owner").at("argument").get<int>() << "] = s.value end\n"
+                            << "        end\n";
+                    out << "        return a\n"
+                        << "    end\n";
+                    restores[slot] += "            callRestore" + std::to_string(slot) + "()\n";
+                }
+                const auto group = director_group_slot.at(setter);
+                out << "    local function apply" << slot << "() -- " << kAiDirectorSetterTemplate << " " << kAiDirectorNoGetterVariant << " "
+                    << setter << " argument " << owner.at("argument").get<int>() << "\n"
+                    << "        callEnter" << group << "(callArguments" << group << "())\n"
+                    << "    end\n";
+            } else if (owner.at("template") == kAiDirectorSetterTemplate) {
+                const auto setter = owner.at("setter").get<std::string>();
+                out << "    local enter" << slot << ", restore" << slot << " = aiDirector_" << setter << "(" << lua_quote(id) << ", "
+                    << format_number(row->at("stock").get<double>()) << ")\n"
+                    << "    local function apply" << slot << "() -- " << kAiDirectorSetterTemplate << " " << setter << "\n"
+                    << "        enter" << slot << "(current[" << lua_quote(id) << "].value)\n"
+                    << "    end\n";
+                restores[slot] += "            restore" + std::to_string(slot) + "()\n";
+            } else if (parameter) {
                 const auto mode = owner.at("mode").get<std::string>();
                 std::size_t k = 0;
                 for (const auto& global : owner.at("globals")) {
@@ -2293,6 +2764,80 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
                                              " is not a root child: it would have no R3 retire path");
                 entry_hooks[entry.at("prototype").get<int>()].push_back({slot, parameter});
             }
+        }
+        // NATIVE_CALL_RETRY_AT_SPAWN_POINT rows: one hooks.nativeCalls[<method>].after per row (one row per method and
+        // target). The callback is inert unless the row's live flag is set by activate; cleanup clears it.
+        std::map<std::string, std::size_t> native_after;  // method -> slot of its after callback
+        for (const Json* row : retry_rows) {
+            ++slot;
+            const auto id = row->at("tunable_id").get<std::string>();
+            const Json& owner = row->at("owner");
+            const Json& query = owner.at("point_query");
+            const auto method = owner.at("method").get<std::string>();
+            if (!native_after.emplace(method, slot).second)
+                throw std::runtime_error(module_path + " two native-call rows hook " + method + "; one row per method and target");
+            const int count = owner.at("argument_count").get<int>(), location = owner.at("location_argument").get<int>();
+            std::string call;  // the stock arguments (arguments[2..count + 1]) with the chosen point at the location argument
+            for (int n = 2; n <= count + 1; ++n)
+                call += (n > 2 ? ", " : "") + (n == location ? std::string("point") : "arguments[" + std::to_string(n) + "]");
+            const std::string s = std::to_string(slot);
+            hooked_slots.push_back(slot);
+            // On/off row: live only when the value is enabled AND set to 1 (a custom value of 0 is "Off").
+            activation[slot] = "current[" + lua_quote(id) + "].enabled and current[" + lua_quote(id) + "].value == 1";
+            out << "    local live" << s << " = false\n"
+                << "    local reused" << s << " = false -- the first-reuse line was printed in this generation\n"
+                // 2026-11-01 live diagnosis: the first occurrence of each outcome is logged once per generation (bounded:
+                // a handful of fixed reasons); cleanup clears it.
+                << "    local noted" << s << " = {}\n"
+                << "    local function note" << s << "(reason)\n"
+                << "        if noted" << s << "[reason] then return end\n"
+                << "        noted" << s << "[reason] = true\n"
+                << "        missionsLog(" << lua_quote("RENOVICE Missions: " + id + " ") << " .. reason)\n"
+                << "    end\n"
+                << "    local function alive" << s << "(object)\n"
+                << "        if object == nil then return false end\n"
+                << "        if IsNull ~= nil and IsNull(object) then return false end\n"
+                << "        return true\n"
+                << "    end\n"
+                << "    local function retry" << s << "(receiver, arguments) -- runs inside pcall; nothing is kept between calls\n"
+                << "        local pointType, free = " << query.at("point_type").get<std::string>() << ", "
+                << query.at("free_tag").get<std::string>() << "\n"
+                << "        if pointType == nil or free == nil then return nil, \"no point type or free tag\" end\n"
+                << "        local player = receiver:" << query.at("player").get<std::string>() << "()\n"
+                << "        if not alive" << s << "(player) then return nil, \"no lead player\" end\n"
+                << "        local points = receiver:" << query.at("method").get<std::string>() << "(pointType, "
+                << format_number(query.at("min_radius").get<double>()) << ", " << format_number(query.at("max_radius").get<double>())
+                << ", true, player)\n"
+                << "        if type(points) ~= \"table\" then return nil, \"point query returned \" .. type(points) end\n"
+                << "        local candidates = {}\n"
+                << "        for i = 1, #points do\n"
+                << "            local candidate = points[i]\n"
+                << "            if alive" << s << "(candidate) and candidate:GetTag() == free then candidates[#candidates + 1] = candidate end\n"
+                << "        end\n"
+                << "        if #candidates == 0 then return nil, \"no free-tagged point among \" .. #points end\n"
+                << "        local point = candidates[math.random(#candidates)]\n"
+                << "        return receiver:" << method << "(" << call << "), \"spawn at a chosen point returned nothing (\" .. #candidates .. \" candidates)\"\n"
+                << "    end\n"
+                << "    local function nativeAfter" << s << "(prototype, instruction, arguments, results) -- " << kNativeRetryTemplate << " "
+                << method << "\n"
+                << "        if current == nil or not live" << s << " or prototype ~= " << owner.at("prototype").get<int>() << " then return end\n"
+                << "        if type(arguments) ~= \"table\" or type(results) ~= \"table\" or alive" << s << "(results[1]) then return end\n"
+                << "        if arguments[" << location << "] ~= nil then return end -- stock chose the location itself\n"
+                << "        local region = gRegion\n"
+                << "        if region == nil or not region:IsMaster() then return end\n"
+                << "        local receiver = arguments[1]\n"
+                << "        if not alive" << s << "(receiver) then return end\n"
+                << "        note" << s << "(\"called after an empty spawn\")\n"
+                << "        local ok, agent, reason = pcall(retry" << s << ", receiver, arguments)\n"
+                << "        if not ok then note" << s << "(\"error: \" .. tostring(agent)) return end\n"
+                << "        if not alive" << s << "(agent) then note" << s << "(reason or \"no agent\") return end\n"
+                << "        results[1] = agent\n"
+                << "        if not reused" << s << " then\n"
+                << "            reused" << s << " = true\n"
+                << "            missionsLog(" << lua_quote("RENOVICE Missions: " + id + " active (" + method + " at a used spawn point)") << ")\n"
+                << "        end\n"
+                << "    end\n";
+            restores[slot] += "            reused" + s + " = false\n            noted" + s + " = {}\n";
         }
         std::set<int> hooked_prototypes;
         for (const auto& [prototype, binds] : hooks) hooked_prototypes.insert(prototype);
@@ -2348,6 +2893,8 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
             << "        settings = settings, -- reserved for the settings editor; ignored by the runtime\n"
             << "        activate = function(context)\n"
             << "            renoviceLogging = type(context) == \"table\" and context.logging == true\n"
+            << "            renoviceObjectApi = nil\n"
+            << "            if type(context) == \"table\" and type(context.renovice) == \"table\" then renoviceObjectApi = context.renovice.object end\n"
             << "            local effective = " << (target_masters.empty() ? "effectiveSettings(settings, context)" : kMasterEffectiveCall) << "\n";
         out << "            current = effective\n";
         for (const auto n : hooked_slots)
@@ -2364,10 +2911,20 @@ std::string multi_target_addon_source(const Json& registry, const std::map<std::
             else if (restores.contains(n)) out << restores.at(n);
         }
         out << "        end,\n";
-        if (!hooked_prototypes.empty()) {
-            out << "        hooks = { luaCalls = {\n";
-            for (const int prototype : hooked_prototypes) out << "            [" << prototype << "] = { before = before" << prototype << " },\n";
-            out << "        } },\n";
+        // Without a native-call row the hooks text is the earlier one byte for byte.
+        if (!hooked_prototypes.empty() || !native_after.empty()) {
+            out << "        hooks = {";
+            if (!hooked_prototypes.empty()) {
+                out << " luaCalls = {\n";
+                for (const int prototype : hooked_prototypes) out << "            [" << prototype << "] = { before = before" << prototype << " },\n";
+                out << "        }" << (native_after.empty() ? "" : ",");
+            }
+            if (!native_after.empty()) {
+                out << " nativeCalls = {\n";
+                for (const auto& [method, n] : native_after) out << "            " << method << " = { after = nativeAfter" << n << " },\n";
+                out << "        }";
+            }
+            out << " },\n";
         }
         out << "    }\n"
             << "end\n";
@@ -2486,6 +3043,26 @@ std::map<std::string, std::set<int>> multi_target_source_hooks(const std::string
     return result;
 }
 
+// NATIVE_CALL_RETRY_AT_SPAWN_POINT read-back: the hooks.nativeCalls methods each target section declares (every entry an
+// `after` callback, the only phase the template emits).
+std::map<std::string, std::set<std::string>> multi_target_source_native_hooks(const std::string& source) {
+    static const std::regex section("\n-- Target [0-9]+: ([^\n]+)\n");
+    static const std::regex entry("\n            ([A-Za-z_][A-Za-z0-9_]*) = \\{ after = nativeAfter[0-9]+ \\},");
+    std::map<std::string, std::set<std::string>> result;
+    std::vector<std::pair<std::size_t, std::string>> starts;
+    for (auto it = std::sregex_iterator(source.begin(), source.end(), section); it != std::sregex_iterator(); ++it)
+        starts.emplace_back(static_cast<std::size_t>(it->position()), (*it)[1].str());
+    const std::size_t tail = source.rfind("\nreturn {\n");
+    for (std::size_t n = 0; n < starts.size(); ++n) {
+        const std::size_t end = n + 1 < starts.size() ? starts[n + 1].first : tail;
+        const std::string text = source.substr(starts[n].first, end - starts[n].first);
+        auto& set = result[starts[n].second];
+        for (auto it = std::sregex_iterator(text.begin(), text.end(), entry); it != std::sregex_iterator(); ++it)
+            if (!set.insert((*it)[1].str()).second) throw std::runtime_error("native hook " + (*it)[1].str() + " declared twice in one target");
+    }
+    return result;
+}
+
 #include "mission_live_literals.inl"
 #include "mission_engine_params.inl"
 
@@ -2588,7 +3165,11 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                 if (can_addon && !can_literal) addon_only.push_back(row);
                 if (can_literal && !can_addon) literal_only.push_back(row);
             }
-            if (naming.lane.empty() && all_addon && !addon_lane_usable && !all_literal) {
+            // A body whose rows are all native-call retry rows acts only through hooks.nativeCalls (no luaCalls.before
+            // dispatch), so the luaCalls binding status does not gate it; it has no literal form either.
+            const bool native_only = std::all_of(rows.begin(), rows.end(), [](const Json* row) { return native_retry_row(*row); });
+            const bool body_addon_usable = addon_lane_usable || native_only;
+            if (naming.lane.empty() && all_addon && !body_addon_usable && !all_literal) {
                 throw std::runtime_error("NEEDS_BINDING: body key " + body + ": " + id_list(addon_only) +
                                          " can be written only by a target addon (no exact literal form), and that addon acts only through hook "
                                          "binding " + kMissionAddonHookBinding + ", which is " + hook.status +
@@ -2598,7 +3179,7 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                                          "\"] to the mission settings");
             }
             if (naming.lane == "EXACT_LITERAL" ? all_literal : naming.lane == "TARGET_ADDON" ? all_addon : all_addon || all_literal) {
-                if (naming.lane == "EXACT_LITERAL" || (naming.lane.empty() && (!all_addon || !addon_lane_usable))) literal[body] = rows;
+                if (naming.lane == "EXACT_LITERAL" || (naming.lane.empty() && (!all_addon || !body_addon_usable))) literal[body] = rows;
                 else addon[body] = rows;
             } else {
                 throw std::runtime_error("Body key " + body + " would need both an exact replacement (literal-only: " + id_list(literal_only) +
@@ -2637,7 +3218,7 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                     excluded_values.push_back({{"tunable_id", id}, {"reason", "hidden: " + row.at("ui").at("hidden").get<std::string>()}});
                     continue;
                 }
-                if (!row.at("owner").contains("fields") && !entry_template_row(row)) {
+                if (!row.at("owner").contains("fields") && !entry_template_row(row) && !native_retry_row(row)) {
                     std::string presets;
                     for (const auto& [preset_id, preset] : registry.at("missions").items())
                         if (preset.at("body_key") == body) presets += (presets.empty() ? "" : ", ") + preset_id;
@@ -2882,7 +3463,7 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                 const Json& module = mission_module(registry, body);
                 std::vector<const Json*> template_only;
                 for (const Json* row : rows)
-                    if (!row->at("owner").contains("fields") && !entry_template_row(*row)) template_only.push_back(row);
+                    if (!row->at("owner").contains("fields") && !entry_template_row(*row) && !native_retry_row(*row)) template_only.push_back(row);
                 if (!template_only.empty()) {
                     std::string presets;
                     for (const auto& [id, preset] : registry.at("missions").items())
@@ -2967,6 +3548,67 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                 gates.push_back({{"name", "entry-parameter-keys"}, {"pass", problems.empty()}, {"exit_code", problems.empty() ? 0 : 1}});
                 if (!problems.empty()) throw std::runtime_error("entry-parameter-keys failed: " + problems);
             }
+            // 2026-10-31 gate `director-setter-alias`: a NO_GETTER AI director setter is spelled Name__<alias> in source; the
+            // U44 compile resolves the alias through profiles/u44/name-map.tsv. The map must send the alias to exactly the
+            // registered setter_hash, and the compiled artifact must carry that hash (little-endian u32).
+            {
+                std::map<std::string, std::string> aliases;  // alias -> setter_hash
+                for (const Json* row : all_rows)
+                    if (entry_template_row(*row) && row->at("owner").at("template") == kAiDirectorSetterTemplate &&
+                        ai_director_no_getter(row->at("owner")))
+                        aliases[row->at("owner").at("setter_alias").get<std::string>()] = row->at("owner").at("setter_hash").get<std::string>();
+                if (!aliases.empty()) {
+                    std::map<std::string, std::set<std::string>> mapped;
+                    std::istringstream map(read_text(toolchain / "profiles/u44/name-map.tsv"));
+                    std::string from, to;
+                    while (map >> from >> to) mapped[from].insert(to);
+                    const std::string compiled = read_text(artifact);
+                    std::string problems;
+                    for (const auto& [alias, hash] : aliases) {
+                        if (!mapped.contains(alias) || mapped.at(alias) != std::set<std::string>{hash})
+                            problems += "alias " + alias + " does not map to exactly " + hash + "; ";
+                        const auto value = static_cast<std::uint32_t>(std::stoul(hash, nullptr, 16));
+                        const std::string bytes{static_cast<char>(value & 0xff), static_cast<char>((value >> 8) & 0xff),
+                                                static_cast<char>((value >> 16) & 0xff), static_cast<char>((value >> 24) & 0xff)};
+                        if (compiled.find(bytes) == std::string::npos) problems += "artifact does not carry " + hash + "; ";
+                    }
+                    result.gate_log += "director-setter-alias\n" + (problems.empty() ? std::string("PASS") : problems) + " setters=" +
+                                       std::to_string(aliases.size()) + "\n";
+                    gates.push_back({{"name", "director-setter-alias"}, {"pass", problems.empty()}, {"exit_code", problems.empty() ? 0 : 1}});
+                    if (!problems.empty()) throw std::runtime_error("director-setter-alias failed: " + problems);
+                }
+            }
+            // 2026-11-01 gate `native-call-alias`: the point query of a NATIVE_CALL_RETRY_AT_SPAWN_POINT row is spelled
+            // Name__<alias> in source (same rule as director-setter-alias): the U44 name map sends the alias to exactly the
+            // registered hash, the compiled artifact carries that hash, and the source spells the query only that way.
+            {
+                std::map<std::string, std::string> aliases;  // alias -> query hash
+                for (const Json* row : all_rows)
+                    if (native_retry_row(*row))
+                        aliases[row->at("owner").at("point_query").at("alias").get<std::string>()] =
+                            row->at("owner").at("point_query").at("hash").get<std::string>();
+                if (!aliases.empty()) {
+                    std::map<std::string, std::set<std::string>> mapped;
+                    std::istringstream map(read_text(toolchain / "profiles/u44/name-map.tsv"));
+                    std::string from, to;
+                    while (map >> from >> to) mapped[from].insert(to);
+                    const std::string compiled = read_text(artifact);
+                    std::string problems;
+                    for (const auto& [alias, hash] : aliases) {
+                        if (!mapped.contains(alias) || mapped.at(alias) != std::set<std::string>{hash})
+                            problems += "alias " + alias + " does not map to exactly " + hash + "; ";
+                        const auto value = static_cast<std::uint32_t>(std::stoul(hash, nullptr, 16));
+                        const std::string bytes{static_cast<char>(value & 0xff), static_cast<char>((value >> 8) & 0xff),
+                                                static_cast<char>((value >> 16) & 0xff), static_cast<char>((value >> 24) & 0xff)};
+                        if (compiled.find(bytes) == std::string::npos) problems += "artifact does not carry " + hash + "; ";
+                        if (!contains_text(source_text, ":Name__" + alias + "(")) problems += "source does not call Name__" + alias + "; ";
+                    }
+                    result.gate_log += "native-call-alias\n" + (problems.empty() ? std::string("PASS") : problems) + " queries=" +
+                                       std::to_string(aliases.size()) + "\n";
+                    gates.push_back({{"name", "native-call-alias"}, {"pass", problems.empty()}, {"exit_code", problems.empty() ? 0 : 1}});
+                    if (!problems.empty()) throw std::runtime_error("native-call-alias failed: " + problems);
+                }
+            }
             // Declaration gate: the compiled string pool declares exactly the addon body keys (loader discovery rules), the
             // source holds no other lowercase 16-hex text, and the file stays inside the loader limits.
             std::set<std::string> expected;
@@ -2986,6 +3628,10 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
             // Phase 2k gate hook-plan: the luaCalls prototypes the generated source declares per target equal the union of
             // the registry minimal hook sets (ROOT_TABLE_MINIMAL_HOOKS_V1) of every table that holds a declared value.
             const auto source_hooks = multi_target_source_hooks(source_text);
+            std::map<std::string, std::set<std::string>> source_native;
+            try { source_native = multi_target_source_native_hooks(source_text); }
+            catch (const std::exception& e) { problems += std::string(e.what()) + "; "; }
+            std::size_t native_hooks = 0;
             // Contract R3 gate hook-retire: a hook returns "RENOVICE_RETIRE" exactly when its prototype is a root child and
             // every table it binds is retire-safe (registry minimal_hooks), and only as its last statement. Contract R4: the
             // same hooks, and only they, open with retire-all over the target-wide flag.
@@ -3000,7 +3646,12 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                 const auto module_path = module.at("module_path").get<std::string>();
                 std::map<std::string, bool> tables;
                 std::set<int> entry_prototypes;  // R10 entry templates (registry entries, every one a root child)
+                std::set<std::string> want_native;  // NATIVE_CALL_RETRY_AT_SPAWN_POINT: hooks.nativeCalls methods
                 for (const Json* row : rows) {
+                    if (native_retry_row(*row)) {
+                        want_native.insert(row->at("owner").at("method").get<std::string>());
+                        continue;
+                    }
                     if (entry_template_row(*row)) {
                         ++entry_rows_total;
                         for (const auto& entry : row->at("owner").at("entries")) entry_prototypes.insert(entry.at("prototype").get<int>());
@@ -3051,7 +3702,13 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                 if (have_retire_all != want_retiring)
                     problems += "target " + module_path + " returns retire-all from hooks other than its retire-safe root-child hooks; ";
                 retire_all_hooks += have_retire_all.size();
-                if (!have.empty()) ++hooked_targets;
+                // A native-call row hooks exactly its method (one after callback per method), and nothing else does.
+                const auto found_native = source_native.find(module_path);
+                const std::set<std::string> have_native = found_native == source_native.end() ? std::set<std::string>{} : found_native->second;
+                if (have_native != want_native)
+                    problems += "target " + module_path + " declares nativeCalls hooks that are not its native-call rows' methods; ";
+                native_hooks += have_native.size();
+                if (!have.empty() || !have_native.empty()) ++hooked_targets;
                 hook_count += have.size();
                 full_hooks += full.size();
                 hook_plan.push_back({{"body_key", body}, {"module_path", module_path}, {"hooked_tables", hooked},
@@ -3060,6 +3717,7 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                                      {"idle_retire_prototypes", std::vector<int>(have_idle.begin(), have_idle.end())},
                                      {"retire_all_prototypes", std::vector<int>(have_retire_all.begin(), have_retire_all.end())},
                                      {"full_capturer_prototypes", full.size()}});
+                if (!have_native.empty()) hook_plan.back()["native_calls"] = std::vector<std::string>(have_native.begin(), have_native.end());
             }
             if (source_hooks.size() != addon.size()) problems += "generated source target count differs from the addon targets; ";
             result.gate_log += "hook-plan\n" + (problems.empty() ? std::string("PASS") : problems) + " targets=" + std::to_string(addon.size()) +
@@ -3067,7 +3725,8 @@ MissionSetResult build_mission_set(const Json& registry, const Json& values_json
                                " full_capturer_hooks=" + std::to_string(full_hooks) + " tables=" + std::to_string(table_count) +
                                " hooked_tables=" + std::to_string(hooked_tables) + " enabled_tables=" + std::to_string(enabled_tables) + " values=" + std::to_string(compiled_values.size()) +
                                " enabled=" + std::to_string(enabled_ids.size()) + " retiring_hooks=" + std::to_string(retiring_hooks) + " idle_retire_hooks=" + std::to_string(idle_hooks) +
-                               " retire_all_hooks=" + std::to_string(retire_all_hooks) + " entry_rows=" + std::to_string(entry_rows_total) + "\n";
+                               " retire_all_hooks=" + std::to_string(retire_all_hooks) + " entry_rows=" + std::to_string(entry_rows_total) +
+                               (native_hooks == 0 ? std::string() : " native_hooks=" + std::to_string(native_hooks)) + "\n";
             gates.push_back({{"name", "hook-plan"}, {"pass", problems.empty()}, {"exit_code", problems.empty() ? 0 : 1}});
             gates.push_back({{"name", "hook-retire"}, {"pass", problems.empty()}, {"exit_code", problems.empty() ? 0 : 1}});
             if (!problems.empty()) throw std::runtime_error("hook-plan failed: " + problems);

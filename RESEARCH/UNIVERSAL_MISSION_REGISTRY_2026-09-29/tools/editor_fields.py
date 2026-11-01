@@ -99,6 +99,7 @@ GROUPS = {
     'nightwatch': {'label': 'The Long Shadow', 'aliases': ['Nightwatch', 'Project Nightwatch']},  # 2026-10-29, GOAL_TAG rows
     'hallowedflame': {'label': 'Hallowed Flame', 'aliases': ['Lantern', 'Halloween', 'Endless lantern']},  # 2026-10-29, GOAL_TAG rows
     'orphixvenom': {'label': 'Orphix Venom', 'aliases': ['Orphix', 'Mech Survival']},  # 2026-10-29, GOAL_TAG rows
+    'enemies': {'label': 'Enemies', 'aliases': ['enemy count', 'spawns', 'max AI']},  # 2026-10-30, all procedural missions
     'waterfight': {'label': 'Water Fight', 'aliases': ['Dog Days', 'Soaktron']},  # 2026-10-29, event literals
     'hallowednightmares': {'label': 'Hallowed Nightmares', 'aliases': ['Halloween', 'Time Attack', 'Naberus']},  # 2026-10-29, event literals
     'purge': {'label': 'Purge', 'nodes': {'mt': ['MT_PURGE']}},
@@ -134,7 +135,8 @@ UNIT_DISPLAY = {'s': 's', 's (inferred)': 's', 'virtual s': 's', 's per cell': '
                 'min': 'min', 'm/s': 'm/s'}  # R10 rows
 # Contract R10: target-addon rows written at a module entry (MissionInfo fields, script-parameter globals) take effect at
 # the next mission; a scaled or absolute script parameter is written whatever the level passed (no live stock check).
-ENTRY_TEMPLATES = ('MISSION_INFO_FIELD_AT_ENTRY', 'SCRIPT_PARAM_GLOBAL_AT_ENTRY')
+ENTRY_TEMPLATES = ('MISSION_INFO_FIELD_AT_ENTRY', 'SCRIPT_PARAM_GLOBAL_AT_ENTRY', 'AI_DIRECTOR_SETTER_AT_ENTRY',
+                   'OBJECT_FIELD_AT_ENTRY')  # 2026-10-31
 ENUM_UNITS = {'bool', 'flag'}
 
 # Words kept capitalised when a label is sentence-cased or its first letter is lowered for "Custom <label>".

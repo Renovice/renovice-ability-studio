@@ -5217,7 +5217,7 @@ print("MULTI-TARGET HARNESS PASS cases=" .. #cases .. " idle=" .. #idle .. " ret
                         if (!full_ok && !full.diagnostics.empty()) full_detail = " " + full.diagnostics.front().message;
                         std::size_t addon_rows = 0, flood_rows = 0, hidden_rows = 0, addon_masters = 0;
                         for (const auto& row : registry.at("tunables"))
-                            if (row.at("backend") == "TARGET_ADDON" && (row.at("owner").contains("fields") || entry_template_row(row))) {
+                            if (row.at("backend") == "TARGET_ADDON" && (row.at("owner").contains("fields") || entry_template_row(row) || native_retry_row(row))) {
                                 ++addon_rows;
                                 if (row.at("owner").at("body_key") == key_of("Lotus_Scripts_Modes_ZarimanCorruptionMission.lua_B")) ++flood_rows;
                                 else if (row.at("ui").contains("hidden")) ++hidden_rows;
@@ -5237,7 +5237,9 @@ print("MULTI-TARGET HARNESS PASS cases=" .. #cases .. " idle=" .. #idle .. " ret
                             for (const auto& [id, entry] : migration.at("values").items()) enabled_entries += entry.at("enabled") == true ? 1 : 0;
                             const auto source_hooks = full_addon ? multi_target_source_hooks(read_text(full_addon->source)) : std::map<std::string, std::set<int>>{};
                             std::size_t hooked_targets = 0;
-                            for (const auto& [module_path, set] : source_hooks) hooked_targets += set.empty() ? 0 : 1;
+                            const auto source_native = full_addon ? multi_target_source_native_hooks(read_text(full_addon->source)) : std::map<std::string, std::set<std::string>>{};
+                            for (const auto& [module_path, set] : source_hooks)  // a native-call-only target is hooked too
+                                hooked_targets += set.empty() && (!source_native.contains(module_path) || source_native.at(module_path).empty()) ? 0 : 1;
                             const auto& excluded = set_manifest.at("package").at("settings").at("declarations").at("excluded_values");
                             full_ok = full_addon != nullptr && validate_settings_declarations(package_json).empty()
                                 && addon_member.size() == declared_addon && hidden_rows > 0 && addon_masters > 0

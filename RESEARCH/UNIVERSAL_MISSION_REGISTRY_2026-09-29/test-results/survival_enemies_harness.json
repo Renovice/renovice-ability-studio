@@ -1,0 +1,188 @@
+{
+  "checks": [
+    {
+      "name": "enemies.hard_cap: AI director setter on ProceduralLevel P65/P2, stock 40, host only",
+      "pass": true
+    },
+    {
+      "name": "enemies.hard_cap: on Enemies > All missions, driven by no master",
+      "pass": true
+    },
+    {
+      "name": "survival.enemy_count.min.p1: element 1 of minNum, stock 7, Survival > Enemies",
+      "pass": true
+    },
+    {
+      "name": "survival.enemy_count.min.p2: element 2 of minNum, stock 15, Survival > Enemies",
+      "pass": true
+    },
+    {
+      "name": "survival.enemy_count.min.p3: element 3 of minNum, stock 25, Survival > Enemies",
+      "pass": true
+    },
+    {
+      "name": "survival.enemy_count.min.p4: element 4 of minNum, stock 30, Survival > Enemies",
+      "pass": true
+    },
+    {
+      "name": "survival.enemy_count.max.p1: element 1 of maxNum, stock 10, Survival > Enemies",
+      "pass": true
+    },
+    {
+      "name": "survival.enemy_count.max.p2: element 2 of maxNum, stock 25, Survival > Enemies",
+      "pass": true
+    },
+    {
+      "name": "survival.enemy_count.max.p3: element 3 of maxNum, stock 30, Survival > Enemies",
+      "pass": true
+    },
+    {
+      "name": "survival.enemy_count.max.p4: element 4 of maxNum, stock 35, Survival > Enemies",
+      "pass": true
+    },
+    {
+      "name": "survival.enemy_count.infested_min.p1: element 1 of minNumInfested, stock 8, Survival > Enemies",
+      "pass": true
+    },
+    {
+      "name": "survival.enemy_count.infested_min.p2: element 2 of minNumInfested, stock 15, Survival > Enemies",
+      "pass": true
+    },
+    {
+      "name": "survival.enemy_count.infested_min.p3: element 3 of minNumInfested, stock 25, Survival > Enemies",
+      "pass": true
+    },
+    {
+      "name": "survival.enemy_count.infested_min.p4: element 4 of minNumInfested, stock 30, Survival > Enemies",
+      "pass": true
+    },
+    {
+      "name": "survival.enemy_count.infested_max.p1: element 1 of maxNumInfested, stock 12, Survival > Enemies",
+      "pass": true
+    },
+    {
+      "name": "survival.enemy_count.infested_max.p2: element 2 of maxNumInfested, stock 25, Survival > Enemies",
+      "pass": true
+    },
+    {
+      "name": "survival.enemy_count.infested_max.p3: element 3 of maxNumInfested, stock 30, Survival > Enemies",
+      "pass": true
+    },
+    {
+      "name": "survival.enemy_count.infested_max.p4: element 4 of maxNumInfested, stock 35, Survival > Enemies",
+      "pass": true
+    },
+    {
+      "name": "survival.enemy_count.duviri_min.p1: element 1 of minNumEnemiesHardModeDuviri, stock 15, Survival > Enemies",
+      "pass": true
+    },
+    {
+      "name": "survival.enemy_count.duviri_min.p2: element 2 of minNumEnemiesHardModeDuviri, stock 23, Survival > Enemies",
+      "pass": true
+    },
+    {
+      "name": "survival.enemy_count.duviri_min.p3: element 3 of minNumEnemiesHardModeDuviri, stock 27, Survival > Enemies",
+      "pass": true
+    },
+    {
+      "name": "survival.enemy_count.duviri_min.p4: element 4 of minNumEnemiesHardModeDuviri, stock 30, Survival > Enemies",
+      "pass": true
+    },
+    {
+      "name": "survival.enemy_count.duviri_max.p1: element 1 of maxNumEnemiesHardModeDuviri, stock 20, Survival > Enemies",
+      "pass": true
+    },
+    {
+      "name": "survival.enemy_count.duviri_max.p2: element 2 of maxNumEnemiesHardModeDuviri, stock 28, Survival > Enemies",
+      "pass": true
+    },
+    {
+      "name": "survival.enemy_count.duviri_max.p3: element 3 of maxNumEnemiesHardModeDuviri, stock 32, Survival > Enemies",
+      "pass": true
+    },
+    {
+      "name": "survival.enemy_count.duviri_max.p4: element 4 of maxNumEnemiesHardModeDuviri, stock 35, Survival > Enemies",
+      "pass": true
+    },
+    {
+      "name": "survival.enemy_multiplier: drives all 24 rows with scale = row stock, stock 1, limits 1..1000",
+      "pass": true
+    },
+    {
+      "name": "enemies.multiplier is the Wave size multiplier (MaxAI per encounter)",
+      "pass": true
+    },
+    {
+      "name": "minNum: hooked at P35 (the count function) only",
+      "pass": true
+    },
+    {
+      "name": "minNum: reached through the config table field minNum",
+      "pass": true
+    },
+    {
+      "name": "maxNum: hooked at P35 (the count function) only",
+      "pass": true
+    },
+    {
+      "name": "maxNum: reached through the config table field maxNum",
+      "pass": true
+    },
+    {
+      "name": "minNumInfested: hooked at P35 (the count function) only",
+      "pass": true
+    },
+    {
+      "name": "minNumInfested: reached through the config table field minNumInfested",
+      "pass": true
+    },
+    {
+      "name": "maxNumInfested: hooked at P35 (the count function) only",
+      "pass": true
+    },
+    {
+      "name": "maxNumInfested: reached through the config table field maxNumInfested",
+      "pass": true
+    },
+    {
+      "name": "minNumEnemiesHardModeDuviri: hooked at P35 (the count function) only",
+      "pass": true
+    },
+    {
+      "name": "minNumEnemiesHardModeDuviri: reached through the config table field minNumEnemiesHardModeDuviri",
+      "pass": true
+    },
+    {
+      "name": "maxNumEnemiesHardModeDuviri: hooked at P35 (the count function) only",
+      "pass": true
+    },
+    {
+      "name": "maxNumEnemiesHardModeDuviri: reached through the config table field maxNumEnemiesHardModeDuviri",
+      "pass": true
+    },
+    {
+      "name": "every count table is reached through one P35 upvalue (the config table)",
+      "pass": true
+    },
+    {
+      "name": "build with the Survival rows, master and hard cap succeeds",
+      "pass": true
+    },
+    {
+      "name": "one AI director setter helper in the addon",
+      "pass": true
+    },
+    {
+      "name": "helper uses the game method pair",
+      "pass": true
+    },
+    {
+      "name": "toolchain luau.exe present",
+      "pass": true
+    },
+    {
+      "name": "harness: 22 checks over the hard cap and the Survival tables",
+      "pass": true
+    }
+  ]
+}

@@ -556,6 +556,11 @@ import player_text_events_batch3  # noqa: E402  (same folder)
 player_text_events_batch3.register(row, master)
 LIVE_LITERAL_HEADLINE += player_text_events_batch3.HEADLINE
 
+# ---- Enemies page (2026-10-30): ProceduralLevel MaxAI (player_text_enemies.py).
+import player_text_enemies  # noqa: E402  (same folder)
+player_text_enemies.register(row, master)
+LIVE_LITERAL_HEADLINE += player_text_enemies.HEADLINE
+
 # Group labels (sections). Existing ui_groups labels stay; advanced sections are "<label>: advanced" or the short form.
 ADVANCED_LABELS = {'escalation': '1999 Escalation: advanced', 'shrine': 'Shrine Defense: advanced',
                    'coh_destroy_targets': 'Destroy Targets: advanced', 'fivefates': 'Five Fates: advanced',

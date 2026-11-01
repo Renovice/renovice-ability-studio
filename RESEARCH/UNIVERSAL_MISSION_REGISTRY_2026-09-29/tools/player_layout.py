@@ -72,6 +72,7 @@ TYPES = {
     'nightwatch': ('Events', 'The Long Shadow'),  # 2026-10-29 event tac alert (GOAL_TAG rows)
     'hallowedflame': ('Events', 'Hallowed Flame'),  # 2026-10-29 event (GOAL_TAG rows)
     'orphixvenom': ('Events', 'Orphix Venom'),  # 2026-10-29 event (GOAL_TAG rows)
+    'enemies': ('Enemies', None),  # 2026-10-30: all procedural missions (ProceduralLevel MaxAI)
     'waterfight': ('Events', 'Water Fight'),  # 2026-10-29 event literals
     'hallowednightmares': ('Events', 'Hallowed Nightmares'),  # 2026-10-29 event literals
 }
@@ -85,10 +86,20 @@ ORDER = []    # display order (rank)
 ON_PAGE_ROW = 'All {} missions'
 
 
+def enemies_hub(path):
+    """2026-10-31 (user): every mission type's "Enemies" category lives under one top-level Enemies page,
+    [<...>, <Mission>, 'Enemies', *rest] -> ['Enemies', <Mission>, *rest]; the mission pages keep their other categories."""
+    path = list(path)
+    if path and path[0] != 'Enemies' and 'Enemies' in path[1:]:
+        i = path.index('Enemies', 1)
+        return ['Enemies', path[i - 1]] + path[i + 1:]
+    return path
+
+
 def put(tid, path, row, quick=None, on_page=False):
     if tid in L:
         raise SystemExit(f'player_layout: {tid} placed twice')
-    L[tid] = {'path': list(path), 'row': row, 'quick': quick, 'on_page': on_page}
+    L[tid] = {'path': enemies_hub(path), 'row': row, 'quick': quick, 'on_page': on_page}
     ORDER.append(tid)
 
 
@@ -396,6 +407,9 @@ put('waterfight.score_limit', ['Events', 'Water Fight', 'Match'], 'Score limit')
 put('waterfight.score_limit_alt', ['Events', 'Water Fight', 'Match'], 'Score limit (alt setup)')  # Events batch 3
 put('waterfight.round_time', ['Events', 'Water Fight', 'Match'], 'Round time')  # Events batch 3
 put('hallowednightmares.timeattack_score', ['Events', 'Hallowed Nightmares', 'Time Attack'], 'Score base')  # Events batch 3
+put('enemies.max_ai.high', ['Enemies', 'All missions', 'Wave size per level tier'], 'High tier')  # 2026-10-30
+put('enemies.max_ai.mid', ['Enemies', 'All missions', 'Wave size per level tier'], 'Mid tier')  # 2026-10-30
+put('enemies.max_ai.low', ['Enemies', 'All missions', 'Wave size per level tier'], 'Low tier')  # 2026-10-30
 put('survival.duviri_fixed_length', ['Survival', 'Timers'], 'Duviri: Survival length')  # R8 live literal
 LIFE = ['Survival', 'Timers', 'Life support']
 for tid, row in (('capsule_initial_time', 'At mission start'), ('capsule_max_time', 'Capacity at 100%'),
@@ -985,3 +999,33 @@ def apply(rows, groups, masters, absent=frozenset()):
     return {'format': LAYOUT_FORMAT, 'categories': CATEGORIES, 'path_max': PATH_MAX, 'row_max': ROW_MAX,
             'quick_max': QUICK_MAX, 'default_label_max': DEFAULT_LABEL_MAX, 'row_budget': ROW_BUDGET,
             'description_max': DESCRIPTION_MAX, 'placed': len(L), 'types': TYPES}
+
+# ---- 2026-10-30 enemy multipliers (declared last: after each page's "All <type> missions" master)
+put('enemies.multiplier', ['Enemies', 'All missions'], 'Wave size multiplier')  # 2026-10-30 master (renamed: MaxAI burst)
+put('enemies.hard_cap', ['Enemies', 'All missions'], 'Enemy cap (absolute)')  # 2026-10-30 AI director hard cap
+put('enemies.active_area_ahead', ['Enemies', 'All missions', 'Spawn distance'], 'Ahead')  # 2026-10-31 director 4f77b69c
+put('enemies.active_area_behind', ['Enemies', 'All missions', 'Spawn distance'], 'Behind')  # 2026-10-31 same call
+put('enemies.area_limit_scale', ['Enemies', 'All missions'], 'Enemies per area')  # 2026-10-31 director 5904fb7a
+put('enemies.relocate_fraction', ['Enemies', 'All missions'], 'Relocate at')  # 2026-11-01 director 0a7324fb
+put('enemies.spawn_point_reuse', ['Enemies', 'All missions'], 'Spawn point reuse')  # 2026-11-01 CreateRandomAgent retry
+# 2026-10-31 AI director fields through RENOVICE.object (OBJECT_FIELD_AT_ENTRY, locator ai_director)
+put('enemies.spawn_timer', ['Enemies', 'All missions', 'Spawn pacing'], 'Spawn check interval')
+put('enemies.event_timer', ['Enemies', 'All missions', 'Spawn pacing'], 'Time between groups')
+put('enemies.event_count_max', ['Enemies', 'All missions', 'Spawn pacing'], 'Groups at once')
+put('enemies.max_encounter_xp', ['Enemies', 'All missions', 'Spawn pacing'], 'Group size')
+put('enemies.intensity_max', ['Enemies', 'All missions', 'Breather (intensity)'], 'Pressure limit')
+put('enemies.intensity_peak_pct', ['Enemies', 'All missions', 'Breather (intensity)'], 'Peak trigger')
+put('enemies.intensity_hold_spawns_pct', ['Enemies', 'All missions', 'Breather (intensity)'], 'Hold spawns at')
+put('enemies.after_peak_time', ['Enemies', 'All missions', 'Breather (intensity)'], 'Breather length')
+put('enemies.after_hold_time', ['Enemies', 'All missions', 'Breather (intensity)'], 'Peak hold time')
+put('infested_salvage.enemy_multiplier', ['Infested Salvage', 'Enemies'], 'Enemies on the map')  # 2026-10-30 master
+put('lantern.enemy_multiplier', ['Lantern', 'Enemies'], 'Enemies on the map')  # 2026-10-30 master
+put('void_armageddon.enemy_multiplier', ['Void Armageddon', 'Enemies'], 'Enemies on the map')  # 2026-10-30 master
+put('purgatory.enemy_multiplier', ['Purgatory', 'Enemies'], 'Enemies on the map')  # 2026-10-30 master
+put('purge.enemy_multiplier', ['Purge', 'Enemies'], 'Enemies on the map')  # 2026-10-30 master
+# ---- 2026-10-30 Survival enemies at once (root count tables; the 4-player column is used on Steel Path / Kuva path)
+put('survival.enemy_multiplier', ['Survival', 'Enemies'], 'Enemies on the map')  # master over the 24 rows
+for _part, _section in (('', 'Enemies at once (normal)'), ('infested_', 'Enemies at once (Infested)'),
+                        ('duviri_', 'Enemies at once (Duviri hard mode)')):
+    players(f'survival.enemy_count.{_part}max.{{}}', ['Survival', 'Enemies', _section, 'Target at level 30+ (SP: squad)'])
+    players(f'survival.enemy_count.{_part}min.{{}}', ['Survival', 'Enemies', _section, 'Target at low level'])

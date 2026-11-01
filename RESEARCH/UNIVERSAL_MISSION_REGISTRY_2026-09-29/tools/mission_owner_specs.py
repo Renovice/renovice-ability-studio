@@ -149,7 +149,22 @@ MISSION_INFO = 'MISSION_INFO_FIELD_AT_ENTRY'
 MISSION_INFO_KUVA_PATH = 'KUVA_PATH_MISSION'  # R23: the Icebind variant of a MissionInfo row (generator: same name)
 MISSION_INFO_GOAL_TAG = 'GOAL_TAG'  # 2026-10-28: identified by goalTag (Clem's weekly), generator: same name
 SCRIPT_PARAM = 'SCRIPT_PARAM_GLOBAL_AT_ENTRY'
-ENTRY_TEMPLATES = (MISSION_INFO, SCRIPT_PARAM)
+# 2026-10-30: one AI director value written at a root-child entry through the game's own Get<X>/Set<X> method pair (host
+# only; generator: same name). The readers are the entry's own stock GetAiDirector uses (census), proving the director is
+# obtained there. First row: enemies.hard_cap (GetNpcHardCap/SetNpcHardCap, stock HardMaxAICap 40) on ProceduralLevel.
+AI_DIRECTOR_SETTER = 'AI_DIRECTOR_SETTER_AT_ENTRY'
+AI_DIRECTOR_READER = 'GetAiDirector'
+# 2026-10-31: NO_GETTER variant (a director setter without a Lua getter, several arguments; rows sharing the setter feed
+# one call, a row that is off passes its stock). First rows: enemies.active_area_ahead / _behind (method 4f77b69c).
+AI_DIRECTOR_NO_GETTER = 'NO_GETTER'
+# 2026-10-31: OBJECT_FIELD_AT_ENTRY. One engine-object field written through the runtime reflection API
+# _T.RENOVICE.object (get/set) at a root-child entry, host only (generator: same name and rules). The object comes from
+# a declarative locator (OBJECT_LOCATORS: locator -> the stock reader key every row reader must carry). First rows:
+# Enemies > All missions > Spawn pacing / Intensity (AI director fields).
+OBJECT_FIELD = 'OBJECT_FIELD_AT_ENTRY'
+OBJECT_LOCATORS = {'ai_director': AI_DIRECTOR_READER}
+OBJECT_VALUE_TYPES = ('float', 'int')
+ENTRY_TEMPLATES = (MISSION_INFO, SCRIPT_PARAM, AI_DIRECTOR_SETTER, OBJECT_FIELD)
 # R11: scale_count = a whole-number count or a plain list of counts, each x value, rounded, at least 1.
 PARAM_MODES = ('scale', 'scale_inverse', 'absolute', 'scale_count')
 SCALE_MODES = ('scale', 'scale_inverse', 'scale_count')
@@ -535,7 +550,56 @@ def entry_row(ctx, m, key, rec, d, base, lim, where):
     owner = {'body_key': key, 'stock_sha256': rec['sha256'], 'file': rec['file'], 'module_path': rec['module_path'],
              'template': template, 'gate': ENTRY_GATE, 'entries': entries, 'readers': readers,
              'dead_readers': o.get('dead_readers', [])}
-    if template == MISSION_INFO:
+    if template == OBJECT_FIELD:
+        locator, field, kind = o['locator'], o['field'], o['value_type']
+        if locator not in OBJECT_LOCATORS:
+            raise ValueError(f'{where}: unknown object locator {locator!r}')
+        if not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]*', field):
+            raise ValueError(f'{where}: invalid object field name {field!r}')
+        if kind not in OBJECT_VALUE_TYPES:
+            raise ValueError(f'{where}: object field value_type must be one of {OBJECT_VALUE_TYPES}')
+        if any(r['key'] != OBJECT_LOCATORS[locator] for r in readers):
+            raise ValueError(f'{where}: an object field reader is not a {OBJECT_LOCATORS[locator]} use')
+        stock, lo, hi = d['stock'], lim['minimum'], lim['maximum']
+        if not (0 <= lo <= stock <= hi) or any(x != x or x in (float('inf'), float('-inf')) for x in (stock, lo, hi)):
+            raise ValueError(f'{where}: an object field row needs 0 <= minimum <= stock <= maximum')
+        integer = bool(lim.get('integer'))
+        if integer != (kind == 'int') or (integer and not all(float(x).is_integer() for x in (stock, lo, hi))):
+            raise ValueError(f'{where}: an int object field row needs whole stock and integer limits; a float row non-integer limits')
+        owner.update(locator=locator, field=field, value_type=kind, host_only=True, write_rule=o['write_rule'],
+                     meaning=o.get('meaning', ''), stock_precedent=o.get('stock_precedent', ''))
+    elif template == AI_DIRECTOR_SETTER and o.get('variant') == AI_DIRECTOR_NO_GETTER:
+        # 2026-10-31: setter without a Lua getter; rows sharing the setter feed one call (generator: same rule).
+        if 'getter' in o:
+            raise ValueError(f'{where}: a NO_GETTER AI director row must not name a getter')
+        hexes = (o['setter_hash'], o['setter_alias'])
+        if not all(re.fullmatch(r'[0-9a-f]{8}', h) for h in hexes) or o['setter'] != 'Name__' + o['setter_alias']:
+            raise ValueError(f'{where}: a NO_GETTER AI director row needs setter_hash, setter_alias and setter Name__<alias>')
+        if any(r['key'] != AI_DIRECTOR_READER for r in readers):
+            raise ValueError(f'{where}: an AI director reader is not a {AI_DIRECTOR_READER} use')
+        args, idx = o['stock_arguments'], o['argument']
+        if not (isinstance(args, list) and 1 <= len(args) <= 16 and all(isinstance(a, (bool, int, float)) for a in args)):
+            raise ValueError(f'{where}: a NO_GETTER AI director row needs 1..16 number/boolean stock_arguments')
+        if not (isinstance(idx, int) and 1 <= idx <= len(args) and not isinstance(args[idx - 1], bool)
+                and num(args[idx - 1]) == num(d['stock'])):
+            raise ValueError(f'{where}: the argument must be a numeric stock argument equal to the row stock')
+        if not (0 < lim['minimum'] <= d['stock'] <= lim['maximum']):
+            raise ValueError(f'{where}: a NO_GETTER AI director row needs 0 < minimum <= stock <= maximum')
+        owner.update(variant=AI_DIRECTOR_NO_GETTER, setter=o['setter'], setter_hash=o['setter_hash'],
+                     setter_alias=o['setter_alias'], stock_arguments=list(args), argument=idx, host_only=True,
+                     write_rule=o['write_rule'], meaning=o.get('meaning', ''), stock_precedent=o.get('stock_precedent', ''))
+    elif template == AI_DIRECTOR_SETTER:
+        getter, setter = o['getter'], o['setter']
+        if not (re.fullmatch(r'Get[A-Za-z0-9_]+', getter) and setter == 'Set' + getter[3:]):
+            raise ValueError(f'{where}: an AI director row needs a Get<X>/Set<X> method pair, got {getter}/{setter}')
+        if any(r['key'] != AI_DIRECTOR_READER for r in readers):
+            raise ValueError(f'{where}: an AI director reader is not a {AI_DIRECTOR_READER} use')
+        stock = d['stock']
+        if not (float(stock).is_integer() and stock >= 1 and lim.get('integer') and lim['minimum'] >= 1):
+            raise ValueError(f'{where}: an AI director count row needs a whole stock >= 1, integer limits and a minimum >= 1')
+        owner.update(getter=getter, setter=setter, host_only=True, write_rule=o['write_rule'], meaning=o.get('meaning', ''),
+                     stock_precedent=o.get('stock_precedent', ''))
+    elif template == MISSION_INFO:
         field = o['field']
         if not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]*', field):
             raise ValueError(f'{where}: invalid MissionInfo field {field!r}')

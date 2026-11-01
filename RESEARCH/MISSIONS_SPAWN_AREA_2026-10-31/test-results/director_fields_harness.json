@@ -1,0 +1,136 @@
+{
+  "checks": [
+    {
+      "name": "enemies.spawn_timer: OBJECT_FIELD_AT_ENTRY ai_director SpawnTimer float, stock 0.1, 0.01..10, ProceduralLevel P65/P2",
+      "pass": true
+    },
+    {
+      "name": "enemies.spawn_timer: Enemies > All missions > Spawn pacing",
+      "pass": true
+    },
+    {
+      "name": "enemies.event_timer: OBJECT_FIELD_AT_ENTRY ai_director EventTimer float, stock 4, 0.1..60, ProceduralLevel P65/P2",
+      "pass": true
+    },
+    {
+      "name": "enemies.event_timer: Enemies > All missions > Spawn pacing",
+      "pass": true
+    },
+    {
+      "name": "enemies.event_count_max: OBJECT_FIELD_AT_ENTRY ai_director EventCountMax int, stock 6, 1..100, ProceduralLevel P65/P2",
+      "pass": true
+    },
+    {
+      "name": "enemies.event_count_max: Enemies > All missions > Spawn pacing",
+      "pass": true
+    },
+    {
+      "name": "enemies.max_encounter_xp: OBJECT_FIELD_AT_ENTRY ai_director MaxEncounterXp float, stock 1000, 1..100000, ProceduralLevel P65/P2",
+      "pass": true
+    },
+    {
+      "name": "enemies.max_encounter_xp: Enemies > All missions > Spawn pacing",
+      "pass": true
+    },
+    {
+      "name": "enemies.intensity_max: OBJECT_FIELD_AT_ENTRY ai_director IntensityMax float, stock 100, 1..10000, ProceduralLevel P65/P2",
+      "pass": true
+    },
+    {
+      "name": "enemies.intensity_max: Enemies > All missions > Breather (intensity)",
+      "pass": true
+    },
+    {
+      "name": "enemies.intensity_peak_pct: OBJECT_FIELD_AT_ENTRY ai_director IntensityPeakPercentage float, stock 0.95, 0.05..1, ProceduralLevel P65/P2",
+      "pass": true
+    },
+    {
+      "name": "enemies.intensity_peak_pct: Enemies > All missions > Breather (intensity)",
+      "pass": true
+    },
+    {
+      "name": "enemies.intensity_hold_spawns_pct: OBJECT_FIELD_AT_ENTRY ai_director IntensityHoldSpawnsPercentage float, stock 1, 0..1, ProceduralLevel P65/P2",
+      "pass": true
+    },
+    {
+      "name": "enemies.intensity_hold_spawns_pct: Enemies > All missions > Breather (intensity)",
+      "pass": true
+    },
+    {
+      "name": "enemies.after_peak_time: OBJECT_FIELD_AT_ENTRY ai_director AfterPeakTime float, stock 20, 0..600, ProceduralLevel P65/P2",
+      "pass": true
+    },
+    {
+      "name": "enemies.after_peak_time: Enemies > All missions > Breather (intensity)",
+      "pass": true
+    },
+    {
+      "name": "enemies.after_hold_time: OBJECT_FIELD_AT_ENTRY ai_director AfterHoldTime float, stock 20, 0..600, ProceduralLevel P65/P2",
+      "pass": true
+    },
+    {
+      "name": "enemies.after_hold_time: Enemies > All missions > Breather (intensity)",
+      "pass": true
+    },
+    {
+      "name": "build with the director field rows succeeds",
+      "pass": true
+    },
+    {
+      "name": "one objectField helper and one ai_director locator in the addon",
+      "pass": true
+    },
+    {
+      "name": "9 objectField rows",
+      "pass": true
+    },
+    {
+      "name": "the addon reads and writes through _T.RENOVICE.object get/set",
+      "pass": true
+    },
+    {
+      "name": "enemies.spawn_timer: objectField row for SpawnTimer",
+      "pass": true
+    },
+    {
+      "name": "enemies.event_timer: objectField row for EventTimer",
+      "pass": true
+    },
+    {
+      "name": "enemies.event_count_max: objectField row for EventCountMax",
+      "pass": true
+    },
+    {
+      "name": "enemies.max_encounter_xp: objectField row for MaxEncounterXp",
+      "pass": true
+    },
+    {
+      "name": "enemies.intensity_max: objectField row for IntensityMax",
+      "pass": true
+    },
+    {
+      "name": "enemies.intensity_peak_pct: objectField row for IntensityPeakPercentage",
+      "pass": true
+    },
+    {
+      "name": "enemies.intensity_hold_spawns_pct: objectField row for IntensityHoldSpawnsPercentage",
+      "pass": true
+    },
+    {
+      "name": "enemies.after_peak_time: objectField row for AfterPeakTime",
+      "pass": true
+    },
+    {
+      "name": "enemies.after_hold_time: objectField row for AfterHoldTime",
+      "pass": true
+    },
+    {
+      "name": "toolchain luau.exe present",
+      "pass": true
+    },
+    {
+      "name": "harness: 31 checks over the director field rows",
+      "pass": true
+    }
+  ]
+}

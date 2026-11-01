@@ -1,0 +1,56 @@
+{
+  "checks": [
+    {
+      "name": "enemies.spawn_point_reuse: EndlessSpawnLib P9 CreateRandomAgent retry, location argument 2, query 1ab54531 10..75 m, on/off stock 0",
+      "pass": true
+    },
+    {
+      "name": "EndlessSpawnLib registered as a module and present in the registry corpus",
+      "pass": true
+    },
+    {
+      "name": "enemies.spawn_point_reuse: Enemies > All missions > Spawn point reuse (toggle)",
+      "pass": true
+    },
+    {
+      "name": "full package build with the spawn point reuse row succeeds",
+      "pass": true
+    },
+    {
+      "name": "one nativeCalls.CreateRandomAgent.after hook and one point query call in the addon",
+      "pass": true
+    },
+    {
+      "name": "the EndlessSpawnLib target declares only the nativeCalls hook",
+      "pass": true
+    },
+    {
+      "name": "build gate native-call-alias: PASS queries=1 (identity alias, hash in the artifact)",
+      "pass": true
+    },
+    {
+      "name": "build gate director-setter-alias unchanged: PASS setters=3",
+      "pass": true
+    },
+    {
+      "name": "build gate hook-plan: PASS with native_hooks=1",
+      "pass": true
+    },
+    {
+      "name": "the row is declared in the package manifest",
+      "pass": true
+    },
+    {
+      "name": "the build compiles the row on (value 1, enabled)",
+      "pass": true
+    },
+    {
+      "name": "toolchain luau.exe present",
+      "pass": true
+    },
+    {
+      "name": "harness: 40 checks over the spawn point reuse row",
+      "pass": true
+    }
+  ]
+}
