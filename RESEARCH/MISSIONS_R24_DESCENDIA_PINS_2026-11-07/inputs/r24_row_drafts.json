@@ -1,0 +1,899 @@
+{
+ "schema": "RENOVICE_MISSION_TUNABLE_REGISTRY_V2 tunables[] drafts (contract R24)",
+ "build": "2026.10.08.13.05",
+ "supersedes": {},
+ "rows": [
+  {
+   "tunable_id": "descendia.alchemy.crucible_remind_countdown",
+   "phase1_tunable_id": null,
+   "label": "Crucible reminder countdown",
+   "mission_type": "Descendia: Alchemy",
+   "variant": "descendia",
+   "shared_with": "Entrati Lab Alchemy (same script)",
+   "owner_kind": "SCRIPT_PARAM_GLOBAL",
+   "backend": "EXACT_LITERAL",
+   "owner": {
+    "body_key": "4177b4847467236d",
+    "stock_sha256": "0DA3F5D2C05509D4D8ED3F12588F77D501CD099A5A90E2BAEF0C60460CAA1104",
+    "file": "Lotus_Scripts_Modes_EntratiLabAlchemy.lua_B",
+    "module_path": "/Lotus/Scripts/Modes/EntratiLabAlchemy.lua",
+    "sites": [
+     {
+      "kind": "import_pin",
+      "global": "CRUCIBLE_REMIND_COUNTDOWN",
+      "hash": "59510469",
+      "prototype": 34,
+      "instruction": 268,
+      "owner": "P34 i268 GETIMPORT CRUCIBLE_REMIND_COUNTDOWN -> LOADN (trigger parameter Scripts.0.Script._CRUCIBLE_REMIND_COUNTDOWN of CoHAlchemyStartTrigger, stock 60)"
+     }
+    ]
+   },
+   "unit": "s",
+   "stock": 60,
+   "limits": {
+    "minimum": 0,
+    "maximum": 32767,
+    "integer": true,
+    "basis": "LOADN domain; gameplay-safe range not established offline"
+   },
+   "applies": "next_mission",
+   "confidence": "CONFIRMED_STATIC (reader pin, IMPORT_READ_PIN_V1; live pending)",
+   "evidence": "Lotus_Scripts_Modes_EntratiLabAlchemy.lua_B reads the trigger parameter _CRUCIBLE_REMIND_COUNTDOWN only as single-name GETIMPORT #59510469 at 1 site(s); the trigger metadata row alchemy.crucible_remind_countdown.descendia (_CRUCIBLE_REMIND_COUNTDOWN=60) stays METADATA_PATCH. With the row off the module is stock."
+  },
+  {
+   "tunable_id": "descendia.alchemy.transmuter_goal",
+   "phase1_tunable_id": null,
+   "label": "Mixtures required when MissionInfo.maxWaveNum does not override it",
+   "mission_type": "Descendia: Alchemy",
+   "variant": "descendia",
+   "shared_with": "Entrati Lab Alchemy (same script)",
+   "owner_kind": "SCRIPT_PARAM_GLOBAL",
+   "backend": "EXACT_LITERAL",
+   "owner": {
+    "body_key": "4177b4847467236d",
+    "stock_sha256": "0DA3F5D2C05509D4D8ED3F12588F77D501CD099A5A90E2BAEF0C60460CAA1104",
+    "file": "Lotus_Scripts_Modes_EntratiLabAlchemy.lua_B",
+    "module_path": "/Lotus/Scripts/Modes/EntratiLabAlchemy.lua",
+    "sites": [
+     {
+      "kind": "import_pin",
+      "global": "TRANSMUTER_GOAL",
+      "hash": "c011178f",
+      "prototype": 33,
+      "instruction": 187,
+      "owner": "P33 i187 GETIMPORT TRANSMUTER_GOAL -> LOADN (trigger parameter Scripts.0.Script._TRANSMUTER_GOAL of CoHAlchemyStartTrigger, stock 1)"
+     }
+    ]
+   },
+   "unit": "mixtures",
+   "stock": 1,
+   "limits": {
+    "minimum": 1,
+    "maximum": 32767,
+    "integer": true,
+    "basis": "LOADN domain; gameplay-safe range not established offline"
+   },
+   "applies": "next_mission",
+   "confidence": "CONFIRMED_STATIC (reader pin, IMPORT_READ_PIN_V1; live pending)",
+   "evidence": "Lotus_Scripts_Modes_EntratiLabAlchemy.lua_B reads the trigger parameter _TRANSMUTER_GOAL only as single-name GETIMPORT #c011178f at 1 site(s); the trigger metadata row alchemy.mixtures_required_default.descendia (_TRANSMUTER_GOAL=1) stays METADATA_PATCH. With the row off the module is stock."
+  },
+  {
+   "tunable_id": "descendia.excavation.base_excavator_health",
+   "phase1_tunable_id": null,
+   "label": "Base excavator health (gameplay and HUD instances)",
+   "mission_type": "Descendia: Excavation",
+   "variant": "",
+   "shared_with": "",
+   "owner_kind": "SCRIPT_PARAM_GLOBAL",
+   "backend": "EXACT_LITERAL",
+   "owner": {
+    "body_key": "415a57536412719f",
+    "stock_sha256": "C641B897157618608088A5CFBD1D5688ACE5C12822F8ADAADF95089C6491D0E8",
+    "file": "Lotus_Types_Gameplay_DevilTower_LiteGameModes_CoHExcavationLite.lua_B",
+    "module_path": "/Lotus/Types/Gameplay/DevilTower/LiteGameModes/CoHExcavationLite.lua",
+    "sites": [
+     {
+      "kind": "import_pin",
+      "global": "baseExcavatorHealth",
+      "hash": "49276bb0",
+      "prototype": 23,
+      "instruction": 184,
+      "owner": "P23 i184 GETIMPORT baseExcavatorHealth -> LOADN (trigger parameter Scripts.0.Script._baseExcavatorHealth of CoHExcavationScriptTrigger, stock 1500)"
+     }
+    ]
+   },
+   "unit": "HP",
+   "stock": 1500,
+   "limits": {
+    "minimum": 0,
+    "maximum": 32767,
+    "integer": true,
+    "basis": "LOADN domain; gameplay-safe range not established offline"
+   },
+   "applies": "next_mission",
+   "confidence": "CONFIRMED_STATIC (reader pin, IMPORT_READ_PIN_V1; live pending)",
+   "evidence": "Lotus_Types_Gameplay_DevilTower_LiteGameModes_CoHExcavationLite.lua_B reads the trigger parameter _baseExcavatorHealth only as single-name GETIMPORT #49276bb0 at 1 site(s); the trigger metadata row coh_excavation.base_health (_baseExcavatorHealth=1500) stays METADATA_PATCH. With the row off the module is stock."
+  },
+  {
+   "tunable_id": "descendia.excavation.base_excavator_shields",
+   "phase1_tunable_id": null,
+   "label": "Base excavator shields (gameplay and HUD instances)",
+   "mission_type": "Descendia: Excavation",
+   "variant": "",
+   "shared_with": "",
+   "owner_kind": "SCRIPT_PARAM_GLOBAL",
+   "backend": "EXACT_LITERAL",
+   "owner": {
+    "body_key": "415a57536412719f",
+    "stock_sha256": "C641B897157618608088A5CFBD1D5688ACE5C12822F8ADAADF95089C6491D0E8",
+    "file": "Lotus_Types_Gameplay_DevilTower_LiteGameModes_CoHExcavationLite.lua_B",
+    "module_path": "/Lotus/Types/Gameplay/DevilTower/LiteGameModes/CoHExcavationLite.lua",
+    "sites": [
+     {
+      "kind": "import_pin",
+      "global": "baseExcavatorShields",
+      "hash": "8d5f2c9e",
+      "prototype": 23,
+      "instruction": 190,
+      "owner": "P23 i190 GETIMPORT baseExcavatorShields -> LOADN (trigger parameter Scripts.0.Script._baseExcavatorShields of CoHExcavationScriptTrigger, stock 500)"
+     }
+    ]
+   },
+   "unit": "shield",
+   "stock": 500,
+   "limits": {
+    "minimum": 0,
+    "maximum": 32767,
+    "integer": true,
+    "basis": "LOADN domain; gameplay-safe range not established offline"
+   },
+   "applies": "next_mission",
+   "confidence": "CONFIRMED_STATIC (reader pin, IMPORT_READ_PIN_V1; live pending)",
+   "evidence": "Lotus_Types_Gameplay_DevilTower_LiteGameModes_CoHExcavationLite.lua_B reads the trigger parameter _baseExcavatorShields only as single-name GETIMPORT #8d5f2c9e at 1 site(s); the trigger metadata row coh_excavation.base_shields (_baseExcavatorShields=500) stays METADATA_PATCH. With the row off the module is stock."
+  },
+  {
+   "tunable_id": "descendia.mobile_interception.beacon_chase_target_time",
+   "phase1_tunable_id": null,
+   "label": "Time a beacon must be held/chased before it completes",
+   "mission_type": "Descendia: Mobile Interception",
+   "variant": "all",
+   "shared_with": "",
+   "owner_kind": "SCRIPT_PARAM_GLOBAL",
+   "backend": "EXACT_LITERAL",
+   "owner": {
+    "body_key": "026200d9d8fd40a3",
+    "stock_sha256": "D3EEE8D0F393AF6E9EAD211E3FD602D4863A3F87017C85B869A87A133E70F702",
+    "file": "Lotus_Types_Scripts_Tau_CoH_CoHInterception.lua_B",
+    "module_path": "/Lotus/Types/Scripts/Tau/CoH/CoHInterception.lua",
+    "sites": [
+     {
+      "kind": "import_pin",
+      "global": "beaconChaseTargetTime",
+      "hash": "0ddabb69",
+      "prototype": 4,
+      "instruction": 9,
+      "owner": "P4 i9 GETIMPORT beaconChaseTargetTime -> LOADN (trigger parameter Scripts.0.Script._beaconChaseTargetTime of MobileInterceptionScriptTrigger, stock 25)"
+     },
+     {
+      "kind": "import_pin",
+      "global": "beaconChaseTargetTime",
+      "hash": "0ddabb69",
+      "prototype": 4,
+      "instruction": 23,
+      "owner": "P4 i23 GETIMPORT beaconChaseTargetTime -> LOADN (trigger parameter Scripts.0.Script._beaconChaseTargetTime of MobileInterceptionScriptTrigger, stock 25)"
+     },
+     {
+      "kind": "import_pin",
+      "global": "beaconChaseTargetTime",
+      "hash": "0ddabb69",
+      "prototype": 14,
+      "instruction": 54,
+      "owner": "P14 i54 GETIMPORT beaconChaseTargetTime -> LOADN (trigger parameter Scripts.0.Script._beaconChaseTargetTime of MobileInterceptionScriptTrigger, stock 25)"
+     },
+     {
+      "kind": "import_pin",
+      "global": "beaconChaseTargetTime",
+      "hash": "0ddabb69",
+      "prototype": 14,
+      "instruction": 68,
+      "owner": "P14 i68 GETIMPORT beaconChaseTargetTime -> LOADN (trigger parameter Scripts.0.Script._beaconChaseTargetTime of MobileInterceptionScriptTrigger, stock 25)"
+     },
+     {
+      "kind": "import_pin",
+      "global": "beaconChaseTargetTime",
+      "hash": "0ddabb69",
+      "prototype": 14,
+      "instruction": 121,
+      "owner": "P14 i121 GETIMPORT beaconChaseTargetTime -> LOADN (trigger parameter Scripts.0.Script._beaconChaseTargetTime of MobileInterceptionScriptTrigger, stock 25)"
+     },
+     {
+      "kind": "import_pin",
+      "global": "beaconChaseTargetTime",
+      "hash": "0ddabb69",
+      "prototype": 19,
+      "instruction": 96,
+      "owner": "P19 i96 GETIMPORT beaconChaseTargetTime -> LOADN (trigger parameter Scripts.0.Script._beaconChaseTargetTime of MobileInterceptionScriptTrigger, stock 25)"
+     }
+    ]
+   },
+   "unit": "s",
+   "stock": 25,
+   "limits": {
+    "minimum": 0,
+    "maximum": 32767,
+    "integer": true,
+    "basis": "LOADN domain; gameplay-safe range not established offline"
+   },
+   "applies": "next_mission",
+   "confidence": "CONFIRMED_STATIC (reader pin, IMPORT_READ_PIN_V1; live pending)",
+   "evidence": "Lotus_Types_Scripts_Tau_CoH_CoHInterception.lua_B reads the trigger parameter _beaconChaseTargetTime only as single-name GETIMPORT #0ddabb69 at 6 site(s); the trigger metadata row cohinterception.beacon_chase_time (_beaconChaseTargetTime=25) stays METADATA_PATCH. With the row off the module is stock."
+  },
+  {
+   "tunable_id": "descendia.legacyte_harvest.base_number_of_mutations",
+   "phase1_tunable_id": null,
+   "label": "Base number of Legacyte mutations (abilities)",
+   "mission_type": "Descendia: Legacyte Harvest",
+   "variant": "descendia",
+   "shared_with": "1999 Legacyte Harvest (same script)",
+   "owner_kind": "SCRIPT_PARAM_GLOBAL",
+   "backend": "EXACT_LITERAL",
+   "owner": {
+    "body_key": "0f1c3a74c7c91fab",
+    "stock_sha256": "2DFC64FF77D4B1A364662D41CEB9DB54EE9F21F00A4880FE757BC6B68EA36C92",
+    "file": "Lotus_Scripts_Modes_InfestedCapture.lua_B",
+    "module_path": "/Lotus/Scripts/Modes/InfestedCapture.lua",
+    "sites": [
+     {
+      "kind": "import_pin",
+      "global": "baseNumberOfMutations",
+      "hash": "28f1d35a",
+      "prototype": 22,
+      "instruction": 141,
+      "owner": "P22 i141 GETIMPORT baseNumberOfMutations -> LOADN (trigger parameter Scripts.0.Script._baseNumberOfMutations of CoHInfestedCaptureScriptTrigger, stock 5)"
+     },
+     {
+      "kind": "import_pin",
+      "global": "baseNumberOfMutations",
+      "hash": "28f1d35a",
+      "prototype": 22,
+      "instruction": 151,
+      "owner": "P22 i151 GETIMPORT baseNumberOfMutations -> LOADN (trigger parameter Scripts.0.Script._baseNumberOfMutations of CoHInfestedCaptureScriptTrigger, stock 5)"
+     }
+    ]
+   },
+   "unit": "count",
+   "stock": 5,
+   "limits": {
+    "minimum": 1,
+    "maximum": 32767,
+    "integer": true,
+    "basis": "LOADN domain; gameplay-safe range not established offline"
+   },
+   "applies": "next_mission",
+   "confidence": "CONFIRMED_STATIC (reader pin, IMPORT_READ_PIN_V1; live pending)",
+   "evidence": "Lotus_Scripts_Modes_InfestedCapture.lua_B reads the trigger parameter _baseNumberOfMutations only as single-name GETIMPORT #28f1d35a at 2 site(s); the trigger metadata row infested_capture.base_mutations.descendia (_baseNumberOfMutations=5) stays METADATA_PATCH. With the row off the module is stock."
+  },
+  {
+   "tunable_id": "descendia.legacyte_harvest.searching_rounds_before_boss",
+   "phase1_tunable_id": null,
+   "label": "Search rounds before the boss round",
+   "mission_type": "Descendia: Legacyte Harvest",
+   "variant": "descendia",
+   "shared_with": "1999 Legacyte Harvest (same script)",
+   "owner_kind": "SCRIPT_PARAM_GLOBAL",
+   "backend": "EXACT_LITERAL",
+   "owner": {
+    "body_key": "0f1c3a74c7c91fab",
+    "stock_sha256": "2DFC64FF77D4B1A364662D41CEB9DB54EE9F21F00A4880FE757BC6B68EA36C92",
+    "file": "Lotus_Scripts_Modes_InfestedCapture.lua_B",
+    "module_path": "/Lotus/Scripts/Modes/InfestedCapture.lua",
+    "sites": [
+     {
+      "kind": "import_pin",
+      "global": "searchingRoundsBeforeBoss",
+      "hash": "2e30e91b",
+      "prototype": 32,
+      "instruction": 127,
+      "owner": "P32 i127 GETIMPORT searchingRoundsBeforeBoss -> LOADN (trigger parameter Scripts.0.Script._searchingRoundsBeforeBoss of CoHInfestedCaptureScriptTrigger, stock 1)"
+     }
+    ]
+   },
+   "unit": "rounds",
+   "stock": 1,
+   "limits": {
+    "minimum": 1,
+    "maximum": 32767,
+    "integer": true,
+    "basis": "LOADN domain; gameplay-safe range not established offline"
+   },
+   "applies": "next_mission",
+   "confidence": "CONFIRMED_STATIC (reader pin, IMPORT_READ_PIN_V1; live pending)",
+   "evidence": "Lotus_Scripts_Modes_InfestedCapture.lua_B reads the trigger parameter _searchingRoundsBeforeBoss only as single-name GETIMPORT #2e30e91b at 1 site(s); the trigger metadata row infested_capture.search_rounds_before_boss.descendia (_searchingRoundsBeforeBoss=1) stays METADATA_PATCH. With the row off the module is stock."
+  },
+  {
+   "tunable_id": "descendia.legacyte_harvest.kalymos_search_spot_range",
+   "phase1_tunable_id": null,
+   "label": "Kalymos search spot range",
+   "mission_type": "Descendia: Legacyte Harvest",
+   "variant": "descendia",
+   "shared_with": "1999 Legacyte Harvest (same script)",
+   "owner_kind": "SCRIPT_PARAM_GLOBAL",
+   "backend": "EXACT_LITERAL",
+   "owner": {
+    "body_key": "0f1c3a74c7c91fab",
+    "stock_sha256": "2DFC64FF77D4B1A364662D41CEB9DB54EE9F21F00A4880FE757BC6B68EA36C92",
+    "file": "Lotus_Scripts_Modes_InfestedCapture.lua_B",
+    "module_path": "/Lotus/Scripts/Modes/InfestedCapture.lua",
+    "sites": [
+     {
+      "kind": "import_pin",
+      "global": "kalymosSearchSpotRange",
+      "hash": "df2d8f5b",
+      "prototype": 38,
+      "instruction": 16,
+      "owner": "P38 i16 GETIMPORT kalymosSearchSpotRange -> LOADN (trigger parameter Scripts.0.Script._kalymosSearchSpotRange of CoHInfestedCaptureScriptTrigger, stock 150)"
+     },
+     {
+      "kind": "import_pin",
+      "global": "kalymosSearchSpotRange",
+      "hash": "df2d8f5b",
+      "prototype": 38,
+      "instruction": 49,
+      "owner": "P38 i49 GETIMPORT kalymosSearchSpotRange -> LOADN (trigger parameter Scripts.0.Script._kalymosSearchSpotRange of CoHInfestedCaptureScriptTrigger, stock 150)"
+     }
+    ]
+   },
+   "unit": "m",
+   "stock": 150,
+   "limits": {
+    "minimum": 0,
+    "maximum": 32767,
+    "integer": true,
+    "basis": "LOADN domain; gameplay-safe range not established offline"
+   },
+   "applies": "next_mission",
+   "confidence": "CONFIRMED_STATIC (reader pin, IMPORT_READ_PIN_V1; live pending)",
+   "evidence": "Lotus_Scripts_Modes_InfestedCapture.lua_B reads the trigger parameter _kalymosSearchSpotRange only as single-name GETIMPORT #df2d8f5b at 2 site(s); the trigger metadata row infested_capture.search_spot_range.descendia (_kalymosSearchSpotRange=150) stays METADATA_PATCH. With the row off the module is stock."
+  },
+  {
+   "tunable_id": "descendia.legacyte_harvest.base_tentacle_health",
+   "phase1_tunable_id": null,
+   "label": "Base tentacle health",
+   "mission_type": "Descendia: Legacyte Harvest",
+   "variant": "descendia",
+   "shared_with": "1999 Legacyte Harvest (same script)",
+   "owner_kind": "SCRIPT_PARAM_GLOBAL",
+   "backend": "EXACT_LITERAL",
+   "owner": {
+    "body_key": "0f1c3a74c7c91fab",
+    "stock_sha256": "2DFC64FF77D4B1A364662D41CEB9DB54EE9F21F00A4880FE757BC6B68EA36C92",
+    "file": "Lotus_Scripts_Modes_InfestedCapture.lua_B",
+    "module_path": "/Lotus/Scripts/Modes/InfestedCapture.lua",
+    "sites": [
+     {
+      "kind": "import_pin",
+      "global": "baseTentacleHealth",
+      "hash": "a175dad5",
+      "prototype": 43,
+      "instruction": 485,
+      "owner": "P43 i485 GETIMPORT baseTentacleHealth -> LOADN (trigger parameter Scripts.0.Script._baseTentacleHealth of CoHInfestedCaptureScriptTrigger, stock 5000)"
+     }
+    ]
+   },
+   "unit": "HP",
+   "stock": 5000,
+   "limits": {
+    "minimum": 0,
+    "maximum": 32767,
+    "integer": true,
+    "basis": "LOADN domain; gameplay-safe range not established offline"
+   },
+   "applies": "next_mission",
+   "confidence": "CONFIRMED_STATIC (reader pin, IMPORT_READ_PIN_V1; live pending)",
+   "evidence": "Lotus_Scripts_Modes_InfestedCapture.lua_B reads the trigger parameter _baseTentacleHealth only as single-name GETIMPORT #a175dad5 at 1 site(s); the trigger metadata row infested_capture.tentacle_health.descendia (_baseTentacleHealth=5000) stays METADATA_PATCH. With the row off the module is stock."
+  },
+  {
+   "tunable_id": "descendia.legacyte_harvest.wander_radius",
+   "phase1_tunable_id": null,
+   "label": "Kalymos wander radius",
+   "mission_type": "Descendia: Legacyte Harvest",
+   "variant": "descendia",
+   "shared_with": "1999 Legacyte Harvest (same script)",
+   "owner_kind": "SCRIPT_PARAM_GLOBAL",
+   "backend": "EXACT_LITERAL",
+   "owner": {
+    "body_key": "0f1c3a74c7c91fab",
+    "stock_sha256": "2DFC64FF77D4B1A364662D41CEB9DB54EE9F21F00A4880FE757BC6B68EA36C92",
+    "file": "Lotus_Scripts_Modes_InfestedCapture.lua_B",
+    "module_path": "/Lotus/Scripts/Modes/InfestedCapture.lua",
+    "sites": [
+     {
+      "kind": "import_pin",
+      "global": "wanderRadius",
+      "hash": "6a614367",
+      "prototype": 32,
+      "instruction": 48,
+      "owner": "P32 i48 GETIMPORT wanderRadius -> LOADN (trigger parameter Scripts.0.Script._wanderRadius of CoHInfestedCaptureScriptTrigger, stock 15)"
+     }
+    ]
+   },
+   "unit": "m",
+   "stock": 15,
+   "limits": {
+    "minimum": 0,
+    "maximum": 32767,
+    "integer": true,
+    "basis": "LOADN domain; gameplay-safe range not established offline"
+   },
+   "applies": "next_mission",
+   "confidence": "CONFIRMED_STATIC (reader pin, IMPORT_READ_PIN_V1; live pending)",
+   "evidence": "Lotus_Scripts_Modes_InfestedCapture.lua_B reads the trigger parameter _wanderRadius only as single-name GETIMPORT #6a614367 at 1 site(s); the trigger metadata row infested_capture.wander.wander_radius.descendia (_wanderRadius=15) stays METADATA_PATCH. With the row off the module is stock."
+  },
+  {
+   "tunable_id": "descendia.legacyte_harvest.wander_time",
+   "phase1_tunable_id": null,
+   "label": "Kalymos wander time between search spots",
+   "mission_type": "Descendia: Legacyte Harvest",
+   "variant": "descendia",
+   "shared_with": "1999 Legacyte Harvest (same script)",
+   "owner_kind": "SCRIPT_PARAM_GLOBAL",
+   "backend": "EXACT_LITERAL",
+   "owner": {
+    "body_key": "0f1c3a74c7c91fab",
+    "stock_sha256": "2DFC64FF77D4B1A364662D41CEB9DB54EE9F21F00A4880FE757BC6B68EA36C92",
+    "file": "Lotus_Scripts_Modes_InfestedCapture.lua_B",
+    "module_path": "/Lotus/Scripts/Modes/InfestedCapture.lua",
+    "sites": [
+     {
+      "kind": "import_pin",
+      "global": "wanderTime",
+      "hash": "b92f5b7a",
+      "prototype": 32,
+      "instruction": 42,
+      "owner": "P32 i42 GETIMPORT wanderTime -> LOADN (trigger parameter Scripts.0.Script._wanderTime of CoHInfestedCaptureScriptTrigger, stock 5)"
+     }
+    ]
+   },
+   "unit": "s",
+   "stock": 5,
+   "limits": {
+    "minimum": 0,
+    "maximum": 32767,
+    "integer": true,
+    "basis": "LOADN domain; gameplay-safe range not established offline"
+   },
+   "applies": "next_mission",
+   "confidence": "CONFIRMED_STATIC (reader pin, IMPORT_READ_PIN_V1; live pending)",
+   "evidence": "Lotus_Scripts_Modes_InfestedCapture.lua_B reads the trigger parameter _wanderTime only as single-name GETIMPORT #b92f5b7a at 1 site(s); the trigger metadata row infested_capture.wander.wander_time.descendia (_wanderTime=5) stays METADATA_PATCH. With the row off the module is stock."
+  },
+  {
+   "tunable_id": "descendia.meltdown.in_range_multiplier",
+   "phase1_tunable_id": null,
+   "label": "Scan rate multiplier while in range",
+   "mission_type": "Descendia: Meltdown",
+   "variant": "descendia",
+   "shared_with": "Entrati Lab Meltdown (same script)",
+   "owner_kind": "SCRIPT_PARAM_GLOBAL",
+   "backend": "EXACT_LITERAL",
+   "owner": {
+    "body_key": "1704b2348bad3f42",
+    "stock_sha256": "1B47C8F93955D2131A64A050E6EBAC38190AA9CE3C9AF7095FE467C56326E3F0",
+    "file": "Lotus_Scripts_Modes_MeltdownMode.lua_B",
+    "module_path": "/Lotus/Scripts/Modes/MeltdownMode.lua",
+    "sites": [
+     {
+      "kind": "import_pin",
+      "global": "inRangeMultiplier",
+      "hash": "2c48eb76",
+      "prototype": 7,
+      "instruction": 303,
+      "owner": "P7 i303 GETIMPORT inRangeMultiplier -> LOADN (trigger parameter Scripts.0.Script._inRangeMultiplier of CoHMeltdownTrigger, stock 10)"
+     }
+    ]
+   },
+   "unit": "x",
+   "stock": 10,
+   "limits": {
+    "minimum": 0,
+    "maximum": 32767,
+    "integer": true,
+    "basis": "LOADN domain; gameplay-safe range not established offline"
+   },
+   "applies": "next_mission",
+   "confidence": "CONFIRMED_STATIC (reader pin, IMPORT_READ_PIN_V1; live pending)",
+   "evidence": "Lotus_Scripts_Modes_MeltdownMode.lua_B reads the trigger parameter _inRangeMultiplier only as single-name GETIMPORT #2c48eb76 at 1 site(s); the trigger metadata row meltdown.scan_rate.in_range_multiplier.descendia (_inRangeMultiplier=10) stays METADATA_PATCH. With the row off the module is stock."
+  },
+  {
+   "tunable_id": "descendia.meltdown.start_mission_delay",
+   "phase1_tunable_id": null,
+   "label": "Delay before the meltdown starts",
+   "mission_type": "Descendia: Meltdown",
+   "variant": "descendia",
+   "shared_with": "Entrati Lab Meltdown (same script)",
+   "owner_kind": "SCRIPT_PARAM_GLOBAL",
+   "backend": "EXACT_LITERAL",
+   "owner": {
+    "body_key": "1704b2348bad3f42",
+    "stock_sha256": "1B47C8F93955D2131A64A050E6EBAC38190AA9CE3C9AF7095FE467C56326E3F0",
+    "file": "Lotus_Scripts_Modes_MeltdownMode.lua_B",
+    "module_path": "/Lotus/Scripts/Modes/MeltdownMode.lua",
+    "sites": [
+     {
+      "kind": "import_pin",
+      "global": "startMissionDelay",
+      "hash": "b02461cc",
+      "prototype": 5,
+      "instruction": 269,
+      "owner": "P5 i269 GETIMPORT startMissionDelay -> LOADN (trigger parameter Scripts.0.Script._startMissionDelay of CoHMeltdownTrigger, stock 80)"
+     }
+    ]
+   },
+   "unit": "s",
+   "stock": 80,
+   "limits": {
+    "minimum": 0,
+    "maximum": 32767,
+    "integer": true,
+    "basis": "LOADN domain; gameplay-safe range not established offline"
+   },
+   "applies": "next_mission",
+   "confidence": "CONFIRMED_STATIC (reader pin, IMPORT_READ_PIN_V1; live pending)",
+   "evidence": "Lotus_Scripts_Modes_MeltdownMode.lua_B reads the trigger parameter _startMissionDelay only as single-name GETIMPORT #b02461cc at 1 site(s); the trigger metadata row meltdown.start_delay.descendia (_startMissionDelay=80) stays METADATA_PATCH. With the row off the module is stock."
+  },
+  {
+   "tunable_id": "descendia.meltdown.vent_search_distance",
+   "phase1_tunable_id": null,
+   "label": "Vent search distance",
+   "mission_type": "Descendia: Meltdown",
+   "variant": "descendia",
+   "shared_with": "Entrati Lab Meltdown (same script)",
+   "owner_kind": "SCRIPT_PARAM_GLOBAL",
+   "backend": "EXACT_LITERAL",
+   "owner": {
+    "body_key": "1704b2348bad3f42",
+    "stock_sha256": "1B47C8F93955D2131A64A050E6EBAC38190AA9CE3C9AF7095FE467C56326E3F0",
+    "file": "Lotus_Scripts_Modes_MeltdownMode.lua_B",
+    "module_path": "/Lotus/Scripts/Modes/MeltdownMode.lua",
+    "sites": [
+     {
+      "kind": "import_pin",
+      "global": "VENT_SEARCH_DISTANCE",
+      "hash": "21335a70",
+      "prototype": 4,
+      "instruction": 19,
+      "owner": "P4 i19 GETIMPORT VENT_SEARCH_DISTANCE -> LOADN (trigger parameter Scripts.0.Script._VENT_SEARCH_DISTANCE of CoHMeltdownTrigger, stock 100)"
+     },
+     {
+      "kind": "import_pin",
+      "global": "VENT_SEARCH_DISTANCE",
+      "hash": "21335a70",
+      "prototype": 4,
+      "instruction": 41,
+      "owner": "P4 i41 GETIMPORT VENT_SEARCH_DISTANCE -> LOADN (trigger parameter Scripts.0.Script._VENT_SEARCH_DISTANCE of CoHMeltdownTrigger, stock 100)"
+     }
+    ]
+   },
+   "unit": "m",
+   "stock": 100,
+   "limits": {
+    "minimum": 0,
+    "maximum": 32767,
+    "integer": true,
+    "basis": "LOADN domain; gameplay-safe range not established offline"
+   },
+   "applies": "next_mission",
+   "confidence": "CONFIRMED_STATIC (reader pin, IMPORT_READ_PIN_V1; live pending)",
+   "evidence": "Lotus_Scripts_Modes_MeltdownMode.lua_B reads the trigger parameter _VENT_SEARCH_DISTANCE only as single-name GETIMPORT #21335a70 at 2 site(s); the trigger metadata row meltdown.vent_search_distance.descendia (_VENT_SEARCH_DISTANCE=100) stays METADATA_PATCH. With the row off the module is stock."
+  },
+  {
+   "tunable_id": "descendia.meltdown.vents_to_reveal",
+   "phase1_tunable_id": null,
+   "label": "Vents revealed per round",
+   "mission_type": "Descendia: Meltdown",
+   "variant": "descendia",
+   "shared_with": "Entrati Lab Meltdown (same script)",
+   "owner_kind": "SCRIPT_PARAM_GLOBAL",
+   "backend": "EXACT_LITERAL",
+   "owner": {
+    "body_key": "1704b2348bad3f42",
+    "stock_sha256": "1B47C8F93955D2131A64A050E6EBAC38190AA9CE3C9AF7095FE467C56326E3F0",
+    "file": "Lotus_Scripts_Modes_MeltdownMode.lua_B",
+    "module_path": "/Lotus/Scripts/Modes/MeltdownMode.lua",
+    "sites": [
+     {
+      "kind": "import_pin",
+      "global": "VENTS_TO_REVEAL",
+      "hash": "128ec8bc",
+      "prototype": 5,
+      "instruction": 23,
+      "owner": "P5 i23 GETIMPORT VENTS_TO_REVEAL -> LOADN (trigger parameter Scripts.0.Script._VENTS_TO_REVEAL of CoHMeltdownTrigger, stock 3)"
+     }
+    ]
+   },
+   "unit": "count",
+   "stock": 3,
+   "limits": {
+    "minimum": 1,
+    "maximum": 32767,
+    "integer": true,
+    "basis": "LOADN domain; gameplay-safe range not established offline"
+   },
+   "applies": "next_mission",
+   "confidence": "CONFIRMED_STATIC (reader pin, IMPORT_READ_PIN_V1; live pending)",
+   "evidence": "Lotus_Scripts_Modes_MeltdownMode.lua_B reads the trigger parameter _VENTS_TO_REVEAL only as single-name GETIMPORT #128ec8bc at 1 site(s); the trigger metadata row meltdown.vents_to_reveal.descendia (_VENTS_TO_REVEAL=3) stays METADATA_PATCH. With the row off the module is stock."
+  },
+  {
+   "tunable_id": "descendia.shrine_defense.boss_offering_num",
+   "phase1_tunable_id": null,
+   "label": "Boss offerings",
+   "mission_type": "Descendia: Shrine Defense",
+   "variant": "",
+   "shared_with": "",
+   "owner_kind": "SCRIPT_PARAM_GLOBAL",
+   "backend": "EXACT_LITERAL",
+   "owner": {
+    "body_key": "1ef96aede7fe612e",
+    "stock_sha256": "4BEA96C94D8A22A6578139C47919E05D4A191D97A6A88CF371ED150BB11ED946",
+    "file": "Lotus_Types_Gameplay_DevilTower_LiteGameModes_CoHShrineDefenseLite.lua_B",
+    "module_path": "/Lotus/Types/Gameplay/DevilTower/LiteGameModes/CoHShrineDefenseLite.lua",
+    "sites": [
+     {
+      "kind": "import_pin",
+      "global": "bossOfferingNum",
+      "hash": "c5856efc",
+      "prototype": 56,
+      "instruction": 169,
+      "owner": "P56 i169 GETIMPORT bossOfferingNum -> LOADN (trigger parameter Scripts.0.Script._bossOfferingNum of CoHShrineDefenseTrigger, stock 0)"
+     },
+     {
+      "kind": "import_pin",
+      "global": "bossOfferingNum",
+      "hash": "c5856efc",
+      "prototype": 56,
+      "instruction": 172,
+      "owner": "P56 i172 GETIMPORT bossOfferingNum -> LOADN (trigger parameter Scripts.0.Script._bossOfferingNum of CoHShrineDefenseTrigger, stock 0)"
+     }
+    ]
+   },
+   "unit": "count",
+   "stock": 0,
+   "limits": {
+    "minimum": 0,
+    "maximum": 32767,
+    "integer": true,
+    "basis": "LOADN domain; gameplay-safe range not established offline"
+   },
+   "applies": "next_mission",
+   "confidence": "CONFIRMED_STATIC (reader pin, IMPORT_READ_PIN_V1; live pending)",
+   "evidence": "Lotus_Types_Gameplay_DevilTower_LiteGameModes_CoHShrineDefenseLite.lua_B reads the trigger parameter _bossOfferingNum only as single-name GETIMPORT #c5856efc at 2 site(s); the trigger metadata row shrine.offering_counts.boss_offering_num (_bossOfferingNum=0) stays METADATA_PATCH. With the row off the module is stock."
+  },
+  {
+   "tunable_id": "descendia.shrine_defense.defend_huts_offering_num",
+   "phase1_tunable_id": null,
+   "label": "Offerings to deliver to finish the defend stage",
+   "mission_type": "Descendia: Shrine Defense",
+   "variant": "",
+   "shared_with": "",
+   "owner_kind": "SCRIPT_PARAM_GLOBAL",
+   "backend": "EXACT_LITERAL",
+   "owner": {
+    "body_key": "1ef96aede7fe612e",
+    "stock_sha256": "4BEA96C94D8A22A6578139C47919E05D4A191D97A6A88CF371ED150BB11ED946",
+    "file": "Lotus_Types_Gameplay_DevilTower_LiteGameModes_CoHShrineDefenseLite.lua_B",
+    "module_path": "/Lotus/Types/Gameplay/DevilTower/LiteGameModes/CoHShrineDefenseLite.lua",
+    "sites": [
+     {
+      "kind": "import_pin",
+      "global": "defendHutsOfferingNum",
+      "hash": "fb57ec5d",
+      "prototype": 56,
+      "instruction": 96,
+      "owner": "P56 i96 GETIMPORT defendHutsOfferingNum -> LOADN (trigger parameter Scripts.0.Script._defendHutsOfferingNum of CoHShrineDefenseTrigger, stock 2)"
+     },
+     {
+      "kind": "import_pin",
+      "global": "defendHutsOfferingNum",
+      "hash": "fb57ec5d",
+      "prototype": 56,
+      "instruction": 117,
+      "owner": "P56 i117 GETIMPORT defendHutsOfferingNum -> LOADN (trigger parameter Scripts.0.Script._defendHutsOfferingNum of CoHShrineDefenseTrigger, stock 2)"
+     },
+     {
+      "kind": "import_pin",
+      "global": "defendHutsOfferingNum",
+      "hash": "fb57ec5d",
+      "prototype": 62,
+      "instruction": 208,
+      "owner": "P62 i208 GETIMPORT defendHutsOfferingNum -> LOADN (trigger parameter Scripts.0.Script._defendHutsOfferingNum of CoHShrineDefenseTrigger, stock 2)"
+     },
+     {
+      "kind": "import_pin",
+      "global": "defendHutsOfferingNum",
+      "hash": "fb57ec5d",
+      "prototype": 69,
+      "instruction": 175,
+      "owner": "P69 i175 GETIMPORT defendHutsOfferingNum -> LOADN (trigger parameter Scripts.0.Script._defendHutsOfferingNum of CoHShrineDefenseTrigger, stock 2)"
+     }
+    ]
+   },
+   "unit": "count",
+   "stock": 2,
+   "limits": {
+    "minimum": 1,
+    "maximum": 32767,
+    "integer": true,
+    "basis": "LOADN domain; gameplay-safe range not established offline"
+   },
+   "applies": "next_mission",
+   "confidence": "CONFIRMED_STATIC (reader pin, IMPORT_READ_PIN_V1; live pending)",
+   "evidence": "Lotus_Types_Gameplay_DevilTower_LiteGameModes_CoHShrineDefenseLite.lua_B reads the trigger parameter _defendHutsOfferingNum only as single-name GETIMPORT #fb57ec5d at 4 site(s); the trigger metadata row shrine.offering_counts.defend_huts_offering_num (_defendHutsOfferingNum=2) stays METADATA_PATCH. With the row off the module is stock."
+  },
+  {
+   "tunable_id": "descendia.shrine_defense.offering_generation_time",
+   "phase1_tunable_id": null,
+   "label": "Time to generate an offering (HUD timer)",
+   "mission_type": "Descendia: Shrine Defense",
+   "variant": "all",
+   "shared_with": "",
+   "owner_kind": "SCRIPT_PARAM_GLOBAL",
+   "backend": "EXACT_LITERAL",
+   "owner": {
+    "body_key": "1ef96aede7fe612e",
+    "stock_sha256": "4BEA96C94D8A22A6578139C47919E05D4A191D97A6A88CF371ED150BB11ED946",
+    "file": "Lotus_Types_Gameplay_DevilTower_LiteGameModes_CoHShrineDefenseLite.lua_B",
+    "module_path": "/Lotus/Types/Gameplay/DevilTower/LiteGameModes/CoHShrineDefenseLite.lua",
+    "sites": [
+     {
+      "kind": "import_pin",
+      "global": "offeringGenerationTime",
+      "hash": "0bf412f0",
+      "prototype": 12,
+      "instruction": 24,
+      "owner": "P12 i24 GETIMPORT offeringGenerationTime -> LOADN (trigger parameter Scripts.0.Script._offeringGenerationTime of CoHShrineDefenseTrigger, stock 30)"
+     },
+     {
+      "kind": "import_pin",
+      "global": "offeringGenerationTime",
+      "hash": "0bf412f0",
+      "prototype": 12,
+      "instruction": 36,
+      "owner": "P12 i36 GETIMPORT offeringGenerationTime -> LOADN (trigger parameter Scripts.0.Script._offeringGenerationTime of CoHShrineDefenseTrigger, stock 30)"
+     },
+     {
+      "kind": "import_pin",
+      "global": "offeringGenerationTime",
+      "hash": "0bf412f0",
+      "prototype": 59,
+      "instruction": 248,
+      "owner": "P59 i248 GETIMPORT offeringGenerationTime -> LOADN (trigger parameter Scripts.0.Script._offeringGenerationTime of CoHShrineDefenseTrigger, stock 30)"
+     }
+    ]
+   },
+   "unit": "s",
+   "stock": 30,
+   "limits": {
+    "minimum": 1,
+    "maximum": 32767,
+    "integer": true,
+    "basis": "LOADN domain; gameplay-safe range not established offline"
+   },
+   "applies": "next_mission",
+   "confidence": "CONFIRMED_STATIC (reader pin, IMPORT_READ_PIN_V1; live pending)",
+   "evidence": "Lotus_Types_Gameplay_DevilTower_LiteGameModes_CoHShrineDefenseLite.lua_B reads the trigger parameter _offeringGenerationTime only as single-name GETIMPORT #0bf412f0 at 3 site(s); the trigger metadata row shrine.offering_generation_time (_offeringGenerationTime=30) stays METADATA_PATCH. With the row off the module is stock."
+  },
+  {
+   "tunable_id": "descendia.shrine_defense.spawn_point_filter_distance",
+   "phase1_tunable_id": null,
+   "label": "Spawn point filter distance",
+   "mission_type": "Descendia: Shrine Defense",
+   "variant": "",
+   "shared_with": "",
+   "owner_kind": "SCRIPT_PARAM_GLOBAL",
+   "backend": "EXACT_LITERAL",
+   "owner": {
+    "body_key": "1ef96aede7fe612e",
+    "stock_sha256": "4BEA96C94D8A22A6578139C47919E05D4A191D97A6A88CF371ED150BB11ED946",
+    "file": "Lotus_Types_Gameplay_DevilTower_LiteGameModes_CoHShrineDefenseLite.lua_B",
+    "module_path": "/Lotus/Types/Gameplay/DevilTower/LiteGameModes/CoHShrineDefenseLite.lua",
+    "sites": [
+     {
+      "kind": "import_pin",
+      "global": "spawnPointFilterDistance",
+      "hash": "43a29843",
+      "prototype": 62,
+      "instruction": 117,
+      "owner": "P62 i117 GETIMPORT spawnPointFilterDistance -> LOADN (trigger parameter Scripts.0.Script._spawnPointFilterDistance of CoHShrineDefenseTrigger, stock 35)"
+     }
+    ]
+   },
+   "unit": "m",
+   "stock": 35,
+   "limits": {
+    "minimum": 0,
+    "maximum": 32767,
+    "integer": true,
+    "basis": "LOADN domain; gameplay-safe range not established offline"
+   },
+   "applies": "next_mission",
+   "confidence": "CONFIRMED_STATIC (reader pin, IMPORT_READ_PIN_V1; live pending)",
+   "evidence": "Lotus_Types_Gameplay_DevilTower_LiteGameModes_CoHShrineDefenseLite.lua_B reads the trigger parameter _spawnPointFilterDistance only as single-name GETIMPORT #43a29843 at 1 site(s); the trigger metadata row shrine.pickup_and_spawn_misc.spawn_point_filter_distance (_spawnPointFilterDistance=35) stays METADATA_PATCH. With the row off the module is stock."
+  }
+ ],
+ "skipped": [
+  {
+   "from": "alchemy.reward_interval.descendia",
+   "global": "rewardInterval",
+   "reason": "no GETIMPORT read"
+  },
+  {
+   "from": "coh_destroy_targets.num_targets",
+   "global": "numTargets",
+   "reason": "no GETIMPORT read"
+  },
+  {
+   "from": "coh_excavation.health_level_power.solo",
+   "global": "sharedHealthPoolLevelPowerSolo",
+   "reason": "stock value is not a LOADN whole number"
+  },
+  {
+   "from": "coh_excavation.health_level_power.squad",
+   "global": "sharedHealthPoolLevelPower",
+   "reason": "stock value is not a LOADN whole number"
+  },
+  {
+   "from": "coh_excavation.spawn_invulnerability",
+   "global": "excavatorSpawnInvulnerabilityDuration",
+   "reason": "no GETIMPORT read"
+  },
+  {
+   "from": "cohinterception.is_descent",
+   "global": "isDescent",
+   "reason": "no GETIMPORT read"
+  },
+  {
+   "from": "defense.target_level_falloff.hardmode_bump",
+   "global": "targetMaxLevelHardmodeBump",
+   "reason": "consumer module is shared by every Defense mission"
+  },
+  {
+   "from": "defense.target_level_falloff.intensity",
+   "global": "targetMaxLevelFalloffIntensity",
+   "reason": "consumer module is shared by every Defense mission"
+  },
+  {
+   "from": "defense.target_level_falloff.point",
+   "global": "targetMaxLevelFalloffPoint",
+   "reason": "consumer module is shared by every Defense mission"
+  },
+  {
+   "from": "infested_capture.search_time.descendia",
+   "global": "searchTime",
+   "reason": "no GETIMPORT read"
+  },
+  {
+   "from": "meltdown.heat_decrease.descendia",
+   "global": "heatDecreaseAmount",
+   "reason": "stock value is not a LOADN whole number"
+  },
+  {
+   "from": "meltdown.heat_increase.descendia",
+   "global": "HEAT_INCREASE",
+   "reason": "stock value is not a LOADN whole number"
+  },
+  {
+   "from": "meltdown.scan_rate.scan_rate.descendia",
+   "global": "SCAN_RATE",
+   "reason": "stock value is not a LOADN whole number"
+  },
+  {
+   "from": "shrine.offering_counts.num_offerings",
+   "global": "numOfferings",
+   "reason": "no GETIMPORT read"
+  },
+  {
+   "from": "shrine.pickup_and_spawn_misc.pickup_anim_play_rate",
+   "global": "pickupAnimPlayRate",
+   "reason": "stock value is not a LOADN whole number"
+  }
+ ]
+}

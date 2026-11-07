@@ -534,6 +534,10 @@ LIVE_LITERAL_HEADLINE += player_text_r17.HEADLINE
 # ---- Contract R23 (2026-10-09): Icebind goals, one master per mission type over the row pair (player_text_r23.py).
 import player_text_r23  # noqa: E402  (same folder)
 player_text_r23.register(row, master)
+# ---- Contract R24 (2026-11-07): Descendia reader pins, advanced rows per Descendia mode (player_text_r24.py).
+import player_text_r24  # noqa: E402  (same folder)
+player_text_r24.register(row, master)
+LIVE_LITERAL_HEADLINE += [r[0] for r in player_text_r24.ROWS]
 
 # ---- Clem's weekly goal (2026-10-28, GOAL_TAG variant): its own Clem section (player_text_clem.py).
 import player_text_clem  # noqa: E402  (same folder)

@@ -15,7 +15,7 @@ namespace patch = live_literal_patch;
 constexpr const char* kLiveLiteralRecipeFormat = "RENOVICE_LIVE_LITERALS_V1";
 constexpr const char* kLiveLiteralRecipeFile = "literals.json";
 // Pinned SHA-256 of the shared core (gate `live-literal-core`); the bootstrapper pins the same value.
-constexpr const char* kLiveLiteralCoreSha256 = "2fdda7b84c966250d3718da4391a1145981734d6774cb62cce02e7e099ba9be8";
+constexpr const char* kLiveLiteralCoreSha256 = "35dc0681fb8ea7485e43adf01eb193a0ca86bcedce6c07fb7a36db09fe562999";
 
 // Registry literal site (EXACT_LITERAL owner or literal_owner) -> shared-core site.
 patch::Site mission_patch_site(const Json& site) {

@@ -173,6 +173,26 @@ players('defense.simultaneous_enemies_duviri.min.{}', ['Defense', 'Enemies', 'Du
 players('coh_destroy_targets.required_by_players.{}', ['Descendia', 'Destroy Targets', 'Objectives', 'Targets to destroy'])
 put('coh_excavation.dig_duration', ['Descendia', 'Excavation', 'Timers'], 'Excavator dig time')  # R8 live literal
 put('coh_nemesis.spawn_interval', ['Descendia', 'Nemesis', 'Timers'], 'Time between spawns')  # R8 live literal
+# ---- Contract R24 (2026-11-07): Descendia reader pins (player_text_r24.py), one page per Descendia mode.
+put('cohinterception.descendia_beacon_chase_target_time', ['Descendia', 'Mobile Interception', 'Timers'], 'Beacon progress time')  # R24 live literal
+put('coh_excavation.descendia_base_excavator_health', ['Descendia', 'Excavation', 'Advanced'], 'Excavator health')  # R24 live literal
+put('coh_excavation.descendia_base_excavator_shields', ['Descendia', 'Excavation', 'Advanced'], 'Excavator shields')  # R24 live literal
+put('shrine.descendia_offering_generation_time', ['Descendia', 'Shrine Defense', 'Timers'], 'Offering generation time')  # R24 live literal
+put('shrine.descendia_defend_huts_offering_num', ['Descendia', 'Shrine Defense', 'Objectives'], 'Defend offerings')  # R24 live literal
+put('shrine.descendia_boss_offering_num', ['Descendia', 'Shrine Defense', 'Objectives'], 'Boss stage offerings')  # R24 live literal
+put('shrine.descendia_spawn_point_filter_distance', ['Descendia', 'Shrine Defense', 'Advanced'], 'Enemy spawn spacing')  # R24 live literal
+put('meltdown.descendia_start_mission_delay', ['Descendia', 'Meltdown', 'Timers'], 'Meltdown start delay')  # R24 live literal
+put('meltdown.descendia_vents_to_reveal', ['Descendia', 'Meltdown', 'Objectives'], 'Vents per round')  # R24 live literal
+put('meltdown.descendia_in_range_multiplier', ['Descendia', 'Meltdown', 'Advanced'], 'Scan speed in range')  # R24 live literal
+put('meltdown.descendia_vent_search_distance', ['Descendia', 'Meltdown', 'Advanced'], 'Vent search distance')  # R24 live literal
+put('alchemy.descendia_transmuter_goal', ['Descendia', 'Alchemy', 'Objectives'], 'Mixtures required')  # R24 live literal
+put('alchemy.descendia_crucible_remind_countdown', ['Descendia', 'Alchemy', 'Timers'], 'Crucible reminder time')  # R24 live literal
+put('infested_capture.descendia_searching_rounds_before_boss', ['Descendia', 'Legacyte Harvest', 'Objectives'], 'Rounds before boss')  # R24 live literal
+put('infested_capture.descendia_base_number_of_mutations', ['Descendia', 'Legacyte Harvest', 'Objectives'], 'Legacyte mutations')  # R24 live literal
+put('infested_capture.descendia_base_tentacle_health', ['Descendia', 'Legacyte Harvest', 'Advanced'], 'Tentacle health')  # R24 live literal
+put('infested_capture.descendia_kalymos_search_spot_range', ['Descendia', 'Legacyte Harvest', 'Advanced'], 'Kalymos search range')  # R24 live literal
+put('infested_capture.descendia_wander_radius', ['Descendia', 'Legacyte Harvest', 'Advanced'], 'Kalymos wander radius')  # R24 live literal
+put('infested_capture.descendia_wander_time', ['Descendia', 'Legacyte Harvest', 'Timers'], 'Kalymos wander time')  # R24 live literal
 put('shrine.stage_time.offering', ['Descendia', 'Shrine Defense', 'Timers'], 'Offering stage time')
 SHRINE_STAGES = (('normal', 'offering', 'Offering stage'), ('normal', 'boss_part_2', 'Boss stage'),
                  ('sp', 'offering', 'Steel Path offering'), ('sp', 'boss_part_2', 'Steel Path boss'))
